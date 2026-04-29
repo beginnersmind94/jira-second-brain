@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Configurable Forms — Getting Started</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --ink: #1a2028;
+  --ink-dim: #5a6876;
+  --ink-faint: #8a95a2;
+  --accent: #1d7461;
+  --accent-dk: #15544a;
+  --accent-soft: #e8f3ef;
+  --accent-2: #b65f18;
+  --accent-2-soft: #fbf1e7;
+  --border: #dfe4ea;
+  --bg: #ffffff;
+  --bg-soft: #f7f9fb;
+}
+body {
+  font: 14.5px/1.6 "Inter", -apple-system, "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg-soft);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* hero */
+.hero-band {
+  background: linear-gradient(135deg, var(--accent-dk), var(--accent));
+  color: #fff;
+  padding: 28px 48px 24px 48px;
+}
+.hero-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.hero-left .tag {
+  font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(255,255,255,0.72); font-weight: 600; margin-bottom: 4px;
+}
+.hero-left h1 {
+  font-size: 30px; letter-spacing: -0.015em; line-height: 1.15; font-weight: 600;
+}
+.hero-left p {
+  font-size: 15px; color: rgba(255,255,255,0.88); margin-top: 6px; max-width: 640px;
+}
+.hero-right { display: flex; gap: 10px; flex-wrap: wrap; }
+.hero-stat {
+  background: rgba(255,255,255,0.14);
+  border: 1px solid rgba(255,255,255,0.18);
+  padding: 10px 16px; border-radius: 6px; min-width: 140px;
+}
+.hero-stat .v { font-size: 15px; font-weight: 600; line-height: 1.15; }
+.hero-stat .l { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.78); margin-top: 4px; }
+
+.container { max-width: 1400px; margin: 0 auto; padding: 28px 48px 48px 48px; }
+
+/* checklist banner */
+.checklist-banner {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent-2);
+  border-radius: 8px;
+  padding: 22px 28px;
+  margin-bottom: 28px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.cb-header {
+  display: flex; align-items: baseline; justify-content: space-between;
+  margin-bottom: 14px; gap: 16px; flex-wrap: wrap;
+}
+.cb-header h2 {
+  font-size: 18px; font-weight: 600; color: var(--ink);
+  display: flex; align-items: center; gap: 10px;
+}
+.cb-header h2::before { content: "☑"; color: var(--accent-2); font-size: 20px; }
+.cb-header .cb-progress {
+  font-size: 12px; color: var(--ink-dim);
+  display: flex; align-items: center; gap: 10px;
+}
+.cb-bar { width: 140px; height: 6px; background: var(--border); border-radius: 99px; overflow: hidden; }
+.cb-bar-fill { height: 100%; background: var(--accent-2); width: 0%; transition: width 0.2s; }
+.cb-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px 18px; }
+.cb-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 8px 10px; border-radius: 6px; cursor: pointer;
+  transition: background 0.12s;
+}
+.cb-item:hover { background: var(--bg-soft); }
+.cb-item input {
+  width: 16px; height: 16px; margin-top: 3px;
+  accent-color: var(--accent-2); cursor: pointer; flex-shrink: 0;
+}
+.cb-item label { font-size: 13.5px; color: var(--ink); cursor: pointer; line-height: 1.45; }
+.cb-item.checked label { text-decoration: line-through; color: var(--ink-faint); }
+.cb-item label small {
+  display: block; color: var(--ink-dim); font-size: 12px;
+  margin-top: 2px; font-weight: normal; text-decoration: none;
+}
+
+/* main grid */
+.main-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 28px; align-items: start; }
+.main-left, .main-right { display: flex; flex-direction: column; gap: 24px; }
+
+/* card */
+.card {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 8px; padding: 22px 26px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.card h2 {
+  font-size: 16px; font-weight: 600; margin-bottom: 14px;
+  display: flex; align-items: center; gap: 10px; color: var(--ink);
+}
+.card h2::before {
+  content: ""; display: inline-block; width: 4px; height: 18px;
+  background: var(--accent); border-radius: 2px;
+}
+.card p { font-size: 14px; color: var(--ink); }
+.card-intro { font-size: 13.5px; color: var(--ink-dim); margin-bottom: 14px; }
+
+/* capabilities */
+.caps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.cap {
+  background: var(--bg-soft); border: 1px solid var(--border);
+  border-radius: 6px; padding: 14px 16px;
+}
+.cap-icon {
+  width: 32px; height: 32px; border-radius: 6px;
+  background: var(--accent-soft); color: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 600; margin-bottom: 10px; font-size: 15px;
+}
+.cap h4 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.cap p { font-size: 13px; color: var(--ink-dim); line-height: 1.5; }
+
+/* use cases */
+.usecases { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.usecase { border: 1px solid var(--border); border-radius: 6px; padding: 12px 14px; }
+.usecase h4 { font-size: 13.5px; font-weight: 600; margin-bottom: 3px; }
+.usecase p { font-size: 12.5px; color: var(--ink-dim); line-height: 1.5; }
+
+/* steps */
+.steps { counter-reset: step; }
+.step {
+  display: grid; grid-template-columns: 36px 1fr; gap: 14px;
+  margin-bottom: 14px; align-items: start;
+}
+.step:last-child { margin-bottom: 0; }
+.step-num {
+  counter-increment: step;
+  width: 30px; height: 30px; border-radius: 50%;
+  background: var(--accent); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 600; font-size: 13px; flex-shrink: 0;
+}
+.step-num::before { content: counter(step); }
+.step-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 3px; }
+.step-head h4 { font-size: 14px; font-weight: 600; }
+.owner-tag {
+  font-size: 10.5px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.06em;
+  padding: 2px 8px; border-radius: 99px;
+}
+.owner-cs { background: var(--accent-soft); color: var(--accent); }
+.owner-you { background: var(--accent-2-soft); color: var(--accent-2); }
+.owner-shared { background: #eef1f5; color: var(--ink-dim); }
+.step-body p { font-size: 13.5px; color: var(--ink-dim); line-height: 1.55; }
+.step-body code {
+  background: var(--bg-soft); border: 1px solid var(--border);
+  padding: 1px 6px; border-radius: 3px;
+  font-family: "SF Mono", Menlo, Consolas, monospace;
+  font-size: 12px; color: var(--ink); font-weight: 500;
+}
+
+/* FAQ */
+.faq-item { border-top: 1px solid var(--border); }
+.faq-item:first-child { border-top: none; }
+.faq-item summary {
+  padding: 14px 4px; cursor: pointer;
+  font-size: 14px; font-weight: 500; list-style: none;
+  display: flex; align-items: center;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::before {
+  content: "+"; color: var(--accent);
+  margin-right: 12px; font-weight: 600; font-size: 16px;
+  width: 14px; flex-shrink: 0;
+}
+.faq-item[open] summary::before { content: "−"; }
+.faq-item > *:not(summary) {
+  padding: 0 4px 14px 30px;
+  font-size: 13.5px; color: var(--ink-dim); line-height: 1.6;
+}
+
+/* support */
+.support-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.support-card {
+  border: 1px solid var(--border); border-radius: 6px;
+  padding: 14px 16px; background: var(--bg-soft);
+}
+.support-card .label {
+  font-size: 11px; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--ink-faint);
+  font-weight: 600; margin-bottom: 4px;
+}
+.support-card .value { font-size: 13.5px; color: var(--ink); line-height: 1.5; }
+
+footer.foot {
+  max-width: 1400px; margin: 0 auto;
+  padding: 16px 48px 24px 48px;
+  display: flex; justify-content: space-between;
+  font-size: 12px; color: var(--ink-faint);
+  border-top: 1px solid var(--border); margin-top: 12px;
+}
+
+@media print {
+  body { background: #fff; }
+  .hero-band { background: var(--accent); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .container { padding: 20px 28px; }
+  .checklist-banner, .card { box-shadow: none; break-inside: avoid; }
+  .faq-item { break-inside: avoid; }
+}
+@media (max-width: 1100px) {
+  .main-grid { grid-template-columns: 1fr; }
+  .cb-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 720px) {
+  .hero-band, .container, footer.foot { padding-left: 20px; padding-right: 20px; }
+  .hero-left h1 { font-size: 24px; }
+  .caps, .usecases, .cb-grid, .support-grid { grid-template-columns: 1fr; }
+  .hero-right { width: 100%; }
+  .hero-stat { flex: 1; min-width: 0; }
+}
+</style>
+</head>
+<body>
+
+<div class="hero-band">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="tag">Customer Onboarding · Implementation Guide</div>
+      <h1>Configurable Forms</h1>
+      <p>Collect Summer EBT applications, Income Surveys, and other non-traditional forms directly inside SchoolCafe — without routing families to a separate system.</p>
+    </div>
+    <div class="hero-right">
+      <div class="hero-stat">
+        <div class="v">Cybersoft-configured</div>
+        <div class="l">Implementation-led</div>
+      </div>
+      <div class="hero-stat">
+        <div class="v">Family Hub</div>
+        <div class="l">Where parents submit</div>
+      </div>
+      <div class="hero-stat">
+        <div class="v">Auto-qualify</div>
+        <div class="l">Rules-driven result</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- CHECKLIST BANNER (top) -->
+<div class="checklist-banner">
+  <div class="cb-header">
+    <h2>Before go-live, confirm</h2>
+    <div class="cb-progress">
+      <span><span id="cb-count">0</span> of 6 complete</span>
+      <div class="cb-bar"><div class="cb-bar-fill" id="cb-fill"></div></div>
+    </div>
+  </div>
+  <div class="cb-grid">
+    <div class="cb-item"><input type="checkbox" id="c1"><label for="c1">Form type(s) identified<small>Summer EBT, Income Survey, or another non-traditional form</small></label></div>
+    <div class="cb-item"><input type="checkbox" id="c2"><label for="c2">Form requirements shared with Cybersoft<small>Name, questions, required fields, help text</small></label></div>
+    <div class="cb-item"><input type="checkbox" id="c3"><label for="c3">Qualification rules defined<small>Which responses should mark an application as <em>Qualified</em></small></label></div>
+    <div class="cb-item"><input type="checkbox" id="c4"><label for="c4">Test submissions walked through with Cybersoft<small>Confirm qualification and Result column behave as expected</small></label></div>
+    <div class="cb-item"><input type="checkbox" id="c5"><label for="c5">District staff briefed on Other Forms grid<small>Where submissions land and how manual entry works</small></label></div>
+    <div class="cb-item"><input type="checkbox" id="c6"><label for="c6">Family Hub announcement planned<small>So parents know the form is available</small></label></div>
+  </div>
+</div>
+
+<div class="main-grid">
+
+<div class="main-left">
+
+<!-- SETUP STEPS -->
+<div class="card">
+<h2>How setup works</h2>
+<p class="card-intro">Forms configuration is led by our Implementation team. Here's who does what:</p>
+<div class="steps">
+  <div class="step">
+    <div class="step-num"></div>
+    <div class="step-body">
+      <div class="step-head">
+        <h4>Forms Licensing enabled</h4>
+        <span class="owner-tag owner-cs">Cybersoft</span>
+      </div>
+      <p>Our team turns on Forms Licensing for your district and enables the specific form types you plan to offer.</p>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num"></div>
+    <div class="step-body">
+      <div class="step-head">
+        <h4>Form built in Form Configuration</h4>
+        <span class="owner-tag owner-shared">Cybersoft + your input</span>
+      </div>
+      <p>You share the form's questions, required fields, and help text. Our team configures it in <code>Eligibility → Form Configuration → Forms</code>.</p>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num"></div>
+    <div class="step-body">
+      <div class="step-head">
+        <h4>Image template attached (if applicable)</h4>
+        <span class="owner-tag owner-cs">Cybersoft</span>
+      </div>
+      <p>If your form needs an image template, we attach it under the <em>Form Image Templates</em> tab during configuration.</p>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num"></div>
+    <div class="step-body">
+      <div class="step-head">
+        <h4>Qualification rules configured</h4>
+        <span class="owner-tag owner-shared">Cybersoft + your input</span>
+      </div>
+      <p>You define which responses make an application <em>Qualified</em>. We configure the logic so the <em>Result</em> column populates automatically on every submission, and qualified results flow into Applications.</p>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num"></div>
+    <div class="step-body">
+      <div class="step-head">
+        <h4>Form published</h4>
+        <span class="owner-tag owner-cs">Cybersoft publishes</span>
+        <span class="owner-tag owner-you">Your team operates</span>
+      </div>
+      <p>Once we publish, the form appears to eligible households in the SchoolCafe Family Hub. Your staff review submissions under <code>Eligibility → Other Forms</code>, and can add submissions manually via <em>Add New Form Application</em>.</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- FAQ -->
+<div class="card">
+<h2>Frequently asked questions</h2>
+<details class="faq-item">
+  <summary>How do we add a new form after launch?</summary>
+  <p>Share the form's details (questions, help text, qualification rules) with our Implementation team. We set it up in your environment and walk through it with your team before it goes live to parents.</p>
+</details>
+<details class="faq-item">
+  <summary>Can a form be reused across multiple districts?</summary>
+  <p>Cross-district form sharing isn't available today — each district's forms are configured separately during implementation.</p>
+</details>
+<details class="faq-item">
+  <summary>Where do submissions appear for our staff?</summary>
+  <p><code>Eligibility → Other Forms</code> shows every submitted Form Application with applicant, status, Result, and submission date.</p>
+</details>
+<details class="faq-item">
+  <summary>Do Qualified submissions feed into meal eligibility?</summary>
+  <p>Yes. The Forms Framework connects Application Result into Applications, so Qualified submissions flow into the downstream eligibility workflow your team already uses.</p>
+</details>
+<details class="faq-item">
+  <summary>How do parents submit a form?</summary>
+  <p>A parent signs into the SchoolCafe Family Hub and fills out the form on their dashboard — no separate login or external link.</p>
+</details>
+<details class="faq-item">
+  <summary>What if a submission needs to be added manually?</summary>
+  <p>On the Other Forms page, district staff can use <em>Add New Form Application</em> to enter a submission manually. Manually-added applications are tracked in the same grid as parent-submitted ones.</p>
+</details>
+<details class="faq-item">
+  <summary>Can we hide Income Surveys from the Family Hub?</summary>
+  <p>Yes. There's a dedicated setting that allows districts to hide Income Surveys from the Family Hub while leaving other forms visible.</p>
+</details>
+</div>
+
+</div><!-- /main-left -->
+
+<div class="main-right">
+
+<!-- CAPABILITIES -->
+<div class="card">
+<h2>What Forms does for you</h2>
+<div class="caps">
+  <div class="cap">
+    <div class="cap-icon">✎</div>
+    <h4>Any form you need</h4>
+    <p>Our Implementation team configures Summer EBT, Income Surveys, and other non-traditional forms for your district.</p>
+  </div>
+  <div class="cap">
+    <div class="cap-icon">⇅</div>
+    <h4>Parent submissions</h4>
+    <p>Parents fill out and submit forms inside the SchoolCafe Family Hub they already use.</p>
+  </div>
+  <div class="cap">
+    <div class="cap-icon">✓</div>
+    <h4>Auto-qualification</h4>
+    <p>Rules you define populate the Result column automatically and route qualified submissions into Applications.</p>
+  </div>
+</div>
+</div>
+
+<!-- USE CASES -->
+<div class="card">
+<h2>Ways districts use this</h2>
+<div class="usecases">
+  <div class="usecase">
+    <h4>Summer EBT applications</h4>
+    <p>Run the federal Summer EBT program end-to-end inside SchoolCafe.</p>
+  </div>
+  <div class="usecase">
+    <h4>Income Surveys</h4>
+    <p>Collect household income information with a dedicated Family Hub visibility toggle.</p>
+  </div>
+  <div class="usecase">
+    <h4>Other non-traditional forms</h4>
+    <p>Any application or survey that would otherwise require an external system.</p>
+  </div>
+  <div class="usecase">
+    <h4>Manual entry for paper submissions</h4>
+    <p>Office staff can add submissions on behalf of families via <em>Add New Form Application</em>.</p>
+  </div>
+</div>
+</div>
+
+<!-- SUPPORT -->
+<div class="card">
+<h2>Need help?</h2>
+<div class="support-grid">
+  <div class="support-card">
+    <div class="label">Your CSM</div>
+    <div class="value">Book a walkthrough for your first form</div>
+  </div>
+  <div class="support-card">
+    <div class="label">Support</div>
+    <div class="value">Log a ticket with the <em>Forms</em> category</div>
+  </div>
+  <div class="support-card">
+    <div class="label">Help Center</div>
+    <div class="value">Search <em>Configurable Forms</em> in the knowledge base</div>
+  </div>
+</div>
+</div>
+
+</div><!-- /main-right -->
+
+</div><!-- /main-grid -->
+
+</div><!-- /container -->
+
+<footer class="foot">
+  <div>SchoolCafe · Configurable Forms · Customer Onboarding Guide</div>
+  <div>v1.1</div>
+</footer>
+
+<script>
+const keys = ['c1','c2','c3','c4','c5','c6'];
+function render() {
+  let done = 0;
+  keys.forEach(k => {
+    const cb = document.getElementById(k);
+    const saved = localStorage.getItem('forms.'+k) === '1';
+    cb.checked = saved;
+    cb.closest('.cb-item').classList.toggle('checked', saved);
+    if (saved) done++;
+  });
+  document.getElementById('cb-count').textContent = done;
+  document.getElementById('cb-fill').style.width = (done/keys.length*100) + '%';
+}
+keys.forEach(k => {
+  document.getElementById(k).addEventListener('change', (e) => {
+    localStorage.setItem('forms.'+k, e.target.checked ? '1' : '0');
+    render();
+  });
+});
+render();
+</script>
+
+</body>
+</html>

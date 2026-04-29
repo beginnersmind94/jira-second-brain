@@ -1,0 +1,1167 @@
+{
+  "total_high_signal": 7138,
+  "top_components": [
+    [
+      "Platform - System",
+      928
+    ],
+    [
+      "Item Management",
+      904
+    ],
+    [
+      "Inventory",
+      850
+    ],
+    [
+      "Accountability",
+      639
+    ],
+    [
+      "Platform - Data Exchange",
+      573
+    ],
+    [
+      "Menu Planning",
+      543
+    ],
+    [
+      "Insights",
+      497
+    ],
+    [
+      "Eligibility",
+      432
+    ],
+    [
+      "Production",
+      406
+    ],
+    [
+      "Account Management",
+      222
+    ],
+    [
+      "Inspections",
+      180
+    ],
+    [
+      "PE Insights",
+      180
+    ],
+    [
+      "Platform",
+      158
+    ],
+    [
+      "System",
+      122
+    ],
+    [
+      "Global Catalog",
+      105
+    ],
+    [
+      "Platform - Framework",
+      98
+    ],
+    [
+      "Financials",
+      89
+    ],
+    [
+      "Face/Food Detection",
+      74
+    ],
+    [
+      "Mobile App",
+      72
+    ],
+    [
+      "Professional Standards",
+      68
+    ],
+    [
+      "Family Hub",
+      67
+    ],
+    [
+      "SCTV",
+      27
+    ],
+    [
+      "Platform - Security",
+      13
+    ],
+    [
+      "UI Components",
+      11
+    ],
+    [
+      "Data - Migration",
+      5
+    ],
+    [
+      "Data Engineering",
+      4
+    ],
+    [
+      "Devops",
+      3
+    ],
+    [
+      "Automation",
+      3
+    ],
+    [
+      "PrimeroEdge (Classic)",
+      3
+    ],
+    [
+      "UI/UX",
+      2
+    ]
+  ],
+  "top_sprints": [
+    [
+      "Perseus Sprint 39 (NXT Board)",
+      160
+    ],
+    [
+      "Release 9.14",
+      153
+    ],
+    [
+      "Release 8.17",
+      141
+    ],
+    [
+      "Perseus Sprint 65(NXT Board)",
+      140
+    ],
+    [
+      "Perseus Sprint 55(NXT Board)",
+      134
+    ],
+    [
+      "Perseus Sprint 54(NXT Board)",
+      133
+    ],
+    [
+      "Release 9.13",
+      131
+    ],
+    [
+      "Perseus Sprint 50(NXT Board)",
+      130
+    ],
+    [
+      "Perseus Sprint 56(NXT Board)",
+      128
+    ],
+    [
+      "Perseus Sprint 64(NXT Board)",
+      128
+    ],
+    [
+      "Perseus Sprint 40(NXT Board)",
+      119
+    ],
+    [
+      "Perseus Sprint 38 (NXT Board)",
+      116
+    ],
+    [
+      "Perseus Sprint 51(NXT Board)",
+      116
+    ],
+    [
+      "Release 9.0",
+      115
+    ],
+    [
+      "Release 9.3",
+      115
+    ],
+    [
+      "Perseus Sprint 31",
+      113
+    ],
+    [
+      "Perseus Sprint 37 (NXT Board)",
+      112
+    ],
+    [
+      "Perseus Sprint 57(NXT Board)",
+      111
+    ],
+    [
+      "Perseus Sprint 53(NXT Board)",
+      110
+    ],
+    [
+      "Perseus Sprint 33 (NXT Board)",
+      108
+    ],
+    [
+      "Perseus Sprint 59(NXT Board)",
+      105
+    ],
+    [
+      "Release 9.2",
+      105
+    ],
+    [
+      "Perseus Sprint 35 (NXT Board)",
+      104
+    ],
+    [
+      "Release 8.8",
+      104
+    ],
+    [
+      "Perseus Sprint 52(NXT Board)",
+      103
+    ],
+    [
+      "Perseus Sprint 113 (7.2)",
+      103
+    ],
+    [
+      "Perseus Sprint 30",
+      99
+    ],
+    [
+      "Perseus Sprint 61(NXT Board)",
+      98
+    ],
+    [
+      "Perseus Sprint 63(NXT Board)",
+      97
+    ],
+    [
+      "Perseus Sprint 32",
+      96
+    ],
+    [
+      "Perseus Sprint 116 (7.5)",
+      95
+    ],
+    [
+      "Perseus Sprint 118 (7.7)",
+      92
+    ],
+    [
+      "Release 8.0",
+      92
+    ],
+    [
+      "Perseus Sprint 41(NXT Board)",
+      90
+    ],
+    [
+      "Perseus Sprint 62(NXT Board)",
+      90
+    ],
+    [
+      "Release 8.2",
+      90
+    ],
+    [
+      "Release 9.4",
+      89
+    ],
+    [
+      "Release 9.7",
+      89
+    ],
+    [
+      "Perseus Sprint 29",
+      88
+    ],
+    [
+      "Release 9.12",
+      87
+    ]
+  ],
+  "status_counts": [
+    [
+      "Done Done",
+      5599
+    ],
+    [
+      "New",
+      876
+    ],
+    [
+      "Story Refinement/Efforting",
+      273
+    ],
+    [
+      "Ready for Development",
+      86
+    ],
+    [
+      "Ready for UX",
+      62
+    ],
+    [
+      "Future Merge",
+      54
+    ],
+    [
+      "In Progress",
+      52
+    ],
+    [
+      "Committed",
+      26
+    ],
+    [
+      "Testing",
+      24
+    ],
+    [
+      "UX in Progress",
+      17
+    ],
+    [
+      "PO Review",
+      17
+    ],
+    [
+      "UAT Review",
+      16
+    ],
+    [
+      "Ready For Testing",
+      12
+    ],
+    [
+      "Release Merge",
+      10
+    ],
+    [
+      "Code Review",
+      7
+    ],
+    [
+      "Pull Request",
+      4
+    ],
+    [
+      "Release Testing",
+      2
+    ],
+    [
+      "Mini Demo",
+      1
+    ]
+  ],
+  "top_unigrams": [
+    [
+      "menu",
+      820
+    ],
+    [
+      "inv",
+      812
+    ],
+    [
+      "item",
+      771
+    ],
+    [
+      "items",
+      586
+    ],
+    [
+      "data",
+      451
+    ],
+    [
+      "view",
+      407
+    ],
+    [
+      "report",
+      400
+    ],
+    [
+      "page",
+      394
+    ],
+    [
+      "import",
+      376
+    ],
+    [
+      "details",
+      371
+    ],
+    [
+      "reports",
+      340
+    ],
+    [
+      "api",
+      325
+    ],
+    [
+      "production",
+      324
+    ],
+    [
+      "system",
+      300
+    ],
+    [
+      "inventory",
+      287
+    ],
+    [
+      "recipe",
+      276
+    ],
+    [
+      "edit",
+      270
+    ],
+    [
+      "orders",
+      260
+    ],
+    [
+      "site",
+      258
+    ],
+    [
+      "create",
+      243
+    ],
+    [
+      "insights",
+      223
+    ],
+    [
+      "mp-",
+      219
+    ],
+    [
+      "management",
+      218
+    ],
+    [
+      "pr-",
+      218
+    ],
+    [
+      "configuration",
+      214
+    ],
+    [
+      "changes",
+      210
+    ],
+    [
+      "only",
+      210
+    ],
+    [
+      "acc",
+      200
+    ],
+    [
+      "info",
+      198
+    ],
+    [
+      "tab",
+      196
+    ],
+    [
+      "screen",
+      194
+    ],
+    [
+      "updates",
+      187
+    ],
+    [
+      "pos",
+      186
+    ],
+    [
+      "history",
+      182
+    ],
+    [
+      "dashboard",
+      176
+    ],
+    [
+      "list",
+      168
+    ],
+    [
+      "display",
+      164
+    ],
+    [
+      "eligibility",
+      161
+    ],
+    [
+      "order",
+      159
+    ],
+    [
+      "analysis",
+      156
+    ],
+    [
+      "platform",
+      154
+    ],
+    [
+      "inspections",
+      150
+    ],
+    [
+      "permissions",
+      145
+    ],
+    [
+      "settings",
+      144
+    ],
+    [
+      "search",
+      140
+    ],
+    [
+      "student",
+      139
+    ],
+    [
+      "district",
+      137
+    ],
+    [
+      "account",
+      135
+    ],
+    [
+      "file",
+      135
+    ],
+    [
+      "meal",
+      133
+    ],
+    [
+      "physical",
+      133
+    ],
+    [
+      "summary",
+      130
+    ],
+    [
+      "serving",
+      128
+    ],
+    [
+      "template",
+      127
+    ],
+    [
+      "step",
+      122
+    ],
+    [
+      "size",
+      122
+    ],
+    [
+      "custom",
+      121
+    ],
+    [
+      "onboarding",
+      121
+    ],
+    [
+      "application",
+      119
+    ],
+    [
+      "export",
+      119
+    ]
+  ],
+  "top_bigrams": [
+    [
+      "menu item",
+      207
+    ],
+    [
+      "inv orders",
+      136
+    ],
+    [
+      "physical inventory",
+      126
+    ],
+    [
+      "menu items",
+      116
+    ],
+    [
+      "inv physical",
+      106
+    ],
+    [
+      "data exchange",
+      96
+    ],
+    [
+      "mp- menu",
+      84
+    ],
+    [
+      "item management",
+      80
+    ],
+    [
+      "menu cycle",
+      73
+    ],
+    [
+      "pack size",
+      72
+    ],
+    [
+      "inv reports",
+      61
+    ],
+    [
+      "orders order",
+      54
+    ],
+    [
+      "inv vendors",
+      53
+    ],
+    [
+      "direct certification",
+      51
+    ],
+    [
+      "item details",
+      50
+    ],
+    [
+      "split view",
+      47
+    ],
+    [
+      "inv distribution",
+      47
+    ],
+    [
+      "api only",
+      45
+    ],
+    [
+      "family hub",
+      45
+    ],
+    [
+      "acct mgmt",
+      44
+    ],
+    [
+      "serving size",
+      44
+    ],
+    [
+      "account management",
+      43
+    ],
+    [
+      "student import",
+      43
+    ],
+    [
+      "roles permissions",
+      43
+    ],
+    [
+      "order detail",
+      43
+    ],
+    [
+      "insights kpi",
+      43
+    ],
+    [
+      "menu planner-",
+      41
+    ],
+    [
+      "menu analysis",
+      39
+    ],
+    [
+      "variety menu",
+      39
+    ],
+    [
+      "inv transfers",
+      38
+    ],
+    [
+      "inv vendor",
+      38
+    ],
+    [
+      "bulk item",
+      38
+    ],
+    [
+      "inv create",
+      37
+    ],
+    [
+      "custom views",
+      37
+    ],
+    [
+      "food component",
+      36
+    ],
+    [
+      "dataquery framework",
+      34
+    ],
+    [
+      "items units",
+      34
+    ],
+    [
+      "item onboarding",
+      34
+    ],
+    [
+      "post production",
+      33
+    ],
+    [
+      "landing page",
+      32
+    ],
+    [
+      "contract items",
+      32
+    ],
+    [
+      "menu planner",
+      31
+    ],
+    [
+      "production record",
+      31
+    ],
+    [
+      "production- reports-",
+      31
+    ],
+    [
+      "custom reports",
+      31
+    ],
+    [
+      "pr- reports-",
+      31
+    ],
+    [
+      "exchange file",
+      30
+    ],
+    [
+      "platform security",
+      30
+    ],
+    [
+      "inv inventory",
+      30
+    ],
+    [
+      "production analysis-",
+      30
+    ],
+    [
+      "prep site",
+      30
+    ],
+    [
+      "system settings",
+      30
+    ],
+    [
+      "list view",
+      29
+    ],
+    [
+      "create orders",
+      29
+    ],
+    [
+      "inv withdrawals",
+      29
+    ],
+    [
+      "edit menu",
+      28
+    ],
+    [
+      "auto sync",
+      28
+    ],
+    [
+      "manage orders",
+      28
+    ],
+    [
+      "meal pattern",
+      28
+    ],
+    [
+      "file import",
+      27
+    ],
+    [
+      "menu planning",
+      27
+    ],
+    [
+      "production plan",
+      27
+    ],
+    [
+      "sis api",
+      27
+    ],
+    [
+      "list page",
+      26
+    ],
+    [
+      "application details",
+      26
+    ],
+    [
+      "mp- menu-",
+      26
+    ],
+    [
+      "program access",
+      26
+    ],
+    [
+      "application entry",
+      26
+    ],
+    [
+      "cycle analysis",
+      25
+    ],
+    [
+      "command centre",
+      25
+    ],
+    [
+      "component report",
+      24
+    ],
+    [
+      "code mapping",
+      24
+    ],
+    [
+      "sis auto",
+      24
+    ],
+    [
+      "orders receipts",
+      24
+    ],
+    [
+      "production- production",
+      24
+    ],
+    [
+      "transfers transfer",
+      24
+    ],
+    [
+      "front office",
+      24
+    ],
+    [
+      "acc reports",
+      24
+    ],
+    [
+      "field mapping",
+      24
+    ],
+    [
+      "production production",
+      23
+    ]
+  ],
+  "top_trigrams": [
+    [
+      "inv physical inventory",
+      106
+    ],
+    [
+      "mp- menu planner-",
+      39
+    ],
+    [
+      "inv orders order",
+      38
+    ],
+    [
+      "orders order detail",
+      36
+    ],
+    [
+      "variety menu item",
+      34
+    ],
+    [
+      "data exchange file",
+      30
+    ],
+    [
+      "inv create orders",
+      24
+    ],
+    [
+      "sis auto sync",
+      24
+    ],
+    [
+      "inv transfers transfer",
+      23
+    ],
+    [
+      "menu cycle analysis",
+      22
+    ],
+    [
+      "food component report",
+      22
+    ],
+    [
+      "exchange file import",
+      20
+    ],
+    [
+      "account management advanced",
+      20
+    ],
+    [
+      "management advanced search",
+      20
+    ],
+    [
+      "data exchange sis",
+      19
+    ],
+    [
+      "page unit testing",
+      19
+    ],
+    [
+      "post production analysis-",
+      17
+    ],
+    [
+      "acc end day",
+      17
+    ],
+    [
+      "item management recipe",
+      16
+    ],
+    [
+      "recipe split view",
+      16
+    ],
+    [
+      "page report updates",
+      16
+    ],
+    [
+      "menus edit menu",
+      15
+    ],
+    [
+      "inv manage orders",
+      15
+    ],
+    [
+      "items create item",
+      15
+    ],
+    [
+      "pack size changes",
+      15
+    ],
+    [
+      "custom reports report",
+      15
+    ],
+    [
+      "application entry guided",
+      15
+    ],
+    [
+      "entry guided process",
+      15
+    ],
+    [
+      "exchange sis import",
+      14
+    ],
+    [
+      "order detail receipts",
+      14
+    ],
+    [
+      "review order settings",
+      14
+    ],
+    [
+      "family hub admin",
+      14
+    ],
+    [
+      "post model analysis",
+      14
+    ],
+    [
+      "inspections mobile app",
+      14
+    ],
+    [
+      "inv distribution assign",
+      14
+    ],
+    [
+      "distribution assign pick",
+      14
+    ],
+    [
+      "edit menu screen",
+      13
+    ],
+    [
+      "physical inventory incomplete",
+      13
+    ],
+    [
+      "inv vendors contract",
+      13
+    ],
+    [
+      "inv orders manage",
+      13
+    ],
+    [
+      "orders manage orders",
+      13
+    ],
+    [
+      "inv inventory additions",
+      13
+    ],
+    [
+      "acc claim export",
+      13
+    ],
+    [
+      "program access participation",
+      13
+    ],
+    [
+      "consistent primary button",
+      13
+    ],
+    [
+      "primary button label",
+      13
+    ],
+    [
+      "lma license keys",
+      13
+    ],
+    [
+      "detail receipts tab",
+      12
+    ],
+    [
+      "inv orders receipts",
+      12
+    ],
+    [
+      "menu item help",
+      12
+    ],
+    [
+      "inv vendors items",
+      12
+    ],
+    [
+      "inv production ordering",
+      12
+    ],
+    [
+      "custom views framework",
+      12
+    ],
+    [
+      "pre post production",
+      12
+    ],
+    [
+      "auto code mapping",
+      12
+    ],
+    [
+      "serving size exceptions",
+      11
+    ],
+    [
+      "inv withdrawals withdrawal",
+      11
+    ],
+    [
+      "inv withdrawals create",
+      11
+    ],
+    [
+      "inv vendor detail",
+      11
+    ],
+    [
+      "view inspections actions",
+      11
+    ]
+  ]
+}

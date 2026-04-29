@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Configurable Forms — Customer Onboarding</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --ink: #1a2028;
+  --ink-dim: #5a6876;
+  --ink-faint: #8a95a2;
+  --accent: #1d7461;
+  --accent-soft: #e8f3ef;
+  --accent-2: #b65f18;
+  --accent-2-soft: #fbf1e7;
+  --border: #dfe4ea;
+  --bg: #ffffff;
+  --bg-soft: #f7f9fb;
+}
+body {
+  font: 14px/1.55 "Inter", -apple-system, "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: #eef1f5;
+  padding: 24px 16px;
+  -webkit-font-smoothing: antialiased;
+}
+.page {
+  max-width: 860px;
+  margin: 0 auto;
+  background: var(--bg);
+  padding: 40px 48px;
+  border-radius: 8px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.05);
+}
+header.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 22px;
+}
+.hero .tag {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+h1 {
+  font-size: 26px;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+  font-weight: 600;
+}
+h1 span { color: var(--accent); }
+.subtitle {
+  font-size: 14px;
+  color: var(--ink-dim);
+  margin-top: 6px;
+}
+.hero-meta {
+  text-align: right;
+  font-size: 12px;
+  color: var(--ink-faint);
+  line-height: 1.5;
+}
+.hero-meta b { color: var(--ink); font-weight: 600; }
+
+h2 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 22px 0 10px 0;
+  letter-spacing: -0.005em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+h2::before {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 16px;
+  background: var(--accent);
+  border-radius: 2px;
+}
+h3 {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 16px 0 8px 0;
+}
+p { margin: 6px 0; }
+
+.lede {
+  background: var(--accent-soft);
+  border-left: 3px solid var(--accent);
+  padding: 14px 18px;
+  border-radius: 0 6px 6px 0;
+  font-size: 14px;
+  line-height: 1.55;
+}
+.lede strong { color: var(--accent); font-weight: 600; }
+
+.capabilities {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 14px 0 8px 0;
+}
+.cap {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px 14px 12px 14px;
+}
+.cap-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+.cap h4 {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.cap p {
+  font-size: 12.5px;
+  color: var(--ink-dim);
+  line-height: 1.5;
+}
+
+.steps {
+  counter-reset: step;
+  margin: 8px 0 4px 0;
+}
+.step {
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  gap: 14px;
+  margin-bottom: 10px;
+  align-items: start;
+}
+.step-num {
+  counter-increment: step;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 13px;
+}
+.step-num::before { content: counter(step); }
+.step-body h4 {
+  font-size: 13.5px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.step-body p {
+  font-size: 13px;
+  color: var(--ink-dim);
+  line-height: 1.5;
+}
+.step-body code {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-family: "SF Mono", Menlo, Consolas, monospace;
+  font-size: 11.5px;
+  color: var(--ink);
+}
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 14px;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin: 10px 0;
+}
+.metric {
+  background: var(--accent-2-soft);
+  border: 1px solid rgba(182,95,24,0.2);
+  border-radius: 6px;
+  padding: 14px 12px;
+  text-align: center;
+}
+.metric .num {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--accent-2);
+  letter-spacing: -0.01em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.metric .label {
+  font-size: 11px;
+  color: var(--ink-dim);
+  margin-top: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.timeline {
+  position: relative;
+  margin: 14px 0 6px 0;
+  padding-left: 14px;
+  border-left: 2px solid var(--border);
+}
+.tl-item {
+  position: relative;
+  padding: 0 0 12px 18px;
+}
+.tl-item::before {
+  content: "";
+  position: absolute;
+  left: -21px;
+  top: 5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--bg);
+  box-shadow: 0 0 0 2px var(--accent);
+}
+.tl-item:last-child { padding-bottom: 0; }
+.tl-release {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--ink);
+}
+.tl-release-desc {
+  font-size: 12.5px;
+  color: var(--ink-dim);
+  margin-top: 2px;
+}
+
+.faq details {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  margin-bottom: 6px;
+  background: var(--bg);
+}
+.faq summary {
+  padding: 10px 14px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  list-style: none;
+  display: flex;
+  align-items: center;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::before {
+  content: "+";
+  color: var(--accent);
+  margin-right: 10px;
+  font-weight: 600;
+  font-size: 15px;
+  width: 14px;
+}
+.faq details[open] summary::before { content: "−"; }
+.faq details > *:not(summary) {
+  padding: 0 14px 12px 38px;
+  font-size: 13px;
+  color: var(--ink-dim);
+  line-height: 1.55;
+}
+
+footer.foot {
+  margin-top: 28px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--ink-faint);
+}
+
+.divider { height: 1px; background: var(--border); margin: 20px 0; }
+
+@media print {
+  body { background: #fff; padding: 0; }
+  .page { box-shadow: none; padding: 28px 36px; border-radius: 0; max-width: 100%; }
+  header.hero-meta { display: block; }
+  .faq details { break-inside: avoid; }
+}
+@media (max-width: 720px) {
+  .capabilities { grid-template-columns: 1fr; }
+  .metrics { grid-template-columns: repeat(2, 1fr); }
+  .two-col { grid-template-columns: 1fr; }
+  header.hero { flex-direction: column; }
+  .hero-meta { text-align: left; margin-top: 10px; }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+<header class="hero">
+  <div>
+    <div class="tag">Feature Onboarding · Customer Guide</div>
+    <h1>Configurable <span>Forms</span></h1>
+    <p class="subtitle">Publish any form directly to parents. Process applications without leaving your district workspace.</p>
+  </div>
+  <div class="hero-meta">
+    <b>Released in stages</b><br>
+    R9.11 — R9.15<br>
+    <b>Available in</b> Eligibility + SchoolCafe Family Hub
+  </div>
+</header>
+
+<div class="lede">
+Before Configurable Forms, collecting <strong>Summer EBT, recertifications, or any non-traditional application</strong> meant using Google Forms, a separate vendor, or paper. Now your team sets up a form once, publishes it to the SchoolCafe Family Hub, and each submission flows into Eligibility — with auto-qualification, image templates, and audit history built in.
+</div>
+
+<h2>What you can do now</h2>
+<div class="capabilities">
+  <div class="cap">
+    <div class="cap-icon">✎</div>
+    <h4>Configure any form</h4>
+    <p>Admins build new forms and image templates from one page — no Cybersoft ticket required once setup is complete.</p>
+  </div>
+  <div class="cap">
+    <div class="cap-icon">⇅</div>
+    <h4>Publish to families</h4>
+    <p>Parents see the form inside the SchoolCafe Family Hub and submit in a handful of taps — no external link, no re-login.</p>
+  </div>
+  <div class="cap">
+    <div class="cap-icon">✓</div>
+    <h4>Auto-qualify &amp; route</h4>
+    <p>Define qualification rules per form. Submissions show up in Eligibility → Other Forms with Result and status auto-populated.</p>
+  </div>
+</div>
+
+<h2>How to set it up — five steps</h2>
+<div class="steps">
+  <div class="step">
+    <div class="step-num"></div>
+    <div class="step-body">
+      <h4>Enable Forms for your district</h4>
+      <p>Back Office → <code>Settings</code> → <code>Forms Licensing</code>. Toggle the forms you plan to offer (Summer EBT, Income Survey, custom).</p>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num"></div>
+    <div class="step-body">
+      <h4>Build the form template</h4>
+      <p>Eligibility → <code>Form Configuration</code>. On the <em>Forms</em> tab, click <em>+ Add Form</em>, label it, add fields, save.</p>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num"></div>
+    <div class="step-body">
+      <h4>Attach an image template</h4>
+      <p>Same page, <em>Form Image Templates</em> tab → upload a PDF or image that renders the paper equivalent for auditors and parents who prefer a printed copy.</p>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num"></div>
+    <div class="step-body">
+      <h4>Set qualification logic (optional)</h4>
+      <p>In Form Configuration, choose which responses trigger a <em>Qualified</em> result. Once set, submitted forms auto-populate the Result column in the Other Forms grid.</p>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num"></div>
+    <div class="step-body">
+      <h4>Publish &amp; monitor</h4>
+      <p>Form appears in Family Hub for eligible households. Track submissions under Eligibility → <code>Other Forms</code>. District admin can also add submissions manually via <em>Add New Form Application</em>.</p>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<h2>Product impact</h2>
+<p style="font-size: 13px; color: var(--ink-dim); margin-bottom: 4px;">Cross-module shipped scope — delivered across five releases, Summer 2025 through Spring 2026.</p>
+
+<div class="metrics">
+  <div class="metric"><div class="num">15+</div><div class="label">Tickets shipped</div></div>
+  <div class="metric"><div class="num">5</div><div class="label">Releases (9.11 → 9.15)</div></div>
+  <div class="metric"><div class="num">3</div><div class="label">Modules touched</div></div>
+  <div class="metric"><div class="num">4</div><div class="label">Family Hub parts</div></div>
+</div>
+
+<div class="two-col">
+<div>
+<h3>Delivery timeline</h3>
+<div class="timeline">
+  <div class="tl-item">
+    <div class="tl-release">Release 9.11 — Framework</div>
+    <div class="tl-release-desc">Forms Framework foundation: operations, permissions, Form Configuration UI skeleton.</div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-release">Release 9.13 — Config surfaces</div>
+    <div class="tl-release-desc">Forms tab, Image Templates tab, add-new flows for both.</div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-release">Release 9.14 — Admin + Family Hub (P1-P2)</div>
+    <div class="tl-release-desc">Add New Form Application (admin), Other Forms grid, Family Hub fill/submit.</div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-release">Release 9.15 — Auto-processing + Results</div>
+    <div class="tl-release-desc">Qualification logic, auto-processing, Family Hub parts 3-4, SchoolCafe settings.</div>
+  </div>
+</div>
+</div>
+
+<div>
+<h3>What this unlocks for customers</h3>
+<ul style="padding-left: 18px; margin-top: 6px; font-size: 13px; color: var(--ink-dim); line-height: 1.7;">
+  <li><strong style="color: var(--ink);">Summer EBT</strong> — collect and process at district scale without an external tool. Major new federal program, millions of kids.</li>
+  <li><strong style="color: var(--ink);">Recertification &amp; income updates</strong> — mid-year household changes captured in-app.</li>
+  <li><strong style="color: var(--ink);">Custom district forms</strong> — field trip waivers, allergy disclosures, special diet requests.</li>
+  <li><strong style="color: var(--ink);">Audit-ready workflow</strong> — every submission is logged with timestamp, applicant, and decision rationale.</li>
+</ul>
+</div>
+</div>
+
+<h2>Frequently asked questions</h2>
+<div class="faq">
+  <details>
+    <summary>Do I need Cybersoft support to add a new form?</summary>
+    <p>No. Once Forms Licensing is enabled for your district, form creation is fully self-serve under Eligibility → Form Configuration. Support is only required for the initial licensing enablement.</p>
+  </details>
+  <details>
+    <summary>Can we use the same form across multiple districts?</summary>
+    <p>Yes. Forms set up at the state or multi-tenant level can be inherited by member districts. Template reuse is supported; qualification rules can be district-specific.</p>
+  </details>
+  <details>
+    <summary>Where do submitted applications appear?</summary>
+    <p>Eligibility → Other Forms shows the grid of all submitted Form Applications with status, result, applicant, and submission date. The grid supports filters, custom views, and export.</p>
+  </details>
+  <details>
+    <summary>Do submissions integrate with existing Applications (F/R meal)?</summary>
+    <p>Yes. Application Result is tied into the Applications pipeline, so Qualified forms feed into the same downstream eligibility workflows your team already uses.</p>
+  </details>
+  <details>
+    <summary>Can parents submit without re-authenticating?</summary>
+    <p>Yes. If the parent is already signed into the SchoolCafe Family Hub, forms appear in their dashboard and submit with a single tap-through.</p>
+  </details>
+  <details>
+    <summary>Is there a paper fallback for households without online access?</summary>
+    <p>Yes. Image Templates attached to each form render as printable PDFs. District admins can also enter submissions manually via the Add New Form Application button on the Other Forms page.</p>
+  </details>
+</div>
+
+<footer class="foot">
+  <div>Perseus / NXT · Configurable Forms · Onboarding v1.0</div>
+  <div>Internal + customer-facing · share freely</div>
+</footer>
+
+</div>
+</body>
+</html>

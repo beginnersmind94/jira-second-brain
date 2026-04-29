@@ -1,0 +1,1076 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Accountability for New PMs — Perseus/NXT</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root {
+  --bg: #0f1419;
+  --bg-2: #161c24;
+  --bg-3: #1e2631;
+  --ink: #e8eef5;
+  --ink-dim: #9aa7b5;
+  --accent: #7dd3c0;
+  --accent-2: #ffb86b;
+  --danger: #ff7e7e;
+  --ok: #95e1a3;
+  --border: #2a3441;
+  --radius: 10px;
+}
+[data-theme="light"] {
+  --bg: #fafbfc; --bg-2: #ffffff; --bg-3: #f1f4f8;
+  --ink: #1a2129; --ink-dim: #5a6876;
+  --accent: #2c8a74; --accent-2: #c2671a;
+  --danger: #c02a2a; --ok: #2a8b3f;
+  --border: #dfe3e8;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--ink);
+  font: 16px/1.6 -apple-system, "Segoe UI", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased; }
+.layout { display: grid; grid-template-columns: 240px 1fr; max-width: 1100px; margin: 0 auto; }
+nav.toc { position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 28px 18px; border-right: 1px solid var(--border); font-size: 14px; }
+nav.toc h3 { margin: 0 0 14px 0; font-size: 12px; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--ink-dim); }
+nav.toc ol { list-style: none; padding: 0; margin: 0; counter-reset: c; }
+nav.toc li { counter-increment: c; margin-bottom: 3px; }
+nav.toc a { display: block; padding: 6px 10px; border-radius: 6px;
+  color: var(--ink-dim); text-decoration: none; transition: background 0.15s; }
+nav.toc a::before { content: counter(c) "  "; color: var(--ink-dim);
+  font-variant-numeric: tabular-nums; margin-right: 6px; }
+nav.toc a:hover, nav.toc a.active { background: var(--bg-3); color: var(--ink); }
+nav.toc a.done::after { content: "✓"; float: right; color: var(--ok); }
+.progress-wrap { margin-top: 20px; padding: 12px; background: var(--bg-3); border-radius: 8px; }
+.progress-bar { height: 6px; background: var(--bg); border-radius: 99px; overflow: hidden; margin-top: 8px; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  width: 0%; transition: width 0.3s; }
+main { padding: 40px 56px; max-width: 780px; }
+header.top { display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 32px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+header.top h1 { margin: 0; font-size: 22px; letter-spacing: -0.01em; }
+header.top h1 span { color: var(--accent); }
+button.theme { background: var(--bg-3); border: 1px solid var(--border);
+  color: var(--ink); padding: 6px 12px; border-radius: 20px; cursor: pointer; font-size: 13px; }
+button.theme:hover { background: var(--bg-2); }
+section.chapter { padding: 48px 0; border-bottom: 1px dashed var(--border); scroll-margin-top: 20px; }
+section.chapter:last-of-type { border-bottom: none; }
+.chapter-num { display: inline-block; font-size: 13px; letter-spacing: 0.15em;
+  color: var(--accent); text-transform: uppercase; margin-bottom: 6px; }
+h2 { font-size: 28px; margin: 0 0 18px 0; line-height: 1.2; letter-spacing: -0.015em; }
+h3 { font-size: 18px; margin-top: 32px; margin-bottom: 10px; }
+p { margin: 10px 0; }
+strong { color: var(--ink); }
+em { color: var(--accent-2); font-style: normal; font-weight: 500; }
+.tldr { background: linear-gradient(135deg, rgba(125,211,192,0.12), rgba(255,184,107,0.08));
+  border-left: 3px solid var(--accent); padding: 14px 18px; border-radius: 0 8px 8px 0;
+  margin: 20px 0; font-size: 15px; }
+.tldr b { display: block; font-size: 12px; letter-spacing: 0.12em; color: var(--accent);
+  margin-bottom: 6px; text-transform: uppercase; }
+.warn { background: rgba(255,126,126,0.08); border-left: 3px solid var(--danger);
+  padding: 12px 16px; border-radius: 0 8px 8px 0; margin: 16px 0; font-size: 14px; }
+.ok-box { background: rgba(149,225,163,0.08); border-left: 3px solid var(--ok);
+  padding: 12px 16px; border-radius: 0 8px 8px 0; margin: 16px 0; font-size: 14px; }
+.pm-box { background: rgba(255,184,107,0.08); border-left: 3px solid var(--accent-2);
+  padding: 12px 16px; border-radius: 0 8px 8px 0; margin: 16px 0; font-size: 14px; }
+.pm-box b { color: var(--accent-2); }
+.card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 20px 0; }
+.persona { background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 16px; cursor: pointer; transition: transform 0.15s, border-color 0.15s; }
+.persona:hover { transform: translateY(-2px); border-color: var(--accent); }
+.persona .name { font-weight: 600; font-size: 16px; }
+.persona .role { font-size: 12px; color: var(--ink-dim); text-transform: uppercase;
+  letter-spacing: 0.08em; margin-bottom: 8px; }
+.persona .detail { font-size: 14px; color: var(--ink-dim); }
+.persona.revealed .detail { color: var(--ink); }
+.pos-sim, .calc, .triage, .quiz, .deck {
+  background: var(--bg-2); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px; margin: 20px 0; }
+.pos-sim h4, .calc h4 { margin: 0 0 14px 0; font-size: 14px; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--ink-dim); }
+.student-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+.student-chip { padding: 8px 14px; background: var(--bg-3); border: 1px solid var(--border);
+  border-radius: 20px; cursor: pointer; font-size: 13px; transition: all 0.15s; }
+.student-chip.selected { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+.item-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 12px 0; }
+.item-btn { background: var(--bg-3); border: 1px solid var(--border); padding: 14px 10px;
+  border-radius: 8px; cursor: pointer; font-size: 13px; text-align: center; color: var(--ink); }
+.item-btn:hover { border-color: var(--accent); }
+.receipt { background: var(--bg); border: 1px dashed var(--border); padding: 14px;
+  border-radius: 6px; font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 13px;
+  min-height: 100px; margin-top: 14px; white-space: pre-wrap; color: var(--ink); }
+.receipt .money { color: var(--accent); }
+.receipt .status-ok { color: var(--ok); }
+.receipt .status-bad { color: var(--danger); }
+.pm-note { background: rgba(255,184,107,0.06); padding: 10px 14px; border-radius: 6px;
+  margin-top: 10px; font-size: 13px; color: var(--ink-dim); border: 1px dashed rgba(255,184,107,0.3); }
+.pm-note b { color: var(--accent-2); }
+.calc-row { display: grid; grid-template-columns: 180px 1fr 100px; gap: 12px;
+  align-items: center; margin-bottom: 10px; }
+.calc-row label { font-size: 14px; }
+.calc-row input { background: var(--bg); border: 1px solid var(--border); color: var(--ink);
+  padding: 8px 10px; border-radius: 6px; font: inherit; width: 100%; }
+.calc-row .rate { color: var(--ink-dim); font-size: 13px; text-align: right;
+  font-variant-numeric: tabular-nums; }
+.calc-total { border-top: 1px solid var(--border); margin-top: 14px; padding-top: 14px;
+  display: flex; justify-content: space-between; font-size: 20px; font-weight: 600; }
+.calc-total span { color: var(--accent); font-variant-numeric: tabular-nums; }
+.quiz h4 { margin: 0 0 10px 0; font-size: 14px; color: var(--accent-2);
+  text-transform: uppercase; letter-spacing: 0.08em; }
+.quiz .q { font-weight: 500; margin-bottom: 10px; }
+.quiz .opt { display: block; width: 100%; text-align: left; background: var(--bg-3);
+  border: 1px solid var(--border); color: var(--ink); padding: 10px 14px; border-radius: 6px;
+  cursor: pointer; margin-bottom: 6px; font: inherit; transition: all 0.15s; }
+.quiz .opt:hover { border-color: var(--accent); }
+.quiz .opt.correct { background: rgba(149,225,163,0.18); border-color: var(--ok); }
+.quiz .opt.wrong { background: rgba(255,126,126,0.12); border-color: var(--danger); }
+.quiz .explain { display: none; margin-top: 12px; font-size: 14px; color: var(--ink-dim);
+  padding: 10px 14px; background: var(--bg-3); border-radius: 6px; }
+.quiz.answered .explain { display: block; }
+.evidence { font-size: 13px; color: var(--ink-dim); padding: 12px 14px;
+  background: var(--bg-3); border-radius: 8px; margin-top: 20px; }
+.evidence b { color: var(--ink); }
+.evidence a { color: var(--accent); text-decoration: none; }
+.evidence a:hover { text-decoration: underline; }
+.evidence ul { margin: 6px 0 0 0; padding-left: 18px; }
+.triage-buckets { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 14px; }
+.bucket { background: var(--bg-3); border: 1px dashed var(--border); border-radius: 8px;
+  padding: 12px; min-height: 140px; }
+.bucket h5 { margin: 0 0 10px 0; font-size: 12px; color: var(--ink-dim);
+  text-transform: uppercase; letter-spacing: 0.08em; }
+.bucket.over { border-color: var(--accent); background: rgba(125,211,192,0.08); }
+.triage-card { background: var(--bg); padding: 10px 12px; border-radius: 6px;
+  margin-bottom: 6px; cursor: grab; font-size: 13px; border: 1px solid var(--border); }
+.triage-card.dragging { opacity: 0.5; }
+.triage-feedback { margin-top: 12px; font-size: 13px; color: var(--ink-dim); }
+.deck { padding: 28px; text-align: center; }
+.flash-card { min-height: 160px; display: flex; align-items: center; justify-content: center;
+  padding: 20px; background: var(--bg); border-radius: 8px; font-size: 18px; line-height: 1.4;
+  cursor: pointer; margin-bottom: 14px; border: 1px solid var(--border); color: var(--ink); }
+.flash-card.answer { background: var(--bg-3); font-size: 16px; color: var(--ink-dim); }
+.deck-controls { display: flex; gap: 10px; justify-content: center; }
+.deck-controls button { background: var(--bg-3); color: var(--ink); border: 1px solid var(--border);
+  padding: 8px 18px; border-radius: 6px; cursor: pointer; font: inherit; }
+.deck-controls button.hard { border-color: var(--danger); color: var(--danger); }
+.deck-controls button.easy { border-color: var(--ok); color: var(--ok); }
+.deck-meta { font-size: 12px; color: var(--ink-dim); margin-bottom: 12px; }
+.mnemonic { display: inline-block; background: var(--bg-3); border: 1px dashed var(--accent-2);
+  padding: 8px 14px; border-radius: 6px; font-size: 14px; margin: 8px 0; color: var(--ink); }
+.mnemonic b { color: var(--accent-2); }
+kbd { background: var(--bg-3); border: 1px solid var(--border); border-bottom-width: 2px;
+  border-radius: 4px; padding: 1px 6px; font-family: "SF Mono", Menlo, monospace; font-size: 12px; }
+details.expand { margin: 12px 0; background: var(--bg-2); border: 1px solid var(--border); border-radius: 8px; }
+details.expand summary { padding: 12px 16px; cursor: pointer; font-weight: 500; font-size: 14px; list-style: none; }
+details.expand summary::-webkit-details-marker { display: none; }
+details.expand summary::before { content: "▸"; color: var(--accent); margin-right: 10px;
+  display: inline-block; transition: transform 0.15s; }
+details.expand[open] summary::before { transform: rotate(90deg); }
+details.expand > *:not(summary) { padding: 0 16px 14px; }
+table.grid { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 15px; }
+table.grid th, table.grid td { text-align: left; padding: 10px 8px; vertical-align: top; }
+table.grid thead tr { border-bottom: 1px solid var(--border); }
+table.grid tbody tr { border-bottom: 1px solid var(--border); }
+table.grid tbody tr:last-child { border-bottom: none; }
+@media (max-width: 800px) {
+  .layout { grid-template-columns: 1fr; }
+  nav.toc { position: relative; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
+  main { padding: 24px; }
+  .item-grid { grid-template-columns: repeat(2, 1fr); }
+  .calc-row { grid-template-columns: 1fr; }
+  .card-grid { grid-template-columns: 1fr; }
+  .triage-buckets { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body data-theme="dark">
+<div class="layout">
+<nav class="toc">
+  <h3>Chapters</h3>
+  <ol id="toc-list">
+    <li><a href="#ch1">The business model</a></li>
+    <li><a href="#ch2">Who's in your inbox</a></li>
+    <li><a href="#ch3">The 3-second transaction</a></li>
+    <li><a href="#ch4">The value prop, in dollars</a></li>
+    <li><a href="#ch5">Reading a ticket like a PM</a></li>
+    <li><a href="#ch6">Your inbox, triaged</a></li>
+    <li><a href="#ch7">Square: a build-vs-buy case</a></li>
+    <li><a href="#ch8">Weird-but-critical edges</a></li>
+    <li><a href="#ch9">Compliance as a moat</a></li>
+    <li><a href="#ch10">PM decision drill</a></li>
+  </ol>
+  <div class="progress-wrap">
+    <div style="font-size: 12px; color: var(--ink-dim); text-transform: uppercase; letter-spacing: 0.08em;">Progress</div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+    <div style="font-size: 12px; color: var(--ink-dim); margin-top: 6px;"><span id="progress-pct">0</span>% · saved locally</div>
+  </div>
+  <div style="margin-top: 16px; font-size: 12px; color: var(--ink-dim); line-height: 1.5;">
+    <kbd>j</kbd>/<kbd>k</kbd> chapter nav · <kbd>t</kbd> theme
+  </div>
+</nav>
+
+<main>
+<header class="top">
+  <h1>Accountability for <span>new PMs</span></h1>
+  <button class="theme" id="theme-btn">☾ dark</button>
+</header>
+
+<p style="font-size: 17px; color: var(--ink-dim);">
+A primer for a product manager who has never worked in K-12 school nutrition. You know what a JIRA ticket, a roadmap, and a pricing page are — you don't yet know why cafeteria software is a real industry with real money and real stakes. This guide fixes that in ~45 minutes.
+</p>
+<p style="font-size: 14px; color: var(--ink-dim); margin-top: 20px;">
+Read in order. Click interactives. Come back tomorrow for the flashcards (chapter 10) — spacing is how ideas actually stick.
+</p>
+
+<div style="font-size: 13px; color: var(--ink-dim); padding: 12px 14px; background: var(--bg-3); border-radius: 8px; margin-top: 18px; border: 1px dashed var(--border);">
+<b style="color: var(--ink);">Source material for the industry numbers in this guide:</b> USDA Economic Research Service, <em>The National School Lunch Program: Background, Trends, and Issues, 2024 Edition</em> (Report EIB-279, Sept 2024) by Toossi, Todd, Guthrie, &amp; Ollinger — plus patterns read directly from our own 639 Accountability tickets. When a number looks surprising, cross-check EIB-279; it's the authoritative recent data.
+</div>
+
+<!-- ============ CHAPTER 1 ============ -->
+<section class="chapter" id="ch1" data-ch="1">
+<div class="chapter-num">Chapter 1</div>
+<h2>The business model (this is the whole game)</h2>
+
+<div class="tldr">
+<b>TL;DR</b>
+The USDA pays schools <em>real money</em> — a few dollars per meal served — when the meal meets federal rules and the kid is eligible. School districts run on thin margins; this reimbursement is a huge share of their nutrition budget. Our product, Accountability, is how districts <em>earn</em> that money by counting, proving, and claiming it.
+</div>
+
+<h3>How big is this market, really?</h3>
+
+<p>The National School Lunch Program (NSLP) is the second-largest federal food assistance program in the U.S., after SNAP. From USDA ERS report <em>EIB-279</em>:</p>
+
+<table class="grid">
+<thead><tr><th>Metric</th><th>Value (FY 2019, pre-COVID)</th></tr></thead>
+<tbody>
+<tr><td>Schools participating</td><td>~100,000 (73% of all U.S. schools)</td></tr>
+<tr><td>Students served per day</td><td>29.6 million</td></tr>
+<tr><td>Lunches per year</td><td>4.9 billion</td></tr>
+<tr><td>Federal spending</td><td>$14.4 billion ($2.96/lunch average)</td></tr>
+<tr><td>Share of lunches free/reduced</td><td>74.1%</td></tr>
+</tbody>
+</table>
+
+<p>By FY 2022 (post-pandemic), federal spending had climbed to <em>$21.4 billion</em>. Every one of those dollars flowed through software like ours.</p>
+
+<h3>The real 2023-24 reimbursement rates</h3>
+
+<p>These are the exact rates districts get per lunch (<em>contiguous U.S., Table 2 of EIB-279</em>):</p>
+
+<table class="grid">
+<thead><tr><th>Meal type</th><th>Base rate</th><th>"Performance-based" <small>(certified to meet nutrition standards)</small></th><th>Low-free-share <small>(≥60% free/reduced)</small> + performance</th></tr></thead>
+<tbody>
+<tr><td>Free lunch</td><td>$4.25</td><td>$4.33</td><td>$4.35</td></tr>
+<tr><td>Reduced-price lunch</td><td>$3.85</td><td>$3.93</td><td>$3.95</td></tr>
+<tr><td>Full-price (Paid) lunch</td><td>$0.40</td><td>$0.48</td><td>$0.50</td></tr>
+</tbody>
+</table>
+
+<p>Alaska rates are roughly 60% higher; Hawaii/Guam/PR/USVI ~30% higher. Rates adjust every July for inflation. Our calculator in Chapter 4 uses these real rates.</p>
+
+<h3>Who's actually paying our customer? (revenue mix)</h3>
+
+<p>For a typical School Food Authority (SFA) in the 2014-15 school year (most recent USDA national data):</p>
+
+<table class="grid">
+<thead><tr><th>Revenue source</th><th>Share of SFA revenue</th></tr></thead>
+<tbody>
+<tr><td>Federal reimbursements (NSLP + SBP)</td><td><strong>56.7%</strong></td></tr>
+<tr><td>Student payments (paid + à la carte)</td><td>20.0%</td></tr>
+<tr><td>Competitive food sales (vending, school stores)</td><td>10.9%</td></tr>
+<tr><td>USDA Foods in Schools (in-kind commodities)</td><td>5.9%</td></tr>
+<tr><td>State and local funds</td><td>5.9%</td></tr>
+<tr><td>Other (equipment sales, interest)</td><td>&lt;1%</td></tr>
+</tbody>
+</table>
+
+<div class="pm-box"><b>PM takeaway:</b> over half our customer's revenue depends on the federal reimbursement stream we manage. That's why our bugs get CEO attention. It's also why "nice-to-haves" stay in backlog forever — the moment a claim is at risk, roadmap narrows to one item.</div>
+
+<h3>And what does it cost SFAs to produce a meal?</h3>
+
+<ul>
+<li><strong>Labor: 54%</strong> of total cost — the biggest line, often unionized, inflexible</li>
+<li><strong>Food: 29.3%</strong> — hit hardest by 2022-23 inflation</li>
+<li><strong>Other direct (non-food supplies, equipment): 7.8%</strong></li>
+<li><strong>Indirect (facilities, district admin): 8.9%</strong></li>
+</ul>
+
+<p>Because labor is so dominant and so inflexible, SFAs can't easily cut costs. They live or die by <em>volume × reimbursement rate</em>. That's the entire financial picture.</p>
+
+<div class="warn"><strong>The squeeze our customers are living through right now:</strong> in the 2016-17 school year, 71% of SFAs broke even or had a surplus. By Q1 of 2022-23 (post-pandemic, high inflation), only 62% did. Small SFAs fared worst. When you hear "we can't afford a price increase" on a renewal call, <em>this</em> is why.</div>
+
+<h3>Your customer's profit center, in dollars</h3>
+
+<p>A district with 2,500 daily lunches (using 2023-24 base rates):</p>
+<ul>
+<li>1,200 Free × $4.25 = <em>$5,100</em></li>
+<li>400 Reduced × $3.85 = <em>$1,540</em></li>
+<li>900 Paid × $0.40 = <em>$360</em></li>
+<li><strong>= $7,000/day just from NSLP</strong> → roughly $1.26M/year. Add breakfast (SBP) and you're at $1.9M+.</li>
+</ul>
+
+<div class="mnemonic"><b>One-sentence frame:</b> we sell software that turns cafeteria activity into federal revenue — with an audit trail the USDA will accept.</div>
+
+<h3>The regulatory tsunami (2010 → now)</h3>
+
+<p>Three policy events shape every Accountability feature you'll touch:</p>
+
+<ol>
+<li><strong>HHFKA 2010</strong> (Healthy, Hunger-Free Kids Act) — updated nutrition standards, created the <em>Community Eligibility Provision</em> (CEP) enabling universal free meals for high-poverty schools, expanded <em>direct certification</em> via SNAP/TANF/Medicaid, mandated 3-year SFA audits (now 5-year as of July 2024).</li>
+<li><strong>COVID waivers (2020-22)</strong> — free meals for all students regardless of eligibility; expired June 2022 and hit SFAs like a cliff.</li>
+<li><strong>2024 Nutrition Rule</strong> — tightened sodium limits, added-sugar standards, revised whole-grain rules. New reports, new validations, new edge cases.</li>
+</ol>
+
+<p>Any time Sam the State Coordinator asks for a new report, assume it's one of these three ancestors surfacing in a new skin.</p>
+
+<h3>How USDA actually watches us (APEC)</h3>
+
+<p>USDA runs the <em>Access, Participation, Eligibility, and Certification</em> (APEC) study periodically to measure <em>improper payments</em> — over- and under-reimbursements. The last published study (APEC-III, 2017-18 data):</p>
+
+<ul>
+<li>Gross improper payments: <strong>8.02%</strong> ($1.09B of total federal reimbursements)</li>
+<li>Certification errors alone: 6.52% (the biggest category)</li>
+<li>Aggregation errors: 1.5%</li>
+<li>Meal claiming errors: 7.6% (doesn't affect money — but flags "standard of service" failures)</li>
+</ul>
+
+<p>Any Accountability feature that reduces certification or aggregation error <em>directly</em> improves customer reimbursement accuracy. That's not polish — that's revenue for the customer and a retention lever for us.</p>
+
+<h3>The competitive set</h3>
+
+<p>Names you'll hear in customer calls:</p>
+<ul>
+<li><strong>PrimeroEdge (classic)</strong> — our own legacy product; Perseus/NXT is the rewrite</li>
+<li><strong>Titan School Solutions (LINQ)</strong> — largest independent alternative</li>
+<li><strong>Heartland School Solutions</strong> (MCS, Horizon)</li>
+<li><strong>Nutrikids / Harris School Nutrition</strong></li>
+<li><strong>MealTime / Cybersoft</strong></li>
+</ul>
+
+<p>Switching is painful — districts keep vendors for 10+ years because migrating audit history is terrifying. Inertia looks like loyalty; NPS is a lagging signal. Drive satisfaction early or pay for it through CS forever.</p>
+
+<div class="quiz" data-correct="b">
+  <h4>PM check</h4>
+  <div class="q">Your VP asks why a "simple" bug (site managers can't export Meal Count report to PDF) is being escalated by multiple districts. Most likely explanation?</div>
+  <button class="opt" data-v="a">They want to print it for fun</button>
+  <button class="opt" data-v="b">The state requires a signed PDF as part of the monthly claim submission — no PDF means they can't submit, which means no reimbursement that month</button>
+  <button class="opt" data-v="c">They're testing our responsiveness</button>
+  <div class="explain">Accountability bugs have a habit of being "not just a bug" — they sit in the cash-flow critical path. Always ask "does this block a claim, a report submission, or an audit?" before estimating blast radius.</div>
+</div>
+
+<div class="evidence">
+<b>Tickets that show the revenue flow in action:</b>
+<ul>
+<li><a href="../../raw/tickets/NXT-70215.html">NXT-70215</a> — Claims / SNP Reports / lock actual claimed amounts</li>
+<li><a href="../../raw/tickets/NXT-67410.html">NXT-67410</a> — Texas CACFP claim format (state-specific integration)</li>
+<li><a href="../../raw/tickets/NXT-70030.html">NXT-70030</a> — Multi-tenant Meal Participation for state-level buyers</li>
+</ul>
+</div>
+</section>
+
+<!-- ============ CHAPTER 2 ============ -->
+<section class="chapter" id="ch2" data-ch="2">
+<div class="chapter-num">Chapter 2</div>
+<h2>Who's in your inbox (and whose inbox you're in)</h2>
+
+<div class="tldr">
+<b>TL;DR</b>
+Five personas generate 95% of Accountability requests. Each has different power, different timelines, and different reasons to email you. Learn them the way you'd learn your first five stakeholders at any new PM job.
+</div>
+
+<p>When a ticket starts "<em>As Dana the Director...</em>" or "<em>As Sam the State Coordinator...</em>", those are not hypothetical. Product uses them consistently because it forces us to think about <em>whose</em> problem we're solving.</p>
+
+<div class="card-grid" id="persona-grid">
+  <div class="persona" data-name="Dana">
+    <div class="role">Decision-maker</div>
+    <div class="name">Dana — District Director</div>
+    <div class="detail" data-hidden="Owns the nutrition P&L and claim submission. If Dana's district loses reimbursement, Dana's Superintendent calls someone. She buys the software. She will cancel if we make her life hard.">Tap to reveal</div>
+  </div>
+  <div class="persona" data-name="Site Manager">
+    <div class="role">Daily user</div>
+    <div class="name">Site Manager (cafeteria lead)</div>
+    <div class="detail" data-hidden="Runs one kitchen. Does End of Day, triages weird transactions, reconciles cash. Feature requests from site managers are *usually* friction fixes — high volume, low drama, quiet churn risk.">Tap to reveal</div>
+  </div>
+  <div class="persona" data-name="Cashier">
+    <div class="role">Frontline user</div>
+    <div class="name">Cashier</div>
+    <div class="detail" data-hidden="3 seconds per transaction, long line of kids. Never files a ticket directly, but every UX debate in Accountability is about their muscle memory. Ignore them and your NPS drops through District-level churn.">Tap to reveal</div>
+  </div>
+  <div class="persona" data-name="Sam">
+    <div class="role">Enterprise buyer</div>
+    <div class="name">Sam — State Coordinator</div>
+    <div class="detail" data-hidden="Buys on behalf of 50-500 districts. Cares about cross-district analytics, fraud detection at scale, compliance reporting to USDA. Big-contract revenue; requests are strategic, not tactical.">Tap to reveal</div>
+  </div>
+  <div class="persona" data-name="State Auditor">
+    <div class="role">Regulator (indirect)</div>
+    <div class="name">State Auditor / USDA</div>
+    <div class="detail" data-hidden="Never a direct customer, but shapes every requirement. When a state changes its claim format (Texas CACFP, California's SNP revisions), we must comply on their timeline or our customers can't submit. Regulatory work is non-negotiable scope.">Tap to reveal</div>
+  </div>
+  <div class="persona" data-name="Matt">
+    <div class="role">Internal (you)</div>
+    <div class="name">Matt — Product Manager</div>
+    <div class="detail" data-hidden="That's your role. You'll see 'As Matt the PM I want...' in tickets when PM is validating defaults, rationalizing inconsistency, or making opinionated calls across modules.">Tap to reveal</div>
+  </div>
+</div>
+
+<h3>How to read a stakeholder ask</h3>
+
+<p>The same feature request sounds different from each persona:</p>
+
+<table class="grid">
+<thead><tr><th>If the ask comes from...</th><th>Translate it as...</th></tr></thead>
+<tbody>
+<tr><td>Dana (Director)</td><td>"I'm worried about my claim being audited. Reduce my risk."</td></tr>
+<tr><td>Site Manager</td><td>"I do this 50 times a week, please remove a click or two."</td></tr>
+<tr><td>Cashier (via Site Mgr)</td><td>"I'm losing my muscle memory and slowing the line."</td></tr>
+<tr><td>Sam (State)</td><td>"I need to prove something across all my districts at once."</td></tr>
+<tr><td>State Auditor (via Dana)</td><td>"USDA changed the rules. We're shipping this regardless of roadmap."</td></tr>
+</tbody>
+</table>
+
+<div class="pm-box"><b>PM takeaway:</b> a ticket that reads "As Dana... I want to export claim totals by ZIP code" is probably not about exports. It's about Dana defending a past submission to her auditor. Your research call should probe the <em>reason behind the ask</em>, not just the ask.</div>
+
+<div class="evidence">
+<b>Persona-signed tickets to study:</b>
+<ul>
+<li><a href="../../raw/tickets/NXT-70588.html">NXT-70588</a> — "As Matt the PM I want..."</li>
+<li><a href="../../raw/tickets/NXT-69781.html">NXT-69781</a> — "As Sam the State Coordinator..."</li>
+<li><a href="../../raw/tickets/NXT-70587.html">NXT-70587</a> — "As Dana the Director..."</li>
+<li><a href="../../raw/tickets/NXT-70002.html">NXT-70002</a> — "As a site manager..."</li>
+</ul>
+</div>
+</section>
+
+<!-- ============ CHAPTER 3 ============ -->
+<section class="chapter" id="ch3" data-ch="3">
+<div class="chapter-num">Chapter 3</div>
+<h2>The 3-second transaction (customer journey walkthrough)</h2>
+
+<div class="tldr">
+<b>TL;DR</b>
+Play with a live POS. Pick a student, build a tray, see what the system enforces. Every rule you see maps to a competing business concern — your job as PM is to know which concern wins when they conflict.
+</div>
+
+<p>Before you ship anything in Accountability, run the simulator at least once. If a UI change slows a cashier by 0.5 seconds, multiplied across a 2,500-meal district, that's ~20 minutes of cafeteria line time per day. Cashiers notice. Site managers notice. Dana notices.</p>
+
+<div class="pos-sim">
+<h4>Step 1 · Pick a student</h4>
+<div class="student-row" id="students">
+  <button class="student-chip" data-id="s1" data-elig="free" data-grade="4">Alex · Grade 4 · Free</button>
+  <button class="student-chip" data-id="s2" data-elig="reduced" data-grade="7">Jordan · Grade 7 · Reduced</button>
+  <button class="student-chip" data-id="s3" data-elig="paid" data-grade="10" data-balance="8.50">Riley · Grade 10 · Paid ($8.50)</button>
+  <button class="student-chip" data-id="s4" data-elig="paid" data-grade="10" data-balance="0.25">Taylor · Grade 10 · Paid ($0.25)</button>
+</div>
+<h4>Step 2 · Build the tray</h4>
+<div class="item-grid" id="items">
+  <button class="item-btn" data-cat="entree" data-name="Chicken Sandwich" data-price="3.25">Chicken Sandwich<br><span style="color:var(--ink-dim); font-size: 11px;">entrée · $3.25</span></button>
+  <button class="item-btn" data-cat="entree" data-name="Bean Burrito" data-price="3.00">Bean Burrito<br><span style="color:var(--ink-dim); font-size: 11px;">entrée · $3.00</span></button>
+  <button class="item-btn" data-cat="veg" data-name="Broccoli" data-price="0">Broccoli<br><span style="color:var(--ink-dim); font-size: 11px;">veg · free w/ meal</span></button>
+  <button class="item-btn" data-cat="fruit" data-name="Apple Slices" data-price="0">Apple Slices<br><span style="color:var(--ink-dim); font-size: 11px;">fruit · free w/ meal</span></button>
+  <button class="item-btn" data-cat="milk" data-name="1% Milk" data-price="0">1% Milk<br><span style="color:var(--ink-dim); font-size: 11px;">milk · free w/ meal</span></button>
+  <button class="item-btn" data-cat="alacarte" data-name="Cookie" data-price="1.25">Cookie<br><span style="color:var(--ink-dim); font-size: 11px;">à la carte · $1.25</span></button>
+</div>
+<h4>Step 3 · The receipt</h4>
+<div class="receipt" id="receipt">Pick a student to begin.</div>
+<div style="display: flex; gap: 10px; margin-top: 12px;">
+<button class="theme" id="pos-reset">Reset tray</button>
+<button class="theme" id="pos-ring">Ring it up</button>
+</div>
+</div>
+
+<div class="pm-note"><b>PM observations, in order:</b>
+<ol>
+<li>Eligibility drives the meal's unit economics. Same tray, wildly different revenue per customer.</li>
+<li>"Free-with-meal" sides are a USDA <em>meal pattern</em> rule — your eng team didn't make that up; it's federal law.</li>
+<li>Charging a Paid student's account to negative is a <em>policy switch</em>. Some districts allow it; some don't. That's configurability, which means a settings screen, which means test coverage, which means you care.</li>
+<li>À la carte lives in its own revenue bucket. Don't let anyone fold it into "meal revenue".</li>
+</ol>
+</div>
+
+<div class="quiz" data-correct="b">
+<h4>PM judgment call</h4>
+<div class="q">Sales asks: "Big district wants us to let cashiers override meal-pattern rules and still mark the meal reimbursable — their union contract is blocking compliance training." How do you answer?</div>
+<button class="opt" data-v="a">Build it behind a feature flag</button>
+<button class="opt" data-v="b">Firm no. Marking a non-reimbursable meal as reimbursable is claims fraud. Offer to help them design a training workaround instead</button>
+<button class="opt" data-v="c">Escalate to the board</button>
+<div class="explain">Some features exist to protect the customer from themselves. Allowing this would expose the district to federal fraud liability and potentially us too. New PMs sometimes try to please Sales by finding clever workarounds — here, the correct PM move is a principled no with a concrete alternative path.</div>
+</div>
+
+<div class="evidence">
+<b>POS tickets with interesting PM context:</b>
+<ul>
+<li><a href="../../raw/tickets/NXT-66792.html">NXT-66792</a> — "Don't pull inactive visiting students" — edge case that blocked cashier speed</li>
+<li><a href="../../raw/tickets/NXT-70053.html">NXT-70053</a> — Square credit-card transaction handling</li>
+<li><a href="../../raw/tickets/NXT-69101.html">NXT-69101</a> — Square implementation research task (PM-level discovery)</li>
+</ul>
+</div>
+</section>
+
+<!-- ============ CHAPTER 4 ============ -->
+<section class="chapter" id="ch4" data-ch="4">
+<div class="chapter-num">Chapter 4</div>
+<h2>The value prop, in dollars (play with it)</h2>
+
+<div class="tldr">
+<b>TL;DR</b>
+Adjust the numbers. Watch the monthly reimbursement total change. This isn't toy math — this is the number a district's CFO is looking at every month, and it's the reason they buy Accountability.
+</div>
+
+<div class="calc">
+<div class="calc-row">
+  <label>Free lunches/month</label>
+  <input type="number" id="free-l" value="24000" min="0">
+  <div class="rate" data-rate="4.25">× $4.25</div>
+</div>
+<div class="calc-row">
+  <label>Reduced lunches</label>
+  <input type="number" id="red-l" value="8000" min="0">
+  <div class="rate" data-rate="3.85">× $3.85</div>
+</div>
+<div class="calc-row">
+  <label>Paid lunches</label>
+  <input type="number" id="paid-l" value="18000" min="0">
+  <div class="rate" data-rate="0.40">× $0.40</div>
+</div>
+<div class="calc-row">
+  <label>Free breakfasts</label>
+  <input type="number" id="free-b" value="12000" min="0">
+  <div class="rate" data-rate="2.37">× $2.37</div>
+</div>
+<div class="calc-row">
+  <label>Reduced breakfasts</label>
+  <input type="number" id="red-b" value="4000" min="0">
+  <div class="rate" data-rate="2.07">× $2.07</div>
+</div>
+<div class="calc-row">
+  <label>Paid breakfasts</label>
+  <input type="number" id="paid-b" value="6000" min="0">
+  <div class="rate" data-rate="0.39">× $0.39</div>
+</div>
+<div class="calc-total"><span>Monthly reimbursement</span><span id="claim-total">$0.00</span></div>
+<p style="font-size: 12px; color: var(--ink-dim); margin-top: 14px;">Real USDA rates, July 2023–June 2024 (<em>contiguous U.S., base rate, not performance-based</em>). Source: USDA FNS / EIB-279 Table 2. Rates update every July for inflation; Alaska/Hawaii/territories are higher.</p>
+</div>
+
+<div class="pm-box"><b>PM sanity math:</b> a 1% data-quality error (misclassified meals, uncounted transactions, rejected claims) on a $150K/month claim is <em>$1,500/month / $18K/year</em> of real lost revenue per customer. Multiply by customer count. Data-quality features aren't polish — they're revenue protection.</div>
+
+<h3>Edit Check Worksheet = sanity check before you cash the check</h3>
+
+<p>Districts are federally required to <em>cross-check their own counts</em> before submitting a claim. The Edit Check Worksheet compares claimed meals vs. theoretically possible meals (Eligible students × attendance × serving days). If claimed exceeds plausible, USDA will kick it back or audit.</p>
+
+<p>This is why ticket <a href="../../raw/tickets/NXT-70587.html">NXT-70587</a> added <em>Total Enrollment count</em> to the worksheet — directors want the plausibility anchor visible before submit. Tiny UX tweak, outsized business value.</p>
+
+<div class="quiz" data-correct="a">
+<h4>Pricing question</h4>
+<div class="q">Your PMM (Product Marketing) asks: "what's our value prop in one sentence?" Best answer?</div>
+<button class="opt" data-v="a">"We turn cafeteria activity into audit-ready federal reimbursement — the average district leaves $30-90K/year on the table without us."</button>
+<button class="opt" data-v="b">"We're a POS system for schools."</button>
+<button class="opt" data-v="c">"We help lunch ladies."</button>
+<div class="explain">A good value prop names the job done and quantifies the stakes. "POS for schools" describes the shape but not the value. "Lunch ladies" is condescending and loses at Dana's level. Always lead with the customer's business outcome.</div>
+</div>
+
+<div class="evidence">
+<b>Claims &amp; compliance tickets:</b>
+<ul>
+<li><a href="../../raw/tickets/NXT-67410.html">NXT-67410</a> — Texas CACFP claim format</li>
+<li><a href="../../raw/tickets/NXT-67409.html">NXT-67409</a> — Claims page updates</li>
+<li><a href="../../raw/tickets/NXT-70215.html">NXT-70215</a> — Show actual claimed amounts on SNP Standard Export</li>
+<li><a href="../../raw/tickets/NXT-70587.html">NXT-70587</a> — Add Total Enrollment count to Edit Check Worksheet</li>
+</ul>
+</div>
+</section>
+
+<!-- ============ CHAPTER 5 ============ -->
+<section class="chapter" id="ch5" data-ch="5">
+<div class="chapter-num">Chapter 5</div>
+<h2>How to read an Accountability ticket like a PM</h2>
+
+<div class="tldr">
+<b>TL;DR</b>
+You'll read thousands of tickets. Most are noise — bugs, small friction fixes, compliance tweaks. A handful reveal product direction. Here's a quick taxonomy so you don't spend your first month drowning.
+</div>
+
+<table class="grid">
+<thead><tr><th>If the title starts with...</th><th>It's probably...</th><th>PM action</th></tr></thead>
+<tbody>
+<tr><td><code>FO -</code></td><td>Financial Oversight workstream</td><td>Track for migration from classic PE</td></tr>
+<tr><td><code>Acc - Reports -</code></td><td>Report tweak</td><td>Skim AC; if ≤1 AC bullet, delegate</td></tr>
+<tr><td><code>POS -</code></td><td>Cashier-facing change</td><td>Read the AC carefully — frontline UX</td></tr>
+<tr><td><code>Acc > End of Day</code></td><td>Closing-period workflow</td><td>Compliance-adjacent; don't ship half</td></tr>
+<tr><td><code>Claims -</code></td><td>State/federal reporting</td><td>Often regulatory — deadline-driven</td></tr>
+<tr><td>State abbreviation (<code>Texas CACFP</code>, <code>CA SNP</code>)</td><td>State-specific compliance</td><td>Non-negotiable scope, tight timeline</td></tr>
+<tr><td><code>Freshdesk:</code> in body</td><td>Support-originated bug</td><td>Real customer pain; read the freshdesk ticket linked</td></tr>
+</tbody>
+</table>
+
+<h3>Anatomy of a good Accountability ticket</h3>
+
+<ol>
+<li><strong>Persona-framed user story</strong> — "As Dana the Director I want X so that Y". If Y is weak, push back on scope.</li>
+<li><strong>Business rationale</strong> — "Without this, we over-claim / miss the deadline / lose an audit." If missing, the ticket is probably an ops-level tweak, not a product priority.</li>
+<li><strong>Explicit AC</strong> — with checkboxes. Tickets without AC become expensive during dev.</li>
+<li><strong>Links to Freshdesk or state guidance</strong> — proof the ask is real, not a one-off request.</li>
+</ol>
+
+<div class="pm-box"><b>PM takeaway:</b> when you write a ticket, imagine it'll be read in 2 years by someone trying to understand why the feature exists. The user story is for empathy; the rationale is for archaeology.</div>
+
+<div class="quiz" data-correct="b">
+<h4>You just inherited the backlog</h4>
+<div class="q">Four tickets, all marked "Medium" priority. Which do you work first?</div>
+<button class="opt" data-v="a">"Add dark mode to the Activity Report" — opened by an internal dev</button>
+<button class="opt" data-v="b">"Texas CACFP claim format change — state update effective Aug 1" — opened by a field CSM</button>
+<button class="opt" data-v="c">"Cashier would like the entrée buttons to be bigger" — opened by Sales</button>
+<button class="opt" data-v="d">"Refactor the reimbursement rate lookup to use enum" — opened by an engineer</button>
+<div class="explain">Regulatory tickets have hard deadlines set by the government, not by you. Miss one, and every Texas district can't claim. The others can wait a sprint or three. Always grep your backlog for state-name + "deadline" before planning.</div>
+</div>
+</section>
+
+<!-- ============ CHAPTER 6 ============ -->
+<section class="chapter" id="ch6" data-ch="6">
+<div class="chapter-num">Chapter 6</div>
+<h2>Your inbox, triaged (interactive)</h2>
+
+<div class="tldr">
+<b>TL;DR</b>
+A PM is paid to sort, not to build. Below are five real-ish scenarios hitting your inbox at once. Drag each to the right bucket. The right answers reflect industry-specific priority logic you'll use weekly.
+</div>
+
+<div class="triage">
+<p>Drag each card into <strong>Ship now</strong>, <strong>Deprioritize</strong>, or <strong>Clarify first</strong>.</p>
+<div id="triage-cards" style="margin-top: 14px;">
+  <div class="triage-card" draggable="true" data-verdict="ship">Texas CACFP file format changes effective Aug 1. State released spec last week. Three of our districts submit CACFP claims.</div>
+  <div class="triage-card" draggable="true" data-verdict="clarify">A district GM says "your meal counts don't match our POS terminal counts." Last month's claim off by ~$2,400.</div>
+  <div class="triage-card" draggable="true" data-verdict="defer">Internal engineer: "Can we migrate Revenue Report from Crystal Reports to React? Would take ~3 sprints."</div>
+  <div class="triage-card" draggable="true" data-verdict="clarify">Site manager asks for a "simpler End of Day" — no specifics. First time we've heard the ask from this site.</div>
+  <div class="triage-card" draggable="true" data-verdict="ship">Security: Square OAuth token renewal is broken in production; 40 districts will lose card processing in 14 days when tokens expire.</div>
+</div>
+<div class="triage-buckets">
+  <div class="bucket" data-kind="ship"><h5>🚢 Ship now</h5></div>
+  <div class="bucket" data-kind="clarify"><h5>🔎 Clarify first</h5></div>
+  <div class="bucket" data-kind="defer"><h5>💤 Deprioritize</h5></div>
+</div>
+<div class="triage-feedback" id="triage-feedback"></div>
+</div>
+
+<h3>Why these answers</h3>
+
+<ul>
+<li><strong>State regulatory change (Ship now):</strong> a ticking clock set by the government. Miss it and every Texas district can't submit CACFP. This is a trump card over almost everything.</li>
+<li><strong>Claims discrepancy (Clarify first):</strong> $2,400 sounds small but the <em>pattern</em> matters more than the number. Could be a bug affecting everyone. Your first move is to reproduce or scope, not commit to a fix.</li>
+<li><strong>Crystal→React migration (Deprioritize):</strong> real tech debt, but it's engineering-initiated and has no deadline. Unless reporting is already fragile, this belongs in a dedicated platform quarter, not reactive sprints.</li>
+<li><strong>"Simpler End of Day" (Clarify first):</strong> one vague ask from one site = weakest possible signal. Schedule a 20-min call with that site manager before making any product call.</li>
+<li><strong>OAuth token lifecycle (Ship now):</strong> this one is real — see <a href="../../raw/tickets/NXT-70218.html">NXT-70218</a>. Production-breaking with a known countdown.</li>
+</ul>
+
+<div class="pm-note"><b>PM reflex:</b> "Ship now" requires a hard deadline, real customer impact, or cash-flow risk. Everything else either needs more data or waits for a planned work block. Most first-year PMs over-ship because they confuse urgency with importance.</div>
+</section>
+
+<!-- ============ CHAPTER 7 ============ -->
+<section class="chapter" id="ch7" data-ch="7">
+<div class="chapter-num">Chapter 7</div>
+<h2>Square integration: a live build-vs-buy case study</h2>
+
+<div class="tldr">
+<b>TL;DR</b>
+Perseus integrated with Square for credit-card processing in 2025. Walk through the PM decisions that shaped it — and the ones we got wrong. This is a real case you can study via the ticket history.
+</div>
+
+<h3>The setup</h3>
+
+<p>Districts needed to take credit cards at the POS (parents increasingly refuse cash). Options:</p>
+
+<ol>
+<li><strong>Build our own payment rails</strong> — PCI compliance, bank integrations, fraud handling. Huge scope. Not our business.</li>
+<li><strong>Integrate Stripe</strong> — developer-friendly, but school districts prefer physical terminals with receipts.</li>
+<li><strong>Integrate Square</strong> — has the physical terminals, has OAuth, already trusted by small businesses. Won.</li>
+</ol>
+
+<h3>Decisions the tickets reveal</h3>
+
+<details class="expand" open>
+<summary>Decision 1: Where does the Square data <em>live</em>?</summary>
+<p>Two options: (a) pull everything into Perseus hourly, (b) call Square on demand. We chose a hybrid — pull into Perseus so reports work offline, but always show "syncing…" badges. See <a href="../../raw/tickets/NXT-70014.html">NXT-70014</a> for the filter-behavior work that resulted.</p>
+</details>
+<details class="expand">
+<summary>Decision 2: Card vs cash — same column or split?</summary>
+<p>For years the Revenue Report summed them. Tickets <a href="../../raw/tickets/NXT-71622.html">NXT-71622</a> and <a href="../../raw/tickets/NXT-71620.html">NXT-71620</a> split them out — because site managers reconcile cash drawers and the mixed column broke that mental model. This is a good "<em>don't unify things just because they share a type</em>" lesson.</p>
+</details>
+<details class="expand">
+<summary>Decision 3: OAuth token renewal (we were late)</summary>
+<p>Square tokens expire. We shipped the integration without auto-renewal. Tickets <a href="../../raw/tickets/NXT-70218.html">NXT-70218</a> (auto-renew) and <a href="../../raw/tickets/NXT-69853.html">NXT-69853</a> (proactive reminders) were reactive — written after the first expired tokens hit prod. <em>Lesson:</em> integrations = credentials + expiry + error paths. Plan all three or you'll rediscover them via support tickets.</p>
+</details>
+
+<div class="pm-box"><b>PM takeaway:</b> when you integrate a third-party, you inherit their lifecycle (expirations, rate limits, API deprecations) and their outages. Your roadmap has to budget for it — roughly 20% of integration scope is "keeping it alive" work.</div>
+
+<div class="quiz" data-correct="b">
+<h4>Design call</h4>
+<div class="q">Your competitor ships a Stripe integration in 3 weeks. Sales pressures you to catch up. What do you do?</div>
+<button class="opt" data-v="a">Ship a rushed Stripe integration in 4 weeks</button>
+<button class="opt" data-v="b">Interview 8 customers: do they actually want Stripe, or do they want <em>a card option</em>? If the latter, leverage our Square work. If former, talk to PMM about positioning.</button>
+<button class="opt" data-v="c">Escalate to your VP</button>
+<div class="explain">New PMs confuse "competitor shipped X" with "customers want X." Almost always the real ask is capability-shaped, not vendor-shaped. Interview before copying.</div>
+</div>
+
+<div class="evidence">
+<b>Square tickets, chronologically:</b>
+<ul>
+<li><a href="../../raw/tickets/NXT-69101.html">NXT-69101</a> — Implementation research task (PM discovery)</li>
+<li><a href="../../raw/tickets/NXT-69852.html">NXT-69852</a> — Terminals page: add/edit</li>
+<li><a href="../../raw/tickets/NXT-69980.html">NXT-69980</a> — Transaction feature build</li>
+<li><a href="../../raw/tickets/NXT-70218.html">NXT-70218</a> — Auto-renew authorization token (reactive)</li>
+<li><a href="../../raw/tickets/NXT-69853.html">NXT-69853</a> — Expiration reminders</li>
+<li><a href="../../raw/tickets/NXT-71628.html">NXT-71628</a> — Deposit feature: new section for cards</li>
+</ul>
+</div>
+</section>
+
+<!-- ============ CHAPTER 8 ============ -->
+<section class="chapter" id="ch8" data-ch="8">
+<div class="chapter-num">Chapter 8</div>
+<h2>Weird-but-critical edges (staff meals, charity accounts, visitors)</h2>
+
+<div class="tldr">
+<b>TL;DR</b>
+Not every transaction is a student buying lunch. Staff meals, charity funds, visitors, catering — each has its own rules and its own revenue treatment. Missing these = garbage claims data = angry directors. Small scope, high stakes.
+</div>
+
+<p>"Special accounts" are non-student identities the system needs to transact for. They exist because forcing everything into "student" would pollute the claims data.</p>
+
+<details class="expand">
+<summary>Staff meals</summary>
+<p>Staff can buy from the cafeteria. The meal is <em>not reimbursable</em>. Revenue appears in the Revenue Report; the meal does not appear in SNP claims. Districts configure the staff price (often full or discounted).</p>
+</details>
+<details class="expand">
+<summary>Visitor / parent meals</summary>
+<p>Full price, revenue only, never reimbursable. This is where "parent-buys-lunch-with-their-kid" transactions go.</p>
+</details>
+<details class="expand">
+<summary>Charity account</summary>
+<p>When a student can't pay and the district has a charity fund, the system charges the charity account. Kid eats; charity balance decreases. See <a href="../../raw/tickets/NXT-70588.html">NXT-70588</a> for how default naming is seeded per new district so the charity account looks correct out of the box.</p>
+</details>
+<details class="expand">
+<summary>Catering / contracted meals</summary>
+<p>Some districts serve daycares or outside orgs via contract. These are invoiced separately, don't count toward NSLP, and live in a different revenue bucket entirely.</p>
+</details>
+
+<div class="pm-box"><b>PM takeaway:</b> these features look like edge cases in your roadmap ("<em>just</em> staff meals"), but they're the features that make customers feel the product was designed for their real operations. Ignoring them sends the wrong signal: that we're a generic POS, not a school-nutrition-specific system. Moats live in small, obvious-in-hindsight features.</div>
+
+<div class="quiz" data-correct="c">
+<h4>Tricky one</h4>
+<div class="q">A principal buys a $5 lunch under their staff ID. What appears in the monthly SNP Claim?</div>
+<button class="opt" data-v="a">+1 paid lunch at this site</button>
+<button class="opt" data-v="b">+1 free lunch because the principal is senior</button>
+<button class="opt" data-v="c">Nothing — staff meals aren't reimbursable. The $5 shows up in Revenue Report; the meal is excluded from SNP.</button>
+<div class="explain">Mixing staff into student meal counts = over-claiming = audit risk. This is the kind of quiet business rule you'll need to remember when a PRD ambiguously says "record all meals".</div>
+</div>
+
+<div class="evidence">
+<b>Special-account tickets:</b>
+<ul>
+<li><a href="../../raw/tickets/NXT-70588.html">NXT-70588</a> — Special Accounts default names</li>
+<li><a href="../../raw/tickets/NXT-4581.html">NXT-4581</a> — Special Accounts landing page</li>
+</ul>
+</div>
+</section>
+
+<!-- ============ CHAPTER 9 ============ -->
+<section class="chapter" id="ch9" data-ch="9">
+<div class="chapter-num">Chapter 9</div>
+<h2>Compliance as a moat (why "just edit it" is wrong)</h2>
+
+<div class="tldr">
+<b>TL;DR</b>
+Accountability stores immutable audit trails. Closed periods can't be edited; deleted transactions become voids, not deletions. This looks annoying until you realize: immutability is the feature our buyers pay for.
+</div>
+
+<p>Every Accountability record carries:</p>
+<ul>
+<li>Original value</li>
+<li>Timestamped change log</li>
+<li>Who made each change</li>
+<li>Reason/note for each edit</li>
+</ul>
+
+<p>Districts are audited every 3 years by USDA Administrative Review. If the system lets users erase history, the district can't pass. If the system preserves it, the district sails through. Switching vendors is a 10-year decision partly because of this — moving audit data between systems is terrifying.</p>
+
+<div class="pm-box"><b>PM takeaway:</b> "Let me just edit this one closed entry" is the #1 request you'll dismiss. The right answer is always an <em>adjustment</em> — a new, labeled entry that corrects without erasing. This is in <a href="../../raw/tickets/NXT-70214.html">NXT-70214</a> verbatim: "When a period is closed it should mean closed. We should not be [allowing exception adjustments]." Auditors love this. Reject politely. Point to the adjustment flow.</div>
+
+<h3>Three rules you cannot break</h3>
+
+<div style="display: grid; gap: 10px; margin: 16px 0;">
+<div style="background: var(--bg-2); border: 1px solid var(--border); padding: 14px 18px; border-radius: 8px;">
+  <div style="color: var(--accent); font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px;">Rule 1</div>
+  Never enable editing a closed period. Post an adjustment in the current period.
+</div>
+<div style="background: var(--bg-2); border: 1px solid var(--border); padding: 14px 18px; border-radius: 8px;">
+  <div style="color: var(--accent); font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px;">Rule 2</div>
+  Never offer a "delete transaction" action. Offer a "void" — keeps the row, flips a flag.
+</div>
+<div style="background: var(--bg-2); border: 1px solid var(--border); padding: 14px 18px; border-radius: 8px;">
+  <div style="color: var(--accent); font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px;">Rule 3</div>
+  Never allow shared logins by policy. Audit logs are meaningless if you can't tell who did what.
+</div>
+</div>
+
+<div class="ok-box"><strong>Positioning note:</strong> these rules are why a district picks us over a generic POS. Lean into them in PMM. "We never lose your audit trail" is a real differentiator against newer, consumer-feeling entrants.</div>
+</section>
+
+<!-- ============ CHAPTER 10 ============ -->
+<section class="chapter" id="ch10" data-ch="10">
+<div class="chapter-num">Chapter 10</div>
+<h2>PM decision drill (flashcards)</h2>
+
+<div class="tldr">
+<b>TL;DR</b>
+Ten PM-style questions. Pick an answer in your head, flip the card. Rate your own recall. Come back tomorrow for round two — the only way this material sticks is spacing.
+</div>
+
+<div class="deck">
+<div class="deck-meta">Card <span id="deck-pos">1</span> of <span id="deck-total">10</span></div>
+<div class="flash-card" id="flash">Tap to flip</div>
+<div class="deck-controls" id="deck-controls" style="display:none;">
+  <button class="hard" data-rating="hard">Hard (review soon)</button>
+  <button data-rating="ok">Okay</button>
+  <button class="easy" data-rating="easy">Easy (long interval)</button>
+</div>
+<p style="font-size: 12px; color: var(--ink-dim); margin-top: 18px;">Ratings stored in your browser. Deck reshuffles by weak cards next visit.</p>
+</div>
+
+<p style="text-align: center; font-size: 15px; color: var(--ink-dim); margin-top: 40px;">
+When you can answer every card in under 5 seconds, schedule your first customer research call — a 30-min chat with a site manager. Bring one thing you learned here that you want to validate.
+</p>
+</section>
+
+</main>
+</div>
+
+<script>
+// --------- Theme ---------
+const themeBtn = document.getElementById('theme-btn');
+function setTheme(t) {
+  document.body.dataset.theme = t;
+  themeBtn.textContent = t === 'dark' ? '☾ dark' : '☀ light';
+  localStorage.setItem('acc.theme', t);
+}
+setTheme(localStorage.getItem('acc.theme') || 'dark');
+themeBtn.onclick = () => setTheme(document.body.dataset.theme === 'dark' ? 'light' : 'dark');
+
+// --------- Keyboard nav ---------
+document.addEventListener('keydown', (e) => {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+  if (e.key === 't') themeBtn.click();
+  if (e.key === 'j' || e.key === 'k') {
+    e.preventDefault();
+    const chapters = [...document.querySelectorAll('section.chapter')];
+    const scrollY = window.scrollY + 60;
+    const cur = chapters.findIndex(c => c.offsetTop + c.offsetHeight > scrollY);
+    const next = e.key === 'j' ? cur + 1 : cur - 1;
+    if (chapters[next]) chapters[next].scrollIntoView({behavior: 'smooth'});
+  }
+});
+
+// --------- TOC highlight + progress ---------
+const tocLinks = [...document.querySelectorAll('nav.toc a')];
+const chapters = [...document.querySelectorAll('section.chapter')];
+const visited = new Set(JSON.parse(localStorage.getItem('pm.visited') || '[]'));
+function updateProgress() {
+  visited.forEach(ch => {
+    const link = tocLinks[ch - 1];
+    if (link) link.classList.add('done');
+  });
+  const pct = Math.round((visited.size / chapters.length) * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-pct').textContent = pct;
+}
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(en => {
+    if (en.isIntersecting) {
+      const ch = +en.target.dataset.ch;
+      tocLinks.forEach(l => l.classList.remove('active'));
+      if (tocLinks[ch - 1]) tocLinks[ch - 1].classList.add('active');
+      visited.add(ch);
+      localStorage.setItem('pm.visited', JSON.stringify([...visited]));
+      updateProgress();
+    }
+  });
+}, { rootMargin: '-40% 0px -50% 0px' });
+chapters.forEach(c => obs.observe(c));
+updateProgress();
+
+// --------- Persona reveal ---------
+document.querySelectorAll('.persona').forEach(card => {
+  card.onclick = () => {
+    const d = card.querySelector('.detail');
+    if (card.classList.contains('revealed')) return;
+    card.classList.add('revealed');
+    d.textContent = d.dataset.hidden;
+  };
+});
+
+// --------- POS simulator ---------
+const studentsEl = document.getElementById('students');
+const itemsEl = document.getElementById('items');
+const receiptEl = document.getElementById('receipt');
+let currentStudent = null;
+let tray = [];
+function hasCategory(cat) { return tray.some(t => t.cat === cat); }
+function renderReceipt(final) {
+  if (!currentStudent) { receiptEl.textContent = 'Pick a student to begin.'; return; }
+  const s = currentStudent.dataset;
+  const isMeal = hasCategory('entree') && (hasCategory('fruit') || hasCategory('veg')) && hasCategory('milk');
+  let lines = [];
+  lines.push(`Student: ${currentStudent.textContent.trim()}`);
+  lines.push(`Eligibility: ${s.elig.toUpperCase()}`);
+  lines.push('');
+  lines.push('-- Tray --');
+  let cashOwed = 0;
+  tray.forEach(it => {
+    const isBundled = (it.cat === 'veg' || it.cat === 'fruit' || it.cat === 'milk');
+    const effectivePrice = isBundled && isMeal ? 0 : +it.price;
+    const line = `  ${it.name.padEnd(22)} $${effectivePrice.toFixed(2)}`;
+    lines.push(line);
+    if (s.elig === 'paid' && it.cat === 'entree' && isMeal) cashOwed += effectivePrice;
+    if (it.cat === 'alacarte') cashOwed += effectivePrice;
+  });
+  lines.push('');
+  if (isMeal) {
+    let rate = s.elig === 'free' ? '$4.25' : s.elig === 'reduced' ? '$3.85' : '$0.40';
+    lines.push(`<span class="status-ok">✓ Reimbursable meal (rate: ${rate})</span>`);
+    if (s.elig !== 'paid') cashOwed = tray.filter(t => t.cat === 'alacarte').reduce((a,b) => a + +b.price, 0);
+  } else {
+    if (tray.some(t => t.cat === 'entree')) {
+      lines.push(`<span class="status-bad">⚠ Not a reimbursable meal — missing required component (need milk + fruit/veg)</span>`);
+      cashOwed = tray.reduce((a,b) => a + +b.price, 0);
+    }
+  }
+  if (final) {
+    lines.push('');
+    lines.push(`Due: <span class="money">$${cashOwed.toFixed(2)}</span>`);
+    if (s.elig === 'paid' && s.balance) {
+      const newBal = (+s.balance - cashOwed).toFixed(2);
+      if (newBal < 0) {
+        lines.push(`<span class="status-bad">⚠ Balance goes negative: $${newBal} — charge logged</span>`);
+      } else {
+        lines.push(`New balance: $${newBal}`);
+      }
+    }
+    lines.push('<span class="status-ok">Transaction posted to Activity Report</span>');
+  }
+  receiptEl.innerHTML = lines.join('\n');
+}
+studentsEl.addEventListener('click', e => {
+  if (e.target.classList.contains('student-chip')) {
+    studentsEl.querySelectorAll('.student-chip').forEach(c => c.classList.remove('selected'));
+    e.target.classList.add('selected');
+    currentStudent = e.target;
+    tray = [];
+    renderReceipt(false);
+  }
+});
+itemsEl.addEventListener('click', e => {
+  const btn = e.target.closest('.item-btn');
+  if (!btn || !currentStudent) return;
+  tray.push({ cat: btn.dataset.cat, name: btn.dataset.name, price: +btn.dataset.price });
+  renderReceipt(false);
+});
+document.getElementById('pos-reset').onclick = () => { tray = []; renderReceipt(false); };
+document.getElementById('pos-ring').onclick = () => { if (currentStudent) renderReceipt(true); };
+
+// --------- Claims calculator ---------
+function recalcClaim() {
+  let total = 0;
+  document.querySelectorAll('.calc-row').forEach(row => {
+    const inp = row.querySelector('input');
+    const rateEl = row.querySelector('.rate');
+    if (!inp || !rateEl) return;
+    total += (+inp.value || 0) * +rateEl.dataset.rate;
+  });
+  document.getElementById('claim-total').textContent = '$' + total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+document.querySelectorAll('.calc input').forEach(i => i.oninput = recalcClaim);
+recalcClaim();
+
+// --------- Quizzes ---------
+document.querySelectorAll('.quiz').forEach(q => {
+  const correct = q.dataset.correct;
+  q.querySelectorAll('.opt').forEach(opt => {
+    opt.onclick = () => {
+      if (q.classList.contains('answered')) return;
+      q.classList.add('answered');
+      q.querySelectorAll('.opt').forEach(o => {
+        if (o.dataset.v === correct) o.classList.add('correct');
+        else if (o === opt) o.classList.add('wrong');
+      });
+    };
+  });
+});
+
+// --------- Triage (drag and drop, 3 buckets) ---------
+const triageCards = document.querySelectorAll('.triage-card');
+const triageBuckets = document.querySelectorAll('.bucket');
+const triageFeedback = document.getElementById('triage-feedback');
+let triageResults = { correct: 0, placed: 0 };
+triageCards.forEach(card => {
+  card.addEventListener('dragstart', e => { e.dataTransfer.setData('text/plain', ''); card.classList.add('dragging'); });
+  card.addEventListener('dragend', () => card.classList.remove('dragging'));
+});
+triageBuckets.forEach(b => {
+  b.addEventListener('dragover', e => { e.preventDefault(); b.classList.add('over'); });
+  b.addEventListener('dragleave', () => b.classList.remove('over'));
+  b.addEventListener('drop', e => {
+    e.preventDefault();
+    b.classList.remove('over');
+    const dragged = document.querySelector('.triage-card.dragging');
+    if (!dragged) return;
+    const correct = dragged.dataset.verdict === b.dataset.kind;
+    dragged.style.borderColor = correct ? 'var(--ok)' : 'var(--danger)';
+    if (correct) triageResults.correct++;
+    triageResults.placed++;
+    b.appendChild(dragged);
+    triageFeedback.textContent = `${triageResults.correct} / ${triageResults.placed} placed correctly.`;
+  });
+});
+
+// --------- Flashcards (PM-flavored) ---------
+const cards = [
+  { q: "A state changes its claim format with a 3-week deadline. Backlog is already planned. What do you do?", a: "State regulatory work is non-negotiable scope with a hard deadline. Pull it into the sprint, displace lower-stakes work, and notify stakeholders. Don't try to negotiate the deadline — it's the government, not Sales." },
+  { q: "Why do we split cash and card into separate columns on the Revenue Report?", a: "Different settlement timelines — cash is in the drawer today, cards settle via Square 1-2 days later. Mixing them breaks site managers' drawer-reconciliation mental model. It's a business-rule split, not a cosmetic one." },
+  { q: "Sales says 'competitor X just shipped Stripe — match it.' What's your move?", a: "Interview customers before copying. Ask whether they want Stripe specifically or a card option generally. Vendor asks are usually capability asks mis-described. Copying competitors without validation = wasted sprints." },
+  { q: "A site manager asks for 'simpler End of Day' with no specifics. How do you handle it?", a: "Schedule a 20-minute call before doing anything. Vague asks from single customers are the weakest possible product signal. Either the request clarifies in person, or it dies — both are fine outcomes." },
+  { q: "What's the value prop of Accountability in one sentence?", a: "'We turn cafeteria activity into audit-ready federal reimbursement — the average district would leave $30-90K/year on the table without us.' Names the job and quantifies stakes." },
+  { q: "A customer requests 'let us edit a closed period.' Is this a feature request?", a: "No. It's a compliance request disguised as a feature. The right answer is an adjustment posted in the current period, referencing the original. Editing closed periods breaks audit integrity — the thing customers pay us for." },
+  { q: "Why are staff meals tracked but excluded from SNP claims?", a: "Staff meals generate revenue but aren't USDA-reimbursable. Mixing them into claim counts = over-claiming = audit risk. The product reflects a real business-rule distinction, not our preference." },
+  { q: "A bug causes a 1% misclassification in meal counts for a $150K/month-claiming district. How do you prioritize it?", a: "$1,500/month of lost revenue per customer — multiply by customer count. Data-quality bugs in claims are revenue-affecting, not polish. Ships before most feature work." },
+  { q: "What's a Freshdesk link in a ticket body telling you as a PM?", a: "The ticket originated from a real support case. Read the Freshdesk ticket linked. It's raw customer voice — far better signal than internal rewrites, and it shows severity." },
+  { q: "Why do districts stay with vendors for 10+ years even when they're unhappy?", a: "Migrating audit history is terrifying. Switching means retraining staff, re-mapping GL accounts, re-validating claims, and losing historical reports. Inertia looks like loyalty; NPS is a lagging signal. Drive satisfaction early or pay for it through CS forever." },
+];
+let idx = 0, showingAnswer = false;
+const flashEl = document.getElementById('flash');
+const controlsEl = document.getElementById('deck-controls');
+const savedDeck = JSON.parse(localStorage.getItem('pm.deck') || '{}');
+function nextCard() { idx = (idx + 1) % cards.length; render(); }
+function render() {
+  showingAnswer = false;
+  flashEl.className = 'flash-card';
+  flashEl.textContent = cards[idx].q;
+  controlsEl.style.display = 'none';
+  document.getElementById('deck-pos').textContent = idx + 1;
+  document.getElementById('deck-total').textContent = cards.length;
+}
+flashEl.onclick = () => {
+  if (showingAnswer) { nextCard(); return; }
+  showingAnswer = true;
+  flashEl.className = 'flash-card answer';
+  flashEl.textContent = cards[idx].a;
+  controlsEl.style.display = 'flex';
+};
+controlsEl.onclick = (e) => {
+  if (!e.target.dataset.rating) return;
+  savedDeck[idx] = { rating: e.target.dataset.rating, at: Date.now() };
+  localStorage.setItem('pm.deck', JSON.stringify(savedDeck));
+  nextCard();
+};
+render();
+</script>
+</body>
+</html>

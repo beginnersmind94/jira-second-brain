@@ -1,0 +1,15 @@
+output/
+.obsidian/workspace*
+
+# Raw Jira exports — customer data, never commit
+raw/_imports/*.csv
+raw/_imports/processed/*.csv
+raw/_imports/*.xml
+raw/_imports/processed/*.xml
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+
