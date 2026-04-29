@@ -77,10 +77,29 @@ def main():
         if p.is_file() and p.suffix.lower() == ".csv"
     )
     if not import_files:
+        # "done" with no new imports is a clean no-op (incremental routines hit this).
+        if step["status"] == "done":
+            print("Step 4 already done; no new CSVs in raw/_imports/. Nothing to do.")
+            sys.exit(0)
         print("No CSV files in raw/_imports/", file=sys.stderr)
         sys.exit(1)
 
-    # First-run setup
+    # Re-entry from "done": treat new imports as a fresh run.
+    # Cumulative counters (tickets_written, tickets_skipped, tickets_low_signal)
+    # persist across runs and reflect lifetime totals; total_tickets is per-run.
+    if step["status"] == "done":
+        prior_runs = step.get("prior_runs", [])
+        prior_runs.append({
+            "completed_at": step.get("completed_at"),
+            "imports": step.get("imports_discovered", []),
+            "tickets_written_at_completion": step.get("tickets_written", 0),
+        })
+        step["prior_runs"] = prior_runs
+        step["status"] = "pending"
+        step["completed_at"] = None
+        save_state(state)
+
+    # First-run setup (also runs on re-entry)
     if step["status"] == "pending":
         # Count total tickets across all CSVs
         total = 0
