@@ -117,14 +117,16 @@ def main():
         save_state(state)
         print(f"Total tickets to process: {total}")
 
-    resumed_written = step.get("tickets_written", 0)
-    resumed_skipped = step.get("tickets_skipped", 0)
+    resumed_new = step.get("tickets_written", 0)
+    resumed_updated = step.get("tickets_updated", 0)
+    resumed_unchanged = step.get("tickets_unchanged", step.get("tickets_skipped", 0))
     resumed_low = step.get("tickets_low_signal", 0)
 
-    print(f"Starting/resuming: written={resumed_written} skipped={resumed_skipped} low={resumed_low}")
+    print(f"Starting/resuming: new={resumed_new} updated={resumed_updated} unchanged={resumed_unchanged} low={resumed_low}")
 
-    written = resumed_written
-    skipped = resumed_skipped
+    new_count = resumed_new
+    updated = resumed_updated
+    unchanged = resumed_unchanged
     low = resumed_low
     processed_since_flush = 0
 
@@ -153,48 +155,66 @@ def main():
                     continue
 
                 out_path = TICKETS_DIR / f"{key}.md"
+
+                summary = row[sum_i]
+                status = row[status_i]
+                resolution = row[res_i]
+                description = row[desc_i]
+                components = [row[i].strip() for i in comp_i if row[i].strip()]
+                sprints = [row[i].strip() for i in sprint_i if row[i].strip()]
+                acceptance_parts = [row[i].strip() for i in ac_i if row[i].strip()]
+                acceptance = "\n\n".join(acceptance_parts)
+
+                ls_resolution = resolution.strip().lower() in ("duplicate", "won't do", "wont do", "won't fix", "wontfix")
+                ls_empty = not description.strip()
+                low_signal = ls_resolution or ls_empty
+
+                md = build_markdown(
+                    key, summary, status, resolution,
+                    components, sprints, description, acceptance,
+                    low_signal,
+                )
+
+                # Mirror semantics: write new, overwrite if changed, skip if identical.
                 if out_path.exists():
-                    skipped += 1
+                    existing = out_path.read_text(encoding="utf-8")
+                    if existing == md:
+                        unchanged += 1
+                    else:
+                        tmp = out_path.with_suffix(".md.tmp")
+                        with open(tmp, "w", encoding="utf-8") as out:
+                            out.write(md)
+                        os.replace(tmp, out_path)
+                        updated += 1
+                        if low_signal:
+                            low += 1
                 else:
-                    summary = row[sum_i]
-                    status = row[status_i]
-                    resolution = row[res_i]
-                    description = row[desc_i]
-                    components = [row[i].strip() for i in comp_i if row[i].strip()]
-                    sprints = [row[i].strip() for i in sprint_i if row[i].strip()]
-                    acceptance_parts = [row[i].strip() for i in ac_i if row[i].strip()]
-                    acceptance = "\n\n".join(acceptance_parts)
-
-                    ls_resolution = resolution.strip().lower() in ("duplicate", "won't do", "wont do", "won't fix", "wontfix")
-                    ls_empty = not description.strip()
-                    low_signal = ls_resolution or ls_empty
-
-                    md = build_markdown(
-                        key, summary, status, resolution,
-                        components, sprints, description, acceptance,
-                        low_signal,
-                    )
                     tmp = out_path.with_suffix(".md.tmp")
                     with open(tmp, "w", encoding="utf-8") as out:
                         out.write(md)
                     os.replace(tmp, out_path)
-                    written += 1
+                    new_count += 1
                     if low_signal:
                         low += 1
 
                 processed_since_flush += 1
                 if processed_since_flush >= 100:
-                    step["tickets_written"] = written
-                    step["tickets_skipped"] = skipped
+                    step["tickets_written"] = new_count
+                    step["tickets_updated"] = updated
+                    step["tickets_unchanged"] = unchanged
+                    # keep legacy alias so older state files / readers don't break
+                    step["tickets_skipped"] = unchanged
                     step["tickets_low_signal"] = low
                     step["last_processed_key"] = key
                     save_state(state)
                     processed_since_flush = 0
-                    print(f"... {written} written, {skipped} skipped, {low} low-signal (last: {key})")
+                    print(f"... new={new_count} updated={updated} unchanged={unchanged} low={low} (last: {key})")
 
     # Final flush
-    step["tickets_written"] = written
-    step["tickets_skipped"] = skipped
+    step["tickets_written"] = new_count
+    step["tickets_updated"] = updated
+    step["tickets_unchanged"] = unchanged
+    step["tickets_skipped"] = unchanged  # legacy alias
     step["tickets_low_signal"] = low
     save_state(state)
 
@@ -211,7 +231,7 @@ def main():
     step["completed_at"] = str(date.today())
     state["current_step"] = 4
     save_state(state)
-    print(f"DONE: written={written} skipped={skipped} low_signal={low}")
+    print(f"DONE: new={new_count} updated={updated} unchanged={unchanged} low_signal={low}")
 
 
 if __name__ == "__main__":

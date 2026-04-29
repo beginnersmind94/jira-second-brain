@@ -5,10 +5,13 @@ Turn every Jira ticket into institutional knowledge that new hires can learn fro
 The wiki is the deliverable. Tickets are the raw material.
 
 ## Directory Rules
-- `raw/tickets/` — one file per issue, filename = issue key (FIN-1234.md). Append-only.
+- `raw/tickets/` — one file per issue, filename = issue key (FIN-1234.md). **Filename is stable; field contents mirror Jira.** Each ingestion run rewrites a ticket file when its Jira fields differ from what's on disk; identical content is a no-op.
 - `raw/comments/` — comments grouped by issue key. Append-only.
 - `raw/_imports/` — drop zone for Jira exports. Move to `_imports/processed/` after ingestion.
 - `wiki/` — you own this. Compile, link, and lint it.
+
+### Mirror semantics caveat for wiki citations
+Because ticket field contents track Jira (status, sprint, resolution, description, AC, components), wiki text that *paraphrases* a ticket's description can drift if Jira edits that description later. The wikilink target is always live — but the wiki page's prose may no longer match the ticket it cites. When citing, prefer naming what the ticket *did* (shipped behavior, decisions, scope) over quoting how it *was described*. Re-verify wiki claims against tickets if a major Jira edit pass happens.
 
 ## Page Types in wiki/
 

@@ -19,7 +19,7 @@ jira-brain/
 
 Three load-bearing principles:
 
-1. **`raw/` is append-only and ground-truth.** Wiki pages cite raw tickets, never the other way around.
+1. **`raw/` mirrors Jira and is ground-truth.** Filenames (`<KEY>.md`) are stable and never deleted. Field contents track Jira on each ingestion — `ingest.py` rewrites a file when its row differs from disk and no-ops when identical. Wiki pages cite raw tickets, never the other way around.
 2. **`wiki/` is the deliverable.** Concepts, workflows, entities, training, and onboarding pages live here.
 3. **`output/` is disposable.** Anything in it can be regenerated from `raw/` + `wiki/`.
 
@@ -41,7 +41,7 @@ Pipeline checkpoint file. Tracks which step of the ingestion/compilation pipelin
 Schema is documented in the script that writes it (`scripts/ingest.py` for steps 3-4, `scripts/compile_wiki.py` for step 5).
 
 ### `raw/`
-Source data. **Never write here by hand** unless you're correcting a ticket export error.
+Source data, mirrored from Jira. **Never write here by hand** unless you're correcting a ticket export error — `ingest.py` is the only writer.
 
 ```
 raw/
@@ -167,7 +167,7 @@ Each script writes `.brain-state.json` after meaningful units of work. None of t
 
 | Script | Reads | Writes |
 |---|---|---|
-| `ingest.py` | `raw/_imports/*.csv` | `raw/tickets/*.md`, moves CSV to `processed/`, updates `.brain-state.json` |
+| `ingest.py` | `raw/_imports/*.csv`, existing `raw/tickets/*.md` (for diff) | `raw/tickets/*.md` (new + changed), moves CSV to `processed/`, updates `.brain-state.json` |
 | `analyze.py` | `raw/tickets/*.md` (frontmatter only) | `scripts/analysis_summary.json`, `scripts/component_tickets.json`, `scripts/phrase_tickets.json`, `scripts/sprint_tickets.json` |
 | `compile_wiki.py` | `raw/tickets/*.md`, `scripts/*.json` | `wiki/concepts/*.md`, `wiki/workflows/*.md`, `wiki/entities/*.md`, `wiki/index.md`, appends to `wiki/log.md`, updates `.brain-state.json` |
 | `build_site.py` | All `*.md` in `wiki/` and `raw/` | `output/site/**/*.html` |

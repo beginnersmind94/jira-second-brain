@@ -28,11 +28,13 @@
           "bytes": 51669055
         }
       ],
-      "total_tickets": 8847,
+      "total_tickets": 8848,
       "tickets_written": 8847,
+      "tickets_updated": 0,
+      "tickets_unchanged": 0,
       "tickets_skipped": 0,
       "tickets_low_signal": 1709,
-      "last_processed_key": "NXT-137"
+      "last_processed_key": null
     },
     "5": {
       "status": "done",
