@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>What's New — Perseus / NXT</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root {
+  --bg: #0f1419;
+  --bg-2: #161c24;
+  --bg-3: #1e2631;
+  --ink: #e8eef5;
+  --ink-dim: #9aa7b5;
+  --ink-muted: #6b7785;
+  --accent: #7dd3c0;
+  --accent-2: #ffb86b;
+  --ok: #95e1a3;
+  --danger: #ff7e7e;
+  --border: #2a3441;
+  --radius: 10px;
+}
+[data-theme="light"] {
+  --bg: #fafbfc; --bg-2: #ffffff; --bg-3: #f1f4f8;
+  --ink: #1a2129; --ink-dim: #5a6876; --ink-muted: #8a96a4;
+  --accent: #2c8a74; --accent-2: #c2671a;
+  --ok: #2a8b3f; --danger: #c02a2a;
+  --border: #dfe3e8;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.55 -apple-system, "Segoe UI", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 920px; margin: 0 auto; padding: 28px 48px 48px; }
+header.top {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding-bottom: 12px; border-bottom: 1px solid var(--border); margin-bottom: 22px;
+}
+header.top .brand {
+  font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-dim);
+}
+header.top .brand b { color: var(--accent); font-weight: 600; }
+button.theme {
+  background: var(--bg-3); border: 1px solid var(--border); color: var(--ink);
+  padding: 5px 12px; border-radius: 20px; cursor: pointer; font-size: 12px;
+}
+button.theme:hover { background: var(--bg-2); }
+
+h1.lede {
+  font-size: 26px; line-height: 1.15; letter-spacing: -0.018em;
+  margin: 0 0 6px; font-weight: 600;
+}
+h1.lede .grad {
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+.banner {
+  display: flex; gap: 26px; flex-wrap: wrap;
+  padding: 14px 18px; margin: 18px 0 26px;
+  background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius);
+  font-size: 13.5px;
+}
+.banner .item { display: flex; flex-direction: column; gap: 2px; }
+.banner .item .l {
+  font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--ink-dim); font-weight: 600;
+}
+.banner .item .v { color: var(--ink); font-variant-numeric: tabular-nums; }
+.banner .item .v.accent { color: var(--accent); }
+
+.bulk-callout {
+  display: flex; gap: 14px; align-items: flex-start;
+  padding: 14px 18px; margin-bottom: 26px;
+  background: linear-gradient(135deg, rgba(125,211,192,0.10), rgba(255,184,107,0.06));
+  border: 1px solid var(--border); border-left: 3px solid var(--accent);
+  border-radius: var(--radius); font-size: 13.5px;
+}
+.bulk-callout .label {
+  font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--accent); font-weight: 700; padding-top: 1px;
+}
+.bulk-callout .body { color: var(--ink); }
+.bulk-callout .body b { color: var(--ink); }
+.bulk-callout .body .when { color: var(--ink-dim); }
+
+.section-h {
+  font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--accent); margin: 28px 0 10px; font-weight: 600;
+  display: flex; align-items: baseline; justify-content: space-between;
+}
+.section-h .ct { color: var(--ink-muted); font-size: 11px; letter-spacing: 0.08em; }
+
+.empty {
+  font-size: 13px; color: var(--ink-dim); padding: 12px 16px;
+  background: var(--bg-2); border: 1px dashed var(--border); border-radius: var(--radius);
+}
+
+.cards { display: flex; flex-direction: column; gap: 8px; }
+.card {
+  display: grid; grid-template-columns: auto 1fr auto;
+  gap: 14px; align-items: baseline;
+  padding: 12px 16px; background: var(--bg-2); border: 1px solid var(--border);
+  border-radius: var(--radius); font-size: 14px;
+  transition: border-color 0.15s;
+}
+.card:hover { border-color: var(--accent); }
+.card .badge {
+  font-family: "SF Mono", Menlo, Consolas, monospace;
+  font-size: 10.5px; letter-spacing: 0.06em; padding: 2px 7px;
+  border-radius: 4px; font-weight: 600;
+}
+.card .badge.NEW { background: rgba(149,225,163,0.14); color: var(--ok); }
+.card .badge.UPDATED { background: rgba(255,184,107,0.14); color: var(--accent-2); }
+.card .key {
+  font-family: "SF Mono", Menlo, Consolas, monospace;
+  font-size: 12.5px; color: var(--accent); text-decoration: none;
+}
+.card .key:hover { text-decoration: underline; }
+.card .summary { color: var(--ink); line-height: 1.45; min-width: 0; word-break: break-word; }
+.card .pills { display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
+.pill {
+  font-size: 11px; padding: 2px 8px; border-radius: 100px;
+  background: var(--bg-3); color: var(--ink-dim); border: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.day-rollup {
+  display: grid; grid-template-columns: 130px 1fr;
+  gap: 14px; padding: 8px 14px; align-items: baseline;
+  border-bottom: 1px solid var(--border); font-size: 13.5px;
+}
+.day-rollup:last-child { border-bottom: none; }
+.day-rollup .day { color: var(--ink); font-weight: 500; }
+.day-rollup .day .date { color: var(--ink-dim); font-size: 12px; margin-left: 6px; font-variant-numeric: tabular-nums; }
+.day-rollup .meta { display: flex; gap: 6px; flex-wrap: wrap; align-items: baseline; }
+.day-rollup .counts { color: var(--ink); font-variant-numeric: tabular-nums; }
+.day-rollup .counts .n { color: var(--ok); }
+.day-rollup .counts .u { color: var(--accent-2); }
+.day-rollup .ds { color: var(--ink-muted); margin: 0 4px; }
+
+.rollup-block {
+  background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 4px 0; overflow: hidden;
+}
+
+.themes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.theme {
+  padding: 16px 18px; background: var(--bg-2); border: 1px solid var(--border);
+  border-radius: var(--radius); transition: border-color 0.15s, transform 0.15s;
+}
+.theme:hover { border-color: var(--accent); transform: translateY(-1px); }
+.theme .rank {
+  font-family: "SF Mono", Menlo, Consolas, monospace;
+  font-size: 11px; color: var(--accent); letter-spacing: 0.08em; font-weight: 600;
+}
+.theme .name { font-size: 15px; color: var(--ink); font-weight: 600; margin-top: 4px; }
+.theme .name a { color: var(--ink); text-decoration: none; border-bottom: 1px dashed var(--border); }
+.theme .name a:hover { color: var(--accent); border-color: var(--accent); }
+.theme .ct {
+  margin-top: 8px; font-size: 12.5px; color: var(--ink-dim); font-variant-numeric: tabular-nums;
+}
+.theme .ct b { color: var(--ink); font-weight: 600; }
+
+.quiet-foot {
+  margin-top: 32px; padding: 12px 16px;
+  font-size: 12.5px; color: var(--ink-dim);
+  border-top: 1px solid var(--border); padding-top: 18px;
+}
+.quiet-foot b {
+  color: var(--ink); text-transform: uppercase; letter-spacing: 0.12em;
+  font-size: 10.5px; font-weight: 600; display: block; margin-bottom: 4px;
+}
+
+@media (max-width: 760px) {
+  .wrap { padding: 22px 18px; }
+  .themes { grid-template-columns: 1fr; }
+  .card { grid-template-columns: auto 1fr; }
+  .card .pills { grid-column: 1 / -1; justify-content: flex-start; }
+  .day-rollup { grid-template-columns: 1fr; gap: 4px; padding-bottom: 12px; }
+}
+</style>
+</head>
+<body data-theme="dark">
+<div class="wrap">
+<header class="top">
+  <div class="brand">Perseus / NXT · <b>What's New</b></div>
+  <button class="theme" id="theme-btn">light</button>
+</header>
+
+<h1 class="lede">The wiki <span class="grad">refreshes</span> when Jira does.</h1>
+<p style="margin:0;font-size:14.5px;color:var(--ink-dim);">Generated from <code style="font-family:'SF Mono',Menlo,Consolas,monospace;font-size:12.5px;background:var(--bg-3);padding:1px 6px;border-radius:4px;color:var(--ink);">.brain-state.json</code> and ticket-file mtimes. Re-run <code style="font-family:'SF Mono',Menlo,Consolas,monospace;font-size:12.5px;background:var(--bg-3);padding:1px 6px;border-radius:4px;color:var(--ink);">scripts/render_changelog.py</code> any time.</p>
+
+<div class="banner">
+  <div class="item"><span class="l">Last sync</span><span class="v accent">2026-04-29 19:01 UTC</span></div>
+  <div class="item"><span class="l">Next sync</span><span class="v">2026-05-02</span></div>
+  <div class="item"><span class="l">Tickets in last 30d</span><span class="v">8,847</span></div>
+  <div class="item"><span class="l">Tickets today</span><span class="v">0</span></div>
+  <div class="item"><span class="l">Generated</span><span class="v">2026-05-01 16:25 UTC</span></div>
+</div>
+
+<div class="bulk-callout"><div class="label">Bulk import</div><div class="body"><b>8,846 tickets ingested</b> on <span class="when">Monday, April 20, 2026</span>. This is the initial sync of the existing Jira corpus — every ticket got a markdown file. Subsequent syncs will show only what changed in Jira since then.</div></div>
+
+<div class="section-h"><span>Today</span><span class="ct">last 24 hours</span></div>
+<div class="empty">No tickets changed today.</div>
+
+<div class="section-h"><span>This week</span><span class="ct">last 7 days, by day</span></div>
+<div class="empty">No tickets changed in the last 7 days (excluding today).</div>
+
+<div class="section-h"><span>This month</span><span class="ct">8–30 days ago, by week</span></div>
+<div class="empty">No tickets changed 7–30 days ago.</div>
+
+<div class="section-h"><span>Themes this fortnight</span><span class="ct">top 3 components by ticket movement, last 14 days</span></div>
+<div style="font-size:12.5px;color:var(--ink-dim);margin:0 0 10px;">Includes the bulk import — these are also the largest modules in the corpus. As incremental syncs accumulate, this section will reflect 14-day movement.</div><div class="themes"><div class="theme"><div class="rank">#1</div><div class="name"><a href="../concepts/Platform-System.html">Platform - System</a></div><div class="ct"><b>928</b> tickets touched in last 14 days</div></div><div class="theme"><div class="rank">#2</div><div class="name"><a href="../concepts/Item-Management.html">Item Management</a></div><div class="ct"><b>904</b> tickets touched in last 14 days</div></div><div class="theme"><div class="rank">#3</div><div class="name"><a href="../concepts/Inventory.html">Inventory</a></div><div class="ct"><b>850</b> tickets touched in last 14 days</div></div></div>
+
+<div class="quiet-foot"><b>Quiet modules</b>Every module had at least one ticket modified in the last 30 days — typical of a freshly synced corpus.</div>
+
+<div style="margin-top:18px;padding-top:14px;border-top:1px solid var(--border);font-style:italic;color:var(--ink-muted);font-size:12px;line-height:1.55;">
+  Compiled from 8,847 tickets across 158 sprints. Last refreshed 2026-05-01. Source tickets are listed in <a href="../../tickets.html" style="color:var(--accent);text-decoration:none;border-bottom:1px dashed var(--border);">the ticket index</a>.
+</div>
+
+</div>
+<script>
+(function() {
+  var KEY = 'whats-new-theme';
+  var btn = document.getElementById('theme-btn');
+  if (!btn) return;
+  var saved = localStorage.getItem(KEY);
+  if (saved) document.body.dataset.theme = saved;
+  function setLabel() { btn.textContent = document.body.dataset.theme === 'dark' ? 'light' : 'dark'; }
+  setLabel();
+  btn.addEventListener('click', function() {
+    document.body.dataset.theme = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+    localStorage.setItem(KEY, document.body.dataset.theme);
+    setLabel();
+  });
+})();
+</script>
+</body>
+</html>

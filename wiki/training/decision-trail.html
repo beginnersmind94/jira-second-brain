@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Decision Trail — Perseus / NXT</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root {
+  --bg: #0f1419;
+  --bg-2: #161c24;
+  --bg-3: #1e2631;
+  --ink: #e8eef5;
+  --ink-dim: #9aa7b5;
+  --ink-muted: #6b7785;
+  --accent: #7dd3c0;
+  --accent-2: #ffb86b;
+  --ok: #95e1a3;
+  --danger: #ff7e7e;
+  --border: #2a3441;
+  --radius: 10px;
+}
+[data-theme="light"] {
+  --bg: #fafbfc; --bg-2: #ffffff; --bg-3: #f1f4f8;
+  --ink: #1a2129; --ink-dim: #5a6876; --ink-muted: #8a96a4;
+  --accent: #2c8a74; --accent-2: #c2671a;
+  --ok: #2a8b3f; --danger: #c02a2a;
+  --border: #dfe3e8;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.6 -apple-system, "Segoe UI", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 920px; margin: 0 auto; padding: 28px 48px 56px; }
+
+header.top {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding-bottom: 12px; border-bottom: 1px solid var(--border); margin-bottom: 24px;
+}
+header.top .brand {
+  font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-dim);
+}
+header.top .brand b { color: var(--accent); font-weight: 600; }
+button.theme {
+  background: var(--bg-3); border: 1px solid var(--border); color: var(--ink);
+  padding: 5px 12px; border-radius: 20px; cursor: pointer; font-size: 12px;
+}
+button.theme:hover { background: var(--bg-2); }
+
+h1.lede {
+  font-size: 30px; line-height: 1.15; letter-spacing: -0.02em;
+  margin: 0 0 6px; font-weight: 600;
+}
+h1.lede .grad {
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+.sub {
+  margin: 0; font-size: 15px; color: var(--ink-dim); max-width: 680px;
+}
+
+.frame {
+  margin: 24px 0 28px;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, rgba(125,211,192,0.08), rgba(255,184,107,0.05));
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent-2);
+  border-radius: var(--radius);
+  font-size: 14px; color: var(--ink); line-height: 1.6;
+}
+.frame b { color: var(--accent-2); font-weight: 600; }
+
+.cluster {
+  margin: 22px 0;
+  padding: 22px 24px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: border-color 0.15s;
+}
+.cluster:hover { border-color: var(--border); }
+.cluster .head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  gap: 14px; flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+.cluster .component {
+  font-family: "SF Mono", Menlo, Consolas, monospace;
+  font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--accent); font-weight: 600;
+}
+.cluster .review-tag {
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  padding: 3px 10px;
+  border-radius: 100px;
+  border: 1px dashed var(--accent-2);
+  color: var(--accent-2);
+  font-weight: 500;
+  background: rgba(255,184,107,0.06);
+  white-space: nowrap;
+}
+.cluster h2 {
+  font-size: 19px; font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 6px 0 12px;
+  color: var(--ink);
+  line-height: 1.3;
+}
+.cluster .narrative {
+  font-size: 14.5px; color: var(--ink); line-height: 1.65;
+  margin: 0 0 14px;
+}
+.cluster .narrative em {
+  color: var(--accent-2);
+  font-style: normal;
+  font-weight: 500;
+}
+.cluster .narrative a.tlink {
+  font-family: "SF Mono", Menlo, Consolas, monospace;
+  font-size: 13px;
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(125,211,192,0.4);
+  padding: 0 1px;
+}
+.cluster .narrative a.tlink:hover {
+  color: var(--ink);
+  background: rgba(125,211,192,0.1);
+  border-bottom-color: var(--accent);
+}
+.cluster .sources {
+  display: flex; gap: 6px; flex-wrap: wrap; align-items: baseline;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.cluster .sources .label {
+  font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--ink-dim); font-weight: 600; margin-right: 6px;
+}
+.cluster .sources a {
+  font-family: "SF Mono", Menlo, Consolas, monospace;
+  font-size: 12px;
+  padding: 3px 9px;
+  background: var(--bg-3);
+  color: var(--accent);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  text-decoration: none;
+  transition: border-color 0.15s, background 0.15s;
+}
+.cluster .sources a:hover {
+  border-color: var(--accent);
+  background: var(--bg);
+}
+
+.foot {
+  margin-top: 36px; padding-top: 20px;
+  border-top: 1px solid var(--border);
+  font-size: 12.5px; color: var(--ink-dim); line-height: 1.6;
+}
+.foot b {
+  color: var(--ink); text-transform: uppercase; letter-spacing: 0.12em;
+  font-size: 10.5px; font-weight: 600; display: block; margin-bottom: 4px;
+}
+.foot code {
+  font-family: "SF Mono", Menlo, Consolas, monospace;
+  font-size: 12px;
+  background: var(--bg-3); padding: 1px 6px; border-radius: 4px; color: var(--ink);
+}
+
+@media (max-width: 760px) {
+  .wrap { padding: 22px 18px; }
+  .cluster .head { flex-direction: column; gap: 6px; }
+}
+</style>
+</head>
+<body data-theme="dark">
+<div class="wrap">
+
+<header class="top">
+  <div class="brand">Perseus / NXT · <b>Decision Trail</b></div>
+  <button class="theme" id="theme-btn">light</button>
+</header>
+
+<h1 class="lede">Decisions embedded in <span class="grad">shipped work.</span></h1>
+<p class="sub">Living scope discipline, not a graveyard. The corpus contains 721 tickets where the description records "we did X instead of Y" in the middle of otherwise-shipped work — five clusters worth surfacing, drawn from the 8,847-ticket archive.</p>
+
+<div class="frame">
+  <b>What this page is.</b> Most teams produce a decision log only when something blows up. The rest of the time, the choices live inside the description fields of normal tickets — the option that wasn't taken, the scope that was deferred, the default that was overridden — and nobody ever pulls them back out. The five clusters below were detected automatically by phrase-scanning all 8,847 ticket descriptions for "instead of," "out of scope," "will not," and similar markers. Each card is paraphrased from real ticket text and tagged for SME review. Treat as observation, not record. <code style="font-family:'SF Mono',Menlo,Consolas,monospace;font-size:12px;background:var(--bg-3);padding:1px 6px;border-radius:4px;color:var(--ink);">wiki/decisions/</code> stays empty by design — when an SME confirms one of these, that's where the curated version goes.
+</div>
+
+<!-- ============ CLUSTER 1 ============ -->
+<div class="cluster">
+  <div class="head">
+    <span class="component">Item Management</span>
+    <span class="review-tag">marked for review</span>
+  </div>
+  <h2>Ship narrow first, defer the cross-module variants</h2>
+  <p class="narrative">
+    The corpus suggests a recurring scope-discipline pattern in Item Management: when a feature could span the catalog and the menu, the team ships the catalog-only version and defers the menu-aware modes. The clearest example is the standard allergen chart in <a class="tlink" href="../../raw/tickets/NXT-13229.html">NXT-13229</a> — the original spec proposed three report scopes (all active menu items, items on active menus, items within a time frame); the latter two were explicitly struck through with "out of scope for now" before shipping, leaving only the all-items mode. The note in the ticket cites a dependency on Menu Planning — meaning the cross-module versions would have required coordinated work that wasn't budgeted. The same restraint shows up in <a class="tlink" href="../../raw/tickets/NXT-17759.html">NXT-17759</a>, the Catalog Integration landing page, where the team deliberately chose <em>explicit-search-on-click</em> over auto-loaded results — keeping the global-catalog query under user control rather than letting the page hammer the integration on every visit. Pattern: when in doubt, build the controlled subset.
+  </p>
+  <div class="sources">
+    <span class="label">sources</span>
+    <a href="../../raw/tickets/NXT-13229.html">NXT-13229</a>
+    <a href="../../raw/tickets/NXT-17759.html">NXT-17759</a>
+  </div>
+</div>
+
+<!-- ============ CLUSTER 2 ============ -->
+<div class="cluster">
+  <div class="head">
+    <span class="component">Inventory</span>
+    <span class="review-tag">marked for review</span>
+  </div>
+  <h2>View-only ships first; editable comes as a separate story</h2>
+  <p class="narrative">
+    The Receipts surface in Inventory shipped read-only before it shipped editable, and the corpus shows this was deliberate phasing rather than a delayed feature. <a class="tlink" href="../../raw/tickets/NXT-16188.html">NXT-16188</a> introduces a "View Receipt" button that opens the Receipt Details screen <em>in view-only state</em>, with explicit AC saying "fields will not be editable by default; user has to click Edit to make changes." The Edit story is a separate ticket entirely — <a class="tlink" href="../../raw/tickets/NXT-15379.html">NXT-15379</a> — gated on a distinct "Edit Receipt" permission. The view-only-first approach extended to other components on the same screen: <a class="tlink" href="../../raw/tickets/NXT-16335.html">NXT-16335</a> added a view-only Comments popup specifically for non-editable contexts, with no save or cancel buttons, just a Close. The corpus suggests a deliberate stance: read paths and write paths are independent stories with independent permissions, and the read path always ships first.
+  </p>
+  <div class="sources">
+    <span class="label">sources</span>
+    <a href="../../raw/tickets/NXT-16188.html">NXT-16188</a>
+    <a href="../../raw/tickets/NXT-15379.html">NXT-15379</a>
+    <a href="../../raw/tickets/NXT-16335.html">NXT-16335</a>
+  </div>
+</div>
+
+<!-- ============ CLUSTER 3 ============ -->
+<div class="cluster">
+  <div class="head">
+    <span class="component">Platform — System</span>
+    <span class="review-tag">marked for review</span>
+  </div>
+  <h2>Permissions reorganized around categories, not individual resources</h2>
+  <p class="narrative">
+    Two tickets together suggest an architectural choice in how Roles &amp; Permissions evolved. <a class="tlink" href="../../raw/tickets/NXT-15171.html">NXT-15171</a> redesigned the Roles &amp; Permissions screen to display a <em>consolidated single-pane view</em> of role-to-permission mappings, explicitly <em>instead of</em> the multi-level hierarchical navigation it replaced. <a class="tlink" href="../../raw/tickets/NXT-20158.html">NXT-20158</a> then introduced a Resource Type called "Functions" that lets resources be granted by category and module — meaning a permission no longer maps to a single individual resource but to a group of them defined by function and category. The corpus suggests the team prioritized administrative ergonomics — granting access to a category at once — over per-resource auditability. The trade-off: easier to give access broadly, harder to reason about exactly which resources a given role can touch. An SME would know whether that trade-off has held up in practice.
+  </p>
+  <div class="sources">
+    <span class="label">sources</span>
+    <a href="../../raw/tickets/NXT-15171.html">NXT-15171</a>
+    <a href="../../raw/tickets/NXT-20158.html">NXT-20158</a>
+  </div>
+</div>
+
+<!-- ============ CLUSTER 4 ============ -->
+<div class="cluster">
+  <div class="head">
+    <span class="component">Platform — Data Exchange</span>
+    <span class="review-tag">marked for review</span>
+  </div>
+  <h2>Build the configuration first; make the configuration legible later</h2>
+  <p class="narrative">
+    The Data Exchange module shipped its API-endpoint configuration page well before it shipped UI clarity for what was being configured. <a class="tlink" href="../../raw/tickets/NXT-15142.html">NXT-15142</a> established the scaffolding: an API Configuration page where district admins plug in endpoint URLs, aliases, user IDs, passwords, certificates, and tie each connection to a vendor (the ticket names third-party SIS systems by example). The story shipped with raw fields. Months later, <a class="tlink" href="../../raw/tickets/NXT-16375.html">NXT-16375</a> noted that the resulting Code Mapping screen was showing internal codes like "F" / "M" / "N" without any context, and added human-readable descriptions next to each — "F (Female), M (Male), N (Not Provided)." The corpus suggests a recurring shape: in this module, the connection-and-mapping <em>infrastructure</em> tends to ship before the connection-and-mapping <em>UX</em>, with the latter following as a separate story once enough districts have hit the rough edges.
+  </p>
+  <div class="sources">
+    <span class="label">sources</span>
+    <a href="../../raw/tickets/NXT-15142.html">NXT-15142</a>
+    <a href="../../raw/tickets/NXT-16375.html">NXT-16375</a>
+  </div>
+</div>
+
+<!-- ============ CLUSTER 5 ============ -->
+<div class="cluster">
+  <div class="head">
+    <span class="component">Global Catalog</span>
+    <span class="review-tag">marked for review</span>
+  </div>
+  <h2>Pull what moves the kitchen; defer what moves the procurement office</h2>
+  <p class="narrative">
+    External-source integration in Global Catalog has a recurring scope shape — the team consistently pulls in the data that the kitchen uses and defers the data that the procurement or finance side would. <a class="tlink" href="../../raw/tickets/NXT-39283.html">NXT-39283</a> is the GDSN data-processing API; the AC explicitly scopes coverage to <em>ingredients and stock items</em>, with vendor details and pricing updates marked "out of scope" and routed to a separate story. <a class="tlink" href="../../raw/tickets/NXT-45142.html">NXT-45142</a> makes a different kind of choice — USDA Branded Foods data arrives normalized to per-100-gram nutrition values, but the team chose to override that default and display values per actual serving size (e.g., per 30 g), with a scaling formula calculated at render time. Two clusters of decision-shape work: which fields to pull from the integration at all, and which units to display when the upstream's defaults don't match the user. Both choices favor the kitchen-facing user over the upstream contract.
+  </p>
+  <div class="sources">
+    <span class="label">sources</span>
+    <a href="../../raw/tickets/NXT-39283.html">NXT-39283</a>
+    <a href="../../raw/tickets/NXT-45142.html">NXT-45142</a>
+  </div>
+</div>
+
+<div class="foot">
+  <b>How this page was generated</b>
+  Detection rules: ticket descriptions in <code>raw/tickets/*.md</code> longer than 200 characters containing any of "instead of," "out of scope," "will not," "we decided," "rejected," "deprioritized," "do not implement," or "decided not to." Of the 8,847 source tickets, 721 matched. Matches were grouped by component; the five clusters above were chosen by hand for narrative variety — scope cut, phasing, architecture, sequencing, technical default. Promote any cluster to <code>wiki/decisions/</code> after an SME signs off on the framing.
+  <div style="margin-top:14px;font-style:italic;color:var(--ink-muted);font-size:12px;">Compiled from 8,847 tickets across 158 sprints. Last refreshed 2026-05-01. Source tickets are listed in <a href="../../tickets.html" style="color:var(--accent);text-decoration:none;border-bottom:1px dashed var(--border);">the ticket index</a>.</div>
+</div>
+
+</div>
+<script>
+(function() {
+  var KEY = 'decision-trail-theme';
+  var btn = document.getElementById('theme-btn');
+  if (!btn) return;
+  var saved = localStorage.getItem(KEY);
+  if (saved) document.body.dataset.theme = saved;
+  function setLabel() { btn.textContent = document.body.dataset.theme === 'dark' ? 'light' : 'dark'; }
+  setLabel();
+  btn.addEventListener('click', function() {
+    document.body.dataset.theme = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+    localStorage.setItem(KEY, document.body.dataset.theme);
+    setLabel();
+  });
+})();
+</script>
+</body>
+</html>

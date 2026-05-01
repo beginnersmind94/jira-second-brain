@@ -3,6 +3,21 @@
 This wiki compiles institutional knowledge from Jira tickets (`raw/tickets/`).
 Every page links back to the tickets that shaped it.
 
+## Start here
+
+If this is your first time on the wiki, the [tour page](wiki/training/wiki-tour.html) is the front door — a single-screen overview with a five-stop guided walk.
+
+The two pages that surface signal nothing else in the repo does:
+
+- [What's new](wiki/training/whats-new.html) — the live changelog. Shows what landed since the last Jira sync.
+- [Decision trail](wiki/training/decision-trail.html) — decisions embedded in shipped work. Most teams never produce this artifact.
+
+The three modules that hold the most ticket density, rewritten in narrative form:
+
+- [[concepts/Item-Management|Item Management]] — the catalog, the recipe sub-product, and the bulk-edit pivot.
+- [[concepts/Inventory|Inventory]] — orders that stay editable, layered vendor structure, the physical-count loop.
+- [[concepts/Accountability|Accountability]] — the audit trail, end-of-day reconciliation, the exception machine.
+
 ## Concepts (modules)
 
 - [[concepts/Platform-System|Platform - System]]

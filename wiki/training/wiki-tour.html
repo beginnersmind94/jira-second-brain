@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The Perseus / NXT Second Brain — Tour</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root {
+  --bg: #0f1419;
+  --bg-2: #161c24;
+  --bg-3: #1e2631;
+  --ink: #e8eef5;
+  --ink-dim: #9aa7b5;
+  --ink-muted: #6b7785;
+  --accent: #7dd3c0;
+  --accent-2: #ffb86b;
+  --border: #2a3441;
+  --radius: 10px;
+}
+[data-theme="light"] {
+  --bg: #fafbfc; --bg-2: #ffffff; --bg-3: #f1f4f8;
+  --ink: #1a2129; --ink-dim: #5a6876; --ink-muted: #8a96a4;
+  --accent: #2c8a74; --accent-2: #c2671a;
+  --border: #dfe3e8;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.55 -apple-system, "Segoe UI", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 22px 48px 28px;
+}
+header.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 18px;
+}
+header.top .brand {
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+header.top .brand b { color: var(--accent); font-weight: 600; }
+button.theme {
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  color: var(--ink);
+  padding: 5px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 12px;
+}
+button.theme:hover { background: var(--bg-2); }
+
+h1.lede {
+  font-size: 28px;
+  line-height: 1.15;
+  letter-spacing: -0.018em;
+  margin: 0 0 6px;
+  font-weight: 600;
+}
+h1.lede .grad {
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+p.tag {
+  margin: 0;
+  font-size: 14.5px;
+  color: var(--ink-dim);
+  max-width: 640px;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin: 18px 0 22px;
+}
+.metric {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+}
+.metric .n {
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+.metric .l {
+  margin-top: 6px;
+  font-size: 11px;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.section-h {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 10px;
+  font-weight: 600;
+}
+
+.insights {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 22px;
+}
+.insight {
+  display: grid;
+  grid-template-columns: 26px 1fr auto;
+  gap: 14px;
+  align-items: baseline;
+  padding: 10px 14px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--ink);
+  transition: border-color 0.15s, transform 0.15s;
+}
+.insight:hover { border-color: var(--accent); }
+.insight .n {
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  font-size: 14px;
+}
+.insight em {
+  color: var(--accent-2);
+  font-style: normal;
+  font-weight: 500;
+}
+.insight a.go {
+  color: var(--ink-dim);
+  text-decoration: none;
+  font-size: 13px;
+  white-space: nowrap;
+  border-bottom: 1px dashed var(--border);
+  padding-bottom: 1px;
+}
+.insight a.go:hover { color: var(--accent); border-color: var(--accent); }
+.insight a.go::after { content: " →"; }
+
+.tour {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 22px;
+  overflow: hidden;
+}
+.tour-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 12px 18px 10px;
+  border-bottom: 1px solid var(--border);
+}
+.tour-head h2 {
+  margin: 0;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 600;
+}
+.tour-head .meta {
+  font-size: 11.5px;
+  color: var(--ink-muted);
+}
+ol.tour-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  counter-reset: t;
+}
+ol.tour-list li {
+  counter-increment: t;
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  gap: 12px;
+  padding: 9px 18px;
+  border-top: 1px solid var(--border);
+  align-items: baseline;
+}
+ol.tour-list li:first-child { border-top: none; }
+ol.tour-list li::before {
+  content: counter(t);
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+  font-size: 12.5px;
+  font-weight: 600;
+  padding-top: 1px;
+}
+ol.tour-list a.target {
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 14px;
+  border-bottom: 1px dashed var(--border);
+}
+ol.tour-list a.target:hover { color: var(--accent); border-color: var(--accent); }
+ol.tour-list .desc {
+  display: block;
+  font-size: 13px;
+  color: var(--ink-dim);
+  margin-top: 2px;
+  line-height: 1.4;
+}
+ol.tour-list .pending {
+  margin-left: 8px;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  padding: 1px 6px;
+  border: 1px dashed var(--border);
+  border-radius: 4px;
+}
+
+footer.how {
+  font-size: 12.5px;
+  color: var(--ink-dim);
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+  margin-top: 4px;
+  line-height: 1.55;
+}
+footer.how b {
+  color: var(--ink);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 10.5px;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 4px;
+}
+.refresh-line {
+  margin-top: 14px;
+  font-style: italic;
+  color: var(--ink-muted);
+  font-size: 12px;
+}
+footer.how code {
+  font-family: "SF Mono", Menlo, Consolas, monospace;
+  font-size: 12px;
+  background: var(--bg-3);
+  padding: 1px 6px;
+  border-radius: 4px;
+  color: var(--ink);
+}
+
+@media (max-width: 760px) {
+  .wrap { padding: 24px 20px; }
+  .metrics { grid-template-columns: 1fr; }
+  .insight { grid-template-columns: 24px 1fr; }
+  .insight a.go { grid-column: 2; margin-top: 4px; }
+  h1.lede { font-size: 26px; }
+}
+</style>
+</head>
+<body data-theme="dark">
+<div class="wrap">
+
+<header class="top">
+  <div class="brand">Perseus / NXT · <b>Second Brain</b></div>
+  <button class="theme" id="theme-btn">light</button>
+</header>
+
+<h1 class="lede">8,847 tickets, ten years of decisions, <span class="grad">one navigable wiki.</span></h1>
+<p class="tag">Every claim on every page links back to the ticket that proves it.</p>
+
+<div class="metrics">
+  <div class="metric"><div class="n">8,847</div><div class="l">Source tickets</div></div>
+  <div class="metric"><div class="n">22</div><div class="l">Module concept pages</div></div>
+  <div class="metric"><div class="n">158</div><div class="l">Sprints represented</div></div>
+</div>
+
+<h2 class="section-h">Three things to know</h2>
+<div class="insights">
+  <div class="insight">
+    <span class="n">01</span>
+    <span>Three modules — <em>Item Management</em>, <em>Inventory</em>, and <em>Platform — System</em> — carry 37% of all 7,138 shipped tickets. The hero pages dive into what those tickets actually say.</span>
+    <a class="go" href="../concepts/Item-Management.html">Item Management</a>
+  </div>
+  <div class="insight">
+    <span class="n">02</span>
+    <span>721 tickets contain an embedded <em>"we chose X instead of Y"</em> decision in their description. The decision trail surfaces what was almost shipped, and why it wasn't.</span>
+    <a class="go" href="decision-trail.html">Decision trail</a>
+  </div>
+  <div class="insight">
+    <span class="n">03</span>
+    <span>The wiki refreshes when Jira does. The changelog shows the bulk import on Apr 20 and the first incremental update on Apr 29 — the loop is <em>live</em>, not loud.</span>
+    <a class="go" href="whats-new.html">What's new</a>
+  </div>
+</div>
+
+<div class="tour">
+  <div class="tour-head">
+    <h2>Guided tour</h2>
+    <div class="meta">5 stops · ~6 minutes</div>
+  </div>
+  <ol class="tour-list">
+    <li>
+      <div>
+        <a class="target" href="../concepts/Item-Management.html">Item Management</a>
+        <span class="pending">hero</span>
+        <span class="desc">What 904 tickets actually say about the catalog — bulk edits, recipe units, allergen calls, pack-size handoffs.</span>
+      </div>
+    </li>
+    <li>
+      <div>
+        <a class="target" href="../concepts/Inventory.html">Inventory</a>
+        <span class="pending">hero</span>
+        <span class="desc">How concepts cite each other: orders → receipts → physical counts → adjustments → Financials.</span>
+      </div>
+    </li>
+    <li>
+      <div>
+        <a class="target" href="../concepts/Accountability.html">Accountability</a>
+        <span class="pending">hero</span>
+        <span class="desc">The Square integration arc, traced through the tickets — an architectural choice made one ticket at a time.</span>
+      </div>
+    </li>
+    <li>
+      <div>
+        <a class="target" href="decision-trail.html">Decision trail</a>
+        <span class="desc">Five clusters of decisions hiding inside shipped work. Most teams never produce this artifact.</span>
+      </div>
+    </li>
+    <li>
+      <div>
+        <a class="target" href="whats-new.html">What's new</a>
+        <span class="desc">Today's sync, made visible. Refreshes nightly as Jira moves.</span>
+      </div>
+    </li>
+  </ol>
+</div>
+
+<footer class="how">
+  <b>How this was built</b>
+  Jira issues are exported to Markdown, one file per ticket. A frequency analysis surfaces the recurring concepts and phrases. A compiler stitches those into a structured wiki of concepts, workflows, and entities. A nightly sync ingests changes from Jira so the wiki stays current — every claim on every page links back to the source ticket in <code>raw/tickets/</code>.
+  <div class="refresh-line">Compiled from 8,847 tickets across 158 sprints. Last refreshed 2026-05-01. Source tickets are listed in <a href="../../tickets.html" style="color:var(--accent);text-decoration:none;border-bottom:1px dashed var(--border);">the ticket index</a>.</div>
+</footer>
+
+</div>
+
+<script>
+(function() {
+  const KEY = 'wiki-tour-theme';
+  const btn = document.getElementById('theme-btn');
+  const saved = localStorage.getItem(KEY);
+  if (saved) document.body.dataset.theme = saved;
+  function setLabel() { btn.textContent = document.body.dataset.theme === 'dark' ? 'light' : 'dark'; }
+  setLabel();
+  btn.addEventListener('click', () => {
+    document.body.dataset.theme = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+    localStorage.setItem(KEY, document.body.dataset.theme);
+    setLabel();
+  });
+})();
+</script>
+</body>
+</html>
