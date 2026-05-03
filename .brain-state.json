@@ -21,20 +21,32 @@
     },
     "4": {
       "status": "done",
-      "completed_at": "2026-04-20",
+      "completed_at": "2026-05-03",
       "imports_discovered": [
         {
-          "filename": "Perseus_Jira_1.csv",
-          "bytes": 51669055
+          "filename": "financials-sync-20260503T141501Z.csv",
+          "bytes": 56921
         }
       ],
-      "total_tickets": 8848,
+      "total_tickets": 3,
       "tickets_written": 8847,
-      "tickets_updated": 0,
+      "tickets_updated": 3,
       "tickets_unchanged": 0,
       "tickets_skipped": 0,
       "tickets_low_signal": 1709,
-      "last_processed_key": null
+      "last_processed_key": null,
+      "prior_runs": [
+        {
+          "completed_at": "2026-04-20",
+          "imports": [
+            {
+              "filename": "Perseus_Jira_1.csv",
+              "bytes": 51669055
+            }
+          ],
+          "tickets_written_at_completion": 8847
+        }
+      ]
     },
     "5": {
       "status": "done",
