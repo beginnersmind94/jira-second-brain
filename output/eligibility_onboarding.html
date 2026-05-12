@@ -137,18 +137,20 @@ section.module { padding: 44px 0 24px; border-bottom: 1px dashed var(--border); 
 section.module:last-of-type { border-bottom: none; }
 
 .module-num {
-  display: inline-flex; align-items: center; gap: 8px;
+  display: flex; align-items: center; gap: 8px;
+  width: fit-content;
   font-size: 11px; font-weight: 700; letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--hue, var(--accent));
   background: var(--hue-soft, var(--accent-soft));
   padding: 5px 12px; border-radius: 99px;
   border: 1px solid var(--hue, var(--accent));
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 .module-num::before {
   content: ""; width: 6px; height: 6px; border-radius: 50%;
   background: var(--hue, var(--accent)); display: inline-block;
+  flex-shrink: 0;
 }
 h2 {
   font-size: 24px; margin: 0 0 6px 0; line-height: 1.2; letter-spacing: -0.012em; font-weight: 600;
@@ -402,11 +404,12 @@ ul.tickets li::before { content: "→"; color: var(--accent); margin-right: 8px;
 }
 
 [data-slide] h2 {
-  font-size: 30px; line-height: 1.15; letter-spacing: -0.02em;
-  margin: 0 0 18px 0; font-weight: 700;
-  padding-bottom: 12px;
-  border-bottom: 3px solid var(--hue, var(--accent));
-  display: inline-block; padding-right: 8px;
+  font-size: 26px; line-height: 1.2; letter-spacing: -0.018em;
+  margin: 0 0 16px 0; font-weight: 700;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--hue, var(--accent));
+  display: inline-block; padding-right: 6px;
+  max-width: 100%;
 }
 .slide-lede {
   font-size: 16px; line-height: 1.55; color: var(--ink-dim);
@@ -673,26 +676,21 @@ ul.tickets li::before { content: "→"; color: var(--accent); margin-right: 8px;
 </table>
 <p class="meta-note" style="font-size: 12.5px; color: var(--ink-dim); margin-top: -4px;">SY 2025-2026, 48 contiguous states / DC. The "maximum rate" line is the federally-set ceiling that applies to districts in higher-cost states (Alaska, Hawaii, and some others use separate higher rates entirely). Source: <a href="#appendix-regulatory">USDA-RATES-2025-FR</a>.</p>
 
-<div class="stats">
+<div class="stats two">
   <div class="stat">
     <div class="stat-label">Free vs Paid gap</div>
     <div class="stat-num">$4.16</div>
-    <div class="stat-sub">per reimbursable lunch (base NSLP rate)</div>
+    <div class="stat-sub">per reimbursable lunch — $4.60 (free) − $0.44 (paid), base NSLP rate</div>
   </div>
   <div class="stat">
-    <div class="stat-label">At 1% error / month</div>
-    <div class="stat-num">≈ $2,000</div>
-    <div class="stat-sub">misallocated for a 50K-lunches-a-month district</div>
-  </div>
-  <div class="stat">
-    <div class="stat-label">Audit follow-up at</div>
-    <div class="stat-num">~12K / yr</div>
-    <div class="stat-sub">compound impact across a school year</div>
+    <div class="stat-label">Illustrative scenario</div>
+    <div class="stat-num">≈ $2K/mo</div>
+    <div class="stat-sub">a 1% systematic error at a 50K-lunches/month district. Compounds across the school year.</div>
   </div>
 </div>
 
 <div class="risk-note">
-<div class="risk-body"><b>Loss-framed:</b> A wrong Status on one student is nothing. A systematic error across a site for a month is the kind of thing that triggers state-audit follow-up. That's why eligibility tickets disproportionately have <em>URGENT</em> in the title even when they look small from the outside.</div>
+<div class="risk-body"><b>Why customers panic:</b> A wrong Status on one student is nothing. A systematic error across a site for a month is the kind of thing that triggers state-audit follow-up. That's why eligibility tickets disproportionately have <em>URGENT</em> in the title even when they look small from the outside.</div>
 </div>
 
 <h3>Three paths to a Status</h3>
