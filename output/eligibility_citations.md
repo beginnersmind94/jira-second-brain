@@ -2,20 +2,28 @@
 title: "Eligibility Onboarding — Citation Audit Trail"
 companion_to: "output/eligibility_onboarding.html"
 date_compiled: 2026-05-12
-maintainer_note: "Re-verify each entry annually. IEG numbers refresh every spring; CEP rules refresh on rulemaking cadence."
+verification_pass: 2026-05-12
+maintainer_note: "Re-verify public regulatory entries annually. IEG numbers refresh every spring; reimbursement rates refresh each July; CEP/direct-certification/verification rules refresh on rulemaking cadence."
 ---
 
 # Eligibility Onboarding — Citation Audit Trail
 
-This is the audit trail for `output/eligibility_onboarding.html`. Two pools, never mixed: regulatory sources prove federal rules, ticket sources prove product behavior. Every claim in the training cites one or the other.
+This is the audit trail for `output/eligibility_onboarding.html`. Two pools, never mixed: **regulatory sources prove federal rules**; **ticket sources prove product behavior**. This 2026-05-12 pass focused on public regulatory research and deliberately did not expand internal product-context references.
 
 ---
 
-## Verification constraint (important context for the next maintainer)
+## Verification status
 
-The HTML rendering tool in the environment that produced this document was blocked from directly fetching `usda.gov`, `fns.usda.gov`, state DOE PDFs, and most regulatory URLs (sandbox returned `host_not_allowed`). Regulatory claims below were extracted from **web-search-surfaced text snippets** that originate from the listed URLs. The URLs are correct and resolve outside the sandbox — but the next person maintaining this document should re-open each URL and confirm the specific fact attributed to it.
+The prior version of this file contained a sandbox caveat saying regulatory URLs were only `snippet-confirmed`. This pass replaced that with direct reads of primary public sources wherever possible: USDA FNS pages, Federal Register notices, and current eCFR sections.
 
-This matters because CLAUDE.md's "Cite or cut" and "Verify before ready" rules require direct read of every source. Where direct read was not possible, the citation is annotated `(snippet-confirmed)` so the gap is visible. Treat any `(snippet-confirmed)` row as a "high probability correct, but please re-verify before relying on it for compliance work" entry.
+### Corrections and additions made in this pass
+
+- Corrected the SY 2025-2026 household-of-4 IEG figure for the 48 contiguous states, District of Columbia, Guam, and territories from the prior document's **$42,107 free / $59,922 reduced** to **$41,795 free / $59,478 reduced**.
+- Added the full SY 2025-2026 IEG table for household sizes 1-8 for the 48 contiguous states, District of Columbia, Guam, and territories.
+- Replaced secondary/summary citations for verification sampling with current **7 CFR 245.6a** primary-source citations.
+- Replaced the Medicaid Direct Certification state-count source with USDA FNS's own DC-M page.
+- Added SY 2025-2026 federal reimbursement rates for NSLP, SBP, afterschool snacks, and Special Milk Program.
+- Marked 2026-2027 IEG as an upcoming refresh source, not the current training source, because the companion onboarding remains grounded in SY 2025-2026 figures.
 
 ---
 
@@ -25,52 +33,104 @@ This matters because CLAUDE.md's "Cite or cut" and "Verify before ready" rules r
 
 | Tag | Claim | URL | Retrieved | Verification |
 |---|---|---|---|---|
-| `USDA-IEG-2025` | SY 2025-2026 IEG. Effective **July 1, 2025 – June 30, 2026**. Free = 130% × Federal Poverty Level, Reduced = 185% × FPL, rounded up to next whole dollar. Family of 4 (48 contiguous states + DC + Guam + territories): **$42,107** free / **$59,922** reduced annual. 3.0% YoY increase. Alaska and Hawaii have separate higher tables. | https://www.fns.usda.gov/cn/fr-031325 | 2026-05-12 | snippet-confirmed |
-| `USDA-IEG-FR` | Federal Register publication of the same SY 2025-2026 IEG notice (March 13, 2025). | https://www.federalregister.gov/documents/2025/03/13/2025-03821/child-nutrition-programs-income-eligibility-guidelines | 2026-05-12 | snippet-confirmed |
-| `USDA-IEG-INDEX` | USDA FNS landing page for all annual IEG announcements. Use this URL each spring to locate the new SY's announcement. | https://www.fns.usda.gov/schoolmeals/income-eligibility-guidelines | 2026-05-12 | snippet-confirmed |
-| `USDA-IEG-2026` | SY 2026-2027 IEG announcement (next year — verify availability when refreshing this document). | https://www.fns.usda.gov/schoolmeals/fr-040926 | 2026-05-12 | URL-known, content not retrieved |
+| `USDA-IEG-2025-FNS` | USDA FNS SY 2025-2026 IEG notice. Effective **July 1, 2025 - June 30, 2026**. Free = 130% × Federal Poverty Guidelines; Reduced = 185% × Federal Poverty Guidelines; rounded upward to the next whole dollar. USDA stated the family-of-4 figures increased **3.0%** over the prior year. | https://www.fns.usda.gov/cn/fr-031325 | 2026-05-12 | direct-read |
+| `USDA-IEG-2025-FR` | Federal Register publication of the same SY 2025-2026 IEG notice. Primary source for the full IEG table by household size and payment frequency. | https://www.federalregister.gov/documents/2025/03/13/2025-03821/child-nutrition-programs-income-eligibility-guidelines | 2026-05-12 | direct-read |
+| `USDA-IEG-INDEX` | USDA FNS landing page for annual IEG announcements. Use this URL each spring to locate the new school year's announcement. | https://www.fns.usda.gov/schoolmeals/income-eligibility-guidelines | 2026-05-12 | direct-read |
+| `USDA-IEG-2026-FR` | SY 2026-2027 IEG notice exists and is effective **July 1, 2026 - June 30, 2027**. Use it when refreshing the training for SY 2026-2027; do **not** mix 2026-2027 values into a 2025-2026 training module. | https://www.federalregister.gov/documents/2026/04/09/2026-06842/child-nutrition-programs-income-eligibility-guidelines | 2026-05-12 | direct-read for effective dates/formula; table not transcribed here |
 
-**Gap to fix on next maintenance pass:** The full IEG table by household size (1–8) for SY 2025-2026 was not embedded in the training because the source URLs could not be directly fetched in this environment. A maintainer with network access should open USDA-IEG-2025, confirm the family-of-4 figure ($42,107 / $59,922), and replace the partial table in Module 2 with the full HH-size table.
+#### SY 2025-2026 IEG table — 48 contiguous states, District of Columbia, Guam, and territories
+
+Source: `USDA-IEG-2025-FR`.
+
+| Household size | Free annual | Free monthly | Free twice monthly | Free every two weeks | Free weekly | Reduced annual | Reduced monthly | Reduced twice monthly | Reduced every two weeks | Reduced weekly |
+|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1 | $20,345 | $1,696 | $848 | $783 | $392 | $28,953 | $2,413 | $1,207 | $1,114 | $557 |
+| 2 | $27,495 | $2,292 | $1,146 | $1,058 | $529 | $39,128 | $3,261 | $1,631 | $1,505 | $753 |
+| 3 | $34,645 | $2,888 | $1,444 | $1,333 | $667 | $49,303 | $4,109 | $2,055 | $1,897 | $949 |
+| 4 | $41,795 | $3,483 | $1,742 | $1,608 | $804 | $59,478 | $4,957 | $2,479 | $2,288 | $1,144 |
+| 5 | $48,945 | $4,079 | $2,040 | $1,883 | $942 | $69,653 | $5,805 | $2,903 | $2,679 | $1,340 |
+| 6 | $56,095 | $4,675 | $2,338 | $2,158 | $1,079 | $79,828 | $6,653 | $3,327 | $3,071 | $1,536 |
+| 7 | $63,245 | $5,271 | $2,636 | $2,433 | $1,217 | $90,003 | $7,501 | $3,751 | $3,462 | $1,731 |
+| 8 | $70,395 | $5,867 | $2,934 | $2,708 | $1,354 | $100,178 | $8,349 | $4,175 | $3,853 | $1,927 |
+| Each additional household member | +$7,150 | +$596 | +$298 | +$275 | +$138 | +$10,175 | +$848 | +$424 | +$392 | +$196 |
+
+**Maintenance note:** Alaska and Hawaii have separate higher tables in the same Federal Register notice. The companion onboarding currently uses only the 48-contiguous/DC/Guam/territory table. Add Alaska/Hawaii values only if the training needs state/territory-specific examples.
 
 ### A2. Community Eligibility Provision (CEP)
 
 | Tag | Claim | URL | Retrieved | Verification |
 |---|---|---|---|---|
-| `USDA-CEP-FINAL` | Final Rule: "Child Nutrition Programs: CEP — Increasing Options for Schools." Published Sept 26, 2023; effective Oct 26, 2023. CEP multiplier is **1.6**; USDA may set it between **1.3 and 1.6**; multiplier locks for the four-year cycle once elected. | https://www.fns.usda.gov/cn/fr-092623 | 2026-05-12 | snippet-confirmed |
-| `USDA-CEP-FINAL-FR` | Federal Register version of the same final rule. | https://www.federalregister.gov/documents/2023/09/26/2023-20294/child-nutrition-programs-community-eligibility-provision-increasing-options-for-schools | 2026-05-12 | snippet-confirmed |
-| `USDA-CEP-SUMMARY` | USDA FNS plain-language summary of the CEP final rule. | https://www.fns.usda.gov/cn/cep-final-rule-summary | 2026-05-12 | snippet-confirmed |
-| `USDA-CEP-NEW-MIN` | Implementation guidance for the new minimum ISP. **Eligible LEAs/schools: ISP ≥ 25%.** **Nearly eligible: 15% ≤ ISP < 25%.** Previous threshold was 40%. | https://www.fns.usda.gov/cn/cep-new-minimum-isp | 2026-05-12 | snippet-confirmed |
-| `USDA-CEP-CYCLE` | Four-year CEP cycle rules. **ISP is calculated as (Identified Students ÷ Enrolled Students) × 100 as of April 1** of the SY prior to electing CEP. Annual recalculation allowed; higher ISP can be adopted in years 2-4 of the cycle. Multiplier and base eligibility lock at year 1. | https://www.fns.usda.gov/cn/cep-statutory-annual-notification-and-publication-requirements | 2026-05-12 | snippet-confirmed |
-| `USDA-CEP-ELECTION` | CEP election deadline guidance. **LEAs intending to elect CEP for the following school year must submit a letter of intent to the state agency by June 30** with the April 1 identified-student and enrolled counts. | https://www.fns.usda.gov/cn/cep-statutory-annual-notification-publication-requirements-election-deadline | 2026-05-12 | snippet-confirmed |
+| `USDA-CEP-FINAL-FNS` | Final Rule: "Child Nutrition Programs: CEP — Increasing Options for Schools." Published September 26, 2023; effective October 26, 2023. The final rule lowered the minimum identified student percentage (ISP) from **40% to 25%**. | https://www.fns.usda.gov/cn/fr-092623 | 2026-05-12 | direct-read |
+| `USDA-CEP-FINAL-FR` | Federal Register version of the same final rule. Confirms CEP reimbursement uses **ISP × 1.6**, capped at 100% free claiming; confirms USDA may set the multiplier between **1.3 and 1.6**. | https://www.federalregister.gov/documents/2023/09/26/2023-20294/child-nutrition-programs-community-eligibility-provision-increasing-options-for-schools | 2026-05-12 | direct-read |
+| `USDA-CEP-SUMMARY` | USDA FNS plain-language final-rule summary. Useful non-legal source for training language: lower ISP threshold, 1.6 multiplier, four-year cycle, grace-year framing. | https://www.fns.usda.gov/cn/cep-final-rule-summary | 2026-05-12 | direct-read |
+| `USDA-CEP-ECFR-245.9` | Current rule for CEP. **ISP = identified students ÷ enrolled students × 100**. Minimum ISP is **at least 25% as of April 1** of the school year before participating. CEP may be individual-school, group, or LEA-wide. Free claiming percentage = applicable ISP × **1.6**, capped at 100%; paid percentage = remainder. The **1.6 multiplier must be used for the entire four-year cycle**. | https://www.ecfr.gov/current/title-7/subtitle-B/chapter-II/subchapter-A/part-245/section-245.9 | 2026-05-12 | direct-read |
+| `USDA-CEP-ELECTION-ECFR` | CEP election documentation deadline. An LEA/group/school intending to elect CEP for the following year must submit documentation to the State agency by **June 30** with counts of identified students and enrolled students as of **April 1** of the prior school year. | https://www.ecfr.gov/current/title-7/subtitle-B/chapter-II/subchapter-A/part-245/section-245.9 | 2026-05-12 | direct-read |
+| `USDA-CEP-GRACE-ECFR` | Grace-year rule. A CEP LEA/group/school with ISP below 25% but at least 15% as of April 1 of the fourth year may continue CEP for one additional grace year; if it does not regain the 25% threshold during the grace year, it returns to household applications the following year. | https://www.ecfr.gov/current/title-7/subtitle-B/chapter-II/subchapter-A/part-245/section-245.9 | 2026-05-12 | direct-read |
+| `USDA-CEP-NOTIFICATION-ECFR` | Annual public notification thresholds: by April 15, LEAs submit lists of schools with ISP at least 25%, less than 25% but at least 15%, and year-4 CEP schools in the 15%-25% grace-year band; by May 1, State agencies publish the required lists. | https://www.ecfr.gov/current/title-7/subtitle-B/chapter-II/subchapter-A/part-245/section-245.9 | 2026-05-12 | direct-read |
 
 ### A3. Direct Certification
 
 | Tag | Claim | URL | Retrieved | Verification |
 |---|---|---|---|---|
-| `USDA-DC` | Federal Register rule on Direct Certification (2011-9457). Categorical sources include **SNAP** (mandatory DC; Healthy Hunger-Free Kids Act 2010), **TANF** (optional DC), **FDPIR** (optional), **foster, homeless, migrant, runaway, Head Start** (categorical but typically via designation rather than DC file). | https://www.federalregister.gov/documents/2011/04/25/2011-9457/direct-certification-and-certification-of-homeless-migrant-and-runaway-children-for-free-school | 2026-05-12 | snippet-confirmed |
-| `USDA-DC-MEDICAID` | Medicaid Direct Certification demonstration project. As of 2024, **44 states participate**. | https://frac.org/blog/medicaid-direct-certification-2024 | 2026-05-12 | snippet-confirmed |
-| `USDA-DC-95` | Direct Certification Benchmarks and Continuous Improvement Plans. Since SY 2013-2014, states are required to **directly certify 95% of school-age children in SNAP households**. States below 95% must submit a Continuous Improvement Plan to FNS. | https://fns-prod.azureedge.us/cn/direct-certification-benchmarks-and-continuous-improvement-plans | 2026-05-12 | snippet-confirmed |
-| `USDA-FNS-DC-PAGE` | USDA FNS Direct Certification overview page (general reference). | https://www.fns.usda.gov/cn/direct-certification | 2026-05-12 | URL-known, not directly retrieved |
+| `USDA-DC-ECFR-245.6` | Current rule for application, eligibility, and direct certification. SNAP direct certification is mandatory for LEAs conducting eligibility determinations. FDPIR/TANF direct certification is permitted based on appropriate agency documentation. Foster, homeless, migrant, runaway, and Head Start children may be certified free based on documentation from the appropriate agency/official, without further application. | https://www.ecfr.gov/current/title-7/subtitle-B/chapter-II/subchapter-A/part-245/section-245.6 | 2026-05-12 | direct-read |
+| `USDA-DC-SNAP-MATCH-ECFR` | Beginning in SY 2012-2013, SNAP direct certification must be conducted using a data-matching technique; household letters may be used only as an additional notice method, not as the primary method. LEAs must conduct SNAP matching at least at the beginning of the school year, three months after the initial effort, and six months after the initial effort. | https://www.ecfr.gov/current/title-7/subtitle-B/chapter-II/subchapter-A/part-245/section-245.6 | 2026-05-12 | direct-read |
+| `USDA-DC-HOUSEHOLD-EXTENSION-ECFR` | Household extension applies to SNAP/FDPIR/TANF: if any child is identified as a member of a household receiving SNAP, FDPIR, or TANF, all children in the family are categorically eligible for free meals/milk. It does **not** extend from foster/homeless/migrant/runaway/Head Start status to other household children. | https://www.ecfr.gov/current/title-7/subtitle-B/chapter-II/subchapter-A/part-245/section-245.6 | 2026-05-12 | direct-read |
+| `USDA-DC-BENEFIT-TIMING-ECFR` | Once appropriate direct-certification documentation is received, free benefits must be made available as soon as possible and no later than **three operating days** after receipt. | https://www.ecfr.gov/current/title-7/subtitle-B/chapter-II/subchapter-A/part-245/section-245.6 | 2026-05-12 | direct-read |
+| `USDA-DC-MEDICAID-FNS` | USDA FNS Direct Certification with Medicaid demonstration page. DC-M uses Medicaid files to identify children eligible for free or reduced-price NSLP/SBP meals without an application. For SY 2024-2025, USDA approved six additional states, bringing participating states to **44**. | https://www.fns.usda.gov/cn/direct-certification-medicaid-demonstration-project | 2026-05-12 | direct-read |
+| `USDA-DC-95-ECFR` | Direct Certification benchmark. State agencies must directly certify **95%** of school-age children in SNAP households for SY 2013-2014 and each school year thereafter. A state below the benchmark must submit a Continuous Improvement Plan (CIP) to FNS. | https://www.ecfr.gov/current/title-7/subtitle-B/chapter-II/subchapter-A/part-245/section-245.13 | 2026-05-12 | direct-read |
 
 ### A4. Verification
 
 | Tag | Claim | URL | Retrieved | Verification |
 |---|---|---|---|---|
-| `USDA-VERIFICATION` | USDA FNS Verification Toolkit. **Standard method ("Error-Prone Sampling"):** verify the lesser of **3% of approved applications on file as of October 1, or 3,000 applications**, rounded up. Draws first from error-prone applications; remainder filled randomly. **Deadline:** complete verification by **November 15**. | https://fns.usda.gov/school-meals/verification-toolkit | 2026-05-12 | snippet-confirmed |
-| `USDA-VERIFICATION-ALT` | Two alternate sampling methods. **Alternate One — Random:** verify 3% (or 3,000) of all approved apps, random selection. **Alternate Two — Focused:** verify 1% (or 1,000) of error-prone apps **plus** 0.5% (or 500) of categorically-eligible apps. Alternate Two is the only method that touches categorical apps. | https://www.cde.ca.gov/ls/nu/sn/mb06115.asp (California DOE reproduces federal rule) | 2026-05-12 | snippet-confirmed |
-| `USDA-EP-DEF` | Federal statutory definition of error-prone: approved application with reported income **within $100 of the monthly benefit level or $1,200 of the annual benefit level**. Codified in 7 CFR Part 245 and the Eligibility Manual. | https://www.gao.gov/products/gao-15-634t (GAO summary citing federal definition) | 2026-05-12 | snippet-confirmed |
-| `USDA-ELIG-MANUAL` | USDA FNS "Eligibility Manual for School Meals: Determining and Verifying Eligibility" — SP36, CACFP15, SFSP11 (July 2017 revision). Reference for categorical eligibility, application processing, and verification. **Eligibility and benefits must be provided within 10 operating days of receiving a complete application.** | https://www.fns.usda.gov/cn/eligibility-manual-school-meals | 2026-05-12 | snippet-confirmed |
-| `USDA-ELIG-MANUAL-PDF` | 2017 PDF of the Eligibility Manual (SP36 etc.). | https://fns-prod.azureedge.us/sites/default/files/cn/SP36_CACFP15_SFSP11-2017a1.pdf | 2026-05-12 | snippet-confirmed |
+| `USDA-VERIFICATION-TOOLKIT` | USDA FNS Verification Toolkit. Useful training source for workflow explanations, notices, and operational resources; use eCFR for primary legal claims. | https://fns.usda.gov/school-meals/verification-toolkit | 2026-05-12 | direct-read |
+| `USDA-VERIFICATION-ECFR` | Current primary source for verification requirements. Deadline: LEA verification efforts must be completed by **November 15** each school year; State agency may approve an extension up to **December 15** for specified disruptions. Final required sample size is based on approved applications on file as of **October 1**. | https://www.ecfr.gov/current/title-7/subtitle-B/chapter-II/subchapter-A/part-245/section-245.6a | 2026-05-12 | direct-read |
+| `USDA-VERIFICATION-STANDARD-ECFR` | Standard sample size: verify the lesser of **3% of all approved applications as of October 1, selected from error-prone applications**, or **3,000 error-prone applications**. If error-prone applications are insufficient, fill the sample randomly from other approved applications. | https://www.ecfr.gov/current/title-7/subtitle-B/chapter-II/subchapter-A/part-245/section-245.6a | 2026-05-12 | direct-read |
+| `USDA-VERIFICATION-ALT1-ECFR` | Alternative One sample size: verify the lesser of **3,000 approved applications selected at random** or **3% of all approved applications selected at random**, as of October 1. | https://www.ecfr.gov/current/title-7/subtitle-B/chapter-II/subchapter-A/part-245/section-245.6a | 2026-05-12 | direct-read |
+| `USDA-VERIFICATION-ALT2-ECFR` | Alternative Two sample size: verify the lesser of **1,000 error-prone applications** or **1% of approved applications selected from error-prone applications**, plus the lesser of **500 case-number applications** or **0.5% of applications with case numbers** showing participation in SNAP/FDPIR/TANF. This is about case-number applications, not directly certified households. | https://www.ecfr.gov/current/title-7/subtitle-B/chapter-II/subchapter-A/part-245/section-245.6a | 2026-05-12 | direct-read |
+| `USDA-EP-DEF-ECFR` | Error-prone definition: an approved household application indicating monthly income within **$100** or annual income within **$1,200** of the applicable income eligibility limit for free or reduced-price meals. | https://www.ecfr.gov/current/title-7/subtitle-B/chapter-II/subchapter-A/part-245/section-245.6a | 2026-05-12 | direct-read |
+| `USDA-VERIFICATION-EXEMPTIONS-ECFR` | Verification is not required for households when all children are determined eligible based on SNAP/FDPIR/TANF documentation from the responsible State/local agency, or when all children are determined foster, homeless, migrant, or runaway. Verification also does not delay approval of applications. | https://www.ecfr.gov/current/title-7/subtitle-B/chapter-II/subchapter-A/part-245/section-245.6a | 2026-05-12 | direct-read |
+| `USDA-ELIG-MANUAL-FNS` | USDA FNS Eligibility Manual for School Meals: Determining and Verifying Eligibility, FNS Document # SP 36-2017, CACFP 15-2017, SFSP 11-2017. Use as operational guidance, not as the sole citation when an eCFR rule is available. Page updated February 19, 2026. | https://www.fns.usda.gov/cn/eligibility-manual-school-meals | 2026-05-12 | direct-read |
+| `USDA-APPLICATION-10DAY-ECFR` | Income applications: LEA must notify the household of eligibility and provide eligible children the benefits to which they are entitled within **10 operating days** of receiving the application. | https://www.ecfr.gov/current/title-7/subtitle-B/chapter-II/subchapter-A/part-245/section-245.6 | 2026-05-12 | direct-read |
 
-### A5. General reference
+### A5. Federal reimbursement rates
 
-| Tag | URL | Retrieved |
-|---|---|---|
-| `USDA-FNS` | https://www.fns.usda.gov/schoolmeals | 2026-05-12 |
+| Tag | Claim | URL | Retrieved | Verification |
+|---|---|---|---|---|
+| `USDA-RATES-2025-FR` | Federal Register notice for SY 2025-2026 NSLP, Special Milk, and SBP national average payments / maximum reimbursement rates. Effective **July 1, 2025 - June 30, 2026**. | https://www.federalregister.gov/documents/2025/07/24/2025-13879/national-school-lunch-special-milk-and-school-breakfast-programs-national-average-paymentsmaximum | 2026-05-12 | direct-read |
+| `USDA-RATES-2025-FNS` | USDA FNS reimbursement rates resource page for SY 2025-2026. Use Federal Register notice above as the primary source when citing exact rates. | https://www.fns.usda.gov/cn/fr-072425 | 2026-05-12 | direct-read |
+| `USDA-RATES-INDEX` | USDA FNS reimbursement rates landing page. Use this page each July to find the new annual rate notice. | https://www.fns.usda.gov/schoolmeals/rates-reimbursement | 2026-05-12 | direct-read |
+
+#### SY 2025-2026 reimbursement quick reference — contiguous states / District of Columbia
+
+Source: `USDA-RATES-2025-FR`. Amounts are dollars per meal/snack unless noted.
+
+| Program / rate type | Paid | Reduced-price | Free | Notes |
+|---|---:|---:|---:|---|
+| NSLP lunch — less than 60% free/reduced in second preceding SY | $0.44 | $4.20 | $4.60 | Includes Section 4 + Section 11 for free/reduced lunches. |
+| NSLP lunch — less than 60% + performance-based reimbursement | $0.53 | $4.29 | $4.69 | Performance-based reimbursement adds $0.09. |
+| NSLP lunch — 60% or more free/reduced in second preceding SY | $0.46 | $4.22 | $4.62 | Higher Section 4 payment level. |
+| NSLP lunch — 60% or more + performance-based reimbursement | $0.55 | $4.31 | $4.71 | Higher level plus $0.09 performance-based reimbursement. |
+| NSLP maximum lunch rate | $0.52 | $4.37 | $4.77 | Maximum Federal reimbursement rate before performance-based add-on. |
+| NSLP maximum lunch rate + performance-based reimbursement | $0.61 | $4.46 | $4.86 | Maximum rate plus $0.09 performance-based reimbursement. |
+| SBP breakfast — non-severe need | $0.40 | $2.16 | $2.46 | Contiguous states / DC. |
+| SBP breakfast — severe need | $0.40 | $2.64 | $2.94 | Contiguous states / DC. |
+| Afterschool snack | $0.11 | $0.63 | $1.26 | NSLP afterschool care snack rates. |
+| Special Milk Program — non-needy half-pint | $0.2675 | N/A | Average cost per 1/2 pint where free milk option applies | Rate is for a half pint of milk; free milk reimbursement is average cost per 1/2 pint in programs with a free option. |
+
+**Maintenance note:** These rates do **not** include USDA Foods or cash-in-lieu of USDA Foods; USDA publishes those values separately.
+
+### A6. General federal reference
+
+| Tag | URL | Retrieved | Verification |
+|---|---|---|---|
+| `USDA-FNS-SCHOOLMEALS` | https://www.fns.usda.gov/schoolmeals | 2026-05-12 | general reference only |
 
 ---
 
 ## B. Ticket citations
+
+**Research-pass note (2026-05-12):** per the requested scope, this pass focused on public regulatory research. The internal ticket/product-context citations below are retained for traceability but were not re-verified or expanded in this pass.
 
 Every product-behavior claim in the training maps to one or more of these tickets. Each ticket lives at `raw/tickets/<KEY>.md` in this repo and was read directly (not surfaced via search).
 
@@ -133,30 +193,37 @@ The training does **not** invent personas. If a step in the training is owned by
 
 When refreshing this onboarding module:
 
-1. **Annually (each spring/summer):**
-   - [ ] Update `USDA-IEG-2025` to the new SY's announcement. Replace the worked example in Module 2 with new HH-of-4 figures.
-   - [ ] Update the "current as of" date in the HTML header.
-   - [ ] Check USDA Verification Memo for any sample-size tweaks.
-   - [ ] Check FRAC Medicaid DC tracker for state count updates.
+1. **Annually / each spring:**
+   - [ ] Update the IEG source to the new school year's announcement.
+   - [ ] Replace the worked example and any embedded IEG table values with the new Federal Register table.
+   - [ ] Check whether the companion training should keep using 48-contiguous/DC examples or add Alaska/Hawaii/territory examples.
+   - [ ] Update the "current as of" date in the HTML header and this citation file.
 
-2. **On rulemaking events:**
-   - [ ] CEP multiplier change (1.3–1.6 range): update Module 5 and `USDA-CEP-FINAL`.
-   - [ ] ISP threshold change: update Module 5 and `USDA-CEP-NEW-MIN`.
-   - [ ] Verification deadline change: update Module 6 and `USDA-VERIFICATION`.
+2. **Annually / each July:**
+   - [ ] Update federal reimbursement rates from the new USDA/Federal Register annual rate notice.
+   - [ ] Confirm whether performance-based reimbursement has changed.
+   - [ ] Confirm whether USDA Foods / cash-in-lieu values need separate mention.
 
-3. **On product changes:**
+3. **On rulemaking events or FNS guidance changes:**
+   - [ ] CEP minimum ISP threshold: verify 7 CFR 245.9 and the latest FNS CEP guidance.
+   - [ ] CEP multiplier: verify whether the statutory/regulatory multiplier remains 1.6 and whether USDA has changed it within the allowed range.
+   - [ ] CEP election/public-notification deadlines: verify 7 CFR 245.9.
+   - [ ] Direct Certification sources, frequency, household-extension rules, and Medicaid demonstration scope: verify 7 CFR 245.6, 7 CFR 245.13, and the FNS DC-M page.
+   - [ ] Verification sample-size rules/deadlines: verify 7 CFR 245.6a and any current FNS verification guidance.
+
+4. **On product changes:**
    - [ ] Year-begin behavior change (NXT-10945 area): refresh Module 7.
    - [ ] DC household extension criteria change (DCSBAUTO): refresh Module 3.
    - [ ] Verification sample percentage change (system settings): refresh Module 6.
    - [ ] Notifications hub structural change (NXT-10913): refresh Modules 3, 4, 7.
 
-4. **Persona drift check:** Re-run `grep -h "^As a\|^As an" raw/tickets/*.md | sort -u` and confirm the ownership tags still map to real personas. If a new persona has emerged in recent tickets, decide whether to map it to an existing tag or add a new one — don't silently merge.
+5. **Persona drift check:** Re-run `grep -h "^As a\|^As an" raw/tickets/*.md | sort -u` and confirm the ownership tags still map to real personas. If a new persona has emerged in recent tickets, decide whether to map it to an existing tag or add a new one — don't silently merge.
 
 ---
 
-## E. What was deliberately left out (and why)
+## E. What remains deliberately out of scope
 
-- **Federal per-meal reimbursement rates.** I could not directly verify SY 2025-2026 rates in this environment, so the training describes the rate structure qualitatively ("free pays the district more than paid") without inventing dollar amounts. Add specific rates when a maintainer can verify the annual rate notice on USDA FNS.
-- **Full IEG table for all household sizes 1–8.** Same reason — only the family-of-4 figure was confirmed via search-surfaced snippets. The training links to the source URL so a maintainer can fill in the rest.
-- **State-specific Direct Certification rules.** The brief defaulted to federal-only; state-level rules vary widely and would expand this document significantly. If training is later tailored to a single state, add a Module 3.5 covering that state's DC file format, cadence, and any state-specific categorical sources.
-- **CEP financial modeling.** Module 5 explicitly tells new hires not to advise customers on whether CEP is the right choice — that's the customer's CFO's job. Modeling tools (FRAC, USDA) are referenced but not reproduced.
+- **State-specific Direct Certification rules and file formats.** Federal rules are now verified here; state-level cadence, file layout, and data-sharing details vary and should be researched only when the training is tailored to a particular state.
+- **State/local application forms and disclosure language.** This file cites federal application/eligibility rules, but does not attempt to maintain every state agency's household application packet or translated materials.
+- **CEP financial modeling beyond federal mechanics.** The formula and federal rate structure are cited, but the training should not advise customers whether CEP is financially optimal. That depends on district participation, meal counts, local costs, State reimbursements, and non-Federal funding assumptions.
+- **Internal product behavior beyond the existing ticket map.** Per the 2026-05-12 research scope, this pass did not re-research or rewrite internal product-context references. Use Section B/C only as the product-behavior audit trail.
