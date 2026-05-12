@@ -137,18 +137,20 @@ section.module { padding: 44px 0 24px; border-bottom: 1px dashed var(--border); 
 section.module:last-of-type { border-bottom: none; }
 
 .module-num {
-  display: inline-flex; align-items: center; gap: 8px;
+  display: flex; align-items: center; gap: 8px;
+  width: fit-content;
   font-size: 11px; font-weight: 700; letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--hue, var(--accent));
   background: var(--hue-soft, var(--accent-soft));
   padding: 5px 12px; border-radius: 99px;
   border: 1px solid var(--hue, var(--accent));
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 .module-num::before {
   content: ""; width: 6px; height: 6px; border-radius: 50%;
   background: var(--hue, var(--accent)); display: inline-block;
+  flex-shrink: 0;
 }
 h2 {
   font-size: 24px; margin: 0 0 6px 0; line-height: 1.2; letter-spacing: -0.012em; font-weight: 600;
@@ -402,11 +404,12 @@ ul.tickets li::before { content: "→"; color: var(--accent); margin-right: 8px;
 }
 
 [data-slide] h2 {
-  font-size: 30px; line-height: 1.15; letter-spacing: -0.02em;
-  margin: 0 0 18px 0; font-weight: 700;
-  padding-bottom: 12px;
-  border-bottom: 3px solid var(--hue, var(--accent));
-  display: inline-block; padding-right: 8px;
+  font-size: 26px; line-height: 1.2; letter-spacing: -0.018em;
+  margin: 0 0 16px 0; font-weight: 700;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--hue, var(--accent));
+  display: inline-block; padding-right: 6px;
+  max-width: 100%;
 }
 .slide-lede {
   font-size: 16px; line-height: 1.55; color: var(--ink-dim);
@@ -484,52 +487,409 @@ ul.tickets li::before { content: "→"; color: var(--accent); margin-right: 8px;
 }
 .risk-note .risk-body { font-size: 14px; line-height: 1.55; color: var(--ink); }
 .risk-note .risk-body b { color: var(--danger); }
+
+/* ===== Course-rail sidebar (replaces docs-TOC styling) ===== */
+.rail-header {
+  padding: 0 4px 18px; border-bottom: 1px solid var(--border); margin-bottom: 14px;
+}
+.rail-eyebrow {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--ink-faint);
+}
+.rail-title {
+  font-size: 17px; font-weight: 700; color: var(--ink);
+  letter-spacing: -0.01em; margin-top: 2px; margin-bottom: 14px;
+}
+.rail-progress-bar {
+  height: 6px; background: var(--bg-3); border-radius: 99px; overflow: hidden;
+}
+.rail-progress-fill {
+  height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  width: 0%; transition: width 0.3s;
+}
+.rail-progress-meta {
+  display: flex; justify-content: space-between;
+  font-size: 11.5px; color: var(--ink-dim); margin-top: 7px;
+  font-variant-numeric: tabular-nums;
+}
+.rail-progress-meta b { color: var(--ink); font-weight: 700; }
+
+.rail-list { list-style: none; padding: 0; margin: 0; }
+.rail-item { margin: 0 0 4px 0; }
+.rail-item a {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 10px; border-radius: 8px;
+  text-decoration: none; border-bottom: none;
+  color: var(--ink-dim); transition: background 0.15s, color 0.15s;
+  position: relative;
+}
+.rail-item a:hover { background: var(--bg-3); color: var(--ink); }
+.rail-num {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--bg-3); color: var(--ink-faint);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11.5px; font-weight: 700; flex-shrink: 0;
+  border: 1.5px solid transparent;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.rail-label {
+  display: flex; flex-direction: column; flex: 1; min-width: 0;
+}
+.rail-name { font-size: 13px; font-weight: 500; }
+.rail-time { font-size: 10.5px; color: var(--ink-faint); margin-top: 1px; letter-spacing: 0.02em; }
+.rail-state {
+  width: 16px; height: 16px; flex-shrink: 0;
+  font-size: 12px; color: var(--hue, var(--ok));
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* Visited (read once) */
+.rail-item a.done .rail-num {
+  background: var(--hue, var(--accent));
+  color: var(--bg);
+  border-color: var(--hue, var(--accent));
+}
+.rail-item a.done .rail-state::before { content: "✓"; color: var(--hue, var(--ok)); }
+
+/* Complete (checkpoint passed) */
+.rail-item a.complete .rail-num {
+  background: var(--ok); color: var(--bg-2); border-color: var(--ok);
+}
+.rail-item a.complete .rail-state::before { content: "★"; color: var(--ok); }
+
+/* Current — strong indicator */
+.rail-item a.active {
+  background: var(--hue-soft, var(--accent-soft));
+  color: var(--ink); font-weight: 600;
+}
+.rail-item a.active .rail-num {
+  background: var(--hue, var(--accent)); color: var(--bg-2);
+  border-color: var(--hue, var(--accent));
+  box-shadow: 0 0 0 3px var(--hue-soft, var(--accent-soft));
+}
+.rail-item a.active::before {
+  content: ""; position: absolute; left: -18px; top: 50%; transform: translateY(-50%);
+  width: 3px; height: 60%; background: var(--hue, var(--accent)); border-radius: 0 2px 2px 0;
+}
+
+.rail-footer {
+  margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--border);
+}
+.rail-ref-btn {
+  display: flex; align-items: center; gap: 8px;
+  width: 100%; background: transparent; border: 1px solid var(--border);
+  color: var(--ink-dim); padding: 9px 12px; border-radius: 8px;
+  cursor: pointer; font: inherit; font-size: 12.5px; transition: all 0.15s;
+}
+.rail-ref-btn:hover { background: var(--bg-3); color: var(--ink); border-color: var(--ink-dim); }
+.rail-ref-btn .icon { font-size: 14px; }
+
+/* ===== Header: course-shell bar ===== */
+header.top {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 20px; padding: 14px 0 14px 0;
+  border-bottom: 1px solid var(--border); gap: 16px;
+}
+.top-left { display: flex; flex-direction: column; gap: 4px; min-width: 0; flex: 1; }
+.course-title {
+  font-size: 13px; color: var(--ink-dim); font-weight: 500;
+  letter-spacing: -0.005em; line-height: 1.2;
+}
+.course-title span { color: var(--accent); font-weight: 600; }
+.lesson-bar { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.lesson-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--hue-current, var(--accent));
+  flex-shrink: 0;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--hue-current, var(--accent)) 20%, transparent);
+}
+.lesson-current {
+  font-size: 15px; font-weight: 600; color: var(--ink);
+  letter-spacing: -0.005em; line-height: 1.2;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.lesson-pos {
+  font-size: 11.5px; color: var(--ink-faint); margin-left: auto;
+  font-variant-numeric: tabular-nums; letter-spacing: 0.04em;
+  flex-shrink: 0;
+}
+.top-right { display: flex; gap: 8px; flex-shrink: 0; }
+.header-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--bg-2); border: 1px solid var(--border);
+  color: var(--ink-dim); padding: 7px 14px; border-radius: 8px;
+  cursor: pointer; font: inherit; font-size: 13px; font-weight: 500;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.header-btn:hover { background: var(--bg-3); color: var(--ink); border-color: var(--ink-dim); }
+.header-btn .icon { font-size: 14px; }
+.header-btn.icon-only { padding: 7px 10px; min-width: 36px; justify-content: center; }
+
+@media (max-width: 720px) {
+  .lesson-pos { display: none; }
+  .header-btn { padding: 6px 10px; font-size: 12px; }
+  .header-btn span:not(.icon) { display: none; }
+}
+
+/* ===== Course-landing block (slide 0) ===== */
+.landing { margin: 6px 0 30px 0; }
+.landing-title {
+  font-size: 32px !important; line-height: 1.1 !important;
+  letter-spacing: -0.025em !important; font-weight: 700 !important;
+  color: var(--ink) !important; border-bottom: 0 !important;
+  padding-bottom: 0 !important; padding-right: 0 !important;
+  display: block !important; margin: 0 0 12px 0 !important;
+}
+.landing-lede {
+  font-size: 16px; line-height: 1.55; color: var(--ink-dim);
+  max-width: 60ch; margin: 0 0 22px 0;
+}
+.landing-meta {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+  margin: 20px 0;
+}
+.landing-meta-item {
+  background: var(--bg-2); border: 1px solid var(--border);
+  border-radius: 8px; padding: 12px 14px;
+}
+.landing-meta-num {
+  font-size: 22px; font-weight: 700; color: var(--accent);
+  letter-spacing: -0.02em; font-variant-numeric: tabular-nums;
+}
+.landing-meta-label {
+  font-size: 10.5px; font-weight: 600; color: var(--ink-dim);
+  text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px;
+}
+.landing-outcomes {
+  background: var(--bg-3); border-radius: 8px;
+  padding: 16px 20px; margin: 18px 0 0 0;
+}
+.landing-outcomes-title {
+  font-size: 11px; font-weight: 700; color: var(--ink-dim);
+  text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px;
+}
+.landing-outcomes ul {
+  margin: 0; padding-left: 20px; font-size: 14px; line-height: 1.7;
+}
+
+@media (max-width: 720px) {
+  .landing-meta { grid-template-columns: repeat(2, 1fr); }
+  .landing-title { font-size: 26px !important; }
+}
+
+/* ===== Checkpoint MCQ (end of each module) ===== */
+.checkpoint {
+  margin: 28px 0 8px 0;
+  border: 1.5px solid var(--hue, var(--accent));
+  background: var(--bg-2);
+  border-radius: 10px; padding: 18px 20px;
+  position: relative;
+}
+.checkpoint-head {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 10px;
+}
+.checkpoint-label {
+  font-size: 10.5px; font-weight: 700; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--hue, var(--accent));
+}
+.checkpoint-status {
+  font-size: 11px; font-weight: 600; color: var(--ink-faint);
+  padding: 3px 9px; border-radius: 99px; background: var(--bg-3);
+  letter-spacing: 0.04em;
+}
+.checkpoint-status[data-status="correct"] {
+  background: var(--ok-soft); color: var(--ok);
+}
+.checkpoint-status[data-status="incorrect"] {
+  background: var(--danger-soft); color: var(--danger);
+}
+.checkpoint-question {
+  font-size: 15.5px; font-weight: 600; color: var(--ink);
+  line-height: 1.4; margin-bottom: 14px;
+}
+.checkpoint-options {
+  display: flex; flex-direction: column; gap: 7px; margin-bottom: 6px;
+}
+.checkpoint-opt {
+  display: flex; align-items: flex-start; gap: 10px;
+  text-align: left; background: var(--bg-3); border: 1px solid var(--border);
+  color: var(--ink); padding: 10px 14px; border-radius: 8px;
+  cursor: pointer; font: inherit; font-size: 14px; line-height: 1.4;
+  transition: all 0.15s;
+}
+.checkpoint-opt:hover:not(:disabled) {
+  background: var(--hue-soft, var(--accent-soft));
+  border-color: var(--hue, var(--accent));
+}
+.checkpoint-opt:disabled { cursor: default; }
+.checkpoint-opt .opt-letter {
+  display: flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px; border-radius: 4px; flex-shrink: 0;
+  background: var(--bg); color: var(--ink-dim);
+  font-size: 11px; font-weight: 700; border: 1px solid var(--border);
+}
+.checkpoint-opt.correct { background: var(--ok-soft); border-color: var(--ok); }
+.checkpoint-opt.correct .opt-letter { background: var(--ok); color: var(--bg-2); border-color: var(--ok); }
+.checkpoint-opt.incorrect { background: var(--danger-soft); border-color: var(--danger); }
+.checkpoint-opt.incorrect .opt-letter { background: var(--danger); color: var(--bg-2); border-color: var(--danger); }
+.checkpoint-feedback {
+  margin-top: 12px; padding: 10px 14px; background: var(--bg-3);
+  border-radius: 6px; font-size: 13.5px; line-height: 1.55; color: var(--ink-dim);
+}
+.checkpoint-feedback strong { color: var(--ink); }
+.checkpoint.answered .checkpoint-opt:not(.correct):not(.incorrect) { opacity: 0.5; }
+
+/* ===== Reference drawer (out-of-flow appendices) ===== */
+.ref-drawer {
+  position: fixed; top: 0; right: 0; bottom: 0;
+  width: min(780px, 95vw);
+  background: var(--bg-2);
+  border-left: 1px solid var(--border);
+  box-shadow: -8px 0 32px rgba(0,0,0,0.12);
+  transform: translateX(100%);
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+  z-index: 200;
+  padding: 0 36px 36px 36px;
+}
+.ref-drawer.open { transform: translateX(0); }
+.ref-drawer-header {
+  position: sticky; top: 0;
+  background: var(--bg-2); z-index: 1;
+  padding: 22px 0 14px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
+  margin-bottom: 12px;
+}
+.ref-drawer-eyebrow {
+  font-size: 10.5px; font-weight: 700; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--ink-faint);
+}
+.ref-drawer-title {
+  font-size: 22px !important; font-weight: 700;
+  margin: 4px 0 0 0 !important;
+  letter-spacing: -0.015em;
+  border: 0 !important; padding: 0 !important;
+  display: block !important;
+}
+.ref-drawer-close {
+  background: var(--bg-3); border: 1px solid var(--border);
+  width: 32px; height: 32px; border-radius: 50%;
+  font-size: 14px; color: var(--ink-dim); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s; flex-shrink: 0;
+}
+.ref-drawer-close:hover { background: var(--danger-soft); color: var(--danger); border-color: var(--danger); }
+.ref-drawer .module.appendix {
+  padding-top: 28px; border-bottom: none;
+}
+.ref-drawer .module-num { margin-bottom: 12px; }
+.ref-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.28s;
+  z-index: 199;
+}
+.ref-backdrop.open { opacity: 1; pointer-events: auto; }
+[data-theme="dark"] .ref-backdrop { background: rgba(0, 0, 0, 0.6); }
+
+@media (max-width: 720px) {
+  .ref-drawer { padding: 0 20px 20px; }
+}
 </style>
 </head>
 <body>
 <div class="layout">
-<nav class="toc">
-  <h3>Modules</h3>
-  <ol id="toc-list" start="0">
-    <li><a href="#m0">Orientation</a></li>
-    <li><a href="#m1">The eligibility problem</a></li>
-    <li><a href="#m2">Categorical vs. income-based</a></li>
-    <li><a href="#m3">Direct Certification</a></li>
-    <li><a href="#m4">Income-based applications</a></li>
-    <li><a href="#m5">Community Eligibility Provision</a></li>
-    <li><a href="#m6">Verification</a></li>
-    <li><a href="#m7">Where the data goes next</a></li>
-  </ol>
-  <div class="progress-wrap">
-    <div class="progress-meta" style="text-transform: uppercase; letter-spacing: 0.08em;">Progress</div>
-    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
-    <div class="progress-meta"><span id="progress-pct">0</span>% — saved locally</div>
+<nav class="toc" aria-label="Course rail">
+  <div class="rail-header">
+    <div class="rail-eyebrow">Course</div>
+    <div class="rail-title">Eligibility</div>
+    <div class="rail-progress">
+      <div class="rail-progress-bar"><div class="rail-progress-fill" id="progress-fill"></div></div>
+      <div class="rail-progress-meta">
+        <span><b id="progress-pct">0</b>% complete</span>
+        <span id="progress-counts">0 / 8</span>
+      </div>
+    </div>
   </div>
-  <ol class="appendix-links">
-    <li><a href="#appendix-regulatory">Regulatory citations</a></li>
-    <li><a href="#appendix-tickets">Ticket citations</a></li>
+
+  <ol id="toc-list" class="rail-list">
+    <li class="rail-item" data-hue="slate"><a href="#m0"><span class="rail-num">0</span><span class="rail-label"><span class="rail-name">Orientation</span><span class="rail-time">~3 min</span></span><span class="rail-state"></span></a></li>
+    <li class="rail-item" data-hue="indigo"><a href="#m1"><span class="rail-num">1</span><span class="rail-label"><span class="rail-name">The eligibility record</span><span class="rail-time">~5 min</span></span><span class="rail-state"></span></a></li>
+    <li class="rail-item" data-hue="emerald"><a href="#m2"><span class="rail-num">2</span><span class="rail-label"><span class="rail-name">Categorical vs. income</span><span class="rail-time">~7 min</span></span><span class="rail-state"></span></a></li>
+    <li class="rail-item" data-hue="teal"><a href="#m3"><span class="rail-num">3</span><span class="rail-label"><span class="rail-name">Direct Certification</span><span class="rail-time">~7 min</span></span><span class="rail-state"></span></a></li>
+    <li class="rail-item" data-hue="amber"><a href="#m4"><span class="rail-num">4</span><span class="rail-label"><span class="rail-name">Income applications</span><span class="rail-time">~6 min</span></span><span class="rail-state"></span></a></li>
+    <li class="rail-item" data-hue="violet"><a href="#m5"><span class="rail-num">5</span><span class="rail-label"><span class="rail-name">Community Elig. Provision</span><span class="rail-time">~7 min</span></span><span class="rail-state"></span></a></li>
+    <li class="rail-item" data-hue="rose"><a href="#m6"><span class="rail-num">6</span><span class="rail-label"><span class="rail-name">Verification</span><span class="rail-time">~6 min</span></span><span class="rail-state"></span></a></li>
+    <li class="rail-item" data-hue="sky"><a href="#m7"><span class="rail-num">7</span><span class="rail-label"><span class="rail-name">Where the data goes</span><span class="rail-time">~5 min</span></span><span class="rail-state"></span></a></li>
   </ol>
+
+  <div class="rail-footer">
+    <button class="rail-ref-btn" id="rail-open-ref" type="button">
+      <span class="icon">📚</span> Reference library
+    </button>
+  </div>
 </nav>
 
 <main>
 <header class="top">
-  <div>
-    <h1>Eligibility in <span>SchoolCafé 2.0</span></h1>
-    <div class="meta">For a new dev orienting to the product · current as of May 2026</div>
+  <div class="top-left">
+    <div class="course-title">Eligibility in <span>SchoolCafé 2.0</span></div>
+    <div class="lesson-bar">
+      <span class="lesson-dot" id="lesson-dot"></span>
+      <span class="lesson-current" id="lesson-current">Lesson 1 — Orientation</span>
+      <span class="lesson-pos" id="lesson-pos">1 / 8</span>
+    </div>
   </div>
-  <button class="theme" id="theme-btn">☾ dark</button>
+  <div class="top-right">
+    <button class="header-btn" id="open-ref" type="button" aria-label="Open reference library">
+      <span class="icon">📚</span> Reference
+    </button>
+    <button class="header-btn icon-only" id="theme-btn" type="button" aria-label="Toggle theme">☾</button>
+  </div>
 </header>
 
 <!-- ============ ORIENTATION ============ -->
 <section class="module" id="m0" data-m="0" data-slide data-hue="slate">
-<div class="module-num">Orientation</div>
-<h2>How school meals work, in 90 seconds</h2>
+<div class="module-num">Lesson 0 · Orientation</div>
 
-<p>Eligibility decides whether a kid eats free, at a reduced price, or pays full price. Every other part of the product — POS pricing, claim generation, parent notifications, reports — reads from it. Get eligibility wrong and the district loses federal money or claws back meals served at the wrong price.</p>
+<div class="landing">
+  <h2 class="landing-title">Eligibility, in eight lessons.</h2>
+  <p class="landing-lede">A working mental model of how SchoolCafé 2.0 decides who eats free, who eats reduced, and who pays — and <em>why</em> each piece is built the way it is. For a new dev: enough to read a ticket and know what it's actually asking.</p>
 
-<p>This guide is for a new dev coming in cold. Goal: a working mental model of how eligibility flows through SchoolCafé 2.0 and <em>why</em> each piece is built the way it is — enough to read a ticket and know what it's actually asking. Click through left-to-right; the modules build on each other.</p>
+  <div class="landing-meta">
+    <div class="landing-meta-item">
+      <div class="landing-meta-num">8</div>
+      <div class="landing-meta-label">Lessons</div>
+    </div>
+    <div class="landing-meta-item">
+      <div class="landing-meta-num">~45m</div>
+      <div class="landing-meta-label">Total time</div>
+    </div>
+    <div class="landing-meta-item">
+      <div class="landing-meta-num">7</div>
+      <div class="landing-meta-label">Checkpoints</div>
+    </div>
+    <div class="landing-meta-item">
+      <div class="landing-meta-num">→</div>
+      <div class="landing-meta-label">Use arrow keys or Next</div>
+    </div>
+  </div>
 
-<h3>The cast</h3>
+  <div class="landing-outcomes">
+    <div class="landing-outcomes-title">By the end you'll be able to</div>
+    <ul>
+      <li>Read an eligibility record's Status / Basis / dates and know what each one tells you</li>
+      <li>Trace any student's eligibility back to one of three sources: Direct Cert, application, or CEP</li>
+      <li>Triage the three most common eligibility tickets (DC mismatch, stuck application, claim discrepancy)</li>
+      <li>Hold your own in a CEP, verification, or year-begin-carryover planning conversation</li>
+    </ul>
+  </div>
+</div>
+
+<h3>First — the cast</h3>
 <p>If you've never worked on K-12 software, the world this product lives in looks like this:</p>
 
 <table class="grid">
@@ -673,26 +1033,21 @@ ul.tickets li::before { content: "→"; color: var(--accent); margin-right: 8px;
 </table>
 <p class="meta-note" style="font-size: 12.5px; color: var(--ink-dim); margin-top: -4px;">SY 2025-2026, 48 contiguous states / DC. The "maximum rate" line is the federally-set ceiling that applies to districts in higher-cost states (Alaska, Hawaii, and some others use separate higher rates entirely). Source: <a href="#appendix-regulatory">USDA-RATES-2025-FR</a>.</p>
 
-<div class="stats">
+<div class="stats two">
   <div class="stat">
     <div class="stat-label">Free vs Paid gap</div>
     <div class="stat-num">$4.16</div>
-    <div class="stat-sub">per reimbursable lunch (base NSLP rate)</div>
+    <div class="stat-sub">per reimbursable lunch — $4.60 (free) − $0.44 (paid), base NSLP rate</div>
   </div>
   <div class="stat">
-    <div class="stat-label">At 1% error / month</div>
-    <div class="stat-num">≈ $2,000</div>
-    <div class="stat-sub">misallocated for a 50K-lunches-a-month district</div>
-  </div>
-  <div class="stat">
-    <div class="stat-label">Audit follow-up at</div>
-    <div class="stat-num">~12K / yr</div>
-    <div class="stat-sub">compound impact across a school year</div>
+    <div class="stat-label">Illustrative scenario</div>
+    <div class="stat-num">≈ $2K/mo</div>
+    <div class="stat-sub">a 1% systematic error at a 50K-lunches/month district. Compounds across the school year.</div>
   </div>
 </div>
 
 <div class="risk-note">
-<div class="risk-body"><b>Loss-framed:</b> A wrong Status on one student is nothing. A systematic error across a site for a month is the kind of thing that triggers state-audit follow-up. That's why eligibility tickets disproportionately have <em>URGENT</em> in the title even when they look small from the outside.</div>
+<div class="risk-body"><b>Why customers panic:</b> A wrong Status on one student is nothing. A systematic error across a site for a month is the kind of thing that triggers state-audit follow-up. That's why eligibility tickets disproportionately have <em>URGENT</em> in the title even when they look small from the outside.</div>
 </div>
 
 <h3>Three paths to a Status</h3>
@@ -715,6 +1070,22 @@ ul.tickets li::before { content: "→"; color: var(--accent); margin-right: 8px;
 <div class="commit">
 <h4>Implementation intention</h4>
 <p>When a teammate asks <em>"why is this student showing as Paid?"</em> — <strong>before you guess</strong>, you will check three things in order: (1) is there an active Direct Cert match? (2) is there an approved application for this academic year? (3) is the student's site under CEP / P2? Status flows from the answer to those three, in that order of precedence.</p>
+</div>
+
+<div class="checkpoint" data-correct="a">
+  <div class="checkpoint-head">
+    <span class="checkpoint-label">Checkpoint</span>
+    <span class="checkpoint-status" data-status="pending">Try it</span>
+  </div>
+  <div class="checkpoint-question">A customer says a kid is showing as Paid but "we know they're on SNAP." Where do you look <em>first</em>?</div>
+  <div class="checkpoint-options">
+    <button class="checkpoint-opt" data-opt="a" type="button"><span class="opt-letter">A</span> The eligibility record's <b>Basis</b> field</button>
+    <button class="checkpoint-opt" data-opt="b" type="button"><span class="opt-letter">B</span> The IEG table for SY 2025-2026</button>
+    <button class="checkpoint-opt" data-opt="c" type="button"><span class="opt-letter">C</span> The student's POS transaction history</button>
+  </div>
+  <div class="checkpoint-feedback" hidden>
+    <p><strong>Right.</strong> Basis tells you which of the three paths (DC / application / CEP) produced the record. Status tells you what they pay; Basis tells you which trail to follow.</p>
+  </div>
 </div>
 </section>
 
@@ -814,6 +1185,22 @@ Result: <strong>Free</strong>. ($40,000 ≤ $41,795.)<br>
 <h4>Reading a Basis field in practice</h4>
 <p>When you open a student's eligibility detail, read the <strong>Basis</strong> field before the Status. Status alone tells you what the kid pays. Basis tells you <em>why</em>, and <em>why</em> changes the answer to every follow-up question — including "is verification going to touch this app?" (Categorical apps are mostly exempt; income apps are the verification pool, Module 6.)</p>
 </div>
+
+<div class="checkpoint" data-correct="b">
+  <div class="checkpoint-head">
+    <span class="checkpoint-label">Checkpoint</span>
+    <span class="checkpoint-status" data-status="pending">Try it</span>
+  </div>
+  <div class="checkpoint-question">A student's record shows <span class="term">Free (DC SNAP)</span>. Will this student show up in November's verification sample?</div>
+  <div class="checkpoint-options">
+    <button class="checkpoint-opt" data-opt="a" type="button"><span class="opt-letter">A</span> Yes — all Free students are eligible to be sampled</button>
+    <button class="checkpoint-opt" data-opt="b" type="button"><span class="opt-letter">B</span> No — DC-routed students are exempt from verification entirely</button>
+    <button class="checkpoint-opt" data-opt="c" type="button"><span class="opt-letter">C</span> Only if their income falls in the error-prone band</button>
+  </div>
+  <div class="checkpoint-feedback" hidden>
+    <p><strong>Right.</strong> Verification is an income-application audit. Anything that came via Direct Cert (or via foster/homeless/migrant/runaway designation) is exempt — the state has already verified them through SNAP/TANF/FDPIR, so there's nothing to re-prove.</p>
+  </div>
+</div>
 </section>
 
 <!-- ============ MODULE 3 ============ -->
@@ -884,6 +1271,22 @@ Result: <strong>Free</strong>. ($40,000 ≤ $41,795.)<br>
 <div class="commit">
 <h4>Triaging a DC complaint</h4>
 <p>When a customer reports <em>"the state says this kid is on SNAP but the system says Paid"</em>: (1) open the DC page, confirm the most recent file was ingested; (2) search Unmatched and Multiple Matches for the student's name; (3) check the student's enrollment date against the file date. If all three look fine, then it's a bug. Most of the time one of those three is the answer.</p>
+</div>
+
+<div class="checkpoint" data-correct="a">
+  <div class="checkpoint-head">
+    <span class="checkpoint-label">Checkpoint</span>
+    <span class="checkpoint-status" data-status="pending">Try it</span>
+  </div>
+  <div class="checkpoint-question">A state SNAP file just landed. The customer is sure Mary Garcia is on SNAP — but she shows as Unmatched. What's the most likely single cause?</div>
+  <div class="checkpoint-options">
+    <button class="checkpoint-opt" data-opt="a" type="button"><span class="opt-letter">A</span> Fuzzy match scored below threshold — name, DOB, or address drift on either side</button>
+    <button class="checkpoint-opt" data-opt="b" type="button"><span class="opt-letter">B</span> The product's matching engine has a bug</button>
+    <button class="checkpoint-opt" data-opt="c" type="button"><span class="opt-letter">C</span> Her family didn't fill out a household application</button>
+  </div>
+  <div class="checkpoint-feedback" hidden>
+    <p><strong>Right.</strong> DC matches fail far more often from data drift than from product bugs. Open the DC import, look at Unmatched, check her name and DOB against the state file. The "no household application" answer is a red herring — DC is supposed to <em>replace</em> the application requirement.</p>
+  </div>
 </div>
 </section>
 
@@ -958,6 +1361,22 @@ Result: <strong>Free</strong>. ($40,000 ≤ $41,795.)<br>
 <div class="commit">
 <h4>Triaging a stuck application</h4>
 <p>Open the application detail, scan Pending Reasons, identify which one is blocking. Don't assume system bug until every Pending Reason has been addressed.</p>
+</div>
+
+<div class="checkpoint" data-correct="b">
+  <div class="checkpoint-head">
+    <span class="checkpoint-label">Checkpoint</span>
+    <span class="checkpoint-status" data-status="pending">Try it</span>
+  </div>
+  <div class="checkpoint-question">An application has been sitting in "Submitted" for a week and won't advance to Processed. Where do you look first?</div>
+  <div class="checkpoint-options">
+    <button class="checkpoint-opt" data-opt="a" type="button"><span class="opt-letter">A</span> File a bug — the workflow is stuck</button>
+    <button class="checkpoint-opt" data-opt="b" type="button"><span class="opt-letter">B</span> The <b>Pending Reasons</b> section on the application detail</button>
+    <button class="checkpoint-opt" data-opt="c" type="button"><span class="opt-letter">C</span> Trigger a secondary matching pass</button>
+  </div>
+  <div class="checkpoint-feedback" hidden>
+    <p><strong>Right.</strong> Applications stall on Pending Reasons by design — missing signature, household-size discrepancy, unconfirmed categorical claim, etc. The system is enforcing the federal requirement that benefits be applied within 10 operating days of a <em>complete</em> application; the "complete" qualifier matters.</p>
+  </div>
 </div>
 </section>
 
@@ -1052,6 +1471,22 @@ For every 100 reimbursable meals served at this site, the district claims 60.8 a
 <h4>Triaging a CEP claim discrepancy</h4>
 <p>When a CEP customer asks <em>"why don't my claim totals match my POS totals?"</em>, open Special Assistance Programs configuration for the affected site, read off the Free/Reduced/Paid percentages, and confirm the math: meal counts × site percentages = claimed amounts. The discrepancy is almost always in the percentages or the date range, not the meal counts themselves.</p>
 </div>
+
+<div class="checkpoint" data-correct="b">
+  <div class="checkpoint-head">
+    <span class="checkpoint-label">Checkpoint</span>
+    <span class="checkpoint-status" data-status="pending">Try it</span>
+  </div>
+  <div class="checkpoint-question">A site has an Identified Student Percentage of <strong>30%</strong> as of April 1. Under CEP, what's their free claiming percentage for the year?</div>
+  <div class="checkpoint-options">
+    <button class="checkpoint-opt" data-opt="a" type="button"><span class="opt-letter">A</span> 30% — the ISP is the claiming percentage</button>
+    <button class="checkpoint-opt" data-opt="b" type="button"><span class="opt-letter">B</span> 48% — ISP × the 1.6 multiplier</button>
+    <button class="checkpoint-opt" data-opt="c" type="button"><span class="opt-letter">C</span> 100% — CEP means everyone eats free</button>
+  </div>
+  <div class="checkpoint-feedback" hidden>
+    <p><strong>Right.</strong> 30 × 1.6 = 48% free claiming, 52% paid claiming. Every kid eats free at the cafeteria; the federal claim splits the meal counts according to those site-wide percentages. The 1.6 multiplier is what makes CEP financially viable for districts with moderate identified-student counts.</p>
+  </div>
+</div>
 </section>
 
 <!-- ============ MODULE 6 ============ -->
@@ -1137,6 +1572,22 @@ The lesser of <strong>3%</strong> of all approved applications on file as of Oct
 <h4>Triaging a verification ticket between August and November</h4>
 <p>Treat it as time-critical, not feature-request-critical. Identify whether the customer is on Error-Prone (Standard), Alternate One, or Alternate Two before suggesting any workflow change — the three methods have meaningfully different sample math, and the wrong answer compounds into an audit finding.</p>
 </div>
+
+<div class="checkpoint" data-correct="b">
+  <div class="checkpoint-head">
+    <span class="checkpoint-label">Checkpoint</span>
+    <span class="checkpoint-status" data-status="pending">Try it</span>
+  </div>
+  <div class="checkpoint-question">It's November 20. A district hasn't completed verification and didn't request a state extension. What happens?</div>
+  <div class="checkpoint-options">
+    <button class="checkpoint-opt" data-opt="a" type="button"><span class="opt-letter">A</span> Nothing — November 15 is a soft internal target</button>
+    <button class="checkpoint-opt" data-opt="b" type="button"><span class="opt-letter">B</span> The state can require repayment of federal reimbursement for free/reduced meals served after Nov 15</button>
+    <button class="checkpoint-opt" data-opt="c" type="button"><span class="opt-letter">C</span> SchoolCafé locks them out of POS until they finish</button>
+  </div>
+  <div class="checkpoint-feedback" hidden>
+    <p><strong>Right.</strong> The Nov 15 deadline has financial teeth. For a mid-sized district that's tens of thousands of dollars of reimbursement at risk per month overdue. It's also why the 5% sample-deletion cap in the product is enforced — districts under deadline pressure will otherwise try to "lose" inconvenient applications.</p>
+  </div>
+</div>
 </section>
 
 <!-- ============ MODULE 7 ============ -->
@@ -1188,10 +1639,36 @@ The lesser of <strong>3%</strong> of all approved applications on file as of Oct
 <h4>Shipping an eligibility change safely</h4>
 <p>When you change anything that writes an eligibility record, trace the change through all five downstream consumers (POS pricing for new transactions, Eligibility Changes widget, Roster report, next claim build, Family Hub notification) before marking the work done.</p>
 </div>
+
+<div class="checkpoint" data-correct="c">
+  <div class="checkpoint-head">
+    <span class="checkpoint-label">Checkpoint</span>
+    <span class="checkpoint-status" data-status="pending">Try it</span>
+  </div>
+  <div class="checkpoint-question">You shipped a fix to year-begin Carryover. Which of these is <em>not</em> sufficient as a test before marking the work done?</div>
+  <div class="checkpoint-options">
+    <button class="checkpoint-opt" data-opt="a" type="button"><span class="opt-letter">A</span> POS prices correctly for affected students on transactions after July 1</button>
+    <button class="checkpoint-opt" data-opt="b" type="button"><span class="opt-letter">B</span> Next month's claim build picks up the corrected status</button>
+    <button class="checkpoint-opt" data-opt="c" type="button"><span class="opt-letter">C</span> The new record displays correctly in the Eligibility module</button>
+  </div>
+  <div class="checkpoint-feedback" hidden>
+    <p><strong>Right — C alone is not enough.</strong> Eligibility writes ripple into POS, Claims, Reports, Family Hub, and state exports. Visual confirmation in the Eligibility module proves the write happened; it doesn't prove the downstream consumers picked it up. A and B are real, useful checks; C is a necessary-but-insufficient one.</p>
+  </div>
+</div>
 </section>
 
+<!-- ============ REFERENCE DRAWER (out-of-flow) ============ -->
+<aside class="ref-drawer" id="ref-drawer" aria-hidden="true" aria-label="Reference materials">
+<div class="ref-drawer-header">
+  <div>
+    <div class="ref-drawer-eyebrow">Reference library</div>
+    <h2 class="ref-drawer-title">Sources &amp; audit trail</h2>
+  </div>
+  <button class="ref-drawer-close" id="ref-drawer-close" type="button" aria-label="Close reference drawer">✕</button>
+</div>
+
 <!-- ============ APPENDIX A — REGULATORY ============ -->
-<section class="module appendix" id="appendix-regulatory" data-slide data-hue="slate">
+<section class="module appendix" id="appendix-regulatory" data-hue="slate">
 <div class="module-num">Appendix A</div>
 <h2>Regulatory citations</h2>
 <p>Every regulatory claim in this guide cites a URL via a tag like <span class="cite url">USDA-IEG-2025-FNS</span>. URLs and retrieval dates below. The next person who maintains this guide should re-verify each URL when the school year rolls — IEGs and reimbursement rates update annually; CEP, DC, and verification rules change on a rulemaking cadence.</p>
@@ -1363,7 +1840,7 @@ The lesser of <strong>3%</strong> of all approved applications on file as of Oct
 </section>
 
 <!-- ============ APPENDIX B — TICKETS ============ -->
-<section class="module appendix" id="appendix-tickets" data-slide data-hue="slate">
+<section class="module appendix" id="appendix-tickets" data-hue="slate">
 <div class="module-num">Appendix B</div>
 <h2>Ticket citations</h2>
 <p>Every product-behavior claim in this guide cites a Jira ticket key like <span class="cite">NXT-12345</span>. The full list:</p>
@@ -1409,6 +1886,8 @@ The lesser of <strong>3%</strong> of all approved applications on file as of Oct
 </tbody>
 </table>
 </section>
+</aside>
+<div class="ref-backdrop" id="ref-backdrop"></div>
 
 <nav class="slide-nav" aria-label="Slide navigation">
   <button id="prev-slide" type="button">← Previous</button>
@@ -1443,17 +1922,31 @@ themeBtn.addEventListener('click', () => {
 
 // ===== Slide controller =====
 const slides = [...document.querySelectorAll('[data-slide]')];
-const allTocLinks = [...document.querySelectorAll('nav.toc a[href^="#"]')];
-const linkByHref = new Map(allTocLinks.map(a => [a.getAttribute('href').slice(1), a]));
+const railLinks = [...document.querySelectorAll('.rail-list a[href^="#"]')];
+const linkByHref = new Map(railLinks.map(a => [a.getAttribute('href').slice(1), a]));
+const railItems = [...document.querySelectorAll('.rail-item')];
+const itemByHref = new Map(railItems.map(li => [
+  li.querySelector('a').getAttribute('href').slice(1), li
+]));
+
 const visited = new Set(JSON.parse(localStorage.getItem('elig.visited') || '[]'));
+const completed = new Set(JSON.parse(localStorage.getItem('elig.completed') || '[]'));
 
 const prevBtn = document.getElementById('prev-slide');
 const nextBtn = document.getElementById('next-slide');
 const counterEl = document.getElementById('slide-counter');
 const progressFill = document.getElementById('progress-fill');
 const progressPct = document.getElementById('progress-pct');
+const progressCounts = document.getElementById('progress-counts');
+const lessonCurrent = document.getElementById('lesson-current');
+const lessonPos = document.getElementById('lesson-pos');
+const lessonDot = document.getElementById('lesson-dot');
 
-let currentIdx = 0;
+// Map slide index -> friendly title for the header
+function slideTitle(slide) {
+  const num = slide.querySelector('.module-num');
+  return num ? num.textContent.trim() : 'Lesson';
+}
 
 function updateProgress() {
   visited.forEach(i => {
@@ -1462,9 +1955,21 @@ function updateProgress() {
     const link = linkByHref.get(slide.id);
     if (link) link.classList.add('done');
   });
-  const pct = Math.round((visited.size / slides.length) * 100);
+  completed.forEach(i => {
+    const slide = slides[i];
+    if (!slide) return;
+    const link = linkByHref.get(slide.id);
+    if (link) {
+      link.classList.add('done', 'complete');
+    }
+  });
+  const visitedCount = visited.size;
+  const pct = Math.round((visitedCount / slides.length) * 100);
   progressFill.style.width = pct + '%';
   progressPct.textContent = pct;
+  if (progressCounts) {
+    progressCounts.textContent = visitedCount + ' / ' + slides.length;
+  }
 }
 
 function showSlide(idx, opts = {}) {
@@ -1477,10 +1982,20 @@ function showSlide(idx, opts = {}) {
   localStorage.setItem('elig.visited', JSON.stringify([...visited]));
   localStorage.setItem('elig.currentIdx', String(idx));
 
-  allTocLinks.forEach(l => l.classList.remove('active'));
+  railLinks.forEach(l => l.classList.remove('active'));
   const slideId = slides[idx].id;
   const tocLink = linkByHref.get(slideId);
   if (tocLink) tocLink.classList.add('active');
+
+  // Header lesson info — current title, position, hue dot
+  if (lessonCurrent) lessonCurrent.textContent = slideTitle(slides[idx]);
+  if (lessonPos) lessonPos.textContent = (idx + 1) + ' / ' + slides.length;
+  const hue = slides[idx].getAttribute('data-hue');
+  if (lessonDot && hue) {
+    // Pick from CSS vars by setting a custom property on the dot
+    const computed = getComputedStyle(slides[idx]).getPropertyValue('--hue').trim();
+    if (computed) lessonDot.style.setProperty('--hue-current', computed);
+  }
 
   prevBtn.disabled = idx === 0;
   nextBtn.disabled = idx === slides.length - 1;
@@ -1495,10 +2010,12 @@ function showSlide(idx, opts = {}) {
   updateProgress();
 }
 
+let currentIdx = 0;
+
 prevBtn.addEventListener('click', () => showSlide(currentIdx - 1));
 nextBtn.addEventListener('click', () => showSlide(currentIdx + 1));
 
-allTocLinks.forEach(link => {
+railLinks.forEach(link => {
   link.addEventListener('click', e => {
     e.preventDefault();
     const targetId = link.getAttribute('href').slice(1);
@@ -1510,6 +2027,11 @@ allTocLinks.forEach(link => {
 document.addEventListener('keydown', e => {
   if (e.target.matches('input, textarea, [contenteditable]')) return;
   if (e.metaKey || e.ctrlKey || e.altKey) return;
+  // Don't hijack arrows when drawer is open and user might be tabbing inside
+  if (document.getElementById('ref-drawer').classList.contains('open')) {
+    if (e.key === 'Escape') closeDrawer();
+    return;
+  }
   if (e.key === 'ArrowRight' || e.key === 'j' || e.key === 'l') {
     e.preventDefault();
     showSlide(currentIdx + 1);
@@ -1519,30 +2041,109 @@ document.addEventListener('keydown', e => {
   }
 });
 
-// Anchor links inside the body (e.g. citations linking to appendix) should also switch slides
+// Anchor links inside the body (e.g. citations linking to appendix) — appendix lives
+// in the drawer now, so anchor-to-appendix opens the drawer instead of switching slides.
 document.querySelectorAll('main a[href^="#"]').forEach(a => {
-  if (allTocLinks.includes(a)) return;
+  if (railLinks.includes(a)) return;
   a.addEventListener('click', e => {
     const targetId = a.getAttribute('href').slice(1);
-    const idx = slides.findIndex(s => s.id === targetId);
-    if (idx >= 0) {
+    const slideIdx = slides.findIndex(s => s.id === targetId);
+    if (slideIdx >= 0) {
       e.preventDefault();
-      showSlide(idx);
+      showSlide(slideIdx);
+      return;
     }
+    // Appendix anchor — open drawer and scroll to the section
+    if (targetId.startsWith('appendix-')) {
+      e.preventDefault();
+      openDrawer();
+      requestAnimationFrame(() => {
+        const target = document.getElementById(targetId);
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+  });
+});
+
+// ===== Reference drawer =====
+const drawer = document.getElementById('ref-drawer');
+const backdrop = document.getElementById('ref-backdrop');
+function openDrawer() {
+  drawer.classList.add('open');
+  drawer.setAttribute('aria-hidden', 'false');
+  backdrop.classList.add('open');
+}
+function closeDrawer() {
+  drawer.classList.remove('open');
+  drawer.setAttribute('aria-hidden', 'true');
+  backdrop.classList.remove('open');
+}
+document.getElementById('open-ref').addEventListener('click', openDrawer);
+document.getElementById('rail-open-ref').addEventListener('click', openDrawer);
+document.getElementById('ref-drawer-close').addEventListener('click', closeDrawer);
+backdrop.addEventListener('click', closeDrawer);
+
+// ===== Checkpoint MCQs =====
+// Each checkpoint has data-correct on the wrapper and data-opt on each button.
+// Clicking reveals correct/incorrect; correct answer marks the slide complete.
+document.querySelectorAll('.checkpoint').forEach(cp => {
+  const correct = cp.getAttribute('data-correct');
+  const status = cp.querySelector('.checkpoint-status');
+  const feedback = cp.querySelector('.checkpoint-feedback');
+  cp.querySelectorAll('.checkpoint-opt').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (cp.classList.contains('answered')) return;
+      cp.classList.add('answered');
+      const picked = btn.getAttribute('data-opt');
+      const isCorrect = picked === correct;
+      // Mark all options
+      cp.querySelectorAll('.checkpoint-opt').forEach(o => {
+        o.disabled = true;
+        const v = o.getAttribute('data-opt');
+        if (v === correct) o.classList.add('correct');
+        else if (v === picked) o.classList.add('incorrect');
+      });
+      // Update status pill
+      status.textContent = isCorrect ? 'Got it' : 'Try again next time';
+      status.setAttribute('data-status', isCorrect ? 'correct' : 'incorrect');
+      // Show feedback
+      if (feedback) feedback.hidden = false;
+      // Mark slide complete on correct answer
+      if (isCorrect) {
+        const slide = cp.closest('[data-slide]');
+        if (slide) {
+          const idx = slides.indexOf(slide);
+          if (idx >= 0) {
+            completed.add(idx);
+            localStorage.setItem('elig.completed', JSON.stringify([...completed]));
+            updateProgress();
+          }
+        }
+      }
+    });
   });
 });
 
 // Initial slide: prefer URL hash, then saved progress, else first
 const initialHash = location.hash.slice(1);
 let startIdx = 0;
-if (initialHash) {
+if (initialHash && !initialHash.startsWith('appendix-')) {
   const i = slides.findIndex(s => s.id === initialHash);
   if (i >= 0) startIdx = i;
-} else {
+} else if (!initialHash) {
   const saved = parseInt(localStorage.getItem('elig.currentIdx') || '0', 10);
   if (saved >= 0 && saved < slides.length) startIdx = saved;
 }
 showSlide(startIdx, { skipHash: !initialHash });
+
+// If page loaded with an #appendix-* hash, open the drawer to it
+if (initialHash.startsWith('appendix-')) {
+  openDrawer();
+  requestAnimationFrame(() => {
+    const target = document.getElementById(initialHash);
+    if (target) target.scrollIntoView({ block: 'start' });
+  });
+}
 </script>
 </body>
 </html>
