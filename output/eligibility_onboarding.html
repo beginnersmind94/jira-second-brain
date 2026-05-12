@@ -137,8 +137,18 @@ section.module { padding: 44px 0 24px; border-bottom: 1px dashed var(--border); 
 section.module:last-of-type { border-bottom: none; }
 
 .module-num {
-  display: inline-block; font-size: 11px; letter-spacing: 0.15em;
-  color: var(--accent); text-transform: uppercase; margin-bottom: 6px; font-weight: 600;
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--hue, var(--accent));
+  background: var(--hue-soft, var(--accent-soft));
+  padding: 5px 12px; border-radius: 99px;
+  border: 1px solid var(--hue, var(--accent));
+  margin-bottom: 14px;
+}
+.module-num::before {
+  content: ""; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--hue, var(--accent)); display: inline-block;
 }
 h2 {
   font-size: 24px; margin: 0 0 6px 0; line-height: 1.2; letter-spacing: -0.012em; font-weight: 600;
@@ -344,6 +354,136 @@ ul.tickets li::before { content: "→"; color: var(--accent); margin-right: 8px;
   padding: 0 5px; font-family: "SF Mono", Menlo, monospace; font-size: 10.5px;
   color: var(--ink-dim);
 }
+
+/* ===== Per-module hue tints =====
+   Each slide picks up a hue via [data-hue]. Subtle — used for the module
+   badge, the title underline, and stat-pill accents. Keeps the doc unified
+   while giving each slide a distinct identity. */
+[data-hue="slate"]   { --hue: #475569; --hue-soft: #f1f5f9; --hue-deep: #334155; }
+[data-hue="indigo"]  { --hue: #4338ca; --hue-soft: #eef2ff; --hue-deep: #312e81; }
+[data-hue="emerald"] { --hue: #047857; --hue-soft: #ecfdf5; --hue-deep: #064e3b; }
+[data-hue="teal"]    { --hue: #0f766e; --hue-soft: #f0fdfa; --hue-deep: #134e4a; }
+[data-hue="amber"]   { --hue: #b45309; --hue-soft: #fef3c7; --hue-deep: #78350f; }
+[data-hue="violet"]  { --hue: #6d28d9; --hue-soft: #f5f3ff; --hue-deep: #4c1d95; }
+[data-hue="rose"]    { --hue: #be123c; --hue-soft: #fff1f2; --hue-deep: #881337; }
+[data-hue="sky"]     { --hue: #0369a1; --hue-soft: #f0f9ff; --hue-deep: #0c4a6e; }
+
+[data-theme="dark"] [data-hue="slate"]   { --hue: #94a3b8; --hue-soft: rgba(148,163,184,0.10); --hue-deep: #cbd5e1; }
+[data-theme="dark"] [data-hue="indigo"]  { --hue: #a5b4fc; --hue-soft: rgba(165,180,252,0.10); --hue-deep: #c7d2fe; }
+[data-theme="dark"] [data-hue="emerald"] { --hue: #6ee7b7; --hue-soft: rgba(110,231,183,0.10); --hue-deep: #a7f3d0; }
+[data-theme="dark"] [data-hue="teal"]    { --hue: #5eead4; --hue-soft: rgba(94,234,212,0.10); --hue-deep: #99f6e4; }
+[data-theme="dark"] [data-hue="amber"]   { --hue: #fcd34d; --hue-soft: rgba(252,211,77,0.10); --hue-deep: #fde68a; }
+[data-theme="dark"] [data-hue="violet"]  { --hue: #c4b5fd; --hue-soft: rgba(196,181,253,0.10); --hue-deep: #ddd6fe; }
+[data-theme="dark"] [data-hue="rose"]    { --hue: #fda4af; --hue-soft: rgba(253,164,175,0.10); --hue-deep: #fecdd3; }
+[data-theme="dark"] [data-hue="sky"]     { --hue: #7dd3fc; --hue-soft: rgba(125,211,252,0.10); --hue-deep: #bae6fd; }
+
+/* ===== Slide header chip + hero title =====
+   Replaces the small uppercase module-num label with a chip + a bigger
+   title + a colored accent underline. Behaves the same; just more presence. */
+.slide-header {
+  display: flex; align-items: center; gap: 12px;
+  margin: 0 0 6px 0;
+}
+.slide-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--hue, var(--accent));
+  background: var(--hue-soft, var(--accent-soft));
+  padding: 4px 10px; border-radius: 99px;
+  border: 1px solid var(--hue, var(--accent));
+}
+.slide-chip .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--hue, var(--accent));
+}
+.slide-tag {
+  font-size: 11px; color: var(--ink-faint); letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+[data-slide] h2 {
+  font-size: 30px; line-height: 1.15; letter-spacing: -0.02em;
+  margin: 0 0 18px 0; font-weight: 700;
+  padding-bottom: 12px;
+  border-bottom: 3px solid var(--hue, var(--accent));
+  display: inline-block; padding-right: 8px;
+}
+.slide-lede {
+  font-size: 16px; line-height: 1.55; color: var(--ink-dim);
+  margin: 0 0 22px 0; max-width: 64ch;
+}
+
+/* ===== Stat pills =====
+   Numeric salience: when the standout number IS the point, display it big.
+   Three-up grid, hue inherits from the slide. */
+.stats {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+  margin: 20px 0 24px 0;
+}
+.stat {
+  background: var(--bg-2); border: 1px solid var(--border);
+  border-radius: 10px; padding: 16px 18px;
+  border-top: 3px solid var(--hue, var(--accent));
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+.stat:hover { transform: translateY(-2px); border-top-color: var(--hue-deep, var(--accent)); }
+.stat .stat-num {
+  font-size: 28px; line-height: 1.05; font-weight: 700;
+  color: var(--hue, var(--accent));
+  font-variant-numeric: tabular-nums; letter-spacing: -0.015em;
+  margin-bottom: 4px;
+}
+.stat .stat-label {
+  font-size: 11.5px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--ink-dim); margin-bottom: 6px;
+}
+.stat .stat-sub {
+  font-size: 12.5px; color: var(--ink-dim); line-height: 1.45;
+}
+.stats.two { grid-template-columns: repeat(2, 1fr); }
+.stats.four { grid-template-columns: repeat(4, 1fr); }
+
+@media (max-width: 720px) {
+  .stats, .stats.two, .stats.four { grid-template-columns: 1fr; }
+}
+
+/* Sharper callout color separation — currently they're all low-saturation pastels.
+   Make warn / ok / note / example actually distinguishable at a glance. */
+.callout {
+  position: relative;
+  padding-left: 18px;
+}
+.callout.warn {
+  background: linear-gradient(90deg, var(--danger-soft) 0%, transparent 100%);
+  border-left-width: 4px;
+}
+.callout.ok {
+  background: linear-gradient(90deg, var(--ok-soft) 0%, transparent 100%);
+  border-left-width: 4px;
+}
+.callout.note {
+  background: linear-gradient(90deg, var(--accent-soft) 0%, transparent 100%);
+  border-left-width: 4px;
+}
+.callout.example {
+  background: linear-gradient(90deg, var(--accent-2-soft) 0%, transparent 100%);
+  border-left-width: 4px;
+}
+
+/* Loss-framed risk note — for the "what you stand to lose" moments. */
+.risk-note {
+  display: flex; align-items: flex-start; gap: 12px;
+  background: var(--danger-soft);
+  border: 1px solid var(--danger);
+  border-radius: 8px; padding: 14px 16px; margin: 18px 0;
+}
+.risk-note::before {
+  content: "⚠"; font-size: 20px; line-height: 1; color: var(--danger);
+  flex-shrink: 0; margin-top: 1px;
+}
+.risk-note .risk-body { font-size: 14px; line-height: 1.55; color: var(--ink); }
+.risk-note .risk-body b { color: var(--danger); }
 </style>
 </head>
 <body>
@@ -381,7 +521,7 @@ ul.tickets li::before { content: "→"; color: var(--accent); margin-right: 8px;
 </header>
 
 <!-- ============ ORIENTATION ============ -->
-<section class="module" id="m0" data-m="0" data-slide>
+<section class="module" id="m0" data-m="0" data-slide data-hue="slate">
 <div class="module-num">Orientation</div>
 <h2>How school meals work, in 90 seconds</h2>
 
@@ -493,7 +633,7 @@ ul.tickets li::before { content: "→"; color: var(--accent); margin-right: 8px;
 </section>
 
 <!-- ============ MODULE 1 ============ -->
-<section class="module" id="m1" data-m="1" data-slide>
+<section class="module" id="m1" data-m="1" data-slide data-hue="indigo">
 <div class="module-num">Module 1</div>
 <h2>The eligibility record</h2>
 <p class="objective"><b>By the end:</b> You can name the three eligibility statuses, the three paths a student takes to one of them, and explain why "is this going to mess up my claim?" is the question behind almost every customer call.</p>
@@ -533,7 +673,27 @@ ul.tickets li::before { content: "→"; color: var(--accent); margin-right: 8px;
 </table>
 <p class="meta-note" style="font-size: 12.5px; color: var(--ink-dim); margin-top: -4px;">SY 2025-2026, 48 contiguous states / DC. The "maximum rate" line is the federally-set ceiling that applies to districts in higher-cost states (Alaska, Hawaii, and some others use separate higher rates entirely). Source: <a href="#appendix-regulatory">USDA-RATES-2025-FR</a>.</p>
 
-<p>Free-vs-Paid on a lunch is roughly <strong>$4.16</strong>. At a district serving 50,000 reimbursable lunches a month, a 1% systematic eligibility error is ~$2,000/month of misallocated reimbursement that compounds across the school year. That's the kind of thing that triggers state-audit follow-up. It's also why eligibility tickets disproportionately have "URGENT" in the title even when they look small from the outside.</p>
+<div class="stats">
+  <div class="stat">
+    <div class="stat-label">Free vs Paid gap</div>
+    <div class="stat-num">$4.16</div>
+    <div class="stat-sub">per reimbursable lunch (base NSLP rate)</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">At 1% error / month</div>
+    <div class="stat-num">≈ $2,000</div>
+    <div class="stat-sub">misallocated for a 50K-lunches-a-month district</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">Audit follow-up at</div>
+    <div class="stat-num">~12K / yr</div>
+    <div class="stat-sub">compound impact across a school year</div>
+  </div>
+</div>
+
+<div class="risk-note">
+<div class="risk-body"><b>Loss-framed:</b> A wrong Status on one student is nothing. A systematic error across a site for a month is the kind of thing that triggers state-audit follow-up. That's why eligibility tickets disproportionately have <em>URGENT</em> in the title even when they look small from the outside.</div>
+</div>
 
 <h3>Three paths to a Status</h3>
 <p>A student's Status can only come from one of three places — the three sources in the system map (Orientation):</p>
@@ -559,7 +719,7 @@ ul.tickets li::before { content: "→"; color: var(--accent); margin-right: 8px;
 </section>
 
 <!-- ============ MODULE 2 ============ -->
-<section class="module" id="m2" data-m="2" data-slide>
+<section class="module" id="m2" data-m="2" data-slide data-hue="emerald">
 <div class="module-num">Module 2</div>
 <h2>Categorical vs. income-based</h2>
 <p class="objective"><b>By the end:</b> You can read an eligibility record's <strong>Basis</strong> field and explain in one sentence why the system made the determination it did.</p>
@@ -590,11 +750,25 @@ ul.tickets li::before { content: "→"; color: var(--accent); margin-right: 8px;
 <p>If a kid isn't categorically eligible, the household can apply. The application asks for everyone in the household and their gross income (with frequency: weekly, every two weeks, twice a month, monthly, annual). The system compares the converted annual income against the federal <span class="term">Income Eligibility Guidelines</span> (IEG) for that household size.</p>
 
 <p>The IEG is a two-line scale, both expressed as multiples of the federal poverty level (FPL):</p>
-<ul>
-  <li><strong>At or below 130% FPL</strong> → Free</li>
-  <li><strong>130–185% FPL</strong> → Reduced</li>
-  <li><strong>Above 185% FPL</strong> → Paid (Denied for free/reduced)</li>
-</ul>
+
+<div class="stats">
+  <div class="stat">
+    <div class="stat-label">≤ 130% FPL</div>
+    <div class="stat-num">Free</div>
+    <div class="stat-sub">Family of 4: ≤ $41,795/yr</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">130–185% FPL</div>
+    <div class="stat-num">Reduced</div>
+    <div class="stat-sub">Family of 4: $41,796–$59,478</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">&gt; 185% FPL</div>
+    <div class="stat-num">Paid</div>
+    <div class="stat-sub">Denied for free / reduced</div>
+  </div>
+</div>
+
 <p>USDA publishes the dollar amounts annually each spring, effective July 1 through June 30. The product loads them at year-begin; districts can adjust state-specific scales where applicable.</p>
 
 <div class="callout example">
@@ -643,7 +817,7 @@ Result: <strong>Free</strong>. ($40,000 ≤ $41,795.)<br>
 </section>
 
 <!-- ============ MODULE 3 ============ -->
-<section class="module" id="m3" data-m="3" data-slide>
+<section class="module" id="m3" data-m="3" data-slide data-hue="teal">
 <div class="module-num">Module 3</div>
 <h2>Direct Certification</h2>
 <p class="objective"><b>By the end:</b> You can describe the DC file → match → eligibility pipeline, name three reasons a real SNAP kid might come back Unmatched, and know what the product does about it.</p>
@@ -714,7 +888,7 @@ Result: <strong>Free</strong>. ($40,000 ≤ $41,795.)<br>
 </section>
 
 <!-- ============ MODULE 4 ============ -->
-<section class="module" id="m4" data-m="4" data-slide>
+<section class="module" id="m4" data-m="4" data-slide data-hue="amber">
 <div class="module-num">Module 4</div>
 <h2>Income-based applications</h2>
 <p class="objective"><b>By the end:</b> You can trace an application from submission through determination, name the four entry methods, and know what "Pending Reasons" mean for the workflow.</p>
@@ -788,13 +962,36 @@ Result: <strong>Free</strong>. ($40,000 ≤ $41,795.)<br>
 </section>
 
 <!-- ============ MODULE 5 ============ -->
-<section class="module" id="m5" data-m="5" data-slide>
+<section class="module" id="m5" data-m="5" data-slide data-hue="violet">
 <div class="module-num">Module 5</div>
 <h2>Community Eligibility Provision (CEP)</h2>
 <p class="objective"><b>By the end:</b> You can do the ISP math by hand, explain when CEP makes financial sense for a district, and know the four-year cycle gotchas.</p>
 
 <h3>What CEP is</h3>
 <p><span class="term">Community Eligibility Provision</span> is a federal option that lets a school, group of schools, or whole district serve <strong>every</strong> student free meals — no applications, no eligibility tests per kid — and claim federal reimbursement at a percentage. It was created by the Healthy, Hunger-Free Kids Act of 2010 and expanded by the 2023 final rule. The trade-off: the district stops collecting per-student eligibility data and accepts a claim percentage based on its <strong>Identified Student Percentage</strong> (ISP), locked in for up to four years.</p>
+
+<div class="stats four">
+  <div class="stat">
+    <div class="stat-label">Min ISP to elect</div>
+    <div class="stat-num">25%</div>
+    <div class="stat-sub">Lowered from 40% in Sept 2023</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">Multiplier</div>
+    <div class="stat-num">× 1.6</div>
+    <div class="stat-sub">USDA range 1.3 – 1.6; locked per cycle</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">Cycle length</div>
+    <div class="stat-num">4 yrs</div>
+    <div class="stat-sub">+1 grace year if ISP slips to 15–25%</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">Election deadline</div>
+    <div class="stat-num">Jun 30</div>
+    <div class="stat-sub">For next school year</div>
+  </div>
+</div>
 
 <h3>The ISP math</h3>
 <p>The ISP is calculated as of <strong>April 1</strong> of the school year before CEP starts:</p>
@@ -858,13 +1055,36 @@ For every 100 reimbursable meals served at this site, the district claims 60.8 a
 </section>
 
 <!-- ============ MODULE 6 ============ -->
-<section class="module" id="m6" data-m="6" data-slide>
+<section class="module" id="m6" data-m="6" data-slide data-hue="rose">
 <div class="module-num">Module 6</div>
 <h2>Verification</h2>
 <p class="objective"><b>By the end:</b> You can describe the federal sample-size rule, name the three sampling methods, and explain why November 15 is the deadline everyone fears.</p>
 
 <h3>What it is and why</h3>
 <p><span class="term">Verification</span> is the annual, federally-mandated process of asking a sample of approved income-based applications to prove what they reported. It exists because USDA can't afford to fully audit every household, so it audits a statistical sample — and the rules force districts to weight the sample toward applications most likely to contain errors. Verification does <strong>not</strong> apply to households where all kids are determined eligible based on SNAP/FDPIR/TANF documentation, foster, homeless, migrant, or runaway status — those are exempt. Verification also <strong>does not delay approval</strong>: an application is approved on its own timeline (the 10-day rule from Module 4), and verification happens later, against the already-approved pool.</p>
+
+<div class="stats four">
+  <div class="stat">
+    <div class="stat-label">Sample reference date</div>
+    <div class="stat-num">Oct 1</div>
+    <div class="stat-sub">All approved apps on file</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">Standard sample</div>
+    <div class="stat-num">3% / 3K</div>
+    <div class="stat-sub">Whichever is less; error-prone first</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">Error-prone band</div>
+    <div class="stat-num">±$100/mo</div>
+    <div class="stat-sub">or ±$1,200/yr of IEG threshold</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">Hard deadline</div>
+    <div class="stat-num">Nov 15</div>
+    <div class="stat-sub">State may extend to Dec 15</div>
+  </div>
+</div>
 
 <h3>Sample size</h3>
 <p>The default rule (called <strong>Error-Prone Sampling</strong>) is:</p>
@@ -920,7 +1140,7 @@ The lesser of <strong>3%</strong> of all approved applications on file as of Oct
 </section>
 
 <!-- ============ MODULE 7 ============ -->
-<section class="module" id="m7" data-m="7" data-slide>
+<section class="module" id="m7" data-m="7" data-slide data-hue="sky">
 <div class="module-num">Module 7</div>
 <h2>Where the data goes next</h2>
 <p class="objective"><b>By the end:</b> You can trace an eligibility change from the moment it's recorded through every downstream consumer: POS, claims, reports, Family Hub.</p>
@@ -971,7 +1191,7 @@ The lesser of <strong>3%</strong> of all approved applications on file as of Oct
 </section>
 
 <!-- ============ APPENDIX A — REGULATORY ============ -->
-<section class="module appendix" id="appendix-regulatory" data-slide>
+<section class="module appendix" id="appendix-regulatory" data-slide data-hue="slate">
 <div class="module-num">Appendix A</div>
 <h2>Regulatory citations</h2>
 <p>Every regulatory claim in this guide cites a URL via a tag like <span class="cite url">USDA-IEG-2025-FNS</span>. URLs and retrieval dates below. The next person who maintains this guide should re-verify each URL when the school year rolls — IEGs and reimbursement rates update annually; CEP, DC, and verification rules change on a rulemaking cadence.</p>
@@ -1143,7 +1363,7 @@ The lesser of <strong>3%</strong> of all approved applications on file as of Oct
 </section>
 
 <!-- ============ APPENDIX B — TICKETS ============ -->
-<section class="module appendix" id="appendix-tickets" data-slide>
+<section class="module appendix" id="appendix-tickets" data-slide data-hue="slate">
 <div class="module-num">Appendix B</div>
 <h2>Ticket citations</h2>
 <p>Every product-behavior claim in this guide cites a Jira ticket key like <span class="cite">NXT-12345</span>. The full list:</p>
