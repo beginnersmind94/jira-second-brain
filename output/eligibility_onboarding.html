@@ -298,6 +298,52 @@ ul.tickets li::before { content: "→"; color: var(--accent); margin-right: 8px;
   .flow { grid-template-columns: 1fr; }
   .flow .arrow { transform: rotate(90deg); padding: 4px 0; }
 }
+
+/* Slide mode: show one section at a time, advance with prev/next */
+[data-slide] {
+  display: none;
+  animation: slideIn 0.22s ease-out;
+}
+[data-slide].active { display: block; }
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(14px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.slide-nav {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 32px; padding: 18px 0 4px 0;
+  border-top: 1px solid var(--border); gap: 16px;
+}
+.slide-nav button {
+  background: var(--bg-2); border: 1px solid var(--border);
+  color: var(--ink); padding: 9px 18px; border-radius: 6px;
+  cursor: pointer; font: inherit; font-size: 13.5px; font-weight: 500;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.slide-nav button:hover:not(:disabled) {
+  background: var(--accent); color: var(--bg);
+  border-color: var(--accent);
+}
+[data-theme="dark"] .slide-nav button:hover:not(:disabled) { color: var(--bg); }
+.slide-nav button:disabled { opacity: 0.32; cursor: not-allowed; }
+.slide-counter {
+  font-size: 12.5px; color: var(--ink-dim);
+  font-variant-numeric: tabular-nums; letter-spacing: 0.04em;
+}
+.slide-counter b { color: var(--ink); font-weight: 600; }
+
+/* Keyboard hint */
+.kb-hint {
+  text-align: center; font-size: 11px; color: var(--ink-faint);
+  margin-top: 8px; letter-spacing: 0.04em;
+}
+.kb-hint kbd {
+  background: var(--bg-3); border: 1px solid var(--border);
+  border-bottom-width: 2px; border-radius: 3px;
+  padding: 0 5px; font-family: "SF Mono", Menlo, monospace; font-size: 10.5px;
+  color: var(--ink-dim);
+}
 </style>
 </head>
 <body>
@@ -334,16 +380,14 @@ ul.tickets li::before { content: "→"; color: var(--accent); margin-right: 8px;
   <button class="theme" id="theme-btn">☾ dark</button>
 </header>
 
-<div class="intro">
-<p>Eligibility decides whether a kid eats free, at a reduced price, or pays full price. Every other module — POS pricing, claim generation, parent notifications, reports — reads from it. Get eligibility wrong and the district loses federal money, or claws back meals served at the wrong price.</p>
-
-<p>This guide is for a new dev coming in cold. The goal is a working mental model of how eligibility flows through SchoolCafé 2.0 and why each piece is built the way it is — enough to read a ticket and know what it's actually asking, not enough to sit on a federal audit panel. Read top to bottom once. After that, treat it as reference.</p>
-</div>
-
 <!-- ============ ORIENTATION ============ -->
-<section class="module" id="m0" data-m="0">
+<section class="module" id="m0" data-m="0" data-slide>
 <div class="module-num">Orientation</div>
 <h2>How school meals work, in 90 seconds</h2>
+
+<p>Eligibility decides whether a kid eats free, at a reduced price, or pays full price. Every other part of the product — POS pricing, claim generation, parent notifications, reports — reads from it. Get eligibility wrong and the district loses federal money or claws back meals served at the wrong price.</p>
+
+<p>This guide is for a new dev coming in cold. Goal: a working mental model of how eligibility flows through SchoolCafé 2.0 and <em>why</em> each piece is built the way it is — enough to read a ticket and know what it's actually asking. Click through left-to-right; the modules build on each other.</p>
 
 <h3>The cast</h3>
 <p>If you've never worked on K-12 software, the world this product lives in looks like this:</p>
@@ -449,7 +493,7 @@ ul.tickets li::before { content: "→"; color: var(--accent); margin-right: 8px;
 </section>
 
 <!-- ============ MODULE 1 ============ -->
-<section class="module" id="m1" data-m="1">
+<section class="module" id="m1" data-m="1" data-slide>
 <div class="module-num">Module 1</div>
 <h2>The eligibility record</h2>
 <p class="objective"><b>By the end:</b> You can name the three eligibility statuses, the three paths a student takes to one of them, and explain why "is this going to mess up my claim?" is the question behind almost every customer call.</p>
@@ -515,7 +559,7 @@ ul.tickets li::before { content: "→"; color: var(--accent); margin-right: 8px;
 </section>
 
 <!-- ============ MODULE 2 ============ -->
-<section class="module" id="m2" data-m="2">
+<section class="module" id="m2" data-m="2" data-slide>
 <div class="module-num">Module 2</div>
 <h2>Categorical vs. income-based</h2>
 <p class="objective"><b>By the end:</b> You can read an eligibility record's <strong>Basis</strong> field and explain in one sentence why the system made the determination it did.</p>
@@ -599,7 +643,7 @@ Result: <strong>Free</strong>. ($40,000 ≤ $41,795.)<br>
 </section>
 
 <!-- ============ MODULE 3 ============ -->
-<section class="module" id="m3" data-m="3">
+<section class="module" id="m3" data-m="3" data-slide>
 <div class="module-num">Module 3</div>
 <h2>Direct Certification</h2>
 <p class="objective"><b>By the end:</b> You can describe the DC file → match → eligibility pipeline, name three reasons a real SNAP kid might come back Unmatched, and know what the product does about it.</p>
@@ -670,7 +714,7 @@ Result: <strong>Free</strong>. ($40,000 ≤ $41,795.)<br>
 </section>
 
 <!-- ============ MODULE 4 ============ -->
-<section class="module" id="m4" data-m="4">
+<section class="module" id="m4" data-m="4" data-slide>
 <div class="module-num">Module 4</div>
 <h2>Income-based applications</h2>
 <p class="objective"><b>By the end:</b> You can trace an application from submission through determination, name the four entry methods, and know what "Pending Reasons" mean for the workflow.</p>
@@ -744,7 +788,7 @@ Result: <strong>Free</strong>. ($40,000 ≤ $41,795.)<br>
 </section>
 
 <!-- ============ MODULE 5 ============ -->
-<section class="module" id="m5" data-m="5">
+<section class="module" id="m5" data-m="5" data-slide>
 <div class="module-num">Module 5</div>
 <h2>Community Eligibility Provision (CEP)</h2>
 <p class="objective"><b>By the end:</b> You can do the ISP math by hand, explain when CEP makes financial sense for a district, and know the four-year cycle gotchas.</p>
@@ -814,7 +858,7 @@ For every 100 reimbursable meals served at this site, the district claims 60.8 a
 </section>
 
 <!-- ============ MODULE 6 ============ -->
-<section class="module" id="m6" data-m="6">
+<section class="module" id="m6" data-m="6" data-slide>
 <div class="module-num">Module 6</div>
 <h2>Verification</h2>
 <p class="objective"><b>By the end:</b> You can describe the federal sample-size rule, name the three sampling methods, and explain why November 15 is the deadline everyone fears.</p>
@@ -876,7 +920,7 @@ The lesser of <strong>3%</strong> of all approved applications on file as of Oct
 </section>
 
 <!-- ============ MODULE 7 ============ -->
-<section class="module" id="m7" data-m="7">
+<section class="module" id="m7" data-m="7" data-slide>
 <div class="module-num">Module 7</div>
 <h2>Where the data goes next</h2>
 <p class="objective"><b>By the end:</b> You can trace an eligibility change from the moment it's recorded through every downstream consumer: POS, claims, reports, Family Hub.</p>
@@ -927,7 +971,7 @@ The lesser of <strong>3%</strong> of all approved applications on file as of Oct
 </section>
 
 <!-- ============ APPENDIX A — REGULATORY ============ -->
-<section class="module appendix" id="appendix-regulatory">
+<section class="module appendix" id="appendix-regulatory" data-slide>
 <div class="module-num">Appendix A</div>
 <h2>Regulatory citations</h2>
 <p>Every regulatory claim in this guide cites a URL via a tag like <span class="cite url">USDA-IEG-2025-FNS</span>. URLs and retrieval dates below. The next person who maintains this guide should re-verify each URL when the school year rolls — IEGs and reimbursement rates update annually; CEP, DC, and verification rules change on a rulemaking cadence.</p>
@@ -1099,7 +1143,7 @@ The lesser of <strong>3%</strong> of all approved applications on file as of Oct
 </section>
 
 <!-- ============ APPENDIX B — TICKETS ============ -->
-<section class="module appendix" id="appendix-tickets">
+<section class="module appendix" id="appendix-tickets" data-slide>
 <div class="module-num">Appendix B</div>
 <h2>Ticket citations</h2>
 <p>Every product-behavior claim in this guide cites a Jira ticket key like <span class="cite">NXT-12345</span>. The full list:</p>
@@ -1146,6 +1190,13 @@ The lesser of <strong>3%</strong> of all approved applications on file as of Oct
 </table>
 </section>
 
+<nav class="slide-nav" aria-label="Slide navigation">
+  <button id="prev-slide" type="button">← Previous</button>
+  <span class="slide-counter" id="slide-counter"><b>1</b> / 10</span>
+  <button id="next-slide" type="button">Next →</button>
+</nav>
+<div class="kb-hint">Keyboard: <kbd>←</kbd> <kbd>→</kbd> to navigate</div>
+
 </main>
 </div>
 
@@ -1170,36 +1221,108 @@ themeBtn.addEventListener('click', () => {
   }
 });
 
-// Progress tracking
-const modules = document.querySelectorAll('section.module[data-m]');
-const tocLinks = document.querySelectorAll('nav.toc ol#toc-list li a');
+// ===== Slide controller =====
+const slides = [...document.querySelectorAll('[data-slide]')];
+const allTocLinks = [...document.querySelectorAll('nav.toc a[href^="#"]')];
+const linkByHref = new Map(allTocLinks.map(a => [a.getAttribute('href').slice(1), a]));
 const visited = new Set(JSON.parse(localStorage.getItem('elig.visited') || '[]'));
 
+const prevBtn = document.getElementById('prev-slide');
+const nextBtn = document.getElementById('next-slide');
+const counterEl = document.getElementById('slide-counter');
+const progressFill = document.getElementById('progress-fill');
+const progressPct = document.getElementById('progress-pct');
+
+let currentIdx = 0;
+
 function updateProgress() {
-  visited.forEach(m => {
-    const link = tocLinks[m];
+  visited.forEach(i => {
+    const slide = slides[i];
+    if (!slide) return;
+    const link = linkByHref.get(slide.id);
     if (link) link.classList.add('done');
   });
-  const pct = Math.round((visited.size / modules.length) * 100);
-  document.getElementById('progress-fill').style.width = pct + '%';
-  document.getElementById('progress-pct').textContent = pct;
+  const pct = Math.round((visited.size / slides.length) * 100);
+  progressFill.style.width = pct + '%';
+  progressPct.textContent = pct;
 }
 
-const obs = new IntersectionObserver((entries) => {
-  entries.forEach(en => {
-    if (en.isIntersecting) {
-      const m = +en.target.dataset.m;
-      tocLinks.forEach(l => l.classList.remove('active'));
-      if (tocLinks[m]) tocLinks[m].classList.add('active');
-      visited.add(m);
-      localStorage.setItem('elig.visited', JSON.stringify([...visited]));
-      updateProgress();
+function showSlide(idx, opts = {}) {
+  if (idx < 0 || idx >= slides.length) return;
+  slides.forEach(s => s.classList.remove('active'));
+  slides[idx].classList.add('active');
+  currentIdx = idx;
+
+  visited.add(idx);
+  localStorage.setItem('elig.visited', JSON.stringify([...visited]));
+  localStorage.setItem('elig.currentIdx', String(idx));
+
+  allTocLinks.forEach(l => l.classList.remove('active'));
+  const slideId = slides[idx].id;
+  const tocLink = linkByHref.get(slideId);
+  if (tocLink) tocLink.classList.add('active');
+
+  prevBtn.disabled = idx === 0;
+  nextBtn.disabled = idx === slides.length - 1;
+  counterEl.innerHTML = '<b>' + (idx + 1) + '</b> / ' + slides.length;
+  nextBtn.textContent = idx === slides.length - 1 ? 'End ✓' : 'Next →';
+
+  if (!opts.skipHash) {
+    history.replaceState(null, '', '#' + slideId);
+  }
+  window.scrollTo({ top: 0, behavior: 'instant' });
+
+  updateProgress();
+}
+
+prevBtn.addEventListener('click', () => showSlide(currentIdx - 1));
+nextBtn.addEventListener('click', () => showSlide(currentIdx + 1));
+
+allTocLinks.forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    const targetId = link.getAttribute('href').slice(1);
+    const idx = slides.findIndex(s => s.id === targetId);
+    if (idx >= 0) showSlide(idx);
+  });
+});
+
+document.addEventListener('keydown', e => {
+  if (e.target.matches('input, textarea, [contenteditable]')) return;
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  if (e.key === 'ArrowRight' || e.key === 'j' || e.key === 'l') {
+    e.preventDefault();
+    showSlide(currentIdx + 1);
+  } else if (e.key === 'ArrowLeft' || e.key === 'k' || e.key === 'h') {
+    e.preventDefault();
+    showSlide(currentIdx - 1);
+  }
+});
+
+// Anchor links inside the body (e.g. citations linking to appendix) should also switch slides
+document.querySelectorAll('main a[href^="#"]').forEach(a => {
+  if (allTocLinks.includes(a)) return;
+  a.addEventListener('click', e => {
+    const targetId = a.getAttribute('href').slice(1);
+    const idx = slides.findIndex(s => s.id === targetId);
+    if (idx >= 0) {
+      e.preventDefault();
+      showSlide(idx);
     }
   });
-}, { rootMargin: '-30% 0px -55% 0px' });
+});
 
-modules.forEach(m => obs.observe(m));
-updateProgress();
+// Initial slide: prefer URL hash, then saved progress, else first
+const initialHash = location.hash.slice(1);
+let startIdx = 0;
+if (initialHash) {
+  const i = slides.findIndex(s => s.id === initialHash);
+  if (i >= 0) startIdx = i;
+} else {
+  const saved = parseInt(localStorage.getItem('elig.currentIdx') || '0', 10);
+  if (saved >= 0 && saved < slides.length) startIdx = saved;
+}
+showSlide(startIdx, { skipHash: !initialHash });
 </script>
 </body>
 </html>
