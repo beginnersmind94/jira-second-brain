@@ -11,7 +11,7 @@ The two pages that surface signal nothing else in the repo does:
 
 - [What's new](wiki/training/whats-new.html) — the live changelog. Shows what landed since the last Jira sync.
 - [Decision trail](wiki/training/decision-trail.html) — decisions embedded in shipped work. Most teams never produce this artifact.
-- [[training/meeting-decision-1-pager|Meeting Decision 1-Pager]] — 30-second pre-meeting reset for PMs context-switching between district calls and internal stakeholder reviews. Bezos one/two-way doors + Coinbase decision-doc, with six SchoolCafe 2.0 question archetypes pre-classified.
+- [[training/meeting-decision-1-pager|Meeting Decision 1-Pager]] — pre-meeting reset for PMs context-switching between district calls and internal stakeholder reviews. Bezos one/two-way doors + Coinbase decision-doc, six SchoolCafe 2.0 question archetypes pre-classified, plus a hostile-room playbook (deflect / invoke Dallas / refuse to engage / defend against retroactive blame) for the rooms where the framework alone isn't enough.
 
 The three modules that hold the most ticket density, rewritten in narrative form:
 
