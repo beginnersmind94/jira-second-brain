@@ -11,6 +11,7 @@ The two pages that surface signal nothing else in the repo does:
 
 - [What's new](wiki/training/whats-new.html) — the live changelog. Shows what landed since the last Jira sync.
 - [Decision trail](wiki/training/decision-trail.html) — decisions embedded in shipped work. Most teams never produce this artifact.
+- [[training/meeting-decision-1-pager|Meeting Decision 1-Pager]] — pre-meeting reset for PMs context-switching between district calls and internal stakeholder reviews. Bezos one/two-way doors + Coinbase decision-doc, six SchoolCafe 2.0 question archetypes pre-classified, plus a hostile-room playbook (deflect / invoke Dallas / refuse to engage / defend against retroactive blame) for the rooms where the framework alone isn't enough.
 
 The three modules that hold the most ticket density, rewritten in narrative form:
 
@@ -66,4 +67,4 @@ The three modules that hold the most ticket density, rewritten in narrative form
 
 - `decisions/` — to be written from explicit architecture/product tickets
 - `onboarding/` — derived; write after SME review
-- `training/` — write on demand
+- `training/` — write on demand. Current: accountability primer, wiki tour, what's-new changelog, decision trail, forms onboarding (internal + customer), [[training/meeting-decision-1-pager|meeting decision 1-pager]].
