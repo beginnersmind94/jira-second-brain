@@ -21,16 +21,16 @@
     },
     "4": {
       "status": "done",
-      "completed_at": "2026-05-12",
+      "completed_at": "2026-05-16",
       "imports_discovered": [
         {
-          "filename": "financials-sync-20260512T141211Z.csv",
-          "bytes": 56958
+          "filename": "financials-sync-20260516T142801Z.csv",
+          "bytes": 49061
         }
       ],
-      "total_tickets": 4,
+      "total_tickets": 2,
       "tickets_written": 8849,
-      "tickets_updated": 2,
+      "tickets_updated": 4,
       "tickets_unchanged": 0,
       "tickets_skipped": 0,
       "tickets_low_signal": 1709,
@@ -45,6 +45,16 @@
             }
           ],
           "tickets_written_at_completion": 8847
+        },
+        {
+          "completed_at": "2026-05-12",
+          "imports": [
+            {
+              "filename": "financials-sync-20260512T141211Z.csv",
+              "bytes": 56958
+            }
+          ],
+          "tickets_written_at_completion": 8849
         }
       ]
     },
