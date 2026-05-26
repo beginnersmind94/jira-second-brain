@@ -1,0 +1,103 @@
+---
+id: GUIDE-051
+title: "Direct Certification - Extensions Quick Guide"
+platform: "SC"
+module: "Eligibility"
+content_type: "Quick Guide"
+source_url: "https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Eligibility/Direct_Certification_Extensions_Quick_Guide.pdf"
+local_pdf: "raw/guides/pdf/SC/Eligibility/Quick-Guide/GUIDE-051-direct-certification-extensions-quick-guide.pdf"
+curated_against_raw_sha: "d39c2d6a4a89e196"
+curated_against_raw_at: "2026-05-18T20:39:43+00:00"
+last_reviewed_by: ""
+status: "needs_initial_review"
+---
+
+# Direct Certification - Extensions Quick Guide
+
+> Seeded from the raw extraction. Edit freely. When the raw drifts, review the diff and update this file, then mark it reviewed with `python scripts/mark_guide_reviewed.py GUIDE-051`.
+
+The Extensions function allows users to use the
+- SEARCH & REVIEW tab
+  - Review matches between eligible students and other students of the same household, guardians, or address
+  - Extend benefits to matched students
+  - Mark students as reviewed if an extension is not applicable
+  - Extending benefits can be completed by matching students by
+
+##  Household
+
+##  Address
+
+##  Guardian
+
+##  Manual Entry
+- MANUAL tab
+  - Manually extend benefits to other students
+- REVIEWED tab
+  - View extensions that were previously reviewed and were either Dismissed or Matched
+
+## SEARCH & REVIEW tab
+1. Ensure that the SEARCH & REVIEW tab is selected
+   Eligible active students display in the table below.
+   Inactive students are not listed as available source students for extending benefits.
+   When more than one certified student matches a non-certified student with the same matching criteria, only the certified student who has held the status the longest is shown, and only the highest offering per DC Precedence order. Duplicate potential extensions are not listed.
+   Click the Match Based on Last Name checkbox as desired.
+   You can match or review multiple students at once by clicking the checkbox beside the applicable students or clicking the header checkbox to select all students.
+2. Click the MATCH button for the desired student
+   A number in parentheses may display on the button indicating the number of students that are possible matches.
+   The Match slide deck displays.
+   The MARK AS REVIEWED and MATCH buttons display.
+3. Review the details for the student(s)
+   If multiple students display, you can select which students you want to review and/or match by checking the box beside their name(s) or the header box to select all the students.
+4. Click the button that applies to the student
+- Use the MARK AS REVIEWED button if a match is not determined
+The Confirmation slide deck displays.
+  - Enter a comment into the Add Comment field
+  - Click the CONFIRM button in the bottom right to confirm the selection A confirmation response appears atop the page.
+You are returned to the SEARCH & REVIEW tab.
+- Use the MATCH button if a match is determined
+The Confirmation slide deck displays.
+  - Enter a comment into the Add Comment field
+
+  - Click the CONFIRM button in the bottom right to confirm the selection A confirmation response appears atop the page.
+You are returned to the SEARCH & REVIEW tab.
+Repeat this process to review additional students as needed.
+MANUAL tab
+The MANUAL tab allows users to extend benefits to other students manually.
+1. Select the MANUAL tab
+2. In the Eligible Student section, enter the student’s Name or ID to generate the results
+3. Click the SELECT STUDENT button for the desired student
+   Only directly certified eligible students can be added.
+   An error message will appear if the selected student is not directly certified.
+   If the selected student is incorrect, you can remove the student and return to the search screen.
+4. In the Matching Candidate section, enter the student’s Name or ID to generate the results
+5. Click the SELECT STUDENT button for the desired student
+   If the selected student is incorrect, you can remove the student and return to the search screen.
+6. Review details for both students
+7. Enter a comment into the Add Comment field
+8. Click the MATCH button to confirm the match
+   A confirmation response appears atop the page.
+   The students are matched.
+   Repeat this process to manually match students as needed.
+   You can match the same students manually more than once, as long as the new DC type is higher on the precedence order than the existing one.
+
+## Eligibility start date for Extension Approval
+The system setting *DC - Eligibility Start Date for Extension Approval* controls the start date that is applied to a DC extension. When enabled, the extension is backdated to the certified student's original approval date; otherwise the processing date is used.
+   REVIEWED tab
+   The REVIEWED tab allows users to view previously reviewed extensions that were either Dismissed or Matched.
+1. Select the REVIEWED tab
+   Eligible students appear in the table below.
+2. Select an Academic Year from the dropdown
+   Click the Match Based on Last Name checkbox as desired.
+3. Select a Match Type from the dropdown
+4. Click the MATCH/UNMATCH button for the desired student
+   The Match slide deck displays.
+5. Review the details for the matched/unmatched student(s)
+   If needed, you can click the History icon to view the Matched Student Info slide deck.
+6. Click the MATCH/UNMATCH button for the desired student
+   The Confirmation slide deck displays.
+7. Enter a comment into the Add Comment field
+8. Click the CONFIRM button in the bottom right to confirm the selection
+   A confirmation response appears atop the page.
+   The student is matched or unmatched.
+
+Repeat this process to review additional students as needed.

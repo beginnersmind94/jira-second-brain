@@ -170,6 +170,13 @@ def main():
         rel = md.relative_to(VAULT).with_suffix(".html")
         render_page(md, str(rel).replace(os.sep, "/"))
 
+    # Pass-through wiki/**/*.html (self-contained training artifacts per REPO_STRUCTURE.md §wiki/)
+    for src in WIKI.rglob("*.html"):
+        rel = src.relative_to(VAULT)
+        dst = OUT / rel
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy(src, dst)
+
     # Render raw/tickets/
     ticket_files = sorted(TICKETS.glob("*.md"))
     print(f"Rendering {len(ticket_files)} tickets...")

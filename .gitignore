@@ -1,11 +1,25 @@
 output/
 .obsidian/workspace*
 
+# Downloaded public guide PDF cache
+raw/guides/pdf/
+
 # Raw Jira exports — customer data, never commit
 raw/_imports/*.csv
 raw/_imports/processed/*.csv
 raw/_imports/*.xml
 raw/_imports/processed/*.xml
+
+# Cleaned Jira data — still contains employee names and district labels
+cleaned/
+cleaned_private/
+
+# Claude local scratch — temp scripts, dumps, worktrees, caches
+.claude/__pycache__/
+.claude/worktrees/
+.claude/tmp_*
+.claude/md_to_pdf.py
+scripts/__pycache__/
 
 # OS / editor noise
 .DS_Store

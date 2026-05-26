@@ -1,0 +1,48 @@
+---
+id: GUIDE-017
+title: "Transactions - Suspicious Transactions Quick Guide"
+platform: "SC"
+module: "Accountability"
+content_type: "Quick Guide"
+source_url: "https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Accountability/Transactions_Suspicious_Transactions_Quick_Guide.pdf"
+local_pdf: "raw/guides/pdf/SC/Accountability/Quick-Guide/GUIDE-017-transactions-suspicious-transactions-quick-guide.pdf"
+created_at: "2026-05-13T20:23:05+00:00"
+updated_at: "2026-05-13T20:24:40+00:00"
+workflow_authority: true
+product_rule_authority: false
+status: "draft_extracted"
+---
+
+# Transactions - Suspicious Transactions Quick Guide
+
+## Source metadata
+
+- Guide ID: GUIDE-017
+- Platform: SC
+- Module: Accountability
+- Content Type: Quick Guide
+- Source URL: https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Accountability/Transactions_Suspicious_Transactions_Quick_Guide.pdf
+- Local PDF: raw/guides/pdf/SC/Accountability/Quick-Guide/GUIDE-017-transactions-suspicious-transactions-quick-guide.pdf
+
+## Extracted guide text
+
+### Page 1
+
+Transactions – Suspicious Transactions
+The SUSPICIOUS TRANSACTIONS tab within the Transactions function lists all voided
+transactions on the POS terminal.
+This list shows the terminal, the date of the transaction, the site, and the user that
+performed the void so the district can see how often voids are done at each site and by
+whom.
+This information is view only.
+View Suspicious Transactions
+1. Select the SUSPICIOUS TRANSACTIONS tab atop the page
+2. Select the Area, Site Code/Site Name, User, and Date as of from the dropdowns
+3. Click the APPLY button
+Suspicious Transactions display in the table below.
+Review Suspicious Transactions
+Clicking the arrows next to the Area, Site, UserName, and Activity Date will expand or
+collapse the Suspicious Transaction details.
+1. View the Suspicious Transaction information such as the Terminal, Transaction Type,
+and the Count
+Click the Export icon to export this information to Excel.

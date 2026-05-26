@@ -1,0 +1,95 @@
+---
+id: GUIDE-018
+title: "Transactions - Transaction Adjustments Quick Guide"
+platform: "SC"
+module: "Accountability"
+content_type: "Quick Guide"
+source_url: "https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Accountability/Transactions_Transaction_Adjustments_Quick_Guide.pdf"
+local_pdf: "raw/guides/pdf/SC/Accountability/Quick-Guide/GUIDE-018-transactions-transaction-adjustments-quick-guide.pdf"
+extraction_warnings: []
+extracted_at: "2026-05-18T20:39:39+00:00"
+raw_text_sha256: "7a565c7325f6554b"
+generated: true
+status: "draft_extracted"
+---
+
+# Transactions - Transaction Adjustments Quick Guide
+
+The TRANSACTION ADJUSTMENTS tab within the Transactions function allows users to view detailed information regarding various Adjustment Types. These include Account, Refund, Sale, Fund, Payment, and Session.
+The Transaction Adjustment information is view only.
+
+## View Transaction Adjustments
+1. Select the TRANSACTION ADJUSTMENTS tab atop the page
+2. Select the Site Codes/Site Names, Terminal, User, Date, and Adjustment Type from the dropdowns
+3. Select from the Report Options (Serving Site or Enrollment Site)
+4. Click the APPLY button
+   Adjustment Transactions display in the table below.
+   Different columns will appear in the Adjustment Transactions table depending on the Adjustment Type selected.
+   Clicking on the arrow(s) next to the available rows in the Adjustment Transactions table will expand or collapse the adjustment information.
+   If necessary, use the slider at the bottom of the page to view all columns in the Adjustment Transactions table.
+
+## View the Results: Account Adjustment Type
+- Account Name
+- Account ID
+- Amount
+- Adjusted Date
+- Comment
+
+## View the Results: Refund Adjustment Type
+Click the MANAGE VIEWS button to edit the columns displayed in the table.
+- Refund Site
+- Account Name
+- Account ID
+- Transaction Number
+- Amount
+- Refund Date
+
+## View the Results: Sale Adjustment Type
+- Account Name
+- Account ID
+
+- Transaction Number
+- Original Sale
+  - Date
+  - Item
+  - Amount
+- Adjustment Sale
+  - Date
+  - Item
+  - Amount
+- Comment
+
+## View the Results: Fund Adjustment Type
+- Transfer From
+  - Account Name
+  - Account ID
+- Transfer To
+  - Account Name
+  - Account ID
+- Amount
+- Transfer Date
+- User
+- Comment
+
+## View the Results: Payment Adjustment Type
+- Serving Site
+- Enrollment Site
+- Account Name
+- Account ID
+- Transaction Number
+- Payment Method
+- Payment Type
+- Payment Date
+- Adjustment Date
+- Original Amount
+- Adjusted Amount
+- User
+- Comments
+
+## View the Results: Session Adjustment Type
+- Terminal
+- Session Date
+- Adjustment Date
+- User
+
+- Comment

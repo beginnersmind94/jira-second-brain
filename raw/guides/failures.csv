@@ -1,0 +1,2 @@
+id,title,source_url,error_type,error_message,attempted_at,sensitive_url
+GUIDE-009,POS - Menu Service Quick Card,https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Accountability/POS/POS_Quick_Card.pdf,weak_extraction,possible_multi_column_layout,2026-05-18T20:51:54+00:00,false

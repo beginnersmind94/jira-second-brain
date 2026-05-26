@@ -1,0 +1,122 @@
+---
+id: GUIDE-006
+title: "Command Center - Back Office Quick Guide"
+platform: "SC"
+module: "Insights"
+content_type: "Quick Guide"
+source_url: "https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Insights/Insights_Command_Center_Back_Office_Quick_Guide.pdf"
+local_pdf: "raw/guides/pdf/SC/Insights/Quick-Guide/GUIDE-006-command-center-back-office-quick-guide.pdf"
+curated_against_raw_sha: "e234510a68e54ccb"
+curated_against_raw_at: "2026-05-18T20:39:37+00:00"
+last_reviewed_by: ""
+status: "needs_initial_review"
+---
+
+# Command Center - Back Office Quick Guide
+
+> Seeded from the raw extraction. Edit freely. When the raw drifts, review the diff and update this file, then mark it reviewed with `python scripts/mark_guide_reviewed.py GUIDE-006`.
+
+The Command Center empowers Districts to make decisions on Production based on industry KPIs. These KPIs can be viewed at the District, School Type, and School levels.
+To access the Command Center, navigate to Insights > Back Office > Command Center.
+
+## District Level Section
+The District Level section shows the various Key Performance Indicators such as Production Accuracy, Serving Accuracy, Wastage, Carry Over, Returned to Stock, and Left Over for the entire District.
+School Type Section
+The School Type section shows the various Key Performance Indicators such as Production Accuracy, Serving Accuracy, Wastage, Carry Over, Returned to Stock, and Left Over for the School Type.
+You can click the EXPORT button to export this information in a desired format, such as Excel, PDF, PowerPoint, etc.
+Schools Section
+The Schools section shows each school's various Key Performance Indicators, such as Production Accuracy, Serving Accuracy, Wastage, Carry Over, Returned to Stock, and Left Over for each School.
+You can use the Name and Type fields to search for specific schools.
+You can click the Export button to export this information in a desired format, such as Excel, PDF, PowerPoint, etc.
+
+Production Accuracy
+The Production Accuracy card represents how closely the actual quantity of meals produced aligns with the planned quantity.
+The total percentage below represents the Production Accuracy percentage, i.e., Menu Items prepared against their Planned Quantity.
+This percentage is calculated based on the Total Number of Menu Items Produced ÷ Total Number of Menu Items Planned × 100.
+Hover over the threshold bar to view the actual values achieved versus the target threshold set.
+You can click on the total percentage to view a breakdown of the Menu Items produced against the Planned Quantity.
+
+You can use Quick Links to navigate to the other back office modules to view the production records represented on these counts.
+
+Serving Accuracy
+The Serving Accuracy card represents the proportion of meals actually served out of the total produced.
+The total percentage below represents the Serving Accuracy percentage, i.e., Menu Items served against their Produced Quantity.
+This percentage is calculated based on the Total Number of Menu Items Served ÷ Total Number of Menu Items Produced × 100.
+Hover over the threshold bar to view the actual values achieved versus the target threshold set.
+You can click on the total percentage to view a breakdown of the Menu Items served against the Produced Quantity.
+
+You can use Quick Links to navigate to the other back office modules to view the production records represented on these counts.
+
+Wastage
+The Wastage card represents the proportion of produced meals that ended up as waste.
+The total percentage below represents the Wastage percentage, i.e., Menu Items wasted against their Produced Quantity.
+This percentage is calculated based on the Total Number of Menu Items Wasted ÷ Total Number of Menu Items Produced × 100.
+Hover over the threshold bar to view the actual values achieved versus the target threshold set.
+You can click on the total percentage to view a breakdown of the Menu Items wasted against the Produced Quantity.
+
+You can use Quick Links to navigate to the other back office modules to view the production records represented on these counts.
+
+Carry Over
+The Carry Over card represents the proportion of meals carried over for future use.
+The total percentage below represents the Carry Over percentage, i.e., Menu Items carried over against their Produced Quantity.
+This percentage is calculated based on the Total Number of Menu Items Carried Over ÷ Total Number of Menu Items Produced × 100.
+Hover over the threshold bar to view the actual values achieved versus the target threshold set.
+You can click on the total percentage to view a breakdown of the Menu Items carried over against the Produced Quantity.
+
+You can use Quick Links to navigate to the other back office modules to view the production records represented on these counts.
+
+Returned to Stock
+The Returned to Stock card represents the proportion of produced meals that were returned to stock.
+The total percentage below represents the Returned percentage, i.e., Menu Items returned against their Produced Quantity.
+This percentage is calculated based on the Total Number of Menu Items Returned ÷ Total Number of Menu Items Produced × 100.
+Hover over the threshold bar to view the actual values achieved versus the target threshold set.
+You can click on the total percentage to view a breakdown of the Menu Items returned against the Produced Quantity.
+
+You can use Quick Links to navigate to the other back office modules to view the production records represented on these counts.
+
+Left Over
+The Left Over card represents the proportion of meals left over after serving.
+The total percentage below represents the Left Over percentage, i.e., Menu Items that are left over against their Produced Quantity.
+This percentage is calculated based on the (Total Number of Menu Items Carried Over + Total Number of Menu Items Returned to Stock) ÷ Total Number of Menu Items Produced × 100.
+Hover over the threshold bar to view the actual values achieved versus the target threshold set.
+You can click on the total percentage to view a breakdown of the Left Over Items against the Produced Quantity.
+
+You can use Quick Links to navigate to the other back office modules to view the production records represented on these counts.
+
+Show Visualization
+You can click the Show Visualization toggle switch to enable a pie chart view of each KPI’s details.
+Once enabled, a PRINT PREVIEW button appears, allowing you to export the District summary versus the School Type summary information.
+
+Show areas requiring attention
+You can click the Show areas requiring attention checkbox to view schools not meeting two or more KPIs threshold values.
+A red warning symbol represents a school that requires attention.
+
+Legend
+The Legend at the top of the page represents the District, School Types, and School performance against the defined threshold.
+- Dark green represents Excellent/High
+- Light green represents Good/Expected
+- Amber represents Fair
+- Red represents Low
+Threshold Settings
+The Threshold Settings represent the targets set for the District, School Types, and Schools to check their performance against the defined threshold.
+You can set the threshold at the District, School Type, or School level.
+Enter the values in each field as needed, and the percentages will automatically change.
+Click the SAVE button to retain information.
+Threshold Settings are set yearly.
+The threshold bar in the KPI section represents the threshold that was set.
+
+## Command Center Filters
+The Command Center Filters allow you to view different date ranges of information.
+The last ten years of the historical data range are available.
+
+KPI Reports
+The KPI Reports page allows you to run reports on different date ranges based on the Report Type selection.
+To access the KPI Reports, navigate to Insights > Back Office > KPI Reports.
+The Monthly Report allows you to extract a monthly production summary of all the Menu Items and KPIs displayed in the Command Center.
+If the Monthly or Menu Level-Detailed Report Type is selected, the Date dropdown allows you to select the date ranges, such as the Year To Date, Academic Year to Date, and Custom Date Range.
+The Weekly Report allows you to extract a weekly production summary record count of all the Menu Items and KPIs displayed in the Command Center.
+If the Weekly Report Type is selected, the Date dropdown allows you to select the date ranges, such as the Current Month, Last Month, and Custom Date Range.
+The Menu Level-Detailed Report allows you to extract the Menu Item level production record count of all the Menu Items in the production record and KPIs displayed in the Command Center.
+The KPIs dropdown allows you to select the desired KPIs to be included in the report, such as Production Accuracy and Serving Percentage.
+This data can be extracted for the Year To Date, Academic Year to Date, or Custom Date Range.
+You can also export these reports in the desired format, such as Excel, PDF, PowerPoint, etc.

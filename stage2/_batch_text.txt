@@ -1,0 +1,228 @@
+# Batch 8/42  (rows 351-400 of 2051)
+# Issue keys in this batch: 50
+
+[NXT-37621] [Story] [] [Epic: IM - Item Type Consolidation - Recipe Rework]
+  TITLE: IM - Recipes - Split View Active filter
+  DESC:  As an IM user I want the Recipes page to have an Active filter for split view so I am not viewing inactive recipes.  Requirements  - Add an Active filter to the Recipe split view filter section - Default the filter to ‘Active’ only ** Ensure that deactivated recipes don’t appear at the top of the split view search results  [image: image-20230321-135646.png]
+  AC:    - Add an Active filter to the Recipe split view filter section - Default the filter to ‘Active’ only - Fix in 6.2 and 6.3
+
+[NXT-37680] [Story] [] [Epic: IM - Item Type Consolidation - Item Master & Module Improvements]
+  TITLE: IM - Item Config - Common Measures Cleanup
+  DESC:  As an IM user I want the Common Measures page to have a more condensed list of common measures so I can have a valuable list of master measure descriptions.
+  AC:    - Capitalize all standard and common measures ** Exception: no. 10 scoop, etc. ** Capitalize standard measure two words ([person]) - Remove all bad data common measures ** every common variation of Cup, Gallon, etc. (there is no such thing as ‘Gallon, Bite Size’!) ** Fix ‘Kilogram’ (actually remove…
+
+[NXT-37794] [Bug] [] [Epic: IM - Item Type Consolidation - Recipe Rework]
+  TITLE: ITMM - Recipe Split View Filters - Cannot scroll down to see Status filter
+  DESC:  On higher resolutions, the Status dropdown and Apply/Cancel buttons are not visible. I cannot scroll down either. The only way to see the Status dropdown was by reducing the screen resolution.  [image: image-20230323-195400.png]  [~accountid:5fa1ae72c9b15a0078e4c4a8] [~accountid:5ec87a6ba65b000c450f9fe5] [~accountid:5f7abf83459d4200698d5c48]
+
+[NXT-37796] [Bug] [] [Epic: (none)]
+  TITLE: IM - Items - Units - Card & Add Serving - Enhancement - UI bugs
+  DESC:  - In create, mode serving + pack size is in view mode - cannot edit any serving measures - On entering a description with space --> it trims it --> but the weight dropdown is displayed and the user can select any  - Valid fraction denominators are not displayed nor are the error message related to them displayed in the amount field
+
+[NXT-37815] [Story] [] [Epic: IM - Consolidation Enhancement & Cleanup]
+  TITLE: IM - Items - Inventory Info Units card
+  DESC:  As a Food Service Director I want an Inventory Info tab on the Item page so I can view and manage all inventory or product related details of the item such as GTIN/UPC numbers, item substitutions and expanded pack size details.  [https://www.figma.com/proto/eDsxhWPpQikc74wptrgntb/Item-Management-6.4?page-id=1490%3A60691&type=design&node-id=1490-62447&viewport=698%2C470%2C0.18&scaling=min-zoom&starting-point-node-id=1490%3A62447|https://www.figma.com/proto/eDsxhWPpQikc74wptrgntb/Item-Management-6.4?page-id=1490%3A60691&type=design&node-id=1490-62447&viewport=698%2C470%2C0.18&scaling=min-zoom&s…
+  AC:    Requirements  - Provide an Edit mode which is specific to the Inventory Info tab ** this will have some overlap with the Nutrient Info edit (Pack sizes, Pricing) ** filter by only pack size units and any servings linked via sub-qty or with ‘1' as amount and non-standard measure - Add an edit GTIN/U…
+
+[NXT-37818] [Story] [] [Epic: IM - Consolidation Enhancement & Cleanup]
+  TITLE: IM - Items - Brand/Manufacturer Search Enhancement
+  DESC:  As an District Admin I want the Brands/Manufacturer filters on Items split and list view to be free text search so I can more easily filter without selecting specific values.  The current API call to the master list of brands and manufacturers is causing performance slowness on the Items list.  Requirements  - Change the Items filters for Brand and Manufacturer to be a free text search rather than a multi-select dropdown ** Do this for both split view and list view
+  AC:    - Change Brand/Manufacturer to smart free text search on both List View and Split View
+
+[NXT-37844] [Story] [] [Epic: IM - Consolidation Enhancement & Cleanup]
+  TITLE: IM - Recipes - Create Recipe - Updated flow (Summary)
+  DESC:  As a recipe menu planner I want an updated Create Recipe flow similar to Items so I can manage all my serving related info in the consolidated Units card.  Requirements  - Redesign the initial Create Recipe flow to accommodated the completed Units card (from Items) ** Update the initial general Recipe Info card to provide only the remaining general info attributes *** Recipe Description *** Tags - Require the same attributes for continuing with Recipe creation ** Description (1st card) *** Require Recipe Description as only mandatory field in Summary *** Hold recipe in temporary session until…
+  AC:    - Redesign the Create Recipe flow to accommodate the Item Master changes - Create the general info card with only high level attributes - Manage required fields across both cards as with Items
+
+[NXT-37846] [Bug] [] [Epic: IM - Item Type Consolidation - Item Master & Module Improvements]
+  TITLE: POST API: https://apim-perseuseedge.azure-api.net/itemmanagement/v1.0/api/items/configdata is returning itemProductCategoryId = 0
+  DESC:  POST API: [https://apim-perseuseedge.azure-api.net/itemmanagement/v1.0/api/items/configdata|https://apim-perseuseedge.azure-api.net/itemmanagement/v1.0/api/items/configdata] is returning itemProductCategoryId = 0  [image: image-20230328-074236.png]
+
+[NXT-37851] [Bug] [] [Epic: (none)]
+  TITLE: Regression - ITMM - Recipes - Summary info API is throwing an error for some recipes
+  DESC:  On Recipe Split View, Summary Info API is throwing an error with HTTP 500 status code.  [image: image (144).png]  [~accountid:5fa1ae72c9b15a0078e4c4a8] [~accountid:5ec87a6ba65b000c450f9fe5]
+
+[NXT-37881] [Story] [] [Epic: IM - Item Units & Sub-types]
+  TITLE: IM - Items - Single Item Recipe - Select Serving Size
+  DESC:  As a Nutrionist I want Single Item Recipe tab to interact with the serving sizes in the header Units card so I can select the appropriate serving size for my single item recipe.  Goal: Provide the ability to select a specific serving size from the Units card, if there are multiple servings, before configuring the SIR Steps and other info.  Requirements  - Require a selection of serving size from the Units card for the Single Item Recipe before Steps & Ingredients can be configured ** this is because we need to know which Serving Size is for the SIR ** if there is only one Serving Size, this s…
+  AC:    - Modify the Units card to serve as a Serving Size header selection for configuring Single Item Recipes - Provide appropriate interactions between Units and the SIR configuration to manage and view Serving Sizes associated with the SIR - Accommodate the somewhat rare changing of ‘# of Servings’ for…
+
+[NXT-37882] [Story] [] [Epic: IM - Item Units & Sub-types]
+  TITLE: IM - Items - Nutrient Info tab Interactions (Select Serving Size)
+  DESC:  As a nutritionist I want the Nutrient Info tab to interact with the serving sizes in the header so I can associate my inputs with the corresponding serving size.  Goal: Provide appropriate interactions between the Nutrient Info tab cards and the Serving Sizes in the Units header card, for the purpose of serving size selection or nutrient info data entry.  Requirements:  - Move the Nutrient Details card to the top of the Nutrient Info tab (now with Serving Measures removed) - Reorganize the attribute presentation in the Ingredient Info card (UX) ** provide a toggle to show/hide Ingredient Info…
+  AC:    - Update the Nutrient Details and Contributions cards to interact with the Serving Sizes in the Units header card - Provide Serving Size selection for viewing and for editing [person] cards - Redesign Ingredient Info to more effectively present data - Provide a way to hide the Ingredient Info card…
+
+[NXT-37888] [Bug] [] [Epic: IM - Item Type Consolidation - Item Master & Module Improvements]
+  TITLE: IM - Item - Add Image - Consolidated UI issues
+  DESC:  # IM - Item - Add Image - The validation message 'Please upload no more than 6 images' is going off after deleting any one image out of 8 images. It should remain until the total added images count = 6                 Steps to reproduce: Add 8 images > Validation message will appear Delete 1 images > Validation message will go off (wherein we still have 7 images) Click on save >It won’t save Actual: Validation message is not staying wherein we have more than 6 images Expected: The validation message should stay until image count = 6 [image: Item - Add Image - Unable to save after deleting the…
+
+[NXT-37895] [Story] [] [Epic: IM - Consolidation Enhancement & Cleanup]
+  TITLE: IM - Recipe Rework - Units/Servings card (Edit)
+  DESC:  As a recipe menu planner I want an adjusted header section so I can have a similar view to Items with respect to the summary level attributes and the revised Units section.  Requirements  - Redesign the Recipe details header to accommodate the new Units grid in the header ** Note: we will not provide the Pack Size functionality on Recipes yet (future: Centrally Produced Items) *** We will develop the backend per Item Master but will not build the frontend yet - Inject Units card to Recipe header ** relabel the card as ‘Servings’ in this case ** provide only the +Serving button *** Note: we wi…
+  AC:    - Redesign the Recipe details header to accommodate the new Units grid in the header - Adjust Units card to function as Serving Size config for Recipe - Provide UI adjustments to Units card to optimize for Recipe info
+
+[NXT-37898] [Story] [] [Epic: IM - Consolidation Enhancement & Cleanup]
+  TITLE: IM - Recipes - Create Recipe - Updated flow (Units card)
+  DESC:  As a recipe menu planner I want an updated Create Recipe flow similar to Items so I can manage all my serving related info in the consolidated Units card.  Requirements  - Redesign the initial Create Recipe flow to accommodated the completed Units card (from Items) ** Update the initial general Recipe Info card to provide only the remaining general info attributes *** [https://primeroedgenext.atlassian.net/browse/NXT-37844|https://primeroedgenext.atlassian.net/browse/NXT-37844|smart-link] - Insert the Units card into the Recipe header ** relabel the card as ‘Servings’ in this case *** hide Un…
+  AC:    - Redesign the Create Recipe flow to accommodate the Item Master changes - Insert the Units card as ‘Servings’ with recipe-specific adjustments - Manage required fields across both cards as with Items
+
+[NXT-37980] [Story] [] [Epic: IM/INV - Tech Debt and Code coverage]
+  TITLE: TechDebt-ItemMaster- Schema Changes for ITMM_Item and MP_Recipe
+  DESC:  [person] as highlighted.  Add column ItemMasterType(Varchar(20)) → ITMM_Item  Possible values:  - Item - Recipe  Add Coumn MasterItemId(int) → MP_Recipe  [image: image-20230403-203013.png]  Pre-Deployment: Script to take back up of Itmm_item and MP_recipe.  Post Deployment:  - Create an item for all multi-item recipes with ItemMasterType as Recipe and update the created Itemid as MasterItemId in MP_Recipe table. - Update ITMM_Item MasterItemType as Item for all those except Multi Item Recipe.  Code Changes: Include ItemMasterType while checking duplicates when creating an item.
+  AC:    [person] as highlighted.  Add column ItemMasterType(Varchar(20)) → ITMM_Item  Possible values:  Item   Recipe  Add Coumn MasterItemId(int) → MP_Recipe
+
+[NXT-37981] [Story] [] [Epic: IM/INV - Tech Debt and Code coverage]
+  TITLE: TechDebt-ItemMaster- Remove MP_Tag & MP_RecipeTag
+  DESC:  Maintain a Single source for tags data for both Item and Recipe.  Code Changes:  Use Itmm_Tag and Itmm_ItemTag for saving/fetching tags for both Item and Recipe  PreDeployment: Take back up of Itmm_Tag , Itmm_ItemTag  Post Deployment: Copy the existing tags of Recipe from MP_tags, Mp_RecipeTags to ITmm_tag, ITMM_itemtag.  [image: image-20230405-202327.png]
+  AC:    Maintain a Single source for tags data for both Item and Recipe.  Code Changes:  Use Itmm_Tag and Itmm_ItemTag for saving/fetching tags for both Item and Recipe  PreDeployment: Take back up of Itmm_Tag , Itmm_ItemTag  Post Deployment: Copy the existing tags of Recipe from MP_tags, Mp_RecipeTa…
+
+[NXT-37982] [Story] [] [Epic: IM - Item Units & Sub-types]
+  TITLE: IM - Items - Units - Edit/Update - Pack-Serving link help step
+  DESC:  As an Item Management user I want the Inventory Ready status to guide me to specific corrective actions so I can have guidance while configuring my packs and servings.  Unit card edit scenarios  - Inventory Readiness (in edit mode) ** This story continues from [https://primeroedgenext.atlassian.net/browse/NXT-37452|https://primeroedgenext.atlassian.net/browse/NXT-37452|smart-link] ** make the icon expandable into a banner which provides the corrective action for the status *** Inventory Ineligible examples: **** Pack Sizes not present - “Pack size units must be configured for Inventory eligib…
+  AC:    - Use the Inventory Ready banner icon to guide the user to specific corrective actions for maintaining the “link” between pack sizes and serving sizes
+
+[NXT-37983] [Story] [] [Epic: IM/INV - Tech Debt and Code coverage]
+  TITLE: TechDebt-ItemMaster- Remove MP_RecipeImageLocation
+  DESC:  Maintain a Single Source for Image Locations data for both Item and Recipe.  Code Changes:  Use ITMM_ItemImageLocation for saving/fetching images for both Item and Recipe  Schema Changes: Add a new column Origin(Varchar(20)) to identify the image is for Item/Recipe/menuItem  PreDeployment: Take back up of ITMM_ItemImageLocation & MP_RecipeImageLocation  Post Deployment: Copy the existing image locations of the Recipe from ITMM_RecipeImageLocation to ITMM_ItemImageLocation.  Note: Need discussion on how to save the image to blob? Do we need to use masterItemId for saving to blob?&
+  AC:    Maintain a Single Source for Image Locations data for both Item and Recipe.  Code Changes:  Use ITMM_ItemImageLocation for saving/fetching images for both Item and Recipe  Schema Changes: Add a new column Origin(Varchar(20)) to identify the image is for Item/Recipe/menuItem  PreDeployment: Ta…
+
+[NXT-37992] [Story] [] [Epic: IM/INV - Tech Debt and Code coverage]
+  TITLE: TechDebt-ItemMaster- Remove MP_RecipeAllergen
+  DESC:  Maintain a Single Source for Allergens data for both Item and Recipe.  Code Changes:  Use ITMM_ItemAllergen for saving/fetching allergens for both Item and the Recipe  PreDeployment: Take back up of ITMM_ItemAllergen & MP_RecipeAllergen  Post Deployment: Copy the existing allregens of the Recipe from MP_RecipeAllergen to ITMM_ItemAllergen.  -Note: Need to discuss about IsManual flag required in Allergen table? Are we using this if yes where we are?-
+  AC:    Maintain a Single Source for Allergens data for both Item and Recipe.  Code Changes:  Use ITMM_ItemAllergen for saving/fetching allergens for both Item and the Recipe  PreDeployment: Take back up of ITMM_ItemAllergen & MP_RecipeAllergen  Post Deployment: Copy the existing allregens of the Rec…
+
+[NXT-37993] [Story] [] [Epic: IM/INV - Tech Debt and Code coverage]
+  TITLE: TechDebt-ItemMaster- Remove MP_RecipeNutrientBasis & MP_RecipeNutrient
+  DESC:  Maintain a Single Source for Nutrient data for both Item and Recipe.  Code Changes:  Use ITMM_ItemNutrientBasis and ITMM_ItemNutrient for saving/fetching nutrients for both Item and the Recipe  PreDeployment: Take back up of ITMM_ItemNutrientBasis & ITMM_ItemNutrient, MP_RecipeNutrientBasis , MP_RecipeNutrient  Post Deployment: Copy the existing nutrients of the Recipe to ITMM_ItemNutrientBasis & ITMM_ItemNutrient
+  AC:    Maintain a Single Source for Allergens data for both Item and Recipe.  Code Changes:  Use ITMM_ItemAllergen for saving/fetching allergens for both Item and the Recipe  PreDeployment: Take back up of ITMM_ItemAllergen & MP_RecipeAllergen  Post Deployment: Copy the existing allregens of the Rec…
+
+[NXT-38016] [Story] [] [Epic: IM - Production Usability Enhancements (2023)]
+  TITLE: IM - Items - Units - UI adjustments - Text Guidance
+  DESC:  As an District Admin I want specific text guidance on various functions and steps in the Units card so the system guides me through critical item configuration.  Requirements  - Update the wording on specific steps to improve user clarity - Unit uniqueness: "Can is already defined" → "Please enter unique description" (error under Measure Description box) - "Please enter child sub qty" → "Please enter quantity of [cans] per [case]" - "Please enter pack size weight" > “Enter optional pack size weight or save unit” - other updates everywhere  Pack & Serving Link banner  - Sub-quantity should be…
+  AC:    - Update the wording on specific steps to improve user clarity
+
+[NXT-38019] [Story] [] [Epic: IM/INV - Tech Debt and Code coverage]
+  TITLE: TechDebt-ItemMaster- Use Itmm_itemmeasure for saving serving measures for Item/Recipe/MenuItem
+  DESC:  Maintain a Single Source for serving measures for Items, Recipe, and MenuItem  Code Changes:  Use ITMM_ItemMeasure for saving/fetching serving measures for Items, Recipe, and MenuItem  PreDeployment: Take back up of ITMM_ItemMeasure  Post Deployment: Copy the existing serving measures of the Recipe and menuItem  to ITMM_ItemMeasure table.  [image: image-20230404-153132.png]  Note: How to identify the Recipe Level Serving measure, if the recipe has menu item serving measures. Do we need to add a column in MP_recipeDetail to identify its a recipe-level serving measure?
+  AC:    Maintain a Single Source for serving measures for Items, Recipe, and MenuItem  Code Changes:  Use ITMM_ItemMeasure for saving/fetching serving measures for Items, Recipe, and MenuItem  PreDeployment: Take back up of ITMM_ItemMeasure  Post Deployment: Copy the existing serving measures of the…
+
+[NXT-38020] [Story] [] [Epic: IM/INV - Tech Debt and Code coverage]
+  TITLE: TechDebt-ItemMaster- Use ITMM_ItemMealContribution for saving contributions for Item/MenuItem
+  DESC:  Maintain a Single Source for contributions for Items and MenuItem  Code Changes:  Use ITMM_ItemMealContribution & ITMM_ItemMealContributionBasis for saving/fetching contributions for Items, and MenuItem  PreDeployment: Take back up of ITMM_ItemMealContribution  & ITMM_ItemMealContributionBasis  Post Deployment: Copy the existing contributions of the menuItem to ITMM_ItemMealContribution  & ITMM_ItemMealContributionBasis table.
+  AC:    Maintain a Single Source for contributions for Items and MenuItem  Code Changes:  Use ITMM_ItemMealContribution & ITMM_ItemMealContributionBasis for saving/fetching contributions for Items, and MenuItem  PreDeployment: Take back up of ITMM_ItemMealContribution  & ITMM_ItemMealContributionBasis…
+
+[NXT-38091] [Story] [] [Epic: IM - Item Units & Sub-types]
+  TITLE: IM - Items - Units - Inventory Readiness Banner Enhancement
+  DESC:  As an Item Management user I want the Inventory Readiness banner to guide me to corrective actions so I can use a single tool to manage all inventory readiness related actions.  Requirements  - Provide multiple banner statuses and actions related to Inventory Readiness, in the approach taken for the [Pack-Serving Link Help story|https://primeroedgenext.atlassian.net/browse/NXT-37982] - Inventory Ready statuses and available actions - Inventory Ineligible (actions covered in Pack Serving Link story) ** Pack & Servings not linked *** Change banner message (to original story requirement): “Servi…
+  AC:    - Enhance the Inventory Ready banner to provide help steps for all actions
+
+[NXT-38149] [Story] [] [Epic: IM/INV - Tech Debt and Code coverage]
+  TITLE: TechDebt-ItemMaster- Use Itmm_itemmeasure for saving serving measures for Item and Recipe
+  DESC:  Maintain a Single Source for serving measures for Items and Recipe  Code Changes:  Use ITMM_ItemMeasure for saving/fetching serving measures for Items and Recipe  PreDeployment: Take back up of ITMM_ItemMeasure  Post Deployment: Copy the existing serving measures of the Recipe to ITMM_ItemMeasure table.  [image: image-20230404-153132.png]  Note: How to identify the Recipe Level Serving measure, if the recipe has menu item serving measures. Do we need to add a column in MP_recipeDetail to identify its a recipe-level serving measure?
+  AC:    Maintain a Single Source for serving measures for Items, Recipe  Code Changes:  Use ITMM_ItemMeasure for saving/fetching serving measures for Items, Recipe  PreDeployment: Take back up of ITMM_ItemMeasure  Post Deployment: Copy the existing serving measures of the Recipe to ITMM_ItemMeasure table.
+
+[NXT-38372] [Bug] [] [Epic: IM - Item Units & Sub-types]
+  TITLE: IM - Items - Units - Edit/Update - Pack-Serving link help step - UI issues
+  DESC:  # Pack Sizes not present - “Pack size units must be configured for Inventory eligibility” clickable action could emphasize the +Pack button --> to be added # To change of to For in the Please enter weight for [base unit] or sub-quantity for [inventory-able serving size] message # The save button is enabled --> but when clicked then the serving and pack buttons disappear # disable everything when adding weight or costing or sub-qty when clicking on Edit against the banner message # if clearing serving sizes and on clicking the save check button --> the previous serving size description is acce…
+
+[NXT-38373] [Bug] [] [Epic: IM - Item Units & Sub-types]
+  TITLE: IM - Items - Units - Edit/Update - Pack-Serving link help step - API issues
+  DESC:  # Sub-qty for linked serving disappears if added earlier when adding a  lower/higher pack size # error message is displayed on deleting a single/last pack size from the unit card  [image: image-20230413-075833.png]
+
+[NXT-38402] [Bug] [] [Epic: (none)]
+  TITLE: Regression -STG- IM- Unable to create a menu item from Single item recipe
+  DESC:  env: staging  district technology  below screenshot shows its not saving even though serving size is selected for Single item recipe  [image: image-20230413-174339.png]
+
+[NXT-38440] [Bug] [] [Epic: (none)]
+  TITLE: IM - Recipe - Steps & Ingredients - Steps Card - unable to select/highlight/copy the text in the Steps card
+  DESC:  User should be able to select/highlight/copy the text in the Steps card in view mode. User shouldn't need to go into edit mode simply to copy and paste some text.  [image: image-20230414-135025.png]  [image: image (1)-20230414-135034.png]
+
+[NXT-38476] [Story] [] [Epic: IM - Consolidation Enhancement & Cleanup]
+  TITLE: IM - Items/Recipes - Nutrients - Change order of vitamins
+  DESC:  As a IM user I want the nutrients card to match the FDA nutrition label as much as possible so I can compare or import real world item data with ease.  [FDA reference page|https://www.fda.gov/food/food-labeling-nutrition/industry-resources-changes-nutrition-facts-label#:~:text=Following%20the%20%E2%80%9CCalories%E2%80%9D%20declaration%20located,voluntary%20vitamins%2C%20and%20voluntary%20minerals.]  Requirements  - Update the sort order of Nutrients card vitamin/mineral attributes to match the FDA updated values - Mandatory nutrients first (“mandatory” per FDA) ** Sort order: ** Vitamin D **…
+  AC:    - Update the sort order of Nutrients card vitamin/mineral attributes to match the FDA updated values
+
+[NXT-38477] [Story] [] [Epic: IM - Units Card Overhaul]
+  TITLE: IM - Items - Units - Display Pack Size prompt for Serving Sub-Qty
+  DESC:  As an IM user I want the ability to quickly make a Serving into a Pack Size base unit so I can quickly set up my dual unit items.  [image: Dual Unit Promote-20240917-070505.png]  [image: Dual Unit Confirm-20240917-070505.png]
+  AC:    - If Sub-Qty is entered (and saved) for an inventory-able serving, display a ‘Pack Size?’ button in the Identifiers column ** while in edit mode only ** use the inverted identifier (bordered) style - If user clicks the prompt button, display a sub-step prompt in the banner to confirm they want to p…
+
+[NXT-38490] [Bug] [] [Epic: IM - Consolidation Enhancement & Cleanup]
+  TITLE: IM - Recipe Rework - Summary changes - Allergen Info not displaying on Summary card, Edit function- Cancel and Save button also not working
+  DESC:  Issue: 1: When adding Allergen , it does not get displayed on the Allergen section of Summary Card  Issue 2: There is an edit button and clicking on it “Save and Cancel” button are not working as expected
+
+[NXT-38504] [Story] [] [Epic: IM/INV - Report Updates & PowerBI Conversion]
+  TITLE: IM - Recipe Details - Recipe Report - Report UI
+  DESC:  As an Item Management user I want the Recipe Report to be updated so I can see the recipe on the report the same way it is on the page.  Requirements  - Update the Recipe Report to use PowerBI reporting tool - Update the design of the report to correctly match recipe structure and the updated design ** Report is currently mismatching ingredients with steps, creating one step per ingredient ** Show the Directions in their respective steps ** Move Yield Factor and Costing info into a summary section - Update the report generation slideout to accommodate all 3 report variants ** [https://primero…
+  AC:    - Update the design of the Recipe Report to reflect corrected recipe structure and design - Use PowerBI reporting tool for new report
+
+[NXT-38505] [Story] [] [Epic: IM/INV - Report Updates & PowerBI Conversion]
+  TITLE: IM - Reports - Recipe Book - Update to new Recipe Details SP
+  DESC:  As an Item Management user I want the Recipe Book report to match the Recipe Details report so my recipe info is consistent across the product.  Requirements  - Update the Recipe Book report to use the new Stored Procedure for the updated Recipe Details Report ** [https://primeroedgenext.atlassian.net/browse/NXT-36840|https://primeroedgenext.atlassian.net/browse/NXT-36840|smart-link] - Ensure the Report UI matches the new Recipe Details Report as well ** [https://primeroedgenext.atlassian.net/browse/NXT-38504|https://primeroedgenext.atlassian.net/browse/NXT-38504|smart-link]  Report (First Pa…
+  AC:    - Update the design of the Recipe Report to reflect corrected recipe structure and design per updated Recipe Details report
+
+[NXT-38544] [Story] [] [Epic: IM - Item Units & Sub-types]
+  TITLE: IM - Items - Units - UI adjustments
+  DESC:  As an Item Management user I want the Units card to have clean and cohesive experiences for both view and edit mode so I can see all my serving and pack details in a clear way across all item types.  Requirements  - Make the header cards shorter vertically ** only 4 rows of height should be needed (in the summary card) ** Use inline scroll on Units card if needed ** Image card can increase height on edit mode until we move the checkbox and Add Image button ** Edit mode of Summary card will also slightly increase height because of Tags field ** The cards can be adjusted horizontally as well to…
+  AC:    Make UI adjustments to the Item Master header structure to improve user experience and clarity
+
+[NXT-38566] [Bug] [] [Epic: IM - Item Units & Sub-types]
+  TITLE: IM - Items - Units - Edit/Update - UI - If serving amount is greater than 1 the Costing Banner and icon is visible which should not be
+
+[NXT-38653] [Bug] [] [Epic: IM - Item Units & Sub-types]
+  TITLE: IM - Items - Costing - UI Consolidated Issues
+  DESC:  # Can we remove the ‘Button’ tool tip from confirmation pop up at the time of deleting any pack unit or Serving Measure [image: image-20230419-124315.png] [image: image-20230419-124324.png] # In some scenarios, from UI it’s allowing to save the item measure without entering weight value. Only enter the weight unit like cup or milliliter. And getting failed at API side. [image: image-20230419-124402.png] # Costing is failing with decimal values in case of “Manage Costing” flow [image: image-20230419-124458.png] API Response: {"Code":0,"StatusCode":400,"Description":"The request was invalid or…
+
+[NXT-38668] [Bug] [] [Epic: (none)]
+  TITLE: Nutrient Label  Change as per Standards
+  DESC:  [image: NutrientLabelChangeCheck-20230419-085047 (188f23d4-2454-4dac-8f41-5635d6dd4825).JPG]  changed need to test on UAT & STG environment  with QA
+
+[NXT-38674] [Story] [] [Epic: IM/INV - Tech Debt and Code coverage]
+  TITLE: TechDebt - Remove unused/old code (IM - Recipe)
+  DESC:  |Remove unused/old code|IM|Item|Remove old page reference links|5| |Remove unused/old code|IM|Recipe|Remove old page reference links|5| |Remove unused/old code|INV|Receipts / Quick Receipts|Remove old page reference links|3| |Remove unused/old code|INV|Orders|Remove old page reference links|3| |Code restructuring|IM|Overall common methods| |5| |Lint issues fix|IM|Around 200 lint issues exist| |5| |Code coverage|IM|Current 30%| |5| |Code coverage|INV|Current 56%| |5|
+  AC:    |Remove unused/old code|IM|Item|Remove old page reference links|5| |Remove unused/old code|IM|Recipe|Remove old page reference links|5| |Remove unused/old code|INV|Receipts / Quick Receipts|Remove old page reference links|3| |Remove unused/old code|INV|Orders|Remove old page reference links|3| |Cod…
+
+[NXT-38675] [Story] [] [Epic: IM/INV - Tech Debt and Code coverage]
+  TITLE: Tech Debt -  Code Coverage (IM)
+  AC:    |Remove unused/old code|IM|Item|Remove old page reference links|5| |Remove unused/old code|IM|Recipe|Remove old page reference links|5| |Remove unused/old code|INV|Receipts / Quick Receipts|Remove old page reference links|3| |Remove unused/old code|INV|Orders|Remove old page reference links|3| |Cod…
+
+[NXT-38681] [Story] [] [Epic: IM/INV - Tech Debt and Code coverage]
+  TITLE: Tech Debt -   Remove unused/old code (IM - Item)
+  AC:    |Remove unused/old code|IM|Item|Remove old page reference links|5| |Remove unused/old code|IM|Recipe|Remove old page reference links|5| |Remove unused/old code|INV|Receipts / Quick Receipts|Remove old page reference links|3| |Remove unused/old code|INV|Orders|Remove old page reference links|3| |Cod…
+
+[NXT-38916] [Bug] [] [Epic: (none)]
+  TITLE: Regression IM - Recipe - HACCP Process - If HACCP Process is entered then CCP add flow is not given
+  DESC:  Recipe - HACCP Process - If HACCP Process is entered then CCP add flow is not given. In below drop down it should show Control Point option to add the CCPs.  [image: image-20230421-145752.png]
+
+[NXT-38929] [Bug] [] [Epic: (none)]
+  TITLE: IM - Items - Cannot access Items Split View page
+  DESC:  After the maintenance activity on Sunday 4/23/2023, I am unable to Item Management - Items - Split View page on Morgan county.  [~accountid:6034ebcf9b3ef700692544f0] Can you please check this whenever you get a chance?  [image: image-20230423-223745.png]  [image: image-20230423-223936.png]  [~accountid:5fa1ae72c9b15a0078e4c4a8] [~accountid:603839d29b3ef700694b5a1b] [~accountid:6192efd4d5986c006a5b5134] [~accountid:6034ebcf9b3ef700692544f0]
+
+[NXT-38962] [Bug] [] [Epic: IM - Consolidation Enhancement & Cleanup]
+  TITLE: IM - Recipe - Create Recipe - Summary Card - "Recipe code" is not showing up once after successful creation of recipe
+  DESC:  IM - Recipe - Create Recipe - Summary Card - "Recipe code" is not showing up once after successful creation of recipe  [image: image-20230424-125348.png]
+
+[NXT-38963] [Bug] [] [Epic: IM - Consolidation Enhancement & Cleanup]
+  TITLE: IM - Recipe - Servings Card - By default, it's not going to "Step & Ingredient" tab
+  DESC:  IM - Recipe - Servings Card - By default, it's not going to "Step & Ingredient" tab.
+
+[NXT-38964] [Bug] [] [Epic: (none)]
+  TITLE: Regression - IM - Recipe - Steps & Ingredient - Search Ingredient - Returning list of item which are not available for that district
+  DESC:  - While adding the steps to a recipe and trying to search for any item it’s giving me a bunch of items which are not available for my county.  [image: image-20230424-130804.png]  [image: image-20230424-131010.png]  [image: image-20230424-131048.png]  API: {{/recipemanagement/v1.0/api/Recipes/Ingredients/Search}}  Payload: {{{"filters":[{"filterName":"name","filterValue":"tofu","sortByAscending":true}],"pageSize":10,"pageNumber":1}}}  Response: {"Code":0,"StatusCode":200,"Description":"Success!","ResponseEnvelope":null,"ExceptionDetails":null,"PayLoad":[{"ingredientId":23138,"recipeId":null,"c…
+
+[NXT-39096] [Bug] [] [Epic: IM - Item Units & Sub-types]
+  TITLE: IM - Items - Nutrient Info tab Interactions (Select Serving Size) - On Contribution section when existing Serving size is removed, clicking on 'X' button able to save page without any prompt msg
+  DESC:  Steps:  Login to application  Click on Items and create a new Item  Go to Contribution section and add a Serving size → Save  Again go to Contribution section page and edit the Serving size and remove it clicking on x button  Now close the pop up by clicking on 'X' cross  Actual: When any selected serving size is removed from Contribution section , then if clicked on Cross button on top right corner of page then it does not give any prompt for saving the existing values or not. It just closes the contribution pop up and "Serving Size" header below Contribution gets removed.
+
+[NXT-39109] [Bug] [] [Epic: (none)]
+  TITLE: Regression - IM - Custom Allergens, Valuation groups, Item categories - Getting error when I start typing on Updated Date Filter
+  DESC:  When I start entering on date on update date column on Item categories, it throws an error. And warning message persists even if I navigate away from the page.  [~accountid:5e97d4243a8b910c0859e4e8] Can you please check if this is from UI side and assign based on your bandwidth?  See below:  [attachment: screen-capture (59).webm]  [~accountid:5fa1ae72c9b15a0078e4c4a8] [~accountid:603839d29b3ef700694b5a1b] [~accountid:5faac79d048052006b49e9af] [~accountid:5e97d4243a8b910c0859e4e8]
+
+[NXT-39110] [Bug] [] [Epic: (none)]
+  TITLE: Regression - Item Management - Custom Allergens page - Status filter not working
+  DESC:  Status filter is not working as expected on Custom Allergens page.  [image: image (158).png]  [~accountid:5faac79d048052006b49e9af] [~accountid:603839d29b3ef700694b5a1b] [~accountid:5fa1ae72c9b15a0078e4c4a8]
+
+[NXT-39111] [Bug] [] [Epic: (none)]
+  TITLE: Regression - IM - Item Config - Custom Allergens - Data source filter is not considered on the main page
+  DESC:  Even if I choose Local as a Data Source on the main page, I am getting all data sources after generating the configs. It seems like dataSource is not passed from the UI. [~accountid:5e97d4243a8b910c0859e4e8] Can you please assign based on the bandwidth?  [image: image (159).png]  [image: image (160).png]  [~accountid:5e97d4243a8b910c0859e4e8] [~accountid:5e97d41f34f7b90c0fc0eebe] [~accountid:5f7abf83459d4200698d5c48]  [~accountid:5fa1ae72c9b15a0078e4c4a8] [~accountid:603839d29b3ef700694b5a1b]
+

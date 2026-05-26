@@ -1,0 +1,119 @@
+---
+id: GUIDE-058
+title: "Accounts - Add Students Quick Guide"
+platform: "SC"
+module: "Account Management"
+content_type: "Quick Guide"
+source_url: "https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/AccountManagement/Add_Students_Quick_Guide.pdf"
+local_pdf: "raw/guides/pdf/SC/Account-Management/Quick-Guide/GUIDE-058-accounts-add-students-quick-guide.pdf"
+created_at: "2026-05-13T20:23:05+00:00"
+updated_at: "2026-05-13T20:24:44+00:00"
+workflow_authority: true
+product_rule_authority: false
+status: "draft_extracted"
+---
+
+# Accounts - Add Students Quick Guide
+
+## Source metadata
+
+- Guide ID: GUIDE-058
+- Platform: SC
+- Module: Account Management
+- Content Type: Quick Guide
+- Source URL: https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/AccountManagement/Add_Students_Quick_Guide.pdf
+- Local PDF: raw/guides/pdf/SC/Account-Management/Quick-Guide/GUIDE-058-accounts-add-students-quick-guide.pdf
+
+## Extracted guide text
+
+### Page 1
+
+1
+
+Accounts – Add Students
+The Accounts function allows users to create a student account manually when a student
+is not included in the student file import.
+If the district uses a student file import, the manually added student must be added to the
+file to maintain their Active Status.
+The information on the student file import will overwrite a manually added student.
+Add a Student Account
+1. Click the NEW button in the top right corner of the page, and options appear
+2. Select Add Student
+The Add New Student page displays.
+The Add New Student page has a process wizard on the left-hand side that illuminates
+purple, indicating which section you are working in.
+Students
+1. Enter the student’s information as desired
+2. Enter Enrollment and Eligibility information as desired
+Fields indicated with an asterisk are required.
+3. Click the NEXT button
+The student account has been successfully created.
+The Student section changes, allowing you to add a profile picture for the student.
+4. Use the Drag & Drop File Here option or click the SELECT FILE button to upload a
+profile picture of the student if desired
+Uploading a student profile picture is not required.
+5. Click the NEXT button to proceed
+Guardian & Contact Info
+Guardian and contact information are required for all students.
+1. Click the ADD button
+The Add Guardian section appears.
+2. Enter guardian information as desired
+Fields indicated with an asterisk are required.
+3. Click the ADD button to save guardian details
+The added guardian and their information are displayed on the table.
+Guardians can be edited and deleted once added to the table.
+Repeat this process to add additional guardian and contact information as needed.
+4. Click the NEXT button to proceed
+
+### Page 2
+
+2
+
+Household Members
+If students are of the same household within the district, their information can be added
+in this section.
+1. Click the ADD button
+The Add Household Member slide deck appears.
+2. Enter the Name or ID of a patron to search and add to the household
+3. Click the SAVE button
+The added household members and their account information are added to the table.
+Repeat this process to add additional patrons to the household as needed.
+You can click the SAVE & CLOSE button to return to the Accounts page.
+4. Click the NEXT button to proceed
+Restrictions
+The Restrictions section allows users to enter applicable restrictions for a student's
+account.
+1. Enter optional restrictions into the fields or select them from the dropdowns
+Hover over an Exclamation Mark icon to view a description of the restriction.
+2. Click the NEXT button to proceed
+Allergens
+The Allergens section allows users to add applicable food allergies that a student has.
+Allergen information is required.
+If a student has no food allergies, it must be indicated.
+If no allergies are indicated
+1. Click the No allergens indicated checkbox
+If there are allergies indicated
+1. Click the dropdowns for Common Allergens or Custom Allergens as needed
+2. Select allergens from the list of Common Allergens or Custom Allergens as needed
+An Allergen Feature Disclaimer is displayed at the bottom of the page for additional
+information.
+You can click the SAVE & CLOSE button to save the information and return to the
+Accounts page.
+3. Click the NEXT button to proceed
+
+### Page 3
+
+3
+
+Documents & Comments
+This section is optional.
+1. Use the Drag & Drop File Here option or click the SELECT FILES button to upload
+documents
+Uploaded files populate to the right side of the page with options to download and
+delete.
+The Checkmark icon indicates that the document was correctly uploaded.
+2. Enter Comments as desired
+3. Click the SAVE & CLOSE button to save the student account
+A confirmation response appears atop the page.
+You are returned to the Accounts page.
+Repeat this process to add additional students as needed.

@@ -1,0 +1,336 @@
+---
+id: GUIDE-002
+title: "System Maintenance Quick Guide"
+platform: "SC"
+module: "System"
+content_type: "Quick Guide"
+source_url: "https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/System/System_Maintenance_Quick_Guide.pdf"
+local_pdf: "raw/guides/pdf/SC/System/Quick-Guide/GUIDE-002-system-maintenance-quick-guide.pdf"
+extraction_warnings: []
+extracted_at: "2026-05-18T20:39:36+00:00"
+raw_text_sha256: "b9119e4179ac6d67"
+generated: true
+status: "draft_extracted"
+---
+
+# System Maintenance Quick Guide
+
+Users will follow these steps to review and edit specific areas in SchoolCafé for their district. This guide will include the Site Configuration, Users, Roles and Permissions, Program Configuration, Settings, Periods, Special Assistance Program, Templates, and Attendance functions.
+
+## Site Configuration
+The Site Configuration function allows users to manage Sites, Site Types, Grade Groups, and POS Configuration.
+For Site Configuration, go to System > Sites & Users > Site Configuration.
+
+## Add Sites
+1. Ensure that the SITES tab is selected
+2. Click the NEW button in the top right corner
+   The Add Site page displays.
+3. Enter the required Site Name, Site Description, Site Code, Site Type, and USDA
+
+## Site Type
+4. Select the Site Status (Active or Inactive)
+5. Click the Feeding Site toggle switch on or off as needed
+6. Select the Site Category (Not Applicable, Satellite, or Combined)
+7. Enter the Reimbursement Claim Export Code
+8. Click the Same as Site Code checkbox as needed
+9. Click the right-facing arrow and enter the optional Correspondence Address information
+10. Click the SAVE button in the bottom right corner to add the Site
+   A confirmation response appears atop the page, and the Site is added.
+   Repeat this process to add additional Sites as needed.
+
+## Edit Sites
+1. Click the Edit icon for the desired Site
+   The Edit Site page displays.
+2. Make any changes as needed to the Site
+3. Click the SAVE button to retain changes
+   A confirmation response appears atop the page, and the Site is updated.
+   Repeat this process to edit additional Sites as needed.
+
+## Add Site Types
+1. Select the SITE TYPES tab
+2. Click the NEW button in the top right corner
+   The Add Site Type slide deck displays.
+
+3. Enter the Site Type Description
+4. Select the Site Type Groups from the dropdown
+   If School Site Types is selected, then the Grades dropdown will appear.
+5. Select the Grades to include in the Site Type from the dropdown
+6. Click the SAVE button in the bottom right corner to add the Site Type
+   A confirmation response appears atop the page, and the Site Type is added.
+   Repeat this process to add additional Site Types as needed.
+
+## Edit Site Types
+1. Click the Edit icon for the desired Site Type
+   The Edit Site Type slide deck displays.
+2. Make any changes as needed to the Site Type
+3. Click the SAVE button to retain changes
+   A confirmation response appears atop the page, and the Site Type is updated.
+   Repeat this process to edit additional Site Types as needed.
+
+## Add Grade Groups
+The GRADE GROUPS tab allows district administrators to view as well as add Grade Groups and associate multiple grades with that Grade Group.
+1. Select the GRADE GROUPS tab
+2. Click the NEW button in the top right corner
+   The Add Grade Group slide deck displays.
+3. Enter the Grade Group Description
+4. Select the Grades to include in the Grade Group from the dropdown
+5. Click the SAVE button in the bottom right corner to add the Grade Group
+   A confirmation response appears atop the page, and the Grade Group is added.
+   Repeat this process to add additional Grade Groups as needed.
+
+## Edit Grade Groups
+1. Click the Edit icon for the desired Grade Group
+   The Edit Grade Group slide deck displays.
+2. Make any changes as needed to the Grade Group
+3. Click the SAVE button to retain changes
+   A confirmation response appears atop the page, and the Grade Group is updated.
+   Repeat this process to edit additional Grade Groups as needed.
+
+## Edit POS Configuration
+The POS CONFIGURATION tab allows district administrators to view and edit the POS settings for all POS Sites.
+1. Select the POS CONFIGURATION tab
+2. Click the Edit icon for the desired Configuration Name
+   A slide deck displays.
+   You can use the Site Type and Site dropdowns to narrow down the information in the table.
+3. Settings can be applied to all Sites or individually toggled by Site
+4. Click the SAVE button in the bottom right corner to retain changes
+   Repeat this process to edit additional POS Configuration Names as needed.
+   Users
+   The Users function allows individuals to access SchoolCafé with given role permissions.
+   Current users can also be viewed and edited from the Users function.
+   For Users, go to System > Sites & Users > Users.
+
+## Add Users
+1. Click the NEW button in the top right corner
+   The Add User page displays.
+2. Enter the required First Name, Last Name, and Email
+3. Use the UPLOAD PICTURE button to upload a picture of the user
+4. Select the Site(s) the user has access to
+5. Select the Roles of the user
+6. Click the SAVE button in the bottom right corner to add the user
+   A confirmation response appears atop the page, and the user is added.
+   The added user will receive an email notification prompting them to set up their account.
+   Repeat this process to add additional users as needed.
+
+## Edit Users
+1. Click the View icon for the desired user
+   The User Information page appears.
+2. Click the EDIT button to update the user’s information
+3. Make any changes as needed to the user
+4. Click the SAVE button to retain changes
+   A confirmation response appears atop the page, and the user account is updated.
+   Repeat this process to edit additional user accounts as needed.
+
+Roles and Permissions The Roles function allows district administrators to view, add, copy, edit, and delete previously created roles.
+Standard roles cannot be edited or deleted.
+For Roles and Permissions, go to System > Management > Roles and Permissions.
+
+## Add Roles
+1. Click the NEW button in the top right corner
+   The Add Custom Role slide deck displays.
+2. Enter the Role Name
+3. Enter the Description
+4. Select the Modules from the dropdown
+5. Click the SAVE button in the bottom right corner to add the Role
+   Repeat this process to add additional Roles as needed.
+
+## Copy Roles
+1. Click the Ellipsis icon for the desired Role
+2. Select Copy
+   The Copy Role slide deck displays.
+3. Enter the Role Name
+4. Enter the Description
+5. Click the COPY button in the bottom right corner to copy the Role
+   Repeat this process to copy additional Roles as needed.
+
+## Edit Roles
+1. Select a Custom Role to edit the Role permissions
+2. Select the Checkbox(es) to add or remove permissions for the Role
+3. Click the SAVE button at the bottom right corner to retain changes
+   A confirmation response appears atop the page, and the Role is updated.
+   Repeat this process to edit additional Custom Roles as needed.
+
+Program Configuration
+The Program Configuration function is used to designate the Reimbursable Meal Programs, per Academic Year, that the SFA has been approved for, plus configure the corresponding Program Classification for each applicable Meal Service.
+Program Configuration must be set up before the start of each academic year, and the Program Configuration selections will impact Reimbursement Claim calculations.
+For Program Configuration, go to System > Management > Program Configuration.
+
+## Edit Programs
+The PROGRAMS tab allows users to designate approved Programs.
+1. Ensure that the PROGRAMS tab is selected
+2. Select an Academic Year from the dropdown
+   Results will display in the table below based on the academic year selected.
+3. Click the right-facing arrow for the desired Program
+   The Program information displays.
+4. Click the Edit icon for the desired Program
+   A slide deck displays.
+   You can use the Site Type and Site dropdowns to narrow down the information in the table.
+5. Click the toggle switch on or off in the Configured column as needed
+6. Select the applicable Program Classification for each Site
+7. Select the Program Start Date and End Date for each Site
+   You can select the dates in the Program Dates column header to change all dates for each Site.
+8. Click the Reimbursable toggle switch on for each Site as needed to identify them as reimbursable
+   You can click the Reimbursable toggle switch on in the column header to select all Sites as reimbursable.
+9. Click the SAVE button at the bottom of the page to retain changes
+   A confirmation response appears atop the page, and the configurations have been saved.
+   Repeat this process to edit additional Programs as needed.
+
+## Edit Sites
+The SITES tab allows users to determine if a Site is a feeding Site and to set custom meal settings.
+1. Select the SITES tab
+2. Select the Site Type and Site from the dropdowns
+
+3. Click the Use custom meal settings toggle switch on
+   The Default meal settings table displays.
+4. Click the Edit icon for the desired Meal Type
+   A pop-up window displays.
+5. Edit the Start Time and End Time as needed
+6. Click OK to retain changes
+   A confirmation response appears atop the page, and the times are updated successfully.
+7. Click the Reimbursement toggle switch on if the Meal Type is reimbursable
+   A confirmation response appears atop the page, and the times are updated successfully.
+   Repeat this process to edit additional site Program Configurations as needed.
+
+## Edit Carryover Eligibility
+The CARRYOVER ELIGIBILITY tab allows the district to update the dates for student eligibilities to carry over from the previous year.
+1. Select the CARRYOVER ELIGIBILITY tab
+2. Select the Academic Year and Sites from the dropdowns
+3. Enter the Start Date – End Date to set Program Dates for all Sites
+4. Click the SET FOR ALL SITES button to apply the carryover date for all Sites
+5. Alternatively, click the Edit icon for each Site as needed to individually edit each
+   Start Date - End Date
+   Repeat this process to edit Carryover Eligibility as needed.
+   Settings
+   The Settings function allows district administrators to edit each module’s Settings and functions in SchoolCafé.
+   Common Settings can be viewed by any user with the ability to view the Settings function. SchoolCafé employees can only view Internal Settings.
+   For Settings, go to System > Configuration > Settings.
+
+## Review Settings
+1. Select the Configuration Type, Module, and Category from the dropdowns
+   Settings will display in the table below based on the criteria selected.
+2. Edit Settings by selecting the Edit icon or by clicking the toggle switch to turn on or off Hover over a Tool Tip icon for a System Setting to view a description of that
+   Setting.
+3. Enter a Comment as to why the Setting is being changed
+   Comments are required when editing a System Setting.
+
+4. Click the SAVE button to retain changes
+   A confirmation response appears atop the page, and the System Setting is updated.
+   Repeat this process to edit additional System Settings as needed.
+   Periods
+   The Periods function allows users to generate Periods for POS and Inventory. POS Periods are generally similar Periods to reimbursement claim Periods. Inventory Periods would be a Period where an Inventory is physically counted.
+   For Periods, go to System > Management > Periods.
+
+## Generate Periods
+1. Ensure that the GENERATE PERIODS tab is selected
+2. Select the Fiscal Year from the dropdown
+3. Adjust the fiscal year dates in the Date Range field
+4. Click the SAVE FISCAL YEAR CONFIGURATION button once the fiscal year dates match your district fiscal year
+   A confirmation response appears on the page.
+5. Select the Period Type from the dropdown (POS or Inventory)
+6. Select the Frequency and End Day from the dropdowns
+7. Select the Include Date Range in Period Name checkbox to view the dates in the
+   Period name
+8. Click the PREVIEW button to view the Periods with the settings applied
+   Click the Edit icon for Periods to adjust dates.
+   Click the SPLIT button for a Period to split Periods into smaller date ranges.
+   Click the Delete icon to remove Periods.
+9. Click the CREATE button to save the Periods
+   A confirmation response appears atop the page, and the Periods are added.
+
+## Manage Periods
+1. Select the MANAGE PERIODS tab
+2. Select the Fiscal Year from the dropdown
+3. Select the Period Type from the dropdown
+4. Select the Site from the dropdown
+5. Edit the Periods by splitting or removing a Period
+   A confirmation response appears atop the page, and the Period is updated.
+
+Special Assistance Program
+The Special Assistance Program function enables programs like Provision II and CEP for district reimbursement.
+For Special Assistance Program, go to System > Configuration > Special Assistance Program.
+
+## Add Special Assistance Programs
+1. Click the NEW button in the top right corner
+   A process wizard on the lefthand side is available to help guide you while adding a Special Assistance Program.
+   Once a process wizard icon turns purple, click on it to return to that section.
+
+## Program Type
+1. Select the Program Type from the dropdown (CEP or Provision II)
+2. Select the Configuration Site from the dropdown (Site, District, Site / CEP Group)
+   Select Site to configure for a single Site, District for all Sites, or Site/CEP Group to configure groups of Sites.
+3. Select the Configuration Level from the dropdown (Monthly or Annually)
+4. Select the Meal Type checkboxes as desired
+   At least one Meal Type must be selected.
+5. Click the NEXT button to proceed
+
+## Identified Student Analysis
+1. Enter the required Student Count Date
+2. Click the APPLY button to generate the results
+3. Enter the number of Identified Students and Enrolled Students for each Site as needed
+4. Click the NEXT button to proceed
+
+## Claiming Percentages
+The Included checkbox will be available if the Identified and Enrolled students were entered for a Site from the previous section.
+1. Click the Included checkbox for each Site as desired to include it in the Provision
+   Program
+2. Click the NEXT to proceed
+
+## Select Base Year
+Information such as the Program Type, Configuration Level, Meal Types, and Base Year are displayed based on the selections made on the previous pages.
+1. Select a Starting year from the dropdown
+2. Enter the Starting date into the field
+3. Select an Ending year and date from the dropdown
+4. Enter the Ending date into the field
+5. Click the SUBMIT button to finalize the process
+   Repeat this process to add additional Special Assistance Programs as needed.
+   Templates
+   The Templates function allows for creating notification Templates for the Account Management, Accountability, and Eligibility modules. Manage Templates like household letters, student eligibility notifications, and low balance reminders.
+   For Templates, go to System > Management > Templates.
+
+## Edit Templates
+1. Select the Module, Letter type, and Language from the dropdowns
+   Templates will display in the table below based on the criteria selected.
+2. Click the Edit icon for the desired Template
+   The Edit Template page displays.
+3. Make any changes as needed to the Template
+4. Click the Preview icon to view the Template as it will be printed
+5. Click the Active toggle switch on or off as needed
+6. Select the SAVE AS or SAVE buttons to retain changes
+   Select the SAVE AS button to keep the Template and rename the new version.
+   Select the SAVE button to make the new version as the Template.
+   A confirmation response appears atop the page, and the Template is updated.
+   Repeat this process to edit additional Templates as needed.
+
+## Manage Officials
+The MANAGE OFFICIALS button is available within the Templates function, allowing users to add or edit Officials for Letter Templates.
+1. Click the MANAGE OFFICIALS button in the top right corner
+   The Manage Officials page displays.
+2. Click the ADD button in the top right corner
+   The Add Officials page displays.
+3. Enter the required Official Type, First Name, and Last Name
+
+4. Click the SAVE button in the bottom right corner to add the Official
+   A confirmation response appears atop the page, and the Official is added.
+   Repeat this process to add additional Officials as needed.
+
+## Edit Officials
+1. Click the Edit icon for the desired Official
+   The Add Officials page displays.
+2. Make any changes as needed to the Official
+3. Click the SAVE button to retain changes
+   A confirmation response appears atop the page, and the Official is updated.
+   Repeat this process to edit additional Officials as needed.
+   Attendance
+   The Attendance function allows users to manage monthly or yearly attendance by region.
+   Users will need to enter the Attendance Factor as well as the Average Daily Attendance for their region.
+   Attendance must be configured before the start of each academic year, and the values entered in the Attendance function are factored in when creating a reimbursement claim for each month.
+   For Attendance, go to System > Configuration > Attendance.
+
+## Manage Attendance
+1. Select the Site and Academic Year from the dropdowns
+2. Select the Term (Monthly or Yearly)
+3. Select the Region (Site or District)
+4. Click the APPLY button to generate the Sites
+5. Enter the Attendance Factor and Average Daily Attendance values into the fields based on the Term and Region selections made above
+   A confirmation response appears atop the page, and the Attendance is saved.
+   Repeat this process to manage additional Site Attendances as needed.

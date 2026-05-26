@@ -1,0 +1,2052 @@
+issue_key,associated_story_key,associated_epic_key,associated_epic_name,epic_link_path,linked_story_count
+PCS-4510,,,,none,0
+PCS-4509,,,,none,0
+NXT-72153,,,,none,0
+NXT-72118,,,,none,0
+NXT-72116,,,,none,0
+NXT-72047,,,,none,0
+PCS-4506,,,,none,0
+NXT-71919,NXT-69359,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-71860,,,,none,0
+NXT-71835,,,,none,0
+NXT-71801,,,,none,0
+PCS-4499,,,,none,0
+NXT-71678,,,,none,0
+NXT-71659,,NXT-66942,,direct_parent,0
+NXT-71657,NXT-69523,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-71656,,NXT-66942,,direct_parent,0
+NXT-71655,,NXT-66942,,direct_parent,0
+NXT-71653,,,,none,0
+NXT-71639,NXT-61904,NXT-61847,IM - Bulk Item - Section Filters and Enhancements,via_linked_story,1
+NXT-71633,NXT-56379,NXT-64951,IM - Usability & UX Enhancements (9.X),via_linked_story,1
+NXT-71607,NXT-69359,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-71599,,,,none,0
+NXT-71598,NXT-68116,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-71597,,,,none,0
+NXT-71596,,,,none,0
+NXT-71567,NXT-69496,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-71562,NXT-67587,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-71528,,,,none,0
+NXT-71508,,,,none,0
+PCS-4486,,,,none,0
+NXT-71349,NXT-56379,NXT-64951,IM - Usability & UX Enhancements (9.X),via_linked_story,1
+NXT-71347,,,,none,0
+NXT-71266,NXT-69524,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-71262,,,,none,0
+NXT-71247,,,,none,0
+NXT-71236,NXT-69359,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-71230,NXT-69524,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-71228,,,,none,0
+NXT-71224,,NXT-66942,,direct_parent,0
+NXT-71222,,NXT-66942,,direct_parent,0
+NXT-71221,,NXT-66942,,direct_parent,0
+NXT-71211,,NXT-64850,IM - Bulk Item - Local Updates,direct_parent,0
+NXT-71190,,,,none,0
+NXT-71186,NXT-69524,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+PCS-4481,,,,none,0
+NXT-71174,,,,none,0
+NXT-71166,,,,none,0
+NXT-71149,NXT-62539,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,via_linked_story,1
+NXT-71145,,,,none,0
+NXT-71131,,,,none,0
+NXT-71129,,,,none,0
+NXT-71128,,,,none,0
+NXT-71115,,NXT-64951,IM - Usability & UX Enhancements (9.X),direct_parent,0
+NXT-71014,,,,none,0
+NXT-71007,,,,none,0
+NXT-71006,,,,none,0
+NXT-71001,,,,none,0
+NXT-71000,,,,none,0
+NXT-70999,,,,none,0
+NXT-70975,,,,none,0
+NXT-70973,,,,none,0
+NXT-70950,,,,none,0
+NXT-70944,,,,none,0
+NXT-70943,,,,none,0
+NXT-70936,,,,none,0
+NXT-70931,,,,none,0
+NXT-70928,,,,none,0
+NXT-70903,,,,none,0
+NXT-70901,,,,none,0
+NXT-70899,NXT-69524,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-70892,,,,none,0
+NXT-70885,,,,none,0
+NXT-70883,,,,none,0
+NXT-70882,NXT-68590,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-70814,NXT-69496,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-70796,NXT-68733,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-70652,NXT-69359,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-70647,,,,none,0
+NXT-70618,,,,none,0
+NXT-70614,,,,none,0
+NXT-70598,,,,none,0
+NXT-70558,,,,none,0
+NXT-70549,NXT-68733,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-70548,NXT-69495,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-70489,,,,none,0
+NXT-70481,,,,none,0
+NXT-70441,,,,none,0
+NXT-70435,NXT-69524,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-70434,,,,none,0
+NXT-70403,,,,none,0
+NXT-70398,NXT-69525,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-70393,NXT-39923,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-70388,NXT-68590,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-70387,NXT-69496,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-70385,,,,none,0
+NXT-70367,,,,none,0
+NXT-70364,,,,none,0
+NXT-70357,NXT-69495,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-70355,NXT-56379,NXT-64951,IM - Usability & UX Enhancements (9.X),via_linked_story,1
+NXT-70353,,,,none,0
+NXT-70352,NXT-69525,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-70351,NXT-39923,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-70344,NXT-69496,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-70338,,,,none,0
+NXT-70332,,,,none,0
+NXT-70331,NXT-39923,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-70325,NXT-39923,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+PCS-4463,,,,none,0
+NXT-70301,,,,none,0
+NXT-70272,,,,none,0
+NXT-70271,,,,none,0
+NXT-70262,NXT-69524,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-70260,,,,none,0
+NXT-70235,NXT-67632,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-70229,,,,none,0
+NXT-70174,NXT-69495,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-70167,,,,none,0
+NXT-70165,NXT-67563,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-70100,NXT-68104,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-70024,,,,none,0
+NXT-70022,,,,none,0
+NXT-70017,NXT-67596,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,2
+NXT-70004,,,,none,0
+NXT-69989,NXT-69495,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-69987,NXT-47254,NXT-64951,IM - Usability & UX Enhancements (9.X),via_linked_story,1
+NXT-69983,,,,none,0
+NXT-69977,,,,none,0
+NXT-69869,,,,none,0
+NXT-69817,,,,none,0
+NXT-69804,NXT-47254,NXT-64951,IM - Usability & UX Enhancements (9.X),via_linked_story,1
+NXT-69803,NXT-56379,NXT-64951,IM - Usability & UX Enhancements (9.X),via_linked_story,1
+PCS-4449,,,,none,0
+NXT-69785,NXT-67568,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-69784,NXT-67565,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-69750,NXT-56379,NXT-64951,IM - Usability & UX Enhancements (9.X),via_linked_story,1
+NXT-69749,NXT-31999,NXT-64951,IM - Usability & UX Enhancements (9.X),via_linked_story,1
+NXT-69745,,,,none,0
+NXT-69744,,,,none,0
+NXT-69743,,,,none,0
+NXT-69742,,,,none,0
+NXT-69719,NXT-67569,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-69690,NXT-59797,NXT-64951,IM - Usability & UX Enhancements (9.X),via_linked_story,1
+NXT-69610,,,,none,0
+NXT-69584,,NXT-68025,IM - Bulk Item - Usability Enhancements,direct_parent,0
+NXT-69525,,NXT-64850,IM - Bulk Item - Local Updates,direct_parent,0
+NXT-69524,,NXT-64850,IM - Bulk Item - Local Updates,direct_parent,0
+NXT-69523,,NXT-64850,IM - Bulk Item - Local Updates,direct_parent,0
+NXT-69501,,NXT-68025,IM - Bulk Item - Usability Enhancements,direct_parent,0
+NXT-69496,,NXT-64850,IM - Bulk Item - Local Updates,direct_parent,0
+NXT-69495,,NXT-64850,IM - Bulk Item - Local Updates,direct_parent,0
+NXT-69487,,,,none,0
+NXT-69486,,,,none,0
+NXT-69459,,,,none,0
+NXT-69458,,,,none,0
+NXT-69450,,,,none,0
+NXT-69449,NXT-67569,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-69417,,,,none,0
+NXT-69400,NXT-59797,NXT-64951,IM - Usability & UX Enhancements (9.X),via_linked_story,1
+NXT-69393,,,,none,0
+PCS-4435,,,,none,0
+NXT-69361,NXT-67596,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,2
+NXT-69360,,NXT-64850,IM - Bulk Item - Local Updates,direct_parent,0
+NXT-69359,,NXT-64850,IM - Bulk Item - Local Updates,direct_parent,0
+NXT-69343,,,,none,0
+NXT-69312,NXT-59797,NXT-64951,IM - Usability & UX Enhancements (9.X),via_linked_story,1
+NXT-69307,NXT-67632,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,2
+NXT-69304,NXT-67565,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-69302,NXT-67632,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,2
+NXT-69301,,,,none,0
+NXT-69210,NXT-39922,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-69134,NXT-67634,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+PCS-4430,,,,none,0
+NXT-69027,,,,none,0
+NXT-69021,,,,none,0
+NXT-69019,NXT-58366,NXT-64951,IM - Usability & UX Enhancements (9.X),via_linked_story,1
+NXT-68994,,,,none,0
+NXT-68974,,,,none,0
+NXT-68969,,NXT-39591,IM - Recipe/Menu Item Management Expansion,direct_parent,0
+NXT-68954,NXT-39922,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-68882,NXT-39922,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+PCS-4427,,,,none,0
+NXT-68833,NXT-68104,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-68792,NXT-39922,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-68791,NXT-39922,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+PCS-4418,,,,none,0
+NXT-68733,,NXT-64850,IM - Bulk Item - Local Updates,direct_parent,0
+NXT-68732,,NXT-68025,IM - Bulk Item - Usability Enhancements,direct_parent,0
+NXT-68726,NXT-68116,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-68722,NXT-68116,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-68646,NXT-62437,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,via_linked_story,1
+NXT-68623,,,,none,0
+NXT-68617,,,,none,0
+NXT-68590,,NXT-64850,IM - Bulk Item - Local Updates,direct_parent,0
+NXT-68565,,NXT-68025,IM - Bulk Item - Usability Enhancements,direct_parent,0
+NXT-68557,NXT-39918,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+PCS-4409,,,,none,0
+NXT-68467,NXT-61904,NXT-61847,IM - Bulk Item - Section Filters and Enhancements,via_linked_story,1
+NXT-68364,,NXT-64951,IM - Usability & UX Enhancements (9.X),direct_parent,0
+NXT-68361,NXT-61904,NXT-61847,IM - Bulk Item - Section Filters and Enhancements,via_linked_story,1
+NXT-68358,,,,none,0
+NXT-68346,NXT-61852,NXT-61847,IM - Bulk Item - Section Filters and Enhancements,via_linked_story,1
+PCS-4414,,,,none,0
+NXT-68309,NXT-67587,NXT-64850,IM - Bulk Item - Local Updates,via_linked_story,1
+NXT-68296,,,,none,0
+NXT-68272,,,,none,0
+PCS-4400,,,,none,0
+NXT-68130,NXT-61900,NXT-61847,IM - Bulk Item - Section Filters and Enhancements,via_linked_story,1
+NXT-68116,,NXT-64850,IM - Bulk Item - Local Updates,direct_parent,0
+NXT-68104,,NXT-64850,IM - Bulk Item - Local Updates,direct_parent,0
+PCS-4393,,,,none,0
+PCS-4392,,,,none,0
+PCS-4391,,,,none,0
+NXT-68022,,,,none,0
+NXT-68006,NXT-61852,NXT-61847,IM - Bulk Item - Section Filters and Enhancements,via_linked_story,1
+NXT-67911,NXT-61904,NXT-61847,IM - Bulk Item - Section Filters and Enhancements,via_linked_story,1
+NXT-67906,,,,none,0
+NXT-67905,NXT-61900,NXT-61847,IM - Bulk Item - Section Filters and Enhancements,via_linked_story,1
+NXT-67730,,,,none,0
+NXT-67729,,,,none,0
+NXT-67728,,,,none,0
+NXT-67718,,,,none,0
+NXT-67717,,,,none,0
+NXT-67652,NXT-61901,NXT-61847,IM - Bulk Item - Section Filters and Enhancements,via_linked_story,1
+NXT-67638,,,,none,0
+NXT-67635,,NXT-68025,IM - Bulk Item - Usability Enhancements,direct_parent,0
+NXT-67634,,NXT-64850,IM - Bulk Item - Local Updates,direct_parent,0
+NXT-67633,,NXT-64850,IM - Bulk Item - Local Updates,direct_parent,0
+NXT-67632,,NXT-64850,IM - Bulk Item - Local Updates,direct_parent,0
+NXT-67631,,,,none,0
+NXT-67629,,,,none,0
+NXT-67628,,,,none,0
+NXT-67627,,,,none,0
+NXT-67626,,,,none,0
+NXT-67624,,,,none,0
+NXT-67596,,NXT-64850,IM - Bulk Item - Local Updates,direct_parent,0
+NXT-67587,,NXT-64850,IM - Bulk Item - Local Updates,direct_parent,0
+NXT-67585,,NXT-64850,IM - Bulk Item - Local Updates,direct_parent,0
+NXT-67584,NXT-67404,NXT-62715,,via_linked_story,1
+NXT-67569,,NXT-64850,IM - Bulk Item - Local Updates,direct_parent,0
+NXT-67568,,NXT-64850,IM - Bulk Item - Local Updates,direct_parent,0
+NXT-67565,,NXT-64850,IM - Bulk Item - Local Updates,direct_parent,0
+NXT-67563,,NXT-64850,IM - Bulk Item - Local Updates,direct_parent,0
+NXT-67536,,,,none,0
+NXT-67531,,NXT-64850,IM - Bulk Item - Local Updates,direct_parent,0
+NXT-67530,,,,none,0
+NXT-67529,,,,none,0
+NXT-67528,,,,none,0
+NXT-67527,NXT-61848,NXT-61847,IM - Bulk Item - Section Filters and Enhancements,via_linked_story,1
+NXT-67517,,,,none,0
+PCS-4379,,,,none,0
+NXT-67445,NXT-61900,NXT-61847,IM - Bulk Item - Section Filters and Enhancements,via_linked_story,1
+PCS-4376,,,,none,0
+NXT-67404,,NXT-62715,,direct_parent,0
+NXT-67389,,,,none,0
+NXT-67235,,,,none,0
+NXT-67234,,,,none,0
+NXT-67215,,,,none,0
+PCS-4361,,,,none,0
+NXT-67211,,,,none,0
+NXT-67209,,,,none,0
+NXT-67207,,,,none,0
+NXT-67009,,,,none,0
+NXT-67008,,,,none,0
+NXT-67002,,,,none,0
+NXT-67001,,,,none,0
+NXT-66999,,,,none,0
+NXT-66978,,,,none,0
+NXT-66977,,,,none,0
+NXT-66976,,,,none,0
+NXT-66975,,,,none,0
+NXT-66940,,,,none,0
+NXT-66939,,,,none,0
+NXT-66938,,,,none,0
+NXT-66937,,,,none,0
+NXT-66936,,,,none,0
+NXT-66932,,,,none,0
+NXT-66931,,,,none,0
+NXT-66926,,,,none,0
+NXT-66924,,,,none,0
+NXT-66918,,,,none,0
+PCS-4355,,,,none,0
+NXT-66880,,,,none,0
+NXT-66855,,,,none,0
+NXT-66850,,,,none,0
+NXT-66741,,,,none,0
+NXT-66731,,,,none,0
+NXT-66702,NXT-60128,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,via_linked_story,1
+NXT-66699,,,,none,0
+PCS-4344,,,,none,0
+NXT-66659,NXT-60354,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,via_linked_story,1
+NXT-66656,,,,none,0
+NXT-66576,,,,none,0
+NXT-66546,NXT-61264,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,via_linked_story,1
+NXT-66539,NXT-41655,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-66438,,NXT-39591,IM - Recipe/Menu Item Management Expansion,direct_parent,0
+NXT-66427,NXT-61860,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,via_linked_story,1
+NXT-66424,NXT-55488,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-66415,NXT-41657,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-66362,NXT-57382,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-66360,NXT-60124,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,via_linked_story,1
+NXT-66357,NXT-60355,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,via_linked_story,1
+NXT-66352,NXT-56867,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-66340,NXT-59651,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,via_linked_story,1
+NXT-66338,NXT-61263,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,via_linked_story,1
+PCS-4337,,,,none,0
+NXT-66221,NXT-61846,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,via_linked_story,1
+NXT-66166,NXT-61550,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,via_linked_story,1
+NXT-66159,,,,none,0
+NXT-66154,NXT-41562,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-66151,NXT-55690,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-66112,NXT-55514,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-66111,NXT-41658,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-66096,NXT-41562,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-66095,NXT-41561,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-66094,NXT-55488,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-66083,NXT-56269,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-66078,,,,none,0
+NXT-66041,,,,none,0
+NXT-66034,NXT-59550,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-66031,NXT-41655,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-66029,NXT-61846,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,via_linked_story,1
+NXT-66022,,,,none,0
+NXT-66007,,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,direct_parent,0
+NXT-65852,NXT-60862,NXT-64951,IM - Usability & UX Enhancements (9.X),via_linked_story,1
+NXT-65846,,,,none,0
+NXT-65611,,,,none,0
+PCS-4320,,,,none,0
+NXT-65582,,,,none,0
+NXT-65572,,,,none,0
+NXT-65547,,,,none,0
+PCS-4316,,,,none,0
+NXT-65493,,,,none,0
+NXT-65316,,,,none,0
+PCS-4305,,,,none,0
+NXT-65051,,NXT-62715,,direct_parent,0
+NXT-64965,,,,none,0
+NXT-64959,,,,none,0
+NXT-64933,,,,none,0
+NXT-64927,NXT-62717,NXT-62715,,via_linked_story,1
+NXT-64865,NXT-62569,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,via_linked_story,1
+NXT-64806,,,,none,0
+NXT-64798,NXT-61861,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,via_linked_story,1
+NXT-64700,,,,none,0
+NXT-64656,NXT-61350,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,via_linked_story,1
+NXT-64651,NXT-59650,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,via_linked_story,1
+NXT-64650,NXT-61861,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,via_linked_story,1
+NXT-64622,NXT-60359,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,via_linked_story,1
+NXT-64617,NXT-61861,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,via_linked_story,1
+NXT-64614,NXT-60355,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,via_linked_story,1
+NXT-64613,NXT-60354,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,via_linked_story,1
+NXT-64595,NXT-59651,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,via_linked_story,1
+NXT-64592,NXT-62569,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,via_linked_story,1
+NXT-64588,NXT-62569,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,via_linked_story,1
+PCS-4293,,,,none,0
+NXT-64484,,,,none,0
+NXT-64369,,,,none,0
+NXT-64232,,,,none,0
+NXT-64067,,,,none,0
+NXT-63862,,NXT-64953,BO - Tech Debt & Performance (9.X),direct_parent,0
+PCS-4289,,,,none,0
+NXT-63833,,,,none,0
+NXT-63818,NXT-62569,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,via_linked_story,1
+NXT-63808,NXT-62569,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,via_linked_story,1
+NXT-63806,,,,none,0
+NXT-63802,,,,none,0
+NXT-63801,,,,none,0
+NXT-63800,NXT-61861,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,via_linked_story,1
+NXT-63799,NXT-61862,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,via_linked_story,1
+NXT-63787,NXT-61861,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,via_linked_story,1
+NXT-63768,NXT-60359,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,via_linked_story,1
+NXT-63740,,,,none,0
+NXT-63695,NXT-61861,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,via_linked_story,1
+NXT-63665,NXT-59650,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,via_linked_story,1
+NXT-63648,NXT-61860,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,via_linked_story,2
+NXT-63582,NXT-61860,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,via_linked_story,1
+NXT-63575,NXT-60359,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,via_linked_story,1
+NXT-63562,NXT-60355,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,via_linked_story,1
+NXT-63561,NXT-60354,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,via_linked_story,1
+NXT-63558,NXT-54229,NXT-45562,IM - Units Card Overhaul,via_linked_story,1
+NXT-63489,,,,none,0
+NXT-63488,,,,none,0
+NXT-63461,,,,none,0
+NXT-63447,,,,none,0
+NXT-63446,NXT-59651,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,via_linked_story,1
+NXT-63352,NXT-60355,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,via_linked_story,1
+NXT-63350,NXT-61350,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,via_linked_story,1
+NXT-63349,NXT-60355,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,via_linked_story,1
+NXT-63348,NXT-60360,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,via_linked_story,1
+NXT-63301,,,,none,0
+NXT-63274,NXT-60359,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,via_linked_story,1
+NXT-63270,NXT-61846,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,via_linked_story,1
+NXT-63210,NXT-61263,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,via_linked_story,1
+NXT-63184,NXT-61846,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,via_linked_story,1
+PCS-4275,,,,none,0
+NXT-63146,NXT-59650,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,via_linked_story,2
+NXT-63064,NXT-61550,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,via_linked_story,1
+NXT-62886,NXT-61551,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,via_linked_story,1
+NXT-62877,NXT-61550,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,via_linked_story,1
+NXT-62854,,,,none,0
+NXT-62853,,,,none,0
+NXT-62852,,,,none,0
+NXT-62835,NXT-61263,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,via_linked_story,1
+NXT-62827,,,,none,0
+NXT-62734,NXT-42381,NXT-51260,IM - Usability & UX Enhancements (8.X),via_linked_story,1
+NXT-62720,,NXT-62715,,direct_parent,0
+NXT-62717,,NXT-62715,,direct_parent,0
+NXT-62716,,NXT-62715,,direct_parent,0
+NXT-62711,NXT-61846,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,via_linked_story,1
+NXT-62688,NXT-61858,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,via_linked_story,1
+NXT-62654,,,,none,0
+PCS-4268,,,,none,0
+NXT-62618,,,,none,0
+NXT-62569,,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,direct_parent,0
+NXT-62539,,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,direct_parent,0
+NXT-62479,NXT-42381,NXT-51260,IM - Usability & UX Enhancements (8.X),via_linked_story,1
+NXT-62470,,,,none,0
+NXT-62462,,,,none,0
+NXT-62437,,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,direct_parent,0
+NXT-62306,,,,none,0
+NXT-62080,,,,none,0
+NXT-62066,NXT-42381,NXT-51260,IM - Usability & UX Enhancements (8.X),via_linked_story,1
+NXT-61925,,NXT-65121,IM - Bulk Item - Cybersoft Catalog Integration,direct_parent,0
+NXT-61924,,NXT-65121,IM - Bulk Item - Cybersoft Catalog Integration,direct_parent,0
+NXT-61923,,NXT-61922,IM - Bulk Updates - Smart Tools,direct_parent,0
+NXT-61904,,NXT-61847,IM - Bulk Item - Section Filters and Enhancements,direct_parent,0
+NXT-61903,,NXT-61847,IM - Bulk Item - Section Filters and Enhancements,direct_parent,0
+NXT-61901,,NXT-61847,IM - Bulk Item - Section Filters and Enhancements,direct_parent,0
+NXT-61900,,NXT-61847,IM - Bulk Item - Section Filters and Enhancements,direct_parent,0
+NXT-61894,,,,none,0
+NXT-61873,NXT-60128,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,via_linked_story,1
+NXT-61862,,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,direct_parent,0
+NXT-61861,,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,direct_parent,0
+NXT-61860,,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,direct_parent,0
+NXT-61859,NXT-41230,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,via_linked_story,1
+NXT-61858,,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,direct_parent,0
+NXT-61857,NXT-41230,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,via_linked_story,1
+NXT-61856,NXT-60128,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,via_linked_story,1
+NXT-61852,,NXT-61847,IM - Bulk Item - Section Filters and Enhancements,direct_parent,0
+NXT-61851,,NXT-61847,IM - Bulk Item - Section Filters and Enhancements,direct_parent,0
+NXT-61850,,NXT-61847,IM - Bulk Item - Section Filters and Enhancements,direct_parent,0
+NXT-61849,,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,direct_parent,0
+NXT-61848,,NXT-61847,IM - Bulk Item - Section Filters and Enhancements,direct_parent,0
+NXT-61846,,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,direct_parent,0
+PCS-4261,,,,none,0
+NXT-61641,,,,none,0
+PCS-4259,,,,none,0
+NXT-61554,,,,none,0
+NXT-61551,,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,direct_parent,0
+NXT-61550,,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,direct_parent,0
+NXT-61540,NXT-60128,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,via_linked_story,1
+NXT-61514,NXT-60124,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,via_linked_story,1
+NXT-61513,NXT-60128,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,via_linked_story,1
+PCS-4257,,,,none,0
+NXT-61371,NXT-60124,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,via_linked_story,1
+NXT-61370,NXT-60124,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,via_linked_story,1
+NXT-61355,NXT-41230,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,via_linked_story,1
+NXT-61351,NXT-60116,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,via_linked_story,1
+NXT-61350,,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,direct_parent,0
+NXT-61349,NXT-41230,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,via_linked_story,1
+PCS-4248,,,,none,0
+NXT-61336,NXT-60128,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,via_linked_story,1
+NXT-61327,NXT-41230,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,via_linked_story,1
+NXT-61324,NXT-41230,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,via_linked_story,1
+NXT-61314,NXT-60116,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,via_linked_story,1
+NXT-61311,,,,none,0
+NXT-61308,NXT-57427,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,via_linked_story,1
+PCS-4244,,,,none,0
+NXT-61264,,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,direct_parent,0
+NXT-61263,,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,direct_parent,0
+NXT-61167,NXT-57427,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,via_linked_story,1
+NXT-61166,NXT-57427,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,via_linked_story,1
+NXT-61142,NXT-41230,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,via_linked_story,1
+NXT-61121,NXT-61550,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,via_linked_story,1
+NXT-61104,NXT-60124,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,via_linked_story,1
+NXT-61071,NXT-60124,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,via_linked_story,1
+NXT-61070,NXT-60124,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,via_linked_story,1
+NXT-61040,,,,none,0
+NXT-61038,,,,none,0
+PCS-4240,,,,none,0
+NXT-60927,NXT-60116,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,via_linked_story,1
+NXT-60876,,,,none,0
+NXT-60875,NXT-59550,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-60870,,,,none,0
+NXT-60862,,NXT-64951,IM - Usability & UX Enhancements (9.X),direct_parent,0
+NXT-60851,NXT-41658,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-60847,NXT-41658,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-60841,NXT-57423,NXT-45562,IM - Units Card Overhaul,via_linked_story,1
+NXT-60835,,,,none,0
+NXT-60827,,,,none,0
+NXT-60826,,,,none,0
+NXT-60822,NXT-57382,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-60820,NXT-41658,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,4
+NXT-60813,,,,none,0
+NXT-60810,NXT-57377,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-60804,,,,none,0
+NXT-60801,,,,none,0
+NXT-60797,NXT-59869,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-60780,NXT-41562,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,2
+NXT-60759,NXT-37216,NXT-51260,IM - Usability & UX Enhancements (8.X),via_linked_story,1
+NXT-60688,NXT-37216,NXT-51260,IM - Usability & UX Enhancements (8.X),via_linked_story,1
+NXT-60687,NXT-37216,NXT-51260,IM - Usability & UX Enhancements (8.X),via_linked_story,1
+NXT-60634,,,,none,0
+NXT-60624,NXT-37216,NXT-51260,IM - Usability & UX Enhancements (8.X),via_linked_story,2
+NXT-60541,NXT-59869,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-60504,NXT-56867,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-60493,,,,none,0
+PCS-4226,,,,none,0
+NXT-60473,NXT-57424,NXT-45562,IM - Units Card Overhaul,via_linked_story,1
+NXT-60472,NXT-57424,NXT-45562,IM - Units Card Overhaul,via_linked_story,1
+NXT-60374,,,,none,0
+NXT-60361,NXT-41562,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,5
+NXT-60360,,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,direct_parent,0
+NXT-60359,,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,direct_parent,0
+NXT-60355,,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,direct_parent,0
+NXT-60354,,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,direct_parent,0
+PCS-4225,,,,none,0
+NXT-60349,NXT-37216,NXT-51260,IM - Usability & UX Enhancements (8.X),via_linked_story,1
+NXT-60347,NXT-56869,NXT-51260,IM - Usability & UX Enhancements (8.X),via_linked_story,1
+NXT-60338,NXT-57424,NXT-45562,IM - Units Card Overhaul,via_linked_story,1
+NXT-60337,,,,none,0
+NXT-60327,,,,none,0
+PCS-4223,,,,none,0
+PCS-4222,,,,none,0
+NXT-60302,NXT-57424,NXT-45562,IM - Units Card Overhaul,via_linked_story,1
+NXT-60298,,,,none,0
+NXT-60297,NXT-58283,NXT-51260,IM - Usability & UX Enhancements (8.X),via_linked_story,1
+NXT-60296,,,,none,0
+PCS-4219,,,,none,0
+NXT-60205,NXT-57424,NXT-45562,IM - Units Card Overhaul,via_linked_story,1
+NXT-60185,NXT-58283,NXT-51260,IM - Usability & UX Enhancements (8.X),via_linked_story,1
+NXT-60175,,NXT-64951,IM - Usability & UX Enhancements (9.X),direct_parent,0
+NXT-60146,,,,none,0
+NXT-60145,,,,none,0
+NXT-60138,,,,none,0
+NXT-60135,,,,none,0
+NXT-60128,,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,direct_parent,0
+NXT-60124,,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,direct_parent,0
+NXT-60116,,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,direct_parent,0
+NXT-60115,NXT-58392,NXT-45562,IM - Units Card Overhaul,via_linked_story,1
+NXT-60114,,,,none,0
+PCS-4212,,,,none,0
+NXT-59948,NXT-58283,NXT-51260,IM - Usability & UX Enhancements (8.X),via_linked_story,1
+PCS-4205,,,,none,0
+NXT-59893,,NXT-64951,IM - Usability & UX Enhancements (9.X),direct_parent,0
+NXT-59874,NXT-58283,NXT-51260,IM - Usability & UX Enhancements (8.X),via_linked_story,1
+NXT-59872,,,,none,0
+NXT-59869,,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,direct_parent,0
+NXT-59863,,,,none,0
+NXT-59849,,NXT-64951,IM - Usability & UX Enhancements (9.X),direct_parent,0
+NXT-59797,,NXT-64951,IM - Usability & UX Enhancements (9.X),direct_parent,0
+NXT-59768,NXT-41562,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-59765,,,,none,0
+NXT-59693,,NXT-61922,IM - Bulk Updates - Smart Tools,direct_parent,0
+PCS-4199,,,,none,0
+NXT-59653,NXT-58283,NXT-51260,IM - Usability & UX Enhancements (8.X),via_linked_story,1
+NXT-59652,,,,none,0
+NXT-59651,,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,direct_parent,0
+NXT-59650,,NXT-61642,IM - Bulk Inventory & Direct Menu Item Onboarding,direct_parent,0
+NXT-59623,,,,none,0
+NXT-59619,NXT-41562,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-59616,NXT-41658,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-59603,,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,direct_parent,0
+NXT-59594,,,,none,0
+NXT-59586,,,,none,0
+NXT-59581,,NXT-39591,IM - Recipe/Menu Item Management Expansion,direct_parent,0
+NXT-59550,,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,direct_parent,0
+NXT-59541,NXT-57382,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-59540,NXT-57382,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-59534,,,,none,0
+NXT-59515,NXT-57377,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-59514,NXT-57377,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-59512,NXT-57377,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-59511,NXT-57377,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-59510,NXT-57377,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-59499,NXT-56268,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,2
+NXT-59495,NXT-41655,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-59492,NXT-41655,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-59473,NXT-57177,NXT-45562,IM - Units Card Overhaul,via_linked_story,1
+NXT-59375,NXT-56269,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-59374,NXT-55690,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-59365,NXT-57382,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-59363,NXT-57377,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-59286,NXT-41657,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-59279,NXT-41658,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,3
+NXT-59278,NXT-41657,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-59223,NXT-58283,NXT-51260,IM - Usability & UX Enhancements (8.X),via_linked_story,1
+NXT-59220,NXT-58283,NXT-51260,IM - Usability & UX Enhancements (8.X),via_linked_story,1
+NXT-59215,NXT-58283,NXT-51260,IM - Usability & UX Enhancements (8.X),via_linked_story,1
+NXT-59208,,NXT-39591,IM - Recipe/Menu Item Management Expansion,direct_parent,0
+NXT-59180,,,,none,0
+NXT-59080,,,,none,0
+NXT-59049,NXT-41655,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-59028,NXT-58283,NXT-51260,IM - Usability & UX Enhancements (8.X),via_linked_story,1
+NXT-59023,NXT-58283,NXT-51260,IM - Usability & UX Enhancements (8.X),via_linked_story,1
+NXT-58973,NXT-56869,NXT-51260,IM - Usability & UX Enhancements (8.X),via_linked_story,1
+NXT-58956,,,,none,0
+NXT-58947,,,,none,0
+NXT-58944,,,,none,0
+NXT-58942,NXT-58367,NXT-64951,IM - Usability & UX Enhancements (9.X),via_linked_story,1
+NXT-58909,,,,none,0
+NXT-58903,NXT-58283,NXT-51260,IM - Usability & UX Enhancements (8.X),via_linked_story,1
+NXT-58865,,,,none,0
+NXT-58864,NXT-41562,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-58856,NXT-37216,NXT-51260,IM - Usability & UX Enhancements (8.X),via_linked_story,1
+NXT-58855,NXT-56269,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-58854,NXT-58367,NXT-64951,IM - Usability & UX Enhancements (9.X),via_linked_story,1
+NXT-58853,NXT-58367,NXT-64951,IM - Usability & UX Enhancements (9.X),via_linked_story,1
+NXT-58852,NXT-37216,NXT-51260,IM - Usability & UX Enhancements (8.X),via_linked_story,1
+NXT-58851,NXT-37216,NXT-51260,IM - Usability & UX Enhancements (8.X),via_linked_story,1
+PCS-4170,,,,none,0
+PCS-4169,,,,none,0
+NXT-58810,NXT-55690,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-58802,NXT-55690,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-58796,,,,none,0
+NXT-58780,,,,none,0
+NXT-58775,NXT-56378,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-58772,NXT-56380,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+PCS-4163,,,,none,0
+NXT-58587,NXT-56378,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-58586,NXT-49321,NXT-51260,IM - Usability & UX Enhancements (8.X),via_linked_story,1
+NXT-58585,NXT-57177,NXT-45562,IM - Units Card Overhaul,via_linked_story,1
+NXT-58584,NXT-56377,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-58583,NXT-56377,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-58582,NXT-56377,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-58579,NXT-41655,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-58578,NXT-49321,NXT-51260,IM - Usability & UX Enhancements (8.X),via_linked_story,1
+NXT-58577,NXT-49321,NXT-51260,IM - Usability & UX Enhancements (8.X),via_linked_story,1
+NXT-58576,NXT-49321,NXT-51260,IM - Usability & UX Enhancements (8.X),via_linked_story,1
+NXT-58573,,,,none,0
+NXT-58572,NXT-55488,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,2
+NXT-58569,NXT-55690,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-58540,NXT-41655,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-58513,NXT-57377,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-58511,NXT-57377,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-58510,,,,none,0
+PCS-4155,,,,none,0
+PCS-4154,,,,none,0
+PCS-4149,,,,none,0
+NXT-58442,,NXT-51260,IM - Usability & UX Enhancements (8.X),direct_parent,0
+NXT-58413,,,,none,0
+NXT-58392,,NXT-45562,IM - Units Card Overhaul,direct_parent,0
+NXT-58367,,NXT-64951,IM - Usability & UX Enhancements (9.X),direct_parent,0
+NXT-58366,,NXT-64951,IM - Usability & UX Enhancements (9.X),direct_parent,0
+NXT-58357,,,,none,0
+NXT-58356,,NXT-39591,IM - Recipe/Menu Item Management Expansion,direct_parent,0
+NXT-58319,NXT-37216,NXT-51260,IM - Usability & UX Enhancements (8.X),via_linked_story,2
+NXT-58315,NXT-37216,NXT-51260,IM - Usability & UX Enhancements (8.X),via_linked_story,2
+NXT-58314,NXT-37216,NXT-51260,IM - Usability & UX Enhancements (8.X),via_linked_story,1
+NXT-58308,,,,none,0
+NXT-58307,,,,none,0
+NXT-58283,,NXT-51260,IM - Usability & UX Enhancements (8.X),direct_parent,0
+NXT-58243,,,,none,0
+PCS-4143,,,,none,0
+NXT-58215,,,,none,0
+NXT-58212,NXT-56380,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+PCS-4140,,,,none,0
+NXT-58204,,,,none,0
+PCS-4139,,,,none,0
+NXT-58148,NXT-55488,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-58143,,,,none,0
+NXT-58142,,,,none,0
+NXT-58137,,,,none,0
+NXT-58136,,,,none,0
+NXT-58135,,,,none,0
+PCS-4136,,,,none,0
+NXT-58126,,,,none,0
+NXT-58125,,,,none,0
+NXT-58117,NXT-55463,NXT-45562,IM - Units Card Overhaul,via_linked_story,1
+NXT-58110,,,,none,0
+NXT-58092,NXT-55463,NXT-45562,IM - Units Card Overhaul,via_linked_story,1
+NXT-58086,,,,none,0
+NXT-58085,NXT-55690,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-58052,,,,none,0
+NXT-58040,NXT-55463,NXT-45562,IM - Units Card Overhaul,via_linked_story,1
+NXT-58037,,,,none,0
+NXT-57968,,,,none,0
+NXT-57961,NXT-41452,NXT-45562,IM - Units Card Overhaul,via_linked_story,1
+NXT-57889,,,,none,0
+NXT-57861,NXT-55690,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-57860,,,,none,0
+NXT-57856,,,,none,0
+NXT-57852,NXT-55690,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-57844,,,,none,0
+NXT-57843,,,,none,0
+NXT-57834,,,,none,0
+NXT-57832,,,,none,0
+NXT-57831,NXT-54862,NXT-45562,IM - Units Card Overhaul,via_linked_story,1
+NXT-57830,,,,none,0
+NXT-57829,,,,none,0
+NXT-57819,NXT-55463,NXT-45562,IM - Units Card Overhaul,via_linked_story,1
+NXT-57813,NXT-41452,NXT-45562,IM - Units Card Overhaul,via_linked_story,1
+NXT-57811,,,,none,0
+NXT-57794,,,,none,0
+NXT-57772,,,,none,0
+NXT-57751,,,,none,0
+NXT-57747,,,,none,0
+NXT-57743,,,,none,0
+NXT-57739,,,,none,0
+NXT-57738,NXT-55426,NXT-45562,IM - Units Card Overhaul,via_linked_story,1
+NXT-57729,,,,none,0
+PCS-4132,,,,none,0
+NXT-57696,,,,none,0
+NXT-57690,,,,none,0
+NXT-57637,,,,none,0
+NXT-57574,,,,none,0
+NXT-57573,,,,none,0
+NXT-57569,,,,none,0
+NXT-57568,,,,none,0
+NXT-57564,,,,none,0
+NXT-57559,,,,none,0
+NXT-57552,,,,none,0
+NXT-57486,,,,none,0
+NXT-57468,,,,none,0
+NXT-57466,,,,none,0
+NXT-57465,,,,none,0
+NXT-57456,,,,none,0
+NXT-57427,,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,direct_parent,0
+NXT-57424,,NXT-45562,IM - Units Card Overhaul,direct_parent,0
+NXT-57423,,NXT-45562,IM - Units Card Overhaul,direct_parent,0
+NXT-57384,,,,none,0
+NXT-57383,,,,none,0
+NXT-57382,,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,direct_parent,0
+NXT-57377,,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,direct_parent,0
+NXT-57314,,,,none,0
+NXT-57307,,NXT-64951,IM - Usability & UX Enhancements (9.X),direct_parent,0
+NXT-57300,,,,none,0
+NXT-57297,,,,none,0
+NXT-57291,,,,none,0
+NXT-57286,,,,none,0
+NXT-57283,,,,none,0
+NXT-57282,,,,none,0
+NXT-57272,,,,none,0
+NXT-57268,,,,none,0
+NXT-57264,,,,none,0
+NXT-57263,,,,none,0
+NXT-57262,,,,none,0
+NXT-57241,,,,none,0
+NXT-57195,,,,none,0
+NXT-57177,,NXT-45562,IM - Units Card Overhaul,direct_parent,0
+PCS-4116,,,,none,0
+PCS-4114,,,,none,0
+NXT-57078,,,,none,0
+NXT-57075,,,,none,0
+NXT-57034,,,,none,0
+NXT-57004,,,,none,0
+NXT-57003,,,,none,0
+NXT-57002,,,,none,0
+NXT-57001,,,,none,0
+NXT-56994,NXT-55690,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-56988,NXT-56378,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,via_linked_story,1
+NXT-56987,,,,none,0
+NXT-56986,,,,none,0
+NXT-56985,,,,none,0
+NXT-56983,,,,none,0
+NXT-56976,,,,none,0
+NXT-56950,,,,none,0
+NXT-56942,,,,none,0
+NXT-56924,NXT-56197,NXT-51260,IM - Usability & UX Enhancements (8.X),via_linked_story,1
+NXT-56878,,,,none,0
+NXT-56875,,,,none,0
+NXT-56869,,NXT-51260,IM - Usability & UX Enhancements (8.X),direct_parent,0
+NXT-56867,,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,direct_parent,0
+NXT-56857,,,,none,0
+NXT-56829,,,,none,0
+NXT-56827,,,,none,0
+NXT-56823,,,,none,0
+NXT-56822,NXT-56197,NXT-51260,IM - Usability & UX Enhancements (8.X),via_linked_story,1
+NXT-56821,NXT-56197,NXT-51260,IM - Usability & UX Enhancements (8.X),via_linked_story,1
+NXT-56820,,,,none,0
+NXT-56819,NXT-56197,NXT-51260,IM - Usability & UX Enhancements (8.X),via_linked_story,1
+NXT-56816,NXT-53795,NXT-45562,IM - Units Card Overhaul,via_linked_story,1
+NXT-56815,NXT-53795,NXT-45562,IM - Units Card Overhaul,via_linked_story,1
+NXT-56787,,,,none,0
+NXT-56786,,,,none,0
+NXT-56784,,,,none,0
+NXT-56762,NXT-56197,NXT-51260,IM - Usability & UX Enhancements (8.X),via_linked_story,1
+NXT-56738,NXT-53532,NXT-45562,IM - Units Card Overhaul,via_linked_story,1
+NXT-56731,,,,none,0
+NXT-56730,,,,none,0
+NXT-56676,,,,none,0
+NXT-56647,,,,none,0
+NXT-56640,,,,none,0
+PCS-4097,,,,none,0
+NXT-56462,,,,none,0
+NXT-56380,,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,direct_parent,0
+NXT-56379,,NXT-64951,IM - Usability & UX Enhancements (9.X),direct_parent,0
+NXT-56378,,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,direct_parent,0
+NXT-56377,,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,direct_parent,0
+PCS-4096,,,,none,0
+NXT-56298,NXT-41452,NXT-45562,IM - Units Card Overhaul,via_linked_story,1
+NXT-56269,,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,direct_parent,0
+NXT-56268,,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,direct_parent,0
+NXT-56249,,NXT-61847,IM - Bulk Item - Section Filters and Enhancements,direct_parent,0
+PCS-4094,,,,none,0
+NXT-56219,NXT-46678,NXT-51260,IM - Usability & UX Enhancements (8.X),via_linked_story,1
+NXT-56199,,NXT-51260,IM - Usability & UX Enhancements (8.X),direct_parent,0
+NXT-56197,,NXT-51260,IM - Usability & UX Enhancements (8.X),direct_parent,0
+NXT-55973,,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,direct_parent,0
+NXT-55885,,,,none,0
+NXT-55824,,,,none,0
+NXT-55690,,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,direct_parent,0
+NXT-55547,,,,none,0
+NXT-55525,,,,none,0
+NXT-55514,,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,direct_parent,0
+NXT-55488,,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,direct_parent,0
+NXT-55463,,NXT-45562,IM - Units Card Overhaul,direct_parent,0
+NXT-55445,,,,none,0
+NXT-55426,,NXT-45562,IM - Units Card Overhaul,direct_parent,0
+PCS-4068,,,,none,0
+NXT-55365,,,,none,0
+PCS-4065,,,,none,0
+PCS-4063,,,,none,0
+NXT-55306,,,,none,0
+NXT-55105,,,,none,0
+NXT-55040,,,,none,0
+NXT-55021,,,,none,0
+NXT-55018,,NXT-50666,CN27 Updates & USDA Requirements changes,direct_parent,0
+NXT-54974,,NXT-51260,IM - Usability & UX Enhancements (8.X),direct_parent,0
+NXT-54960,NXT-54424,NXT-51260,IM - Usability & UX Enhancements (8.X),via_linked_story,1
+NXT-54925,NXT-52566,NXT-51260,IM - Usability & UX Enhancements (8.X),via_linked_story,1
+NXT-54924,,NXT-45562,IM - Units Card Overhaul,direct_parent,0
+NXT-54922,,NXT-45562,IM - Units Card Overhaul,direct_parent,0
+NXT-54916,,,,none,0
+NXT-54898,,NXT-64951,IM - Usability & UX Enhancements (9.X),direct_parent,0
+NXT-54875,,,,none,0
+NXT-54862,,NXT-45562,IM - Units Card Overhaul,direct_parent,0
+NXT-54752,,,,none,0
+NXT-54747,NXT-53316,NXT-38086,Back Office - Permissions,via_linked_story,1
+NXT-54737,,,,none,0
+PCS-4049,,,,none,0
+NXT-54702,NXT-35789,NXT-51260,IM - Usability & UX Enhancements (8.X),via_linked_story,1
+NXT-54661,,,,none,0
+NXT-54424,,NXT-51260,IM - Usability & UX Enhancements (8.X),direct_parent,0
+NXT-54382,,NXT-51260,IM - Usability & UX Enhancements (8.X),direct_parent,0
+NXT-54354,,NXT-28546,,direct_parent,0
+NXT-54312,,,,none,0
+PCS-4027,,,,none,0
+NXT-54229,,NXT-45562,IM - Units Card Overhaul,direct_parent,0
+PCS-4026,,,,none,0
+NXT-54207,,NXT-51260,IM - Usability & UX Enhancements (8.X),direct_parent,0
+NXT-54206,,NXT-51260,IM - Usability & UX Enhancements (8.X),direct_parent,0
+NXT-54162,,,,none,0
+NXT-53905,,,,none,0
+PCS-4004,,,,none,0
+NXT-53796,,NXT-45562,IM - Units Card Overhaul,direct_parent,0
+NXT-53795,,NXT-45562,IM - Units Card Overhaul,direct_parent,0
+NXT-53649,,,,none,0
+PCS-3998,,,,none,0
+NXT-53534,,NXT-45562,IM - Units Card Overhaul,direct_parent,0
+NXT-53533,,NXT-57641,,direct_parent,0
+NXT-53532,,NXT-45562,IM - Units Card Overhaul,direct_parent,0
+NXT-53531,,NXT-45562,IM - Units Card Overhaul,direct_parent,0
+NXT-53530,,NXT-45562,IM - Units Card Overhaul,direct_parent,0
+NXT-53529,,NXT-45562,IM - Units Card Overhaul,direct_parent,0
+NXT-53528,,NXT-45562,IM - Units Card Overhaul,direct_parent,0
+NXT-53492,,,,none,0
+NXT-53480,,,,none,0
+NXT-53475,,,,none,0
+NXT-53450,,NXT-50666,CN27 Updates & USDA Requirements changes,direct_parent,0
+NXT-53437,,,,none,0
+NXT-53367,,,,none,0
+NXT-53348,,,,none,0
+NXT-53346,,,,none,0
+NXT-53316,,NXT-38086,Back Office - Permissions,direct_parent,0
+NXT-53314,,NXT-38086,Back Office - Permissions,direct_parent,0
+NXT-53313,,NXT-38086,Back Office - Permissions,direct_parent,0
+NXT-53312,,NXT-38086,Back Office - Permissions,direct_parent,0
+NXT-53291,,,,none,0
+NXT-53290,,,,none,0
+NXT-53265,,NXT-42699,IM - List Page & Nav Updates,direct_parent,0
+NXT-53193,,NXT-51260,IM - Usability & UX Enhancements (8.X),direct_parent,0
+NXT-53041,,,,none,0
+NXT-52966,,,,none,0
+NXT-52903,,,,none,0
+NXT-52874,,NXT-42699,IM - List Page & Nav Updates,direct_parent,0
+NXT-52850,,,,none,0
+PCS-3968,,,,none,0
+NXT-52662,NXT-51346,NXT-50666,CN27 Updates & USDA Requirements changes,via_linked_story,1
+NXT-52643,,,,none,0
+NXT-52603,,,,none,0
+NXT-52569,,,,none,0
+NXT-52566,,NXT-51260,IM - Usability & UX Enhancements (8.X),direct_parent,0
+NXT-52325,NXT-51346,NXT-50666,CN27 Updates & USDA Requirements changes,via_linked_story,1
+NXT-52246,NXT-46874,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+NXT-52243,NXT-46874,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+NXT-52235,NXT-51346,NXT-50666,CN27 Updates & USDA Requirements changes,via_linked_story,1
+PCS-3960,,,,none,0
+NXT-52148,NXT-51346,NXT-50666,CN27 Updates & USDA Requirements changes,via_linked_story,1
+PCS-3958,,,,none,0
+NXT-52098,NXT-51346,NXT-50666,CN27 Updates & USDA Requirements changes,via_linked_story,1
+NXT-52086,NXT-51346,NXT-50666,CN27 Updates & USDA Requirements changes,via_linked_story,1
+NXT-52022,,,,none,0
+NXT-51641,,,,none,0
+NXT-51536,,,,none,0
+NXT-51346,,NXT-50666,CN27 Updates & USDA Requirements changes,direct_parent,0
+NXT-51345,,NXT-50666,CN27 Updates & USDA Requirements changes,direct_parent,0
+NXT-51264,,,,none,0
+NXT-51243,,,,none,0
+NXT-51170,,,,none,0
+NXT-51038,,,,none,0
+NXT-50899,,NXT-51260,IM - Usability & UX Enhancements (8.X),direct_parent,0
+NXT-50809,,,,none,0
+NXT-50781,,,,none,0
+PCS-3937,NXT-50899,NXT-51260,IM - Usability & UX Enhancements (8.X),via_linked_story,1
+NXT-50775,NXT-45574,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+NXT-50687,NXT-45574,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+NXT-50667,,NXT-50666,CN27 Updates & USDA Requirements changes,direct_parent,0
+NXT-50543,NXT-45574,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+NXT-50478,NXT-46863,NXT-42699,IM - List Page & Nav Updates,via_linked_story,2
+NXT-50475,NXT-46866,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+NXT-50472,,,,none,0
+NXT-50429,NXT-46866,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+NXT-50408,NXT-46863,NXT-42699,IM - List Page & Nav Updates,via_linked_story,2
+NXT-50407,,,,none,0
+NXT-50400,,,,none,0
+NXT-50397,,,,none,0
+NXT-50376,,,,none,0
+NXT-50280,,,,none,0
+NXT-50256,,,,none,0
+NXT-50236,NXT-45527,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+NXT-50208,,,,none,0
+NXT-50205,NXT-43134,NXT-40775,IM/INV - Business Rule & Validation Enhancements,via_linked_story,1
+NXT-50178,,,,none,0
+NXT-50173,,,,none,0
+NXT-50049,,,,none,0
+NXT-49904,,NXT-39591,IM - Recipe/Menu Item Management Expansion,direct_parent,0
+NXT-49785,,NXT-39591,IM - Recipe/Menu Item Management Expansion,direct_parent,0
+NXT-49699,,,,none,0
+NXT-49591,,,,none,0
+NXT-49539,,,,none,0
+NXT-49495,NXT-41624,NXT-39919,IM/MP - Find & Replace,via_linked_story,1
+NXT-49478,NXT-45527,NXT-42699,IM - List Page & Nav Updates,via_linked_story,2
+NXT-49473,,,,none,0
+NXT-49415,,NXT-39919,IM/MP - Find & Replace,direct_parent,0
+NXT-49346,,,,none,0
+NXT-49341,,NXT-39919,IM/MP - Find & Replace,direct_parent,0
+NXT-49339,,,,none,0
+NXT-49321,,NXT-51260,IM - Usability & UX Enhancements (8.X),direct_parent,0
+PCS-3917,,,,none,0
+NXT-49106,,,,none,0
+PCS-3916,,,,none,0
+NXT-49081,,,,none,0
+NXT-48967,NXT-45527,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+PCS-3913,,,,none,0
+NXT-48951,,,,none,0
+NXT-48936,,,,none,0
+NXT-48897,NXT-45527,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+NXT-48895,NXT-45527,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+NXT-48883,,,,none,0
+NXT-48875,,,,none,0
+PCS-3903,,,,none,0
+NXT-48826,NXT-41623,NXT-39919,IM/MP - Find & Replace,via_linked_story,3
+NXT-48819,,,,none,0
+NXT-48784,,,,none,0
+NXT-48742,,,,none,0
+NXT-48741,,,,none,0
+NXT-48708,,,,none,0
+NXT-48674,NXT-41623,NXT-39919,IM/MP - Find & Replace,via_linked_story,2
+NXT-48555,,,,none,0
+NXT-48441,NXT-41623,NXT-39919,IM/MP - Find & Replace,via_linked_story,1
+NXT-48417,,NXT-42699,IM - List Page & Nav Updates,direct_parent,0
+NXT-48375,,,,none,0
+NXT-48353,,,,none,0
+NXT-48334,,,,none,0
+NXT-48306,NXT-41624,NXT-39919,IM/MP - Find & Replace,via_linked_story,1
+NXT-48289,,,,none,0
+NXT-48258,NXT-41623,NXT-39919,IM/MP - Find & Replace,via_linked_story,1
+NXT-48255,,NXT-42699,IM - List Page & Nav Updates,direct_parent,0
+NXT-48254,,NXT-42699,IM - List Page & Nav Updates,direct_parent,0
+NXT-48253,NXT-41625,NXT-39919,IM/MP - Find & Replace,via_linked_story,1
+NXT-48226,,,,none,0
+NXT-48182,,NXT-39919,IM/MP - Find & Replace,direct_parent,0
+NXT-48158,,,,none,0
+NXT-48157,,,,none,0
+NXT-48156,NXT-41626,NXT-39919,IM/MP - Find & Replace,via_linked_story,1
+NXT-48143,NXT-41626,NXT-39919,IM/MP - Find & Replace,via_linked_story,1
+PCS-3887,,,,none,0
+NXT-48114,,,,none,0
+NXT-48082,,,,none,0
+NXT-48079,,,,none,0
+NXT-48071,,,,none,0
+NXT-48065,,NXT-42420,,direct_parent,0
+NXT-48058,,,,none,0
+NXT-48055,,,,none,0
+NXT-48036,,,,none,0
+NXT-48025,,NXT-42420,,direct_parent,0
+NXT-48023,NXT-47255,NXT-40775,IM/INV - Business Rule & Validation Enhancements,via_linked_story,1
+NXT-48019,NXT-47156,NXT-40775,IM/INV - Business Rule & Validation Enhancements,via_linked_story,1
+NXT-47951,,,,none,0
+NXT-47924,,,,none,0
+PCS-3876,,,,none,0
+NXT-47854,,,,none,0
+PCS-3873,,,,none,0
+NXT-47745,,,,none,0
+NXT-47499,,,,none,0
+NXT-47495,,,,none,0
+NXT-47486,,,,none,0
+NXT-47461,,,,none,0
+NXT-47453,,,,none,0
+NXT-47445,,NXT-47444,,direct_parent,0
+NXT-47443,,NXT-46235,IM - Usability & UX Enhancements (7.X),direct_parent,0
+NXT-47442,,NXT-64951,IM - Usability & UX Enhancements (9.X),direct_parent,0
+NXT-47441,,NXT-51260,IM - Usability & UX Enhancements (8.X),direct_parent,0
+NXT-47420,,NXT-39919,IM/MP - Find & Replace,direct_parent,0
+NXT-47364,,NXT-39919,IM/MP - Find & Replace,direct_parent,0
+NXT-47362,,NXT-39919,IM/MP - Find & Replace,direct_parent,0
+NXT-47360,,,,none,0
+NXT-47348,,,,none,0
+NXT-47323,NXT-46348,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+NXT-47322,NXT-46348,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+PCS-3862,,,,none,0
+NXT-47310,,,,none,0
+NXT-47301,,,,none,0
+PCS-3860,,,,none,0
+NXT-47294,NXT-46270,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+NXT-47286,NXT-40699,NXT-40775,IM/INV - Business Rule & Validation Enhancements,via_linked_story,1
+NXT-47281,,,,none,0
+NXT-47280,,,,none,0
+NXT-47271,,,,none,0
+NXT-47265,,,,none,0
+NXT-47262,,,,none,0
+NXT-47261,,,,none,0
+NXT-47259,,,,none,0
+NXT-47256,NXT-34480,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+NXT-47255,,NXT-40775,IM/INV - Business Rule & Validation Enhancements,direct_parent,0
+NXT-47254,,NXT-64951,IM - Usability & UX Enhancements (9.X),direct_parent,0
+NXT-47250,NXT-45729,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+NXT-47249,,NXT-45562,IM - Units Card Overhaul,direct_parent,0
+NXT-47238,NXT-44876,NXT-46235,IM - Usability & UX Enhancements (7.X),via_linked_story,1
+NXT-47234,,,,none,0
+NXT-47226,NXT-44876,NXT-46235,IM - Usability & UX Enhancements (7.X),via_linked_story,1
+PCS-3859,,,,none,0
+NXT-47213,,,,none,0
+PCS-3857,,,,none,0
+NXT-47200,,,,none,0
+NXT-47199,,,,none,0
+NXT-47196,,,,none,0
+NXT-47195,,,,none,0
+NXT-47156,,NXT-40775,IM/INV - Business Rule & Validation Enhancements,direct_parent,0
+NXT-47036,,NXT-42699,IM - List Page & Nav Updates,direct_parent,0
+PCS-3854,,,,none,0
+NXT-47021,,,,none,0
+NXT-46900,,,,none,0
+NXT-46895,NXT-43995,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+NXT-46875,,NXT-42699,IM - List Page & Nav Updates,direct_parent,0
+NXT-46874,,NXT-42699,IM - List Page & Nav Updates,direct_parent,0
+NXT-46870,,,,none,0
+NXT-46867,,NXT-42699,IM - List Page & Nav Updates,direct_parent,0
+NXT-46866,,NXT-42699,IM - List Page & Nav Updates,direct_parent,0
+NXT-46864,,NXT-42699,IM - List Page & Nav Updates,direct_parent,0
+NXT-46863,,NXT-42699,IM - List Page & Nav Updates,direct_parent,0
+NXT-46830,NXT-46344,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+NXT-46825,,,,none,0
+NXT-46821,,,,none,0
+NXT-46820,,,,none,0
+PCS-3845,,,,none,0
+PCS-3844,,,,none,0
+NXT-46816,NXT-46345,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+NXT-46811,,,,none,0
+NXT-46806,NXT-34480,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+NXT-46799,,,,none,0
+NXT-46798,,,,none,0
+PCS-3842,,,,none,0
+NXT-46768,NXT-46345,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+NXT-46767,NXT-46345,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+NXT-46766,NXT-46345,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+NXT-46758,NXT-43158,NXT-40775,IM/INV - Business Rule & Validation Enhancements,via_linked_story,1
+NXT-46752,,,,none,0
+NXT-46712,NXT-46269,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+NXT-46711,NXT-46269,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+NXT-46710,NXT-46269,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+NXT-46698,,,,none,0
+NXT-46694,NXT-43158,NXT-40775,IM/INV - Business Rule & Validation Enhancements,via_linked_story,1
+NXT-46679,,NXT-46235,IM - Usability & UX Enhancements (7.X),direct_parent,0
+NXT-46678,,NXT-51260,IM - Usability & UX Enhancements (8.X),direct_parent,0
+NXT-46589,NXT-40699,NXT-40775,IM/INV - Business Rule & Validation Enhancements,via_linked_story,1
+NXT-46588,,,,none,0
+NXT-46519,,,,none,0
+NXT-46463,,,,none,0
+NXT-46440,NXT-41277,NXT-46235,IM - Usability & UX Enhancements (7.X),via_linked_story,1
+NXT-46400,,,,none,0
+NXT-46396,NXT-43158,NXT-40775,IM/INV - Business Rule & Validation Enhancements,via_linked_story,1
+NXT-46395,NXT-43158,NXT-40775,IM/INV - Business Rule & Validation Enhancements,via_linked_story,1
+NXT-46389,,,,none,0
+NXT-46388,,,,none,0
+NXT-46382,,,,none,0
+NXT-46376,,,,none,0
+NXT-46371,NXT-45475,NXT-40775,IM/INV - Business Rule & Validation Enhancements,via_linked_story,1
+NXT-46360,,,,none,0
+PCS-3832,,,,none,0
+PCS-3831,,,,none,0
+NXT-46354,NXT-41277,NXT-46235,IM - Usability & UX Enhancements (7.X),via_linked_story,1
+NXT-46348,,NXT-42699,IM - List Page & Nav Updates,direct_parent,0
+NXT-46347,NXT-45475,NXT-40775,IM/INV - Business Rule & Validation Enhancements,via_linked_story,1
+NXT-46346,,NXT-42699,IM - List Page & Nav Updates,direct_parent,0
+NXT-46345,,NXT-42699,IM - List Page & Nav Updates,direct_parent,0
+NXT-46344,,NXT-42699,IM - List Page & Nav Updates,direct_parent,0
+NXT-46342,NXT-45475,NXT-40775,IM/INV - Business Rule & Validation Enhancements,via_linked_story,1
+NXT-46335,NXT-45475,NXT-40775,IM/INV - Business Rule & Validation Enhancements,via_linked_story,1
+PCS-3830,,,,none,0
+NXT-46323,,,,none,0
+NXT-46306,,,,none,0
+NXT-46305,,,,none,0
+NXT-46301,,,,none,0
+PCS-3828,,,,none,0
+NXT-46273,,,,none,0
+NXT-46270,,NXT-42699,IM - List Page & Nav Updates,direct_parent,0
+NXT-46269,,NXT-42699,IM - List Page & Nav Updates,direct_parent,0
+NXT-46215,NXT-40699,NXT-40775,IM/INV - Business Rule & Validation Enhancements,via_linked_story,2
+NXT-46201,NXT-45472,NXT-40775,IM/INV - Business Rule & Validation Enhancements,via_linked_story,1
+NXT-46165,NXT-44775,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+NXT-46164,NXT-44775,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+NXT-46146,NXT-44775,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+NXT-46066,NXT-40700,NXT-40775,IM/INV - Business Rule & Validation Enhancements,via_linked_story,2
+NXT-46060,NXT-43158,NXT-40775,IM/INV - Business Rule & Validation Enhancements,via_linked_story,1
+NXT-46059,NXT-43158,NXT-40775,IM/INV - Business Rule & Validation Enhancements,via_linked_story,1
+NXT-46012,,,,none,0
+NXT-46011,NXT-40701,NXT-40775,IM/INV - Business Rule & Validation Enhancements,via_linked_story,1
+NXT-45933,,,,none,0
+NXT-45932,,,,none,0
+NXT-45931,,,,none,0
+NXT-45930,NXT-45472,NXT-40775,IM/INV - Business Rule & Validation Enhancements,via_linked_story,1
+NXT-45929,NXT-45472,NXT-40775,IM/INV - Business Rule & Validation Enhancements,via_linked_story,1
+NXT-45912,,,,none,0
+NXT-45911,,NXT-42699,IM - List Page & Nav Updates,direct_parent,0
+NXT-45909,NXT-45729,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+NXT-45883,,,,none,0
+NXT-45862,NXT-45123,NXT-40775,IM/INV - Business Rule & Validation Enhancements,via_linked_story,1
+NXT-45861,NXT-45123,NXT-40775,IM/INV - Business Rule & Validation Enhancements,via_linked_story,1
+NXT-45860,NXT-45123,NXT-40775,IM/INV - Business Rule & Validation Enhancements,via_linked_story,1
+NXT-45859,,,,none,0
+NXT-45858,NXT-45123,NXT-40775,IM/INV - Business Rule & Validation Enhancements,via_linked_story,1
+NXT-45852,NXT-45123,NXT-40775,IM/INV - Business Rule & Validation Enhancements,via_linked_story,1
+NXT-45851,NXT-45123,NXT-40775,IM/INV - Business Rule & Validation Enhancements,via_linked_story,1
+NXT-45832,,,,none,0
+NXT-45820,,,,none,0
+NXT-45804,,NXT-50451,,direct_parent,0
+NXT-45772,NXT-34237,NXT-42699,IM - List Page & Nav Updates,via_linked_story,2
+NXT-45758,,NXT-39591,IM - Recipe/Menu Item Management Expansion,direct_parent,0
+NXT-45753,NXT-45123,NXT-40775,IM/INV - Business Rule & Validation Enhancements,via_linked_story,1
+NXT-45735,,,,none,0
+NXT-45729,,NXT-42699,IM - List Page & Nav Updates,direct_parent,0
+NXT-45663,,,,none,0
+NXT-45662,,,,none,0
+NXT-45661,,,,none,0
+NXT-45613,NXT-44876,NXT-46235,IM - Usability & UX Enhancements (7.X),via_linked_story,1
+NXT-45576,,NXT-42699,IM - List Page & Nav Updates,direct_parent,0
+NXT-45575,,NXT-42699,IM - List Page & Nav Updates,direct_parent,0
+NXT-45574,,NXT-42699,IM - List Page & Nav Updates,direct_parent,0
+NXT-45561,,,,none,0
+NXT-45550,,NXT-40775,IM/INV - Business Rule & Validation Enhancements,direct_parent,0
+NXT-45549,NXT-44876,NXT-46235,IM - Usability & UX Enhancements (7.X),via_linked_story,1
+NXT-45537,NXT-44876,NXT-46235,IM - Usability & UX Enhancements (7.X),via_linked_story,1
+NXT-45528,,,,none,0
+NXT-45527,,NXT-42699,IM - List Page & Nav Updates,direct_parent,0
+NXT-45509,NXT-44878,NXT-46235,IM - Usability & UX Enhancements (7.X),via_linked_story,1
+NXT-45496,,NXT-64951,IM - Usability & UX Enhancements (9.X),direct_parent,0
+NXT-45495,,NXT-40775,IM/INV - Business Rule & Validation Enhancements,direct_parent,0
+NXT-45475,,NXT-40775,IM/INV - Business Rule & Validation Enhancements,direct_parent,0
+NXT-45473,,NXT-40775,IM/INV - Business Rule & Validation Enhancements,direct_parent,0
+NXT-45472,,NXT-40775,IM/INV - Business Rule & Validation Enhancements,direct_parent,0
+NXT-45459,,,,none,0
+NXT-45439,NXT-45124,NXT-46235,IM - Usability & UX Enhancements (7.X),via_linked_story,1
+NXT-45403,NXT-44440,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+NXT-45397,NXT-44776,NXT-40775,IM/INV - Business Rule & Validation Enhancements,via_linked_story,1
+NXT-45342,,,,none,0
+NXT-45299,,,,none,0
+NXT-45238,NXT-44772,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+NXT-45231,NXT-44772,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+NXT-45214,NXT-44772,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+NXT-45212,NXT-34237,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+NXT-45210,NXT-44772,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+NXT-45209,NXT-44416,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+NXT-45197,NXT-44776,NXT-40775,IM/INV - Business Rule & Validation Enhancements,via_linked_story,1
+NXT-45196,NXT-44776,NXT-40775,IM/INV - Business Rule & Validation Enhancements,via_linked_story,1
+NXT-45195,NXT-44776,NXT-40775,IM/INV - Business Rule & Validation Enhancements,via_linked_story,1
+NXT-45194,NXT-44776,NXT-40775,IM/INV - Business Rule & Validation Enhancements,via_linked_story,1
+NXT-45158,NXT-34237,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+NXT-45132,NXT-44439,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+NXT-45125,,,,none,0
+NXT-45124,,NXT-46235,IM - Usability & UX Enhancements (7.X),direct_parent,0
+NXT-45123,,NXT-40775,IM/INV - Business Rule & Validation Enhancements,direct_parent,0
+NXT-45107,,NXT-42699,IM - List Page & Nav Updates,direct_parent,0
+NXT-45079,,,,none,0
+NXT-45068,,,,none,0
+NXT-45055,,NXT-40487,IM - Production Usability Enhancements (2023),direct_parent,0
+NXT-44917,,,,none,0
+NXT-44903,NXT-31864,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+NXT-44898,NXT-44438,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+NXT-44895,NXT-44416,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+NXT-44878,,NXT-46235,IM - Usability & UX Enhancements (7.X),direct_parent,0
+NXT-44876,,NXT-46235,IM - Usability & UX Enhancements (7.X),direct_parent,0
+NXT-44871,NXT-44438,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+NXT-44866,NXT-31864,NXT-42699,IM - List Page & Nav Updates,via_linked_story,1
+NXT-44828,,,,none,0
+NXT-44786,,,,none,0
+NXT-44785,,,,none,0
+NXT-44776,,NXT-40775,IM/INV - Business Rule & Validation Enhancements,direct_parent,0
+NXT-44775,,NXT-42699,IM - List Page & Nav Updates,direct_parent,0
+NXT-44774,,NXT-42699,IM - List Page & Nav Updates,direct_parent,0
+NXT-44773,,NXT-42699,IM - List Page & Nav Updates,direct_parent,0
+NXT-44772,,NXT-42699,IM - List Page & Nav Updates,direct_parent,0
+NXT-44754,NXT-43940,NXT-40487,IM - Production Usability Enhancements (2023),via_linked_story,1
+NXT-44751,,,,none,0
+NXT-44735,,,,none,0
+NXT-44729,,,,none,0
+NXT-44727,,,,none,0
+NXT-44714,,NXT-40775,IM/INV - Business Rule & Validation Enhancements,direct_parent,0
+NXT-44669,,,,none,0
+NXT-44633,,,,none,0
+NXT-44513,,,,none,0
+NXT-44510,,NXT-40775,IM/INV - Business Rule & Validation Enhancements,direct_parent,0
+NXT-44506,,,,none,0
+NXT-44455,NXT-44060,NXT-40487,IM - Production Usability Enhancements (2023),via_linked_story,1
+NXT-44450,,,,none,0
+NXT-44449,,,,none,0
+NXT-44440,,NXT-42699,IM - List Page & Nav Updates,direct_parent,0
+NXT-44439,,NXT-42699,IM - List Page & Nav Updates,direct_parent,0
+NXT-44438,,NXT-42699,IM - List Page & Nav Updates,direct_parent,0
+NXT-44436,NXT-41273,NXT-40487,IM - Production Usability Enhancements (2023),via_linked_story,2
+NXT-44434,,,,none,0
+NXT-44416,,NXT-42699,IM - List Page & Nav Updates,direct_parent,0
+NXT-44413,,,,none,0
+NXT-44411,,,,none,0
+NXT-44402,,,,none,0
+NXT-44400,NXT-41273,NXT-40487,IM - Production Usability Enhancements (2023),via_linked_story,2
+NXT-44398,NXT-41273,NXT-40487,IM - Production Usability Enhancements (2023),via_linked_story,2
+NXT-44384,NXT-43240,NXT-40775,IM/INV - Business Rule & Validation Enhancements,via_linked_story,1
+NXT-44380,,,,none,0
+NXT-44375,,,,none,0
+NXT-44371,,,,none,0
+NXT-44353,,,,none,0
+NXT-44306,,,,none,0
+NXT-44098,,,,none,0
+NXT-44074,NXT-43240,NXT-40775,IM/INV - Business Rule & Validation Enhancements,via_linked_story,1
+NXT-44060,,NXT-40487,IM - Production Usability Enhancements (2023),direct_parent,0
+NXT-44037,,,,none,0
+NXT-44036,,,,none,0
+NXT-44029,NXT-43240,NXT-40775,IM/INV - Business Rule & Validation Enhancements,via_linked_story,1
+NXT-44008,NXT-41273,NXT-40487,IM - Production Usability Enhancements (2023),via_linked_story,1
+NXT-43996,,NXT-40775,IM/INV - Business Rule & Validation Enhancements,direct_parent,0
+NXT-43995,,NXT-42699,IM - List Page & Nav Updates,direct_parent,0
+NXT-43990,NXT-40405,NXT-40487,IM - Production Usability Enhancements (2023),via_linked_story,1
+NXT-43984,NXT-40405,NXT-40487,IM - Production Usability Enhancements (2023),via_linked_story,1
+NXT-43965,NXT-40405,NXT-40487,IM - Production Usability Enhancements (2023),via_linked_story,1
+NXT-43962,,,,none,0
+NXT-43961,,,,none,0
+NXT-43957,,,,none,0
+NXT-43942,,NXT-40487,IM - Production Usability Enhancements (2023),direct_parent,0
+NXT-43940,,NXT-40487,IM - Production Usability Enhancements (2023),direct_parent,0
+NXT-43923,,NXT-40487,IM - Production Usability Enhancements (2023),direct_parent,0
+NXT-43922,,NXT-40487,IM - Production Usability Enhancements (2023),direct_parent,0
+NXT-43886,,NXT-40775,IM/INV - Business Rule & Validation Enhancements,direct_parent,0
+NXT-43852,,,,none,0
+NXT-43467,NXT-42270,NXT-40488,IM - Menu Item Consolidation Cleanup,via_linked_story,1
+PCS-3744,,,,none,0
+NXT-43430,,,,none,0
+NXT-43416,,,,none,0
+NXT-43384,,,,none,0
+NXT-43383,,,,none,0
+NXT-43382,,,,none,0
+NXT-43366,,,,none,0
+NXT-43301,,NXT-41678,IM/INV - Tech Debt and Code coverage (6.5),direct_parent,0
+NXT-43300,,,,none,0
+NXT-43249,,,,none,0
+NXT-43241,,,,none,0
+NXT-43240,,NXT-40775,IM/INV - Business Rule & Validation Enhancements,direct_parent,0
+NXT-43239,,NXT-40487,IM - Production Usability Enhancements (2023),direct_parent,0
+NXT-43236,,,,none,0
+NXT-43235,,,,none,0
+NXT-43234,,,,none,0
+NXT-43222,,,,none,0
+NXT-43221,,,,none,0
+NXT-43220,,,,none,0
+NXT-43163,,NXT-40487,IM - Production Usability Enhancements (2023),direct_parent,0
+NXT-43160,,NXT-40775,IM/INV - Business Rule & Validation Enhancements,direct_parent,0
+NXT-43158,,NXT-40775,IM/INV - Business Rule & Validation Enhancements,direct_parent,0
+NXT-43155,NXT-42693,NXT-40487,IM - Production Usability Enhancements (2023),via_linked_story,1
+NXT-43149,,,,none,0
+NXT-43134,,NXT-40775,IM/INV - Business Rule & Validation Enhancements,direct_parent,0
+NXT-43110,,,,none,0
+NXT-43093,,,,none,0
+NXT-43051,NXT-42461,NXT-40775,IM/INV - Business Rule & Validation Enhancements,via_linked_story,1
+NXT-43044,,NXT-40775,IM/INV - Business Rule & Validation Enhancements,direct_parent,0
+NXT-43043,,NXT-40775,IM/INV - Business Rule & Validation Enhancements,direct_parent,0
+NXT-43029,,,,none,0
+NXT-43020,NXT-26906,NXT-40488,IM - Menu Item Consolidation Cleanup,via_linked_story,1
+NXT-43003,,,,none,0
+NXT-42993,NXT-42394,NXT-31859,IM/INV - Report Updates & PowerBI Conversion,via_linked_story,1
+NXT-42950,,,,none,0
+NXT-42949,,,,none,0
+NXT-42936,,,,none,0
+NXT-42929,,,,none,0
+NXT-42914,,,,none,0
+NXT-42897,,,,none,0
+NXT-42896,,,,none,0
+NXT-42849,NXT-38016,NXT-40487,IM - Production Usability Enhancements (2023),via_linked_story,1
+NXT-42842,NXT-42379,NXT-40487,IM - Production Usability Enhancements (2023),via_linked_story,1
+NXT-42835,NXT-26906,NXT-40488,IM - Menu Item Consolidation Cleanup,via_linked_story,1
+NXT-42821,,,,none,0
+NXT-42801,,,,none,0
+NXT-42784,NXT-42269,NXT-40488,IM - Menu Item Consolidation Cleanup,via_linked_story,1
+NXT-42779,NXT-41451,NXT-40775,IM/INV - Business Rule & Validation Enhancements,via_linked_story,1
+NXT-42724,,NXT-46235,IM - Usability & UX Enhancements (7.X),direct_parent,0
+NXT-42714,NXT-41451,NXT-40775,IM/INV - Business Rule & Validation Enhancements,via_linked_story,1
+NXT-42693,,NXT-40487,IM - Production Usability Enhancements (2023),direct_parent,0
+NXT-42692,,,,none,0
+NXT-42691,,,,none,0
+NXT-42689,,,,none,0
+NXT-42664,NXT-41451,NXT-40775,IM/INV - Business Rule & Validation Enhancements,via_linked_story,1
+NXT-42659,,,,none,0
+NXT-42645,NXT-41451,NXT-40775,IM/INV - Business Rule & Validation Enhancements,via_linked_story,1
+NXT-42630,NXT-40419,NXT-40488,IM - Menu Item Consolidation Cleanup,via_linked_story,1
+NXT-42624,,,,none,0
+NXT-42535,NXT-40422,NXT-40488,IM - Menu Item Consolidation Cleanup,via_linked_story,1
+NXT-42517,NXT-41959,NXT-40488,IM - Menu Item Consolidation Cleanup,via_linked_story,1
+NXT-42516,NXT-41959,NXT-40488,IM - Menu Item Consolidation Cleanup,via_linked_story,1
+NXT-42515,NXT-41959,NXT-40488,IM - Menu Item Consolidation Cleanup,via_linked_story,1
+NXT-42461,,NXT-40775,IM/INV - Business Rule & Validation Enhancements,direct_parent,0
+NXT-42460,,NXT-40775,IM/INV - Business Rule & Validation Enhancements,direct_parent,0
+NXT-42454,,,,none,0
+NXT-42445,NXT-40422,NXT-40488,IM - Menu Item Consolidation Cleanup,via_linked_story,1
+NXT-42443,,,,none,0
+NXT-42417,,,,none,0
+NXT-42416,,,,none,0
+NXT-42400,,,,none,0
+NXT-42396,,NXT-46235,IM - Usability & UX Enhancements (7.X),direct_parent,0
+NXT-42395,,NXT-31859,IM/INV - Report Updates & PowerBI Conversion,direct_parent,0
+NXT-42394,,NXT-31859,IM/INV - Report Updates & PowerBI Conversion,direct_parent,0
+NXT-42393,,,,none,0
+NXT-42381,,NXT-51260,IM - Usability & UX Enhancements (8.X),direct_parent,0
+NXT-42380,,NXT-40487,IM - Production Usability Enhancements (2023),direct_parent,0
+NXT-42379,,NXT-40487,IM - Production Usability Enhancements (2023),direct_parent,0
+PCS-3650,,,,none,0
+PCS-3649,,,,none,0
+NXT-42357,NXT-40632,NXT-40487,IM - Production Usability Enhancements (2023),via_linked_story,1
+NXT-42348,,,,none,0
+NXT-42339,NXT-40422,NXT-40488,IM - Menu Item Consolidation Cleanup,via_linked_story,1
+NXT-42328,,,,none,0
+NXT-42321,,,,none,0
+NXT-42320,,,,none,0
+PCS-3644,,,,none,0
+NXT-42316,,,,none,0
+NXT-42311,,NXT-64951,IM - Usability & UX Enhancements (9.X),direct_parent,0
+PCS-3637,,,,none,0
+NXT-42304,,,,none,0
+NXT-42302,NXT-40632,NXT-40487,IM - Production Usability Enhancements (2023),via_linked_story,1
+NXT-42283,,,,none,0
+NXT-42279,,NXT-40775,IM/INV - Business Rule & Validation Enhancements,direct_parent,0
+NXT-42270,,NXT-40488,IM - Menu Item Consolidation Cleanup,direct_parent,0
+NXT-42269,,NXT-40488,IM - Menu Item Consolidation Cleanup,direct_parent,0
+NXT-42219,,,,none,0
+NXT-42141,,NXT-40487,IM - Production Usability Enhancements (2023),direct_parent,0
+NXT-42140,,,,none,0
+NXT-42110,,,,none,0
+PCS-3628,,,,none,0
+PCS-3626,,,,none,0
+NXT-42093,,,,none,0
+NXT-42092,,,,none,0
+NXT-42090,,,,none,0
+NXT-42089,,,,none,0
+NXT-42076,,,,none,0
+NXT-42073,,,,none,0
+NXT-42067,,,,none,0
+PCS-3622,,,,none,0
+NXT-42062,,,,none,0
+NXT-42061,,,,none,0
+NXT-42054,,,,none,0
+NXT-42050,,,,none,0
+NXT-42043,,,,none,0
+NXT-42040,,,,none,0
+NXT-42039,,,,none,0
+NXT-42023,,,,none,0
+NXT-42018,,,,none,0
+NXT-41999,,,,none,0
+NXT-41998,,,,none,0
+NXT-41997,,,,none,0
+NXT-41996,,,,none,0
+NXT-41995,,,,none,0
+NXT-41968,,,,none,0
+NXT-41961,,,,none,0
+NXT-41960,,,,none,0
+NXT-41959,,NXT-40488,IM - Menu Item Consolidation Cleanup,direct_parent,0
+NXT-41909,,,,none,0
+NXT-41853,,,,none,0
+NXT-41839,,,,none,0
+NXT-41761,,,,none,0
+NXT-41752,,,,none,0
+NXT-41746,,,,none,0
+NXT-41740,,,,none,0
+NXT-41739,,,,none,0
+NXT-41711,,,,none,0
+NXT-41700,,,,none,0
+NXT-41698,,,,none,0
+NXT-41688,,,,none,0
+NXT-41682,,,,none,0
+NXT-41681,,,,none,0
+NXT-41674,,,,none,0
+NXT-41671,,,,none,0
+NXT-41665,,,,none,0
+NXT-41664,,,,none,0
+NXT-41658,,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,direct_parent,0
+NXT-41657,,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,direct_parent,0
+NXT-41656,,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,direct_parent,0
+NXT-41655,,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,direct_parent,0
+NXT-41650,,,,none,0
+NXT-41649,,,,none,0
+NXT-41645,,,,none,0
+NXT-41634,,,,none,0
+NXT-41633,,,,none,0
+NXT-41631,,,,none,0
+NXT-41628,,NXT-39919,IM/MP - Find & Replace,direct_parent,0
+NXT-41626,,NXT-39919,IM/MP - Find & Replace,direct_parent,0
+NXT-41625,,NXT-39919,IM/MP - Find & Replace,direct_parent,0
+NXT-41624,,NXT-39919,IM/MP - Find & Replace,direct_parent,0
+NXT-41623,,NXT-39919,IM/MP - Find & Replace,direct_parent,0
+NXT-41620,,,,none,0
+NXT-41601,,,,none,0
+NXT-41591,,,,none,0
+NXT-41589,,,,none,0
+NXT-41584,,,,none,0
+NXT-41572,,,,none,0
+NXT-41571,,,,none,0
+NXT-41570,,,,none,0
+NXT-41562,,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,direct_parent,0
+NXT-41561,,NXT-41229,IM - Bulk Item Onboarding - Ingredient Info,direct_parent,0
+NXT-41560,,,,none,0
+NXT-41559,,,,none,0
+NXT-41554,,,,none,0
+NXT-41551,,,,none,0
+NXT-41514,,,,none,0
+NXT-41507,,,,none,0
+NXT-41502,,,,none,0
+NXT-41499,,,,none,0
+NXT-41497,,,,none,0
+NXT-41496,,,,none,0
+NXT-41495,,,,none,0
+NXT-41494,,,,none,0
+NXT-41492,,,,none,0
+NXT-41483,,,,none,0
+NXT-41463,,,,none,0
+NXT-41454,NXT-39985,NXT-37500,IM - Consolidation Enhancement & Cleanup,via_linked_story,1
+NXT-41453,,,,none,0
+NXT-41452,,NXT-45562,IM - Units Card Overhaul,direct_parent,0
+NXT-41451,,NXT-40775,IM/INV - Business Rule & Validation Enhancements,direct_parent,0
+NXT-41402,,,,none,0
+NXT-41401,,NXT-39591,IM - Recipe/Menu Item Management Expansion,direct_parent,0
+NXT-41320,,NXT-40775,IM/INV - Business Rule & Validation Enhancements,direct_parent,0
+NXT-41295,NXT-38505,NXT-31859,IM/INV - Report Updates & PowerBI Conversion,via_linked_story,1
+NXT-41294,,,,none,0
+NXT-41290,NXT-39985,NXT-37500,IM - Consolidation Enhancement & Cleanup,via_linked_story,1
+NXT-41288,,,,none,0
+NXT-41277,,NXT-46235,IM - Usability & UX Enhancements (7.X),direct_parent,0
+NXT-41275,,NXT-40487,IM - Production Usability Enhancements (2023),direct_parent,0
+NXT-41273,,NXT-40487,IM - Production Usability Enhancements (2023),direct_parent,0
+NXT-41242,,NXT-40488,IM - Menu Item Consolidation Cleanup,direct_parent,0
+NXT-41241,,,,none,0
+NXT-41239,,,,none,0
+NXT-41235,,,,none,0
+NXT-41232,,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,direct_parent,0
+NXT-41231,,NXT-68025,IM - Bulk Item - Usability Enhancements,direct_parent,0
+NXT-41230,,NXT-61558,IM - Item Onboarding- Excel Import/Export & Local Publishing,direct_parent,0
+NXT-41195,NXT-39985,NXT-37500,IM - Consolidation Enhancement & Cleanup,via_linked_story,1
+NXT-41194,NXT-39985,NXT-37500,IM - Consolidation Enhancement & Cleanup,via_linked_story,1
+NXT-41192,NXT-39672,NXT-29833,IM - Menu & POS Consolidation,via_linked_story,1
+NXT-41188,,NXT-39591,IM - Recipe/Menu Item Management Expansion,direct_parent,0
+NXT-41187,,,,none,0
+NXT-41186,,,,none,0
+NXT-41185,,,,none,0
+PCS-3587,,,,none,0
+NXT-41166,,,,none,0
+NXT-41161,NXT-40869,NXT-29833,IM - Menu & POS Consolidation,via_linked_story,1
+NXT-41156,,,,none,0
+NXT-41143,NXT-40837,NXT-29833,IM - Menu & POS Consolidation,via_linked_story,1
+NXT-41142,NXT-40837,NXT-29833,IM - Menu & POS Consolidation,via_linked_story,1
+NXT-41127,,,,none,0
+NXT-41126,,,,none,0
+NXT-40959,NXT-39643,NXT-29833,IM - Menu & POS Consolidation,via_linked_story,1
+NXT-40957,,,,none,0
+NXT-40927,NXT-39673,NXT-29833,IM - Menu & POS Consolidation,via_linked_story,1
+NXT-40923,NXT-39673,NXT-29833,IM - Menu & POS Consolidation,via_linked_story,1
+NXT-40922,NXT-40418,NXT-37500,IM - Consolidation Enhancement & Cleanup,via_linked_story,1
+NXT-40892,NXT-40447,NXT-29833,IM - Menu & POS Consolidation,via_linked_story,1
+NXT-40890,,,,none,0
+NXT-40889,,,,none,0
+NXT-40880,NXT-37815,NXT-37500,IM - Consolidation Enhancement & Cleanup,via_linked_story,1
+NXT-40879,NXT-40448,NXT-29833,IM - Menu & POS Consolidation,via_linked_story,1
+NXT-40878,NXT-40449,NXT-36067,IM - Item Units & Sub-types,via_linked_story,1
+NXT-40874,,,,none,0
+NXT-40873,,,,none,0
+NXT-40869,,NXT-29833,IM - Menu & POS Consolidation,direct_parent,0
+NXT-40864,NXT-40447,NXT-29833,IM - Menu & POS Consolidation,via_linked_story,1
+NXT-40843,,,,none,0
+NXT-40837,,NXT-29833,IM - Menu & POS Consolidation,direct_parent,0
+NXT-40833,,,,none,0
+NXT-40832,,,,none,0
+NXT-40803,,NXT-37500,IM - Consolidation Enhancement & Cleanup,direct_parent,0
+NXT-40802,NXT-40461,NXT-37500,IM - Consolidation Enhancement & Cleanup,via_linked_story,1
+NXT-40801,NXT-40461,NXT-37500,IM - Consolidation Enhancement & Cleanup,via_linked_story,1
+NXT-40799,,,,none,0
+NXT-40779,,,,none,0
+NXT-40778,,NXT-45562,IM - Units Card Overhaul,direct_parent,0
+NXT-40776,,NXT-40775,IM/INV - Business Rule & Validation Enhancements,direct_parent,0
+NXT-40702,,NXT-45562,IM - Units Card Overhaul,direct_parent,0
+NXT-40701,,NXT-40775,IM/INV - Business Rule & Validation Enhancements,direct_parent,0
+NXT-40700,,NXT-40775,IM/INV - Business Rule & Validation Enhancements,direct_parent,0
+NXT-40699,,NXT-40775,IM/INV - Business Rule & Validation Enhancements,direct_parent,0
+NXT-40698,,NXT-40775,IM/INV - Business Rule & Validation Enhancements,direct_parent,0
+NXT-40672,,,,none,0
+NXT-40665,,NXT-31859,IM/INV - Report Updates & PowerBI Conversion,direct_parent,0
+NXT-40632,,NXT-40487,IM - Production Usability Enhancements (2023),direct_parent,0
+NXT-40564,,,,none,0
+NXT-40560,NXT-30763,NXT-29833,IM - Menu & POS Consolidation,via_linked_story,1
+NXT-40552,,,,none,0
+NXT-40549,NXT-39987,NXT-29833,IM - Menu & POS Consolidation,via_linked_story,1
+NXT-40530,,,,none,0
+NXT-40500,NXT-36072,NXT-29833,IM - Menu & POS Consolidation,via_linked_story,1
+NXT-40496,NXT-39905,NXT-36067,IM - Item Units & Sub-types,via_linked_story,1
+NXT-40494,NXT-34236,NXT-29833,IM - Menu & POS Consolidation,via_linked_story,1
+NXT-40493,NXT-39671,NXT-29833,IM - Menu & POS Consolidation,via_linked_story,1
+NXT-40492,,,,none,0
+NXT-40481,NXT-34236,NXT-29833,IM - Menu & POS Consolidation,via_linked_story,1
+NXT-40480,,NXT-64951,IM - Usability & UX Enhancements (9.X),direct_parent,0
+NXT-40479,,NXT-37500,IM - Consolidation Enhancement & Cleanup,direct_parent,0
+NXT-40476,,,,none,0
+NXT-40475,,,,none,0
+NXT-40472,NXT-39905,NXT-36067,IM - Item Units & Sub-types,via_linked_story,1
+NXT-40461,,NXT-37500,IM - Consolidation Enhancement & Cleanup,direct_parent,0
+NXT-40459,NXT-39905,NXT-36067,IM - Item Units & Sub-types,via_linked_story,1
+NXT-40454,NXT-39905,NXT-36067,IM - Item Units & Sub-types,via_linked_story,1
+NXT-40450,,NXT-29833,IM - Menu & POS Consolidation,direct_parent,0
+NXT-40449,,NXT-36067,IM - Item Units & Sub-types,direct_parent,0
+NXT-40448,,NXT-29833,IM - Menu & POS Consolidation,direct_parent,0
+NXT-40447,,NXT-29833,IM - Menu & POS Consolidation,direct_parent,0
+PCS-3540,,,,none,0
+NXT-40422,,NXT-40488,IM - Menu Item Consolidation Cleanup,direct_parent,0
+NXT-40421,,NXT-37500,IM - Consolidation Enhancement & Cleanup,direct_parent,0
+NXT-40419,,NXT-40488,IM - Menu Item Consolidation Cleanup,direct_parent,0
+NXT-40418,,NXT-37500,IM - Consolidation Enhancement & Cleanup,direct_parent,0
+NXT-40417,NXT-37881,NXT-36067,IM - Item Units & Sub-types,via_linked_story,1
+NXT-40416,NXT-37881,NXT-36067,IM - Item Units & Sub-types,via_linked_story,2
+NXT-40412,NXT-30763,NXT-29833,IM - Menu & POS Consolidation,via_linked_story,1
+NXT-40410,,NXT-36067,IM - Item Units & Sub-types,direct_parent,0
+NXT-40405,,NXT-40487,IM - Production Usability Enhancements (2023),direct_parent,0
+NXT-40398,,NXT-37500,IM - Consolidation Enhancement & Cleanup,direct_parent,0
+NXT-40391,,,,none,0
+NXT-40373,,,,none,0
+NXT-40341,,,,none,0
+NXT-40124,NXT-37881,NXT-36067,IM - Item Units & Sub-types,via_linked_story,1
+NXT-40121,NXT-38504,NXT-31859,IM/INV - Report Updates & PowerBI Conversion,via_linked_story,1
+NXT-40115,NXT-30763,NXT-29833,IM - Menu & POS Consolidation,via_linked_story,1
+NXT-40039,NXT-38504,NXT-31859,IM/INV - Report Updates & PowerBI Conversion,via_linked_story,1
+NXT-40032,NXT-37881,NXT-36067,IM - Item Units & Sub-types,via_linked_story,1
+NXT-40031,NXT-37881,NXT-36067,IM - Item Units & Sub-types,via_linked_story,1
+NXT-40021,NXT-39663,NXT-29833,IM - Menu & POS Consolidation,via_linked_story,1
+NXT-40019,NXT-37881,NXT-36067,IM - Item Units & Sub-types,via_linked_story,1
+NXT-40016,NXT-37881,NXT-36067,IM - Item Units & Sub-types,via_linked_story,1
+NXT-40011,NXT-39594,NXT-29833,IM - Menu & POS Consolidation,via_linked_story,1
+NXT-39988,,NXT-29833,IM - Menu & POS Consolidation,direct_parent,0
+NXT-39987,,NXT-29833,IM - Menu & POS Consolidation,direct_parent,0
+NXT-39985,,NXT-37500,IM - Consolidation Enhancement & Cleanup,direct_parent,0
+NXT-39923,,NXT-64850,IM - Bulk Item - Local Updates,direct_parent,0
+NXT-39922,,NXT-64850,IM - Bulk Item - Local Updates,direct_parent,0
+NXT-39918,,NXT-64850,IM - Bulk Item - Local Updates,direct_parent,0
+NXT-39905,,NXT-36067,IM - Item Units & Sub-types,direct_parent,0
+NXT-39877,,,,none,0
+NXT-39836,,,,none,0
+NXT-39673,,NXT-29833,IM - Menu & POS Consolidation,direct_parent,0
+NXT-39672,,NXT-29833,IM - Menu & POS Consolidation,direct_parent,0
+NXT-39671,,NXT-29833,IM - Menu & POS Consolidation,direct_parent,0
+NXT-39669,NXT-36109,NXT-37500,IM - Consolidation Enhancement & Cleanup,via_linked_story,1
+NXT-39663,,NXT-29833,IM - Menu & POS Consolidation,direct_parent,0
+NXT-39662,,NXT-29833,IM - Menu & POS Consolidation,direct_parent,0
+NXT-39655,NXT-38091,NXT-36067,IM - Item Units & Sub-types,via_linked_story,1
+NXT-39643,,NXT-29833,IM - Menu & POS Consolidation,direct_parent,0
+NXT-39642,,NXT-29833,IM - Menu & POS Consolidation,direct_parent,0
+NXT-39613,NXT-38091,NXT-36067,IM - Item Units & Sub-types,via_linked_story,1
+NXT-39611,,NXT-37500,IM - Consolidation Enhancement & Cleanup,direct_parent,0
+NXT-39596,,,,none,0
+NXT-39594,,NXT-29833,IM - Menu & POS Consolidation,direct_parent,0
+NXT-39592,,NXT-64951,IM - Usability & UX Enhancements (9.X),direct_parent,0
+NXT-39575,,NXT-38444,,direct_parent,0
+NXT-39572,NXT-37895,NXT-37500,IM - Consolidation Enhancement & Cleanup,via_linked_story,1
+NXT-39571,NXT-37895,NXT-37500,IM - Consolidation Enhancement & Cleanup,via_linked_story,1
+NXT-39564,,,,none,0
+NXT-39561,,,,none,0
+NXT-39551,,,,none,0
+NXT-39550,,NXT-37500,IM - Consolidation Enhancement & Cleanup,direct_parent,0
+NXT-39540,,NXT-37500,IM - Consolidation Enhancement & Cleanup,direct_parent,0
+NXT-39535,,,,none,0
+NXT-39534,,,,none,0
+NXT-39532,,NXT-39591,IM - Recipe/Menu Item Management Expansion,direct_parent,0
+NXT-39445,,NXT-37500,IM - Consolidation Enhancement & Cleanup,direct_parent,0
+NXT-39375,,NXT-36067,IM - Item Units & Sub-types,direct_parent,0
+NXT-39277,,,,none,0
+PCS-3477,,,,none,0
+NXT-39275,,NXT-37500,IM - Consolidation Enhancement & Cleanup,direct_parent,0
+NXT-39157,,NXT-36067,IM - Item Units & Sub-types,direct_parent,0
+NXT-39154,,NXT-36067,IM - Item Units & Sub-types,direct_parent,0
+NXT-39111,,,,none,0
+NXT-39110,,,,none,0
+NXT-39109,,,,none,0
+NXT-39096,NXT-37882,NXT-36067,IM - Item Units & Sub-types,via_linked_story,1
+NXT-38964,,,,none,0
+NXT-38963,NXT-37898,NXT-37500,IM - Consolidation Enhancement & Cleanup,via_linked_story,1
+NXT-38962,NXT-37844,NXT-37500,IM - Consolidation Enhancement & Cleanup,via_linked_story,1
+NXT-38929,,,,none,0
+NXT-38916,,,,none,0
+NXT-38681,,NXT-38926,IM/INV - Tech Debt and Code coverage,direct_parent,0
+NXT-38675,,NXT-38926,IM/INV - Tech Debt and Code coverage,direct_parent,0
+NXT-38674,,NXT-38926,IM/INV - Tech Debt and Code coverage,direct_parent,0
+NXT-38668,,,,none,0
+NXT-38653,NXT-37568,NXT-36067,IM - Item Units & Sub-types,via_linked_story,1
+NXT-38566,NXT-37452,NXT-36067,IM - Item Units & Sub-types,via_linked_story,1
+NXT-38544,,NXT-36067,IM - Item Units & Sub-types,direct_parent,0
+NXT-38505,,NXT-31859,IM/INV - Report Updates & PowerBI Conversion,direct_parent,0
+NXT-38504,,NXT-31859,IM/INV - Report Updates & PowerBI Conversion,direct_parent,0
+NXT-38490,NXT-37098,NXT-37500,IM - Consolidation Enhancement & Cleanup,via_linked_story,1
+NXT-38477,,NXT-45562,IM - Units Card Overhaul,direct_parent,0
+NXT-38476,,NXT-37500,IM - Consolidation Enhancement & Cleanup,direct_parent,0
+NXT-38440,,,,none,0
+NXT-38402,,,,none,0
+NXT-38373,NXT-37982,NXT-36067,IM - Item Units & Sub-types,via_linked_story,1
+NXT-38372,NXT-37982,NXT-36067,IM - Item Units & Sub-types,via_linked_story,1
+PCS-3426,,,,none,0
+NXT-38149,,NXT-38926,IM/INV - Tech Debt and Code coverage,direct_parent,0
+PCS-3415,,,,none,0
+NXT-38091,,NXT-36067,IM - Item Units & Sub-types,direct_parent,0
+NXT-38020,,NXT-38926,IM/INV - Tech Debt and Code coverage,direct_parent,0
+NXT-38019,,NXT-38926,IM/INV - Tech Debt and Code coverage,direct_parent,0
+NXT-38016,,NXT-40487,IM - Production Usability Enhancements (2023),direct_parent,0
+NXT-37993,,NXT-38926,IM/INV - Tech Debt and Code coverage,direct_parent,0
+NXT-37992,,NXT-38926,IM/INV - Tech Debt and Code coverage,direct_parent,0
+NXT-37983,,NXT-38926,IM/INV - Tech Debt and Code coverage,direct_parent,0
+NXT-37982,,NXT-36067,IM - Item Units & Sub-types,direct_parent,0
+NXT-37981,,NXT-38926,IM/INV - Tech Debt and Code coverage,direct_parent,0
+NXT-37980,,NXT-38926,IM/INV - Tech Debt and Code coverage,direct_parent,0
+PCS-3399,,,,none,0
+PCS-3398,,,,none,0
+PCS-3397,,,,none,0
+NXT-37898,,NXT-37500,IM - Consolidation Enhancement & Cleanup,direct_parent,0
+NXT-37895,,NXT-37500,IM - Consolidation Enhancement & Cleanup,direct_parent,0
+NXT-37888,NXT-36795,NXT-38088,IM - Item Type Consolidation - Item Master & Module Improvements,via_linked_story,1
+NXT-37882,,NXT-36067,IM - Item Units & Sub-types,direct_parent,0
+NXT-37881,,NXT-36067,IM - Item Units & Sub-types,direct_parent,0
+NXT-37851,,,,none,0
+NXT-37846,NXT-26814,NXT-38088,IM - Item Type Consolidation - Item Master & Module Improvements,via_linked_story,1
+NXT-37844,,NXT-37500,IM - Consolidation Enhancement & Cleanup,direct_parent,0
+NXT-37818,,NXT-37500,IM - Consolidation Enhancement & Cleanup,direct_parent,0
+NXT-37815,,NXT-37500,IM - Consolidation Enhancement & Cleanup,direct_parent,0
+NXT-37796,,,,none,0
+NXT-37794,NXT-37621,NXT-26823,IM - Item Type Consolidation - Recipe Rework,via_linked_story,1
+NXT-37680,,NXT-38088,IM - Item Type Consolidation - Item Master & Module Improvements,direct_parent,0
+NXT-37621,,NXT-26823,IM - Item Type Consolidation - Recipe Rework,direct_parent,0
+NXT-37618,NXT-35694,NXT-31859,IM/INV - Report Updates & PowerBI Conversion,via_linked_story,1
+NXT-37589,,NXT-36067,IM - Item Units & Sub-types,direct_parent,0
+NXT-37568,,NXT-36067,IM - Item Units & Sub-types,direct_parent,0
+NXT-37501,,NXT-38088,IM - Item Type Consolidation - Item Master & Module Improvements,direct_parent,0
+NXT-37452,,NXT-36067,IM - Item Units & Sub-types,direct_parent,0
+NXT-37441,,NXT-36067,IM - Item Units & Sub-types,direct_parent,0
+NXT-37425,,NXT-38088,IM - Item Type Consolidation - Item Master & Module Improvements,direct_parent,0
+NXT-37239,,,,none,0
+NXT-37238,NXT-36870,NXT-26823,IM - Item Type Consolidation - Recipe Rework,via_linked_story,1
+NXT-37217,,NXT-38088,IM - Item Type Consolidation - Item Master & Module Improvements,direct_parent,0
+NXT-37216,,NXT-51260,IM - Usability & UX Enhancements (8.X),direct_parent,0
+NXT-37175,NXT-36741,NXT-26823,IM - Item Type Consolidation - Recipe Rework,via_linked_story,1
+NXT-37139,NXT-36741,NXT-26823,IM - Item Type Consolidation - Recipe Rework,via_linked_story,1
+PCS-3332,,,,none,0
+NXT-37112,,NXT-38088,IM - Item Type Consolidation - Item Master & Module Improvements,direct_parent,0
+NXT-37111,,NXT-36067,IM - Item Units & Sub-types,direct_parent,0
+NXT-37110,,NXT-36067,IM - Item Units & Sub-types,direct_parent,0
+NXT-37109,,NXT-36067,IM - Item Units & Sub-types,direct_parent,0
+NXT-37108,,NXT-31859,IM/INV - Report Updates & PowerBI Conversion,direct_parent,0
+NXT-37098,,NXT-37500,IM - Consolidation Enhancement & Cleanup,direct_parent,0
+NXT-37086,,NXT-36067,IM - Item Units & Sub-types,direct_parent,0
+NXT-37068,,NXT-36067,IM - Item Units & Sub-types,direct_parent,0
+NXT-37054,,NXT-38088,IM - Item Type Consolidation - Item Master & Module Improvements,direct_parent,0
+NXT-37053,,NXT-38088,IM - Item Type Consolidation - Item Master & Module Improvements,direct_parent,0
+NXT-37052,,NXT-38088,IM - Item Type Consolidation - Item Master & Module Improvements,direct_parent,0
+NXT-37051,,NXT-38088,IM - Item Type Consolidation - Item Master & Module Improvements,direct_parent,0
+NXT-36968,,,,none,0
+NXT-36872,,NXT-26823,IM - Item Type Consolidation - Recipe Rework,direct_parent,0
+NXT-36871,,NXT-26823,IM - Item Type Consolidation - Recipe Rework,direct_parent,0
+NXT-36870,,NXT-26823,IM - Item Type Consolidation - Recipe Rework,direct_parent,0
+NXT-36857,NXT-36110,NXT-26823,IM - Item Type Consolidation - Recipe Rework,via_linked_story,1
+NXT-36840,,NXT-31859,IM/INV - Report Updates & PowerBI Conversion,direct_parent,0
+NXT-36800,,NXT-26823,IM - Item Type Consolidation - Recipe Rework,direct_parent,0
+NXT-36799,,NXT-26823,IM - Item Type Consolidation - Recipe Rework,direct_parent,0
+NXT-36795,,NXT-38088,IM - Item Type Consolidation - Item Master & Module Improvements,direct_parent,0
+NXT-36791,NXT-36359,NXT-26823,IM - Item Type Consolidation - Recipe Rework,via_linked_story,1
+NXT-36790,NXT-36358,NXT-26823,IM - Item Type Consolidation - Recipe Rework,via_linked_story,1
+NXT-36766,,NXT-26823,IM - Item Type Consolidation - Recipe Rework,direct_parent,0
+NXT-36760,NXT-34510,NXT-26823,IM - Item Type Consolidation - Recipe Rework,via_linked_story,1
+NXT-36743,,NXT-26823,IM - Item Type Consolidation - Recipe Rework,direct_parent,0
+NXT-36742,,NXT-26823,IM - Item Type Consolidation - Recipe Rework,direct_parent,0
+NXT-36741,,NXT-26823,IM - Item Type Consolidation - Recipe Rework,direct_parent,0
+NXT-36665,,,,none,0
+NXT-36583,,NXT-26823,IM - Item Type Consolidation - Recipe Rework,direct_parent,0
+NXT-36547,NXT-36106,NXT-26823,IM - Item Type Consolidation - Recipe Rework,via_linked_story,1
+NXT-36493,NXT-36106,NXT-26823,IM - Item Type Consolidation - Recipe Rework,via_linked_story,1
+NXT-36492,NXT-36106,NXT-26823,IM - Item Type Consolidation - Recipe Rework,via_linked_story,1
+NXT-36491,,NXT-37500,IM - Consolidation Enhancement & Cleanup,direct_parent,0
+NXT-36474,,,,none,0
+NXT-36471,,NXT-36310,,direct_parent,0
+NXT-36470,,NXT-36310,,direct_parent,0
+NXT-36465,NXT-36105,NXT-26823,IM - Item Type Consolidation - Recipe Rework,via_linked_story,1
+NXT-36417,,NXT-26823,IM - Item Type Consolidation - Recipe Rework,direct_parent,0
+NXT-36399,,,,none,0
+NXT-36393,,,,none,0
+NXT-36359,,NXT-26823,IM - Item Type Consolidation - Recipe Rework,direct_parent,0
+NXT-36358,,NXT-26823,IM - Item Type Consolidation - Recipe Rework,direct_parent,0
+NXT-36340,,NXT-36310,,direct_parent,0
+PCS-3208,,,,none,0
+NXT-36132,NXT-35688,NXT-31859,IM/INV - Report Updates & PowerBI Conversion,via_linked_story,1
+PCS-3195,,,,none,0
+NXT-36110,,NXT-26823,IM - Item Type Consolidation - Recipe Rework,direct_parent,0
+NXT-36109,,NXT-37500,IM - Consolidation Enhancement & Cleanup,direct_parent,0
+NXT-36108,,NXT-26823,IM - Item Type Consolidation - Recipe Rework,direct_parent,0
+NXT-36107,,NXT-26823,IM - Item Type Consolidation - Recipe Rework,direct_parent,0
+NXT-36106,,NXT-26823,IM - Item Type Consolidation - Recipe Rework,direct_parent,0
+NXT-36105,,NXT-26823,IM - Item Type Consolidation - Recipe Rework,direct_parent,0
+NXT-36073,,NXT-26823,IM - Item Type Consolidation - Recipe Rework,direct_parent,0
+NXT-36072,,NXT-29833,IM - Menu & POS Consolidation,direct_parent,0
+NXT-36071,,NXT-26823,IM - Item Type Consolidation - Recipe Rework,direct_parent,0
+NXT-36070,,NXT-26823,IM - Item Type Consolidation - Recipe Rework,direct_parent,0
+NXT-36069,,NXT-26823,IM - Item Type Consolidation - Recipe Rework,direct_parent,0
+NXT-36068,,NXT-26823,IM - Item Type Consolidation - Recipe Rework,direct_parent,0
+NXT-35898,,NXT-36067,IM - Item Units & Sub-types,direct_parent,0
+NXT-35789,,NXT-51260,IM - Usability & UX Enhancements (8.X),direct_parent,0
+NXT-35788,,NXT-35290,,direct_parent,0
+NXT-35697,,NXT-38088,IM - Item Type Consolidation - Item Master & Module Improvements,direct_parent,0
+NXT-35694,,NXT-31859,IM/INV - Report Updates & PowerBI Conversion,direct_parent,0
+NXT-35689,,NXT-31859,IM/INV - Report Updates & PowerBI Conversion,direct_parent,0
+NXT-35688,,NXT-31859,IM/INV - Report Updates & PowerBI Conversion,direct_parent,0
+NXT-35649,,NXT-23985,,direct_parent,0
+NXT-35619,,,,none,0
+PCS-3101,,,,none,0
+NXT-35456,,,,none,0
+PCS-3049,,,,none,0
+NXT-35228,,,,none,0
+NXT-35216,NXT-33303,NXT-29726,IM - General Enhancements (R6.2),via_linked_story,1
+NXT-35148,,,,none,0
+PCS-2700,,,,none,0
+PCS-2661,,,,none,0
+NXT-34926,,,,none,0
+PCS-2621,,,,none,0
+PCS-2601,,,,none,0
+NXT-34870,,,,none,0
+NXT-34869,,,,none,0
+NXT-34852,,,,none,0
+NXT-34848,,,,none,0
+PCS-2519,,,,none,0
+PCS-2484,,,,none,0
+NXT-34787,,,,none,0
+NXT-34784,,,,none,0
+PCS-2466,,,,none,0
+PCS-2453,,,,none,0
+PCS-2451,,,,none,0
+PCS-2448,,,,none,0
+PCS-2421,,,,none,0
+PCS-2419,,,,none,0
+PCS-2416,,,,none,0
+PCS-2414,,,,none,0
+PCS-2411,,,,none,0
+PCS-2404,,,,none,0
+PCS-2403,,,,none,0
+PCS-2398,,,,none,0
+PCS-2397,,,,none,0
+PCS-2393,,,,none,0
+NXT-34673,,,,none,0
+NXT-34672,,,,none,0
+PCS-2391,,,,none,0
+PCS-2390,,,,none,0
+PCS-2389,,,,none,0
+PCS-2384,,,,none,0
+PCS-2383,,,,none,0
+PCS-2376,,,,none,0
+NXT-34666,,,,none,0
+NXT-34663,,,,none,0
+PCS-2370,,,,none,0
+PCS-2369,,,,none,0
+PCS-2368,,,,none,0
+PCS-2367,,,,none,0
+PCS-2364,,,,none,0
+PCS-2362,,,,none,0
+PCS-2361,,,,none,0
+NXT-34659,,,,none,0
+NXT-34658,,,,none,0
+PCS-2357,,,,none,0
+PCS-2351,,,,none,0
+PCS-2349,,,,none,0
+PCS-2348,,,,none,0
+PCS-2347,,,,none,0
+PCS-2343,,,,none,0
+PCS-2327,,,,none,0
+NXT-34511,,NXT-29833,IM - Menu & POS Consolidation,direct_parent,0
+NXT-34510,,NXT-26823,IM - Item Type Consolidation - Recipe Rework,direct_parent,0
+NXT-34481,,NXT-39591,IM - Recipe/Menu Item Management Expansion,direct_parent,0
+NXT-34480,,NXT-42699,IM - List Page & Nav Updates,direct_parent,0
+NXT-34237,,NXT-42699,IM - List Page & Nav Updates,direct_parent,0
+NXT-34236,,NXT-29833,IM - Menu & POS Consolidation,direct_parent,0
+NXT-34198,,NXT-29726,IM - General Enhancements (R6.2),direct_parent,0
+PCS-2047,,,,none,0
+NXT-33584,,NXT-29726,IM - General Enhancements (R6.2),direct_parent,0
+NXT-33583,,NXT-29726,IM - General Enhancements (R6.2),direct_parent,0
+NXT-33303,,NXT-29726,IM - General Enhancements (R6.2),direct_parent,0
+NXT-33173,,NXT-29086,,direct_parent,0
+NXT-32932,,NXT-29726,IM - General Enhancements (R6.2),direct_parent,0
+NXT-32108,,NXT-29086,,direct_parent,0
+NXT-32107,,NXT-29086,,direct_parent,0
+NXT-31999,,NXT-64951,IM - Usability & UX Enhancements (9.X),direct_parent,0
+NXT-31941,,NXT-31859,IM/INV - Report Updates & PowerBI Conversion,direct_parent,0
+NXT-31864,,NXT-42699,IM - List Page & Nav Updates,direct_parent,0
+NXT-31863,,NXT-46237,IM - Reports (9.X),direct_parent,0
+NXT-31862,,NXT-46237,IM - Reports (9.X),direct_parent,0
+NXT-31861,,NXT-46237,IM - Reports (9.X),direct_parent,0
+NXT-31860,,NXT-46237,IM - Reports (9.X),direct_parent,0
+NXT-31743,,NXT-29086,,direct_parent,0
+NXT-31742,,NXT-29086,,direct_parent,0
+NXT-31741,,NXT-29086,,direct_parent,0
+NXT-31713,,NXT-29726,IM - General Enhancements (R6.2),direct_parent,0
+NXT-31496,,NXT-30027,IM - Item Details Overhaul,direct_parent,0
+NXT-31492,,NXT-19105,IM - Onboarding,direct_parent,0
+NXT-31491,,NXT-19105,IM - Onboarding,direct_parent,0
+NXT-31396,,NXT-30027,IM - Item Details Overhaul,direct_parent,0
+NXT-31390,,NXT-30027,IM - Item Details Overhaul,direct_parent,0
+NXT-31389,,NXT-30027,IM - Item Details Overhaul,direct_parent,0
+NXT-31354,,NXT-30027,IM - Item Details Overhaul,direct_parent,0
+NXT-31307,,NXT-29726,IM - General Enhancements (R6.2),direct_parent,0
+NXT-31284,,NXT-29726,IM - General Enhancements (R6.2),direct_parent,0
+NXT-31283,,NXT-19105,IM - Onboarding,direct_parent,0
+NXT-31281,,NXT-29726,IM - General Enhancements (R6.2),direct_parent,0
+NXT-31102,,NXT-19105,IM - Onboarding,direct_parent,0
+NXT-30978,,NXT-29726,IM - General Enhancements (R6.2),direct_parent,0
+NXT-30833,,NXT-30027,IM - Item Details Overhaul,direct_parent,0
+NXT-30763,,NXT-29833,IM - Menu & POS Consolidation,direct_parent,0
+NXT-30656,,NXT-19105,IM - Onboarding,direct_parent,0
+NXT-30480,,NXT-29726,IM - General Enhancements (R6.2),direct_parent,0
+NXT-30293,,NXT-39591,IM - Recipe/Menu Item Management Expansion,direct_parent,0
+NXT-30278,,NXT-29726,IM - General Enhancements (R6.2),direct_parent,0
+NXT-30254,,NXT-30027,IM - Item Details Overhaul,direct_parent,0
+NXT-30253,,NXT-30027,IM - Item Details Overhaul,direct_parent,0
+NXT-30224,,NXT-30027,IM - Item Details Overhaul,direct_parent,0
+NXT-30217,,NXT-30027,IM - Item Details Overhaul,direct_parent,0
+NXT-30216,,NXT-30027,IM - Item Details Overhaul,direct_parent,0
+NXT-30168,,NXT-29726,IM - General Enhancements (R6.2),direct_parent,0
+NXT-30166,,NXT-30027,IM - Item Details Overhaul,direct_parent,0
+NXT-30155,,NXT-30027,IM - Item Details Overhaul,direct_parent,0
+NXT-30154,,NXT-30027,IM - Item Details Overhaul,direct_parent,0
+NXT-30132,,NXT-39591,IM - Recipe/Menu Item Management Expansion,direct_parent,0
+NXT-30131,,NXT-29726,IM - General Enhancements (R6.2),direct_parent,0
+NXT-30128,,NXT-30027,IM - Item Details Overhaul,direct_parent,0
+NXT-30123,,NXT-30027,IM - Item Details Overhaul,direct_parent,0
+NXT-30103,,NXT-30027,IM - Item Details Overhaul,direct_parent,0
+NXT-30102,,NXT-30027,IM - Item Details Overhaul,direct_parent,0
+NXT-30101,,NXT-30027,IM - Item Details Overhaul,direct_parent,0
+NXT-30100,,NXT-30027,IM - Item Details Overhaul,direct_parent,0
+NXT-30099,,NXT-30027,IM - Item Details Overhaul,direct_parent,0
+NXT-30097,,NXT-30027,IM - Item Details Overhaul,direct_parent,0
+NXT-30046,,NXT-30027,IM - Item Details Overhaul,direct_parent,0
+NXT-30038,,NXT-30027,IM - Item Details Overhaul,direct_parent,0
+NXT-30037,,NXT-30027,IM - Item Details Overhaul,direct_parent,0
+NXT-30036,,NXT-30027,IM - Item Details Overhaul,direct_parent,0
+NXT-29782,,NXT-19105,IM - Onboarding,direct_parent,0
+NXT-29736,,NXT-29726,IM - General Enhancements (R6.2),direct_parent,0
+NXT-29114,,NXT-29086,,direct_parent,0
+NXT-29112,,NXT-29086,,direct_parent,0
+NXT-29108,,NXT-29086,,direct_parent,0
+NXT-29065,,NXT-24065,IM - UI Improvements (R5),direct_parent,0
+NXT-28661,,NXT-24070,IM - Permissions (R5),direct_parent,0
+NXT-28659,,NXT-24070,IM - Permissions (R5),direct_parent,0
+NXT-28530,,NXT-13227,IM - Reports (R5),direct_parent,0
+NXT-28516,,NXT-14670,,direct_parent,0
+NXT-28307,,NXT-24065,IM - UI Improvements (R5),direct_parent,0
+NXT-28234,,NXT-24065,IM - UI Improvements (R5),direct_parent,0
+NXT-28233,,NXT-24065,IM - UI Improvements (R5),direct_parent,0
+NXT-28222,,NXT-20609,IM - Menu Item Management(R5),direct_parent,0
+NXT-28221,,NXT-20609,IM - Menu Item Management(R5),direct_parent,0
+NXT-28204,,NXT-13227,IM - Reports (R5),direct_parent,0
+NXT-28116,,NXT-24065,IM - UI Improvements (R5),direct_parent,0
+NXT-27946,,NXT-24065,IM - UI Improvements (R5),direct_parent,0
+NXT-27941,,NXT-20609,IM - Menu Item Management(R5),direct_parent,0
+NXT-27894,,NXT-11036,IM - USDA Requirements,direct_parent,0
+NXT-27892,,NXT-13227,IM - Reports (R5),direct_parent,0
+NXT-27890,,NXT-24070,IM - Permissions (R5),direct_parent,0
+NXT-27889,,NXT-24070,IM - Permissions (R5),direct_parent,0
+NXT-27888,,NXT-19104,IM - Item Substitution,direct_parent,0
+NXT-27800,,NXT-11036,IM - USDA Requirements,direct_parent,0
+NXT-27770,,NXT-4624,IM - Data Query Framework Integration,direct_parent,0
+NXT-27769,,NXT-24065,IM - UI Improvements (R5),direct_parent,0
+NXT-27764,,NXT-20609,IM - Menu Item Management(R5),direct_parent,0
+NXT-27753,,NXT-24065,IM - UI Improvements (R5),direct_parent,0
+NXT-27752,,NXT-24065,IM - UI Improvements (R5),direct_parent,0
+NXT-27704,,NXT-24065,IM - UI Improvements (R5),direct_parent,0
+NXT-27638,,NXT-29840,IM - UI Improvements (R6),direct_parent,0
+NXT-27610,,NXT-19105,IM - Onboarding,direct_parent,0
+NXT-27594,,NXT-29840,IM - UI Improvements (R6),direct_parent,0
+NXT-27518,,NXT-20609,IM - Menu Item Management(R5),direct_parent,0
+NXT-27325,,NXT-20609,IM - Menu Item Management(R5),direct_parent,0
+NXT-27059,,NXT-24065,IM - UI Improvements (R5),direct_parent,0
+NXT-27058,,NXT-24065,IM - UI Improvements (R5),direct_parent,0
+NXT-27046,,NXT-24065,IM - UI Improvements (R5),direct_parent,0
+NXT-26932,,NXT-13227,IM - Reports (R5),direct_parent,0
+NXT-26911,,NXT-20609,IM - Menu Item Management(R5),direct_parent,0
+NXT-26906,,NXT-40488,IM - Menu Item Consolidation Cleanup,direct_parent,0
+NXT-26888,,NXT-13227,IM - Reports (R5),direct_parent,0
+NXT-26820,,NXT-29726,IM - General Enhancements (R6.2),direct_parent,0
+NXT-26817,,NXT-29726,IM - General Enhancements (R6.2),direct_parent,0
+NXT-26816,,NXT-26823,IM - Item Type Consolidation - Recipe Rework,direct_parent,0
+NXT-26814,,NXT-38088,IM - Item Type Consolidation - Item Master & Module Improvements,direct_parent,0
+NXT-26811,,NXT-18664,IM - Item Enhancements R5,direct_parent,0
+NXT-26810,,NXT-18664,IM - Item Enhancements R5,direct_parent,0
+NXT-26809,,NXT-36067,IM - Item Units & Sub-types,direct_parent,0
+NXT-26808,,NXT-18664,IM - Item Enhancements R5,direct_parent,0
+NXT-26779,,NXT-13227,IM - Reports (R5),direct_parent,0
+NXT-26267,,NXT-24065,IM - UI Improvements (R5),direct_parent,0
+NXT-26266,,NXT-24065,IM - UI Improvements (R5),direct_parent,0
+NXT-26260,,NXT-19104,IM - Item Substitution,direct_parent,0
+NXT-26186,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-26153,,NXT-29726,IM - General Enhancements (R6.2),direct_parent,0
+NXT-25795,,NXT-24065,IM - UI Improvements (R5),direct_parent,0
+NXT-25728,,NXT-20609,IM - Menu Item Management(R5),direct_parent,0
+NXT-25727,,NXT-20609,IM - Menu Item Management(R5),direct_parent,0
+NXT-25726,,NXT-20609,IM - Menu Item Management(R5),direct_parent,0
+NXT-25725,,NXT-20609,IM - Menu Item Management(R5),direct_parent,0
+NXT-25653,,NXT-24065,IM - UI Improvements (R5),direct_parent,0
+NXT-25594,,NXT-20609,IM - Menu Item Management(R5),direct_parent,0
+NXT-25593,,NXT-20609,IM - Menu Item Management(R5),direct_parent,0
+NXT-25592,,NXT-20609,IM - Menu Item Management(R5),direct_parent,0
+NXT-25591,,NXT-18664,IM - Item Enhancements R5,direct_parent,0
+NXT-25471,,NXT-24065,IM - UI Improvements (R5),direct_parent,0
+NXT-25250,,NXT-13227,IM - Reports (R5),direct_parent,0
+NXT-24975,,NXT-20609,IM - Menu Item Management(R5),direct_parent,0
+NXT-24910,,NXT-19105,IM - Onboarding,direct_parent,0
+NXT-24866,,NXT-24984,IM-TechDebt-Enablers,direct_parent,0
+NXT-24856,,NXT-4624,IM - Data Query Framework Integration,direct_parent,0
+NXT-24855,,NXT-4624,IM - Data Query Framework Integration,direct_parent,0
+NXT-24652,,NXT-29726,IM - General Enhancements (R6.2),direct_parent,0
+NXT-24520,,NXT-24065,IM - UI Improvements (R5),direct_parent,0
+NXT-24519,,NXT-24065,IM - UI Improvements (R5),direct_parent,0
+NXT-24457,,NXT-24065,IM - UI Improvements (R5),direct_parent,0
+NXT-24279,,NXT-24065,IM - UI Improvements (R5),direct_parent,0
+NXT-24267,,NXT-24065,IM - UI Improvements (R5),direct_parent,0
+NXT-24195,,NXT-24065,IM - UI Improvements (R5),direct_parent,0
+NXT-24149,,NXT-19102,IM - Item Creation Workflow (Enhancements),direct_parent,0
+NXT-24128,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-24050,,NXT-19104,IM - Item Substitution,direct_parent,0
+NXT-24048,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-24047,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-24041,,NXT-18665,IM - Reports (R4),direct_parent,0
+NXT-24030,,NXT-19102,IM - Item Creation Workflow (Enhancements),direct_parent,0
+NXT-24028,,NXT-19102,IM - Item Creation Workflow (Enhancements),direct_parent,0
+NXT-24022,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-24014,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-24011,,NXT-24065,IM - UI Improvements (R5),direct_parent,0
+NXT-23589,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-23571,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-23501,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-23323,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-23322,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-23246,,NXT-24065,IM - UI Improvements (R5),direct_parent,0
+NXT-23235,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-23234,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-23006,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-22969,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-22800,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-22782,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-22668,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-22667,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-22664,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-22663,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-22617,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-22616,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-22615,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-22614,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-22613,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-22612,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-22256,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-22240,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-22239,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-22236,,NXT-18665,IM - Reports (R4),direct_parent,0
+NXT-22125,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-22124,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-22062,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-22059,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-22058,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-22057,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-22056,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-22055,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-22054,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-22053,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-22052,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-22023,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-22022,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-21943,,NXT-19101,IM - (E) Item-Recipe Consolidation,direct_parent,0
+NXT-21929,,NXT-19101,IM - (E) Item-Recipe Consolidation,direct_parent,0
+NXT-21787,,,,none,0
+NXT-21786,,NXT-19101,IM - (E) Item-Recipe Consolidation,direct_parent,0
+NXT-21673,,,,none,0
+NXT-21346,,NXT-18665,IM - Reports (R4),direct_parent,0
+NXT-21294,,NXT-19099,IM - Global Catalog - Phase 2 Integration (sync),direct_parent,0
+NXT-21293,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-21182,,NXT-11036,IM - USDA Requirements,direct_parent,0
+NXT-21157,,NXT-4624,IM - Data Query Framework Integration,direct_parent,0
+NXT-20782,,NXT-5181,Item Management - Recipe (Create),direct_parent,0
+NXT-20656,,NXT-20609,IM - Menu Item Management(R5),direct_parent,0
+NXT-20655,,NXT-20609,IM - Menu Item Management(R5),direct_parent,0
+NXT-20654,,NXT-20609,IM - Menu Item Management(R5),direct_parent,0
+NXT-20653,,NXT-20609,IM - Menu Item Management(R5),direct_parent,0
+NXT-20604,,NXT-19101,IM - (E) Item-Recipe Consolidation,direct_parent,0
+NXT-21456,,,,none,0
+NXT-20561,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-20240,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-19907,,NXT-19101,IM - (E) Item-Recipe Consolidation,direct_parent,0
+NXT-19905,,NXT-19101,IM - (E) Item-Recipe Consolidation,direct_parent,0
+NXT-19904,,NXT-19101,IM - (E) Item-Recipe Consolidation,direct_parent,0
+NXT-19901,,NXT-19101,IM - (E) Item-Recipe Consolidation,direct_parent,0
+NXT-19898,,NXT-19101,IM - (E) Item-Recipe Consolidation,direct_parent,0
+NXT-19889,,NXT-24065,IM - UI Improvements (R5),direct_parent,0
+PCS-645,,,,none,0
+NXT-19862,,,,none,0
+NXT-19857,,NXT-5181,Item Management - Recipe (Create),direct_parent,0
+NXT-19197,,NXT-18665,IM - Reports (R4),direct_parent,0
+NXT-19196,,NXT-18665,IM - Reports (R4),direct_parent,0
+NXT-19193,,NXT-13227,IM - Reports (R5),direct_parent,0
+NXT-19192,,NXT-18665,IM - Reports (R4),direct_parent,0
+NXT-19191,,NXT-18665,IM - Reports (R4),direct_parent,0
+NXT-19190,,NXT-18665,IM - Reports (R4),direct_parent,0
+NXT-19131,,NXT-19104,IM - Item Substitution,direct_parent,0
+NXT-19035,,NXT-11036,IM - USDA Requirements,direct_parent,0
+NXT-18822,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-18731,,NXT-13742,IM - Item/Recipe Image Updates,direct_parent,0
+NXT-18728,,NXT-13742,IM - Item/Recipe Image Updates,direct_parent,0
+NXT-18701,,NXT-11036,IM - USDA Requirements,direct_parent,0
+NXT-18697,,NXT-11036,IM - USDA Requirements,direct_parent,0
+NXT-18603,,NXT-11036,IM - USDA Requirements,direct_parent,0
+NXT-18602,,NXT-11036,IM - USDA Requirements,direct_parent,0
+NXT-18580,,NXT-11036,IM - USDA Requirements,direct_parent,0
+NXT-18578,,NXT-11036,IM - USDA Requirements,direct_parent,0
+NXT-18498,,NXT-19099,IM - Global Catalog - Phase 2 Integration (sync),direct_parent,0
+NXT-18206,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-18204,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-17791,,NXT-13780,IM - UI Improvements,direct_parent,0
+NXT-17104,,NXT-19147,,direct_parent,0
+NXT-14066,,NXT-19099,IM - Global Catalog - Phase 2 Integration (sync),direct_parent,0
+NXT-13231,,NXT-18665,IM - Reports (R4),direct_parent,0
+NXT-13229,,NXT-18665,IM - Reports (R4),direct_parent,0
+NXT-11032,,NXT-10251,Item Management - Items and Recipes (UI Migration),direct_parent,0
+NXT-11030,,NXT-10251,Item Management - Items and Recipes (UI Migration),direct_parent,0
+NXT-3033,,NXT-29840,IM - UI Improvements (R6),direct_parent,0
+NXT-1780,,NXT-13780,IM - UI Improvements,direct_parent,0

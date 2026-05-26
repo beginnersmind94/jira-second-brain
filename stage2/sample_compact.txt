@@ -1,0 +1,872 @@
+[NXT-44871] [Bug] [Epic: IM - List Page & Nav Updates]
+  TITLE: IM - Items - Local Items - Split View - Consolidated UI Issues
+  DESC:  # The drop downs are not got changed to match up with other drop downs [image: image-20231109-112425.png] # Make the 'i' capital in Menu Item toggle button name [image: image-20231109-112929.png] # When the Menu Item toggle is on/selected that time it should only show the Menu Items not the Menu & POS items. [image: image-20231109-113129.png] # The toggle name in this state should be “MI+POS” instead of POS as per the story [image: image-20231109-113431.png] [image: image-20231109-113358.png]  # Status drop down should be multi select drop down. [image: image-20231109-115315.png]  # LOCAL ITEM...
+
+[NXT-34926] [Bug] [Epic: (none)]
+  TITLE: Regression - IM - Variety Menu Item - UI - When opening any variety menu item, then it initials shows "inactive" status during loading process
+  DESC:  Steps:  Login to IM  Click on Menu Item page  Click on any existing Variety menu item  when loading “inactive “ is displayed when loading the data.
+
+[NXT-62688] [Bug] [Epic: IM - Item Onboarding- Excel Import/Export & Local Publishing]
+  TITLE: Multiple issues - Import File Validations
+  DESC:  # Fluid items Serving size weight units drop showing wrong  [image: image-20250527-091159.png] # Contribution showing completed status in landing page but items having missing values  [image: image-20250527-091600.png]  [image: image-20250527-091629.png]  # Menu info section showing completed in landing page but there is no menu item name [image: image-20250527-091858.png]  [image: image-20250527-091927.png]
+
+[NXT-70100] [Bug] [Epic: IM - Bulk Item - Local Updates]
+  TITLE: QA > Bulk update > Nutrients Bulk Review > Multiple observations
+  DESC:  ISSUE - 1  When clicking on a missing check box on Cholesterol, Sodium, we are adding Missing labels to both fat and carbs? They are not related to those at all.  [image: image-20260209-182911-20260210-060158.png]  [image: image-20260209-183046-20260210-060201.png]  However, If move the missing check box to trans fat, then the label is corrected for the Fat and is still appearing on the carbs.  ISSUE - 2  Notice on the above screen shot, how we have the (M) in bold, we should be doing this when the user clicks the box as well and also be consistent with all labeling.  [image: image-20260209-18...
+
+[NXT-37238] [Bug] [Epic: IM - Item Type Consolidation - Recipe Rework]
+  TITLE: IM - Recipes - History - Recipe Summary - Blank and default fields are displayed if not changed or entered when creating a recipe
+  DESC:  [image: image-20230307-080533.png]  The tags , prep time and cook time fields should not be displayed since they are default and have not been changed or added during recipe creation flow
+
+[NXT-42691] [Bug] [Epic: (none)]
+  TITLE: IM - Menu Items - VMI still shows Menu & POS Info tab instead of Menu Info
+  DESC:  # During VMI creation flow when POS toggle is enabled on Summary Card, as soon as assign contributions for my VMI and save, Menu & POS Info tab automatically appears. The tab name should be Menu Info. [attachment: screen-capture - 2023-08-24T135431.730.webm]  [~accountid:5e97d4243a8b910c0859e4e8] Can we please check this based on the bandwidth?!  [~accountid:6192efd4d5986c006a5b5134] [~accountid:6034ebcf9b3ef700692544f0]  [~accountid:5fa1ae72c9b15a0078e4c4a8] [~accountid:603839d29b3ef700694b5a1b]
+
+[NXT-68646] [Bug] [Epic: IM - Item Onboarding- Excel Import/Export & Local Publishing]
+  TITLE: IM - Onboarding - Auto save - PO observations
+  DESC:  # The date and year is backwards, Please adjust to be MM/DD/YYYY [image: image-20251124-220500.png]   # It seems that once the first autosave is triggered and use, the next 60 seconds automatically begins even if no changes are made. Once changes are made, the countdown has already been started and picks up from where the 60 seconds already began. It also seems to be causing a NEGATIVE seconds countdown if no changes were made after 60 seconds. [image: image-20251124-220801.png]   # On serving info, descriptions are not allowed to be saved but are being saved by the autosave, why are we not al...
+
+[PCS-3960] [Bug] [Epic: (none)]
+  TITLE: Implementation-Future School of Fort Smith-Unpublished search feature not working
+  DESC:  Good morning,Future is trying to search for all her unpublished items.  In the "advanced" section of item management, there is a way to filter only unpublished items, but it is showing no results.  See below.  Their Hamburger Buns are unpublished, but no results are showing in the search.[attachment: 22148722198] [attachment: 22148722240]
+
+[NXT-53348] [Bug] [Epic: (none)]
+  TITLE: Regression - IM - Configuration - Common Measures - Local Measures are created even if CN or Cybersoft measures
+  DESC:  [image: image (59).png]  [image: image (60).png]
+
+[NXT-66978] [Bug] [Epic: (none)]
+  TITLE: Regression - IM > Units Card - Incorrect Banner messages with instructions on placeholder units.
+  DESC:  Incorrect Banner messages with instructions on placeholder units.  a. Could you please remove the duplicate unit word from the banner message. Keep the Unit word next to the Highest and remove the black unit word.  b. Rename the smallest pack size unit wording to “Base Unit”  # Banner messages with instructions are not shown on the user cursor. Here these messages are shown just by clicking on the row even before the cursor is placed on the text field.  [image: scrnli_9KPE1hxWv644Fj-20251001-155527.png]  [image: scrnli_036O7d89F64gW7-20251001-155543.png]  [image: scrnli_oQCa97v3t6529l-20251001...
+
+[NXT-42950] [Bug] [Epic: (none)]
+  TITLE: Regression - IM - Variety Menu Items - Nutrient Info not calculating weighted average
+  DESC:  Averaging logic for Nutrient values is not calculating according to expected gram weighted average  Note[image: : this could be related to the issue with the Menu Item serving weights being changed in the backend somehow, reported here: [https://primeroedgenext.atlassian.net/browse/NXT-42897?focusedCommentId=112342]image-20230906-204630.png|width=58.333333333333336%!  Ex:  - District: Sandbox - District_BB7512 - Item: MI-0417  VMI Cereal  [image: image-20230906-204204.png]  [image: image-20230906-204125.png]  Calories: ( ( (210/56)  (110/28)  (100/28) + (110/28) ) / 4)  52 = 197.32 calories*...
+
+[NXT-45549] [Bug] [Epic: IM - Usability & UX Enhancements (7.X)]
+  TITLE: IM - Recipe - POS Pricing tab Issues
+  DESC:  Once updating POS Pricing then it’s blocking the entire screen by disabling everything when it’s in view mode.  [image: image-20231207-155639.png]
+
+[NXT-63446] [Bug] [Epic: IM - Bulk Inventory & Direct Menu Item Onboarding]
+  TITLE: Multiple Issues_Item Onboarding_Pack sizes_List2
+  DESC:  # The toggle for hide items marked as none/decide later is not default to ON # For Non food items, None/decide later can not be a selection and the user MUST select # of inventory units # Alert is not being provided on an item whether user has worked through the item or not, the alert should only show IF the user has skipped that line ## It is also not displaying if the user saves all the pack sizes # DO not need to have an alert for missing categories, this is only needed on the review pack size page # No boxes are being highlighted once it is saved to show what parts or missing # There is no...
+
+[NXT-44402] [Bug] [Epic: (none)]
+  TITLE: Regression - IM - Items - Summary Card - User can clear Item, Storage and Valuation group till Item is not Synced to Inventory
+  DESC:  Users can clear the Item, storage, and valuation categories till the item is not synced to Inventory. If the item is published to inventory → removing the category fields will revert the item to Inventory Incomplete" as the Inventory module needs the categories and costing.  After it is Synced/locked the user cannot clear the categories from the Summary card.
+
+[NXT-56787] [Bug] [Epic: (none)]
+  TITLE: Unable to create - menu items in the new district
+  DESC:  Unable to create - menu items in the new district  {{"Cannot insert the value NULL into column 'DataSourcePrefix', table 'PrimeroEdge_ItemRecipeManagement_QA.dbo.ITMM_ItemCodeSequence'; column does not allow nulls. INSERT fails.\nCannot insert the value NULL into column 'ItemCode', table 'PrimeroEdge_ItemRecipeManagement_QA.dbo.ITMM_Item'; column does not allow nulls. INSERT fails.\nCannot insert the value NULL into column 'ItemId', table 'PrimeroEdge_ItemRecipeManagement_QA.dbo.ITMM_ItemIngredientDetail'; column does not allow nulls. INSERT fails.\nThe statement has been terminated.\nThe stat...
+
+[NXT-44449] [Bug] [Epic: (none)]
+  TITLE: Regression - IM - Items page - Searching by some special characters on Brand and Manufacturer column throws 500 error
+  DESC:  Searching by some special characters on Brand and Manufacturer column throws 500 error. Video below:  [attachment: screen-capture - 2023-10-26T154400.585.webm]  [INV & IM|https://primeroedgenext.atlassian.net/people/team/5327e0ea-2e35-454b-b41f-9c80af57c846] ([~accountid:615b647f7a6be40071ec9970] [~accountid:5e97d4243a8b910c0859e4e8] [~accountid:6034ebcf9b3ef700692544f0] [~accountid:5e97d422a401ee0c33c60232] [~accountid:6189595ae1b3e00069396cd5] [~accountid:6192efd4d5986c006a5b5134] [~accountid:5db058992fba7b0db2f3597b] [~accountid:5ea856cf767b660b77e761e8] [~accountid:6154842f048360006af8eb37...
+
+[NXT-36465] [Bug] [Epic: IM - Item Type Consolidation - Recipe Rework]
+  TITLE: IM - Recipe Rework - Recipe Details - Summary card - On edit Recipe selected tags does not get displayed on Save
+  DESC:  Issue 1:  Steps:  Login to IM  Choose Recipe and create a new Recipe with new format  On Tags field add multiple tags and save the body of Summary section  On Save the tags are not getting displayed  Issue 2:  When a large Recipe description is added, then the other fields get hidden from bottom  [image: image-20230203-142948.png]
+
+[NXT-42110] [Bug] [Epic: (none)]
+  TITLE: Regression - IM - Reports - Recipe Cost and Recipe Material Report - Consolidated issues
+  DESC:  [image: MicrosoftTeams-image (6).png]  # Null is being displayed for cost fields when the Recipe has no Steps and Ingredients added  [image: MicrosoftTeams-image (10).png]  [image: MicrosoftTeams-image (9).png]  2. Recipe cost is displayed differently in the report and the Recipe screen   [image: MicrosoftTeams-image (8).png]  3. CCPs are also displayed with 0 measures as no ingredients along with Step 0   4. For a recipe with no steps --> it is displayed like this   [image: MicrosoftTeams-image (11)-20230808-083150.png]
+
+[NXT-55445] [Bug] [Epic: (none)]
+  TITLE: Regression - Recipe - Workshop Session - Consolidated issues
+  DESC:  # Recipe Book Report -  # of servings is not displaying # Copy Recipe UI is not as expected → The Copy Prompt has been expanded and the Recipe Title textbox length has been reduced
+
+[PCS-3903] [Bug] [Epic: (none)]
+  TITLE: District_D52E92 -Unable to update contributions to item
+  DESC:  Customer and I both cannot update the contributions on any item. An error message appears every time. There are two serving sizes for this item: [person]. Neither serving size will allow us to update the contributions.  [attachment: 22143434848]  [attachment: 22143435214]
+
+[NXT-67905] [Bug] [Epic: IM - Bulk Item - Section Filters and Enhancements]
+  TITLE: IM - Bulk Item - Allergens - Header filters - PO Observations
+  DESC:  Issue 1: The include and exclude options are only available if a user selects one of the allergens, and not always available. It should not be available if a user selects missing allergens or none indicated.  Issue 2: Filter should be an AND filter and not an OR.  For example If I filter to show me items that include egg, do not filter items that have either or but for items that have both. This is the behavior we also have on the menu items advanced filters.  [image: image-20251029-092239.png]  [image: image-20251029-092300.png]  [~accountid:6111541f8ad5b600703ea2e6] [~accountid:712020:008f57...
+
+[NXT-59616] [Bug] [Epic: IM - Bulk Item Onboarding - Ingredient Info]
+  TITLE: IM - Item Onboarding - Review Contributions > "Alert" icons are not displayed on the "Contributions Review"details page when the user fails to enter values in the vegetable columns.
+  DESC:  Issue 1  "Alert" icons are not displayed on the "Contributions Review" details page when the user fails to enter values in the vegetable columns.  Please find the below attached screenshots and recorded video  [image: Alreat Icons.jpg]  [image: Alrart icons.mp4]  Issue 2  Camma is missing the 'Vegetable Text' and 'Juice' sections on the 'Contributions Review' details page.  Please find the below attached screenshot.  [image: Cama.png]  [~accountid:5fa1ae72c9b15a0078e4c4a8] [~accountid:603839d29b3ef700694b5a1b] [~accountid:712020:6b8e8eaa-073e-480c-addc-096b410ac2b2]
+
+[NXT-66096] [Bug] [Epic: IM - Bulk Item Onboarding - Ingredient Info]
+  TITLE: Item Onboarding - Review Serving Info - Key board navigation is not working
+  DESC:  Key board navigation is not working  Keyboard navigation is not working on this sub-page. I cannot enter custom serving descriptions unless I hit enter or click out of the box manually. If I use Enter, it immediately moves my cursor to the Save button (this is not standard behavior) in the footer. Once it tabs to the Serving Size Weight field, using keyboard navigation (Shift+Tab) will just loop inside of those 2 fields instead of moving back to the previous page element, which in this case is the Description field.  Test Evidence:  [image: 20250829-2244-43.0608980.mp4]  [~accountid:5db058992f...
+
+[NXT-64650] [Bug] [Epic: IM - Item Onboarding- Excel Import/Export & Local Publishing]
+  TITLE: IM - Item Onboarding - Publish Mode Tabs > New Observations
+  DESC:  Observation 1:  The "Ingredient Info" section shows a 'Complete' status in both the “Publish Ready” and “Unpublishable” tabs, even when the user has unselected the section.  Please find the attached screenshots and recorded video  [image: Ingredient Info 4.jpg]  [image: Ingredient Info 3.jpg]  [image: Ingredient Info 2.jpg]  [image: Ingredient Info 1.jpg]  [image: Ingredient Info.mp4]  Observation 2:  *"*Fluid Milk" variety dropdown options are not displayed when the user clicks on the dropdown field in the Contribution Information slide-out.  Please find the attached screenshots and recorded...
+
+[NXT-40121] [Bug] [Epic: IM/INV - Report Updates & PowerBI Conversion]
+  TITLE: IM - Recipe Details - Recipe Report - Report UI - Nutrient section toggle is not getting enabled in the slide out in spite of adding Nutrient info
+  DESC:  Issue 1: When there are no Steps or Directions on Recipe details page, the display a message on Recipe Report as “No steps available”  [image: image-20230531-124318.png]  Issue 2: The toggle button is not getting enabled for Nutrient info  Steps:  Login to application  Click on Recipe and choose any recipe  Add Nutrient information and Save.  Now click on the Recipe report slide out and enable the Nutrient toggle  Actual: The toggle button is not getting enabled for Nutrient info
+
+[NXT-37846] [Bug] [Epic: IM - Item Type Consolidation - Item Master & Module Improvements]
+  TITLE: POST API: https://apim-perseuseedge.azure-api.net/itemmanagement/v1.0/api/items/configdata is returning itemProductCategoryId = 0
+  DESC:  POST API: [https://apim-perseuseedge.azure-api.net/itemmanagement/v1.0/api/items/configdata|https://apim-perseuseedge.azure-api.net/itemmanagement/v1.0/api/items/configdata] is returning itemProductCategoryId = 0  [image: image-20230328-074236.png]
+
+[NXT-40879] [Bug] [Epic: IM - Menu & POS Consolidation]
+  TITLE: IM-Menu Items-Exceptions-When 'Not Served' row is deleted, added exceptions are removed too
+  DESC:  Steps to reproduce:  # Login and navigate to Item Management - Menu Item - Menu & POS info tab # Click edit icon in Units card # Click on ‘Exceptions’ button # Add exceptions for a serving # Click on Not served, Select Values for ‘Not Served’ and Save # Delete the Not Served Row.  Issue -  # When 'Not Served' row is deleted, added exceptions are removed too. # Exceptions data is saved on clicking ‘Cancel’ # [person] in ‘Edit’ mode when clicked on Save and does not returned to ‘View’ mode.  Please find VR below  {{https://www.loom.com/share/9816c295401c42bb8a8f05adc70b01c0?sid=d2d29afe-b26a-48a...
+
+[NXT-42929] [Bug] [Epic: (none)]
+  TITLE: Regression - IM - Item Configuration - Valuation Group - Data source is not a mandatory field on the UI and hence the API breaks if it is not selected
+  DESC:  [image: image-20230906-113415.png]
+
+[NXT-37175] [Bug] [Epic: IM - Item Type Consolidation - Recipe Rework]
+  TITLE: IM - Item Config - HACCP Configuration page - CCP - when removing the used CCP from HACCP process, the Delete icon is not getting enabled again
+  DESC:  IM - Item Config - HACCP Configuration page - CCP - when removing the used CCP from HACCP process, the Delete icon is not getting enabled again.  In below example the Pre-Heat CCP is not used in any HACCP still the delete is disabled.  [image: image-20230303-101845.png]
+
+[NXT-39655] [Bug] [Epic: IM - Item Units & Sub-types]
+  TITLE: IM - Items - Units - Inventory Readiness Banner Enhancement - UI issues
+  DESC:  1. Whole Number and decimal banner question alignment mismatched  [image: image-20230516-130733 (9870fa93-fd11-4476-bd70-c5928f795636).png]  2.  [image: image-20230516-130950 (d63ba42a-497a-47e7-aba5-bc0b01211520).png]  In the scenario where there are only pack sizes → the banner message needs to be changed  3. Spacing and alignment issue between the text and the buttons also needs to be fixed
+
+[NXT-71508] [Bug] [Epic: (none)]
+  TITLE: Regression - Loading duplicate Allergens in the Allergens dropdown - API Issue
+  DESC:  In QA - Boone - Loading duplicate Allergens in the Allergens dropdown - API Issue   [image: image (4).png]
+
+[NXT-34673] [Bug] [Epic: (none)]
+  TITLE: Regression Issue - Recipe HACCP Process - For Each Step - Critical Limit - Default 0 is not going off when trying to enter any value in it
+  DESC:  Recipe - HACCP Process - For Each Step  Add Step  Enter any value under Critical limit without selecting anything in CCP drop down. The default 0 is not going off it’s taking 011 instead of 11.  [image: image-20220929-121237.png]
+
+[NXT-47196] [Bug] [Epic: (none)]
+  TITLE: Regression - IM - Recipe Details Report Multiple issues
+  DESC:  The data generated from report here Production module > Reports > Production Print Recipes > Production Recipe Report is the same data from the IM > Recipe >Recipe Report.  [image: scrnli_2_7_2024_1-44-52 PM-20240207-194452.png]  #  For a Menu Item assigned to a Menu and on the Production Calendar, the weight in ounces for the scaled recipe is calculated incorrectly.  [person] for your reference.  [attachment: scrnli_2_7_2024_2-09-31 PM (14a50b5d-388b-4a4b-b7e8-b2f1d34f29f6).webm]       2. CNDB item quantity is doubled when selecting  the Scale Recipe toggle but not actually scaling the recipe...
+
+[NXT-70338] [Bug] [Epic: (none)]
+  TITLE: IM/MP - Regression - Recipe sub ingredient and child VMI observations.
+  DESC:  - Child VMIs appear as undefined when clicking the Menu Info icon.  [image: Screenshot 2026-02-17 115606-20260217-175627.png]  - For Menu Item Info, we should not use the RecipeIngredientStatusId for VMI or any Recipes. Instead, use the Menu Item StatusId or Item StatusId as needed.
+
+[NXT-57078] [Bug] [Epic: (none)]
+  TITLE: Regression-IM-Items-System is accepting duplicate UPC/GTIN codes for an Item
+  DESC:  Regression-IM-Items-System is accepting duplicate UPC/GTIN numbers for an Item  User is in Item Management > Items  User opens an existing Item and clicks on Units edit button  Then clicks on Update>UPC/GTIN codes  And enters duplicate numbers for all three packs  Then clicks on Confirm button, app is saving the duplicate data instead of showing an error message.  Screenshot:  [image: [person] bug.png]  Issue 2:  Also please check the warning messages and info messages. Warning message should show if user has entered less than 8 digits. But currently it is showing after entering 8 digits.  [~a...
+
+[NXT-45397] [Bug] [Epic: IM/INV - Business Rule & Validation Enhancements]
+  TITLE: IM - Items - Deleting a step SIR tab does not make this item appear on top of Recipes List
+  DESC:  When I make a change on Single Item Recipe Tab for Items, I expect to see this item as a top item on Recipes List. But deleting a step on SIR tab does not make this item appear a top item on Recipes List.  [attachment: screen-capture - 2023-11-30T090237.463.webm]  [INV & IM|https://primeroedgenext.atlassian.net/jira/people/team/5327e0ea-2e35-454b-b41f-9c80af57c846?ref=jira$&src=issue] ([~accountid:615b647f7a6be40071ec9970] [~accountid:5e97d4243a8b910c0859e4e8] [~accountid:6034ebcf9b3ef700692544f0] [~accountid:5e97d422a401ee0c33c60232] [~accountid:6189595ae1b3e00069396cd5] [~accountid:6192efd4d...
+
+[NXT-58576] [Bug] [Epic: IM - Usability & UX Enhancements (8.X)]
+  TITLE: IM-Items-Nutrient Info-Total Fat, Carbohydrate and Added Sugars logic is not working as expected
+  DESC:  Issue 1: IM-Items-Nutrient Info-Total Fat logic is not working as expected  User is in IM-Items-Nutrient Info  User gives Saturated Fat as 10 per serving and Trans Fat as 10 per serving  Then Total Fat given as 50 which is greater than both Saturated & Trans Fat and clicks on save button  Then User observes validation error for Total Fat field as “Total Fat must be greater than or equal to Sum of Saturated fat and Trans Fat” which is not correct.  Expected Behavior: If Total Fat is greater than Saturated Fat and Trans Fat, system should accept the Total Fat input.  QA Test Evidence:  [image: S...
+
+[NXT-67729] [Bug] [Epic: (none)]
+  TITLE: QA - IM - Item Onboarding - Serving Info - When we toggle on and click the clear button, the toggle is not getting cleared but data is getting cleared
+  DESC:  Serving Info - When we toggle on and click the clear button, the toggle remains active while the data clears.
+
+[NXT-61513] [Bug] [Epic: IM - Bulk Inventory & Direct Menu Item Onboarding]
+  TITLE: Item Onboarding-Update Menu Items (Step 2) - Navigation is not stable
+  DESC:  Update Menu Items (Step 2) - Navigation is not stable  User is in IM>Item Onboarding>Update Menu Items  User updates the “Prep site Item” & “Show in Summary”  Then noticed the navigation is not stable which is not correct  Expected Result: If user observes any check boxes, navigation should work accordingly & go to the next tab only.  Test Evidence:  [image: SchoolCafé - Item Management - Google Chrome 2025-05-02 11-52-11.mp4]  [~accountid:712020:f0ea2633-b68b-4ca2-bc36-8034320f2a0e] [~accountid:603839d29b3ef700694b5a1b] [~accountid:5fa1ae72c9b15a0078e4c4a8]
+
+[NXT-38566] [Bug] [Epic: IM - Item Units & Sub-types]
+  TITLE: IM - Items - Units - Edit/Update - UI - If serving amount is greater than 1 the Costing Banner and icon is visible which should not be
+
+[NXT-46589] [Bug] [Epic: IM/INV - Business Rule & Validation Enhancements]
+  TITLE: Regression - IM - Recipes - Recipe Details - Pending Entire Recipe message is incorrect
+  DESC:  Pending Entire Recipe sub-type message should be similar to the one for Items.  Recipes  [image: image (274).png]  Items  [image: image (275).png]  [INV & IM|https://primeroedgenext.atlassian.net/people/team/5327e0ea-2e35-454b-b41f-9c80af57c846] ([~accountid:615b647f7a6be40071ec9970] [~accountid:5e97d4243a8b910c0859e4e8] [~accountid:6034ebcf9b3ef700692544f0] [~accountid:5e97d422a401ee0c33c60232] [~accountid:6189595ae1b3e00069396cd5] [~accountid:6192efd4d5986c006a5b5134] [~accountid:5db058992fba7b0db2f3597b] [~accountid:5ea856cf767b660b77e761e8] [~accountid:603839d29b3ef700694b5a1b] [~accountid...
+
+[NXT-35216] [Bug] [Epic: IM - General Enhancements (R6.2)]
+  TITLE: Regression - IM - Item Details - Serving measure - Unable to override old value and enter new serving size value
+  DESC:  Issue 2:  When entering a large Nutrient value more than “9999 “under Per Serving column then the % calories values shows as “NaN%”  Steps:  Login to application and choose Item Management  Click on Items-> Open any Item  Go to Serving measure section and enter a new serving size  When entering a new or editing an old value “1” is default shown and unable to override and enter new value
+
+[NXT-39277] [Bug] [Epic: (none)]
+  TITLE: IM - itemPhoto_200x200 and itemPhoto_Original Coming null while uploading specific Image
+  DESC:  While trying to upload the attached image  upload api ([https://apim-perseuseedge.azure-api.net/dataexchange/v1.0/api/FileStorage/Upload/ItemPhoto|https://apim-perseuseedge.azure-api.net/dataexchange/v1.0/api/FileStorage/Upload/ItemPhoto]) not returning itemPhoto_200x200 and itemPhoto_Original  please check attached response details  [image: image-20230503-155206.png]  [image: extra light canned mixed fruit .png]
+
+[NXT-43965] [Bug] [Epic: IM - Production Usability Enhancements (2023)]
+  TITLE: IM - Recipe Details - Ingredients card enhancement - API is sending missing cost flag in case item is having 0.00 cost
+  DESC:  IM - Recipe Details - Ingredients card enhancement - API is sending missing cost flag in case item is having 0.00 cost.  0.00 should be considered as cost is already provided as it’s a valid cost.  [image: image-20231011-115748.png]
+
+[NXT-36791] [Bug] [Epic: IM - Item Type Consolidation - Recipe Rework]
+  TITLE: IM - Recipe Rework - Steps & Ingredients - Edit/Add Step - UI consolidated issues
+  DESC:  - The Character counter is not working in the Directions textbox - Select all and then retype in Ingredient search box --> search is not reflected - newly added Ingredients are selected by default on saving a step but the same step is not highlighted - Filter ingredients/recipe as user cannot add the same recipe as an ingredient - no max length set for serving measures - no api call to update the serving measures on the Recipe summary card and the serving measure card on the nutirent info tab - add button not displayed if previous step is doing swap
+
+[NXT-52569] [Bug] [Epic: (none)]
+  TITLE: Regression - IM - VMI - Contributions - Chrome Icon visible and the fruit component icons are not visible fully
+  DESC:  [image: image (58).png]
+
+[NXT-50781] [Bug] [Epic: (none)]
+  TITLE: Regression - IM > Items > CNDB Items > Reports > Item List Export > API Error 500 When user is clicking on “Item List Export” from “Reports” dropdown list.
+  DESC:  API Error 500 When user is clicking on “Item List Export” from “Reports” dropdown list.  Steps:  # Log in to application. # Navigate to IM > > CNDB Items > Reports. # Click on “Item List Export”  Actual Result: "Something is not working... Error Code:500" error is displaying.  Expected Result: "Something is not working... Error Code:500" error should not be displayed.   Please find the attached recorded video and screenshot.  [image: API Error 500.jpg]  [image: API Error 500.mp4]  [~accountid:5fa1ae72c9b15a0078e4c4a8] [~accountid:603839d29b3ef700694b5a1b]
+
+[NXT-66656] [Bug] [Epic: (none)]
+  TITLE: IM - Item onboarding - Contributions - Implement Auto save functionality when user switch the tabs from one to another
+  DESC:  STR:  Navigate to SC-->IM-->Item onboarding-->contributions  goto components tab and select few components without save switch to varieties tab it should save automatically  goto Varieties tab and select few without save switch to values tab it should save automatically  goto values tab and enter few values without save switch to components tab it should save automatically
+
+[NXT-45883] [Bug] [Epic: (none)]
+  TITLE: Regression - All item types - Allergens - Duplicate Sesame on Allergens
+  DESC:  Sesame is appearing duplicate on Allergens Card for all item types.  [image: image-20231219-225703.png]  [INV & IM|https://primeroedgenext.atlassian.net/people/team/5327e0ea-2e35-454b-b41f-9c80af57c846] ([~accountid:615b647f7a6be40071ec9970] [~accountid:5e97d4243a8b910c0859e4e8] [~accountid:6034ebcf9b3ef700692544f0] [~accountid:5e97d422a401ee0c33c60232] [~accountid:6189595ae1b3e00069396cd5] [~accountid:6192efd4d5986c006a5b5134] [~accountid:5db058992fba7b0db2f3597b] [~accountid:5ea856cf767b660b77e761e8] [~accountid:603839d29b3ef700694b5a1b] [~accountid:5fa1ae72c9b15a0078e4c4a8] [~accountid:7120...
+
+[NXT-34666] [Bug] [Epic: (none)]
+  TITLE: Regression - IM - Menu Item - When recipe who does not have Recipe steps is added in Menu Item then API error is thrown
+  DESC:  Steps:  Login to IM  Click on Menu Items  Create a new Menu Item and add a Recipe under Menu Item Recipe details section  Add a recipe who does not have recipe steps added in it  Error is thrown  [image: image-20220928-131409.png]
+
+[NXT-48826] [Bug] [Epic: IM/MP - Find & Replace]
+  TITLE: IM - Find & Replace - Sticky footer get truncated
+  DESC:  Sticky Footer for replace and copy & replace pages get truncated by default and when I change the zoom.  [attachment: screen-capture - 2024-04-01T133328.247.webm]  [INV & IM|https://primeroedgenext.atlassian.net/people/team/5327e0ea-2e35-454b-b41f-9c80af57c846] ([~accountid:615b647f7a6be40071ec9970] [~accountid:5e97d4243a8b910c0859e4e8] [~accountid:6034ebcf9b3ef700692544f0] [~accountid:5e97d422a401ee0c33c60232] [~accountid:6189595ae1b3e00069396cd5] [~accountid:6192efd4d5986c006a5b5134] [~accountid:5db058992fba7b0db2f3597b] [~accountid:5ea856cf767b660b77e761e8] [~accountid:603839d29b3ef700694b5...
+
+[NXT-71228] [Bug] [Epic: (none)]
+  TITLE: Regression: IM - Onboarding - File upload - Serving measures not populating
+  DESC:  Serving size weigh/volume measures not populating through file upload  [image: image-20260318-063856.png]  [attachment: 5 documents_schoolcafe.xlsx]
+
+[NXT-38929] [Bug] [Epic: (none)]
+  TITLE: IM - Items - Cannot access Items Split View page
+  DESC:  After the maintenance activity on Sunday 4/23/2023, I am unable to Item Management - Items - Split View page on Morgan county.  [~accountid:6034ebcf9b3ef700692544f0] Can you please check this whenever you get a chance?  [image: image-20230423-223745.png]  [image: image-20230423-223936.png]  [~accountid:5fa1ae72c9b15a0078e4c4a8] [~accountid:603839d29b3ef700694b5a1b] [~accountid:6192efd4d5986c006a5b5134] [~accountid:6034ebcf9b3ef700692544f0]
+
+[NXT-41290] [Bug] [Epic: IM - Consolidation Enhancement & Cleanup]
+  TITLE: Non Food Item - Copy Item - Tags option enabled though tags are not available
+  DESC:  Steps to reproduce -  # Login to IM > Item > open a non food item with no tags added. # Click on copy and observe the popup  Issue -  Tags option enabled though tags are not available.  [image: image-20230711-073054.png]  [image: image-20230711-073127.png]
+
+[NXT-66731] [Bug] [Epic: (none)]
+  TITLE: IM - Items - Item Onboarding - 500 error when updating Nutrients
+  DESC:  When updating the nutrients for these 3 items  [image: image-20250919-211120.png]  I received a 500 error  [image: image-20250919-211107.png]  [image: image-20250919-213042.png]
+
+[NXT-48156] [Bug] [Epic: IM/MP - Find & Replace]
+  TITLE: IM - Find & Replace - Copy - Consolidated issues
+  DESC:  # When I enter duplicate New Item Descriptions, fix one of them it allows me to continue to the Confirm step. But when I come back to recipe selection step, the uniqueness inline error is still there. (UI) [attachment: screen-capture - 2024-03-12T130837.894.webm]  # When I select all ingredients when replacement ingredients already exists in some of the recipes, the copy message displayed shows an incorrect quantity. [image: image-20240313-140242.png]  # In Copied and Replaced recipe, Additional Serving sizes are not copied. Similarly, not all identifiers are copied. (Refer video below) # In C...
+
+[NXT-57637] [Bug] [Epic: (none)]
+  TITLE: USDA- Recipe- Split view 500 error
+  DESC:  When switching to 500 error, it is throwing a 500 error.  [image: image-20241218-153028.png]
+
+[NXT-53291] [Bug] [Epic: (none)]
+  TITLE: Regression - IM - Items - CN Items - Capture the history of removed CN items in the Local Datasource from the background process
+  DESC:  Capture the history of removed CN items in the Local Datasource from the background process
+
+[NXT-19862] [Bug] [Epic: (none)]
+  TITLE: Item management - Items page - Viewing an item is showing (M) for nutrients that are not applicable for giving %daily values %calories columns
+  DESC:  (M) should only be showns for these nutrients under%daily value columns. (Whne applicable and given as missing ) Calcium (mg) Iron (mg) VitA (IU) VitC (mg) VitD (mcg) Potassium (mg)    [image: image-2021-09-27-09-52-10-490.png]   Show the Value for % of calories only for these nutrients.  Protein Total Fat Carbohydrate Saturated Fat Total Sugars
+
+[NXT-59223] [Bug] [Epic: IM - Usability & UX Enhancements (8.X)]
+  TITLE: IM – Menu Item – DMI > “Milk – F” and “Milk – LF, F” are displayed in the "Contribution" column of the Menu Item List grid instead of “Milk – LF, F.”
+  DESC:  “Milk – F” and “Milk – LF, F” are displayed in the "Contribution" column of the Menu Item List grid instead of “Milk – LF, F.”  Please find the below attached screenshots  [image: Milk 1.jpg]  [image: Milk 2.jpg]  [image: Milk 3.jpg]  [~accountid:5fa1ae72c9b15a0078e4c4a8] [~accountid:603839d29b3ef700694b5a1b] [~accountid:6192efd4d5986c006a5b5134]
+
+[NXT-41570] [Bug] [Epic: (none)]
+  TITLE: Regression - IM - Recipes - Steps and Ingredient Tab - Consolidated UI issue
+  DESC:  # Recipe - steps, and ingredients →  image not displayed in the list # we need to hide that + button if there are no secondary Measures on the Recipe --> Steps and Ingredients  # Message to be displayed --> NO items found if no items/recipes found
+
+[PCS-3049] [Bug] [Epic: (none)]
+  TITLE: IM- Items- Items that are imported should should not have save and continue on the UI
+  DESC:  When importing items from the Item Details Import, the user should not have to answer the questions on the UI and the tabs should already be available for them.  EX: For a food item  Enable the food tab and all the other tabs would still be “turned off” (User does not need to click save and continue to get there)  EX: For a Non Food Item  All tabs are available to be enabled but the user does not have to click save and continue to get there  [image: save and continue after import.mp4]  THIS NEEDS TO BE PUSHED TO COLUMBIA PRODUCTION AS WELL
+
+[NXT-61070] [Bug] [Epic: IM - Bulk Inventory & Direct Menu Item Onboarding]
+  TITLE: IM – Item Onboarding – Menu Item Info – Update Menu Item Name > “Serving Size" details are displayed 11.000 Containers (20.000 Milliliters) instead of 11 Containers (20 Milliliter)
+  DESC:  Issue 1:  “Serving Size" details are displayed 11.000 Containers (20.00 Milliliters) instead of 11 Containers (20 Milliliter) on the “Menu Item Info” Update Menu Item Name details page.  Please find the attached screenshots and recorded video  [image: Update Menu Item Name.jpg]  [image: Ingrediemt Info.jpg]  [image: Menu Info.mp4]  Issue 2:  “Serving Size" details are displayed 11.000 Containers (20.00 Milliliters) instead of 11 Containers (20 Milliliter) on the “Menu Item Info” review page.  [image: Review Page.jpg]  [~accountid:605b8ff78efc9b0070505981] [~accountid:603839d29b3ef700694b5a1b]...
+
+[NXT-42093] [Bug] [Epic: (none)]
+  TITLE: Regression - IM - Menu Items - On POS Summary page - The mandatory field message is overlapping on the columns
+  DESC:  Steps:  Issue 1:  The mandatory field message is overlapping on the columns  [image: image-20230807-133112.png]  Issue 2: Summary section scroller for Menu Item, Variety Manu Item and POS only screen is missing  [image: image-20230807-133208.png]
+
+[NXT-54737] [Bug] [Epic: (none)]
+  TITLE: Migration Observation: IM – Items - Basic and Advanced status filters > “Pending deactivation” status is not selecting by default
+  DESC:  “Pending deactivation” status is not selecting by default     Steps:  # Log in to application.  # Navigate IM – Items - Basic and Advanced status filters  # Observe the “Pending deactivation” option  Actual Result: “Pending deactivation” status is not selecting by default  Expected Result: “Pending deactivation” status should be selected by default.  Please find the attached below screenshots.  [image: Basic Tab.jpg]  [image: Advanced Tab.jpg]  [image: Items - QA.jpg]  [image: NXT-53265.mp4]  [~accountid:5fa1ae72c9b15a0078e4c4a8] [~accountid:603839d29b3ef700694b5a1b]
+
+[NXT-58136] [Bug] [Epic: (none)]
+  TITLE: The way we're searching is somehow off. for some searches I am getting the load more behavior. For some I am not. But for "beef" as an example, there are over 1100 CN items with that word in the description, so I would expect we could load more than 9
+  DESC:  the way we're searching is somehow off. for some searches I am getting the load more behavior. For some I am not. But for "beef" as an example, there are over 1100 CN items with that word in the description, so I would expect we could load more than 9  [image: image (3).png]
+
+[NXT-70344] [Bug] [Epic: IM - Bulk Item - Local Updates]
+  TITLE: IM > Bulk update > Serving Info Review > Creating a new serving system is displaying 500 error
+  DESC:  Steps to reproduce  # Navigate to Item management module # Navigate to Bulk update > Serving Info Review # Creating a new serving system is displaying 500 error
+
+[NXT-63349] [Bug] [Epic: IM - Bulk Inventory & Direct Menu Item Onboarding]
+  TITLE: IM- Item Onboarding-Inventory Options- Serving-Pack Link (Weights) (Step 2) > API Error 400 is displayed when the user enters 'Base Unit Weight' details and clicks on 'Save Weights' button.
+  DESC:  API Error 400 is displayed when the user enters 'Base Unit Weight' details and clicks on 'Save Weights' button.  Please find the attached screenshots and recorded video  [image: API Error 400.jpg]  [image: Save units.jpg]  [image: API Error 400.mp4]  [~accountid:5fa1ae72c9b15a0078e4c4a8] [~accountid:603839d29b3ef700694b5a1b] [~accountid:712020:aa8d7652-a92c-44ba-b9f8-7233751e045d]
+
+[NXT-50205] [Bug] [Epic: IM/INV - Business Rule & Validation Enhancements]
+  TITLE: UAT IM - Item - /itemmanagement/v1.0/api/ItemAllergens/ API is not sending custom allergens on UAT wherein in db it has total 155 allergens
+  DESC:  /itemmanagement/v1.0/api/ItemAllergens/ API is not sending custom allergens  [image: image-20240503-124021.png]  [image: image-20240503-124106.png]
+
+[PCS-3101] [Bug] [Epic: (none)]
+  TITLE: IM- Recipes- Reordering Recipe steps not staying once you save (Columbia Bug)
+  DESC:  When user is reordering the steps on the recipe, it is showing as reordered when they are editing, but once you click save and close, it reverts back to the old order.  See video for clarity  [image: recipe not switching order.mp4]  THIS IS NEEDED FOR PRODUCTION AS THEY ARE ENCOUNTERING THIS ISSUE.
+
+[NXT-49591] [Bug] [Epic: (none)]
+  TITLE: Regression - IM - Units card > Fluid measurement issue
+  DESC:  Fluid measurement Item is saving incorrectly. Attached VR for reference.  [attachment: scrnli_4_22_2024_2-03-02 PM.webm]  [INV & IM|https://primeroedgenext.atlassian.net/jira/people/team/5327e0ea-2e35-454b-b41f-9c80af57c846?ref=jira$&src=issue] ([~accountid:5e97d4243a8b910c0859e4e8] [~accountid:6034ebcf9b3ef700692544f0] [~accountid:615b647f7a6be40071ec9970] [~accountid:5e97d422a401ee0c33c60232] [~accountid:6189595ae1b3e00069396cd5] [~accountid:6192efd4d5986c006a5b5134] [~accountid:5db058992fba7b0db2f3597b] [~accountid:5ea856cf767b660b77e761e8] [~accountid:603839d29b3ef700694b5a1b] [~accountid:...
+
+[NXT-63489] [Bug] [Epic: (none)]
+  TITLE: Regression - IM - Items - Summary card is randomly removing Item/Storage Categories on edit
+  DESC:  ASSIGN TO THE REPORTER FOR REVIEW  [image: 20250623-2233-08.4528005.mp4]  The Summary card is randomly removing Item/Storage Categories on edit. This is happening even to Items which are Inventory Synced or Locked. It should not be possible to remove categories for items already Synced or Locked. It is allowable for items which are Published, but the system should not be randomly removing. We cannot risk breaking the Inventory status rules.
+
+[NXT-56219] [Bug] [Epic: IM - Usability & UX Enhancements (8.X)]
+  TITLE: UAT Observation: IM - Items - “API Error 404” is displaying When user is trying to click on “Confirm” button
+  DESC:  “API Error 404” is displaying When user is trying to click on “Confirm” button  Steps:  # Log in to application.  # Navigate to IM – Items – Create new Item - Unit Card  # Select the initial item attributes # Click on “Continue” button  # Create servings on unit card # Click on “Continue” button  # Click on “Menu Complete” button  # Click on “Continue” button  # Click on “Confirm” button  Actual Results: “API Error 404” is displaying  Expected Result “API Error 404” should not be displayed  Please find the attached screenshot and recorded video  [image: APi Error 404.jpg]  [image: 404 Error.mp...
+
+[NXT-44895] [Bug] [Epic: IM - List Page & Nav Updates]
+  TITLE: IM - Items - Local Items - List - Consolidated UI Issues
+  DESC:  # Change the CNDB Item button styling to match with other buttons # Change the All Food Item Report button styling to match with Manage Views button. # Increase the width of Item # column to show the Item code entirely.  [image: image-20231110-080836.png]
+
+[NXT-61894] [Bug] [Epic: (none)]
+  TITLE: Regression-IM-Items-Merge Functionality is not working as expected
+  DESC:  IM-Items-Merge Functionality is not working as expected  User is in IM>Items  User create a new item with two pack & 1 serving  Then user does the merge functionality scenario  Then user observes two merge with serving options are showing which is not correct  Expected Result: Merge with serving should show only one based on the condition.  Test Evidence:  [image: Items Merge with serving bug_May 9th 2025.mp4]  [~accountid:712020:1fb76591-1166-436a-91c2-73caba26ca86] [~accountid:603839d29b3ef700694b5a1b] [~accountid:5fa1ae72c9b15a0078e4c4a8]
+
+[NXT-67529] [Bug] [Epic: (none)]
+  TITLE: Regression - IM > Units Card - Clicking the Confirm button on an empty weight column for Unpublished non-food has no response.
+  DESC:  Clicking the Confirm button on an empty weight column for Unpublished non-food has no response. Weight is optional for non-food items.  [image: 2025-10-16 (2).mp4]  [image: scrnli_WU57dk1F6oh04K-20251016-171230.png]
+
+[NXT-37618] [Bug] [Epic: IM/INV - Report Updates & PowerBI Conversion]
+  TITLE: IM - Recipes - Update Recipe Nutrition Report - UI issues found on the Recipe Nutrition report
+  DESC:  Issue: 1  Units in brackets for most of the column headers are not displayed in single line  [image: image-20230321-115931.png]  Issue 2:  Disclaimer for missing values at the end of report is missing “(M) Indicates missing nutrient values”  [image: image-20230321-120050.png]  Issue 3:  Calories column should show Kcal as unit instead of grams  [image: image-20230321-120107.png]  [image: image-20230321-120229.png]  Issue 4:  Trans fat column is missing from the report  [image: image-20230321-120144.png]  Issue 5:  Recipe Code Parameter has double Colon -::  [image: image-20230321-120746.png]
+
+[NXT-42630] [Bug] [Epic: IM - Menu Item Consolidation Cleanup]
+  TITLE: IM - VMI - Nutrients Sync - Not working for depth greater than 2
+  DESC:  - When an Item/Ingredient is a part of a Recipe → which is a part of the CMI → Which is a part of the VMI → Any nutrient updated on the Item level is not getting reflected on the VMI level. - But if the Ingredient is associated with a CMI which in turn is associated with a VMI → The sync works and the nutrients are automatically updated. - When an Item/Ingredient is a part of a Recipe → which is a part of the CMI → Any nutrient updated on the Item level gets reflected on the CMI level.
+
+[NXT-68467] [Bug] [Epic: IM - Bulk Item - Section Filters and Enhancements]
+  TITLE: Item onboarding - pack size filters - PO observations
+  DESC:  Firstly, obviously there should be a way to deselect from the dropdown without using the Clear button. This is simply a single select dropdown; there should still be the X to clear the selection.  More importantly, I don’t know how we’re defining several of these flags.  This is a new session I have just started populating. In the video below I have not made any changes to the Pack Size section.  [image: 20251117-2217-16.2525841.mp4]  This would obviously mean several things:  - 6 out of 7 items are missing Pack-Serving Link. All items except the Non-Food item (Bleach) are missing this relatio...
+
+[NXT-51641] [Bug] [Epic: (none)]
+  TITLE: UAT Observation: IM - Recipes - Advanced Tab - Reports > “API Error 500” is displaying When user is selecting on “Recipe Materials” in reports dropdown
+  DESC:  “API Error 500” is displaying When user is selecting on “Recipe Materials” in reports dropdown  Note1:  I have faced same issue with the below reports also  - Recipe Book - Nutrition Report - Recipe Cost  Note 2: I have faced both Basic and Advanced filters reports  Note 3:  It is faced UAT Environment only.     Steps:  # Log in to application. # Navigate to IM - Recipes - Advanced Tab - Reports # Applies the any filters and clicks on Apply button # Click on “Recipe Materials” report  Actual Results:  “API Error 500” is displaying  Expected Result: “Recipe Materials” Report should be generated...
+
+[PCS-4026] [Bug] [Epic: (none)]
+  TITLE: SC Implementation - District_A49CE6 - Sat Fat updating even when not adjustments made
+  DESC:  Menu Cycle Name: 5 Day Week Breakfast Elementary  When viewing the analysis, the Vitamin A was failing.  There was not a place to import the % on the item import.  The user is manually updating the nutrients on the recipes.  When [person] is update it is also adjusting the Sat Fat.  Previously Sat Fat was passing, but no adjustments have been made to it and now it shows failing.   This user is working on her menus.  She said that since the item import did not have an option to add it at that time, she's having to troubleshoot using the failing analysis. Please take a look and check the history...
+
+[NXT-69027] [Bug] [Epic: (none)]
+  TITLE: Regression - IM > Units Card - Deleting an inventory-able serving clears the item's cost and value, even if it is not present on the serving itself.
+  DESC:  Deleting an inventory-able serving clears the item's cost and value, even if it is not present on the serving itself.  [image: 2025-12-15 (5).mp4]
+
+[PCS-3744] [Bug] [Epic: (none)]
+  TITLE: Production issue - FD Ticket# 227486 ,227635: Healdsburg - Recipe Scaling not keeping consistent measurements
+  DESC:  [https://primeroedge.freshdesk.com/a/tickets/227486|https://primeroedge.freshdesk.com/a/tickets/227486|smart-link]  [https://primeroedge.freshdesk.com/a/tickets/227635|https://primeroedge.freshdesk.com/a/tickets/227635|smart-link]
+
+[NXT-45852] [Bug] [Epic: IM/INV - Business Rule & Validation Enhancements]
+  TITLE: IM - Item Details - Menu & POS info tab shows incomplete sign even if there is no missing info for the tab
+  DESC:  As part of SIR migration to DMI, SIR data is expected to be integrated as part of Menu and POS info tab. After migration, Menu & POS Info tab shows Incomplete sign even if there is no missing data on the tab.  [image: image (272).png]  [INV & IM|https://primeroedgenext.atlassian.net/people/team/5327e0ea-2e35-454b-b41f-9c80af57c846] ([~accountid:615b647f7a6be40071ec9970] [~accountid:5e97d4243a8b910c0859e4e8] [~accountid:6034ebcf9b3ef700692544f0] [~accountid:5e97d422a401ee0c33c60232] [~accountid:6189595ae1b3e00069396cd5] [~accountid:6192efd4d5986c006a5b5134] [~accountid:5db058992fba7b0db2f3597b]...
+
+[NXT-67906] [Bug] [Epic: (none)]
+  TITLE: Recipe SummaryInfo API deadlock issue
+
+[NXT-48306] [Bug] [Epic: IM/MP - Find & Replace]
+  TITLE: IM - Find & Replace - Ingredients - Replace - /api/FindAndReplace/IngredientDuplicateCheckWithMeasureSuggestion is sending isDuplicateIngredient: false, which is causing issue and not showing that the replacement ingredient is already exists in recipe
+  DESC:  IM - Find & Replace - Ingredients - Replace - Ingredient Duplicate Check API is sending {{isDuplicateIngredient: false}}, which is causing issue and not showing that the replacement ingredient is already exists in recipe  API: /api/FindAndReplace/IngredientDuplicateCheckWithMeasureSuggestion  Request Payload: {{{"ingredientId":37392,"subRecipeId":0,"newIngredientId":36857,"newSubRecipeId":0,"recipeStepIngredients":[{"recipeStepIngredientId":9632,"totalWeightInGrams":22.5},{"recipeStepIngredientId":8604,"totalWeightInGrams":22.5},{"recipeStepIngredientId":8557,"totalWeightInGrams":60}],"ingredi...
+
+[NXT-40833] [Bug] [Epic: (none)]
+  TITLE: IM/INV - Items - Publish Sync - Item is visible on inventory even if it is not published
+  DESC:  Item is available on Inventory Additions and Add Contract Items screen even if it is not published.  [image: image-20230621-122914.png]  [image: image-20230621-122946.png]  [image: image-20230621-123002.png]  [~accountid:5fa1ae72c9b15a0078e4c4a8] [~accountid:603839d29b3ef700694b5a1b] [~accountid:6192efd4d5986c006a5b5134]
+
+[NXT-64622] [Bug] [Epic: IM - Bulk Inventory & Direct Menu Item Onboarding]
+  TITLE: Item Onboarding- Pack Size Info- Cost/Value - PO Observations
+  DESC:  Issue 1: Alert icon is showing in cost value screen  User is in Item Onboarding>Cost Value  User fills all data in cost value screen and updates the cost and saves it  Then user updates the unit description name in Sub Qty screen  Then user observes the alert icon is showing in cost value screen which is not correct.  Expected Result: When user updates the unit description, then complete data should be removed in cost value screen and no alert icons should be shown.  Issue 2: O value is not considering as cost value  User is in Item Onboarding>Cost Value  User fills all data in cost value scre...
+
+[NXT-54916] [Bug] [Epic: (none)]
+  TITLE: GSDN upload is failing in migration
+  DESC:  Update the env files - Add url for REACT_APP_GLOBAL_CATALOUGE  - /client/.env.migk8s - /client/.env.mig - /client/.env.productionk8s - /client/.env.production
+
+[NXT-63270] [Bug] [Epic: IM - Item Onboarding- Excel Import/Export & Local Publishing]
+  TITLE: QA - Multiple observations in item onboarding which has been given by Aly
+
+[NXT-68833] [Bug] [Epic: IM - Bulk Item - Local Updates]
+  TITLE: QA > Bulk Update > Vitamins Bulk Update > Enter by % of Daily Value Missing checkboxes is not working as expected
+  DESC:  Steps to reproduce  ISSUE - 1  # Navigate to Item management module # Navigate to Bulk update > Vitamins Bulk Update #  Enter by % of Daily Value Missing checkboxes is not working as expected  ISSUE - 2  # Navigate to Item management module # Navigate to Bulk update > Nutrients Bulk Update # Header related issues for *Fat ** & *Carbs **  ISSUE - 3  # Navigate to Item management module # Navigate to Bulk update > Nutrients Bulk Update # Filter issue for the nutrients bulk update
+
+[NXT-67730] [Bug] [Epic: (none)]
+  TITLE: QA - IM - Item Onboarding - Menu Item Info - When we toggle on and click the clear button, the toggle is also being cleared.
+  DESC:  Menu Item Info - When we toggle on and click the clear button, the toggle is also being cleared.
+
+[NXT-66083] [Bug] [Epic: IM - Bulk Item Onboarding - Ingredient Info]
+  TITLE: IM - Item Onboarding - Percentage is not calculating automatically in Nutrients
+  DESC:  Percentage is not calculating automatically in Nutrients  User is in IM>Item Onboarding>Nutrients  User clicks on Update Nutrients and Update Vitamins  Then user updates the data and notices percentage is not calculating automatically like other screens  Expected Result: Percentage should calculate automatically like other screens.  Test Evidence:  [image: SchoolCafé - Item Management and 15 more pages - Work - Microsoft​ Edge 2025-08-29 16-50-31.mp4]  [~accountid:5db058992fba7b0db2f3597b] [~accountid:6111541f8ad5b600703ea2e6] [~accountid:603839d29b3ef700694b5a1b] [~accountid:5fa1ae72c9b15a007...
+
+[NXT-71262] [Bug] [Epic: (none)]
+  TITLE: QA - IM - Regression - When we try to change description / Amount of item the system displaying 500 error code
+  DESC:  When we try to change description / Amount of item the system displaying 500 error code
+
+[NXT-57861] [Bug] [Epic: IM - Bulk Item Onboarding - Ingredient Info]
+  TITLE: IM – - Item Onboarding - Initial Item Info - “Item Description must be unique” error is displayed When user without editing any data & select on mouse from “Initial Item Info” edit details.
+  DESC:  Issue 1: “Item Description must be unique” error is displayed When user without editing any data & select on mouse from “Initial Item Info” edit details.  Issue 2: “Item Description must be unique” error is displayed When user is deleting any letter and enter same latter & select on mouse from “Initial Item Info” edit details.  Steps:  # Log in to application # Navigate IM - Item Onboarding - Initial Item Info # Click on any item edit pencil # Without entering any values # select on mouse any where  Actual Result: “Item Description must be unique” error is displayed.  Expected Result: “Item De...
+
+[NXT-71598] [Bug] [Epic: IM - Bulk Item - Local Updates]
+  TITLE: UAT & MIG - IM - No-Contributions are not displaying in the advance search by selecting contributions as None indicated
+  DESC:  Steps to reproduce  # Navigate to Item management # Navigate to Items & Menu items #  No-Contributions are not displaying in the advance search by selecting contributions as None indicated
+
+[NXT-54925] [Bug] [Epic: IM - Usability & UX Enhancements (8.X)]
+  TITLE: IM – Item Configuration > “Cancel button” style is displaying purple color in the “HACCP Process” add details page
+  DESC:  Issue 1: “Cancel button” style is displaying purple color in the “HACCP Process” add details page.  Issue 2: “Cancel button” style is displaying purple color in the “HACCP Process” add details page.  Steps:  # Log in to application.  # Navigate IM – Item Configuration – HACCP Configuration  # Click on Add button  # Observe the “Cancel button” style  Actual Result: “Cancel button” style is displaying purple color.  Expected Result: “Cancel button” style should be displayed gray color.  Please find the below attached screen shots  [image: Cancel Button - HACCP Process.jpg]  [image: HACCP CCP -Ca...
+
+[NXT-42849] [Bug] [Epic: IM - Production Usability Enhancements (2023)]
+  TITLE: IM - Items - Units - UI adjustments - Text Guidance > Consolidated Issues
+  DESC:  # Please enter pack size weight" > “Enter optional pack size weight or save unit” → Getting undefined error [image: image-20230904-123225-20230904-132011.png] # “Create Menu Item from 6 Popsicles recipe serving size” → Question mark is still showing up [image: image-20230904-125020-20230904-125910.png] # MI Categories page: Can we remove dual tool tip from Discontinue icon [image: image-20230904-132552.png]
+
+[NXT-71860] [Bug] [Epic: (none)]
+  TITLE: IM - Find & Replace - Cancel button doesn't work
+  DESC:  Using the item status panel shortcut to open Find & Replace for Menu Item, the Cancel button doesn’t work on the Replace With step.  [image: 20260410-2050-18.0552794.mp4]
+
+[NXT-63210] [Bug] [Epic: IM - Item Onboarding- Excel Import/Export & Local Publishing]
+  TITLE: IM - Item Onboarding- Add Menu item Info Blank Template & Download W/Data - Observation
+  DESC:  We should be following the same validations as we are for all other sections. IF the section is not selected, do not include as part of the template download. It seems that we are still showing the menu item sections regardless if the section has been selected or not. Other than that everything looks perfect. Please correct on both the blank template and the download with data template.
+
+[NXT-68882] [Bug] [Epic: IM - Bulk Item - Local Updates]
+  TITLE: IM - Bulk Updates - Update Summary Info - Getting 500 error when saving with same Item description
+  DESC:  Getting 500 error when saving with same Item description  # Navigate to IM > Bulk Update. # Click Summary Info > Update Description. # Update the item description for one item from “Orange Juice” to “Apple”. # Then change the description back from “Apple” to “Orange Juice”. # Click Save.  Actual Result: The system throws a 500 Internal Server Error.  Expected Result: The system should successfully save the updated description without errors.  QA Test Evidence:  [image: SchoolCafé - Item Management and 5 more pages - Work - Microsoft​ Edge 2025-12-10 15-53-55.mp4]  [~accountid:603839d29b3ef7006...
+
+[PCS-3937] [Bug] [Epic: IM - Usability & UX Enhancements (8.X)]
+  TITLE: Implementation-Future School of Fort Smith-Contributions not flowing from ingredients/Recipes to Recipes
+  DESC:  Good Afternoon,  The issue with all contributions not flowing through have shown on another recipe (reference ticket  [#246321|#246321] Implementation-Future School of Fort Smith-Contributions not flowing from ingredients/Recipes to Recipes : Cybersoft PrimeroEdge (freshdesk.com) .   Please see Recipe #LR0154 (Spaghetti and Meatballs). Again, it looks like the flow issue is only with the recipes within recipes.  [image: image-20240516-175425.png]  [image: image-20240516-175437.png]  [image: image-20240516-175450.png]
+
+[NXT-57268] [Bug] [Epic: (none)]
+  TITLE: Regression-IM-Items-After saving Menu Item servings the system is not staying on the menu info tab and reverting back to the nutrition info
+  DESC:  IM-Items-After saving Menu Item servings the system is not staying on the menu info tab and reverting back to the nutrition info  User is in Item Management>Items  User creates a new Item by selecting “Not a Menu Item” from the questionnaire & gives all required fields  User makes the disabled status to incomplete by selecting one serving as Default Menu serving and saves it  Then app is opening “Nutrient Info” instead of Menu Info.  Expected output: It should open the Menu Info screen.  [image: 21st Bug - Not Fixed (in Not a DMI) scenario.mp4]  [~accountid:6192efd4d5986c006a5b5134] [~accounti...
+
+[NXT-66427] [Bug] [Epic: IM - Item Onboarding- Excel Import/Export & Local Publishing]
+  TITLE: IM - Item Onboarding - Publishing to Local Items - Incomplete icon is not showing for Menu Item Info
+  DESC:  Incomplete icon is not showing for Menu Item Info  User is in IM>Item Onboarding>Menu Item Info  User selects “Yes this a DMI” and not fills mandatory information and saves it  Then user notices disable status icon is showing in overview page which is not correct  Expected Result: It should show in incomplete status and should not show in Publish Ready tab  Test Evidence:  [image: SchoolCafé - Item Management and 9 more pages - Work - Microsoft​ Edge 2025-09-11 14-52-08.mp4]  [~accountid:603839d29b3ef700694b5a1b] [~accountid:5fa1ae72c9b15a0078e4c4a8] [~accountid:6192efd4d5986c006a5b5134]
+
+[NXT-60338] [Bug] [Epic: IM - Units Card Overhaul]
+  TITLE: Regression-IM-Items-Units Card-Getting 400 error message after creating Not served in Menu Exceptions
+  DESC:  IM-Items-Units Card-Getting 400 error message after creating Not served in Menu Exceptions  User is in IM>Items  User has created an Item and added Menu exceptions with Not served  Then user tried to update any of the Menu Servings and clicks on save button  Then user is getting 400 error message  Test Evidence:  [image: SchoolCafé - Item Management - Google Chrome 2025-03-25 17-00-04.mp4]  Note: This issue is reproducible in upper environments also.  [SchoolCafé - BO|https://primeroedgenext.atlassian.net/people/team/77c58475-f253-49c4-9832-35fae49fbb66] ([~accountid:712020:2866dac1-342f-4f84-...
+
+[NXT-42914] [Bug] [Epic: (none)]
+  TITLE: Regression - INV - Menu Item - The Marketing Name & Description Label overstrectches
+
+[NXT-66699] [Bug] [Epic: (none)]
+  TITLE: Regression-Item Onboarding-Menu Item status is showing active without giving serving Information
+  DESC:  Menu Item status is showing active without giving serving Information  User is in IM>Item Onboarding>Menu Item Info  User has downloaded the excel file from “Use A File”  Then user creates a new item in excel and marks “Yes” in Is this a Direct Menu Item”  Then user fills information for Menu Item without filling serving Info and uploads the excel into system  Then user notices Menu Item Info icon is showing active which is not correct  Expected Result: Menu Item Info icon should not show active without giving serving Info.  Test Evidence:  [image: SchoolCafé - Item Management - Google Chrome...
+
+[NXT-61540] [Bug] [Epic: IM - Bulk Inventory & Direct Menu Item Onboarding]
+  TITLE: Item Onboarding-Menu Item Updates (Step 2) - Getting 400 error after entering data in Max Days
+  DESC:  User is in Item Onboarding-Menu Item Updates (Step 2)  User enters data in Max Carryover days and clicks on save  Then system is throwing an 400 error message which is not correct Expected Result: System should save the data without getting an error message  Test Evidence:  [image: SchoolCafé - Item Management - Google Chrome 2025-05-05 16-54-15.mp4]  [~accountid:712020:f0ea2633-b68b-4ca2-bc36-8034320f2a0e] [~accountid:603839d29b3ef700694b5a1b] [~accountid:5fa1ae72c9b15a0078e4c4a8]
+
+[NXT-70355] [Bug] [Epic: IM - Usability & UX Enhancements (9.X)]
+  TITLE: IM - Nutrition Label View - Multiple observations
+  DESC:  # When selecting two serving sizes and checking the nutrients label view, container details display for the first serving size but not the second. This needs fixing. # After changing the unit card details, the updates do not appear in the nutrients label view at the same time
+
+[NXT-59286] [Bug] [Epic: IM - Bulk Item Onboarding - Ingredient Info]
+  TITLE: IM-Items-Item Onboarding-Getting 500 error code if user enter more than 3 digits in Edible Yield Factor %
+  DESC:  IM-Items-Item Onboarding-Getting 500 error code if user enter more than 3 digits in Edible Yield Factor %  User is in IM-Items-Item Onboarding  User opens an existing Item onboarding session  Then user clicks on Update & enter 1000 in Edible yield Factor % and clicks on save  Then user observes 500 Error Code which is not expected  Expected Behavior: If user tries to enter more than 100%, system should not allow or if allows should show some validation error.  Test Evidence:  [image: SchoolCafé - Item Management - Google Chrome 2025-02-18 15-52-56.mp4]  [~accountid:712020:1fb76591-1166-436a-91...
+
+[NXT-57772] [Bug] [Epic: (none)]
+  TITLE: Regression: IM- Items- Fluids: “API Error Code” is displaying When user is trying to change the “Servings” from “pizza” to “milk”
+  DESC:  “API Error Code” is displaying When user is trying to change the “Servings” from “pizza” to “milk”.  Note1: I have faced the above issue once add “Menu Serving”.  Note 2: I faced the above issue with both QA and UAT.  Please find the attached below record videos  [image: QA1.mp4]  [image: QA2 (0c2fa30b-4c9c-44b4-b342-91a1b6577bb9).mp4]  [~accountid:5fa1ae72c9b15a0078e4c4a8] [~accountid:603839d29b3ef700694b5a1b]
+
+[NXT-41195] [Bug] [Epic: IM - Consolidation Enhancement & Cleanup]
+  TITLE: Copy Item - 500 error occurs when Copied item with Contributions & Nutrient info included
+  DESC:  # Login to IM > Items > Open any item with Serving size & contribution info added # Click on Copy Item # Select Contribution info checkbox # Click on Copy & Save  Issue - 500 Server error occurs and copy does not completed.  [image: image-20230707-082523.png]
+
+[NXT-56730] [Bug] [Epic: (none)]
+  TITLE: IM-Serving Measure Get call Creating 500 Internal server error
+
+[NXT-66741] [Bug] [Epic: (none)]
+  TITLE: Regression-IM-Items-Items list is not showing as per the selection
+  DESC:  Items list is not showing as per the selection  User is in IM>Items  User selects 20 Items per page in bottom  Then system is not sending an API call which is not correct  Expected Result: System should show the data according to the selection  QA Test Evidence:  [image: SchoolCafé - Item Management - Google Chrome 2025-09-22 15-31-57.mp4]  [Back Office - UI|https://primeroedgenext.atlassian.net/people/team/31afc336-415f-4ea1-9eb6-38bdc0b2d1b9] ([~accountid:5db058992fba7b0db2f3597b] [~accountid:712020:0449f496-7da9-4563-b545-1d02fe4cdc92] [~accountid:6111541f8ad5b600703ea2e6] [~accountid:71202...
+
+[NXT-70999] [Bug] [Epic: (none)]
+  TITLE: IM- Item Onboarding- Nutrient Info - Update Nutrients - Correct the name "Cholesterol" in Enter Fats, Cholestrol & Sodium radio option
+  DESC:  IM- Item Onboarding- Nutrient Info - Update Nutrients - Correct the name "Cholesterol" in Enter Fats, Cholestrol & Sodium radio option
+
+[NXT-68726] [Bug] [Epic: IM - Bulk Item - Local Updates]
+  TITLE: IM - No-Contributions are not displaying in the advance search by selecting contributions as None indicated
+  DESC:  IM - No-Contributions are not displaying in the advance search by selecting contributions as None indicated
+
+[NXT-46347] [Bug] [Epic: IM/INV - Business Rule & Validation Enhancements]
+  TITLE: IM - Items - Inventory Tab - Active vendor contract should be shown under Item > Inventory tab, for unorderable items, also it should show some missing alert for unorderable
+  DESC:  Item > Inventory Tab > Active vendor contract  Active vendor contract should be shown under Item > Inventory tab, for unorderable items, also it should show some missing alert for unorderable  [image: image-20240111-144507.png]
+
+[NXT-67517] [Bug] [Epic: (none)]
+  TITLE: Regression-Item Onboarding-Allergens-User is unable to unselect the custom allergens
+  DESC:  User is unable to unselect the custom allergens  User is in IM>Item Onboarding>Allergens  User selects the custom Allergens in the update and saves it, data is saved  Then user unselects the custom Allergen and saves it, custom allergen is not removed and still showing in review page.  Expected Result: If user removes the custom Allergen, it should be removed.  QA Test Evidence:  [image: SchoolCafé - Item Management - Google Chrome 2025-10-17 11-44-47.mp4]  [~accountid:6192efd4d5986c006a5b5134] [~accountid:712020:008f57ea-8f71-41a0-a387-2c43b1c30273] [~accountid:603839d29b3ef700694b5a1b] [~acc...
+
+[NXT-64656] [Bug] [Epic: IM - Bulk Inventory & Direct Menu Item Onboarding]
+  TITLE: Item Onboarding- Pack Size Info- Inventory Publish - PO Review Observations
+  DESC:  Issue 1: None Decide later items are showing in Inventory Publish screen  Issue 2: Item numbers are showing incorrect in Inventory Publish screen  [image: image-20250725-102650.png]
+
+[NXT-60473] [Bug] [Epic: IM - Units Card Overhaul]
+  TITLE: IM-Items-Menu Exceptions is showing for Servings
+  DESC:  IM-Items-Menu Exceptions is showing for Servings  User is in IM>Items  User creates a new Item & makes servings as Menu servings  Then user added Menu Exceptions & later removed Menu servings  Then User noticed Menu Exceptions icon is not removing even after Menu serving is removed  Expected Result: If user removes the Menu serving then Menu Exception also should be removed  Test Evidence:  [image: SchoolCafé - Item Management - Google Chrome 2025-03-28 11-50-23.mp4]  [~accountid:6192efd4d5986c006a5b5134] [~accountid:5ecd59d1eb77320c1f72591d] [~accountid:5db058992fba7b0db2f3597b] [~accountid:6...
+
+[NXT-47364] [Story] [Epic: IM/MP - Find & Replace]
+  TITLE: IM/MP - Find & Replace - Menu Items - Replace
+  DESC:  As a Nutritionist or Menu Planner, I want the Find & Replace page to have both Ingredients and Menu Items so I can replace both on the same page.  View  [image: FnR MI Replace-20240313-144029.png]  Replace  [image: FnR MI Replacing-20240313-144348.png]
+  AC:    - Provide a replacement step for replacing menu items on menus ** Further filter the menus that DO NOT Contain both menu items ( “Find” Item and “Replace” Item) – Currently handled from UI but needs to be filtered from API - Upon clicking the Replace action, enable a selectable mode of the Menu Items grid - Adjust the header to a view-only mode where action buttons are removed ** Show both menu it...
+
+[NXT-66007] [Story] [Epic: IM - Item Onboarding- Excel Import/Export & Local Publishing]
+  TITLE: IM - Item Onboarding - Add Special Permission
+  DESC:  As the Item onboarding should not be available to everyone, provide a special permission that will provide the ability to make it visible and should only be available to SC admin role.
+  AC:    - Provide a special permission to allow Item Onboarding (Similar to GDSN approach) ** Permission “Can Use Item Onboarding”
+
+[NXT-30102] [Story] [Epic: IM - Item Details Overhaul]
+  TITLE: IM - Items - Create New Item - Food Item - Contributions
+  DESC:  As a District Admin I want a Contributions Info section so I can specify my contributions.  Requirements  - Load the Contributions section once the Serving Measures ([NXT-30099|https://primeroedgenext.atlassian.net/browse/NXT-30099]) is successfully saved ** Put the section in the allocated 1/3rd width to the right of the Nutrients card ** The height of this card is dynamic (The Allergens card is displayed below) - Add/Edit Contributions in the slideout ** Reference Recipes for visual example - Can create or enter contributions without having nutrient information entered - Allow user to “skip...
+  AC:    - Load the Contributions section once the Serving Measures is successfully saved - Add/Edit Contributions in the slideout - Allow user to “skip for now” if  they do not want to enter the information at the time
+
+[NXT-24520] [Story] [Epic: IM - UI Improvements (R5)]
+  TITLE: IM - Add Menu Item filter on Menu Items -> Items Page
+  DESC:  As a Nutrition Dept. user I need an option to only view Menu Items (list View) to verify that they have the correct items for their menus. Having this filter will save time when reviewing or looking for menu items.  [image: image-20220104-095422.png]
+  AC:    When “Menu Item” Check box is checked and search button is press/clicked then display/list  only menu items on result grid.
+
+[NXT-71222] [Story] [Epic: (none)]
+  TITLE: IM - Configuration - Data Sources
+  DESC:  As a central level user I want a configuration page for multi-tenancy settings so I can manage the data source we use and how local users will interact with them.  IM > Config > Data Sources  [image: Data Sources-20260402-064838.png]  Edit Data Source - Shared  [image: Edit Data Source - Shared-20260402-064838.png]  Edit Data Source - Local  [image: Edit Data Source - Local-20260402-064838.png]  Manage Data Source Users  [image: Manage Data Source Users-20260402-064838.png]  Manage Data Source Users - Edit  [image: Manage Data Source Users - Edit-20260402-065224.png]  Manage Data Source Distri...
+  AC:    - Add another sub-page to the Item Configuration page dropdown: Data Sources - Display the data sources in a grid ** Data Source ** Abbreviation ** Item ID Prefix ** Recipe ID Prefix ** Menu Item ID Prefix ** Data Source Type - List the existing 3 data sources here: CNDB, Cybersoft, Local ** CNDB & Cybersoft have a ‘Global’ data source type and require no prefix values nor any Action column functi...
+
+[NXT-17104] [Story] [Epic: (none)]
+  TITLE: IM - Home Page - Categories
+  DESC:  As a user, I want to have an Item Management Landing Page to show categories  Mockup  [image: image-20210728-131127.png]  Requirements Show similar to what we had before.  - show missing information - show different filterable categories - Navigate to split view - For the main images, don’t include anything specific, just include it as a purple box
+  AC:    Add the IM Home Page to show categories
+
+[NXT-56249] [Story] [Epic: IM - Bulk Item - Section Filters and Enhancements]
+  TITLE: IM - Bulk Item - Bulk Apply - Multi-Select R&D
+  DESC:  As an onboarding district admin I want a Bulk Apply function so I can apply the same selection for a particular attribute to many items at once.  [https://www.telerik.com/kendo-react-ui/components/grid/selection|https://www.telerik.com/kendo-react-ui/components/grid/selection|smart-link]  [image: IO Summary - Bulk Apply UX-20241104-042710.png]
+  AC:    - Provide a Bulk Apply button for most columns on the Summary Info screen ** everything except Product Code - Ensure the column searches are still available - Allow Bulk Apply from both view mode and edit mode of the Summary Info step - Upon click of Bulk Apply for a column ** Disable the other columns and hide/disable their Bulk button ** Add checkboxes to the Item # column ** Provide a dropdown/...
+
+[NXT-36071] [Story] [Epic: IM - Item Type Consolidation - Recipe Rework]
+  TITLE: IM - Recipe Rework - Steps & Ingredients - View Steps
+  DESC:  As a Nutritionist I want the Recipes page to have a dedicated Steps & Ingredients tab so I can make all the recipe preparation changes in one place.  [Figma - View/Add/Edit Steps|https://www.figma.com/proto/OAZ7qTRgdG5bFFGuhDmkoZ/Item-Management-6.0?page-id=3238%3A54123&node-id=3315%3A60028&viewport=411%2C-15%2C0.03&scaling=min-zoom&starting-point-node-id=3315%3A60028&show-proto-sidebar=1]  Requirements  - Create a Steps & Ingredients tab to house all the recipe steps ** Enable this tab once a Description, Serving Size and Number of Servings are provided and saved in the summary card - Provide...
+  AC:    - Display a left aligned card for housing the Recipe steps - Display a right side Ingredients card that dynamically shows ingredients and quantities based on selected steps
+
+[NXT-18603] [Story] [Epic: IM - USDA Requirements]
+  TITLE: IM - Recipe Nutrition Report - need Percent of calories from Macronutrients
+  DESC:  The Recipe Nutrition Report already exists, but per the USDA Requirements for software approval, is missing some specific data.  It is a requirement to display the Percent of Calories from the Macronutrients (Protein, Carbohydrate, Total Fat, and Saturated Fat.)  The percentage of calories from protein, carbohydrate, total fat, and saturated fat for the recipe should be calculated as follows:  Protein = 4 Calories per gram Carbohydrate = 4 Calories per gram Fat = 9 Calories per gram Saturated Fat = 9 Calories per gram  Multiply the total grams of protein by four and divide by the total calorie...
+  AC:    The Recipe Nutrition Report will contain percentages for the macronutrients (protein, carbohydrate, total fat, and saturated fat.)
+
+[NXT-59797] [Story] [Epic: IM - Usability & UX Enhancements (9.X)]
+  TITLE: IM - All Numeric entry  - Allow users to enter decimal first
+  DESC:  As an IM user I want Units card cohesion so I can have consistent experiences enabling menu items  [image: image-20250103-184321.png]  [image: image-20250123-143609.png]
+  AC:    - Update the numeric fields to properly allow entry of decimals as the first character ** Currently we require users to type 0 first, then they can enter a decimal ** We should allow users to type a decimal first, and we should auto insert the 0 - Could also make this change to all numeric text fields, not just for Units card - Items Page: *# Nutrient Info screen *# Ingredient Info - Recipe Page:...
+
+[NXT-46348] [Story] [Epic: IM - List Page & Nav Updates]
+  TITLE: IM - Items - Consume Sub-Type logic for Inventory info
+  DESC:  As a district admin I want the Inventory sub-type to show where expected on the Item Details  Inventory Sub-Statuses  [image: image-20231121-002635.png]  [image: image-20240111-160809.png]
+  AC:    - Map Inventory readiness statuses to corresponding primary status ** Reference image - Show appropriate status icon on the Inventory Info tab - Show appropriate status chip on the Item Info Panel
+
+[NXT-18731] [Story] [Epic: IM - Item/Recipe Image Updates]
+  TITLE: IM - Remove Picture From Recipe
+  DESC:  - As a authorized user I need a function to allow me to: ** To remove/delete one or more pictures from a recipe when creating or editing a recipe. ** It needs to available in list and and split view. ** If more than one picture need to be removed then: *** While cycling thru the pictures  the user should be able to mark the pictures to be removed ***  Remove / Delete the picture(s) marked for removal/deletion *** The user should also have the option of remming / deleting the marked pictures by drawing them out of the picture are  [image: image-20211006-043446.png]
+  AC:    - Functionalities mention on the description section of this story should be met
+
+[NXT-27518] [Story] [Epic: IM - Menu Item Management(R5)]
+  TITLE: IM - Variety Menu Item Contribution Edit
+  DESC:  When editing contribution information on a Variety menu item the user shall be reminded of the effects and his approval shall be required  [image: image-20220224-110141.png]
+  AC:    Entry point  Item Management → Menu Items → Selected Variety Menu Item → Contribution Information \[EDIT]  - When the user click or press the EDIT on the Menu Item Contribution section the user shall be prompted with pop-up window with a notification indicating the effects of of editing the contribution information and requesting user confirmation to continue. - If user confirm (continue) ** Then...
+
+[NXT-42381] [Story] [Epic: IM - Usability & UX Enhancements (8.X)]
+  TITLE: IM - VMI - Remove Menu Item Metrics card
+  DESC:  As an IM user I want the VMI page to have a bigger Menu Items card so I can see more useful information about the child menu items.  Current page  [image: image-20250212-010610.png]  Mockup - View mode  [image: VMI - full width Menu Items-20250212-010520.png]  Mockup - Edit mode  [image: VMI - Edit Menu Items 25-20250212-010520.png]
+  AC:    - Remove the Menu Item Metrics card ** this should only be present on the VMI page - Extend the size of the Menu Items card to be full page width - Reformat the columns ** Remove Weight/Volume – display after Serving Quantity in parentheses ** Update the Contributions column to use chips with quantity visible *** stretch goal: improve chip UX **** also consider sizing impact of Contributions colum...
+
+[NXT-49341] [Story] [Epic: IM/MP - Find & Replace]
+  TITLE: IM - Find & Replace - Copy - Confirm - Provide view icons for newly created recipes
+  DESC:  As a user I want a view button for the newly created recipes so I can open the recipes I just created.  [image: FnR Copy Complete v3-20240411-164805.png]
+  AC:    - Show a black view icon next to the recipe description of the old recipes - Show a purple view icon in the action column for the new recipes - Set alt labels/tooltips accordingly ** black: View copied Recipe ** purple: View new Recipe
+
+[NXT-67565] [Story] [Epic: IM - Bulk Item - Local Updates]
+  TITLE: IM - Bulk Item - Update Nutrients (Individual Slideout)
+  DESC:  As a Nutritionist inputting information into the system on the Bulk Item Tool, I would for a way to individually enter information for my nutrients similar to how the item details page is. This allows for me to easily make sure all the information is entered in one go.  Bulk Nutrients - View - Updated  - Fat and Carbs condensed to one column with multi labels (view mode only) - Action column with view icon added (view mode only)  [image: Bulk Nutrients - View-20251105-034520.png]  Bulk Nutrients - single item slide-out (view mode)  - Take the Nutrients card from Item Details and put in a slide...
+  AC:    - Update the view mode of the Bulk Nutrients Review screen ** Condense column widths ** Use ? for missing values ** Use (M) for values with the Missing checkbox checked - Combine all 3 Fat columns into a single Fat column with comma separated values - Combine all 4 Carb columns into a single Carbs column with comma separated values - Provide a Details column with a view icon to allow for users to...
+
+[NXT-67404] [Story] [Epic: (none)]
+  TITLE: USDA- Corrections for 2025 Submission
+  DESC:  These are the corrections that are needed as part of the USDA submission for 2025.
+  AC:    - Recipe Details screen & Report and Recipe Nutrient Summary Report/Display: Include the % from calories from Added Sugars in this display. [image: image-20251013-182710.png] - Correct Sodium Target 1 or T1 on all pages to only Sodium ** Menu Planner and all analysis pages and reports - Use label “Ad Sugars” on menu planner instead of + Sugar  [image: image-20251013-182731.png]  - Reword footnote...
+
+[NXT-34198] [Story] [Epic: IM - General Enhancements (R6.2)]
+  TITLE: IM- Items, Recipes, Menu Items - Add Sesame as a Standard Allergen on UI
+  DESC:  Due to a new law that was passed on April 23, Sesame will now be considered as a standard allergen on January 1, 2023. However, Columbia is now in the process of starting to input their items and would like to have Sesame already configured so they could indicate allergens for those items  Note: this is part of several related stories all required ([Report story|https://primeroedgenext.atlassian.net/browse/NXT-33583], [Import story|https://primeroedgenext.atlassian.net/browse/NXT-33584])  Requirements  - Add Sesame as a Standard Allergen in all relevant places in the UI - This must be updated...
+  AC:    - Include Sesame as a Standard Allergen for users to indicate on items in the Item Details page - Include Sesame as a Standard Allergen for users to indicate on Recipes in the Recipe Details page - Include Sesame as a Standard Allergen for users to indicate on Menu Items in the Menu Item Details page - New row needs to be added in the same fashion as other standard allergen as an extra option
+
+[NXT-36109] [Story] [Epic: IM - Consolidation Enhancement & Cleanup]
+  TITLE: IM - Recipe Rework - Nutrition Info - Contributions
+  DESC:  As a Nutritionist I want the Recipes page to have a dedicated Nutrition Info tab so I can recipe nutritionals without having to scroll past all the steps and ingredients.  Requirements  - Update the Contributions card to match the Item design ** Ensure that the Apply Recommendation functionality is allowed - Change logic to allow contributions to be added for Recipe Serving Size without it being a Menu Item ** We will handle downstream impacts on Menu Item in the MI rework (scaling, pre-filling Contributions, etc.)  Contributions Detail  [image: NXT-36109 Contributions Detail 01.png]  Mockup :...
+  AC:    - Update the Contributions card to the new design - Show the System Generated or Manual Entry label somewhere - Change logic to allow contributions to be set for the recipe without Menu Item dependency
+
+[NXT-31492] [Story] [Epic: IM - Onboarding]
+  TITLE: IM - Onboarding Items - POS Information - Excel Download
+  DESC:  IM - Onboarding Items - POS Information  As  an Item Management Super User / Administrator, I need to be able to onboard Items POS Information using an excel file in order to speed the process of bringing customers working with SchoolCafe’s Backoffice.  The detailed import steps are included in the story # [https://primeroedgenext.atlassian.net/browse/NXT-29782|https://primeroedgenext.atlassian.net/browse/NXT-29782|smart-link]
+  AC:    Ac:  when the user navigates to View Log Screen under POS Import:  the user should be able to download Excel with all the original data  Import Status (Success/Fail)  exception messages + Processed Date/Time associated with that record  [https://www.figma.com/proto/OAZ7qTRgdG5bFFGuhDmkoZ/Item-Management-6.0?node-id=532%3A23270&amp%3Bscaling=scale-down-width&amp%3Bpage-id=479%3A16219&amp%3Bstarting...
+
+[NXT-39672] [Story] [Epic: IM - Menu & POS Consolidation]
+  TITLE: IM - MI Consolidation - (Custom) Menu Item - Nutrient Info tab
+  DESC:  As a Menu Planner I want a Nutrient Info tab on the unlinked/custom Menu Item details so I can see the nutrients and allergens being calculated or generated as I assign more items or recipes.  [image: Custom MI - System Calculated-20230607-144307.png]
+  AC:    - Build the Nutrient Info tab for Custom Menu Items (created first as a menu item through the Menu Items page) ** Map the existing Nutrient card data into the new card design (from Items, other screens) - Add the nutritional value of all added items/recipes to populate the Nutrient Info tab’s values ** Update the calculation to include both Recipes and Items (Items are added in [https://primeroedg...
+
+[NXT-38016] [Story] [Epic: IM - Production Usability Enhancements (2023)]
+  TITLE: IM - Items - Units - UI adjustments - Text Guidance
+  DESC:  As an District Admin I want specific text guidance on various functions and steps in the Units card so the system guides me through critical item configuration.  Requirements  - Update the wording on specific steps to improve user clarity - Unit uniqueness: "Can is already defined" → "Please enter unique description" (error under Measure Description box) - "Please enter child sub qty" → "Please enter quantity of [cans] per [case]" - "Please enter pack size weight" > “Enter optional pack size weight or save unit” - other updates everywhere  Pack & Serving Link banner  - Sub-quantity should be f...
+  AC:    - Update the wording on specific steps to improve user clarity
+
+[NXT-39575] [Story] [Epic: (none)]
+  TITLE: Regression -STG - Production -reports - print production recipes - multiple recipes option : zero planned recipes are listed in the results and even printing the report with zero Qty when generated the report
+  DESC:  Recipes are showing on the print recipe report even though there are 0 planned servings.
+  AC:    - IF 0 servings planned, do not display the recipe on the report
+
+[NXT-47156] [Story] [Epic: IM/INV - Business Rule & Validation Enhancements]
+  TITLE: IM - Items/Recipes/Menu Items - History for sync-related API changes
+  DESC:  As an IM user I want history for all changes caused by background sync so I can see the impact of changes from elsewhere.  From [Lalita’s comment on VMI Sync story|https://primeroedgenext.atlassian.net/browse/NXT-40419?focusedCommentId=112151]:  {quote}One observation is history of VMI nutrients section is not showing any for this instant of nutrient recalculation. below screenshot is not showing the history record with today’s date even though its nutrients are recalculated.{quote}  [image: image-20230905-211436.png]
+  AC:    - Show changes related to nutrient sync recalculation (e.g. ingredient changes, menu item changes on VMI, etc.) via API
+
+[NXT-32108] [Story] [Epic: (none)]
+  TITLE: IM - Update to CN25 - Verify CN changes (6.2)
+  DESC:  As a District Admin I want to be able to view my CNDB items so I can see the read-only information available for copy.  Note: this story is for verifying the changes on our most recent version, 6.2. These changes must be applied before 6.2 release.  Requirements  - Update CNDB Items to consider new [CN25 Update |https://www.fns.usda.gov/tn/child-nutrition-database] - Add dedicated GTIN column ** previously it was being populated into Product Code field, but these are separate now - Accommodate separate Brand Owner and Brand columns ** fill to Manufacturer and Brand respectively - Accommodate a...
+  AC:    - Update CN item structure to consider CN25 changes in Release 6.2 - Import all CN25 items
+
+[NXT-24457] [Story] [Epic: IM - UI Improvements (R5)]
+  TITLE: IM- Item Meal contribution needs to carry over to recipe (single or dual Entry)
+  DESC:  As a user, when I add my meal contribution to an item, I expect this information to carry over to my recipe whether it is a single ingredient recipe or  dual.
+  AC:    - All meal contributions should carry over to to recipe when added from item. - Should be visible on the recipe (lust and Split view)
+
+[NXT-26810] [Story] [Epic: IM - Item Enhancements R5]
+  TITLE: IM - Item History (Contributions)
+  DESC:  As Item Manager administrator I need an option where I can observe the history of a item' s  [person], for example updates made to the item by who and when so that have an audit process  [https://devuicomponents.perseusedge.com/?path=/story/components-history-drawer--default|https://devuicomponents.perseusedge.com/?path=/story/components-history-drawer--default|smart-link]  [https://www.figma.com/proto/7c2q9K3FgHMT1g571JJOEH/Item-Management-5.0?node-id=387%3A19409&scaling=contain&page-id=357%3A14846&starting-point-node-id=387%3A19409|https://www.figma.com/proto/7c2q9K3FgHMT1g571JJOEH/Item-Mana...
+  AC:    Entry Point  - Visible at the Item detail history - An option to view item’s [person]  history shall be available to the user at item  history icon - User shall be able to see tall item’s [person]  property values that were updated - System date and Time on which the update took place - User name which performed the update (who performed the update) - What fields that were updated, preview value(s...
+
+[NXT-35697] [Story] [Epic: IM - Item Type Consolidation - Item Master & Module Improvements]
+  TITLE: IM - Items/Recipes - Split View Component R&D
+  DESC:  As an IM user I want the split view search to be docked/floating so I can use the side panel regardless of where I am within the Item/Recipe.  This is an R&D task, which will assist with the upcoming Item Type Consolidation epic.  Reference locations:  - IM > Recipes - MP > Menu Planner (different component but similar style of docked side panel)  Requirements  - Research necessary changes to improve the split view search side panel - Retain existing functionalities with respect to expandable additional filters, item previews, item selection, etc. - The search panel should be docked/floating,...
+  AC:    - Research necessary changes to improve the split view search side panel
+
+[NXT-24022] [Story] [Epic: IM - UI Improvements]
+  TITLE: IM-Tool Tip (Scale Recipe)
+  DESC:  As user I would like to see tool tip on the 3 dots icon to quickly identify if functionality (what it does)  [image: image-20211220-184541.png]
+  AC:    Entry Point  Split view recipe screen - >  copy icon  Action  When hovering over the 3 dots  icon display tool tip message “Click for Additional Options”
+
+[NXT-54229] [Story] [Epic: IM - Units Card Overhaul]
+  TITLE: IM - Items - Units - Rules for Editability
+  DESC:  As a district admin or menu planner I want the Units card to behave the same across all tabs so I don’t have to memorize the UI logic to make important updates.  Summary Info card banner  [image: image-20241015-140317.png]
+  AC:    - Certain functions should be enabled based on sub-type logic, rather than selected tab ** Menu Serving and Exceptions should be available once the item is a Menu Item ** Cost/Value should be available as soon as there is at least one unit **  GTIN/UPC should be available once there is a pack size unit or an inventory-able serving (1 Each) ** Disable or gray out the Add button and Update button op...
+
+[NXT-22616] [Story] [Epic: IM - UI Improvements]
+  TITLE: IM - UI Improvements - Items - Upload Exemption Letter
+  AC:    The user should be able to upload a letter and be able to store against an item  The letter should support PDF/JPG file types (what is the file size allowed)  Label: Exemption Letter (the UI represents in CAPS, but it has to be in [person])  Upload Button - User should be able to upload either an PDF or an Image file  Delete Option - user should be able to click on X icon to delete an existing let...
+
+[NXT-19857] [Story] [Epic: Item Management - Recipe (Create)]
+  TITLE: IM- Recipe- [person]
+  DESC:  As a District Manager, I want to have control of the batch sizes my kitchens can produce and have a way to only allow them to make recipes based on strict batching.  When a recipe is created and the user provides the number of servings, we need to give them a way to mark the item for "Strict Batching". This will be an indicator for other functionalities that will be using the recipe information.  There also needs to be a display that strict batching is enabled.  The user should able to add the flag during recipe creation process as well as to edit. This should apply to both scenarios (split/Li...
+  AC:    When a recipe is created and the user provides the number of servings, we need to give them a way to mark the item for "Strict Batching". This will be an indicator for other functionalities that will be using the recipe information.   There also needs to be a display that strict batching is enabled.
+
+[NXT-27638] [Story] [Epic: IM - UI Improvements (R6)]
+  TITLE: IM - POS Item Copy
+  DESC:  As Item Management administrator I need  to able to edit the POS button when copying an item that is a POS item in order to reduced the risk of creating POS items with duplicate POS button names.
+  AC:    Entry Point  - Item Management → Items → Selected Item → copy Icon - Before the POS section of item is saved prompt the user to change the POS button name (English & Spanish) - Do not validate Spanish button for duplicate at this time.  [image: image-20220301-164646.png]  [image: image-20220301-164716.png]  [https://www.figma.com/proto/7c2q9K3FgHMT1g571JJOEH/Item-Management-5.0?node-id=1370%3A3114...
+
+[NXT-25727] [Story] [Epic: IM - Menu Item Management(R5)]
+  TITLE: IM - Variety Menu item (Nutritional Information Auto-populate)
+  DESC:  As user  I need  the system to auto-populate nutrition information base on information provided from menu items linked  [https://www.figma.com/proto/0kv2xflDnpmPOrcMsgKrlB/Item-Management-4.0?node-id=2066%3A63272&scaling=scale-down-width&page-id=2066%3A62889&starting-point-node-id=2066%3A63272|https://www.figma.com/proto/0kv2xflDnpmPOrcMsgKrlB/Item-Management-4.0?node-id=2066%3A63272&scaling=scale-down-width&page-id=2066%3A62889&starting-point-node-id=2066%3A63272|smart-link]
+  AC:    - System shall auto-populate nutrition information similarly as when creating a recipe
+
+[NXT-40447] [Story] [Epic: IM - Menu & POS Consolidation]
+  TITLE: IM - Menu Items - Servings - Menu Servings (scaled)
+  DESC:  As a Menu Planner I want the ability to create additional scaled measures for menu item serving sizes so I can have all the different sizes I serve to students.  [https://www.figma.com/proto/eDsxhWPpQikc74wptrgntb/Item-Management-6.4?page-id=769%3A48487&type=design&node-id=1470-68509&viewport=-3719%2C747%2C0.27&scaling=min-zoom&starting-point-node-id=1470%3A68509|https://www.figma.com/proto/eDsxhWPpQikc74wptrgntb/Item-Management-6.4?page-id=769%3A48487&type=design&node-id=1470-68509&viewport=-3719%2C747%2C0.27&scaling=min-zoom&starting-point-node-id=1470%3A68509|smart-link]
+  AC:    - Provide the ability to add additional serving sizes for the Menu Item which are scaled from the primary measure (or using weight/volume) - Separate this “Add Serving” function from the primary Add Serving function, as this function is only adding Menu Item servings - Within the Menu Item tab specific version of the Units card, provide an Edit mode - Within the MI Units edit mode, provide a “+Men...
+
+[NXT-35689] [Story] [Epic: IM/INV - Report Updates & PowerBI Conversion]
+  TITLE: IM - Items - Update All Items Report
+  DESC:  As an Item Management user I want the All Food Item Report updated and available in PowerBI so I can generate the report in any format I need.  Requirements  - Update the All Food Item Report to use PowerBI reporting tool - Default the Data Source to Local ** remove irrelevant options - Update the Nutritional section to match the new Nutrition component with respect to the vitamin nutrients and the new ‘% of [person]’ column - Do not show non-food items in the report  [image: image-20221221-234926.png]  [image: image-20221221-234732.png]
+  AC:    - Update the All Food Item Report to use PowerBI reporting tool - Add % of Daily Value for relevant nutrients and update report format - Hide non-food items from report - Change default report options
+
+[NXT-60116] [Story] [Epic: IM - Bulk Inventory & Direct Menu Item Onboarding]
+  TITLE: IM- Item Onboarding- Review Menu Item Info
+  DESC:  As a district manager, when using the bulk item onboarding tool, I would love to be able to also indicate and enter information for my items that are also menu items so that I do not have to go configure them one at a time later.  [image: image-20250317-203239.png]
+  AC:    - Provide a column on the landing page for Menu Item Info - Provide a review step on the Bulk Item Import tool to update all menu item information ** Include item name and serving size along with the rest of the menu item info *** Combine Prep Site Item, Show in Summary and Tags into a column called Menu Item Flags ** Include a column for “is Menu Item” that is populated based on the initial item...
+
+[NXT-23235] [Story] [Epic: IM - UI Improvements]
+  TITLE: IM - UI Improvements - Brand Configuration
+  DESC:  Mockup : [https://www.figma.com/proto/0kv2xflDnpmPOrcMsgKrlB/Item-Management-4.0?node-id=685%3A37716&scaling=min-zoom&page-id=684%3A37712&starting-point-node-id=685%3A37716|https://www.figma.com/proto/0kv2xflDnpmPOrcMsgKrlB/Item-Management-4.0?node-id=685%3A37716&scaling=min-zoom&page-id=684%3A37712&starting-point-node-id=685%3A37716|smart-link]
+  AC:    The user should be able view “Brands” configuration button as shown in UI  Upon clicking the button the system shows the slide out as shown in UI  Adding a New Brand:  User should be able to enter the brand name, and select the manufacturer  upon clicking the Save button - it should be added to configuration  Save button is enabled only upon selecting the Manufacturer  In case of duplicate entry -...
+
+[NXT-46679] [Story] [Epic: IM - Usability & UX Enhancements (7.X)]
+  TITLE: IM - Menu Items - Allow POS to be independently deactivated
+  DESC:  As a district admin I want the ability to toggle off the POS portion of a POS-enabled Menu Item, so I can remove it from POS menu grids without affecting the menu item status.  [image: image-20240307-151632.png]
+  AC:    - Allow the POS section of POS-enabled menu items to be “disabled” ** use the POS chip on the Menu Item card ** on click of POS chip, show prompt “Do you wish to disable this POS item? This will not affect the Menu Item.” - Upon disabling the POS item, revert the card to the non-enabled state ** Retain the POS item data/values, but hide the UI fields - Set the POS status to Inactive when it is dis...
+
+[NXT-39988] [Story] [Epic: IM - Menu & POS Consolidation]
+  TITLE: IM - MI Consolidation - POS Only Item - Pricing
+  DESC:  As a menu planner I want the ability to create a POS only item so I can simply configure buttons to appear on the POS terminal without creating an entire food item or menu item.  POS Only Item - Pricing tab  [https://www.figma.com/proto/eDsxhWPpQikc74wptrgntb/Item-Management-6.4?page-id=769%3A44444&type=design&node-id=769-44445&viewport=1619%2C460%2C0.24&scaling=min-zoom&starting-point-node-id=913%3A53110|https://www.figma.com/proto/eDsxhWPpQikc74wptrgntb/Item-Management-6.4?page-id=769%3A44444&type=design&node-id=769-44445&viewport=1619%2C460%2C0.24&scaling=min-zoom&starting-point-node-id=913...
+  AC:    - Create a singular tab on the POS Only item page which has only ‘POS Pricing’ - Load only the pricing grid onto the tab ** include standard Taxable checkbox ** also provide DM Reimbursable Meal checkbox (only available on this POS item type) ** independent edit for Pricing grid (n this case obviously)
+
+[NXT-62716] [Story] [Epic: (none)]
+  TITLE: IM - CNDB 2025.X- Monthly Update Implementation (R&D)
+  DESC:  USDA has now announced that the CNDB will be doing monthly updates instead of yearly. This will allow for more frequently updated information to flow to our CNDB items.
+  AC:    - Create Monthly updates to consume CNDB data - Ensure mechanism is available to drop file or extract to update with new CN information - Establish documentation for how the updates are happening
+
+[NXT-44439] [Story] [Epic: IM - List Page & Nav Updates]
+  TITLE: IM - Items - Local Items - Items grid - Manage Views
+  DESC:  As a District Admin I want the Manage Views functionality for the Local item list so I can customize my unique view of the items  [image: image-20231101-135618.png]
+  AC:    - Update the Manage Views for the revised Local Items grid - Columns for reference: ** Item # ** Item Description ** Item Category ** Storage Category (hidden by default) ** Valuation Group ** Manufacturer ** Brand ** Product code (hidden by default if needed for sizing) ** Fair Market Value ** Tags (hidden by default) - Hide these columns by default ** Updated On ** Updated By ** Created On ** Cr...
+
+[NXT-60862] [Story] [Epic: IM - Usability & UX Enhancements (9.X)]
+  TITLE: IM- Items- Pack Size Color Change in Units Card
+  DESC:  Change the color of the pack size chips to a more relatable color that matches a “box” color.  New color  [image: image-20250506-153648.png]
+  AC:    - Update all pack sizes related chips to the new color to maintain uniformity throughout the module - Change color on Update > Inventory Options icon - Use color “A5450D” to make all changes
+
+[NXT-29108] [Story] [Epic: (none)]
+  TITLE: IM > Method to filter "All Food Item"
+  DESC:  Requirement: Provide a method to request/filter the “All Food Item” Report to produce results based on Descriptions, Item #'s, Item Codes, or Category entry (specifically, if I type in the word soups and then hit enter or tab out of the current “Tags” search, it does not actually select the tag, thus giving no results on the search.)  The user must be able to include multiple food items in this report.
+  AC:    Requirement: Provide a method to request/filter the “All Food Item” Report to produce results based on Descriptions, Item #'s, Item Codes, or Category entry (specifically, if I type in the word soups and then hit enter or tab out of the current “Tags” search, it does not actually select the tag, thus giving no results on the search.)  The user must be able to include multiple food items in this re...
+
+[NXT-26153] [Story] [Epic: IM - General Enhancements (R6.2)]
+  TITLE: IM - Recipe History (Detail Card)
+  DESC:  As Item Manager administrator I need an option where I can observe the history of recipes for example  when it is created, updates made to the item by who and when so that have an audit process  Figma Link:  [https://www.figma.com/proto/7c2q9K3FgHMT1g571JJOEH/Item-Management-5.0?node-id=455%3A24456&scaling=contain&page-id=449%3A22854&starting-point-node-id=449%3A22855|https://www.figma.com/proto/7c2q9K3FgHMT1g571JJOEH/Item-Management-5.0?node-id=455%3A24456&scaling=contain&page-id=449%3A22854&starting-point-node-id=449%3A22855|smart-link]  [https://devuicomponents.perseusedge.com/?path=/story/...
+  AC:    - Entry Point ** Item Management → Recipes  → Selected Recipe → additional options icon  - An option to view  recipe history shall be available to the user under the more options icon - User shall be able to see the following recipe property values: - When it was created **  (system date/time) **  Who created it - Updates ** System date and Time on which the update took place ** Who performed the...
+
+[NXT-44060] [Story] [Epic: IM - Production Usability Enhancements (2023)]
+  TITLE: IM- POS Items- Check English/Spanish Button Names for Uniqueness
+  DESC:  When creating POS items, the system must check the English and Spanish [person] for uniqueness.
+  AC:    - Check uniqueness for POS Button for both English and Spanish - Display error message when trying to save “POS Button Name (English) already exists, please enter a different name” ** Display same error message but for the Spanish if the Spanish already exists
+
+[NXT-36069] [Story] [Epic: IM - Item Type Consolidation - Recipe Rework]
+  TITLE: IM - Item Config - HACCP Configuration page - Processes
+  DESC:  As a District Admin I need a HACCP configuration page so I can configure or add any processes unique to my district.  Requirements  - Add a HACCP configuration sub-page to the Item Configuration page - Have a section for the HACCP Processes ** there are 3 system defaults: No Cook, Same Day Service, Complex Food ** Maintain the following fields for each Process *** Process Description **** this should be unique across all processes *** Associated CCPs **** either comma separated or popup or something ** [person] at the card level ** Provide the ability to add additional processes *** The only r...
+  AC:    - Add a HACCP configuration sub-page to the Item Configuration page - Preload system defaults - Show the History for Processes
+
+[NXT-61846] [Story] [Epic: IM - Item Onboarding- Excel Import/Export & Local Publishing]
+  TITLE: IM - Item Onboarding - Column headers and data fields for Excel Import/Export
+  DESC:  As a district manager trying to use the onboarding tool, sometimes it would be better for me to work in the excel version as I am more comfortable working through an excel format workflow. When looking at the columns I want to make sure that the information is clear and is translated correctly when imported back into the onboarding tool.
+  AC:    - On Initial Info, Item Type (Food/Non Food) should have selections of (Food or Non Food) and is mandatory ** Format the cells to be greyed out that are not needed for Non Food Items (Nutrients, Components, Ingredient Info, Allergens) - “# of Inventory Units” (Currently, % of Inventory Units) should only appear on the excel if user has enabled the “Pack Size Info” section and must be entered ** De...
+
+[NXT-42379] [Story] [Epic: IM - Production Usability Enhancements (2023)]
+  TITLE: IM - Create Items - Units - Improve Food/Fluid Questions
+  DESC:  As a district admin I want better Food/Fluid questions so I can more easily select the appropriate types for new items I create.  [https://fonts.google.com/icons?icon.query=food|https://fonts.google.com/icons?icon.query=food|smart-link]  *Note: use the ‘Fill’ version of icon  - Food = “Fastfood” - Non-food = “No Meals” - Non-fluid = “Lunch Dining” - Fluid = “Local Drink”  Food Question (Q1)  [image: Food Question v2-20230824-185816.png]  [person] (Q2)  [image: Fluid Question v2-20230824-185810.png]  Issue: Missing Back button  [image: image-20230817-131724.png]
+  AC:    - Change the Food Question to have explicit Food & Non-Food button options with icons - Change the Fluid question to have explicit Non-Fluid and Fluid button options with icons - Add the Back button to the Q2 step - Use left-alignment if it looks better
+
+[NXT-68364] [Story] [Epic: IM - Usability & UX Enhancements (9.X)]
+  TITLE: IM - Menu Items - Include 'Added Sugar Product' in Menu Item Flags
+  DESC:  As an Item Management user I want the Added Sugar Product to be considered as part of the Menu Item Flags so I can filter by these items.  [image: image-20251117-224812.png]
+  AC:    - Add the ‘Added Sugar Product’ option to the Menu Item Flags dropdown ** on the Advanced tab filters of Menu Items page ** in the Bulk Item tool on the Menu Item section filters
+
+[NXT-49785] [Story] [Epic: IM - Recipe/Menu Item Management Expansion]
+  TITLE: IM - Recipes - Ingredients - Direction Options
+  DESC:  As a menu planner or nutritionist I want an option to include/exclude item standard recipe directions and sub-recipe directions so I can print my recipe reports exactly how I need them.  Recipe Steps - View  - new Ingredient Direction Options icons added (SVGs attached)  [image: Recipe Steps - View-20250509-211652.png]  Recipe Steps - Edit Ingredient Directions  [image: Recipe Steps - Ingredients Edit-20250509-211652.png]  Recipe Report w/ Standard Recipe Directions (example)  - Standard Directions added below Frozen Cut Corn 30 lb  [image: image-20250509-223725.png]
+  AC:    - Provide a new edit mode within the Recipe > Steps & Ingredients > Ingredients card ** Add a new icon to the right side of the card header *** SVG (Direction_Options) attached to story - This will open a special edit mode in the Ingredients card ** enable Cancel/Save buttons on the Ingredient card ** disable edit/action icons from Steps card - Display a checkbox for each recipe ingredient ** for...
+
+[NXT-42141] [Story] [Epic: IM - Production Usability Enhancements (2023)]
+  TITLE: IM - Config - Menu Item Categories - Change colors for default categories
+  DESC:  As a Menu Planner I want the five default Menu Item categories to have the same color as their corresponding Menu Planning food component, so I can more easily associate menu items with their intended component.  [image: image-20230808-225350.png]
+  AC:    - The five default MI&POS categories should have the same initial color as the matching MP component ** Fruit - A4E9FF ** Entree - DE6FA1 ** Grain - F08B46 ** Milk - 459BEA ** Veg - 3AC191 - The default (local) POS Only categories should have the following default colors: ** A La Carte - 6F1031 ** Drinks - CC0000 ** Generic Meals - 8B40D7 - The default (local) Menu Only category should be as follo...
+
+[NXT-52874] [Story] [Epic: IM - List Page & Nav Updates]
+  TITLE: IM - CNDB Items - Preserve Manage Views when navigating back
+  DESC:  As an Item Management user I want the CNDB item list to remember my applied view when I navigate back to the page from a Details page, so I don’t have to reselect columns each time I go back.  [image: image-20240721-192853.png]
+  AC:    - Enhance persistence to retain Manage Views when navigating back to CNDB item list
+
+[NXT-43043] [Story] [Epic: IM/INV - Business Rule & Validation Enhancements]
+  TITLE: INV - Reports page - Consider Item BU Decimal Setting
+  DESC:  As an Inventory user I want all the reports to display base unit quantities in whole numbers or decimals based on the IM setting, so that I can easily tell which items are counted in decimals and which are not.  Reports - all quantity displays of QOH, etc. on all reports  Related story:  [https://primeroedgenext.atlassian.net/browse/NXT-43886|https://primeroedgenext.atlassian.net/browse/NXT-43886|smart-link]  Pre-requisite story for identifying all update places:  [https://primeroedgenext.atlassian.net/browse/NXT-42279|https://primeroedgenext.atlassian.net/browse/NXT-42279|smart-link]  - Usage...
+  AC:    - Update the Inventory UIs and reports to correctly format base unit numbers according to decimal setting ** i.e. show 0 Each instead of 0.00 Each if item is enabled for whole numbers
+
+[NXT-51345] [Story] [Epic: CN27 Updates & USDA Requirements changes]
+  TITLE: IM- Contribution Info- Items, Recipes and Menu items Component Name Change
+  DESC:  Per USDA new requirements, Beans/Peas (Legumes) will now be renamed to Beans, Peas & Lentils.
+  AC:    - Change Name of the Subcomponent of Veg - Beans/Peas (Legumes) to Beans, Peas & Lentils ** This should effect Items, Recipes and Menu items Contribution Slide out on Nutrition Info Tab ** This should effect the display of the Contribution Info Card  [image: image-20240604-182037.png]  [image: image-20240604-182108.png]  - This should also reflect on all items, recipes and menu item reports
+
+[NXT-54382] [Story] [Epic: IM - Usability & UX Enhancements (8.X)]
+  TITLE: IM - Items/Recipes/etc. - Convert scaled weights to higher units (R&D)
+  DESC:  As an Item Management user I want all my unit/serving weight data to be scaled to higher units so I can read it in understandable values.  Conclusion of R&D: we will attempt this implementation in the future [https://primeroedgenext.atlassian.net/browse/NXT-59849|https://primeroedgenext.atlassian.net/browse/NXT-59849|smart-link]
+  AC:    - Convert scaled weight & volume values to the appropriate higher unit when thresholds are reached - establish thresholds for how we pick the next higher unit - show two units if appropriate (e.g. 4 Pounds, 2 Ounces) - Always retain user entered values for edit modes ** i.e. if user entered “grams” then use grams for edit
+
+[NXT-18697] [Story] [Epic: IM - USDA Requirements]
+  TITLE: IM- API - Remove Parenthetical serving measure information from CNDB Items
+  DESC:  USDA has requested that we remove Parenthetical serving measure information when information becomes inaccurate based on the change in unit of measure or quantity of measure.  Example: Item #1053 "1 cup (yields 2 cups whipped) when added to a recipe in a different volume than 1 cup, say 2 cups, it will still display (yields 2 cups whipped). This information is inaccurate and must be removed.  Side note: Researching on Classic, determined that this removal is already happening on some items but not all. There is no way to pinpoint how this removal is being determined but could possibly be helpf...
+  AC:    Remove Parenthetical information from 1 cup (yields 2 cups whipped).  Classic import of this information displays correctly but no determination on how certain items are keeping parenthetical information and some are not.
+
+[NXT-50899] [Story] [Epic: IM - Usability & UX Enhancements (8.X)]
+  TITLE: IM- Recipes- Considering Sub Recipes as part of recommendations on a recipe.
+  DESC:  As a Nutritionist, when I am adding a sub recipe (Ground beef) to my taco salad, I need the system to pull the sub recipe contribution information to allow me to apply the recommendations along with my other ingredients.  This Recommendation should include sub-recipes as part of the “ingredients”  [image: image-20240528-144658.png]  Sub-recipes are not currently included in the recommendation calculation  [image: image-20240528-144745.png]
+  AC:    - Pull contributions for all sub recipes as we do ingredients for recipes ** Since there is only one serving size for recipe, take the contribution of the serving size - IF user adds a weight based measure (standard measure) for the sub recipe on the recipe, scale the contributions accordingly ** Same rules apply as far as scaling down
+
+[NXT-33303] [Story] [Epic: IM - General Enhancements (R6.2)]
+  TITLE: IM - Item Details - Food tab - Allow nutrient entry by percentage
+  DESC:  As a Nutrition Manager I want the ability to enter nutrient values by percentage, at least for nutrients like vitamins, so I can enter nutritionals exactly as they are on their label.  Users cannot be expected to figure out what the milligram equivalent of 2% of iron is.  All percentages are based on the [recently updated Daily Values|https://www.fda.gov/food/new-nutrition-facts-label/daily-value-new-nutrition-and-supplement-facts-labels] established by the FDA  - Iron - 18mg - Calcium - 1300mg - Vitamin A - 900mcg RAE ** we’ll need to change this from IU to mcg ** I think we can ignore the ‘R...
+  AC:    - Update the Item Configuration pages to allow some nutrients to be entered by percentage
+
+[NXT-22056] [Story] [Epic: IM - UI Improvements]
+  TITLE: IM - UX Improvements - Item Split View - Selected Item Color
+  DESC:  [image: image-20211111-010329.png]
+  AC:    •Selected item on the left list is not active or indicated as selected  •Pls add the selected color as #B8B4DE  •Hover color #D9D7EC
+
+[NXT-32932] [Story] [Epic: IM - General Enhancements (R6.2)]
+  TITLE: GTIN Import UI Mapping (Excel Import)
+  DESC:  As a user, I should be able to view the imported item once GTIN Import is completed  **Note:* This story is only for the Excel version of GTIN import. The UI-based Import will have a separate story.
+  AC:    Fixes Needed:  GTIN Is included as part of the Item Description currently, instead Item Description should be shown as-Is in global catalog  All the sections (Food Item, Serving Measures, Contributions, Allergens, Product) should reflect the values in UI in-line with that Item as it reflects in Global Catalog  Screenshot:  [image: image-20220720-221641.png]  [image: image-20220720-221744.png]
+
+[NXT-68590] [Story] [Epic: IM - Bulk Item - Local Updates]
+  TITLE: IM - Bulk Item - Check Updates
+  DESC:  As a District Manager updating my items through the bulk update tool, I would like for a screen that would allow me to check the items that I have made updates to and what sections were updated.  [image: image-20260119-130306.png]  [image: image-20260119-130328.png]  [image: image-20260119-130347.png]
+  AC:    - Provide 3 Sections within the Check Updates ** Pending Updates *** All items that had changes made that are valid and or not  missing Mandatory information ** Partial Updates *** Items that have had changes made that are still missing Mandatory Information ** No Updates *** Items that have not been changed/altered within the session - Provide an “Update Items” button for the Pending Updates sect...
+
+[NXT-39594] [Story] [Epic: IM - Menu & POS Consolidation]
+  TITLE: IM - Item Details - Menu & POS Info - Create/Edit
+  DESC:  As a Menu Planner I want all Menu Item related information on a single tab for my direct menu items so I can see all item and menu item information in a single place.  Requirements  - Populate the Menu Item & POS Info tab according to the new design ** Insert Max Carryover Days into the allocated column space for the overall Leftover Category field *** don’t show the field if a non-applicable Leftover Category is chosed ** move Favorite to the header of the card ** align Show in Summary and Prep Site Item to fit into a single column space - POS Info will be a subset of the Menu Item tab card -...
+  AC:    - Redesign the Recipe details page to appear similarly to the Item overhaul design - Create a tab structure for Recipes - Create a Menu Item tab
+
+[NXT-43301] [Story] [Epic: IM/INV - Tech Debt and Code coverage (6.5)]
+  TITLE: IM - Enhance Multi Select feature
+  DESC:  Alterations needed for the Autocomplete Multi-Select (multiSelect) custom component:  When a value is inputted into the autocomplete field, causing a filtered list of items to appear, the "Select All" action should apply only to the filtered options, not the entire list of options, upon clicking.
+  AC:    () When a value is inputted into the autocomplete field, causing a filtered list of items to appear, the "Select All" action is applied only to the filtered options, not on entire list.
+
+[NXT-43239] [Story] [Epic: IM - Production Usability Enhancements (2023)]
+  TITLE: IM - Items/Recipes/Menu Items - Nutrient Details updates
+  DESC:  As a Nutrition Manager I want the Nutrient Details card to be easier to use and read so I can treat it like a nutrition label.  [image: image-20230919-192301.png]  [image: image-20230919-192408.png]  Optimize sizing in most condensed views (split with nav expanded, etc.)  [image: image-20231026-145344.png]  Nutrient entry not considering 0 when entered on DV column of Vitamins  [image: image-20231026-152409.png]
+  AC:    - Redesign Nutrient Details to more effectively use the card space ** in edit mode, rows should be less vertically stretched out, card should be shorter ** Size the input fields to eliminate unnecessary width (i.e. we know the max length of values) ** Change card to 50% page width *** consider expanding to 2/3 when editing (optional) ** Improve error handling *** do not repeat red messages for eac...
+
+[NXT-36871] [Story] [Epic: IM - Item Type Consolidation - Recipe Rework]
+  TITLE: IM - Recipes - History - Nutrition tab
+  DESC:  As Item Manager administrator I need an option where I can observe the nutritional history of a Recipe so I can see changes to Nutrients, Allergens, Yield Factor and any other fields affecting nutrition.  History Sections  - Create additional History for the Recipe Nutrient Info tab ** History already exists for Nutrients and Contributions ** Yield Factor and Allergens require new history - Update history for Nutrients ** capture re-calculated changes - Provide history icon for relevant cards  [image: image-20230220-150710.png]  [image: image-20230220-150805.png]
+  AC:    - Update History for Nutrient Info - [person] for all sections ** Allergens ** Yield Factor
+
+[NXT-59581] [Story] [Epic: IM - Recipe/Menu Item Management Expansion]
+  TITLE: IM - Menu Items - VMI - Ability to save no contributions
+  DESC:  As a menu planner, there are times where I would like to use the VMI functionality for menu items like condiments where I would like the options available but they do not have contributions.
+  AC:    - Allow user to either not select contributions, or give an options for “No contributions indicated” - Filter menu items to add to VMI only by menu items that do not have contributions indicated
+
+[NXT-53796] [Story] [Epic: IM - Units Card Overhaul]
+  TITLE: IM - Items - Units - Placeholder Unit - Entering Values
+  DESC:  As a district admin I want the Units card to allow me to populate placeholder unit values so I can know exactly which descriptions and weights I need to enter for item readiness.  Revisions from discussion:  - editable placeholders - no +Serving button until first serving is entered - Back button for initial attribute step - Continue button in bottom right of card - (ignore Pack? identifier)  [image: Create Units 12-20240826-210649.png]  - +Serving button once first serving is entered - Cancel/Save buttons - Example of regular edit mode with placeholders still present:  [image: Create Units 13...
+  AC:    - Allow the placeholder units to be edited, indicating which required fields and optional fields are available for each unit being edited - Display a banner message with instructions that update as the user enters different fields with their cursor ** e.g. in Highest Unit field “Enter the description of the highest or biggest unit of the pack sizes.” ** Base Unit: “Enter the description of the sma...
+
+[NXT-37981] [Story] [Epic: IM/INV - Tech Debt and Code coverage]
+  TITLE: TechDebt-ItemMaster- Remove MP_Tag & MP_RecipeTag
+  DESC:  Maintain a Single source for tags data for both Item and Recipe.  Code Changes:  Use Itmm_Tag and Itmm_ItemTag for saving/fetching tags for both Item and Recipe  PreDeployment: Take back up of Itmm_Tag , Itmm_ItemTag  Post Deployment: Copy the existing tags of Recipe from MP_tags, Mp_RecipeTags to ITmm_tag, ITMM_itemtag.  [image: image-20230405-202327.png]
+  AC:    Maintain a Single source for tags data for both Item and Recipe.  Code Changes:  Use Itmm_Tag and Itmm_ItemTag for saving/fetching tags for both Item and Recipe  PreDeployment: Take back up of Itmm_Tag , Itmm_ItemTag  Post Deployment: Copy the existing tags of Recipe from MP_tags, Mp_RecipeTags to ITmm_tag, ITMM_itemtag.
+
+[NXT-31354] [Story] [Epic: IM - Item Details Overhaul]
+  TITLE: IM - Items - Allow Single Item Menu Items without Recipe
+  DESC:  As a District Admin I want the ability to create a Menu Item out of a single item without being required to also create a single item recipe, so that I may create menu items for purchased finished goods.  Note:  - the scope of this story is only for single item recipe and menu items ** dedicated Menu Items / Recipes will be handled later - R&D required first - this story may have downstream impacts on Menu Items and Recipes and may require additional stories for cleanup.  Requirements  - Allow Menu Items to be created from a single item independently of recipe logic ** Serving Measure - Provid...
+  AC:    - Allow Menu Items to be created from a single item without also requiring it first be a Single Item Recipe - Create invisible recipes as required but hide from user - Capture necessary recipe-related attributes
+
+[NXT-25592] [Story] [Epic: IM - Menu Item Management(R5)]
+  TITLE: IM - Create Menu Item (2-Contribution)
+  DESC:  As a menu planner I need to add contribution  information to create a menu item
+  AC:    Be able to populate contribution information manually. Similarly  as to editing information in when in item  Same rules, similar validation rules as when editing information in when in item applies  - The Header should show a label as “\[System Generated]” if its auto populated (Future UI enhancement )
+
+[NXT-31941] [Story] [Epic: IM/INV - Report Updates & PowerBI Conversion]
+  TITLE: IM - Reports - Page Cleanup
+  DESC:  As an Item Management user I want the Reports page to have only useful reports, have descriptions for each and look consistent with other Back Office report pages.  Requirements  - Remove unused reports ** any report with a dead link ** Menu Item Report - Update styling and spacing to be consistent with overall product ** Reference Inventory page (MP/Prod will match as well pending descriptions) *** equally sized and spaced cards, white background, similar font styling, etc. **** check with [~accountid:605cedc8570829006a00d201] if needed - Update some report descriptions ** TBD by Justin ** Al...
+  AC:    - Remove unused reports - Update styling and spacing to be consistent with overall product - Update descriptions
+
+[NXT-30217] [Story] [Epic: IM - Item Details Overhaul]
+  TITLE: IM - Items - Item Details - Edit Global Info
+  DESC:  As a District Admin I want a header section so I can view the main/global info for an item.  Requirements  - Provide an Edit icon for the top-level header info of Item Details ** this Edit must be separate than other header sections - In Edit mode ** Enable the Active flag/toggle/checkbox *** More info TBD ** Enable identifying info *** Item Description **** Mandatory, Unique **** Alert user if Description is not unique: “This exact description is assigned to another item. Please enter a unique description.” *** Brand Name (dropdown) **** Brand Name will not be interdependent with Manufacturer...
+  AC:    - Allow header level/global Item Info to be edited - Enable all header fields during edit mode except for Data Source - Maintain uniqueness for Item Description
+
+[NXT-47036] [Story] [Epic: IM - List Page & Nav Updates]
+  TITLE: IM - All List Pages - Cohesion Updates
+  DESC:  As an Item Management user I want the list pages to be cohesive and to use UX elements to help me operate the page.  [image: image-20240528-143450.png]
+  AC:    - Change all Status filters – both Main and Sub-Type – on all 3 pages to list the values in the below sequence (with relevant statuses for each dropdown) ** Incomplete ** Active ** Pending Deactivation ** Inactive ** Disabled - Change Inventory Item status to also be (mostly) sequential ** Incomplete ** Unpublished ** Published ** Synced ** Locked ** Ineligible ** Pending Deactivation ** Inactive...
+
+[NXT-44510] [Story] [Epic: IM/INV - Business Rule & Validation Enhancements]
+  TITLE: IM - Item Import - Make Inventory Ready fields optional
+  DESC:  As a District Admin I want the ability to import items in a non-Inventory Ready state so I can import items into an incomplete state and finish the inventory readiness in the UI.  Example of an item being imported into Inventory Ineligible status (serving is not linked to base unit):  [image: image-20231031-142940.png]
+  AC:    - Item Import should allow for optional input of all Inventory Ready data points ** Item Category, Storage Category, Valuation Group ** Pack Size unit fields ** Fair Market Value ** pack-serving linkage - Items should import into the UI in the appropriate Inventory Readiness status (Ineligible, Incomplete, etc.) - Checks for Pack Size-serving size relationships for dual unit possibility ** If the...
+
+[NXT-33173] [Story] [Epic: (none)]
+  TITLE: IM - Contributions- Extra Vegetables description change to Additional Vegetables
+  DESC:  As per USDA, we need to change the extra vegetables to say additional vegetables. It has currently been changed in MP and Production but because it is part of the master data table, it reverts back to what IM has as Extra vegetables.  Verify data in multiple environments
+  AC:    - Change Verbiage from Extra Vegetables to Additional Vegetables on contribution screen - Additional Vegetables would be added as part of the total vegetable calculation - Merge to 6.1 and apply changes to USDA build and USDA QA build
+
+[NXT-41275] [Story] [Epic: IM - Production Usability Enhancements (2023)]
+  TITLE: IM - All Types - Nutrient Info - Allergens Card Redesign
+  DESC:  As an IM user I want the Allergens card view mode to only indicate the applicable allergens with the applicable forms so I don’t have to scan to see which allergen form applies.  Current Allergen Card - view mode  [image: image-20230710-172911.png]  Nutrient Info tab  [image: Recipe - New Allergen card-20230710-192600.png]  POS Only Screen  [image: POS Only - New Allergen Card-20230710-192314.png]
+  AC:    - Remove the grid based approach in favor of a simple label statement for each applicable Allergen Form ** in every applicable screen: Item Details, Recipe Details, Menu Item Details, POS-Only Details ** Make the card a reusable component so it can be updated in one place in the future - Prioritize allergen forms in the following order ** ‘Contains’ form ** ‘Processed….’ form ** ‘May Contain’ form...
+
+[NXT-18822] [Story] [Epic: IM - UI Improvements]
+  TITLE: IM - List View Item Details Edit - As we are removing the stepper, we are going for inline edit.
+  DESC:  As a User, I should be able to edit Item Details ,inline( on the same page) instead of routing to stepper. This edit is similar to Item Split View Edit.
+
+[NXT-37109] [Story] [Epic: IM - Item Units & Sub-types]
+  TITLE: IM - Items - Units - Unit Identifiers
+  DESC:  As an Item Management user I want a column which explains the different use cases of my various units so I can better understand the complex consumption of the serving and pack size units.  Unit-level Identifiers  - Base Unit ** only if the base serving is also a pack size - Serving Size identifiers (existing) - Cluster within existing singular icon ** Nutrition assigned ** Contributions assigned ** Used on a recipe - Preferred Measure ** Show a star/favorite icon for preferred measure ** this can be clicked in edit mode to indicate a preferred serving size - +Serving Size (++new++)+ ** Used f...
+  AC:    - Populate the Identifiers column with various icons associated with different important flags which are assigned at a unit level - Indicate typical Serving Size identifiers such as Nutrient association, Contribution association, etc. - Add new identifiers to better help explain the expanded concepts of the Units card
+
+[NXT-36107] [Story] [Epic: IM - Item Type Consolidation - Recipe Rework]
+  TITLE: IM - Recipe Rework - Nutrition Info - Nutrition card
+  DESC:  As a Nutritionist I want the Recipes page to have a dedicated Nutrition Info tab so I can recipe nutritionals without having to scroll past all the steps and ingredients.  Requirements  - Redesign the Recipe details page to appear similarly to the Item overhaul design - Create a tab based design to separate various Recipe sections - Create a Nutrition Info tab to house all the calculated recipe nutrition info in the Item design format - Update the Nutrition card to match the recent Item component ** Ensure that the logic for manually overriding remains ** Add the Recalculate button to the Edit...
+  AC:    - Update the Nutrition card to have the new design but retain Recipe specific Recalculate button - Show the System Generated or Manual Entry label somewhere

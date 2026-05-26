@@ -1,0 +1,174 @@
+---
+id: GUIDE-037
+title: "View and Modify Applications Quick Guide"
+platform: "SC"
+module: "Eligibility"
+content_type: "Quick Guide"
+source_url: "https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Eligibility/Applications_View_Modify_Quick_Guide.pdf"
+local_pdf: "raw/guides/pdf/SC/Eligibility/Quick-Guide/GUIDE-037-view-and-modify-applications-quick-guide.pdf"
+extraction_warnings: []
+extracted_at: "2026-05-18T20:39:41+00:00"
+raw_text_sha256: "9989433df403a250"
+generated: true
+status: "draft_extracted"
+---
+
+# View and Modify Applications Quick Guide
+
+The Applications function has three tabs that allow users to perform various actions.
+ALL tab
+- View details of applications
+  - Edit details of applications
+  - Process applications
+  - Notify households of their application status
+  - More Actions
+
+##  Mark as pending
+ Refuse benefits
+
+##  Delete
+
+##  Add to verification
+ Application image
+
+##  Export
+- History of applications
+PENDING APPLICATIONS tab
+- View application details
+- Delete applications
+- History of applications
+PENDING STUDENTS tab
+- Search for students
+- Edit details
+- View match details
+ALL tab
+The user can view all applications.
+1. On the Applications page, ensure that the ALL tab is selected
+2. Select the Academic Year, Site Code/Site Name, Grade, Entry Method, Status, and Benefits
+3. Click the APPLY button
+   Results display below.
+
+## Action(s) for Applications: View and History
+
+## View Application Details
+1. Click the View (Paper) icon for the desired application
+   The Application Details page displays.
+
+Application Details page
+a. View the Application Number and Status
+b. View the Eligibility
+c. PROCESS APPLICATION – Use this button to process or reprocess the application.
+A comment is required to save if the application is currently in Pending or Processed Status.
+
+## The Status of the application
+determines if this button displays.
+d. NOTIFY – Use this button to notify the student/household regarding their application Status.
+e. MORE ACTIONS – Click this button to select additional application actions.
+See the MORE ACTIONS section below for details.
+f. View the Received Date and Language. Click the Edit (Pencil) icon to edit this information.
+When a corresponding language template is configured, notifications are sent in the language selection.
+g. Section Links – Clicking on one of the section names will navigate you to that section.
+See the information below for section details.
+
+The Application Details page sections are
+- Summary – Displays the Latest Application Action, Application Status, Turnaround Time, and Language, as well as the Timeline Status.
+- Students – Displays information regarding the student(s) on the application.
+- Household Members – Displays all household members included on the application along with applicable income.
+- Contact Information – While optional on the application, this section displays contact information for the applicant.
+- Details – Displays other benefits and demographic information.
+- Notifications – Displays the history of notifications sent tied to this application.
+- Comments – Displays reference comments added to the application and the option to add comments when necessary.
+
+- Documents – Displays supporting documents added to the application with the option to add additional documents when necessary.
+- Application Status History – Displays the history of changes applied to the application’s status.
+- Adult Signature / SSN – Displays the social security number associated with the application as well as if the application signature was confirmed.
+MORE ACTIONS button
+The actions that display are dependent on the status of the application.
+- MARK AS PENDING – Once changes are made to the application, this option can be used to mark the application as pending.
+- REFUSE BENEFITS – Use this option to refuse benefits. The Eligibility determination and the basis for that eligibility appear. Select a Result, Start Date, and enter a comment to refuse benefits.
+- DELETE – Use this option to delete the application. If any students are on this application, this action will return them to their previous eligibility. Select a Reason and add a comment to delete the application.
+- ADD TO VERIFICATION – Use this option to add this application to the verification process.
+- APPLICATION IMAGE – View a preview of the submitted application with options to export and print.
+- EXPORT – Export the application as a PDF to send or print as needed. The user
+
+## may Generate Applications with or without Details, Eligibility, Comments, or
+History.
+History
+1. Click the History (Clock) icon for the desired application
+   The Application History slide deck displays.
+2. Click a row in the table, and information displays in the Changed Value(s) section
+   A key is available, notating the Old and New changed value(s).
+3. View the Application History information
+   PENDING APPLICATIONS tab
+   Some applications that fail to meet the criteria for automatic processing or have been manually placed in Pending and display in the PENDING APPLICATION tab.
+1. On the Applications page, select the PENDING APPLICATIONS tab
+   Pending applications display.
+
+## Action(s) for Pending Applications: View, Delete, History
+
+## View Application Details
+1. Click the View (Paper) icon for the desired pending application
+   The Application Details page displays.
+
+2. Navigate to the Summary section to view the Pending Reasons
+   Delete
+1. Click the Delete (Trash Can) icon for the desired pending application
+   A Confirmation slide deck displays.
+2. Select the Reasons for the deletion
+3. Enter a required comment
+4. Click the DELETE button in the bottom right of the page to confirm
+   If any students are on this application, this action will return them to their previous eligibility.
+   History
+1. Click the History (Clock) icon for the desired application
+   The Application History slide deck displays.
+2. Click a row in the table, and information displays in the Changed Value(s) section
+   A key is available, notating the Old and New changed value(s).
+3. View the Application History information
+   PENDING STUDENTS tab
+   Occasionally, applications are submitted before students are entered into the district’s database or with missing or incorrect student information for the system to match it correctly.
+   The user can either correct the pending error or attempt to match the student by searching the database.
+   The user can view the Pending Reason in the Details section of the submitted application.
+1. On the Applications page, select the PENDING STUDENTS tab
+   PROCESS MATCHES button
+   To process all matches on the tab
+1. Click the checkbox next to the application number
+   You can select the checkbox in the header to select all applications with possible matches.
+   The box(es) will illuminate purple.
+2. Click the PROCESS MATCHES button
+   A Confirmation pop-up message displays.
+3. Select YES
+   A confirmation message displays.
+
+FIND MATCHES button
+To find matches for the applications available within the tab
+1. Click the FIND MATCHES button
+   A green checkmark displays in the Matched Status column if the system finds matches.
+
+## Action(s) for Pending Students: Search, Edit, View
+
+## Search for Students
+Search for students to link to the application.
+1. Click the Search (Magnifying Glass) icon for the desired student
+   The Search & Match Student slide deck displays.
+2. Enter a student’s name into the Search Students field to generate the results
+3. Click the SELECT STUDENT button on the row of the desired student
+   The Compare Details section displays.
+4. Compare the Application Details to the Matched Student
+5. Click the MATCH button at the bottom right corner to update the student’s information
+   A successful match message displays.
+   A green checkmark displays in the Matched Status column on the Applications page.
+
+## Edit Details
+1. Click the Edit (Pencil) icon for the desired student
+   The Edit slide deck displays.
+2. Update the student’s details as needed
+3. Click the SAVE button in the bottom right corner to update the student’s details
+   A confirmation message displays.
+   You are returned to the PENDING STUDENTS tab.
+
+## View Match Details
+A View icon displays for a student once a match is identified for that pending student.
+1. Click the View (Paper) icon for the desired student
+   The Match Details slide deck displays.
+2. Compare the Application Details to the Matched Student
+   Click the X to close the slide deck and return to the PENDING STUDENTS tab.

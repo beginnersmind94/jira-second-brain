@@ -11,17 +11,21 @@ jira-brain/
 ├── CLAUDE.md                # Operating rules for Claude inside this repo
 ├── .brain-state.json        # Pipeline state (resumable checkpoints)
 ├── .gitignore               # Excludes raw CSVs, output/, OS noise
-├── raw/                     # Source-of-truth ticket data
+├── raw/                     # Source-of-truth ticket data (`transcripts/` reserved, not used yet)
 ├── wiki/                    # Compiled, human-curated knowledge
+├── templates/               # Boilerplate shapes for the five resource content types
+├── resources/               # Publishable customer-facing entries (catalog-indexed)
+├── catalog/                 # resources.json — the index the resource center filters against
 ├── scripts/                 # Pipeline (ingest → analyze → compile → render)
 └── output/                  # Generated static site (gitignored)
 ```
 
-Three load-bearing principles:
+Four load-bearing principles:
 
 1. **`raw/` mirrors Jira and is ground-truth.** Filenames (`<KEY>.md`) are stable and never deleted. Field contents track Jira on each ingestion — `ingest.py` rewrites a file when its row differs from disk and no-ops when identical. Wiki pages cite raw tickets, never the other way around.
-2. **`wiki/` is the deliverable.** Concepts, workflows, entities, training, and onboarding pages live here.
-3. **`output/` is disposable.** Anything in it can be regenerated from `raw/` + `wiki/`.
+2. **`wiki/` is the internal deliverable.** Concepts, workflows, entities, training, and onboarding pages live here. Wiki citations resolve to `raw/`.
+3. **`resources/` is the customer-facing deliverable.** Each resource follows one of the templates in `templates/`, cites at least one wiki page or ticket, and is indexed in `catalog/resources.json`. Drafts stay `status: draft` until SME-reviewed.
+4. **`output/` is disposable.** Anything in it can be regenerated from `raw/` + `wiki/` + `resources/` + `catalog/`.
 
 ## Detailed structure
 
@@ -128,6 +132,64 @@ Wikilinks use `[[path|label]]` syntax:
 
 The static-site builder (`scripts/build_site.py`) resolves these against multiple base paths so both vault-root-relative and section-relative links work.
 
+### `templates/`
+Boilerplate shapes for the five content types the resource center publishes. Each file is a markdown skeleton with required frontmatter, required sections, and target length. Templates are scaffolds, not knowledge — they define *shape*; `resources/` provides the *substance*.
+
+```
+templates/
+├── long-form-guide.md       # 2,500–6,000 words, 30–60 min read
+├── micro-guide.md           # 600–1,200 words, 5–10 min read
+├── quick-reference.md       # ≤350 words, one-page printable
+├── faq.md                   # 8–15 Q&A pairs, each source-cited
+└── sop-how-to.md            # 400–900 words, step-by-step procedure
+```
+
+A new content type means a new template here, plus a matching entry in `catalog/resources.json`'s `content_types` array.
+
+### `resources/`
+Publishable, customer-facing entries. Each file:
+- Frontmatter declares `id`, `title`, `platform`, `module`, `page`, `content_type`, `roles`, `tags`, `status`, `template`, `source_refs`, `updated`.
+- Body follows the matching `templates/<content_type>.md` section structure.
+- Every non-obvious claim cites a `wiki/` page or `raw/tickets/` ticket (CLAUDE.md anti-hallucination rules apply unchanged).
+
+```
+resources/
+└── <module-slug>/                          # e.g. eligibility/
+    └── <page-or-topic>-<content-type>.md
+```
+
+A resource doesn't exist for the dashboard until it is *also* registered in `catalog/resources.json`. The file alone is not enough; the catalog entry is what makes it filterable.
+
+### `catalog/`
+The index the resource-center UI filters against.
+
+```
+catalog/
+└── resources.json
+```
+
+Required fields per resource entry:
+
+| Field | Type | Notes |
+|---|---|---|
+| `id` | string | stable slug; matches the frontmatter `id` in the resource file |
+| `title` | string | display title |
+| `platform` | string | one of `platforms[]` (currently `schoolcafe` only) |
+| `module` | string | product module name (e.g. `Eligibility`) |
+| `page` | string | product page or workflow name |
+| `content_type` | string | one of `content_types[]` |
+| `roles` | string[] | subset of `roles[]` |
+| `tags` | string[] | free-form, includes `frequency:daily/weekly/...` and topic tags |
+| `status` | string | one of `statuses[]`: `draft`, `review`, `published` |
+| `path` | string | repo-relative path to the markdown file |
+| `source_refs` | string[] | repo-relative paths to the wiki pages / tickets cited |
+| `updated` | string | ISO date |
+
+Top-level vocabulary lists (`platforms`, `content_types`, `roles`, `statuses`) are the allowed values. The dashboard reads them to populate filter controls.
+
+### `raw/transcripts/`
+Reserved for future SME audio/video transcripts. Empty today; `raw/transcripts/README.md` documents the intent. Nothing in the current pipeline depends on this folder.
+
 ### `scripts/`
 The pipeline. All resumable, all idempotent.
 
@@ -156,6 +218,12 @@ scripts/
                                               │
                                               ▼
                                         compile_wiki.py   ──▶   wiki/concepts/, workflows/, entities/, index.md
+                                              │
+                                              ▼ (manual authoring — no script yet)
+                                        templates/  +  wiki/  +  raw/tickets/
+                                              │
+                                              ▼
+                                        resources/<module>/*.md   +   catalog/resources.json
                                               │
                                               ▼
                                         build_site.py     ──▶   output/site/**/*.html
@@ -218,5 +286,8 @@ This contract is what lets the whole pipeline survive crashes, sleep cycles, and
 
 - **The original Jira CSV.** Customer data, gitignored.
 - **Comments and attachments.** Reserved directories exist; not yet ingested.
+- **SME transcripts.** `raw/transcripts/` reserves the name; no transcripts exist yet, and nothing in the current pipeline depends on them. Resources today are grounded in `raw/tickets/` and `wiki/`.
+- **A resource-center UI.** The dashboard that reads `catalog/resources.json` is a separate follow-up; resources are markdown today.
+- **An auto-compiler for `resources/`.** Authoring is manual for the pilot module; a `compile_resources.py` may follow once the templates stabilize.
 - **Onboarding pages.** Empty by design — derived material; write only after concepts/workflows are stable and SME-reviewed.
 - **Decision pages.** Empty — to be written from explicit architecture/product tickets when identified.

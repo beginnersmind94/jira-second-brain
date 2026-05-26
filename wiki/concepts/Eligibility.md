@@ -7,6 +7,10 @@ ticket_count: 432
 
 # Eligibility
 
+## Citation packet
+
+Internal source packet: [[packets/eligibility|Eligibility citation packet]]. Drafting substrate for the ANC Eligibility resources — safe/unsafe claims, SME questions, and ticket-level source inventory live there. Resources draft *against* the packet; published citations trace to the underlying ticket source chain, not the packet itself.
+
 ## What it is
 
 Eligibility determines each student's meal benefit (free / reduced / paid) via household applications, direct certification matches, and state imports. It drives every POS transaction.

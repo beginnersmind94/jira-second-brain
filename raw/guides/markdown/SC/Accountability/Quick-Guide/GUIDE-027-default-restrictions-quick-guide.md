@@ -1,0 +1,29 @@
+---
+id: GUIDE-027
+title: "Default Restrictions Quick Guide"
+platform: "SC"
+module: "Accountability"
+content_type: "Quick Guide"
+source_url: "https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Accountability/Default_Restrictions_Quick_Guide.pdf"
+local_pdf: "raw/guides/pdf/SC/Accountability/Quick-Guide/GUIDE-027-default-restrictions-quick-guide.pdf"
+curated_against_raw_sha: "86c2e553539c431a"
+curated_against_raw_at: "2026-05-18T20:39:40+00:00"
+last_reviewed_by: ""
+status: "needs_initial_review"
+---
+
+# Default Restrictions Quick Guide
+
+> Seeded from the raw extraction. Edit freely. When the raw drifts, review the diff and update this file, then mark it reviewed with `python scripts/mark_guide_reviewed.py GUIDE-027`.
+
+Default Restrictions allow users to limit the number of Non-Reimbursable Menu Items a patron may purchase per day by Site Type. If a patron exceeds the limit for the day, a message will appear at the POS terminal while processing the transaction. Default Restrictions are applied to each Site Type; however, restrictions for individual patron accounts can be applied within the Account Management module.
+
+## Edit Default Restrictions
+1. Select the DEFAULT RESTRICTIONS tab atop the page
+2. Click the Edit icon for the desired Site Type
+3. Enter the Maximum number of Ala-carte item sales allowed per day as needed
+   If set to zero, there will be no restrictions on the sale of Non-Reimbursable Menu Items.
+4. Click the Checkmark to save the entered number or click X to cancel
+5. Click the SAVE button to retain changes
+   A confirmation response appears atop the page, and the number is changed.
+   Repeat this process to change additional site types Default Restrictions as needed.

@@ -1,0 +1,245 @@
+---
+id: GUIDE-005
+title: "Command Center - Front Office Quick Guide"
+platform: "SC"
+module: "Insights"
+content_type: "Quick Guide"
+source_url: "https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Insights/Insights_Command_Center_Front_Office_Quick_Guide.pdf"
+local_pdf: "raw/guides/pdf/SC/Insights/Quick-Guide/GUIDE-005-command-center-front-office-quick-guide.pdf"
+created_at: "2026-05-13T20:23:05+00:00"
+updated_at: "2026-05-13T20:24:38+00:00"
+workflow_authority: true
+product_rule_authority: false
+status: "draft_extracted"
+---
+
+# Command Center - Front Office Quick Guide
+
+## Source metadata
+
+- Guide ID: GUIDE-005
+- Platform: SC
+- Module: Insights
+- Content Type: Quick Guide
+- Source URL: https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Insights/Insights_Command_Center_Front_Office_Quick_Guide.pdf
+- Local PDF: raw/guides/pdf/SC/Insights/Quick-Guide/GUIDE-005-command-center-front-office-quick-guide.pdf
+
+## Extracted guide text
+
+### Page 1
+
+1
+
+Command Center – Front Office
+The Command Center empowers Districts to make decisions on the industry KPIs. These
+KPIs can be viewed at the District, School Type, and School levels.
+To access the Command Center, navigate to Insights > Front Office > Command
+Center.
+District Level Section
+The District Level section shows the various Key Performance Indicators such as
+Program Access, Breakfast Participation, Average Daily Participation (ADP) – Breakfast,
+Lunch Participation, Average Daily Participation (ADP) – Lunch, Meal Equivalent (MEQ),
+and Total Revenue for the entire District.
+School Type Section
+The School Type section shows the various Key Performance Indicators such as Program
+Access, Breakfast Participation, Breakfast ADP, Lunch Participation, Lunch ADP, Meal
+Equivalent, and Total Revenue for the School Type.
+You can click the Download icon to export this information as an Excel file.
+Schools Section
+The Schools section shows each school's various Key Performance Indicators, such as
+Program Access, Breakfast Participation, Breakfast ADP, Lunch Participation, Lunch ADP,
+Meal Equivalent, and Total Revenue for each School.
+You can use the Name and Type fields to search for specific schools.
+You can click the Download icon to export this information as an Excel file.
+
+### Page 2
+
+2
+
+Program Access
+The Program Access card represents the percentage of students enrolled in Free,
+Reduced, and Paid eligibility categories.
+The total percentage below represents students enrolled in the Free and Reduced
+eligibility categories.
+Hover over the threshold bar to view the actual values achieved versus the target
+threshold set.
+You can click on the total percentage to view a breakdown of the student counts and
+percentages over the Free, Reduced, and Paid eligibility categories as well as the Total.
+
+You can use the Quick Links to navigate to the other front office modules to view the
+transactions represented on these counts.
+
+### Page 3
+
+3
+
+Breakfast Participation
+The Breakfast Participation card represents the overall percentage of students
+participating in breakfast under the Free, Reduced, and Paid eligibility categories.
+These percentages are calculated based on the Total Number of Meals Served ÷ Total
+Number of Operating Days ÷ Total Number of Students Enrolled × 100.
+Hover over the threshold bar to view the actual values achieved versus the target
+threshold set.
+You can click on the total percentage to view a breakdown of the student counts and
+percentages over the Free, Reduced, and Paid eligibility categories as well as the Total.
+
+You can use the Quick Links to navigate to the other front office modules to view the
+transactions represented on these counts.
+
+### Page 4
+
+4
+
+Average Daily Participation – Breakfast
+The Average Daily Participation – Breakfast card represents the overall percentage of
+students participating in breakfast under the Free, Reduced, and Paid eligibility
+categories.
+The average meal count is calculated based on the Number of Breakfast Meals Served in
+a Month ÷ Number of Operating Days in a Month.
+The percentage rate is calculated based on the Average Meal Count ÷ Average Daily
+Attendance.
+Hover over the threshold bar to view the actual values achieved versus the target
+threshold set.
+You can click on the total percentage to view the Average Daily Attendance and
+Operating Days, as well as a breakdown of the student counts and percentages for
+Breakfast and Lunch.
+
+You can use the Quick Links to navigate to the other modules to view the transactions
+represented on these counts.
+
+### Page 5
+
+5
+
+Lunch Participation
+The Lunch Participation card represents the overall percentage of students participating
+in lunch under the Free, Reduced, and Paid eligibility categories.
+These percentages are calculated based on the Total Number of Meals Served ÷ Total
+Number of Operating Days ÷ Total Number of Students Enrolled × 100.
+Hover over the threshold bar to view the actual values achieved versus the target
+threshold set.
+You can click on the total percentage to view a breakdown of the student counts and
+percentages over the Free, Reduced, and Paid eligibility categories as well as the Total.
+
+You can use the Quick Links to navigate to the other front office modules to view the
+transactions represented on these counts.
+
+### Page 6
+
+6
+
+Average Daily Participation – Lunch
+The Average Daily Participation – Lunch card represents the overall percentage of
+students participating in lunch under the Free, Reduced, and Paid eligibility categories.
+The average meal count is calculated based on the Number of Lunch Meals Served in a
+Month ÷ Number of Operating Days in a Month.
+The percentage rate is calculated based on the Average Meal Count ÷ Average Daily
+Attendance.
+Hover over the threshold bar to view the actual values achieved versus the target
+threshold set.
+You can click on the total percentage to view the Average Daily Attendance and
+Operating Days, as well as a breakdown of the student counts and percentages for
+Breakfast and Lunch.
+
+You can use the Quick Links to navigate to the other front office modules to view the
+transactions represented on these counts.
+
+### Page 7
+
+7
+
+Meal Equivalent
+The Meal Equivalent card can be used as a productivity and financial performance
+benchmark.
+This is calculated based on the Meal Type × Conversion Factor. This information is
+defined in the Accountability Dashboard.
+Hover over the threshold bar to view the actual values achieved versus the target
+threshold set.
+You can click on the total Meal Equivalent count to view a breakdown of the meal counts,
+the conversion factors which derive the Meal Equivalent count, and the Total. The
+conversion factors can be modified via the Accountability Dashboard.
+
+You can use the Quick Links to navigate to the other front office modules to view the
+transactions represented on these counts.
+
+### Page 8
+
+8
+
+Total Revenue
+The Total Revenue card represents the total revenue generated under the Reimbursable
+and Non-Reimbursable meal categories.
+Hover over the threshold bar to view the actual values achieved versus the target
+threshold set.
+You can click on the total revenue amount to view the breakdown of revenue by Meal and
+A La Carte categories as well as the Total Revenue.
+
+You can use the Quick Links to navigate to the other front office modules to view the
+transactions represented on these counts.
+
+### Page 9
+
+9
+
+Show Visualization
+You can click the Show Visualization toggle switch to enable a pie chart view of each
+KPI’s details.
+Once enabled, a PRINT PREVIEW button appears, allowing you to export the District
+summary versus the School Type summary information.
+
+Show areas requiring attention
+You can click the Show areas requiring attention checkbox to view schools not meeting
+two or more KPIs threshold values.
+A red warning symbol represents a school that requires attention.
+
+### Page 10
+
+10
+
+Legend
+The Legend at the top of the page represents the District, School Types, and School
+performance against the defined threshold.
+ Dark green represents Excellent/High
+ Light green represents Good/Expected
+ Amber represents Fair
+ Red represents Low
+Threshold Settings
+The Threshold Settings represent the targets set for the District, School Types, and
+Schools to check their performance against the defined threshold.
+You can set the threshold at the District, School Type, or School level.
+Enter the values in each field as needed, and the percentages will automatically change.
+Click the SAVE button to retain information.
+Threshold Settings are set yearly.
+The threshold bar in the KPI section represents the threshold that was set.
+
+### Page 11
+
+11
+
+Command Center Filters
+The Command Center Filters allow you to view different date ranges of information.
+The last ten years of the historical data range are available.
+
+### Page 12
+
+12
+
+KPI Reports
+The KPI Reports page allows you to run reports on different date ranges based on the
+Report Type selection.
+To access the KPI Reports, navigate to Insights > Front Office > KPI Reports.
+KPI Reports can be run for a specific Region (e.g., District), Site Type (e.g., High School),
+or Site (e.g., School). You can do this by clicking the Select a Site(s) dropdown.
+The Monthly Report allows you to extract the monthly trends of KPIs seen in the
+Command Center, such as Program Access, Breakfast and Lunch Participation, Average
+Daily Participation for Breakfast and Lunch, Meal Equivalent, and Revenue.
+If the Monthly Report Type is selected, the Date dropdown will allow you to select date
+ranges such as the Year To Date, Academic Year to Date, and Custom Date Range.
+The Weekly Report allows you to extract the weekly trends of KPIs seen in the Command
+Center, such as Program Access, Breakfast and Lunch Participation, Average Daily
+Participation for Breakfast and Lunch, Meal Equivalent, and Revenue.
+If the Weekly Report Type is selected, the Date dropdown will allow you to select date
+ranges such as the Current Month, Last Month, and Custom Date Range.
+The KPI’s dropdown allows you to select the desired KPIs to be included in the report,
+such as Program Access and Breakfast Participation.
+You can also download these reports in PDF and Excel formats.

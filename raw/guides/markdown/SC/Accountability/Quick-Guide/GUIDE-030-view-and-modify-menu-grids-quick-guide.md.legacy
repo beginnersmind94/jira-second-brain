@@ -1,0 +1,103 @@
+---
+id: GUIDE-030
+title: "View and Modify Menu Grids Quick Guide"
+platform: "SC"
+module: "Accountability"
+content_type: "Quick Guide"
+source_url: "https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Accountability/Menu_Grids_View_Modify_Quick_Guide.pdf"
+local_pdf: "raw/guides/pdf/SC/Accountability/Quick-Guide/GUIDE-030-view-and-modify-menu-grids-quick-guide.pdf"
+created_at: "2026-05-13T20:23:05+00:00"
+updated_at: "2026-05-13T20:24:41+00:00"
+workflow_authority: true
+product_rule_authority: false
+status: "draft_extracted"
+---
+
+# View and Modify Menu Grids Quick Guide
+
+## Source metadata
+
+- Guide ID: GUIDE-030
+- Platform: SC
+- Module: Accountability
+- Content Type: Quick Guide
+- Source URL: https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Accountability/Menu_Grids_View_Modify_Quick_Guide.pdf
+- Local PDF: raw/guides/pdf/SC/Accountability/Quick-Guide/GUIDE-030-view-and-modify-menu-grids-quick-guide.pdf
+
+## Extracted guide text
+
+### Page 1
+
+1
+
+View and Modify Menu Grids
+The Menu Grids function allows users to view, edit, or delete Menu Grid Names, Site
+Types, Meal Types, or Days Allowed.
+View Menu Grids
+1. Select a Site Type to search or leave it blank to select all
+2. Select a Meal Type to search or leave it blank to select all
+3. Click the SEARCH button
+Menu Grids display in the table below.
+Edit Menu Grids
+You can edit the Menu Grid details, including the Menu Name, Meal Type, Site Type,
+Days Allowed, and the Menu Grid Layout.
+1. Identify the Menu Grid you wish to change
+2. Click the Edit icon for the desired Menu Grid
+The Add Menu Grid page displays.
+3. Modify the desired information
+4. Click the SAVE button at the bottom of the page to save your changes
+A confirmation response appears atop the page, and the Menu Grid is changed.
+Repeat this process to edit additional Menu Grids as needed.
+Edit Menu Items/Categories
+You can edit the Menu Item/Category details, including the Size, Position, Color, and
+Text.
+1. On the Menu Grid Layout, identify the Menu Item/Category you wish to change
+2. Click the Ellipsis (Three-Dot) icon for the desired Menu Item/Category, and
+options appear
+3. Select EDIT
+The Edit Button pop-up window displays.
+4. Modify the desired information
+5. Click the SAVE button to return to the Add Menu Grid page
+6. Click the SAVE button at the bottom of the page to save your changes
+A confirmation response appears atop the page, and the Menu Item/Category is
+changed.
+Repeat this process to edit additional Menu Items/Categories as needed.
+
+### Page 2
+
+2
+
+Delete Menu Items/Categories
+1. On the Menu Grid Layout, click the Ellipsis (Three-Dot) icon for a desired Menu
+Item/Category, and options appear
+2. Select DELETE, and the Menu Item/Category is deleted
+3. Click the SAVE button at the bottom of the page to save the deletion
+A confirmation response appears atop the page, and the Menu Item/Category is
+changed.
+Repeat this process to delete additional Menu Items/Categories as needed.
+Set a Default Menu Item
+A single Menu Item button on the Menu Grid can be designated as the Default Menu
+Item. When a patron is loaded in the POS application, the Default Menu Item is
+automatically added to the sales transaction if the patron is eligible to receive it.
+1. On the Menu Grid Layout, click the Ellipsis (Three-Dot) icon for the desired Menu
+Item, and options appear
+2. Select EDIT
+The Edit Button pop-up window displays.
+3. Click the Set as Default Item toggle switch on to set the Menu Item as the Default
+Item
+4. Click the SAVE button
+If a Default Menu Item is already set for the Menu Grid, a pop-up window will
+appear asking if you want to set the selected Menu Item as the Default Menu Item
+instead. Select the YES button to return to the Add Menu Grid page.
+A Star will appear on the selected Menu Items button. This is used to designate
+the Menu Item as a Default Menu Item.
+5. Click the SAVE button at the bottom of the page to save your changes
+A confirmation response appears atop the page, and the Default Menu Item is set.
+Delete Menu Grids
+Only disabled Menu Grids can be deleted.
+1. Identify the Menu Grid you wish to delete
+2. Click the Delete icon for the desired Menu Grid
+The Notification pop-up window displays.
+3. Click YES to confirm your selection
+A confirmation response appears atop the page, and the Menu Grid is deleted.
+Repeat this process to delete additional Menu Grids as needed.

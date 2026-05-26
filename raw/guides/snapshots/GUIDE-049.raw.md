@@ -1,0 +1,61 @@
+---
+id: GUIDE-049
+title: "Direct Certification - Matched Quick Guide"
+platform: "SC"
+module: "Eligibility"
+content_type: "Quick Guide"
+source_url: "https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Eligibility/Direct_Certification_Matched_Quick_Guide.pdf"
+local_pdf: "raw/guides/pdf/SC/Eligibility/Quick-Guide/GUIDE-049-direct-certification-matched-quick-guide.pdf"
+extraction_warnings: []
+extracted_at: "2026-05-18T20:39:43+00:00"
+raw_text_sha256: "93cdedca77b2956a"
+generated: true
+status: "draft_extracted"
+---
+
+# Direct Certification - Matched Quick Guide
+
+The Matched function allows users to
+- Search for matched student(s)
+- View the DC Scorecard for student(s)
+- Umatch student(s) if needed
+
+## Search for Matched Students
+1. Select an Academic Year from the dropdown
+2. Select additional search criteria options if needed
+3. Click the SEARCH button
+   Students display below.
+
+## View DC Scorecard
+The DC Scorecard allows you to better understand why a student was matched.
+1. Identify the matched student’s scorecard you wish to view
+2. Click the View DC Scorecard icon for the desired student
+   The Match Review slide deck displays.
+3. View the MATCHING FACTORS table
+4. For additional information, click the Show Comparison Scorecard toggle switch on
+   The COMPARISON SCORECARD displays the following categories:
+- Personal Information
+- Contact Information
+- ID Numbers
+5. Click the right-facing arrow beside each category to expand the information for review
+6. View the points awarded for each available dropdown
+7. Click the X to close the slide deck
+   You are returned to the Matched page.
+
+## Unmatch a Student
+Only a student from the most recently uploaded DC File can be unmatched via this process.
+1. Identify the matched student you wish to unmatch
+2. Click the View DC Match Information icon for the desired student
+   The Matched Student Info slide deck displays.
+3. Review the Student Information, Guardian Information, DC Information, and Matching Criteria to determine if the student needs to be unmatched
+4. Click the UNMATCH button
+   The Confirmation pop-up window displays.
+5. Enter a comment into the Add Comment field
+   Comments are required to confirm the unmatch.
+
+Click the Block this student from being directly certified for the rest of the academic year. checkbox as necessary.
+6. Click the OK button to finalize the process
+   A confirmation response displays.
+   The student is unmatched.
+   You are returned to the Matched page.
+   Repeat this process to umatch additional students as needed.

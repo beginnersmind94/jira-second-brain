@@ -1,0 +1,65 @@
+---
+id: GUIDE-086
+title: "Complete a Production Adjustment Quick Guide"
+platform: "SC"
+module: "Production"
+content_type: "Quick Guide"
+source_url: "https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Production/Complete_Production_Adjustment_Quick_Guide.pdf"
+local_pdf: "raw/guides/pdf/SC/Production/Quick-Guide/GUIDE-086-complete-a-production-adjustment-quick-guide.pdf"
+created_at: "2026-05-13T20:23:05+00:00"
+updated_at: "2026-05-13T20:24:49+00:00"
+workflow_authority: true
+product_rule_authority: false
+status: "draft_extracted"
+---
+
+# Complete a Production Adjustment Quick Guide
+
+## Source metadata
+
+- Guide ID: GUIDE-086
+- Platform: SC
+- Module: Production
+- Content Type: Quick Guide
+- Source URL: https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Production/Complete_Production_Adjustment_Quick_Guide.pdf
+- Local PDF: raw/guides/pdf/SC/Production/Quick-Guide/GUIDE-086-complete-a-production-adjustment-quick-guide.pdf
+
+## Extracted guide text
+
+### Page 1
+
+PROPRIETARY AND CONFIDENTIAL Production
+© Cybersoft SchoolCafé www.schoolcafe.com Page 1 of 1
+
+COMPLETE A PRODUCTION ADJUSTMENT
+This guide will cover how to add Menu Items to Menus that have already been assigned to the Production Calendar.
+To complete a Production Adjustment, navigate to Production > Production Adjustment.
+On the Production Adjustment page
+1. Select the Meal Type
+2. Select the Site Group
+3. Select the Menu Line
+4. Enter the From Date
+5. Enter the To Date
+6. Select the Menu Item
+
+7. Click the SELECT PLANS button
+The Meal Patterns and Select Sites tables
+appear.
+8. Select the Serving Size for each Meal Pattern as needed
+9. Select the Sites
+By default, all sites are selected.
+Click the header Checkbox to deselect all sites.
+10. Select the Category for each selected site as needed
+Click the View Plan icon to view the Production Plan for each site as needed.
+
+11. Click the SUBMIT ADJUSTMENT(S) button
+A success message displays.
+
+Category: PRODUCTION ADJUSTMENT Document Type:
+Quick Guide
+Author:
+Content Team
+Software Version:
+6.3
+Updated:
+3/24/2023

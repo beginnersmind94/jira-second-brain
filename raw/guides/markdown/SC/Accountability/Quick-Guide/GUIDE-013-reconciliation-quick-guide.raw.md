@@ -1,0 +1,72 @@
+---
+id: GUIDE-013
+title: "Reconciliation Quick Guide"
+platform: "SC"
+module: "Accountability"
+content_type: "Quick Guide"
+source_url: "https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Accountability/Sessions_Reconciliation_Quick_Guide.pdf"
+local_pdf: "raw/guides/pdf/SC/Accountability/Quick-Guide/GUIDE-013-reconciliation-quick-guide.pdf"
+extraction_warnings: []
+extracted_at: "2026-05-18T20:39:39+00:00"
+raw_text_sha256: "cb11d69e3910d2b2"
+generated: true
+status: "draft_extracted"
+---
+
+# Reconciliation Quick Guide
+
+The Sessions function allows users to
+- Find CLOSED Sessions
+- Reconcile Sessions
+- Close an OPENED Session to reconcile
+Reconciliation is used to determine whether the actual amount received at the POS Terminal matches the calculated amount online based on transactions for that day.
+Reconciliation is a required End of Day task and must be completed for every Session generated in SchoolCafé.
+
+## Find a CLOSED Session
+Only CLOSED and BALANCED Sessions are eligible for reconciliation.
+1. Select the Site Code/Site Name, Status, and Date
+2. Click the SEARCH button
+   Session information displays in the table below.
+3. Identify the Session with the CLOSED status and $0.00 Over/Under to reconcile
+
+## Reconcile a Closed Session
+1. Click the Reconcile icon for a CLOSED Session
+   The Reconciliation page displays.
+2. Review the Summary details
+3. Verify this message is displayed in orange - THE SESSION IS BALANCED AND READY TO RECONCILE
+4. Click the RECONCILE button
+   A green THE SESSION IS RECONCILED statement displays.
+   RECONCILED displays in green.
+   Click the BACK button to return to the Sessions page.
+
+## Close an OPENED Session
+The user may force close an OPENED Session to be able to reconcile.
+Force closing an OPENED Session is not a best practice and is not recommended as it may cause data loss and unbalanced Sessions.
+1. Select the Site Code/Site Name, Status, and Date
+2. Click the SEARCH button
+   Session information displays in the table below.
+3. Identify the Session with the OPENED status and $0.00 Over/Under to close
+   Ensure all service is complete before closing an OPENED Session.
+4. Click the Reconcile icon for the desired Session
+   The Reconciliation page displays.
+
+5. THIS SESSION IS NOT CLOSED message displays in orange
+   Only CLOSED and BALANCED Sessions are eligible for reconciliation.
+   Follow the steps below the orange message to close the Session.
+   THIS SESSION IS NOT CLOSED:
+- Wait for the cashier to close the Session at the POS terminal
+Once CLOSED, reconcile the Session.
+If the cashier is still serving, force closing an active Session may cause a loss of transactions.
+- Correct all incorrect transactions before closing the Session
+See the Edit and Add Transactions Guide for more information.
+See the Unbalanced Sessions Guide for more information.
+- Close the Session by clicking the Edit Pencil icon next to the Closing Date/Time/Balance The Closing Balance pop-up window displays.
+Closing Balance Window:
+  - Click the SAVE button
+THE SESSION IS BALANCED AND READY TO RECONCILE message displays in orange.
+The CLOSED status displays in green on the right-hand panel.
+If THE SESSION IS NOT BALANCED message displays with the ADJUST
+SESSION button; see the Unbalanced Session Guide.
+6. Click the RECONCILE button
+   A green THE SESSION IS RECONCILED statement appears, and the status changes to RECONCILED.
+   Click the BACK button to return to the Sessions page.
