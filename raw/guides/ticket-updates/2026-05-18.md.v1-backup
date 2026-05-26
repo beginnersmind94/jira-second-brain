@@ -1,0 +1,189 @@
+# Accountability guide updates — 2026-05-18
+
+Source: `Perseus Jira (3).csv` (provided 2026-05-18).
+Scope: SC / Accountability curated guides only. Assumption: existing guides reflect product state as of 2022-12-31; the CSV's resolved tickets are the authoritative source for changes since 2023-01-01.
+
+Files modified: 7 curated `.md` files (9 logical changes / 10 inline citation comments).
+Files NOT modified: any `.raw.md`, `.md.legacy`, `manifest.csv`, `failures.csv`, `raw/guides/snapshots/`, `raw/guides/diffs/`, or any non-Accountability path.
+
+> **Revision note (2026-05-18, second pass after SME pushback):**
+> - NXT-58287 reasoning rewritten — peer ticket to NXT-58225, not a discarded conflict (same resolved timestamp; the "more recently resolved wins" rule does not apply).
+> - NXT-65306 applied to GUIDE-021 (it has a clear navigation surface: new setting, new exception type, new resolution method). My first pass had silently dropped it under a misapplied "behavior is Jira's authority" reading.
+> - NXT-67405 kept out of guide content, but is now explicitly flagged below with reasoning instead of being lumped under a one-line "skipped" note.
+> - GUIDE-025 candidates are now enumerated individually (48 rows) with per-ticket disposition, instead of a single-sentence summary.
+
+## raw/guides/markdown/SC/Accountability/Quick-Guide/GUIDE-011-edit-and-add-transactions-quick-guide.md
+
+| Ticket | Resolved | Section / heading | Before | After | Reason |
+| --- | --- | --- | --- | --- | --- |
+| NXT-54012 | 2024-11-04 | Change Payment Amount or Method | "On the right-hand panel, enter the Amount Tendered, Deposit Amount, or Change Returned in the New column, if needed" (no qualifications) | Added a note that partial payments are allowed for Cash/Check (Amount Tendered may be less than Sale Amount), Card still requires equal amounts, and the system enforces charge-limit and purchase-restriction checks with an override gated on a new role permission. | Editing a transaction now supports leaving a partial payment when the method is Cash or Check; the original guide implied full tender. New role permission "Override Restrictions/Charge Limits When Editing Transactions" gates the bypass. |
+
+Discarded conflicts: none.
+
+## raw/guides/markdown/SC/Accountability/Quick-Guide/GUIDE-013-reconciliation-quick-guide.md
+
+| Ticket | Resolved | Section / heading | Before | After | Reason |
+| --- | --- | --- | --- | --- | --- |
+| NXT-60921 | 2025-06-04 | Find a CLOSED Session — step 1 | "Select the Site Code/Site Name, Status, and Date" | "Select the Site Code/Site Name (multi-select), Status, and Date" plus a note that the Session # tab in the search filters can locate a specific session by number. | Sites filter became multi-select; a Session # search tab was added beside the existing filter tab so site managers can find a session without scrolling the result grid. |
+| NXT-36439 | 2023-04-18 | New "Delete a Session (More Actions)" subsection appended to Reconcile a Closed Session | (absent) | New subsection documenting Delete Session via More Actions, the confirmation prompt and mandatory comment, the 30-second Undo toaster, and the resulting Deleted status. | Delete Session was added to the More Actions dropdown on the Reconciliation page; this is a customer-visible procedure that the existing guide did not document. |
+| NXT-53996 | 2024-08-23 | Same "Delete a Session" subsection (final paragraph) | (absent) | Added: sessions containing online (Family Hub) payments cannot be deleted; the blocking message is included verbatim. | Delete is blocked when online payments exist; the confirmation prompt also surfaces transaction/payment totals about to be removed. Refines NXT-36439 rather than replacing it (different point: introduction vs. restriction). |
+
+Discarded conflicts: none. NXT-36439 and NXT-53996 both apply because they cover different points (introduction of Delete vs. its online-payment restriction); the conflict rule only discards when two tickets cover the *same* point.
+
+## raw/guides/markdown/SC/Accountability/Quick-Guide/GUIDE-014-deposits-quick-guide.md
+
+| Ticket | Resolved | Section / heading | Before | After | Reason |
+| --- | --- | --- | --- | --- | --- |
+| NXT-71628 | 2026-05-04 | Create Deposit Slips — expanded sections list (after step 3) | "Denominations / Check(s) / Summary" | Added a "Cards (when the district uses the Square integration)" entry between Check(s) and Summary. | A dedicated Cards section was added to the deposit feature for the Square integration, so card transactions are recorded separately from cash and check denominations. |
+| NXT-54193 | 2024-12-26 | Create Deposit Slips — step 4 trailing note | "Either enter the count or specific amounts for each." | Appended: "Sub-Total lines under Coins and Bills show the running total of each Amount column." | Sub-Total lines were added under Coins and Bills, displaying the total of each Amount column. |
+| NXT-71628 | 2026-05-04 | Edit Deposit Slip — step 2 | "Enter the optional Bank Deposit Slip #" | "Enter the optional Bank Deposit Slip # (alphanumeric)" | Bank Deposit Slip # field now accepts alphanumeric values (driven by Adams 12 / Oracle integration requirement). |
+| NXT-58466 | 2025-03-24 | Edit Deposit Slip — step 6 sub-bullets | "Denominations / Checks – Edit or Add a new check" | Added a third sub-bullet: "Bank Deposit Slip Number – update from inside Deposit Slip Details" | Bank Deposit Slip Number became editable from inside Deposit Slip Details (previously read-only after creation). |
+| NXT-58466 | 2025-03-24 | New "Delete Deposit Slip" section appended | (absent) | New section documenting the Delete option inside Deposit Slip Details, the confirmation prompt verbatim, status change to Deleted with user/timestamp tracking, exclusion from reports/rollups, and the permission gate. | Delete option was added inside Deposit Slip Details with a confirmation prompt; deletion is tracked and excludes the slip from reports and rollups. The Delete CRUD permission gates access (default: Central Office, Director, SchoolCafé Administrator). |
+
+Discarded conflicts: none. NXT-71628 and NXT-58466 both touch the Bank Deposit Slip # field but at different points (NXT-58466 made it editable while editing; NXT-71628 widened the format to alphanumeric). They are sequential refinements, not a same-point conflict.
+
+Considered but not applied:
+- NXT-59209 (2025-03-06, Deposits filter retention, grid filter columns): mostly internal QoL on the Deposits page; the curated guide's "Search for Deposit Slips" steps remain accurate. No concrete navigation change to update.
+- NXT-53700 (2024-10-25, Expected Deposit timestamp / variance label parity): the current guide does not describe the Expected Deposit display at all, so adding a timestamp note would introduce new content outside the existing scope. Flagged for human review (see Open questions).
+
+## raw/guides/markdown/SC/Accountability/Quick-Guide/GUIDE-021-edit-checks-quick-guide.md
+
+| Ticket | Resolved | Section / heading | Before | After | Reason |
+| --- | --- | --- | --- | --- | --- |
+| NXT-58225 | 2025-02-19 | View Edit Checks — preface + step 1 | Section opened directly with "1. Select the Site Code/Site Name" | Added a preface stating that the Filters section now offers two views (Edit Checks default, Reverse Edit Checks) and that the user selects the view before running the search; updated step 1 to note Site supports multi-select. | A Filters option was added to switch between the existing Edit Checks workflow and a new Reverse Edit Checks workflow that surfaces sites below a configured rolling-30-day average; the Site dropdown became multi-select and the date picker was upgraded. |
+| NXT-65306 | 2025-10-29 | New "Attendance-driven Edit Checks (Daily Attendance, SNP only)" subsection appended after Resolve Edit Checks | (absent) | New subsection naming the gating system setting ("Edit checks for daily attendance counts?"), the new exception type and its reason text ("Attendance count exceeds enrolled count"), the two resolution paths (inline attendance-grid pop-up or comment + link to the Attendance page), and the recomputation of the existing "exceeds attendance factor" exception from daily counts. | When the Attendance Feature is active with the Daily Method and the new system setting is enabled, the Edit Checks page surfaces new exception types and a new resolution UI tied to the per-site/per-date attendance count. SNP only. The user's clickpath changes (new setting visible, new exception reason text on the page, new resolution flow), so this is navigation-relevant despite being a behavior-driven feature. |
+
+Peer tickets (same resolved date, not a conflict):
+- NXT-58287 (resolved 2025-02-19, "Reverse Edit Checks - Calculations"): same release as NXT-58225, covering the rolling-average computation, % under-average thresholds, and which meal types are surfaced. No standalone navigation surface to document — the user-visible UI changes are fully covered by NXT-58225. *Not a discarded conflict*; the conflict rule (more recently resolved wins) doesn't apply because both resolved at the same timestamp.
+
+Flagged for human review (CLAUDE.md authority: behavior belongs in Jira, not the navigation guide):
+- NXT-67405 (resolved 2025-11-14, "Updates for CACFP and CEP"): tightens edit-check flagging logic — only flag when count > threshold (not ≥); CEP/P2 sites flag only Total counts (not F/R/P); CACFP sites flag for all eligibilities, meal types, attendance, and totals. The user's clickpath through GUIDE-021 (view → resolve → comment) is unchanged; the only visible effect is *which rows appear* in the table, which is behavior. Per CLAUDE.md's authority rule ("Jira tickets/specs remain authoritative for behavior … then flag the conflict for human review"), the ticket itself remains the canonical record. **Reviewer decision needed**: do we want to add a short "How edit checks are flagged" paragraph to GUIDE-021 that summarizes the flagging logic per program type? That would mean reaching past the current scope of the guide.
+
+Out of scope for guide narrative:
+- NXT-56793 (resolved 2025-04-07, "Edit Check Report - Reverse Edit Check"): changes the *report page* (GUIDE-025 Edit Check Report section), not the Edit Checks operational page. See GUIDE-025 enumeration below.
+
+## raw/guides/markdown/SC/Accountability/Quick-Guide/GUIDE-022-end-of-day-quick-guide.md
+
+| Ticket | Resolved | Section / heading | Before | After | Reason |
+| --- | --- | --- | --- | --- | --- |
+| NXT-65307 | 2025-10-22 | Intro paragraph (daily tasks list) | "These Daily Tasks include Sessions, Marked for Review, Suspicious Transactions, Edit Checks, Serving Exceptions, and Deposit Slip." | Added: "Districts using the Attendance Feature with Daily Attendance active for SNP also see an Attendance Count task, which records the per-site/per-date attendance count entered via a Record button." | An Attendance Count daily task was introduced under the Attendance Feature when Daily Attendance is active for SNP; the user records the per-site/per-date count from the task. |
+
+Discarded conflicts: none.
+
+Considered but not applied:
+- NXT-70586 (2026-04-01, Remove Status from Suspicious Transactions task): the curated guide describes the End-of-Day-level Status filter, not the per-task Status column the ticket removes. No matching text to update.
+- NXT-53501 (2024-08-26, Sessions task counts Deleted sessions): internal calculation detail; the guide does not enumerate session counts within the Sessions task.
+
+## raw/guides/markdown/SC/Accountability/Quick-Guide/GUIDE-026-charge-limits-quick-guide.md
+
+| Ticket | Resolved | Section / heading | Before | After | Reason |
+| --- | --- | --- | --- | --- | --- |
+| NXT-54168 | 2024-09-20 | Edit Charge Limits — new preface paragraph | (absent) | "Limits that have never been set display as **No Charge Limit** on this page; the POS treats a blank value as no limit enforced. A $0.00 entry, by contrast, blocks the patron at zero balance." | Charge Limits page now distinguishes a blank limit (displayed as "No Charge Limit", treated as no enforcement) from an explicit $0.00 (treated as a zero-balance block). Previous behaviour showed both as $0.00 and was indistinguishable. |
+
+Discarded conflicts: none.
+
+## raw/guides/markdown/SC/Accountability/Quick-Guide/GUIDE-029-add-menu-grids-quick-guide.md
+
+| Ticket | Resolved | Section / heading | Before | After | Reason |
+| --- | --- | --- | --- | --- | --- |
+| NXT-54019 | 2025-02-07 | Step 2 sub-bullets ("In the Menu Grid Info section…") | "Click the Is Template toggle switch to save the Menu Grid as a template that can be used when creating future Menu Grids" | Bullet removed. | The Is Template toggle was removed from inside Menu Grid Layout; templating moved to a new "Copy Menu Grid" action on the main grid (see GUIDE-030). |
+
+Discarded conflicts: none.
+
+Considered but not applied:
+- NXT-52655 (2024-08-29, drop buttons anywhere): the existing guide's step 5 already says "Drag the Menu Item/Category button(s) to the desired location"; no navigation text changes.
+- NXT-51115 (2024-07-23, Dynamic Entrees category/buttons): the feature is gated on the DYNENTREE system setting being on. Adding to a general guide could mislead districts that do not have it enabled; left out pending the SME decision on whether to document the conditional feature.
+
+## raw/guides/markdown/SC/Accountability/Quick-Guide/GUIDE-030-view-and-modify-menu-grids-quick-guide.md
+
+| Ticket | Resolved | Section / heading | Before | After | Reason |
+| --- | --- | --- | --- | --- | --- |
+| NXT-54019 | 2025-02-07 | New "Copy a Menu Grid" section appended | (absent) | New section documenting the Copy icon on the main Menu Grids page, the unique-name overlay, the verbatim error and success messages, and the list of properties that are copied (Meal Type, Enabled, Site Type, Days Allowed, row/column counts, button positions). | A Copy Menu Grid action was added to the main grid (replacing the in-layout Is Template toggle removed in GUIDE-029); duplicates all settings, layout, and button positions under a new unique menu name. |
+
+Discarded conflicts: none.
+
+Considered but not applied:
+- NXT-52134 (2024-07-18, Dynamic Entrees column on Menu Grids page): conditional on both the DYNENTREE setting being on AND any menu grid having Dynamic Entrees configured. Same reasoning as GUIDE-029.
+
+---
+
+## GUIDE-025 (Accountability Reports) — full enumeration of all 48 candidate tickets
+
+No edits were applied to GUIDE-025 in this pass. The guide is large and describes ~14 reports at a high level (Select X / Click GENERATE / DOWNLOAD). Most candidate tickets change column-level details or add multi-select dropdowns; applying them inline would inflate the guide well beyond its current scope and risk introducing the kind of over-reach the anti-hallucination rules guard against. The full list is below for SME triage.
+
+Per-ticket disposition uses these dispositions:
+- **Already documented** — the high-level concept is in the existing guide
+- **No nav surface** — backend / behavior / processing change with no clickpath impact
+- **Conditional feature** — gated on a system setting that not all districts have
+- **Column-level UI** — small column or label change inside an existing report's output
+- **Page-wide overhaul** — multi-select dropdowns and new date picker (common pattern across many reports)
+- **New report / variant** — adds an entirely new report or report option
+- **Out of scope** — affects a different page than GUIDE-025
+
+| Ticket | Resolved | Summary | Disposition | Notes |
+| --- | --- | --- | --- | --- |
+| NXT-71620 | 2026-05-04 | Activity Report - Remove Cards from Cash Sums | Column-level UI | Excludes card transactions from cash sums for Square integration accuracy. Guide does not enumerate columns. |
+| NXT-71622 | 2026-05-01 | Cash Collection Report - Remove Cards from Report | Column-level UI | Removes cards from sums; adds new option to display credit card amounts separately; updates legend. Guide doesn't enumerate sum columns. |
+| NXT-70587 | 2026-05-01 | Edit Check Worksheet - Add Total Enrollment count | Column-level UI | Adds Total Enrollment (TE) and TE × AF columns to the header for each site; renames "Attendance Factor (A/F)" → "(AF)". Guide doesn't describe per-site header content. |
+| NXT-71623 | 2026-04-30 | Revenue Report - Column Header Change | Column-level UI | Renames "Cash Total" → "Cash/Check Sales and Tax" and "Debit Sales" → "Debit Sales and Tax" when breakout is off. Guide doesn't name those columns. |
+| NXT-70002 | 2026-03-25 | Activity Report > Square Integration | Page-wide overhaul | Adds Square credit-card columns and a modified Summary section. Substantial new content. |
+| NXT-70001 | 2026-03-23 | Revenue Report > Square Integration | Column-level UI | Adds an option for a credit card column between Cash and Check columns. |
+| NXT-64507 | 2026-02-02 | CACFP Reports - Edit Check | New report / variant | Adds CACFP support to Edit Check report (new Programs dropdown option, CACFP meal types, new Atd column, CEP/P2 logic). |
+| NXT-66923 | 2025-11-13 | Menu Item Sales - Terminal dropdown / Group By Terminal | Column-level UI + filter | Terminal dropdown defaults to none-treated-as-all; lists Active terminals before Inactive; reorders group-by to Site > Terminal > Menu Item for Daily Summary; adds Terminal Group Type to Item Summary; ignores empty filter dropdowns. |
+| NXT-65573 | 2025-11-05 | Attendance Feature - Edit Check Worksheet Report | Conditional feature | New report-option checkbox "include attendance count columns"; AF calc switches to daily attendance when enabled; adds CEP/P2 claiming % back; pulls in Edit Check Comments. Gated on Attendance Feature. |
+| NXT-65310 | 2025-10-27 | Attendance Feature - Edit Check Report | Conditional feature | New "Use Attendance counts" report-option checkbox with tooltip; AF computed from daily attendance entries when enabled; new footer note. Gated on Attendance Feature. |
+| NXT-64498 | 2025-10-02 | CACFP Reports - Activity | New report / variant | CACFP support added to Activity report (Programs dropdown option, meal type filter for CACFP, reimbursement rate table per Facility Type). |
+| NXT-64519 | 2025-09-04 | CACFP Reports - Revenue | New report / variant | Updates Revenue report for CACFP: groups Supper under Lunch, all snacks under Snacks; column-label changes when program is SFSP/CACFP; updates the on-page note. |
+| NXT-64518 | 2025-08-22 | CACFP Reports - Participation | New report / variant | Adds Programs dropdown (SNP/SFSP/CACFP), CACFP meal types, CACFP-filtered Summary and Detailed report variants. |
+| NXT-63976 | 2025-08-05 | Participation - Page / Report Updates | Page-wide overhaul | Multi-select dropdowns (Site, Homeroom, Grade, Meal Type, Menu Item); new date picker. |
+| NXT-63977 | 2025-07-31 | Payment - Page / Report Updates | Page-wide overhaul | Multi-select dropdowns (Site, Homeroom, Grade); new date picker. |
+| NXT-62611 | 2025-07-31 | Menu Item Sales - Performance Report | New report / variant | New "Item Performance" report type with sort-by Item/Site, optional Include Price Types, optional Exclude Weekends/Holidays. |
+| NXT-63979 | 2025-07-28 | Site Balance - Page / Report Updates | Page-wide overhaul | Multi-select Site dropdown; new date picker. |
+| NXT-63978 | 2025-07-28 | Revenue - Page / Report Updates | Page-wide overhaul | Multi-select Site dropdown; new date picker. |
+| NXT-63975 | 2025-07-28 | Account Balance - Page / Report Updates | Page-wide overhaul | Multi-select Site dropdown; new date picker. |
+| NXT-63974 | 2025-07-22 | Cash Collection - Page / Report Updates | Page-wide overhaul | Multi-select Site dropdown; new date picker. |
+| NXT-62700 | 2025-07-18 | Activity - Page / Report Updates | Page-wide overhaul | Multi-select Site Type and Site Code; new date picker. |
+| NXT-62629 | 2025-07-16 | Meal Count - Page / Report Updates | Page-wide overhaul | Multi-select Site Type / Site / Meal Type; new date picker; Include Adults default checked; new Terminal dropdown. |
+| NXT-62701 | 2025-07-15 | Edit Check - Page / Report Updates | Page-wide overhaul | Multi-select Site Type and Meal Type. |
+| NXT-62612 | 2025-06-24 | Menu Item Sales - Page / Report Updates | Page-wide overhaul | Multi-select dropdowns; new date picker; text changes ("Menu Type" → "Item Type", "Meals Only" → "Meals", "A La Carte Only" → "A La Carte"). |
+| NXT-56793 | 2025-04-07 | Edit Check Report - Reverse Edit Check | New report / variant | Adds "Highlight Reverse Edit Checks" Additional Option and colorization for days under % Under Average. Multi-select Sites; new date picker. |
+| NXT-54197 | 2025-01-07 | Meal Count - By Grade option | New report / variant | New Grade multi-select dropdown; new "Meal Count By: Grade" option; new Include Adults checkbox; new By-Grade summary and detailed report layouts. |
+| NXT-55408 | 2024-12-17 | Workspace - Daily Stats - Participation | Out of scope | Workspace dashboard drill-down, not the Accountability Reports page. |
+| NXT-54073 | 2024-11-22 | Revenue Report - Meal Type Selector, ALC by Meal Type | New report / variant | Meal Type multi-select, Split A La Carte by Meal Type option, Include A La Carte option, Patron Criteria selection; legend updates. |
+| NXT-53782 | 2024-10-25 | Custom Report - Adams 12 - File Spec | Out of scope | District-specific custom export; not a Reports-page change. |
+| NXT-54010 | 2024-10-02 | Payment Report - Option to include Enrollment Site | New report / variant | Enrollment Site column on PowerBI Payment Report only; new Group By options (Payment Site / Enrollment Site). PowerBI-specific scope. |
+| NXT-46849 | 2024-03-28 | Patron Participation - State Eligibility | Conditional feature | State-Free / State-Reduced filters added under Eligibility on Participation and Non-Participation report pages; gated on state-eligibility configuration. |
+| NXT-42774 | 2024-03-19 | Meal Count (Summary by Eligibility) - State Eligibility | Conditional feature | New State Reimbursable section (State-Free / State-Reduced rows) on the Meal Count report; gated on state-eligibility config. |
+| NXT-42773 | 2024-03-19 | Meal Count (by Site) - State Eligibility | Conditional feature | State-Free / State-Reduced columns added per Meal Type; gated on state-eligibility config. |
+| NXT-42772 | 2024-03-15 | Edit Check Worksheet - State Eligibility | Conditional feature | State Eligibility columns + new State Eligibility Counts section on Edit Check Worksheet; gated on state-eligibility config. |
+| NXT-47290 | 2024-03-05 | Rollups - State Eligibility | No nav surface | Rollup script/table updates for State-Free/Reduced counts; no clickpath impact. |
+| NXT-41369 | 2023-08-09 | PowerBI - CACFP | Already documented | Adds PowerBI version of CACFP reporting; existing guide already mentions "POWERBI (BETA)" buttons for the affected report families. Description empty in CSV. |
+| NXT-39608 | 2023-07-26 | PowerBI - Participation Detailed | Already documented | Existing guide mentions POWERBI (BETA) availability for Participation. |
+| NXT-39607 | 2023-07-26 | PowerBI - Participation Summary | Already documented | Same as above. |
+| NXT-39514 | 2023-07-26 | PowerBI - Account Balance | Already documented | Existing guide mentions POWERBI (BETA) for Account Balance. |
+| NXT-39511 | 2023-07-26 | PowerBI - Participation Non-Participation | Already documented | Same as Participation entries above. |
+| NXT-39513 | 2023-07-24 | PowerBI - Site Balance | Already documented | Existing guide mentions POWERBI (BETA) for Site Balance. |
+| NXT-39512 | 2023-07-07 | PowerBI - Payment | Already documented | Existing guide mentions POWERBI (BETA) for Payment. |
+| NXT-39510 | 2023-07-07 | PowerBI - Cash Collection | Already documented | Existing guide mentions POWERBI (BETA) for Cash Collection. |
+| NXT-35943 | 2023-06-12 | Menu Item Sales - District Summary option | New report / variant | Renames the prior "District" Group Type to "Site"; adds a true District-summed version. |
+| NXT-37862 | 2023-05-16 | Rollups Page - Queuing / progress visibility | No nav surface | Backend research story for queue display and user messaging; downstream UI not specified at this level. |
+| NXT-35907 | 2023-04-18 | PowerBI - Meal Count Report | Already documented | Existing guide mentions POWERBI (BETA) for Meal Count. |
+| NXT-36304 | 2023-04-04 | Rollups Page | Already documented | The Report Rollups section in the existing guide already covers the page introduced here. |
+| NXT-35905 | 2023-03-20 | PowerBI - Revenue Report | Already documented | Existing guide mentions POWERBI (BETA) for Revenue. |
+
+**Recommended SME next actions for GUIDE-025:**
+1. Decide whether to add a single global note at the top of GUIDE-025 stating "Most report pages now support multi-select on Site, Site Type, Meal Type, and similar filters; the date picker on all report pages was upgraded to the FOH Dashboard date picker version." If yes, this single note would cite the page-wide-overhaul tickets (NXT-62612, NXT-62629, NXT-62700, NXT-62701, NXT-63974, NXT-63975, NXT-63978, NXT-63979, NXT-63977, NXT-63976). This avoids editing every report section individually.
+2. Decide whether to add per-report column-level details (NXT-71620, NXT-71622, NXT-71623, NXT-70587, NXT-70002, NXT-70001, NXT-66923). The current guide intentionally describes reports at the page-flow level, not the column level; documenting each column change would be a scope shift.
+3. Decide which conditional features (Attendance Feature reports, State Eligibility reports) belong in the guide vs. only in district-specific onboarding material.
+4. For CACFP report variants (NXT-64498, NXT-64518, NXT-64519, NXT-64507), the existing guide is SNP-flavored; should a parallel CACFP section be added, or are CACFP-specific guides the right home?
+
+---
+
+## Open questions / ambiguities for human review
+
+1. **NXT-67405 (Edit Checks logic for CACFP/CEP)** — see GUIDE-021 Flagged section above. Behavior-only change to flag-triggering rules; the user's clickpath is unchanged. Per CLAUDE.md authority rule, this lives in the ticket/spec. Confirm or override.
+2. **GUIDE-014 / NXT-53700 (Expected Deposit timestamp)** — the current guide does not describe the Expected Deposit display. Should the SME want this documented, the ticket specifies the format `Expected Deposit (As of {{CreatedDate}})` with a current-time line beneath it; flagged here so it does not get lost.
+3. **GUIDE-018 (Transaction Adjustments)** — NXT-58250 (2025-07-28) restructures the Adjustments page (removes nested grids, adds custom views, new columns: Serving Site, Enrollment Site, User Name; new grid-column filters). The current guide was not loaded for this pass because the scope of restructure is large and the existing curated narrative may need a holistic rewrite rather than targeted inline edits. Defer to a follow-up curation pass.
+4. **GUIDE-020 (Eligibility Variance)** — NXT-45480 (2024-03-15) adds State Eligibility formatting to Serving Exceptions when the state-eligibility system setting is on. Skipped in this pass because it is conditional on a setting and the existing guide does not mention eligibility formatting at all; needs an SME judgement on whether to document a conditional feature.
+5. **GUIDE-015 (Transactions Search) / NXT-70014 and GUIDE-011 / NXT-70013** — the Square integration tickets ship with image-only descriptions in the CSV. Skipped to avoid inventing UI details from a thumbnail.
+6. **GUIDE-012 (Unbalanced Session) / Bulk Adjustment (NXT-41518, NXT-41520, NXT-44531)** — Bulk Adjustment is a substantial new workflow on the Reconciliation page, but the current Unbalanced Session guide does not introduce the More Actions menu at all. Adding a Bulk Adjustment subsection here would mean introducing the More Actions context from scratch (similar to what was done for Delete Session in GUIDE-013). Left for SME review because the same workflow may be better placed in GUIDE-018 (Transaction Adjustments) where bulk operations naturally belong.

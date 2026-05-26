@@ -1,0 +1,836 @@
+{
+  "version": 1,
+  "updated": "2026-05-13",
+  "platforms": [
+    "schoolcafe"
+  ],
+  "content_types": [
+    "long-form-guide",
+    "micro-guide",
+    "quick-reference",
+    "faq",
+    "sop-how-to"
+  ],
+  "roles": [
+    "director",
+    "manager",
+    "cashier",
+    "dietitian"
+  ],
+  "statuses": [
+    "draft",
+    "review",
+    "published",
+    "ingested-raw"
+  ],
+  "resources": [
+    {
+      "id": "elig-dc-guide",
+      "title": "Direct Certification \u2014 Full Guide",
+      "platform": "schoolcafe",
+      "module": "Eligibility",
+      "page": "Direct Certification",
+      "content_type": "long-form-guide",
+      "roles": [
+        "director",
+        "manager"
+      ],
+      "tags": [
+        "onboarding",
+        "compliance",
+        "frequency:weekly"
+      ],
+      "status": "draft",
+      "path": "resources/eligibility/direct-certification-guide.md",
+      "source_refs": [
+        "wiki/concepts/Eligibility.md",
+        "wiki/workflows/direct-certification.md",
+        "raw/tickets/NXT-15058.md",
+        "raw/tickets/NXT-14223.md",
+        "raw/tickets/NXT-13343.md",
+        "raw/tickets/NXT-60922.md",
+        "raw/tickets/NXT-63982.md",
+        "raw/tickets/NXT-58224.md",
+        "raw/tickets/NXT-21564.md"
+      ],
+      "updated": "2026-05-13"
+    },
+    {
+      "id": "elig-dc-file-import",
+      "title": "Direct Certification \u2014 Import a State DC File",
+      "platform": "schoolcafe",
+      "module": "Eligibility",
+      "page": "Direct Certification \u2014 File Import",
+      "content_type": "micro-guide",
+      "roles": [
+        "manager"
+      ],
+      "tags": [
+        "frequency:monthly",
+        "compliance",
+        "onboarding"
+      ],
+      "status": "draft",
+      "path": "resources/eligibility/direct-certification-file-import.md",
+      "source_refs": [
+        "wiki/workflows/direct-certification.md",
+        "raw/tickets/NXT-15058.md",
+        "raw/tickets/NXT-58224.md",
+        "raw/tickets/NXT-60922.md",
+        "raw/tickets/NXT-14223.md"
+      ],
+      "updated": "2026-05-13"
+    },
+    {
+      "id": "elig-dc-one-pager",
+      "title": "Direct Certification \u2014 Potential Matches Quick Reference",
+      "platform": "schoolcafe",
+      "module": "Eligibility",
+      "page": "Direct Certification \u2014 Potential Matches",
+      "content_type": "quick-reference",
+      "roles": [
+        "manager"
+      ],
+      "tags": [
+        "frequency:daily",
+        "compliance"
+      ],
+      "status": "draft",
+      "path": "resources/eligibility/direct-certification-one-pager.md",
+      "source_refs": [
+        "raw/tickets/NXT-15058.md",
+        "raw/tickets/NXT-13343.md"
+      ],
+      "updated": "2026-05-13"
+    },
+    {
+      "id": "elig-dc-faq",
+      "title": "Direct Certification \u2014 FAQ",
+      "platform": "schoolcafe",
+      "module": "Eligibility",
+      "page": "Direct Certification",
+      "content_type": "faq",
+      "roles": [
+        "director",
+        "manager",
+        "cashier"
+      ],
+      "tags": [
+        "troubleshooting",
+        "compliance"
+      ],
+      "status": "draft",
+      "path": "resources/eligibility/direct-certification-faq.md",
+      "source_refs": [
+        "raw/tickets/NXT-15058.md",
+        "raw/tickets/NXT-14223.md",
+        "raw/tickets/NXT-13343.md",
+        "raw/tickets/NXT-60922.md",
+        "raw/tickets/NXT-63982.md",
+        "raw/tickets/NXT-21564.md",
+        "raw/tickets/NXT-58224.md"
+      ],
+      "updated": "2026-05-13"
+    },
+    {
+      "id": "elig-dc-daily-review-sop",
+      "title": "SOP \u2014 Daily Potential Matches Review",
+      "platform": "schoolcafe",
+      "module": "Eligibility",
+      "page": "Direct Certification \u2014 Potential Matches",
+      "content_type": "sop-how-to",
+      "roles": [
+        "manager"
+      ],
+      "tags": [
+        "frequency:daily",
+        "compliance",
+        "sop"
+      ],
+      "status": "draft",
+      "path": "resources/eligibility/direct-certification-daily-review.md",
+      "source_refs": [
+        "raw/tickets/NXT-15058.md",
+        "raw/tickets/NXT-13343.md",
+        "raw/tickets/NXT-14223.md",
+        "raw/tickets/NXT-63982.md"
+      ],
+      "updated": "2026-05-13"
+    },
+    {
+      "id": "elig-forms-quick-guide",
+      "title": "Forms \u2014 Quick Guide",
+      "platform": "schoolcafe",
+      "module": "Eligibility",
+      "page": "Form Configuration",
+      "content_type": "micro-guide",
+      "roles": [
+        "director",
+        "manager"
+      ],
+      "tags": [
+        "onboarding",
+        "forms"
+      ],
+      "status": "review",
+      "path": "wiki/guides/eligibility/forms-quick-guide.md",
+      "pdf_path": "wiki/guides/eligibility/pdf/forms-quick-guide.pdf",
+      "source_refs": [
+        "raw/tickets/NXT-69982.md",
+        "raw/tickets/NXT-70092.md",
+        "raw/tickets/NXT-70440.md",
+        "raw/tickets/NXT-70450.md",
+        "raw/tickets/NXT-70451.md",
+        "raw/tickets/NXT-70452.md",
+        "raw/tickets/NXT-70453.md",
+        "raw/tickets/NXT-71226.md",
+        "raw/tickets/NXT-71227.md"
+      ],
+      "updated": "2026-05-13"
+    },
+    {
+      "id": "elig-collection-worksheet",
+      "title": "Collection Worksheet \u2014 Quick Guide",
+      "platform": "schoolcafe",
+      "module": "Eligibility",
+      "page": "Collection Worksheet",
+      "content_type": "micro-guide",
+      "roles": [
+        "manager"
+      ],
+      "tags": [
+        "verification",
+        "frequency:annual"
+      ],
+      "status": "review",
+      "path": "wiki/guides/eligibility/collection-worksheet-quick-guide.md",
+      "pdf_path": "wiki/guides/eligibility/pdf/collection-worksheet-quick-guide.pdf",
+      "source_refs": [
+        "raw/tickets/NXT-68256.md"
+      ],
+      "updated": "2026-05-13"
+    },
+    {
+      "id": "elig-reports-quick-guide",
+      "title": "Eligibility Reports \u2014 Quick Guide",
+      "platform": "schoolcafe",
+      "module": "Eligibility",
+      "page": "Eligibility Reports",
+      "content_type": "micro-guide",
+      "roles": [
+        "director",
+        "manager"
+      ],
+      "tags": [
+        "reporting",
+        "compliance"
+      ],
+      "status": "review",
+      "path": "wiki/guides/eligibility/eligibility-reports-quick-guide.md",
+      "pdf_path": "wiki/guides/eligibility/pdf/eligibility-reports-quick-guide.pdf",
+      "source_refs": [
+        "raw/tickets/NXT-60134.md",
+        "raw/tickets/NXT-56345.md",
+        "raw/tickets/NXT-56318.md"
+      ],
+      "updated": "2026-05-13"
+    },
+    {
+      "id": "elig-view-modify-apps",
+      "title": "View & Modify Applications \u2014 Quick Guide",
+      "platform": "schoolcafe",
+      "module": "Eligibility",
+      "page": "Applications",
+      "content_type": "micro-guide",
+      "roles": [
+        "manager"
+      ],
+      "tags": [
+        "applications",
+        "frequency:daily"
+      ],
+      "status": "review",
+      "path": "wiki/guides/eligibility/view-and-modify-applications-quick-guide.md",
+      "pdf_path": "wiki/guides/eligibility/pdf/view-and-modify-applications-quick-guide.pdf",
+      "source_refs": [
+        "raw/tickets/NXT-66798.md"
+      ],
+      "updated": "2026-05-13"
+    },
+    {
+      "id": "elig-forms-faq",
+      "title": "Forms \u2014 FAQ",
+      "platform": "schoolcafe",
+      "module": "Eligibility",
+      "page": "Form Configuration",
+      "content_type": "faq",
+      "roles": [
+        "director",
+        "manager"
+      ],
+      "tags": [
+        "forms",
+        "onboarding",
+        "troubleshooting"
+      ],
+      "status": "draft",
+      "path": "resources/eligibility/forms-faq.md",
+      "source_refs": [
+        "raw/tickets/NXT-69982.md",
+        "raw/tickets/NXT-70092.md",
+        "raw/tickets/NXT-70440.md",
+        "raw/tickets/NXT-70450.md",
+        "raw/tickets/NXT-70451.md",
+        "raw/tickets/NXT-70452.md",
+        "raw/tickets/NXT-70453.md",
+        "raw/tickets/NXT-71226.md",
+        "raw/tickets/NXT-71227.md"
+      ],
+      "updated": "2026-05-13"
+    },
+    {
+      "id": "elig-reports-quick-reference",
+      "title": "Eligibility Reports \u2014 Quick Reference",
+      "platform": "schoolcafe",
+      "module": "Eligibility",
+      "page": "Eligibility Reports",
+      "content_type": "quick-reference",
+      "roles": [
+        "director",
+        "manager"
+      ],
+      "tags": [
+        "reporting",
+        "compliance",
+        "frequency:on-demand"
+      ],
+      "status": "draft",
+      "path": "resources/eligibility/eligibility-reports-quick-reference.md",
+      "source_refs": [
+        "raw/tickets/NXT-56345.md",
+        "raw/tickets/NXT-56318.md",
+        "raw/tickets/NXT-60134.md",
+        "raw/tickets/NXT-63982.md",
+        "raw/tickets/NXT-21564.md"
+      ],
+      "updated": "2026-05-13"
+    },
+    {
+      "id": "elig-apps-daily-pending-sop",
+      "title": "SOP \u2014 Daily Pending Applications & Pending Students Review",
+      "platform": "schoolcafe",
+      "module": "Eligibility",
+      "page": "Applications",
+      "content_type": "sop-how-to",
+      "roles": [
+        "manager"
+      ],
+      "tags": [
+        "frequency:daily",
+        "applications",
+        "sop"
+      ],
+      "status": "draft",
+      "path": "resources/eligibility/applications-daily-pending-sop.md",
+      "source_refs": [
+        "raw/tickets/NXT-66798.md",
+        "raw/tickets/NXT-5204.md",
+        "raw/tickets/NXT-7337.md",
+        "raw/tickets/NXT-56318.md"
+      ],
+      "updated": "2026-05-13"
+    },
+    {
+      "id": "elig-forms-long-form-guide",
+      "title": "Forms in Eligibility \u2014 Full Guide",
+      "platform": "schoolcafe",
+      "module": "Eligibility",
+      "page": "Forms",
+      "content_type": "long-form-guide",
+      "roles": [
+        "director",
+        "manager"
+      ],
+      "tags": [
+        "onboarding",
+        "forms",
+        "frequency:on-demand"
+      ],
+      "status": "draft",
+      "path": "resources/eligibility/forms-long-form-guide.md",
+      "source_refs": [
+        "raw/tickets/NXT-69982.md",
+        "raw/tickets/NXT-70092.md",
+        "raw/tickets/NXT-70440.md",
+        "raw/tickets/NXT-70450.md",
+        "raw/tickets/NXT-70451.md",
+        "raw/tickets/NXT-70452.md",
+        "raw/tickets/NXT-70453.md",
+        "raw/tickets/NXT-71226.md",
+        "raw/tickets/NXT-71227.md"
+      ],
+      "updated": "2026-05-13"
+    },
+    {
+      "id": "elig-onboarding-guide",
+      "title": "Eligibility in SchoolCaf\u00e9 \u2014 Onboarding Guide",
+      "platform": "schoolcafe",
+      "module": "Eligibility",
+      "page": "Eligibility (module overview)",
+      "content_type": "long-form-guide",
+      "roles": [
+        "director",
+        "manager"
+      ],
+      "tags": [
+        "onboarding",
+        "compliance",
+        "new-hire"
+      ],
+      "status": "draft",
+      "path": "resources/eligibility/eligibility-onboarding-guide.md",
+      "source_refs": [
+        "wiki/concepts/Eligibility.md",
+        "wiki/workflows/direct-certification.md",
+        "raw/tickets/NXT-15058.md",
+        "raw/tickets/NXT-13343.md",
+        "raw/tickets/NXT-14223.md",
+        "raw/tickets/NXT-60922.md",
+        "raw/tickets/NXT-63982.md",
+        "raw/tickets/NXT-21564.md",
+        "raw/tickets/NXT-58224.md",
+        "raw/tickets/NXT-5204.md",
+        "raw/tickets/NXT-7337.md",
+        "raw/tickets/NXT-66798.md",
+        "raw/tickets/NXT-69982.md",
+        "raw/tickets/NXT-70092.md",
+        "raw/tickets/NXT-70440.md",
+        "raw/tickets/NXT-70450.md",
+        "raw/tickets/NXT-70453.md",
+        "raw/tickets/NXT-71227.md",
+        "raw/tickets/NXT-68256.md",
+        "raw/tickets/NXT-56345.md",
+        "raw/tickets/NXT-56318.md"
+      ],
+      "updated": "2026-05-13"
+    },
+    {
+      "id": "elig-add-applications",
+      "title": "Add Applications \u2014 Quick Guide",
+      "platform": "schoolcafe",
+      "module": "Eligibility",
+      "page": "Applications \u00b7 Add",
+      "content_type": "micro-guide",
+      "roles": [
+        "director",
+        "manager"
+      ],
+      "tags": [
+        "applications",
+        "frequency:daily"
+      ],
+      "status": "ingested-raw",
+      "path": "raw/guides/markdown/SC/Eligibility/Quick-Guide/GUIDE-036-add-applications-quick-guide.md",
+      "source_refs": [
+        "https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Eligibility/Applications_Add_Quick_Guide.pdf"
+      ],
+      "updated": "2026-05-13"
+    },
+    {
+      "id": "elig-application-processing",
+      "title": "Application Processing \u2014 Quick Guide",
+      "platform": "schoolcafe",
+      "module": "Eligibility",
+      "page": "Applications \u00b7 Process",
+      "content_type": "micro-guide",
+      "roles": [
+        "director",
+        "manager"
+      ],
+      "tags": [
+        "applications",
+        "frequency:daily"
+      ],
+      "status": "ingested-raw",
+      "path": "raw/guides/markdown/SC/Eligibility/Quick-Guide/GUIDE-038-application-processing-quick-guide.md",
+      "source_refs": [
+        "https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Eligibility/Applications_Application_Processing_Quick_Guide.pdf"
+      ],
+      "updated": "2026-05-13"
+    },
+    {
+      "id": "elig-add-income-surveys",
+      "title": "Add Income Surveys \u2014 Quick Guide",
+      "platform": "schoolcafe",
+      "module": "Eligibility",
+      "page": "Income Surveys \u00b7 Add",
+      "content_type": "micro-guide",
+      "roles": [
+        "director",
+        "manager"
+      ],
+      "tags": [
+        "income-surveys"
+      ],
+      "status": "ingested-raw",
+      "path": "raw/guides/markdown/SC/Eligibility/Quick-Guide/GUIDE-039-add-income-surveys-quick-guide.md",
+      "source_refs": [
+        "https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Eligibility/Surveys_Add_Quick_Guide.pdf"
+      ],
+      "updated": "2026-05-13"
+    },
+    {
+      "id": "elig-view-income-surveys",
+      "title": "View Income Surveys \u2014 Quick Guide",
+      "platform": "schoolcafe",
+      "module": "Eligibility",
+      "page": "Income Surveys \u00b7 View",
+      "content_type": "micro-guide",
+      "roles": [
+        "director",
+        "manager"
+      ],
+      "tags": [
+        "income-surveys"
+      ],
+      "status": "ingested-raw",
+      "path": "raw/guides/markdown/SC/Eligibility/Quick-Guide/GUIDE-040-view-income-surveys-quick-guide.md",
+      "source_refs": [
+        "https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Eligibility/Surveys_View_Modify_Quick_Guide.pdf"
+      ],
+      "updated": "2026-05-13"
+    },
+    {
+      "id": "elig-processing",
+      "title": "Processing \u2014 Quick Guide",
+      "platform": "schoolcafe",
+      "module": "Eligibility",
+      "page": "Processing",
+      "content_type": "micro-guide",
+      "roles": [
+        "director",
+        "manager"
+      ],
+      "tags": [
+        "applications",
+        "processing"
+      ],
+      "status": "ingested-raw",
+      "path": "raw/guides/markdown/SC/Eligibility/Quick-Guide/GUIDE-041-processing-quick-guide.md",
+      "source_refs": [
+        "https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Eligibility/Processing_Quick_Guide.pdf"
+      ],
+      "updated": "2026-05-13"
+    },
+    {
+      "id": "elig-sampling",
+      "title": "Sampling \u2014 Quick Guide",
+      "platform": "schoolcafe",
+      "module": "Eligibility",
+      "page": "Verification \u00b7 Sampling",
+      "content_type": "micro-guide",
+      "roles": [
+        "director",
+        "manager"
+      ],
+      "tags": [
+        "verification",
+        "compliance",
+        "frequency:annual"
+      ],
+      "status": "ingested-raw",
+      "path": "raw/guides/markdown/SC/Eligibility/Quick-Guide/GUIDE-042-sampling-quick-guide.md",
+      "source_refs": [
+        "https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Eligibility/Verification_Sampling_Quick_Guide.pdf"
+      ],
+      "updated": "2026-05-13"
+    },
+    {
+      "id": "elig-tracking",
+      "title": "Tracking \u2014 Quick Guide",
+      "platform": "schoolcafe",
+      "module": "Eligibility",
+      "page": "Verification \u00b7 Tracking",
+      "content_type": "micro-guide",
+      "roles": [
+        "director",
+        "manager"
+      ],
+      "tags": [
+        "verification",
+        "compliance",
+        "frequency:annual"
+      ],
+      "status": "ingested-raw",
+      "path": "raw/guides/markdown/SC/Eligibility/Quick-Guide/GUIDE-043-tracking-quick-guide.md",
+      "source_refs": [
+        "https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Eligibility/Verification_Tracking_Quick_Guide.pdf"
+      ],
+      "updated": "2026-05-13"
+    },
+    {
+      "id": "elig-tracking-forms",
+      "title": "Tracking Forms \u2014 Quick Guide",
+      "platform": "schoolcafe",
+      "module": "Eligibility",
+      "page": "Verification \u00b7 Tracking Forms",
+      "content_type": "micro-guide",
+      "roles": [
+        "director",
+        "manager"
+      ],
+      "tags": [
+        "verification",
+        "compliance",
+        "frequency:annual"
+      ],
+      "status": "ingested-raw",
+      "path": "raw/guides/markdown/SC/Eligibility/Quick-Guide/GUIDE-044-tracking-forms-quick-guide.md",
+      "source_refs": [
+        "https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Eligibility/Verification_Reporting_Tracking_Forms_Quick_Guide.pdf"
+      ],
+      "updated": "2026-05-13"
+    },
+    {
+      "id": "elig-inactive-applications",
+      "title": "Inactive Applications \u2014 Quick Guide",
+      "platform": "schoolcafe",
+      "module": "Eligibility",
+      "page": "Applications \u00b7 Inactive",
+      "content_type": "micro-guide",
+      "roles": [
+        "director",
+        "manager"
+      ],
+      "tags": [
+        "applications",
+        "frequency:daily"
+      ],
+      "status": "ingested-raw",
+      "path": "raw/guides/markdown/SC/Eligibility/Quick-Guide/GUIDE-045-inactive-applications-quick-guide.md",
+      "source_refs": [
+        "https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Eligibility/Verification_Reporting_Inactive_Applications_Quick_Guide.pdf"
+      ],
+      "updated": "2026-05-13"
+    },
+    {
+      "id": "elig-backdated-applications",
+      "title": "Backdated Applications \u2014 Quick Guide",
+      "platform": "schoolcafe",
+      "module": "Eligibility",
+      "page": "Applications \u00b7 Backdated",
+      "content_type": "micro-guide",
+      "roles": [
+        "director",
+        "manager"
+      ],
+      "tags": [
+        "applications",
+        "frequency:daily"
+      ],
+      "status": "ingested-raw",
+      "path": "raw/guides/markdown/SC/Eligibility/Quick-Guide/GUIDE-046-backdated-applications-quick-guide.md",
+      "source_refs": [
+        "https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Eligibility/Verification_Reporting_Backdated_Applications_Quick_Guide.pdf"
+      ],
+      "updated": "2026-05-13"
+    },
+    {
+      "id": "elig-dc-files",
+      "title": "Direct Certification - Files \u2014 Quick Guide",
+      "platform": "schoolcafe",
+      "module": "Eligibility",
+      "page": "Direct Certification \u00b7 Files",
+      "content_type": "micro-guide",
+      "roles": [
+        "director",
+        "manager"
+      ],
+      "tags": [
+        "compliance",
+        "direct-certification"
+      ],
+      "status": "ingested-raw",
+      "path": "raw/guides/markdown/SC/Eligibility/Quick-Guide/GUIDE-048-direct-certification-files-quick-guide.md",
+      "source_refs": [
+        "https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Eligibility/Direct_Certification_Files_Quick_Guide.pdf"
+      ],
+      "updated": "2026-05-13"
+    },
+    {
+      "id": "elig-dc-matched",
+      "title": "Direct Certification - Matched \u2014 Quick Guide",
+      "platform": "schoolcafe",
+      "module": "Eligibility",
+      "page": "Direct Certification \u00b7 Matched",
+      "content_type": "micro-guide",
+      "roles": [
+        "director",
+        "manager"
+      ],
+      "tags": [
+        "compliance",
+        "direct-certification"
+      ],
+      "status": "ingested-raw",
+      "path": "raw/guides/markdown/SC/Eligibility/Quick-Guide/GUIDE-049-direct-certification-matched-quick-guide.md",
+      "source_refs": [
+        "https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Eligibility/Direct_Certification_Matched_Quick_Guide.pdf"
+      ],
+      "updated": "2026-05-13"
+    },
+    {
+      "id": "elig-dc-potential-matches-qg",
+      "title": "Direct Certification - Potential Matches \u2014 Quick Guide",
+      "platform": "schoolcafe",
+      "module": "Eligibility",
+      "page": "Direct Certification \u00b7 Potential Matches",
+      "content_type": "micro-guide",
+      "roles": [
+        "director",
+        "manager"
+      ],
+      "tags": [
+        "compliance",
+        "direct-certification"
+      ],
+      "status": "ingested-raw",
+      "path": "raw/guides/markdown/SC/Eligibility/Quick-Guide/GUIDE-050-direct-certification-potential-matches-quick-guide.md",
+      "source_refs": [
+        "https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Eligibility/Direct_Certification_Potential_Matches_Quick_Guide.pdf"
+      ],
+      "updated": "2026-05-13"
+    },
+    {
+      "id": "elig-dc-extensions",
+      "title": "Direct Certification - Extensions \u2014 Quick Guide",
+      "platform": "schoolcafe",
+      "module": "Eligibility",
+      "page": "Direct Certification \u00b7 Extensions",
+      "content_type": "micro-guide",
+      "roles": [
+        "director",
+        "manager"
+      ],
+      "tags": [
+        "compliance",
+        "direct-certification"
+      ],
+      "status": "ingested-raw",
+      "path": "raw/guides/markdown/SC/Eligibility/Quick-Guide/GUIDE-051-direct-certification-extensions-quick-guide.md",
+      "source_refs": [
+        "https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Eligibility/Direct_Certification_Extensions_Quick_Guide.pdf"
+      ],
+      "updated": "2026-05-13"
+    },
+    {
+      "id": "elig-dc-file-search",
+      "title": "Direct Certification - File Search",
+      "platform": "schoolcafe",
+      "module": "Eligibility",
+      "page": "Direct Certification \u00b7 File Search",
+      "content_type": "micro-guide",
+      "roles": [
+        "director",
+        "manager"
+      ],
+      "tags": [
+        "compliance",
+        "direct-certification"
+      ],
+      "status": "ingested-raw",
+      "path": "raw/guides/markdown/SC/Eligibility/Quick-Guide/GUIDE-052-direct-certification-file-search.md",
+      "source_refs": [
+        "https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Eligibility/Direct_Certification_File_Search_Quick_Guide.pdf"
+      ],
+      "updated": "2026-05-13"
+    },
+    {
+      "id": "elig-apps-notifications",
+      "title": "Applications Notifications \u2014 Quick Guide",
+      "platform": "schoolcafe",
+      "module": "Eligibility",
+      "page": "Notifications \u00b7 Applications",
+      "content_type": "micro-guide",
+      "roles": [
+        "director",
+        "manager"
+      ],
+      "tags": [
+        "applications",
+        "frequency:daily"
+      ],
+      "status": "ingested-raw",
+      "path": "raw/guides/markdown/SC/Eligibility/Quick-Guide/GUIDE-053-applications-notifications-quick-guide.md",
+      "source_refs": [
+        "https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Eligibility/Notifications_Applications_Quick_Guide.pdf"
+      ],
+      "updated": "2026-05-13"
+    },
+    {
+      "id": "elig-income-surveys-notifications",
+      "title": "Income Surveys Notifications \u2014 Quick Guide",
+      "platform": "schoolcafe",
+      "module": "Eligibility",
+      "page": "Notifications \u00b7 Income Surveys",
+      "content_type": "micro-guide",
+      "roles": [
+        "director",
+        "manager"
+      ],
+      "tags": [
+        "income-surveys"
+      ],
+      "status": "ingested-raw",
+      "path": "raw/guides/markdown/SC/Eligibility/Quick-Guide/GUIDE-054-income-surveys-notifications-quick-guide.md",
+      "source_refs": [
+        "https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Eligibility/Notifications_Income_Surveys_Quick_Guide.pdf"
+      ],
+      "updated": "2026-05-13"
+    },
+    {
+      "id": "elig-dc-notifications",
+      "title": "Direct Certification Notifications \u2014 Quick Guide",
+      "platform": "schoolcafe",
+      "module": "Eligibility",
+      "page": "Notifications \u00b7 Direct Certification",
+      "content_type": "micro-guide",
+      "roles": [
+        "director",
+        "manager"
+      ],
+      "tags": [
+        "compliance",
+        "direct-certification"
+      ],
+      "status": "ingested-raw",
+      "path": "raw/guides/markdown/SC/Eligibility/Quick-Guide/GUIDE-055-direct-certification-notifications-quick-guide.md",
+      "source_refs": [
+        "https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Eligibility/Notifications_Direct_Certification_Quick_Guide.pdf"
+      ],
+      "updated": "2026-05-13"
+    },
+    {
+      "id": "elig-carryover-notifications",
+      "title": "Carryover Notifications \u2014 Quick Guide",
+      "platform": "schoolcafe",
+      "module": "Eligibility",
+      "page": "Notifications \u00b7 Carryover",
+      "content_type": "micro-guide",
+      "roles": [
+        "director",
+        "manager"
+      ],
+      "tags": [
+        "notifications",
+        "household-comms"
+      ],
+      "status": "ingested-raw",
+      "path": "raw/guides/markdown/SC/Eligibility/Quick-Guide/GUIDE-056-carryover-notifications-quick-guide.md",
+      "source_refs": [
+        "https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Eligibility/Notifications_Carryover_Quick_Guide.pdf"
+      ],
+      "updated": "2026-05-13"
+    }
+  ]
+}

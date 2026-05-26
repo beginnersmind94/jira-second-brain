@@ -1,0 +1,1662 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Resource Center — POC</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  /* ink */
+  --ink: #1a2028;
+  --ink-dim: #5a6876;
+  --ink-faint: #6e7a87;          /* darkened from #8a95a2 for AA on white */
+
+  /* brand */
+  --accent:        #5a4ac0;       /* primary — text on white passes AA */
+  --accent-dk:     #3f2f9e;       /* hero gradient endpoint, hover */
+  --accent-soft:   #e3e0f8;       /* brand light — soft surfaces */
+  --accent-mid:    #b9b2f5;       /* brand light-mid — focus rings, decorative borders */
+
+  /* surfaces */
+  --border:        #dfe4ea;
+  --border-strong: #c8d1da;
+  --bg:            #ffffff;
+  --bg-soft:       #f7f9fb;
+  --bg-softer:     #eef2f6;
+
+  /* radius scale (3 steps) */
+  --r-sm:   4px;                  /* inputs, buttons, small chrome */
+  --r-md:   8px;                  /* surfaces */
+  --r-pill: 999px;                /* chips, status dot bg */
+
+  /* content-type colors — long shifted off brand purple ramp */
+  --type-long:        #a82a78;
+  --type-long-soft:   #fce8f3;
+  --type-micro:       #1f6fc4;
+  --type-micro-soft:  #e6f0fa;
+  --type-quick:       #117a8c;
+  --type-quick-soft:  #e3f3f5;
+  --type-faq:         #b65f18;
+  --type-faq-soft:    #fbf1e7;
+  --type-sop:         #1d7461;
+  --type-sop-soft:    #e8f3ef;
+
+  /* status colors */
+  --status-draft:     #ad7300;
+  --status-review:    #1f6fc4;
+  --status-published: #1d7461;
+}
+html, body { height: 100%; }
+body {
+  font: 14.5px/1.55 "Inter", -apple-system, "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg-soft);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* universal focus ring */
+*:focus { outline: none; }
+*:focus-visible {
+  outline: 2px solid var(--accent-mid);
+  outline-offset: 2px;
+  border-radius: var(--r-sm);
+}
+
+/* hero */
+.hero {
+  background: linear-gradient(135deg, var(--accent-dk), var(--accent));
+  color: #fff;
+  padding: 26px 40px 22px 40px;
+}
+.hero-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.hero-left .eyebrow {
+  font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(255,255,255,0.82); font-weight: 600; margin-bottom: 6px;
+}
+.hero-left h1 {
+  font-size: 28px; letter-spacing: -0.015em; line-height: 1.15; font-weight: 600;
+}
+.hero-left p {
+  font-size: 14.5px; color: rgba(255,255,255,0.9); margin-top: 6px; max-width: 640px;
+}
+.hero-stats { display: flex; gap: 10px; flex-wrap: wrap; }
+.hero-stat {
+  background: rgba(255,255,255,0.14);
+  border: 1px solid rgba(255,255,255,0.22);
+  padding: 12px 18px; border-radius: var(--r-md); min-width: 132px;
+}
+.hero-stat .v { font-size: 28px; font-weight: 600; line-height: 1.05; letter-spacing: -0.01em; }
+.hero-stat .v small { font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.72); }
+.hero-stat .l {
+  font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.82); margin-top: 6px;
+}
+
+/* layout */
+.shell {
+  max-width: 1400px; margin: 0 auto; padding: 24px 40px 48px 40px;
+  display: grid; grid-template-columns: 260px 1fr; gap: 32px; align-items: start;
+}
+@media (max-width: 960px) {
+  .shell { grid-template-columns: 1fr; padding: 20px; gap: 20px; }
+  .filters { position: static !important; }
+}
+
+/* filters */
+.filters {
+  position: sticky; top: 16px;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: var(--r-md); padding: 16px 18px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.search-wrap { position: relative; margin-bottom: 16px; }
+.search-wrap input {
+  width: 100%; padding: 9px 12px 9px 32px;
+  border: 1px solid var(--border-strong); border-radius: var(--r-sm);
+  font: inherit; color: var(--ink); background: var(--bg-soft);
+  transition: border-color 0.15s, background 0.15s;
+}
+.search-wrap input:focus { outline: none; border-color: var(--accent); background: #fff; }
+.search-wrap::before {
+  content: "⌕"; position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+  color: var(--ink-faint); font-size: 16px;
+}
+.filter-group { margin-bottom: 18px; }
+.filter-group:last-child { margin-bottom: 0; }
+.filter-group h3 {
+  font-size: 10.5px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink-dim); margin-bottom: 8px;
+}
+.chip-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  min-height: 32px;
+  padding: 5px 11px; border-radius: var(--r-pill);
+  font: inherit; font-size: 12px; font-weight: 500; color: var(--ink-dim);
+  background: var(--bg-soft); border: 1px solid var(--border);
+  cursor: pointer; user-select: none;
+  transition: background 0.12s, color 0.12s, border-color 0.12s, opacity 0.12s;
+}
+.chip:hover { border-color: var(--border-strong); color: var(--ink); }
+.chip.active {
+  background: var(--accent); color: #fff; border-color: var(--accent);
+}
+.chip.disabled {
+  opacity: 0.4; cursor: not-allowed; pointer-events: none;
+}
+.chip-count { font-size: 10.5px; opacity: 0.7; }
+.clear-btn {
+  margin-top: 14px; width: 100%;
+  padding: 8px 10px; border: 1px solid var(--border);
+  border-radius: var(--r-sm); background: transparent;
+  font: inherit; font-size: 12.5px; color: var(--ink-dim);
+  cursor: pointer; transition: all 0.12s;
+}
+.clear-btn:hover { background: var(--bg-soft); color: var(--ink); border-color: var(--border-strong); }
+
+/* content */
+.content { min-width: 0; }
+.toolbar {
+  display: flex; align-items: center; justify-content: flex-end;
+  margin-bottom: 14px; gap: 12px; flex-wrap: wrap;
+}
+.toolbar .sort {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; color: var(--ink-dim);
+}
+.toolbar select {
+  font: inherit; font-size: 13px;
+  padding: 6px 10px; border: 1px solid var(--border); border-radius: var(--r-sm);
+  background: var(--bg); color: var(--ink); cursor: pointer;
+}
+
+/* grid of cards */
+.card-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+.card {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: var(--r-md); padding: 16px 18px 14px 18px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  cursor: pointer; transition: transform 0.12s, box-shadow 0.12s, border-color 0.12s;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+  border-color: var(--border-strong);
+}
+.card-top {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+}
+.card-type {
+  font-size: 10.5px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
+  padding: 3px 9px; border-radius: var(--r-sm);
+  background: #fff;                 /* outlined treatment */
+  border: 1px solid currentColor;
+}
+.card h2 {
+  font-size: 17px; font-weight: 600; line-height: 1.3;
+  color: var(--ink); letter-spacing: -0.005em;
+}
+.card .breadcrumb {
+  font-size: 12.5px; color: var(--ink-dim);
+}
+.card .breadcrumb b { font-weight: 600; color: var(--ink); }
+.card-meta {
+  display: flex; flex-wrap: wrap; gap: 4px; margin-top: 2px;
+}
+.meta-pill {
+  font-size: 10.5px; font-weight: 500;
+  padding: 2px 7px; border-radius: var(--r-sm);
+  background: var(--bg-softer); color: var(--ink-dim);
+}
+.card-foot {
+  margin-top: auto; padding-top: 10px;
+  border-top: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  font-size: 11.5px; color: var(--ink-dim);
+}
+.card-foot .left { display: flex; align-items: center; gap: 6px; min-width: 0; }
+.card-foot .right { color: var(--ink-faint); white-space: nowrap; }
+.status-dot {
+  display: inline-block; width: 7px; height: 7px; border-radius: var(--r-pill);
+  flex-shrink: 0;
+}
+.status-dot.status-draft     { background: var(--status-draft); }
+.status-dot.status-review    { background: var(--status-review); }
+.status-dot.status-published { background: var(--status-published); }
+.status-label { text-transform: capitalize; font-weight: 500; }
+.roles { color: var(--ink-faint); }
+
+/* empty */
+.empty {
+  background: var(--bg); border: 1px dashed var(--border-strong);
+  border-radius: var(--r-md); padding: 48px 24px; text-align: center;
+  color: var(--ink-dim);
+}
+.empty h3 { font-size: 16px; color: var(--ink); margin-bottom: 6px; font-weight: 600; }
+.empty p { font-size: 13.5px; }
+
+/* type colors — applied to .card-type and to detail eyebrow */
+.type-long-form-guide { color: var(--type-long); }
+.type-micro-guide     { color: var(--type-micro); }
+.type-quick-reference { color: var(--type-quick); }
+.type-faq             { color: var(--type-faq); }
+.type-sop-how-to      { color: var(--type-sop); }
+
+/* detail panel */
+.scrim {
+  position: fixed; inset: 0; background: rgba(20,30,40,0.32);
+  opacity: 0; pointer-events: none; transition: opacity 0.16s;
+  z-index: 5;
+}
+.scrim.open { opacity: 1; pointer-events: auto; }
+.detail {
+  position: fixed; top: 0; right: 0; bottom: 0; width: 760px; max-width: 100vw;
+  background: var(--bg); border-left: 1px solid var(--border);
+  box-shadow: -8px 0 24px rgba(0,0,0,0.08);
+  transform: translateX(100%); transition: transform 0.18s;
+  z-index: 10; display: flex; flex-direction: column;
+}
+
+/* rendered guide content inside the detail panel */
+#d-content {
+  font-size: 13.5px; line-height: 1.6; color: var(--ink);
+  word-wrap: break-word;
+}
+#d-content .placeholder { color: var(--ink-faint); font-style: italic; }
+#d-content h1 { font-size: 19px; font-weight: 600; margin: 4px 0 10px; letter-spacing: -0.01em; }
+#d-content h2 {
+  font-size: 15px; font-weight: 600; margin: 18px 0 6px;
+  padding-bottom: 4px; border-bottom: 1px solid var(--border);
+  color: var(--ink);
+}
+#d-content h3 { font-size: 13.5px; font-weight: 600; margin: 14px 0 4px; }
+#d-content h4 {
+  font-size: 12px; font-weight: 600; margin: 12px 0 4px;
+  letter-spacing: 0; text-transform: none; color: var(--ink);
+}
+#d-content p { margin: 6px 0; }
+#d-content ul, #d-content ol { padding-left: 22px; margin: 6px 0; }
+#d-content li { margin: 2px 0; padding: 0; border: none; font-size: inherit; }
+#d-content code {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 12px; background: var(--bg-softer);
+  padding: 1px 5px; border-radius: var(--r-sm);
+}
+#d-content pre {
+  background: var(--bg-softer); padding: 10px 12px;
+  border-radius: var(--r-sm); overflow-x: auto; margin: 8px 0;
+  font-size: 12px; line-height: 1.5;
+}
+#d-content pre code { background: transparent; padding: 0; }
+#d-content blockquote {
+  border-left: 3px solid var(--accent-mid);
+  padding: 4px 12px; margin: 10px 0;
+  color: var(--ink-dim); background: var(--bg-soft);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+}
+#d-content blockquote p { margin: 4px 0; }
+#d-content table {
+  border-collapse: collapse; width: 100%;
+  margin: 10px 0; font-size: 12.5px;
+}
+#d-content th, #d-content td {
+  border: 1px solid var(--border); padding: 5px 8px;
+  text-align: left; vertical-align: top;
+}
+#d-content th { background: var(--bg-soft); font-weight: 600; }
+#d-content a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent-mid); }
+#d-content a:hover { text-decoration: none; border-bottom-color: var(--accent); }
+#d-content hr { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
+#d-content strong { font-weight: 600; }
+#d-content img { max-width: 100%; height: auto; }
+.detail-section.collapsible summary {
+  cursor: pointer; list-style: none;
+  font-size: 10.5px; font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--ink-dim);
+  padding: 4px 0; user-select: none;
+}
+.detail-section.collapsible summary::-webkit-details-marker { display: none; }
+.detail-section.collapsible summary::before { content: "▸ "; font-size: 9px; color: var(--ink-faint); }
+.detail-section.collapsible[open] summary::before { content: "▾ "; }
+.detail.open { transform: translateX(0); }
+.detail-head {
+  padding: 20px 24px 16px 24px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+}
+.detail-head .titles { flex: 1; min-width: 0; }
+.detail-head .eyebrow {
+  font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink-dim); font-weight: 600; margin-bottom: 4px;
+}
+.detail-head h2 {
+  font-size: 18px; font-weight: 600; line-height: 1.3; color: var(--ink);
+}
+.close-btn {
+  background: transparent; border: 1px solid var(--border);
+  border-radius: var(--r-sm); padding: 6px 10px; cursor: pointer;
+  font: inherit; font-size: 12px; color: var(--ink-dim);
+  flex-shrink: 0;
+}
+.close-btn:hover { background: var(--bg-soft); color: var(--ink); }
+.detail-body { padding: 20px 24px; overflow-y: auto; flex: 1; }
+.detail-section { margin-bottom: 22px; }
+.detail-section h4 {
+  font-size: 10.5px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink-dim); margin-bottom: 8px;
+}
+.detail-section .row {
+  font-size: 13.5px; color: var(--ink); margin-bottom: 4px;
+}
+.detail-section .row b { font-weight: 600; color: var(--ink); }
+.detail-section .row span { color: var(--ink-dim); }
+.detail-section ul { list-style: none; padding: 0; margin: 0; }
+.detail-section ul li {
+  font-size: 13px; padding: 5px 0;
+  border-bottom: 1px solid var(--border);
+}
+.detail-section ul li:last-child { border-bottom: none; }
+.detail-section ul li a { color: var(--accent); text-decoration: none; }
+.detail-section ul li a:hover { text-decoration: underline; }
+.detail-actions {
+  padding: 16px 24px; border-top: 1px solid var(--border);
+  display: flex; gap: 8px; flex-wrap: wrap;
+}
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 14px; border-radius: var(--r-sm); font: inherit; font-size: 13px;
+  font-weight: 500; cursor: pointer; text-decoration: none;
+  border: 1px solid transparent; transition: all 0.12s;
+}
+.btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn-primary:hover { background: var(--accent-dk); border-color: var(--accent-dk); }
+.btn-secondary { background: var(--bg); color: var(--ink-dim); border-color: var(--border-strong); }
+.btn-secondary:hover { background: var(--bg-soft); color: var(--ink); }
+
+/* footer */
+.foot {
+  margin: 32px auto 0 auto; max-width: 1400px; padding: 0 40px 32px 40px;
+  font-size: 12px; color: var(--ink-faint);
+}
+.foot p { margin: 2px 0; }
+.foot code { font-size: 11.5px; background: var(--bg-softer); padding: 1px 5px; border-radius: var(--r-sm); }
+
+/* hero search */
+.hero-search {
+  flex: 0 1 480px; min-width: 280px; max-width: 520px; position: relative;
+}
+.hero-search input {
+  width: 100%;
+  padding: 14px 18px 14px 46px;
+  border: 1px solid rgba(255,255,255,0.24);
+  background: rgba(255,255,255,0.97);
+  border-radius: var(--r-md);
+  font: inherit; font-size: 15px; color: var(--ink);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.10);
+  transition: box-shadow 0.15s, background 0.15s;
+}
+.hero-search input:focus {
+  outline: none; background: #fff;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.16);
+}
+.hero-search input::placeholder { color: var(--ink-faint); }
+.hero-search::before {
+  content: "⌕"; position: absolute;
+  left: 16px; top: 50%; transform: translateY(-50%);
+  color: var(--ink-faint); font-size: 20px; pointer-events: none;
+}
+
+/* module nav — primary "browse by module" row above the grid */
+.module-nav {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  margin-bottom: 18px; padding: 12px 16px;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.module-nav-label {
+  font-size: 10.5px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink-dim);
+}
+.module-nav-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.module-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 14px;
+  border: 1px solid var(--border-strong); border-radius: var(--r-pill);
+  background: var(--bg);
+  font: inherit; font-size: 13px; font-weight: 500;
+  color: var(--ink);
+  cursor: pointer; user-select: none;
+  transition: background 0.12s, color 0.12s, border-color 0.12s, transform 0.12s;
+}
+.module-pill:hover:not(.disabled) {
+  background: var(--accent-soft); border-color: var(--accent); color: var(--accent-dk);
+}
+.module-pill.active {
+  background: var(--accent); color: #fff; border-color: var(--accent);
+}
+.module-pill.active:hover { background: var(--accent-dk); border-color: var(--accent-dk); }
+.module-pill.disabled { opacity: 0.45; cursor: not-allowed; }
+.module-pill-count { font-size: 11px; opacity: 0.75; font-weight: 400; }
+
+/* card CTA — "Read →" affordance */
+.card-foot .right { display: inline-flex; align-items: center; gap: 10px; }
+.card-date { color: var(--ink-faint); }
+.card-cta {
+  font-size: 12px; font-weight: 500; color: var(--accent);
+  transition: transform 0.14s;
+}
+.card:hover .card-cta { transform: translateX(3px); color: var(--accent-dk); }
+
+/* print: scope to the open detail panel's content so users get a clean guide print */
+@media print {
+  .hero, .shell .filters, .toolbar, .card-grid, .empty, .foot,
+  .scrim, .detail-head .close-btn, .detail-actions { display: none !important; }
+  body { background: #fff; }
+  .shell { display: block; padding: 0; }
+  .detail {
+    position: static !important; transform: none !important;
+    width: 100% !important; max-width: 100% !important;
+    box-shadow: none !important; border-left: none !important;
+  }
+  .detail-head { border-bottom: 1px solid #ccc; }
+  .detail-body { overflow: visible !important; padding: 16px 0; }
+  details.collapsible[open] > summary { display: none; }
+  details.collapsible:not([open]) { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="eyebrow">School Cafe</div>
+      <h1>Resource Center</h1>
+      <p>Find the guide, quick reference, FAQ, or SOP you need.</p>
+    </div>
+    <div class="hero-search">
+      <input type="text" id="search" placeholder="Ask a question or search guides…" aria-label="Search resources">
+    </div>
+  </div>
+</div>
+
+<div class="shell">
+  <aside class="filters" id="filters" aria-label="Filters">
+    <div id="filter-groups"></div>
+    <button class="clear-btn" id="clear-btn">Clear all filters</button>
+  </aside>
+
+  <main class="content">
+    <nav class="module-nav" aria-label="Browse by module">
+      <span class="module-nav-label">Browse</span>
+      <div class="module-nav-pills" id="module-nav-pills"></div>
+    </nav>
+    <div class="toolbar">
+      <div class="sort">
+        <label for="sort">Sort:</label>
+        <select id="sort">
+          <option value="updated-desc">Recently updated</option>
+          <option value="title-asc">Title (A–Z)</option>
+          <option value="type">Content type</option>
+        </select>
+      </div>
+    </div>
+    <div class="card-grid" id="grid" role="list"></div>
+    <div class="empty" id="empty" style="display:none">
+      <h3>No resources match these filters.</h3>
+      <p>Clear a filter or widen your search.</p>
+    </div>
+  </main>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="detail" id="detail" role="dialog" aria-modal="true" aria-labelledby="d-title" aria-hidden="true">
+  <div class="detail-head">
+    <div class="titles">
+      <div class="eyebrow" id="d-breadcrumb"></div>
+      <h2 id="d-title"></h2>
+    </div>
+    <button class="close-btn" id="d-close" aria-label="Close detail panel">Close ✕</button>
+  </div>
+  <div class="detail-body">
+    <div id="d-content" class="detail-section"><p class="placeholder">Loading…</p></div>
+    <details class="detail-section collapsible" open>
+      <summary>Metadata</summary>
+      <div class="row"><b>Content type:</b> <span id="d-type"></span></div>
+      <div class="row"><b>Status:</b> <span id="d-status"></span></div>
+      <div class="row"><b>Roles:</b> <span id="d-roles"></span></div>
+      <div class="row"><b>Tags:</b> <span id="d-tags"></span></div>
+      <div class="row"><b>Updated:</b> <span id="d-updated"></span></div>
+    </details>
+    <details class="detail-section collapsible">
+      <summary>Path</summary>
+      <div class="row"><span id="d-path" style="font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12.5px;"></span></div>
+    </details>
+    <details class="detail-section collapsible">
+      <summary>Source references</summary>
+      <ul id="d-sources"></ul>
+    </details>
+  </div>
+  <div class="detail-actions">
+    <a class="btn btn-primary" id="d-open" href="#" target="_blank" rel="noopener">Download source (.md)</a>
+    <button class="btn btn-secondary" id="d-close-2">Close</button>
+  </div>
+</aside>
+
+<div class="foot">
+  <p>Filter by module, content type, role, or workflow. Bookmark or share a filtered view via the URL.</p>
+</div>
+
+<!-- embedded guide markdown — keeps content inline so fetch() is not required -->
+<script type="text/markdown" id="md-elig-forms-quick-guide">
+---
+title: Forms — Quick Guide
+module: Eligibility
+content_type: quick-guide
+source_tickets: [NXT-69982, NXT-70092, NXT-70440, NXT-70450, NXT-70451, NXT-70452, NXT-70453, NXT-71226, NXT-71227]
+status: draft_for_sme_review
+created_at: 2026-05-13
+authored_from: tickets
+---
+
+# Forms — Quick Guide
+
+## Overview
+
+The Forms framework lets a district configure and accept non-traditional benefit applications — for example, Summer EBT — without relying on an external system. Cybersoft Implementation team members and district admins define each form type and its application image, then submitted form applications appear in a grid alongside existing Eligibility data. Family Hub families submit form applications once the Forms license is enabled for the district.
+
+## Form Configuration — Forms tab
+
+Form Configuration is the page where district admins manage form types, application images, and the auto-processing rules that route online applications to Pending. The page has three tabs — Forms (default), Form Image Templates, and Auto-Processing Rules — and any user with page-level access to Form Configuration has the same level of access on all three tabs.
+
+The Forms tab lets you add or remove non-school-meal forms. The School Meal Application and Income Survey can also be modified here in a limited capacity.
+
+Add a new form:
+1. On the Forms tab, click Add New Form Application to open the drawer
+2. Fill out the form configuration fields (listed below)
+3. Click Save to add the form to the list
+
+Form configuration fields:
+- Name — up to 50 characters
+- Description — up to 50 characters
+- Other Benefit — dropdown of active benefits paired with the current academic year (for example, "Bus Fees (2025-2026)")
+- Form Image Template — choose from active templates; Default is the default value
+- Start Date — auto-populated to today; required
+- End Date — optional; leave blank or set a future end date
+- Site(s) Associated — multi-select against active sites for the district
+- Form requires verification — Yes/No. If Yes, choose Standard or Rolling
+- Income Collection Method — Individual, Household, or None. If Individual, also answer Accept child income (Yes/No)
+- Form requires last 4 digits of SSN — Yes/No/Partial
+- Form requires electronic signature — Yes/No
+- This form must have its own notification letters — Yes/No
+- Display privacy act / disclaimer — Yes/No
+- Accept PFD — Yes/No (shown only if the district is in Alaska)
+- Form is enabled — controls whether the form appears as Enabled or Disabled in the grid
+
+A form can be associated with only one image template, but a single image template can be reused across multiple forms.
+
+[SME QUESTION: NXT-70450's title says "Add New Form to grid" while its body refers to the drawer as "Add New Form Application." What is the actual label of the button on the Forms tab? This is the form-type-definition drawer, distinct from the Add New Form Application button on the Other Forms page described later in this guide.]
+
+[SME QUESTION: What permission gates access to the Form Configuration page? NXT-70092 says any user with page-level access to Form Configuration has access to all three tabs, but does not name the specific role or operation that grants that page-level access.]
+
+## Form Configuration — Form Image Templates tab
+
+The Form Image Templates tab manages the HTML image templates that accompany each non-school-meal form. The Default School Meal Application and Income Survey image templates are not edited here — to update those, contact Customer Care.
+
+The grid lists all image templates with these columns:
+- Template Name (the Default record is named "Standard Image Template")
+- Form(s) Associated
+- Status — Active by default; column filters available
+- Type — Standard or Custom
+- Action(s)
+
+Row actions:
+- Edit (pencil) — opens a drawer to change the template name, the forms associated, and active/inactive status
+- View — opens the form image HTML editor for editing template content
+- History — shows which user updated the template and when (field-level history of image edits is not tracked)
+
+Add or save a new image template:
+1. Click View on an existing template (or on Default) to open the HTML editor
+2. The editor title shows the form name — for example, "Summer EBT Form Image"
+3. Edit the HTML text. Be careful not to modify field data
+4. Click Save As. You cannot overwrite the Default template
+5. When prompted, name the new template and confirm. It appears in the grid and is referenceable when configuring a form
+
+[SME QUESTION: NXT-70451 says Save As is "enabled to anyone." Does "anyone" mean any user who can view this tab, or any user in the district regardless of role? Confirm the actual permission scope.]
+
+## Form Configuration — Auto-Processing Rules tab
+
+The Auto-Processing Rules tab controls scenarios where an online application with automatic processing may be parked as Pending instead of being processed. For example, applications with students at CEP sites are typically routed to Pending and not processed automatically; turning that option off causes those applications to process normally and not appear in Pending Applications.
+
+[SME QUESTION: NXT-70092 describes the Auto-Processing Rules tab in general terms and gives the CEP example. Which specific toggles/settings now live on this tab? The tab is described as containing "the formerly existing content on the page" — please confirm the full list shipped.]
+
+## FRE Application Image configuration
+
+The Application Image page in Eligibility > Settings lets Cybersoft admins update the default HTML image template that all current FRE applications use. The page is restricted to Cybersoft admin permissions by default.
+
+A warning is shown beneath the page title:
+
+> Warning: Please make sure that any changes to this image are in compliance with the rules and regulations for the state to which this district belongs, and be advised that updates made to this image will immediately impact ALL applications, past and present.
+
+Update the FRE application image:
+1. Navigate to Eligibility > Settings > Application Image
+2. Review the warning
+3. Edit the default FRE image displayed beneath the warning
+4. Click Save to permanently save your changes for the district, or Cancel to discard them
+
+The default image is named "Standard Application Image."
+
+## Other Forms — Add New Form Application
+
+The Other Forms page lives in Eligibility > Forms > Other Forms, between Surveys and Processing in the Eligibility navigation. From here, district users submit form applications against any active form type configured in Form Configuration.
+
+The Add New Form Application button opens a stepper that mimics the existing Add New Survey workflow for Income Surveys, with the steps adjusted to match the selected form's configuration.
+
+Submit a new form application:
+1. On the Other Forms page, click Add New Form Application
+2. Choose the active form type (for example, Summer EBT, Income Survey, or any other configured form). Only one form type can be selected
+3. The Add New Form Application stepper opens, displaying the chosen form's name
+4. Complete each step according to the form's configuration:
+   - Income collection — Individual (each household member has their own income; PFD is collected only in this scenario), Household (a single total household-income field), or None (income fields hidden; only Total Household Members / Household Size remain)
+   - Contact Info — First Name and Last Name are required; other fields are optional
+   - SSN — visible only when the form requires last 4 digits of SSN. Partial is treated the same as Yes
+   - Signature — visible only when the form requires an electronic signature
+5. Review the Pending Reasons shown on the Submit step. If household size does not match, the application cannot be submitted until the issue is resolved
+6. Click Submit to submit the application as complete, or Mark as Pending to save it for later review
+7. The associated form application image is shown on the final step, with print and export options
+8. Choose I'm Done For Now to return to the Other Forms page, or Submit Another Form Application to start a new entry
+
+[SME QUESTION: NXT-71226 notes that the form-type selection mechanism is negotiable (drawer, dropdown, or other picker). Which final UI shipped? Update this section to match.]
+
+## Other Forms — Submitted form applications grid
+
+When the Other Forms page loads, it displays all submitted form applications in the grid. Two tabs are available: ALL (every submitted form application) and Pending (only applications in Pending status).
+
+Default columns on the ALL tab:
+- Form Application #
+- Form Name
+- Entry Method
+- Status
+- Received Date
+- Result
+- Household Size
+- Household Income Range
+- Household Income
+- Frequency
+
+Default columns on the Pending tab:
+- Form Application #
+- Form Name
+- Entry Method
+- Received Date
+- Student Name(s)
+- Reason
+
+The Result column displays Qualified or Unqualified once the application has been processed; it is blank until then.
+
+Grid results work in tandem with the filters above the grid. The form-selection filter is labeled Form Name (formerly Form Select).
+
+[SME QUESTION: NXT-70440 lists Application Details, History, Delete, and the Excel button as items that "can be handled in a separate story." Which of these are available on the Other Forms page today, and which are deferred?]
+
+## Family Hub side — Forms license and Forms Template
+
+The Forms framework is gated by a SchoolCafé district license called Forms. Cybersoft admins enable it per district from Super Admin > Configuration > Configure Districts. Enabling the Forms license ties the Forms Template and Fill Out a Form operations to that district.
+
+When the Forms license is enabled for a district:
+- The district's short URL page shows a "Submit Forms" line, displayed after the existing "Submit Meal Applications" line
+- In the Benefits category, the Forms Template page becomes available to district admins. It mirrors the existing Program Template page in structure and steps, listing all active forms and letting the admin edit them
+- The Forms Template page uses the same language list as the Manage Languages page
+
+The Fill Out a Form operation, which surfaces forms to Family Hub applicants, is also gated by the Forms license.
+
+[SME QUESTION: NXT-71227 says the Forms Template page mirrors Program Template "except one additional step described below," and points to a follow-up story for form questionnaire answers / settings. Which additional step is shipped in the current Forms Template page, if any?]
+
+[SME QUESTION: When a district enables the Forms license, does the "Submit Forms" link appear on the short URL page immediately, or is a separate Family Hub cache invalidation / release required before applicants can see it?]
+
+## Source tickets
+
+| Ticket | Resolved | Summary |
+|---|---|---|
+| NXT-69982 | 2026-02-23 | Forms Framework — Other Forms page added in nav between Surveys and Processing; Form Settings renamed to Form Configuration; Other Forms permission added |
+| NXT-70092 | 2026-02-23 | Form Configuration page layout — three tabs (Forms, Form Image Templates, Auto-Processing Rules); shared page-level access |
+| NXT-70450 | 2026-04-14 | Form Configuration > Forms tab — Add New Form drawer (form-type definition fields) |
+| NXT-70451 | 2026-04-14 | Form Image Templates tab — add/edit form image templates with Save As |
+| NXT-70452 | 2026-03-31 | Form Image Templates tab — combined template grid with Edit, View, History row actions |
+| NXT-70453 | 2026-04-14 | FRE Application Image — new page in Eligibility > Settings for Cybersoft admins |
+| NXT-70440 | 2026-05-12 | Other Forms — submitted form applications grid (ALL and Pending tabs, default columns) |
+| NXT-71226 | 2026-05-04 | Other Forms — Add New Form Application button stepper for submitting an application |
+| NXT-71227 | 2026-04-28 | SchoolCafé Forms license + Forms Template page + "Submit Forms" line on district short URL |
+
+</script>
+<script type="text/markdown" id="md-elig-collection-worksheet">
+---
+id: GUIDE-047
+title: "Collection Worksheet Quick Guide"
+platform: "SC"
+module: "Eligibility"
+content_type: "Quick Guide"
+source_url: "https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Eligibility/Verification_Reporting_Collection_Worksheet_Quick_Guide.pdf"
+local_pdf: "raw/guides/pdf/SC/Eligibility/Quick-Guide/GUIDE-047-collection-worksheet-quick-guide.pdf"
+created_at: "2026-05-13T20:23:05+00:00"
+updated_at: "2026-05-13"
+workflow_authority: true
+product_rule_authority: false
+status: "draft_for_sme_review"
+applied_changes: ["Change 1"]
+source_tickets: ["NXT-68256"]
+source_guide: "raw/guides/markdown/SC/Eligibility/Quick-Guide/GUIDE-047-collection-worksheet-quick-guide.md"
+---
+
+# Collection Worksheet Quick Guide
+
+## Source metadata
+
+- Guide ID: GUIDE-047
+- Platform: SC
+- Module: Eligibility
+- Content Type: Quick Guide
+- Source URL: https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Eligibility/Verification_Reporting_Collection_Worksheet_Quick_Guide.pdf
+- Local PDF: raw/guides/pdf/SC/Eligibility/Quick-Guide/GUIDE-047-collection-worksheet-quick-guide.pdf
+
+## Extracted guide text
+
+### Page 1
+
+Collection Worksheet
+The FNS-742 Collection Worksheet populates with automatically calculated totals based
+on live data. The district must submit these totals to the state annually, as each state
+asks for this report to be submitted after verification.
+View the Collection Worksheet
+1. Select the COLLECTION WORKSHEET tab
+The current academic year Collection Worksheet automatically displays on the page.
+2. View the Collection Worksheet details
+Various Document icons are available throughout the worksheet; you can click on
+them to view the Collection Report. This information can be downloaded.
+Click the SAVE button to store a PDF copy of the worksheet. Saved copies appear in a grid below the worksheet with Generation Date, User, and Actions (View, Download), so you can retrieve previously saved versions later.
+Use the PREVIOUS PAGE and NEXT PAGE buttons to navigate between pages in the
+Collection Worksheet.
+Select a Different Academic Year
+1. Select an Academic Year from the dropdown
+2. Click the APPLY button
+The selected academic year’s Collection Worksheet displays.
+
+</script>
+<script type="text/markdown" id="md-elig-reports-quick-guide">
+---
+id: GUIDE-057
+title: "Eligibility Reports Quick Guide"
+platform: "SC"
+module: "Eligibility"
+content_type: "Quick Guide"
+source_url: "https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Eligibility/Reports_Quick_Guide.pdf"
+local_pdf: "raw/guides/pdf/SC/Eligibility/Quick-Guide/GUIDE-057-eligibility-reports-quick-guide.pdf"
+created_at: "2026-05-13T20:23:05+00:00"
+updated_at: "2026-05-13"
+workflow_authority: true
+product_rule_authority: false
+status: "draft_for_sme_review"
+applied_changes: ["Change 2 (step-list only)", "Change 3", "Change 4"]
+source_tickets: ["NXT-60134", "NXT-56345", "NXT-56318"]
+source_guide: "raw/guides/markdown/SC/Eligibility/Quick-Guide/GUIDE-057-eligibility-reports-quick-guide.md"
+---
+
+# Eligibility Reports Quick Guide
+
+## Source metadata
+
+- Guide ID: GUIDE-057
+- Platform: SC
+- Module: Eligibility
+- Content Type: Quick Guide
+- Source URL: https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Eligibility/Reports_Quick_Guide.pdf
+- Local PDF: raw/guides/pdf/SC/Eligibility/Quick-Guide/GUIDE-057-eligibility-reports-quick-guide.pdf
+
+## Extracted guide text
+
+### Page 1
+
+1
+
+Eligibility Reports
+Eligibility Reports contain data regarding students’ current Eligibility Statuses and
+Eligibility changes.
+Users can access the reports at any point during the school year.
+Application Counts Report
+The Application Counts Report lists the total number of all applications, broken down by
+eligibility status and eligibility reason.
+1. Select Application Counts
+The Application Counts Report page displays.
+2. Select the Site(s) as needed
+3. Pick the Date as needed
+4. Click the GENERATE button to generate the report
+5. View the report results
+Click the DOWNLOAD button to export the report as a PDF or EXCEL file.
+Click the X to close the report.
+Click the BACK button to return to the Eligibility Reports page.
+CEP Identified Students Report
+The CEP Identified Students Report shows students who have been CEP identified as of
+a given date.
+1. Select CEP Identified Students
+The CEP Identified Students page displays.
+2. Select the Academic Year as needed
+3. Select the Site(s) as needed
+4. Select the As of Date as needed
+5. Select the Options (Summary or Detailed)
+6. Click the POWERBI (BETA) button to generate the report
+7. View the report results
+Click EXPORT to export the report into various file formats.
+Click the X to close the report.
+Click the BACK button to return to the Eligibility Reports page.
+
+### Page 2
+
+2
+
+Direct Certification Counts Report
+The Direct Certification Counts Report lists eligibility totals based on the Direct
+Certification.
+1. Select Direct Certification Counts,
+The Direct Certification Counts Report page displays.
+2. Select the Site(s) as needed
+3. Pick the Date as needed
+4. Click the GENERATE button to generate the report
+5. View the report results
+Click the DOWNLOAD button to export the report as a PDF or EXCEL file.
+Click the X to close the report.
+Click the BACK button to return to the Eligibility Reports page.
+Eligibility Summary Report
+The Eligibility Summary Report displays the total number of all students, broken down by
+site, eligibility status, and eligibility reason.
+1. Select Eligibility Summary
+The Eligibility Summary Report page displays.
+2. Select the Site(s) as needed
+3. Pick the Date as needed
+4. Choose the report format: Compact (the existing summary, with some price-type reasons grouped under "DC" or "Other") or Detailed (every individual price-type reason listed separately).
+5. Click the GENERATE button to generate the report
+6. View the report results
+Click the DOWNLOAD button to export the report as a PDF or EXCEL file.
+Click the X to close the report.
+Click the BACK button to return to the Eligibility Reports page.
+
+Eligibility Status Changes Report
+Shows changes in student eligibility with a variety of search filters. The date range filter applies to the Process Date. Inactive eligibility lines are not shown.
+1. Select Eligibility Status Changes
+The Eligibility Status Changes page displays.
+2. Select the Site(s) as needed (multi-select)
+3. Set the Date Range using the date range selector
+4. Set the Patron Status filter (Active is the default; Inactive and All are also available)
+5. Optionally select "Only show Last Eligibility Change" to display only one change per account across the date range
+6. Click APPLY to generate the report
+7. View the report results in the grid (default columns: ID #, First Name, Last Name, Grade, Site, Prior Eligibility, New Eligibility, Effective Date, Process Date)
+Click EXCEL to export the results.
+Click the BACK button to return to the Eligibility Reports page.
+Note: Grade, Site, and Patron Status reflect current state, not historical values.
+
+### Page 3
+
+3
+
+Income Surveys Report
+The Income Surveys Report provides the percentage of economically disadvantaged
+students, as well as the number of surveys broken down by household size and income
+data.
+1. Select Income Surveys
+The Income Survey Report page displays.
+Income Range Count Report
+The Income Range Count Report will show counts based on the household size and
+eligibility (Free, Reduced, and Paid).
+1. Select the Income Range Count Report Type
+2. Select the Site(s) as needed
+3. Click the GENERATE button to generate the report
+4. View the report results
+Click the DOWNLOAD button to export the report as a PDF or EXCEL file.
+Click the X to close the report.
+Click the BACK button to return to the Eligibility Reports page.
+
+### Page 4
+
+4
+
+Roster Report
+The Roster Report allows users to generate a customized view of students using various
+filters.
+1. Select Roster
+The Roster Report page displays.
+2. Enter the As of Date as needed
+3. Select the Site Code/Site Name as needed
+4. Select the Grade as needed
+5. Select the Eligibility as needed
+6. Select the Basis as needed
+7. Enter the Birth Date as needed
+8. Click the APPLY button to generate the report
+9. View the report results
+Click the EXCEL button to export the report.
+Click the BACK button to return to the Eligibility Reports page.
+
+</script>
+<script type="text/markdown" id="md-elig-view-modify-apps">
+---
+id: GUIDE-037
+title: "View and Modify Applications Quick Guide"
+platform: "SC"
+module: "Eligibility"
+content_type: "Quick Guide"
+source_url: "https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Eligibility/Applications_View_Modify_Quick_Guide.pdf"
+local_pdf: "raw/guides/pdf/SC/Eligibility/Quick-Guide/GUIDE-037-view-and-modify-applications-quick-guide.pdf"
+created_at: "2026-05-13T20:23:05+00:00"
+updated_at: "2026-05-13"
+workflow_authority: true
+product_rule_authority: false
+status: "draft_for_sme_review"
+applied_changes: ["Change 5"]
+source_tickets: ["NXT-66798"]
+source_guide: "raw/guides/markdown/SC/Eligibility/Quick-Guide/GUIDE-037-view-and-modify-applications-quick-guide.md"
+---
+
+# View and Modify Applications Quick Guide
+
+## Source metadata
+
+- Guide ID: GUIDE-037
+- Platform: SC
+- Module: Eligibility
+- Content Type: Quick Guide
+- Source URL: https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Eligibility/Applications_View_Modify_Quick_Guide.pdf
+- Local PDF: raw/guides/pdf/SC/Eligibility/Quick-Guide/GUIDE-037-view-and-modify-applications-quick-guide.pdf
+
+## Extracted guide text
+
+### Page 1
+
+1
+
+View and Modify Applications
+The Applications function has three tabs that allow users to perform various actions.
+ALL tab
+ View details of applications
+o Edit details of applications
+o Process applications
+o Notify households of their application status
+o More Actions
+ Mark as pending
+ Refuse benefits
+ Delete
+ Add to verification
+ Application image
+ Export
+ History of applications
+PENDING APPLICATIONS tab
+ View application details
+ Delete applications
+ History of applications
+PENDING STUDENTS tab
+ Search for students
+ Edit details
+ View match details
+ALL tab
+The user can view all applications.
+1. On the Applications page, ensure that the ALL tab is selected
+2. Select the Academic Year, Site Code/Site Name, Grade, Entry Method, Status, and
+Benefits
+3. Click the APPLY button
+Results display below.
+Action(s) for Applications: View and History
+View Application Details
+1. Click the View (Paper) icon for the desired application
+The Application Details page displays.
+
+### Page 2
+
+2
+
+Application Details page
+a. View the Application Number and
+Status
+b. View the Eligibility
+c. PROCESS APPLICATION – Use this
+button to process or reprocess the
+application.
+A comment is required to save if the
+application is currently in Pending or
+Processed Status.
+The Status of the application
+determines if this button displays.
+d. NOTIFY – Use this button to notify the
+student/household regarding their
+application Status.
+e. MORE ACTIONS – Click this button to
+select additional application actions.
+See the MORE ACTIONS section below
+for details.
+f. View the Received Date and
+Language. Click the Edit (Pencil) icon
+to edit this information.
+When a corresponding language
+template is configured, notifications
+are sent in the language selection.
+g. Section Links – Clicking on one of the
+section names will navigate you to that
+section.
+See the information below for section
+details.
+
+The Application Details page sections are
+ Summary – Displays the Latest Application Action, Application Status, Turnaround
+Time, and Language, as well as the Timeline Status.
+ Students – Displays information regarding the student(s) on the application.
+ Household Members – Displays all household members included on the
+application along with applicable income.
+ Contact Information – While optional on the application, this section displays
+contact information for the applicant.
+ Details – Displays other benefits and demographic information.
+ Notifications – Displays the history of notifications sent tied to this application.
+ Comments – Displays reference comments added to the application and the
+option to add comments when necessary.
+
+### Page 3
+
+3
+
+ Documents – Displays supporting documents added to the application with the
+option to add additional documents when necessary.
+ Application Status History – Displays the history of changes applied to the
+application’s status.
+ Adult Signature / SSN – Displays the social security number associated with the
+application as well as if the application signature was confirmed.
+MORE ACTIONS button
+The actions that display are dependent on the status of the application.
+ MARK AS PENDING – Once changes are made to the application, this option can
+be used to mark the application as pending.
+ REFUSE BENEFITS – Use this option to refuse benefits. The Eligibility
+determination and the basis for that eligibility appear. Select a Result, Start Date,
+and enter a comment to refuse benefits.
+ DELETE – Use this option to delete the application. If any students are on this
+application, this action will return them to their previous eligibility. Select a Reason
+and add a comment to delete the application.
+ ADD TO VERIFICATION – Use this option to add this application to the verification
+process.
+ APPLICATION IMAGE – View a preview of the submitted application with options
+to export and print.
+ EXPORT – Export the application as a PDF to send or print as needed. The user
+may Generate Applications with or without Details, Eligibility, Comments, or
+History.
+History
+1. Click the History (Clock) icon for the desired application
+The Application History slide deck displays.
+2. Click a row in the table, and information displays in the Changed Value(s) section
+A key is available, notating the Old and New changed value(s).
+3. View the Application History information
+PENDING APPLICATIONS tab
+Some applications that fail to meet the criteria for automatic processing or have been
+manually placed in Pending and display in the PENDING APPLICATION tab.
+1. On the Applications page, select the PENDING APPLICATIONS tab
+Pending applications display.
+Action(s) for Pending Applications: View, Delete, History
+View Application Details
+1. Click the View (Paper) icon for the desired pending application
+The Application Details page displays.
+
+### Page 4
+
+4
+
+2. Navigate to the Summary section to view the Pending Reasons
+Delete
+1. Click the Delete (Trash Can) icon for the desired pending application
+A Confirmation slide deck displays.
+2. Select the Reasons for the deletion
+3. Enter a required comment
+4. Click the DELETE button in the bottom right of the page to confirm
+If any students are on this application, this action will return them to their previous
+eligibility.
+History
+1. Click the History (Clock) icon for the desired application
+The Application History slide deck displays.
+2. Click a row in the table, and information displays in the Changed Value(s) section
+A key is available, notating the Old and New changed value(s).
+3. View the Application History information
+PENDING STUDENTS tab
+Occasionally, applications are submitted before students are entered into the district’s
+database or with missing or incorrect student information for the system to match it
+correctly.
+The user can either correct the pending error or attempt to match the student by
+searching the database.
+The user can view the Pending Reason in the Details section of the submitted application.
+1. On the Applications page, select the PENDING STUDENTS tab
+PROCESS MATCHES button
+To process all matches on the tab
+1. Click the checkbox next to the application number
+You can select the checkbox in the header to select all applications with possible
+matches.
+The box(es) will illuminate purple.
+2. Click the PROCESS MATCHES button
+A Confirmation pop-up message displays.
+3. Select YES
+A confirmation message displays.
+
+### Page 5
+
+5
+
+FIND MATCHES button
+To find matches for the applications available within the tab
+1. Click the FIND MATCHES button
+A green checkmark displays in the Matched Status column if the system finds
+matches.
+Action(s) for Pending Students: Search, Edit, View
+Search for Students
+Search for students to link to the application.
+1. Click the Search (Magnifying Glass) icon for the desired student
+The Search & Match Student slide deck displays.
+2. Enter a student’s name into the Search Students field to generate the results
+3. Click the SELECT STUDENT button on the row of the desired student
+The Compare Details section displays.
+4. Compare the Application Details to the Matched Student
+5. Click the MATCH button at the bottom right corner to update the student’s
+information
+A successful match message displays.
+A green checkmark displays in the Matched Status column on the Applications
+page.
+Edit Details
+1. Click the Edit (Pencil) icon for the desired student
+The Edit slide deck displays.
+2. Update the student’s details as needed
+3. Click the SAVE button in the bottom right corner to update the student’s details
+A confirmation message displays.
+You are returned to the PENDING STUDENTS tab.
+View Match Details
+A View icon displays for a pending student once at least one potential match has been identified.
+1. Click the View (Paper) icon for the desired student
+The Match Details slide deck displays.
+2. Compare the Application Details to the Matched Student(s). The Match Details screen shows each potential student's Status (Active/Inactive) and current Eligibility with Basis (for example, "Free (DC MEDICAID)").
+3. If multiple potential students are shown, you must select one using the Match button before continuing.
+Click the X to close the slide deck and return to the PENDING STUDENTS tab.
+
+</script>
+
+<script type="application/json" id="catalog-data">
+{
+  "version": 1,
+  "updated": "2026-05-13",
+  "platforms": ["schoolcafe"],
+  "modules": ["Eligibility", "Account Management", "Accountability", "Reports", "Insights", "System"],
+  "content_types": [
+    "long-form-guide",
+    "micro-guide",
+    "quick-reference",
+    "faq",
+    "sop-how-to"
+  ],
+  "roles": ["director", "manager", "cashier", "dietitian"],
+  "statuses": ["draft", "review", "published"],
+  "resources": [
+    {
+      "id": "elig-forms-quick-guide",
+      "title": "Forms — Quick Guide",
+      "module": "Eligibility",
+      "page": "Forms",
+      "content_type": "micro-guide",
+      "roles": ["director", "manager"],
+      "tags": ["onboarding", "forms"],
+      "status": "review",
+      "sme": "unassigned",
+      "path": "wiki/guides/eligibility/forms-quick-guide.md",
+      "pdf_path": "wiki/guides/eligibility/pdf/forms-quick-guide.pdf",
+      "source_refs": [
+        "raw/tickets/NXT-69982.md",
+        "raw/tickets/NXT-70092.md",
+        "raw/tickets/NXT-70440.md",
+        "raw/tickets/NXT-70450.md",
+        "raw/tickets/NXT-70451.md",
+        "raw/tickets/NXT-70452.md",
+        "raw/tickets/NXT-70453.md",
+        "raw/tickets/NXT-71226.md",
+        "raw/tickets/NXT-71227.md"
+      ],
+      "updated": "2026-05-13"
+    },
+    {
+      "id": "elig-collection-worksheet",
+      "title": "Collection Worksheet — Quick Guide",
+      "module": "Eligibility",
+      "page": "Collection Worksheet",
+      "content_type": "micro-guide",
+      "roles": ["manager"],
+      "tags": ["verification", "frequency:annual"],
+      "status": "review",
+      "sme": "unassigned",
+      "path": "wiki/guides/eligibility/collection-worksheet-quick-guide.md",
+      "pdf_path": "wiki/guides/eligibility/pdf/collection-worksheet-quick-guide.pdf",
+      "source_refs": [
+        "raw/tickets/NXT-68256.md"
+      ],
+      "updated": "2026-05-13"
+    },
+    {
+      "id": "elig-reports-quick-guide",
+      "title": "Eligibility Reports — Quick Guide",
+      "module": "Eligibility",
+      "page": "Eligibility Reports",
+      "content_type": "micro-guide",
+      "roles": ["director", "manager"],
+      "tags": ["reporting", "compliance"],
+      "status": "review",
+      "sme": "unassigned",
+      "path": "wiki/guides/eligibility/eligibility-reports-quick-guide.md",
+      "pdf_path": "wiki/guides/eligibility/pdf/eligibility-reports-quick-guide.pdf",
+      "source_refs": [
+        "raw/tickets/NXT-60134.md",
+        "raw/tickets/NXT-56345.md",
+        "raw/tickets/NXT-56318.md"
+      ],
+      "updated": "2026-05-13"
+    },
+    {
+      "id": "elig-view-modify-apps",
+      "title": "View & Modify Applications — Quick Guide",
+      "module": "Eligibility",
+      "page": "Applications",
+      "content_type": "micro-guide",
+      "roles": ["manager"],
+      "tags": ["applications", "frequency:daily"],
+      "status": "review",
+      "sme": "unassigned",
+      "path": "wiki/guides/eligibility/view-and-modify-applications-quick-guide.md",
+      "pdf_path": "wiki/guides/eligibility/pdf/view-and-modify-applications-quick-guide.pdf",
+      "source_refs": [
+        "raw/tickets/NXT-66798.md"
+      ],
+      "updated": "2026-05-13"
+    }
+  ]
+}
+</script>
+
+<script>
+(function() {
+  "use strict";
+
+  // -------- load catalog --------
+  const catalog = JSON.parse(document.getElementById("catalog-data").textContent);
+  const REPO_ROOT = "../../"; // walk up from wiki/training/ to repo root
+
+  // -------- helpers --------
+  const $ = (id) => document.getElementById(id);
+  const escapeHtml = (s) => String(s).replace(/[&<>"']/g, (c) => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+  })[c]);
+  const titleCase = (s) => s.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+
+  // -------- markdown loader / renderer --------
+  let _markedPromise = null;
+  function loadMarked() {
+    if (window.marked) return Promise.resolve(window.marked);
+    if (_markedPromise) return _markedPromise;
+    _markedPromise = new Promise((resolve, reject) => {
+      const s = document.createElement("script");
+      s.src = "https://cdn.jsdelivr.net/npm/marked@12/marked.min.js";
+      s.crossOrigin = "anonymous";
+      s.onload = () => resolve(window.marked);
+      s.onerror = () => reject(new Error("Could not load marked.js (offline?)"));
+      document.head.appendChild(s);
+    });
+    return _markedPromise;
+  }
+  const stripFrontmatter = (text) => text.replace(/^\s+/, "").replace(/^---\r?\n[\s\S]*?\r?\n---\s*\r?\n?/, "");
+  async function fetchMarkdown(resource) {
+    // 1) Inline embed — works under file:// and other no-fetch contexts.
+    const inline = document.getElementById("md-" + resource.id);
+    if (inline && inline.textContent.trim()) return inline.textContent;
+    // 2) Fetch fallback — works when the page is served over http(s) with the .md alongside.
+    const res = await fetch(REPO_ROOT + resource.path);
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    return await res.text();
+  }
+
+  async function renderContent(resource) {
+    const target = $("d-content");
+    target.innerHTML = '<p class="placeholder">Loading…</p>';
+    let body;
+    try {
+      const raw = await fetchMarkdown(resource);
+      body = stripFrontmatter(raw);
+    } catch (err) {
+      target.innerHTML = '<p class="placeholder">Could not load content: ' + escapeHtml(err.message) + '. Use the buttons below to open the PDF or source file directly.</p>';
+      return;
+    }
+    try {
+      const marked = await loadMarked();
+      target.innerHTML = marked.parse(body, { gfm: true, breaks: false });
+      // Strip the rendered H1 when it's the first element — the panel header already shows the title.
+      const firstH1 = target.querySelector("h1");
+      if (firstH1 && firstH1 === target.firstElementChild) firstH1.remove();
+    } catch (libErr) {
+      // marked.js CDN unreachable — fall back to preformatted plain text so content is still readable.
+      const safe = body.replace(/[<>&]/g, (c) => ({"<":"&lt;",">":"&gt;","&":"&amp;"}[c]));
+      target.innerHTML = '<pre style="white-space:pre-wrap;font-family:inherit;font-size:13px;line-height:1.5;background:transparent;padding:0;">' + safe + '</pre>';
+    }
+  }
+
+  // -------- filter state --------
+  const state = {
+    search: "",
+    module: new Set(),
+    content_type: new Set(),
+    role: new Set(),
+    status: new Set(),
+    tag: new Set(),
+    sort: "updated-desc",
+  };
+  let lastTrigger = null; // element to restore focus to on detail close
+
+  // -------- derived filter options --------
+  const modules = catalog.modules || [...new Set(catalog.resources.map((r) => r.module))].sort();
+  const tags = [...new Set(catalog.resources.flatMap((r) => r.tags))].sort();
+
+  // -------- url hash sync --------
+  function stateToHash() {
+    const parts = [];
+    if (state.search) parts.push("q=" + encodeURIComponent(state.search));
+    for (const k of ["module", "content_type", "role", "status", "tag"]) {
+      if (state[k].size) parts.push(k + "=" + encodeURIComponent([...state[k]].join(",")));
+    }
+    if (state.sort !== "updated-desc") parts.push("sort=" + state.sort);
+    const h = parts.join("&");
+    const next = h ? "#" + h : "";
+    if (location.hash !== next) history.replaceState(null, "", next || location.pathname + location.search);
+  }
+  function hashToState() {
+    const h = location.hash.replace(/^#/, "");
+    if (!h) return;
+    const params = new URLSearchParams(h);
+    state.search = params.get("q") || "";
+    for (const k of ["module", "content_type", "role", "status", "tag"]) {
+      state[k].clear();
+      const v = params.get(k);
+      if (v) v.split(",").forEach((x) => state[k].add(decodeURIComponent(x)));
+    }
+    state.sort = params.get("sort") || "updated-desc";
+    $("search").value = state.search;
+    $("sort").value = state.sort;
+  }
+
+  // -------- counts (respecting all OTHER active filters) --------
+  function countMatchingExcept(dim, value) {
+    return catalog.resources.filter((r) => {
+      if (state.search) {
+        const hay = [r.title, r.module, r.page, ...(r.tags || []), ...(r.roles || [])].join(" ").toLowerCase();
+        if (!hay.includes(state.search.toLowerCase())) return false;
+      }
+      if (dim !== "module" && state.module.size && !state.module.has(r.module)) return false;
+      if (dim !== "content_type" && state.content_type.size && !state.content_type.has(r.content_type)) return false;
+      if (dim !== "role" && state.role.size && !r.roles.some((x) => state.role.has(x))) return false;
+      if (dim !== "status" && state.status.size && !state.status.has(r.status)) return false;
+      if (dim !== "tag" && state.tag.size && !r.tags.some((x) => state.tag.has(x))) return false;
+      if (dim === "module") return r.module === value;
+      if (dim === "content_type") return r.content_type === value;
+      if (dim === "role") return r.roles.includes(value);
+      if (dim === "status") return r.status === value;
+      if (dim === "tag") return r.tags.includes(value);
+      return true;
+    }).length;
+  }
+
+  // -------- render filters --------
+  function renderFilters() {
+    const groups = $("filter-groups");
+    const make = (heading, dim, values, labelFn) => {
+      const chips = values.map((v) => {
+        const active = state[dim].has(v);
+        const n = countMatchingExcept(dim, v);
+        const label = labelFn ? labelFn(v) : v;
+        const disabled = !active && n === 0;
+        return `<button
+          class="chip${active ? " active" : ""}${disabled ? " disabled" : ""}"
+          data-dim="${dim}" data-val="${escapeHtml(v)}"
+          aria-pressed="${active ? "true" : "false"}"
+          ${disabled ? "aria-disabled=\"true\"" : ""}
+          ${disabled ? "tabindex=\"-1\"" : ""}>${escapeHtml(label)} <span class="chip-count">${n}</span></button>`;
+      }).join("");
+      return `<div class="filter-group"><h3>${heading}</h3><div class="chip-row">${chips}</div></div>`;
+    };
+    groups.innerHTML = [
+      make("Content type", "content_type", catalog.content_types, titleCase),
+      make("Role", "role", catalog.roles, titleCase),
+      make("Tags", "tag", tags),
+    ].join("");
+
+    groups.querySelectorAll(".chip").forEach((el) => {
+      el.addEventListener("click", () => {
+        if (el.classList.contains("disabled")) return;
+        const dim = el.dataset.dim;
+        const val = el.dataset.val;
+        if (state[dim].has(val)) state[dim].delete(val);
+        else state[dim].add(val);
+        render();
+      });
+    });
+  }
+
+  // -------- filtering / sorting --------
+  function filtered() {
+    let list = catalog.resources.filter((r) => {
+      if (state.search) {
+        const hay = [r.title, r.module, r.page, ...(r.tags || []), ...(r.roles || [])].join(" ").toLowerCase();
+        if (!hay.includes(state.search.toLowerCase())) return false;
+      }
+      if (state.module.size && !state.module.has(r.module)) return false;
+      if (state.content_type.size && !state.content_type.has(r.content_type)) return false;
+      if (state.role.size && !r.roles.some((x) => state.role.has(x))) return false;
+      if (state.status.size && !state.status.has(r.status)) return false;
+      if (state.tag.size && !r.tags.some((x) => state.tag.has(x))) return false;
+      return true;
+    });
+    const sorters = {
+      "updated-desc": (a, b) => (b.updated || "").localeCompare(a.updated || ""),
+      "title-asc": (a, b) => a.title.localeCompare(b.title),
+      "type": (a, b) => a.content_type.localeCompare(b.content_type) || a.title.localeCompare(b.title),
+    };
+    list.sort(sorters[state.sort] || sorters["updated-desc"]);
+    return list;
+  }
+
+  // -------- module nav (primary "browse by module" row) --------
+  function renderModuleNav() {
+    const container = $("module-nav-pills");
+    if (!container) return;
+    const pills = modules.map((m) => {
+      const active = state.module.has(m);
+      const n = countMatchingExcept("module", m);
+      const disabled = !active && n === 0;
+      const cls = "module-pill" + (active ? " active" : "") + (disabled ? " disabled" : "");
+      const title = disabled ? ' title="No resources yet"' : '';
+      const tab = disabled ? ' aria-disabled="true" tabindex="-1"' : '';
+      return `<button class="${cls}" data-mod="${escapeHtml(m)}"${title}${tab}>${escapeHtml(m)} <span class="module-pill-count">${n}</span></button>`;
+    }).join("");
+    container.innerHTML = pills;
+    container.querySelectorAll(".module-pill").forEach((el) => {
+      el.addEventListener("click", () => {
+        if (el.classList.contains("disabled")) return;
+        const mod = el.dataset.mod;
+        // Single-select primary nav: clicking a module replaces state.module with just that one.
+        // Clicking the currently-active sole module clears (back to "all modules").
+        if (state.module.has(mod) && state.module.size === 1) {
+          state.module.clear();
+        } else {
+          state.module.clear();
+          state.module.add(mod);
+        }
+        render();
+      });
+    });
+  }
+
+  // -------- render grid --------
+  function renderGrid() {
+    const list = filtered();
+    const grid = $("grid");
+    const empty = $("empty");
+
+    empty.style.display = "none";
+    if (!list.length) {
+      grid.innerHTML = '<p style="grid-column: 1 / -1; padding: 24px 0; text-align: center; color: var(--ink-dim);">No resources match these filters yet.</p>';
+      return;
+    }
+
+    grid.innerHTML = list.map((r) => {
+      const tagPills = r.tags.slice(0, 4).map((t) => `<span class="meta-pill">${escapeHtml(t)}</span>`).join("");
+      const moreTags = r.tags.length > 4 ? `<span class="meta-pill">+${r.tags.length - 4}</span>` : "";
+      const roles = r.roles.map(titleCase).join(" · ");
+      return `
+        <article class="card" role="listitem" tabindex="0" data-id="${r.id}"
+                 aria-label="${escapeHtml(r.title)}, ${titleCase(r.content_type)}, ${r.status}">
+          <div class="card-top">
+            <span class="card-type type-${r.content_type}">${titleCase(r.content_type)}</span>
+          </div>
+          <h2>${escapeHtml(r.title)}</h2>
+          <div class="breadcrumb"><b>${escapeHtml(r.module)}</b> · ${escapeHtml(r.page)}</div>
+          <div class="card-meta">${tagPills}${moreTags}</div>
+          <div class="card-foot">
+            <span class="left">
+              <span class="roles">${escapeHtml(roles)}</span>
+            </span>
+            <span class="right">
+              <span class="card-date">${r.updated}</span>
+              <span class="card-cta" aria-hidden="true">Read →</span>
+            </span>
+          </div>
+        </article>
+      `;
+    }).join("");
+
+    grid.querySelectorAll(".card").forEach((el) => {
+      el.addEventListener("click", () => openDetail(el.dataset.id, el));
+      el.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          openDetail(el.dataset.id, el);
+        }
+      });
+    });
+  }
+
+  // -------- detail panel + focus trap --------
+  function getFocusable(scope) {
+    return [...scope.querySelectorAll(
+      'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    )];
+  }
+  function trapKeys(e) {
+    const detail = $("detail");
+    if (!detail.classList.contains("open")) return;
+    if (e.key === "Escape") { e.preventDefault(); closeDetail(); return; }
+    if (e.key !== "Tab") return;
+    const focusables = getFocusable(detail);
+    if (!focusables.length) return;
+    const first = focusables[0], last = focusables[focusables.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault(); last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault(); first.focus();
+    }
+  }
+
+  function openDetail(id, trigger) {
+    const r = catalog.resources.find((x) => x.id === id);
+    if (!r) return;
+    lastTrigger = trigger || null;
+    $("d-breadcrumb").textContent = [r.platform, r.module, r.page].filter(Boolean).join(" · ");
+    $("d-title").textContent = r.title;
+    $("d-type").textContent = titleCase(r.content_type);
+    $("d-status").textContent = r.status;
+    $("d-roles").textContent = r.roles.map(titleCase).join(", ");
+    $("d-tags").textContent = r.tags.join(", ");
+    $("d-updated").textContent = r.updated;
+    $("d-path").textContent = r.path;
+    renderContent(r);
+    $("d-sources").innerHTML = (r.source_refs || []).map((s) =>
+      `<li><a href="${REPO_ROOT + s}" target="_blank" rel="noopener">${escapeHtml(s)}</a></li>`
+    ).join("") || "<li><span style='color:var(--ink-faint)'>none</span></li>";
+    // Rebuild the action area for a customer-facing pitch: "Download PDF" primary + "Print" secondary.
+    // Print uses the @media print rules to render the rendered guide content only.
+    const existingSecondary = document.getElementById("d-secondary");
+    if (existingSecondary) existingSecondary.remove();
+    const dOpen = $("d-open");
+    if (r.pdf_path) {
+      dOpen.textContent = "Download PDF";
+      dOpen.href = REPO_ROOT + r.pdf_path;
+      dOpen.setAttribute("download", "");
+      const printBtn = document.createElement("button");
+      printBtn.type = "button";
+      printBtn.className = "btn btn-secondary";
+      printBtn.id = "d-secondary";
+      printBtn.textContent = "Print";
+      printBtn.addEventListener("click", () => window.print());
+      dOpen.insertAdjacentElement("afterend", printBtn);
+    } else {
+      dOpen.textContent = "Print";
+      dOpen.removeAttribute("download");
+      dOpen.href = "#";
+      dOpen.onclick = (e) => { e.preventDefault(); window.print(); };
+    }
+    const detail = $("detail");
+    detail.classList.add("open");
+    detail.setAttribute("aria-hidden", "false");
+    $("scrim").classList.add("open");
+    document.body.style.overflow = "hidden";
+    setTimeout(() => $("d-close").focus(), 0);
+    document.addEventListener("keydown", trapKeys);
+  }
+  function closeDetail() {
+    const detail = $("detail");
+    detail.classList.remove("open");
+    detail.setAttribute("aria-hidden", "true");
+    $("scrim").classList.remove("open");
+    document.body.style.overflow = "";
+    document.removeEventListener("keydown", trapKeys);
+    if (lastTrigger && document.body.contains(lastTrigger)) lastTrigger.focus();
+    lastTrigger = null;
+  }
+
+  // -------- master render --------
+  function render() {
+    renderModuleNav();
+    renderFilters();
+    renderGrid();
+    stateToHash();
+  }
+
+  // -------- wire up --------
+  $("search").addEventListener("input", (e) => { state.search = e.target.value; render(); });
+  $("sort").addEventListener("change", (e) => { state.sort = e.target.value; renderGrid(); stateToHash(); });
+  $("clear-btn").addEventListener("click", () => {
+    state.search = ""; $("search").value = "";
+    ["module", "content_type", "role", "status", "tag"].forEach((k) => state[k].clear());
+    render();
+  });
+  $("d-close").addEventListener("click", closeDetail);
+  $("d-close-2").addEventListener("click", closeDetail);
+  $("scrim").addEventListener("click", closeDetail);
+  window.addEventListener("hashchange", () => { hashToState(); render(); });
+
+  // initial paint — read hash first
+  hashToState();
+  render();
+})();
+</script>
+
+</body>
+</html>

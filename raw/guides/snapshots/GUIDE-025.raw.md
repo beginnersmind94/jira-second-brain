@@ -1,0 +1,255 @@
+---
+id: GUIDE-025
+title: "Accountability Reports Quick Guide"
+platform: "SC"
+module: "Accountability"
+content_type: "Quick Guide"
+source_url: "https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Accountability/Reports_Quick_Guide.pdf"
+local_pdf: "raw/guides/pdf/SC/Accountability/Quick-Guide/GUIDE-025-accountability-reports-quick-guide.pdf"
+extraction_warnings: []
+extracted_at: "2026-05-18T20:39:40+00:00"
+raw_text_sha256: "d5dfd62df34d78e9"
+generated: true
+status: "draft_extracted"
+---
+
+# Accountability Reports Quick Guide
+
+Accountability Reports are the most frequent reports used by the Sites. Central Office staff most often use them to help analyze the overall business performance and view information from a broad perspective. All reports can be viewed at the site or district level.
+
+## Report Rollups
+The Report Rollups page allows you to refresh reporting data when changes are made.
+1. Click the REPORT ROLLUPS button
+   The Report Rollups page displays.
+2. Select the Site Codes/Site Names as needed
+3. Select the Date
+   View the note below.
+4. Click the APPLY button to generate the site(s) and date(s) in the table below
+5. Click the Refresh icon(s) for the site(s) reports you wish to update
+   Two rows display for each site that was selected. Clicking the Refresh icon on the top row will update all dates at that site. Clicking the Refresh icon on the bottom row will update the date at that site.
+   Click the REFRESH ALL button to refresh all listed sites and dates reports.
+   A confirmation response appears atop the page.
+   Click the BACK button to return to the Reports page.
+
+## Account Balance Report
+The Account Balance Report lists account details and balances as of a selected date.
+1. Select Account Balance
+   The Account Balance page displays.
+2. Select the Account Type(s) as needed
+3. Select the Account Status
+4. Select the Site Code/Site Name
+5. Select the Grade(s) as needed
+6. Select the Eligibility as needed
+7. Select the Balance Criteria as needed
+   Different fields will appear based on the Balance Criteria selected.
+   If All is selected, no additional fields will appear.
+8. Enter the Balance amount
+9. Select the Exclude $0.00 option if needed
+10. Select the Exclude No Charge option if needed
+11. Enter the Date
+12. Select from the Report Options
+13. Click the GENERATE button to generate the report
+14. View the report results
+
+Click the DOWNLOAD button to export the report as a PDF or EXCEL file.
+Click the X to close the report.
+Click the BACK button to return to the Reports page.
+Activity Report
+The Activity Report provides a snapshot of the day’s activity at a particular site. This report gives a count of the meals served in each eligibility category, the dollar amount for meal sales and a la carte items, total, cash sales, debit sales, and reimbursable amounts.
+Each is broken down by school, meal type, and eligibility status.
+1. Select Activity
+   The Activity Report page displays.
+2. Select the Site Type
+3. Select the Site Code/Site Name
+4. Select the Programs
+5. Select the Date
+6. Select the Report Type (Serving Site or Enrollment Site)
+7. Select the Include Satellite Schools (CEP/P2 claiming percentages excluded) option if needed
+8. Select the District Summary option if needed
+9. Click the GENERATE button to generate the report
+   Alternatively, you can click the POWERBI (BETA) button to generate the report. This is a different report format that allows you to export the report into various file types.
+10. View the report results
+   Click the DOWNLOAD button to export the report as a PDF or EXCEL file.
+   Click the X to close the report.
+   Click the BACK button to return to the Reports page.
+
+## Cash Collection Report
+The Cash Collection Report shows all monies collected at each site, can also be broken down by day, and shows whether the money went towards the purchase of a food item or went onto a patron’s account.
+1. Select Cash Collection
+   The Cash Collection Report page displays.
+2. Select the Site Codes/Site Names
+3. Select the Date
+4. Click the GENERATE button to generate the report
+   Alternatively, you can click the POWERBI (BETA) button to generate the report. This is a different report format that allows you to export the report into various file types.
+5. View the report results
+   Click the DOWNLOAD button to export the report as a PDF or EXCEL file.
+
+Click the X to close the report.
+Click the BACK button to return to the Reports page.
+
+## Edit Check Report
+The Edit Check Report compares the average daily attendance with what was actually served on a particular day. This report breaks down the “approved students” against the actual count of reimbursable meals served for each category to help prevent over-claiming.
+1. Select Edit Check
+   The Edit Check Report page displays.
+2. Select the Site Type
+3. Select the Site Code/Site Name
+4. Select the Programs
+5. Select the Meal Type
+6. Select to Show Meals at (Serving Site or Enrollment Site)
+7. Select the Date
+8. Select the Report Type (Edit Check or Edit Check Worksheet)
+- Edit Check - View the comparisons between the Average Daily Attendance with Served Counts.
+- Edit Check Worksheet - View which days and Eligibility types were flagged for Reimbursable Meal Serving Edit Checks, plus Comments.
+9. Select the Report Options (Summary or Detailed)
+10. Select the Additional Options if needed (Exceptions Only or Exclude Non-Serving
+   Days)
+11. Click the GENERATE button to generate the report
+   Alternatively, you can click the POWERBI (BETA) button to generate the report. This is a different report format that allows you to export the report into various file types.
+12. View the report results
+   Click the DOWNLOAD button to export the report as a PDF or EXCEL file.
+   Click the X to close the report.
+   Click the BACK button to return to the Reports page.
+
+## Meal Count Report
+The Meal Count Report is used to view Reimbursable Meal Counts broken out by Meal Type. The Meal Count Report can be generated to display Meal Counts by Site, Grade Group, Terminal, or Eligibility.
+1. Select Meal Count
+   The Meal Count Report page displays.
+2. Select the Site Type
+3. Select the Site Code/Site Name
+4. Select the Programs (SNP, SFSP, or CACFP)
+5. Select the Meal Type
+6. Select the Report Type (Summary or Detailed)
+7. Select the Report Options (Serving Site or Enrollment Site)
+8. Select the Date
+9. Select the Meal Count By option (Site or Eligibility)
+- Site - The Meal Count by Site Report is broken down by Meal Type, Student Eligibility type, and other Patron types, and then by Site, resulting in served counts for each Student Eligibility type and other Patron types. In addition, a Total served count displays for each Meal Type.
+If All was selected via the Site Code/Site Name dropdown, there would be a separate row for each site.
+- Eligibility - The Meal Count by Eligibility Report includes a column with the Total Approved count for each Student Eligibility type and other Patron types. The other columns are grouped by Meal Type, and each Meal Type displays its actual Participation counts and percentages. The last row lists the Site Grand Total for each column with counts.
+If All was selected via the Site Code/Site Name dropdown, there would be a separate page for each site.
+10. Click the GENERATE button to generate the report
+   Alternatively, you can click the POWERBI (BETA) button to generate the report. This is a different report format that allows you to export the report into various file types.
+11. View the report results
+   Click the DOWNLOAD button to export the report as a PDF or EXCEL file.
+   Click the X to close the report.
+   Click the BACK button to return to the Reports page.
+
+Menu Item Sales Report
+The Menu Item Sales Report is used to view Menu Items purchased, thereby providing an excellent tool for analyzing which Menu Items are the most popular at a specific Site or all Sites.
+There are multiple options for generating the Menu Item Sales Report (Site or Sites, Meal Type, specific Menu Item, Date Range, Daily Summary, or Item Summary, etc.), revealing Menu Item Counts and their associated monetary values.
+1. Select Menu Item Sales
+   The Menu Item Sales Report page displays.
+2. Select the Site Code/Site Name
+3. Select the Homeroom
+4. Select the Grade
+5. Select the Menu Item
+6. Select the Terminal
+7. Select the Transaction Type
+8. Select the Meal Type
+9. Select the Date
+10. Select the Patron Criteria (Students and Adults)
+11. Select from the Report Options
+   a. Select the Report Type (Daily Summary or Item Summary)
+   b. Select the Group Type (Site Type, Grade, and Terminal)
+   c. Select the Menu Type (Meals Only (Reimbursable Meals) and A La Carte Only)
+12. Click the GENERATE button to generate the report
+   Alternatively, you can click the POWERBI (BETA) button to generate the report. This is a different report format that allows you to export the report into various file types.
+13. View the report results
+   Click the DOWNLOAD button to export the report as a PDF or EXCEL file.
+   Click the X to close the report.
+   Click the BACK button to return to the Reports page.
+
+## Participation Report
+The Participation Report can be generated as one of the following:
+- Participation Report - Displays patrons who purchased Menu Items.
+- Patron Non-Participation Report - Displays patrons who did not purchase Menu Items.
+Many options can be selected to produce either report. The selections for these options will determine the detail level displayed in the report output.
+1. Select Participation
+   The Participation Report page displays.
+
+## Participation Report
+2. Select the Participation button
+3. Select the Site Code/Site Name
+4. Select the Homeroom
+5. Select the Grade
+6. Select the Meal Type
+7. Select the Menu Item
+8. Select the Participation Site (Serving or Enrollment)
+9. Select the Patrons Type (All, Away, or Visiting)
+10. Select the Report Type (Summary or Detailed)
+11. Select the Date
+12. Select the Eligibility
+13. Select the Report Categories
+14. Select the Reason
+   All options for each section will be automatically selected.
+   Checkboxes will illuminate purple if selected.
+15. Click the GENERATE button to generate the report
+16. View the report results
+   Click the DOWNLOAD button to export the report as a PDF or EXCEL file.
+   Click the X to close the report.
+   Click the BACK button to return to the Reports page.
+
+## Non-Participation Report
+2. Select the Non-Participation button
+3. Select the Site Code/Site Name
+4. Select the Homeroom
+5. Select the Grade
+6. Select the Meal Type
+7. Select the Menu Item
+8. Select the Date
+9. Select the Eligibility
+10. Select the Reason
+   All options for each section will be automatically selected.
+   Checkboxes will illuminate purple if selected.
+11. Click the GENERATE button to generate the report
+12. View the report results
+   Click the DOWNLOAD button to export the report as a PDF or EXCEL file.
+   Click the X to close the report.
+   Click the BACK button to return to the Reports page.
+
+## Payment Report
+The Payment Report will give totals of all payments collected at each school, dividing them by payment type and giving a total. You will see the total payments from the FamilyHub, cash and check amounts, and totals.
+1. Select Payment
+   The Payment Report page displays.
+2. Select the Site Code/Site Name
+3. Select the Homeroom
+4. Select the Grade
+5. Select the Date
+6. Select the Patron Criteria (Students and Adults)
+7. Select from the Report Options
+   a. Select the Report Type (Summary or Detailed)
+   b. Select the Payment Type (Cash, Check, Card, and Online)
+   c. Select the report Ordering (Date)
+8. Click the GENERATE button to generate the report
+   Alternatively, you can click the POWERBI (BETA) button to generate the report. This is a different report format that allows you to export the report into various file types.
+9. View the report results
+   Click the DOWNLOAD button to export the report as a PDF or EXCEL file.
+   Click the X to close the report.
+   Click the BACK button to return to the Reports page.
+
+## Revenue Report
+The Revenue Report shows all monies that came in from purchases. This includes both cash and debited amounts.
+1. Select Revenue
+   The Revenue Report page displays.
+2. Select the Site Code/Site Name
+3. Select the Program(s) (SNP or SFSP)
+4. Select the Date
+5. Select the Report Type (Summary or Detailed)
+6. Click the GENERATE button to generate the report
+   Alternatively, you can click the POWERBI (BETA) button to generate the report. This is a different report format that allows you to export the report into various file types.
+7. View the report results
+   Click the DOWNLOAD button to export the report as a PDF or EXCEL file.
+   Click the X to close the report.
+   Click the BACK button to return to the Reports page.
+
+## Site Balance Report
+The Site Balance Report provides a summary of account balances per site on a selected date.
+1. Select Site Balance
+   The Site Balance page displays.
+2. Select the Site Code/Site Name
+3. Enter the Date
+4. Select the Include Special Accounts (New Staff, New Student, Program Adult, Visitor) option if needed
+5. Click the GENERATE button to generate the report
+6. View the report results
+   Click the DOWNLOAD button to export the report as a PDF or EXCEL file.
+   Click the X to close the report.
+   Click the BACK button to return to the Reports page.

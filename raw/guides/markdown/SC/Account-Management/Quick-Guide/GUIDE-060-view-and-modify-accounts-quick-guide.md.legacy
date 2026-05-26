@@ -1,0 +1,217 @@
+---
+id: GUIDE-060
+title: "View and Modify Accounts Quick Guide"
+platform: "SC"
+module: "Account Management"
+content_type: "Quick Guide"
+source_url: "https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/AccountManagement/Accounts_View_Modify_Quick_Guide.pdf"
+local_pdf: "raw/guides/pdf/SC/Account-Management/Quick-Guide/GUIDE-060-view-and-modify-accounts-quick-guide.pdf"
+created_at: "2026-05-13T20:23:05+00:00"
+updated_at: "2026-05-13T20:24:44+00:00"
+workflow_authority: true
+product_rule_authority: false
+status: "draft_extracted"
+---
+
+# View and Modify Accounts Quick Guide
+
+## Source metadata
+
+- Guide ID: GUIDE-060
+- Platform: SC
+- Module: Account Management
+- Content Type: Quick Guide
+- Source URL: https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/AccountManagement/Accounts_View_Modify_Quick_Guide.pdf
+- Local PDF: raw/guides/pdf/SC/Account-Management/Quick-Guide/GUIDE-060-view-and-modify-accounts-quick-guide.pdf
+
+## Extracted guide text
+
+### Page 1
+
+1
+
+View and Modify Accounts
+The Accounts function allows users to
+ Perform a Basic patron search
+ Perform an Advanced patron search
+ Preview a patron’s account
+ Select Account Details of a patron’s account
+Search for Patrons Accounts
+You can search for a patron’s account using the BASIC or ADVANCED search options.
+BASIC Tab
+1. Select the BASIC tab
+2. Enter a patron’s name or ID into the Search by Name or ID field
+Suggestions populate based on character entry.
+3. Select the desired patron
+The patron’s account information displays in the table below.
+ADVANCED Tab
+1. Select the ADVANCED tab
+2. Select the desired search Filters
+Fields with an asterisk are required.
+3. Click the APPLY button
+The patron account information displays in the table below.
+MANAGE VIEWS
+You can modify the columns in the table to display specific information.
+1. Click the MANAGE VIEWS button
+A slide deck displays.
+2. Select the columns that you want to display
+You can click the SAVED VIEWS tab to display previous versions of the columns
+displayed.
+3. Once columns are selected, click the X
+The changes automatically display in the table.
+
+### Page 2
+
+2
+
+Actions in BASIC and ADVANCED tabs
+Preview Patron Accounts
+1. Click the Preview icon for the desired patron
+The Preview slide deck displays.
+Green represents a positive status.
+Red represents a negative/inactive status.
+MORE ACTIONS
+Use the MORE ACTIONS button to transfer funds and notify patrons.
+TRANSFER FUNDS
+This action cannot be completed with a negative balance.
+1. Click the MORE ACTIONS button
+2. Select TRANSFER FUNDS
+The Transfer Funds slide deck displays.
+3. Enter the
+ Transfer Amount
+ Transfer To
+ Comments
+4. Click the SAVE button
+A confirmation response appears.
+You are returned to the Accounts page.
+NOTIFY
+1. Click the MORE ACTIONS button
+2. Select NOTIFY
+The Notify slide deck displays.
+3. Select Which letter are you sending?
+4. Select the Letter Format
+ Individual – One notice per patron per address.
+ Household – Consolidates multiple notices into one by address.
+5. Select from the Email/Print Options
+The number in the parenthesis indicates the number of notifications that will be
+emailed or printed.
+Email/Print Options: The system will execute the following based on
+selection.
+Email notifications require a guardian email address in the student account
+details.
+ Email/Print: Emails are sent and follow the browser standard for printing.
+ Email Only: The notification is sent to the designated email and a success
+message will appear.
+
+### Page 3
+
+3
+
+ Print All or Print Only: Follow the browser standard for printing.
+6. Click the NOTIFY button to send notifications
+A SUCCESSFULLY NOTIFIED statement replaces the NOTIFY button.
+Click the X in the top-right corner to close the Notify slide deck.
+7. Click the BACK button to return to the Preview slide deck if you have more
+tasks to complete
+MAKE PAYMENTS
+1. Click the MAKE PAYMENTS button
+The Make a Payment slide deck displays.
+2. Select the payment method
+ CASH – Enter the cash Payment Amount
+ CHECK – Enter the check Payment Amount and Check Number
+ CARD – Enter the credit card Payment Amount and Card Number (Last 4
+Digits)
+3. Click the SAVE button to apply the payment to the account
+A confirmation response appears.
+You are returned to the Accounts page.
+
+### Page 4
+
+4
+
+View Patron Account Details
+1. Click the Account Details icon for the desired patron
+The Account Info page displays.
+2. View the PATRON ID, ELIGIBILITY, and ACCOUNT BALANCE atop the page
+3. View the account details by either scrolling down the page or by clicking the section
+name on the right-hand panel to navigate to that section
+a. View the patron photo or initials when
+an image is unavailable
+b. View the patron’s name
+c. View the patron’s Account Status
+Green represents a positive status.
+Red represents a negative/inactive
+status.
+d. Click the Edit (Camera) icon to upload
+a photo or remove an existing one
+If a photo is already uploaded for a
+student, a Delete (Trash Can) icon will
+also be available. Click this icon to
+delete the photo.
+e. Additional buttons
+ HISTORY – Allows the user to view
+the history of changes to the
+patron’s account
+ EXPORT – Allows the user to
+export the account details to a PDF
+file. Follow the prompts to export
+the information
+ MORE ACTIONS – Click this button
+to select additional account actions
+See the MORE ACTIONS section
+below for more information.
+f. Section Links – Clicking on one of the
+section names will navigate you to the
+selected section
+ View or edit content within a
+section based on your role
+permissions
+ Consult your district’s SchoolCafé
+administrator if access is required
+ Use the Edit icon to edit each
+section as needed
+ There are fewer section links for
+adults, but the functionality is the
+same
+
+### Page 5
+
+5
+
+MORE ACTIONS
+Use the MORE ACTIONS button to make payments, adjust balances, return checks,
+refund money, and transfer funds.
+MAKE PAYMENTS
+Refer to the MAKE PAYMENTS section on page 2.
+ADJUST BALANCE
+1. Click the MORE ACTIONS button
+2. Select ADJUST BALANCE
+The Balance Adjustment slide deck displays.
+3. Choose to ADD or DEDUCT from the patron’s account
+4. Enter the Adjustment Amount to add or deduct
+5. Enter the required Comment
+6. Click the SAVE button to apply the adjustment
+A confirmation response appears.
+The account updates immediately.
+RETURN CHECK
+1. Click the MORE ACTIONS button
+2. Select RETURN CHECK
+The Return Check slide deck displays.
+3. Select the appropriate Check Number and Amount from the list
+Only checks applied to the patron’s account are accessible in the list.
+4. Enter the required Comment
+5. Click the Do not accept subsequent checks for this account checkbox as
+needed
+6. Click the SAVE button to apply the adjustment
+A confirmation response appears.
+The account updates immediately.
+REFUND
+1. Click the MORE ACTIONS button
+2. Select REFUND
+The Refund slide deck displays.
+3. Choose to refund the patron the FULL or PARTIAL amount
+For a PARTIAL amount, enter the Refund Amount.
+4. Enter the required Comment
+5. Click the SAVE button to apply the adjustment
+TRANSFER FUNDS
+Refer to the TRANSFER FUNDS section on page 2.

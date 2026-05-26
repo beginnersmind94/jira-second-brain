@@ -1,0 +1,110 @@
+---
+id: GUIDE-050
+title: "Direct Certification - Potential Matches Quick Guide"
+platform: "SC"
+module: "Eligibility"
+content_type: "Quick Guide"
+source_url: "https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Eligibility/Direct_Certification_Potential_Matches_Quick_Guide.pdf"
+local_pdf: "raw/guides/pdf/SC/Eligibility/Quick-Guide/GUIDE-050-direct-certification-potential-matches-quick-guide.pdf"
+curated_against_raw_sha: "08598d9637b561b8"
+curated_against_raw_at: "2026-05-18T20:39:43+00:00"
+last_reviewed_by: ""
+status: "needs_initial_review"
+---
+
+# Direct Certification - Potential Matches Quick Guide
+
+> Seeded from the raw extraction. Edit freely. When the raw drifts, review the diff and update this file, then mark it reviewed with `python scripts/mark_guide_reviewed.py GUIDE-050`.
+
+The Potential Matches function allows district users to use the
+- SEARCH & REVIEW tab
+  - Potential Match Scorecard to view students matching factors and  MARK AS REVIEWED
+
+##  MATCH
+  - Match History allows users to view past transactions associated with a student match file
+- REVIEWED tab
+  - Potential Match Scorecard to view students matching factors and  MATCH
+
+##  UNMATCH & MARK AS REVIEWED
+  - Match History allows users to view past transactions associated with a student match file
+
+## SEARCH & REVIEW tab
+The SEARCH & REVIEW tab allows users to review, match or mark potential matches as reviewed.
+1. Ensure that the SEARCH & REVIEW tab is selected
+2. Select from the Points Filters
+   The Custom filter allows users to set the percentage range by sliding the points to the desired percentage amounts.
+3. Use the Show Same/Lesser Benefits toggle to control whether redundant potential matches appear in the grid
+   - Off (default): hide matches whose DC Type is the same as the student's current eligibility or lower in the DC Precedence order
+   - On: show same and lower DC Types
+   Hover the info icon next to the toggle for an explanation.
+4. Click the APPLY button
+   The results display below.
+   The Potential Matches count on the Eligibility Dashboard matches the count shown on this page (with the Show Same/Lesser Benefits toggle Off).
+
+## Action(s) for Potential Match Scorecard
+1. Click the ScoreCard icon for the desired student
+   The Potential Match Review slide deck displays.
+   The Potential Match Review slide deck allows you to
+- MARK AS REVIEWED
+- MATCH
+2. View the MATCHING FACTORS table to determine if the student is a match or not
+3. Click the Show Comparison Scorecard toggle switch on
+   The COMPARISON SCORECARD displays the student’s Personal Information, Contact Information, and ID Numbers.
+   Viewing the COMPARISON SCORECARD provides additional matching factors to determine if the student is a match or not.
+4. Click a right-facing arrow for each available dropdown as desired to expand the information
+5. View the points awarded to determine if the student is a match or not
+
+6. Enter a comment in the Add Comment field
+   Comments are required to confirm the match or dismissal.
+7. Click either the MARK AS REVIEWED or MATCH button
+- Use the MARK AS REVIEWED button to verify that the student was reviewed and is not a match
+- Use the MATCH button to link the student
+A confirmation response appears atop the page.
+The student is matched or dismissed.
+Repeat this process to review additional students as needed.
+
+## View Match History
+The Match History displays a series of past transactions associated with a student match file.
+1. Click the Match History icon for the desired student
+   The Match History slide deck displays.
+2. Click the arrow to expand or collapse the match details
+   Click X to close the slide deck.
+   You are returned to the SEARCH & REVIEW tab.
+   REVIEWED tab
+   The REVIEWED tab allows users to access potential matches that were either Reviewed or Matched.
+1. Select the REVIEWED tab
+2. Select from the Points Filters
+   The Custom filter allows users to set the percentage range by sliding the points to the desired percentage amounts.
+3. Click the APPLY button
+   The results display below.
+   Action(s) for Potential Match Scorecard
+   The Potential Match Review slide deck allows you to review student files that were MARKED AS REVIEWED or MATCHED.
+   Use the Show Reviewed and Show Matched toggle switches to filter the list by Status.
+1. Click the ScoreCard icon for the desired student
+   The Potential Match Review slide deck displays.
+   The buttons display for the student depending on their status.
+- REVIEWED - MATCH button is displayed.
+- MATCHED - UNMATCH & MARK AS REVIEWED button is displayed.
+2. View the MATCHING FACTORS table to determine if the student is a match or not
+3. Click the Show Comparison Scorecard toggle switch on
+   The COMPARISON SCORECARD displays the student’s Personal Information,
+
+Contact Information, and ID Numbers.
+Viewing the COMPARISON SCORECARD provides additional matching factors to determine if the student is a match or not.
+4. Click a right-facing arrow for each available dropdown as desired to expand the information
+5. View the points awarded to determine if the student is a match or not
+6. Enter a comment in the Add Comment field
+   Comments are required to confirm the match or dismissal.
+7. Click the button that displays
+- Use the MATCH button to link the reviewed student
+- Use the UNMATCH & MARK AS REVIEWED button to unmatch the student and mark them as reviewed A confirmation response appears atop the page.
+The student is matched or dismissed.
+Repeat this process to review additional students as needed.
+
+## View Match History
+The Match History displays a series of past transactions associated with a student match file.
+1. Click the Match History icon for the desired student
+   The Match History slide deck displays.
+2. Click the arrow to expand or collapse the match details
+   Click the X to close the slide deck.
+   You are returned to the REVIEWED tab.

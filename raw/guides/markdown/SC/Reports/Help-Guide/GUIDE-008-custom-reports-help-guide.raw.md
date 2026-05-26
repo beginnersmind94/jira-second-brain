@@ -1,0 +1,301 @@
+---
+id: GUIDE-008
+title: "Custom Reports Help Guide"
+platform: "SC"
+module: "Reports"
+content_type: "Help Guide"
+source_url: "https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Reports/Custom_Reports_Help_Guide.pdf"
+local_pdf: "raw/guides/pdf/SC/Reports/Help-Guide/GUIDE-008-custom-reports-help-guide.pdf"
+extraction_warnings: []
+extracted_at: "2026-05-18T20:39:38+00:00"
+raw_text_sha256: "1ee04ad602bda842"
+generated: true
+status: "draft_extracted"
+---
+
+# Custom Reports Help Guide
+
+Custom Reports allow users to create reports from our datasets that meet their specific criteria and then send them in various formats by email, inbox, or FTP on a schedule or demand.
+In this guide, you will learn how to
+- Add Custom Reports
+- Edit Custom Reports
+- Delete Custom Reports
+- View Custom Reports
+- View Custom Reports Configuration
+- View Custom Reports History
+- View Recent Custom Reports
+- Distribute Custom Reports
+- Add Custom Report Parameters
+- Edit Custom Report Parameters
+- Delete Custom Report Parameters
+- Use Custom Report Parameters in Reports
+- User Dynamic Queries in Custom Reports
+- Add Report Groups
+
+## Add Custom Reports
+1. Ensure that the CUSTOM REPORTS tab is selected
+2. Click the + NEW button in the top right corner
+   The Add Custom Report page displays.
+3. Complete the fields in the Selection section
+   a. Name – Enter a name that will enable other users to know what the report is about
+   b. Description – Use the optional description to provide helpful information specific to the report
+   c. Owner – Select the district user that is responsible for making decisions about the report and the one others can go to for questions
+   d. Modules – Select the module that the dataset comes from
+   e. Data Source – Select the dataset that you want to use, filtered by the module you selected
+   f. Contains PII – Select Y es if the dataset contains personally identifiable information about students
+   g. Dynamic Query – Visible to Customer Support only; select Y es if you want to write custom SQL code instead of using the graphical editor
+   Click CANCEL if you changed your mind about creating a report.
+   The NEXT button remains disabled until all the required fields are completed.
+4. Click the NEXT button to go to the Configuration section
+5. Complete the SOURCE TABLE tab in the Configuration section
+   a. Click the Enabled toggle switch on all fields you want
+
+b. Drag rows up and down to determine the order you want them to appear in your report
+c. For any row, optionally give an alternate name that will appear in your report by typing it in the Alt Name field
+d. Filter the results with the Operator and Value columns
+i. Operators use smart values:
+1. Text fields use text operators like “Equals”
+2. Numeric fields use numeric operators like “=”
+3. Date fields are disabled and use smart values ii. Value fields:
+1. Text and numeric fields allow data entry in the text box
+2. Date fields use smart dates, which are configured in the REPORT
+   PARAMETERS tab
+   e. Optionally apply the Locations special Report Parameter
+   i. For datasets that have a SchoolCode field, the Location Report Parameter appears on the bottom ii. Optionally use pre-configured Location Report Parameters to apply smart filters to your dataset iii. This enables you to define location groupings such as “All Elementary Schools” and use this setting instead of having to select all the schools for each report
+   The NEXT button remains disabled until you click the Generate SQL button on the SQL tab.
+   The other tabs remain disabled until you select at least one column in the dataset.
+6. Complete the DEFAULT SORT tab in the Configuration section
+   Optionally, use this grid to define the order in which the results are returned.
+   a. Select a column in the Source Field column
+   b. Select if you want it ascending or descending in the Description column
+   c. Optionally click the Trash Can icon to delete the Source Field
+   d. Optionally click the ADD NEW + button to add another column to sort by
+   If there are multiple columns, the sort will be applied in order of the grid.
+   Rows with no values will be ignored.
+7. Complete the ARGUMENTS tab in the Configuration section
+   Use these fields to modify your dataset results.
+   a. Optionally check DISTINCT to apply the Distinct argument to the data results
+   b. Optionally check TOP and enter a number to filter the number of records returned in the data results
+   If you check TOP, you must enter a number in the text box next to it.
+8. Complete the SQL tab in the Configuration section
+   a. Click the GENERATE SQL button
+   i. This auto-generates the necessary SQL needed to produce the report based on the selections on the other tabs
+   The NEXT button remains disabled until you click this button.
+   b. Optionally click the RUN button to preview the data
+
+c. Optionally click the CLEAR button to remove the SQL code and start over
+Warning – If you make changes in the other Configuration tabs, it will delete the SQL, and you will have to regenerate it.
+9. Click the NEXT button to go to the Sharing section
+10. Complete the Sharing section
+   The objective of this section is to identify people who will be typical users of the report and notify them that you have created it and shared it with them. Additionally, your choices can be used in the Distribution section to save you time.
+   a. Select if you want to share the report with others
+   i. The default is No ii. If you select Y es, you must pick at least one person or one role before you can click the NEXT button
+   b. If Y es, select the user(s) or role(s) or both The NEXT button remains disabled until you make one selection.
+   The system is smart enough to share only once if you select a user in a selected role.
+11. Click the NEXT button to go to the Distribution section
+12. Complete the Distribution section
+   a. First, decide if you want to distribute the report
+   i. Select No if you do not want to send it to anyone on a schedule; you can still view reports manually
+   b. Choose the Format that you would like the report to be distributed
+   c. Choose which distribution method you would like:
+   i. Select one or more between Email, Inbox, and FTP Choices are independent.
+   d. If you select Email:
+   i. Optionally add an individual SchoolCafé User
+   Optionally copy users from the Sharing section to save time.
+   ii. Optionally add all members of a SchoolCafé Role
+   Optionally copy roles from the Sharing section to save time.
+   iii. Optionally Add External Email accounts
+   Be careful when sending documents with PII data to external accounts.
+   iv. Documents with PII data will not be distributed to SchoolCafé users who are not in the PII role
+   v. Users will receive an email of the report in the format selected per the schedule defined in the next section
+   e. If you select Inbox:
+   i. Optionally add an individual SchoolCafé User
+   Optionally copy users from the Sharing section to save time.
+   ii. Optionally add all members of a SchoolCafé Role
+   Optionally copy roles from the Sharing section to save time.
+   iii. Documents with PII data will not be distributed to SchoolCafé users who are not in the PII role iv. Users will receive a Workspace Inbox message of the report in the format selected per the schedule defined in the next section
+
+f. If you select FTP:
+i. Obtain the FTP settings from your administrator or SchoolCafé Customer
+Support representative if you do not have it already ii. Enter the required information in their respective fields
+13. Click the NEXT button to go to the Scheduling section
+14. Complete the Scheduling section
+   a. First, decide if you want to schedule sending the report
+   i. Select No if you do not want to send it to anyone on a schedule
+   b. Then decide if you want to send just once or send recurring
+   c. If Once, then select the date and time you want to send it
+   d. If Recurring, then select the first and last dates along with what days of the week and time of the day you want the report distributed
+15. Click the NEXT button to go to the Review section
+16. Review the Review section one last time before saving
+17. Click the SAVE button to commit your report to the database
+   A confirmation response appears at the top of the page, and the Custom Report is added.
+   You are returned to the dashboard.
+
+## Edit Custom Reports
+1. Ensure that the CUSTOM REPORTS tab is selected
+2. Click the Edit icon for the report you want to edit
+   The Edit Custom Report page displays.
+3. Make any changes as needed
+4. Click the SAVE button in the Review section to retain changes
+   A confirmation response appears at the top of the page, and the report is changed.
+   You are returned to the dashboard.
+
+## Delete Custom Reports
+1. Ensure that the CUSTOM REPORTS tab is selected
+2. Click the More Actions icon for the report you want to delete
+   Options display.
+3. Select the Delete option
+   A Delete Custom Report pop-up message displays.
+4. Click Continue to confirm the deletion
+   A confirmation response appears at the top of the page, and the report is deleted.
+   You are returned to the dashboard.
+
+## View Custom Reports
+1. Ensure that the CUSTOM REPORTS tab is selected
+2. Click the More Actions icon for the report you want to view
+   Options display.
+3. Click the View Custom Report option
+   The View Custom Report slide deck displays.
+
+4. View the Custom Report
+   You can click the Download icon to export this information as an Excel file.
+   Click the X to close the slide deck and return to the dashboard.
+
+## View Custom Reports Configuration
+1. Ensure that the CUSTOM REPORTS tab is selected
+2. Click the More Actions icon for the reports configuration you want to view
+3. Select the View Configuration option
+   The View Configuration slide deck displays.
+4. View the configuration settings
+   You can click DOWNLOAD to export this information.
+   Click the X to close the slide deck and return to the dashboard.
+
+## View Custom Reports History
+1. Ensure that the CUSTOM REPORTS tab is selected
+2. Click the More Actions icon for the report you want to view the history for
+3. Select the View History option
+   The Custom Report History slide deck displays.
+4. View the changed values
+   Click the X to close the slide deck and return to the dashboard.
+
+## View Recent Custom Reports
+1. Ensure that the CUSTOM REPORTS tab is selected
+2. Click the More Actions icon for the report you want to view recently run reports for
+3. Select the Recently Run Reports option
+   The Recent Distributed Reports slide deck displays.
+4. View the reports run for the last 20 days
+   You can click the Document icon on any row to export this information as an Excel file.
+   Click the X to close the slide deck and return to the dashboard.
+
+## Distribute Custom Reports
+1. Ensure that the CUSTOM REPORTS tab is selected
+2. Click the More Actions icon for the report you want to distribute immediately
+3. Select the Distribute option
+   A Confirmation pop-up message displays.
+4. Click YES to confirm the distribution
+   The system will run the report and send it per the configuration settings in the Distribution tab.
+
+Manage Custom Report Parameters
+Custom Report Parameters allow users to create a named Parameter that can be used in multiple reports with the same settings. For example, a user might create a Custom Parameter called “Elementary Schools” and assign all the district’s elementary schools to it. Then, in the reports, the user can select Elementary Schools in the configuration, and the report knows that you want to filter the results to the schools assigned to that Parameter, thus saving the user time and preventing missing data.
+There are two types of Custom Parameters: Time based and Location (school code) based. As per the example, use the Location based Parameter type to define groupings of schools and grades. Use the Time based type to define time frames such as “This Week” or “2024 Fall Semester” to use dynamically or set time frames in your reports to avoid hard-coding dates.
+To view, add, edit, or delete Custom Report Parameters, do the following:
+
+## Add Custom Report Parameters
+1. Select the REPORT PARAMETERS tab at the top of the page
+2. Click the + NEW button in the top right corner
+   The Add New Report Parameter slide deck displays.
+3. Select if you want to create a Location or Time Parameter
+   The choice you make filters the remaining fields below.
+4. Enter a Name for the Parameter
+5. Optionally enter a Description
+   This can include what the Parameter will be used for or who to contact for questions.
+   If you selected Location, the School and the Grade fields will appear.
+6. If you selected Location, select the School(s)
+   You must select at least one to save the Parameter.
+7. If you selected Location, optionally select the Grade(s)
+   This allows you to fine-tune your location Parameters. For example, you might say you only want to return results for PK in Elementary Schools.
+   Selecting grades is optional. If you want them all, leave the field blank.
+   If you select Time, the Date From and To field will appear.
+8. Enter the Date From and To Use this to define set time frames such as semesters and school years.
+   The system automatically creates dynamic times such as This Week, This Month, etc.
+9. Click the SAVE button to commit the new Parameter to the system
+
+## Edit Custom Report Parameters
+1. Select the REPORT PARAMETERS tab at the top of the page
+2. Click the Edit icon for the Parameter you want to edit
+   If the Edit icon is grayed out, you cannot edit the Parameter for one of two reasons.
+   Either the Parameter is a System Report Parameter, or the Parameter might be being used.
+   The Edit Report Parameter slide deck displays.
+3. Complete the fields in the same way as when adding a new one
+   Note that the Parameter Type cannot be changed.
+4. Click the SAVE button to retain changes
+   A confirmation response appears at the top of the page, and the Parameter is changed.
+   You are returned to the dashboard.
+
+## Delete Custom Report Parameters
+1. Select the REPORT PARAMETERS tab at the top of the page
+2. Click the More Actions icon for the Parameter you want to delete
+   Options display.
+3. Select the Delete option
+   If the Delete option is grayed out, you cannot delete the Parameter for one of two reasons. Either the Parameter is the System Report Parameter, or the Parameter might be being used by a report. Therefore, you must remove it from the reports that are using it before you can delete it.
+   A Confirmation pop-up message displays.
+4. Click YES to confirm the deletion
+   A confirmation response appears at the top of the page, and the Parameter is deleted.
+   You are returned to the dashboard.
+
+## Use Custom Report Parameters in Reports
+Once you create Custom Parameters, you can use them on the Report Configuration tab.
+1. Select the CUSTOM REPORTS tab at the top of the page
+2. Click the + NEW button in the top right corner
+   The Add Custom Report page displays.
+3. Complete the fields in the Selection section
+4. Click the NEXT button to continue
+5. Complete the SOURCE TABLE tab in the Configuration section
+6. To use Time filters, look at any column with a date/time type, such as CreatedDate
+   a. In the Value column for date fields, the Time filters are automatically inserted as options
+   b. Select the ones that apply
+7. To use Location filters, look at the bottom of the page for the field named Locations
+   a. If you do not see it, your dataset does not have a school codes column in the dataset
+
+b. Select the ones that apply
+8. Continue completing the report configuration, and the system will automatically apply these filters when executing the report
+
+## Use Dynamic Queries in Custom Reports
+Sometimes, you may have a unique query that the graphical interface cannot generate so that you can write your own SQL.
+1. Ensure that the CUSTOM REPORTS tab is selected
+2. Click the + NEW button on the top right corner
+   The Add Custom Report page displays.
+3. Select Y es for the Dynamic Query field in the Selection section
+4. Click the NEXT button to continue
+5. Go to the SOURCE TABLE tab in the Configuration section
+   Note that all the graphical selection tabs are removed for Dynamic Query, and only the SQL tab remains.
+6. Write any valid SQL Select statement
+   All other statement types, such as Delete and Update, are disabled.
+7. Optionally click the RUN button to see the results produced by your query
+8. Continue completing the report configuration
+
+Manage Report Groups
+Report Groups allow users to set Sharing, Distribution, and Scheduling together to manage multiple reports simultaneously. For example, a user might want to create many end of week reports and distribute them all in the same format to the users at the same time. Therefore, they can create one Report Group, link those reports to it, and manage them all at once.
+To view and add Report Groups, do the following:
+
+## Add Report Groups
+1. Select the REPORT GROUPS tab at the top of the page
+2. Click the + NEW button in the top right corner
+   The Add Report Groups page displays.
+   Note that the design of the Report Groups is similar to Custom Reports.
+   a. In the Selection section, report-specific fields are hidden
+   b. The Configuration section replaces the Report In Group section, where you will link the reports
+   c. The Sharing, Distribution, and Scheduling sections are the same as for a Custom
+   Report
+   d. The Review section is similar but configured to show the linked reports
+3. Complete the Selection section
+4. Complete the Reports In Group section
+5. Optionally click the + NEW button to link a report to the group
+   a. Select the reports that you want to manage together and click the SAVE button
+   Note that reports can not be in multiple groups, so if you do not see your report, it has been filtered out of the list.
+   Warning - If you link a report with existing information in the Sharing, Distribution, and Scheduling sections, that data will be deleted and irretrievable. Do not link the report unless you are sure.
+   Note that you can create a Report Group without linking reports.
+   b. If later desired, you can edit the Report Group and link reports then
+6. Optionally click the DELETE button to remove a report from the group
+7. Click the NEXT button and continue to configure the group in the remainder of the sections
+8. Optionally, open up a linked report and note that the group sections have been hidden, and you can only update the report specific sections
