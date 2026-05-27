@@ -21,6 +21,10 @@ cleaned_private/
 .claude/md_to_pdf.py
 scripts/__pycache__/
 
+# Flask POC — caches and per-job scratch (uploaded PDFs, extracted MD, status files)
+app/__pycache__/
+app/jobs/
+
 # OS / editor noise
 .DS_Store
 Thumbs.db
