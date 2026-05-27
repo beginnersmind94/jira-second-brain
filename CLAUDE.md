@@ -4,6 +4,13 @@
 Turn every Jira ticket into institutional knowledge that new hires can learn from.
 The wiki is the deliverable. Tickets are the raw material.
 
+## Repeatable workflows
+Codified slash commands live in `.claude/commands/`. Each fires a self-contained prompt with the matured workflow and canonical output template — no need to re-type the spec.
+
+- `/apply-jira-to-guides <csv-path> <module> [platform=SC]` — apply a Jira CSV to a module's guide set. Runs 4 passes: (1) edit `.md` files with inline `<!-- Source: -->` citations, (2) strip those citations into a sidecar changelog at `raw/guides/ticket-updates/<DATE>-<module>.md` and regenerate the combined diff at `raw/guides/diffs/proposed/all-<module>-diffs.html`, (3) claim drift check (Pass 1 vs Pass 2 minus stripped comments), (4) voice & jargon spot-check. Final report follows a fixed template (files modified / tickets applied / tickets skipped / open notes / protected-files confirmation / Pass 2-4 results).
+
+Add new workflows by dropping a `.md` file in `.claude/commands/`; the filename (sans `.md`) is the command name and the file contents are the prompt. Use `$1`, `$2`, `$ARGUMENTS` for positional arguments.
+
 ## Directory Rules
 - `raw/tickets/` — one file per issue, filename = issue key (FIN-1234.md). **Filename is stable; field contents mirror Jira.** Each ingestion run rewrites a ticket file when its Jira fields differ from what's on disk; identical content is a no-op.
 - `raw/comments/` — comments grouped by issue key. Append-only.
