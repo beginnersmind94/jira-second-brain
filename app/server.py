@@ -165,6 +165,50 @@ def extract_pdf_to_md(pdf_path: Path) -> str:
     return "\n\n".join(chunks).strip() + "\n"
 
 
+# Generic words that aren't useful as keywords for ticket matching.
+_FILTER_STOPWORDS = {
+    "the", "and", "for", "with", "from", "into", "this", "that", "your", "you",
+    "guide", "quick", "page", "view", "click", "select", "button", "user", "users",
+    "module", "function", "tab", "tabs", "section", "field", "fields",
+    "add", "new", "use", "see", "set", "all", "any", "etc", "pdf", "html",
+    "step", "steps", "type", "name", "icon", "form", "data", "input",
+}
+
+
+def keywords_from_guide(guide_md: str, filename: str) -> set[str]:
+    """Pull distinctive tokens from the guide title + H1/H2 + filename to use as
+    a coarse ticket-relevance filter. Returns lowercase tokens >2 chars, stopwords removed."""
+    headers = re.findall(r"^#{1,2}\s+(.+)$", guide_md, re.MULTILINE)
+    title_line = guide_md.lstrip().split("\n", 1)[0] if guide_md else ""
+    haystack = " ".join([filename, title_line, *headers]).lower()
+    # tokenize on non-word, drop stopwords + short tokens + pure digits + "GUIDE-NNN"-style
+    tokens: set[str] = set()
+    for w in re.findall(r"[a-z]+", haystack):
+        if len(w) > 2 and w not in _FILTER_STOPWORDS:
+            tokens.add(w)
+    return tokens
+
+
+def prefilter_tickets(tickets: list[dict], keywords: set[str], min_keep: int = 3) -> list[dict]:
+    """Keep tickets whose summary/RN/AC/title mentions any of the guide's keywords.
+
+    If the filter would keep fewer than `min_keep`, fall back to all tickets — better
+    to give the LLM too much than to miss a real match because of a thin keyword set.
+    """
+    if not keywords:
+        return tickets
+    out: list[dict] = []
+    for t in tickets:
+        haystack = " ".join([
+            t.get("summary", ""), t.get("rn", ""), t.get("ac", ""), t.get("rn_title", "")
+        ]).lower()
+        if any(kw in haystack for kw in keywords):
+            out.append(t)
+    if len(out) < min_keep:
+        return tickets
+    return out
+
+
 # ───────────────────────── LLM call ─────────────────────────
 
 
@@ -296,7 +340,7 @@ def call_claude_for_proposals(guide_md: str, tickets: list[dict], job_dir: Path)
     env.update(_read_env_file())  # overlay app/.env (e.g., CLAUDE_CODE_OAUTH_TOKEN)
     try:
         result = subprocess.run(
-            [claude_bin, "-p", "--output-format=text"],
+            [claude_bin, "-p", "--model", "haiku", "--output-format=text"],
             input=prompt,
             capture_output=True,
             text=True,
@@ -348,22 +392,38 @@ def call_claude_for_proposals(guide_md: str, tickets: list[dict], job_dir: Path)
 
 
 def process_in_background(job_id: str, module: str) -> None:
+    import time
     d = JOBS_DIR / job_id
+    timings: dict[str, float] = {}
     try:
+        t0 = time.monotonic()
         write_status(job_id, "extracting", message="Converting PDF to markdown…")
         pdf_path = d / "in.pdf"
         md = extract_pdf_to_md(pdf_path)
         (d / "in.md").write_text(md, encoding="utf-8")
+        timings["extract_s"] = round(time.monotonic() - t0, 2)
 
+        t0 = time.monotonic()
         write_status(job_id, "matching", message=f"Filtering tickets for {module}…")
         if not DEFAULT_CSV.exists():
             raise RuntimeError(f"CSV not found at {DEFAULT_CSV}")
-        tickets = filter_csv_for_module(DEFAULT_CSV, module)
+        all_tickets = filter_csv_for_module(DEFAULT_CSV, module)
+        # Narrow further by keyword overlap with the guide so the LLM doesn't have to
+        # consider every ticket in the module. Falls back to all tickets if the filter
+        # is too aggressive.
+        filename = (d / "filename.txt").read_text(encoding="utf-8") if (d / "filename.txt").exists() else ""
+        kws = keywords_from_guide(md, filename)
+        tickets = prefilter_tickets(all_tickets, kws)
         (d / "tickets.json").write_text(json.dumps(tickets, indent=2), encoding="utf-8")
+        (d / "tickets_all.json").write_text(json.dumps(all_tickets, indent=2), encoding="utf-8")
+        timings["match_s"] = round(time.monotonic() - t0, 2)
 
-        write_status(job_id, "proposing", message=f"Asking LLM to draft edits ({len(tickets)} candidate tickets)…")
+        t0 = time.monotonic()
+        msg = f"Asking Haiku to draft edits ({len(tickets)} of {len(all_tickets)} tickets after keyword pre-filter)…"
+        write_status(job_id, "proposing", message=msg)
         result = call_claude_for_proposals(md, tickets, d)
         (d / "proposals.json").write_text(json.dumps(result, indent=2), encoding="utf-8")
+        timings["llm_s"] = round(time.monotonic() - t0, 2)
 
         write_status(
             job_id,
@@ -371,12 +431,15 @@ def process_in_background(job_id: str, module: str) -> None:
             message="Review proposed edits.",
             n_edits=len(result.get("proposed_edits", [])),
             n_skipped=len(result.get("skipped_tickets", [])),
+            n_tickets_considered=len(tickets),
+            n_tickets_total=len(all_tickets),
+            timings=timings,
         )
     except Exception as e:
         import traceback
         tb = traceback.format_exc()
         (JOBS_DIR / job_id / "error.txt").write_text(tb, encoding="utf-8")
-        write_status(job_id, "error", error=str(e))
+        write_status(job_id, "error", error=str(e), timings=timings)
 
 
 # ───────────────────────── routes ─────────────────────────

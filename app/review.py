@@ -50,10 +50,19 @@ section.edit .diff-table .ln{background:#eef1f5;color:#6b7280;text-align:right;w
 .actions .status{margin-left:auto;font-size:12px;color:#5b6470;align-self:center}
 .actions .status.approved{color:#1b7a3a;font-weight:600}
 .actions .status.rejected{color:#b21f2d;font-weight:600}
-.aside{margin:30px 0 0;padding:16px 20px;background:#fff;border:1px solid #d9dde4;border-radius:8px}
-.aside h3{margin:0 0 8px;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:#5b6470}
-.aside ul{margin:0;padding-left:18px;font-size:13px;color:#1f2933}
-.aside li{margin:3px 0}
+.aside{margin:30px 0 0;padding:0;background:#fff;border:1px solid #d9dde4;border-radius:8px;overflow:hidden}
+.aside summary{padding:14px 20px;cursor:pointer;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:#5b6470;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.aside summary::-webkit-details-marker{display:none}
+.aside summary::after{content:'+';font-size:18px;color:#8a8f96;font-weight:400}
+.aside details[open] summary::after{content:'−'}
+.aside summary:hover{background:#fafbfc}
+.aside .body{padding:0 20px 16px;border-top:1px solid #eef1f5}
+.aside ul{margin:12px 0 0;padding-left:18px;font-size:13px;color:#1f2933;max-height:340px;overflow-y:auto}
+.aside li{margin:4px 0;line-height:1.45}
+.empty-state{text-align:center;padding:48px 24px;background:#fff;border:1px solid #d9dde4;border-radius:8px;margin:0 0 24px}
+.empty-state .icon{font-size:32px;line-height:1;color:#8a8f96;margin:0 0 12px}
+.empty-state h2{margin:0 0 8px;font-size:18px;color:#1f2933}
+.empty-state p{margin:0 auto;font-size:14px;color:#5b6470;max-width:520px;line-height:1.6}
 .footer-bar{position:fixed;bottom:0;left:300px;right:0;background:#fff;border-top:1px solid #d9dde4;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .footer-bar .count{font-size:13px;color:#5b6470}
 .footer-bar .count strong{color:#1f2933}
@@ -115,22 +124,30 @@ section.edit .diff-table .ln{background:#eef1f5;color:#6b7280;text-align:right;w
   </section>
   {% endfor %}
 
-  {% if skipped %}
-  <div class="aside">
-    <h3>Skipped tickets ({{ skipped|length }})</h3>
-    <ul>{% for s in skipped %}<li><strong>{{ s.ticket }}</strong> — {{ s.reason }}</li>{% endfor %}</ul>
+  {% if not edits %}
+  <div class="empty-state">
+    <div class="icon">✓</div>
+    <h2>No edits proposed for this guide</h2>
+    <p>The LLM reviewed {{ n_tickets }} candidate {{ 'ticket' if n_tickets == 1 else 'tickets' }} in <strong>{{ module }}</strong> and didn't find any that produce a user-visible change to this specific guide. This usually means the relevant tickets touch other modules' guides, or are backend-only changes.</p>
   </div>
   {% endif %}
 
   {% if notes %}
-  <div class="aside">
-    <h3>Open notes</h3>
-    <ul>{% for n in notes %}<li>{{ n }}</li>{% endfor %}</ul>
-  </div>
+  <details class="aside" {% if not edits %}open{% endif %}>
+    <summary>Open notes ({{ notes|length }})</summary>
+    <div class="body">
+      <ul>{% for n in notes %}<li>{{ n }}</li>{% endfor %}</ul>
+    </div>
+  </details>
   {% endif %}
 
-  {% if not edits %}
-  <div class="aside"><h3>No proposed edits</h3><ul><li>The LLM found no tickets that produced a user-visible change in this guide. Check the open notes above for context.</li></ul></div>
+  {% if skipped %}
+  <details class="aside">
+    <summary>Skipped tickets ({{ skipped|length }})</summary>
+    <div class="body">
+      <ul>{% for s in skipped %}<li><strong>{{ s.ticket }}</strong> — {{ s.reason }}</li>{% endfor %}</ul>
+    </div>
+  </details>
   {% endif %}
 </main>
 </div>
