@@ -2,6 +2,8 @@
 
 Pipeline that turns Freshdesk customer-conversation history into per-function PrimeroEdge FAQ documents (`.docx` + `.pdf`).
 
+> **Building a new FAQ? Follow [`SOP.md`](SOP.md)** — the step-by-step playbook (fetch → spec → coverage reconciliation → build → rejected register → verify). This README is the map; the SOP is the procedure.
+
 ## What it does
 
 ```

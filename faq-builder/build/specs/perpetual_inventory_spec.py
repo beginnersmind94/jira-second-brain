@@ -6,10 +6,10 @@ SECTIONS = [
     ('Finding and printing your perpetual inventory', [
         ('How do I print my perpetual inventory report?',
          ['Go to Inventory -> Inventory -> Perpetual Inventory, choose your Site and search criteria (for example an Item Category), and click Apply. Then click Print Perpetual Inventory to view the report based on what you searched for. There is also a Printable Page option, and an Export icon if you want to save the data in another file format to print or keep.', "The report lists each item's Item Description, Units, Whole Units, and Broken Units, grouped by Storage Category and Item Category."],
-         'Tickets 295285, 301390'),
+         'Ticket 301390'),
         ('An item I have on the floor is not showing in Perpetual Inventory. Why, and how do I add it?',
          ["The most common reason is the view you are using. If you have Show Only On Hand Inventory Items selected and the item's on-hand balance is zero, it will not appear, and you may see 'no records to display.' Switching to Show All Inventory Items will show items even when the balance is zero.", "If the item genuinely is not in the system's inventory yet, you add it through the Add to Inventory process: go to that item at the correct site (for example the warehouse), add the quantity for today, and finalize the process. Once the addition is completed and saved, the quantity on hand updates and the item appears in perpetual inventory. In support cases where an item never showed up, the add had either not been finished or not been saved. Customer & Expert Care can walk you through the steps or do a screen share if it does not take."],
-         'Tickets 298450, 316647'),
+         'Ticket 316647'),
         ("Can I print an inventory count sheet before I open (start) the month's physical inventory?",
          ['Yes. You can start a physical inventory and print the count sheet from it without finishing the count. In one support case staff were told to start the inventory just to generate and print the count sheet, then use that sheet to do the physical count.'],
          'Tickets 299108'),
@@ -17,7 +17,7 @@ SECTIONS = [
     ('Why the on-hand number can look wrong', [
         ('Why does an item still show a full quantity on hand after I used it through production?',
          ['This usually happens when the production withdrawal did not actually pull the item out of inventory. In one case an item used during a promotion still showed the full amount ordered because the single-ingredient recipe was not linked to the stock item in the buying guide, and the item had no weight set, so the system could not pull it automatically onto the production withdrawal. When that link or weight is missing, the item is not withdrawn from perpetual inventory unless someone adds it to that production withdrawal manually.', 'If an item you have clearly used still shows on hand, check that the recipe is linked to the stock item and has a weight, and confirm the item actually appears on the production withdrawal. Customer & Expert Care can review the item history to show what did and did not get withdrawn.'],
-         'Tickets 302110, 302410'),
+         'Ticket 302110'),
         ('Items on my production withdrawal are showing as 0 on hand even though Perpetual Inventory says I have them. What happened?',
          ['This points to the item already having been withdrawn from that site before the production withdrawal was attempted, so there was nothing left to pull. In support cases the item history report showed the earlier withdrawals that had already cleared the item out of inventory. Run the item history report and trace back to the earlier withdrawal to see where the quantity went.'],
          'Tickets 309859'),
@@ -59,15 +59,10 @@ SECTIONS = [
     ('Inventory value and access', [
         ('Why is my inventory value different from the market value, and what does the MAP column mean?',
          ['Inventory value and market value are calculated differently, so they will not always match. Market value reflects the current price of what is on hand, while the inventory value reflects how the system has valued the stock you received over time. The Moving Average Price (MAP) is a behind-the-scenes valuation figure that PrimeroEdge does not recommend using as your costing standard.', "The MAP column is intended to be hidden from normal users and shows only for specific internal support roles; in one case it appeared on a district's report when it should have been turned off, and PrimeroEdge worked to remove it for that district. For costing and valuation, use the Valuation Report and the Price Details report, both found in the Reports section of Inventory, rather than the MAP figure."],
-         'Tickets 291545, 301390'),
+         'Ticket 301390'),
         ('We bought Inventory licenses but do not see Inventory in our system. Do we have to set it up, and do we have to use it?',
          ['Having the license is not the same as having the module turned on. Inventory has both a front-end and a back-end implementation, and if the back-end implementation was not completed, you can have the license but not see Inventory. Whether you are required to use it once it is implemented is a question for the Customer Success team. If you believe you are licensed for Inventory but cannot see it, contact Customer & Expert Care so they can check your implementation status.'],
          'Tickets 302309'),
-    ]),
-    ('Additional source cases reviewed', [
-        ('Which other support cases were reviewed for this guide?',
-         ['These additional cases from the source filter were reviewed while building this guide. Each was resolved without distinct new guidance - for example a transient error cleared by refreshing, a question the requester resolved on their own, or a one-off configuration or data fix handled directly with the support team - and is listed here so the guide accounts for every case in the source filter.'],
-         'Tickets 290408, 313652'),
     ]),
 ]
 CLOSING = "Still stuck? PrimeroEdge Customer & Expert Care is available by phone at 866.442.6030, Monday-Friday, 6 a.m.-6 p.m. CT. You search, print, and correct your own perpetual inventory on screen, but some fixes - such as correcting an item's unit conversion, reviewing item history behind unexplained negatives, confirming what was reconciled, removing a MAP column that should be hidden, or checking your Inventory implementation - are handled by Customer & Expert Care, who escalate item-configuration issues to the Expert Care Team."

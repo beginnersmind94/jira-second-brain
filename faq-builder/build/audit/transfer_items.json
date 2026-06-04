@@ -1,0 +1,39 @@
+{
+  "function": "Transfer Items",
+  "used": [
+    "294871",
+    "294892",
+    "300796",
+    "302470",
+    "305259",
+    "306477",
+    "306654",
+    "309690"
+  ],
+  "rejected": [
+    {
+      "ticket_id": "311921",
+      "subject": "Online 5 - Chesterfield County Public Schools - Item no showing up to transfer",
+      "date": "2026-02-16",
+      "category": "Self-resolved",
+      "reason": "Customer reported an item not appearing for transfer, then resolved it independently before any agent diagnosis or answer was provided. No reusable guidance captured.",
+      "citation": "Please close this ticket.  I figured out what the issue is.  I do apologize!"
+    },
+    {
+      "ticket_id": "317972",
+      "subject": "Azle ISD - Clear out Pending Transfer",
+      "date": "2026-04-23",
+      "category": "Data fix (no user guidance)",
+      "reason": "District asked Cybersoft to clear/cancel all pending transfers district-wide to prep for inventory. Resolved by backend EC work; no user-facing how-to or reusable answer was given (customers cannot perform this themselves).",
+      "citation": "All the Pending Transfers are resolved already and no more pending Transfers. Please let us know if anything else needed here with this."
+    },
+    {
+      "ticket_id": "318299",
+      "subject": "St. Landry Parish School Board - Item inventory transfer",
+      "date": "2026-04-27",
+      "category": "No resolution captured",
+      "reason": "Issue resolved by phone; the agent note only states the customer was advised how to edit inventory without capturing the specific steps, so no distinct reusable guidance is recorded in the ticket.",
+      "citation": "Called and spoke with Burnell and advised on how to edit their inventory."
+    }
+  ]
+}

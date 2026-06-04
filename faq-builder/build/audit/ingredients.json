@@ -1,0 +1,222 @@
+{
+  "function": "Ingredients",
+  "used": [
+    "290768",
+    "294367",
+    "294965",
+    "295021",
+    "295733",
+    "297295",
+    "299089",
+    "300604",
+    "301629",
+    "302221",
+    "304096",
+    "304228",
+    "304346",
+    "304911",
+    "305369",
+    "305518",
+    "305525",
+    "305626",
+    "305896",
+    "306125",
+    "306166",
+    "306236",
+    "306396",
+    "306400",
+    "306591",
+    "306632",
+    "307347",
+    "307681",
+    "308078",
+    "308099",
+    "308247",
+    "308457",
+    "308605",
+    "308695",
+    "309006",
+    "309277",
+    "309288",
+    "309341",
+    "309390",
+    "309869",
+    "310141",
+    "312024",
+    "312257",
+    "312982",
+    "313237",
+    "313596",
+    "313612",
+    "314306",
+    "314317",
+    "314572",
+    "315204",
+    "315348",
+    "315360",
+    "315399",
+    "315439",
+    "315461",
+    "316753",
+    "317124",
+    "317596",
+    "318086",
+    "318454",
+    "318917",
+    "320442"
+  ],
+  "rejected": [
+    {
+      "ticket_id": "294719",
+      "subject": "Klein - Food Required not pulling through",
+      "date": "2025-08-28",
+      "category": "Data fix (no user guidance)",
+      "reason": "Stock item not pulling on production record; resolved off-channel via screen-share call with no captured how-to or setting.",
+      "citation": "fixed on gta"
+    },
+    {
+      "ticket_id": "295941",
+      "subject": "TEXANS CAN ACADEMY / Ingredient and Menu Help",
+      "date": "2025-09-05",
+      "category": "Training/resource request",
+      "reason": "General training call walking through ingredient/recipe setup and menu basics; no distinct reusable answer captured.",
+      "citation": "Customer called for assistance with Menu Planning and setting up their ingredients and recipe for their tacos they serve on 9/9 at their HS site. We also went over menu basics."
+    },
+    {
+      "ticket_id": "296061",
+      "subject": "Anchorage - Ingredient question",
+      "date": "2025-09-05",
+      "category": "No resolution captured",
+      "reason": "Customer couldn't find ingredient to add to recipe; moved to a GoToAssist screen-share call with no outcome recorded.",
+      "citation": "can I call you ... https://broker.gotoassist.com/h/cybersoft?Question=DR718-024-644"
+    },
+    {
+      "ticket_id": "298870",
+      "subject": "Conversation with Jade Kelley",
+      "date": "2025-09-25",
+      "category": "Self-resolved",
+      "reason": "Customer asked for an item update then withdrew the request before any guidance was given.",
+      "citation": "Hi, can an item please be updated? ... nevermind"
+    },
+    {
+      "ticket_id": "299668",
+      "subject": "Jeffco - Quarterly Global Catalog Update",
+      "date": "2025-10-01",
+      "category": "No resolution captured",
+      "reason": "Internal quarterly catalog import task; never actioned and closed administratively, no reusable guidance.",
+      "citation": "Going to close this."
+    },
+    {
+      "ticket_id": "300961",
+      "subject": "PE Implementation - Mansfield ISD - Import Linking File",
+      "date": "2025-10-10",
+      "category": "Data fix (no user guidance)",
+      "reason": "Implementation request to import a linking file; completed by Cybersoft with no user-facing how-to.",
+      "citation": "The request has been completed. Please verify."
+    },
+    {
+      "ticket_id": "310433",
+      "subject": "Metz-[EXT]Whole Milk and Primero",
+      "date": "2026-01-28",
+      "category": "No resolution captured",
+      "reason": "Whole-milk saturated-fat exclusion not yet supported; answer is pending-feature status with no actionable product guidance.",
+      "citation": "We will be working to implement the changes as soon as we receive that directive. Please watch the release notes for information regarding the version containing the change."
+    },
+    {
+      "ticket_id": "311797",
+      "subject": "Online 4 - San Marcos USD - Brown rice weight question",
+      "date": "2026-02-12",
+      "category": "No resolution captured",
+      "reason": "Brown rice dry/cooked weight conversion; agent could not resolve, only speculated about the math and the chat trails off.",
+      "citation": "it doesn't help much. I entered in 1 cup dry rice mix ... and it converted the weight to 188 grams"
+    },
+    {
+      "ticket_id": "311854",
+      "subject": "IN-MSD of Martinsville- Fwd: whole milk",
+      "date": "2026-02-13",
+      "category": "No resolution captured",
+      "reason": "Whole milk not selectable on menu tab; answer is that the USDA change is in progress and not yet available, no actionable fix.",
+      "citation": "This was a recent change from USDA, and is currently in the process of being implemented. Once we are done and have it in place, you will be able to select the Reduced Fat & Whole Milk options"
+    },
+    {
+      "ticket_id": "312848",
+      "subject": "Mooresville Consolidated Schools / Assistance viewing menu planning",
+      "date": "2026-02-25",
+      "category": "Routed/out-of-scope",
+      "reason": "Menu Planning access kicked user to dashboard; resolved by a role-permission refresh, an access/role fix not relevant to an Ingredients FAQ.",
+      "citation": "Went to their role and clicked update role without changing anything ,they were able to access menu planning again."
+    },
+    {
+      "ticket_id": "313704",
+      "subject": "Fort Osage R-1 - Support",
+      "date": "2026-03-05",
+      "category": "No content",
+      "reason": "One-line summary of an ingredient call marked resolved with no question or guidance captured.",
+      "citation": "Stacie had a few questions regarding Ingredients -resolved"
+    },
+    {
+      "ticket_id": "313942",
+      "subject": "Online 4 - San Marcos USD - no. 10 can stuff",
+      "date": "2026-03-09",
+      "category": "Training/resource request",
+      "reason": "How to enter #10 can weights/prep method; inventory specialist unavailable, customer pointed to an attached document, no reusable guidance in-thread.",
+      "citation": "Our invenotry specialist is not available at the moment. I do have a document that may help you along. ... No. 10 can example.docx"
+    },
+    {
+      "ticket_id": "314610",
+      "subject": "Online - Oregon Youth Authority - update BUPWU item #2258",
+      "date": "2026-03-17",
+      "category": "Data fix (no user guidance)",
+      "reason": "Customer requested a BUPWU value change which Cybersoft performed; no reusable how-to or behavior documented.",
+      "citation": "I have updated it to 24, please verifiy on your end if you see the update."
+    },
+    {
+      "ticket_id": "314911",
+      "subject": "Implementation - Quest - Remove/Rename Tags",
+      "date": "2026-03-20",
+      "category": "Data fix (no user guidance)",
+      "reason": "Bulk tag removal/rename request completed by Cybersoft; no user-facing guidance.",
+      "citation": "The request has been completed. Please verify."
+    },
+    {
+      "ticket_id": "317589",
+      "subject": "PE Implementation - JONES COUNTY SCHOOL DISTRICT - MS - Apply MS DOE Shared Database",
+      "date": "2026-04-20",
+      "category": "Data fix (no user guidance)",
+      "reason": "Implementation request to grant shared-database access; completed by Cybersoft with no reusable guidance.",
+      "citation": "The request as been completed. Please verify."
+    },
+    {
+      "ticket_id": "317725",
+      "subject": "PrimeroEdgePA - PENN HILLS CHARTER SCHOOL OF ENTREPRENEURSHIP - Chat blocking screen",
+      "date": "2026-04-21",
+      "category": "Self-resolved",
+      "reason": "Chat bubble blocking the screen; customer resolved it themselves before any guidance was given.",
+      "citation": "i think i got it"
+    },
+    {
+      "ticket_id": "318587",
+      "subject": "PrimeroEdge - Anchorage School District - Fw: Cinnamon rolls",
+      "date": "2026-04-30",
+      "category": "No resolution captured",
+      "reason": "Customer asks whether the broken unit size for a central-kitchen finished product is changeable; no agent reply or resolution in the digest.",
+      "citation": "I just noticed the at the broken unit size should be 24ct sheet pan & I an not sure of the weight - Is this changeable?"
+    },
+    {
+      "ticket_id": "319087",
+      "subject": "Penn Harris Madison School Corp - Error code when trying to upload documents to Ingredients",
+      "date": "2026-05-06",
+      "category": "Transient/system error",
+      "reason": "Internal Server Error on ingredient document upload caused by a server path/config issue; fixed by developer plus cache clear, no reusable user guidance.",
+      "citation": "current district has \\\\172.21.6.95\\Dataupload\\ as path which is affecting document upload function"
+    },
+    {
+      "ticket_id": "320746",
+      "subject": "PrimeroEdge - Shawnee Mission School District - Please change",
+      "date": "2026-05-21",
+      "category": "Data fix (no user guidance)",
+      "reason": "Customer asked Cybersoft to change a broken-units value; performed as a one-off data edit with no reusable guidance.",
+      "citation": "Stock item 12133 broken units per whole unit has been changed to 2"
+    }
+  ]
+}

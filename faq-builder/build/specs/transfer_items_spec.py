@@ -9,7 +9,7 @@ SECTIONS = [
          'Tickets 300796, 294892'),
         ('Why does an item I have on hand not appear in the Transfer Items list?',
          ["The most common cause is that the item is not actually in that site's inventory yet. In one case a site could not transfer an item until they realized the count had never been added; once they updated their inventory, the item showed up for transfer.", 'If you are loading historical or beginning inventory, entering a Quantity on Hand by itself may not be enough to make an item transferable. In one case a site had to use the Transfers/Withdrawals -> Add to Inventory tab to actually add the received cases before the system would let them transfer the item. After the items were added to inventory correctly, the transfer succeeded.'],
-         'Tickets 306477, 318299, 311921'),
+         'Ticket 306477'),
         ('Can I transfer an item to a site even if that item is not currently set up as orderable there?',
          ["Yes. The transfer process is not limited to the site's current settings. If the item has ever been available at the site you are sending to, that site can receive it through a transfer. This is intentional. It lets a district give a site occasional access to an item, for example for a one-time event, without having to change the item's configuration and then change it back."],
          'Tickets 302470'),

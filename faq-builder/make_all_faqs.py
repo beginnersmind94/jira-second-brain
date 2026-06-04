@@ -14,7 +14,7 @@ import sys
 import faq_builder
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-SPEC_DIR = os.path.join(HERE, "faq_build", "specs")
+SPEC_DIR = os.path.join(HERE, "build", "specs")
 
 REQUIRED = ["TITLE", "OUT_BASENAME", "INTRO", "NAV_NOTE", "SECTIONS", "CLOSING", "SOURCE_NOTE"]
 
@@ -32,8 +32,8 @@ def load_spec(path):
         "sections": ns["SECTIONS"],
         "closing": ns["CLOSING"],
         "source_note": ns["SOURCE_NOTE"],
-        "docx_path": os.path.join(HERE, base + ".docx"),
-        "pdf_path": os.path.join(HERE, base + ".pdf"),
+        "docx_path": os.path.join(HERE, "deliverables", base + ".docx"),
+        "pdf_path": os.path.join(HERE, "deliverables", base + ".pdf"),
     }
 
 

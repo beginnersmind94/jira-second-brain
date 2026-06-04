@@ -29,8 +29,8 @@ from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-DOCX_PATH = os.path.join(HERE, "PrimeroEdge-Menu-Cycles-FAQ.docx")
-PDF_PATH = os.path.join(HERE, "PrimeroEdge-Menu-Cycles-FAQ.pdf")
+DOCX_PATH = os.path.join(HERE, "deliverables", "PrimeroEdge-Menu-Cycles-FAQ.docx")
+PDF_PATH = os.path.join(HERE, "deliverables", "PrimeroEdge-Menu-Cycles-FAQ.pdf")
 
 # Brand-ish palette
 NAVY = RGBColor(0x1F, 0x3A, 0x5F)
@@ -64,7 +64,7 @@ SECTIONS = [
              "and its plans untouched. Deactivate or open the cycle you want to start "
              "from, then use the Copy button at the top right of the page; you can rename "
              "it and adjust the days while keeping the other settings intact."],
-            "Tickets 311904, 314982, 315380",
+            "Tickets 314982, 315380",
         ),
         (
             "When I copy a menu cycle I get an error about the “menu naming convention.” Why?",
@@ -94,7 +94,7 @@ SECTIONS = [
              "permissions are managed under System → Sites and Users → Roles. If you have "
              "more than one role assigned, a more limited role can override the access you "
              "expect, so both roles may need to be checked."],
-            "Tickets 306464, 307000, 306678, 307187",
+            "Tickets 306464, 307000",
         ),
     ]),
 
@@ -188,7 +188,7 @@ SECTIONS = [
              "changes are described in the Release Notes (Resources → search “Release” → the "
              "Release 16 notes). An informational icon was later added on the page to make it "
              "clearer that the serving group link opens the menu."],
-            "Tickets 315242, 315310, 315496, 315508, 315656, 315731, 315888, 315936, 315997, 316257, 317107, 316219",
+            "Tickets 315310, 315496, 315508, 315656, 315731, 315888, 315936, 315997, 316257, 317107",
         ),
         (
             "Why was this change made — it wasn’t broken before?",
@@ -204,7 +204,7 @@ SECTIONS = [
              "the existing record and requires you to Archive & Edit a new version of the menu "
              "with your changes. After saving the new version, go back to the cycle and select "
              "that new menu (via the dropdown or Choose Menu) for the day."],
-            "Tickets 315731, 310869",
+            "Ticket 315731",
         ),
     ]),
 
@@ -271,7 +271,7 @@ SECTIONS = [
              "below requirement. Setting the category to “Choose 2” means each item counts as "
              "50% or less, which typically resolves the failure. The same Choose-1-vs-Choose-2 "
              "logic affects how a single serving is weighed in the analysis."],
-            "Tickets 313394, 316832, 313847",
+            "Tickets 313394, 316832",
         ),
         (
             "My vegetables keep failing the weekly analysis. What should I change?",
@@ -436,11 +436,6 @@ SECTIONS = [
         ('Can I exclude a specific Menu Cycle from the Offer vs. Serve (OVS) default?',
          ["Offer vs. Serve is set in Site Configuration by meal and site, which is why every menu in a cycle defaults to the configured OVS setting. There isn't currently a way to exclude an individual Menu Cycle from that OVS default."],
          'Ticket 308584'),
-    ]),
-    ('Additional source cases reviewed', [
-        ('Which other support cases were reviewed for this guide?',
-         ['These additional cases from the source filter were reviewed while building this guide. Each was resolved without distinct new guidance - for example a transient error cleared by refreshing, a question the requester resolved on their own, a training/resource request, or a one-off configuration or data fix handled directly with the support team - and is listed here so the guide accounts for every case in the source filter.'],
-         'Tickets 309206, 312230, 315804'),
     ]),
 ]
 

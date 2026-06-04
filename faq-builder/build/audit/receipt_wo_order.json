@@ -1,0 +1,59 @@
+{
+  "function": "Receipt w/o Order",
+  "used": [
+    "292991",
+    "294922",
+    "297107",
+    "298936",
+    "304591",
+    "305425",
+    "305999",
+    "306493",
+    "306626",
+    "306725",
+    "306728",
+    "307466",
+    "309692",
+    "309796",
+    "310757",
+    "312635",
+    "313223",
+    "314508",
+    "314546",
+    "316339"
+  ],
+  "rejected": [
+    {
+      "ticket_id": "305015",
+      "subject": "Cant withdaw perk coffee - needs to receive without order or add to inventory to be able to withdraw it",
+      "date": "2025-11-18",
+      "category": "No content",
+      "reason": "A one-line description only, with no comments, no agent diagnosis, and no resolution captured. States the situation (item never received at the site) but provides no reusable answer or how-to.",
+      "citation": "Cant withdaw perk coffee - needs to receive without order or add to inventory to be able to withdraw it  - item history shows it has never neem received at the site"
+    },
+    {
+      "ticket_id": "306681",
+      "subject": "Austin Independent School District - Receipt w/out order needs to be switched to a different Vendor",
+      "date": "2025-12-08",
+      "category": "Data fix (no user guidance)",
+      "reason": "Customer received against the wrong vendor; agent confirmed there is no UI way to change the vendor without canceling inventory/putaways, so EC changed the vendor ID on the backend. One-off data correction with no reusable user-facing guidance.",
+      "citation": "there is no way in the UI to adjust this without canceling the inventory and put aways but that causes even more issues, so they want to know if you can change just the vendor id on the backend"
+    },
+    {
+      "ticket_id": "310102",
+      "subject": "HINGHAM PUBLIC SCHOOLS - Inventory item",
+      "date": "2026-01-23",
+      "category": "Self-resolved",
+      "reason": "Customer got an 'invalid item' error doing a receipt without order for a newly added item, then resolved it independently before any agent diagnosis or answer. No reusable guidance captured.",
+      "citation": "This has already been resolved, thank you"
+    },
+    {
+      "ticket_id": "311601",
+      "subject": "PrimeroEdge MS - Lawrence CO School District - MS - receipt without an order",
+      "date": "2026-02-11",
+      "category": "No resolution captured",
+      "reason": "Customer asked whether to proceed when an item showed 'site cannot order this item from selected vendor'; agent only asked clarifying questions, then customer asked to cancel the ticket pending a separate meeting. No answer or resolution captured.",
+      "citation": "Please cancel this ticket.  We have a meeting with Primeroedge on Monday"
+    }
+  ]
+}

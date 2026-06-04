@@ -9,7 +9,7 @@ SECTIONS = [
          'Tickets 307164, 317759, 299524, 291112'),
         ('When I assign a multi-week cycle, can I make it start on a specific week or day (for example, week 2 or always Monday = day 1)?',
          ["No. When you assign a menu cycle, it always begins with the cycle's first week on the date you select, and after a holiday or non-service day the cycle simply continues to the next day in sequence. There is no setting that forces a given weekday to always be a specific cycle day.", 'The supported workaround is to assign individual days instead of the whole cycle: on the Assign Menus step, choose Menu rather than Menu Cycle, then pick the exact dated menu (for example, Week 3 Day 1) and assign it to the day you want. Several districts use this to resume a cycle on the correct week after a break.'],
-         'Tickets 300119, 304375, 320208, 315799, 318907'),
+         'Tickets 300119, 304375, 320208, 318907'),
         ('My cycle assigned fewer days than expected (for example, 3 days instead of 4). Why?',
          ['This usually happens because one or more days in that range are set up as holidays or non-service days. When you assign with Skip Holidays / Weekends selected, the cycle skips those days, so a four-day cycle can land on fewer calendar days than you expected.', 'If you do want a menu placed on every operating day in the range, choose Use All Menus instead of Skip Holidays / Weekends when assigning. In one case this immediately filled in the missing day. If days are being blocked that should be open, check your holiday setup, since holidays are entered by the district.'],
          'Tickets 318911, 304375'),
@@ -20,7 +20,7 @@ SECTIONS = [
     ('Removing, unassigning, and overriding menus', [
         ('How do I unassign or remove a menu I assigned by mistake?',
          ['Go back to Menu Planning -> Menus -> Assign Menus and make the same selections at the top (you can narrow it to a specific site). Each date box has a small trash/delete icon in its top right corner; clicking it removes that menu from the calendar.', 'If you select a single site under Organization Level before deleting, the menu is removed from only that one site, even if it was originally assigned to a whole group of sites.'],
-         'Tickets 293130, 294583, 298386, 294120'),
+         'Tickets 293130, 294583, 298386'),
         ('I clicked delete and got a success message, but the menu is still there. What happened?',
          ['This typically means the menu was assigned to only one specific site, so deleting at the group level does not clear it. Select that exact site under Organization Level first, then delete; the removal then takes effect.', 'If the menu line you need to delete is not even visible on the Assign Menus screen, you may have to temporarily add that menu line back under Site Configuration so it appears, then return to Assign Menus to delete it.'],
          'Tickets 298386, 310499, 303800, 314336'),
@@ -43,7 +43,7 @@ SECTIONS = [
          'Tickets 308569, 311852, 292004'),
         ('A menu is showing up at a site (or campus) where it does not belong. What causes this?',
          ["Check the production plan's food preparation site. In one case an elementary site showed high-school menus and lines because a manager had saved another site as the food preparation site on the production plan; correcting the food preparation site fixed it.", 'For a site that is missing menus that other sites in its group have, reassigning the menu specifically to that one site (selected under Organization Level) restores it. These mismatches often follow recent configuration changes, archive/edit actions, or a site being added to a line partway through the year.'],
-         'Tickets 292177, 301451, 304395, 298114'),
+         'Tickets 292177, 301451, 304395'),
         ('My a la carte items are missing from production even though the menu is assigned. Why?',
          ['This happens when the menu that was assigned did not have a la carte selected. Production is built from exactly what was on the menu at the time it was assigned, so if a la carte was not checked on that menu, those items will not appear on the production plan.', 'To fix it, check the a la carte option on the menu, then reassign that menu to the dates you need so the updated version (with a la carte) flows into production.'],
          'Tickets 303084'),
@@ -68,7 +68,7 @@ SECTIONS = [
     ('CACFP, Supper, Summer, and SFSP menus', [
         ('I cannot assign my Supper or CACFP menus, or the high school option is missing. What is wrong?',
          ["Make sure the site's Meal Type matches how the menu was built. In one case sites were set to CACFP Supper instead of regular Supper, which removed the high school option and blocked assignment; changing the meal type let the menus assign. CACFP menus are typically built and assigned under their own meal type and menu line.", "Some districts also keep CACFP programs on a separate site (for example, a regular 'Nash Elementary' and a separate 'CACFP-Nash Elementary'), with regular meals on one and CACFP Snack/Supper on the other. If a CACFP menu shows up where it should not, Expert Care can correct it on request by adjusting the site's lines and removing the stray assignments."],
-         'Tickets 292173, 294022, 310877'),
+         'Tickets 292173, 294022'),
         ("My snack menus disappeared from the Assign Menus page and 'Include Discontinued Menus/Cycles' does not bring them back. Why?",
          ['This was traced to the Snack meal pattern being deactivated. While it was inactive, snack menus with that meal pattern would not appear on the Assign Menus page at all, even with Include Discontinued Menus/Cycles selected. Expert Care reactivated the Snack meal pattern and the menus listed again for assignment. If a whole category of menus vanishes from assignment, ask support to check whether the meal pattern was deactivated.'],
          'Tickets 302492'),
@@ -85,7 +85,7 @@ SECTIONS = [
     ('Holidays, dates, and other limitations', [
         ('Holidays are not being skipped, or dates I should be able to use are blocked. What should I check?',
          ['Confirm your holidays and non-service days are entered correctly on the calendar, because the Skip Holidays / Weekends option drives how a cycle lays out. Note that if holiday dates were added very recently, the skip behavior may not take effect immediately and can need time to settle.', 'Blocked dates often trace to a holiday applied too broadly. In one case a Thanksgiving holiday had mistakenly been applied to all of July and August, turning those calendar dates blue and producing an error on assignment; removing the incorrect holiday returned the dates to normal (white) and assignment worked. Holidays are managed by the district.'],
-         'Tickets 304375, 320213, 320208, 305356'),
+         'Tickets 304375, 320208'),
         ('I changed or copied a menu after assigning it, but the change is not in production. Why?',
          ['Production plans are generated from the exact menu version assigned to that date, so simply editing or copying a menu does not flow into days already assigned. To get the updated items into production, assign the updated (copied) menu over the desired dates again.', 'Adding a quick list or new items to an already-assigned menu likewise does not update existing production. Save the edited menu and reassign it to the dates you want it on. (Archive/Edit can replace items in place but is only available under certain conditions, such as when a sale has been recorded.)'],
          'Tickets 300609, 305108, 293964, 297006'),
@@ -98,11 +98,6 @@ SECTIONS = [
         ('When I set a holiday with Remove Menu Assignments and reopen it, no sites are checked. Did my change save?',
          ['Yes, your change saved. When you enter a holiday and use Remove Menu Assignments, you check the sites, save, and get the green success message; but if you reopen that holiday to edit it, the Remove Menu Assignments site list shows up empty (no sites checked). Support verified this across multiple PrimeroEdge versions and confirmed it is the intended design rather than a sign that your selection was lost.', "In other words, the empty checkboxes on re-open do not mean the holiday or the removal failed. If you need to confirm what a holiday actually did to a day's assignments, check the affected dates on the Menu Calendar at Menu Planning -> Menus -> Assign Menus."],
          'Tickets 290474'),
-    ]),
-    ('Additional source cases reviewed', [
-        ('Which other support cases were reviewed for this guide?',
-         ['These additional cases from the source filter were reviewed while building this guide. Each was resolved without distinct new guidance - for example a transient error cleared by refreshing, a question the requester resolved on their own, or a one-off configuration or data fix handled directly with the support team - and is listed here so the guide accounts for every case in the source filter.'],
-         'Tickets 292559, 296617, 296678, 304343, 307298, 307341, 312880, 313547, 315415, 315592, 316770, 319957, 320468'),
     ]),
 ]
 CLOSING = 'Still stuck? PrimeroEdge Customer & Expert Care is available by phone at 866.442.6030, Monday-Friday, 6 a.m.-6 p.m. CT. Some actions are handled by Expert Care on request, such as enabling the district setting to display published Supper menus, reactivating a deactivated meal pattern, setting a completed or withdrawn production record back to an editable status, and correcting bad data behind duplicate SchoolCafe categories.'

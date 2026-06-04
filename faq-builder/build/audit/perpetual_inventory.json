@@ -1,0 +1,99 @@
+{
+  "function": "Perpetual Inventory",
+  "used": [
+    "291616",
+    "299098",
+    "299108",
+    "301390",
+    "302110",
+    "302710",
+    "303074",
+    "310872",
+    "315728",
+    "315733",
+    "316647",
+    "321008"
+  ],
+  "rejected": [
+    {
+      "ticket_id": "290408",
+      "subject": "OL3 - Colorado Department of Human Services - exception errors",
+      "date": "2025-08-01",
+      "category": "Transient/system error",
+      "reason": "Server/exception error blocking count entry; agent suggested clearing cache and it self-cleared. A transient environment error with no durable reusable guidance.",
+      "citation": "can you try clearing cache. [...] Thank you it works now."
+    },
+    {
+      "ticket_id": "291545",
+      "subject": "[EXT]inventory valuation report",
+      "date": "2025-08-11",
+      "category": "Self-resolved",
+      "reason": "Customer questioned why inventory value differed from market value under moving average price, then realized the mistake on their own before any answer was given.",
+      "citation": "My apologies. I was looking at the wrong price condition. I think I understand why those columns differ."
+    },
+    {
+      "ticket_id": "295285",
+      "subject": "Lamar - Question on perpetual",
+      "date": "2025-09-02",
+      "category": "No resolution captured",
+      "reason": "Customer asked how to print the item perpetual report; agent's reply said steps would follow but contains only boilerplate. No actual how-to captured.",
+      "citation": "Below is how to get your perpetual inventory report:"
+    },
+    {
+      "ticket_id": "298450",
+      "subject": "San Gabriel USD - Adding item to inventory Not on Perpetual",
+      "date": "2025-09-23",
+      "category": "No resolution captured",
+      "reason": "Resolved by a phone call/screen-share with no documented steps; the private note only states the customer was shown how, not the reusable procedure.",
+      "citation": "called and showed her add to inventory so she is good now"
+    },
+    {
+      "ticket_id": "302309",
+      "subject": "[EXT]Inventory question",
+      "date": "2025-10-23",
+      "category": "Routed/out-of-scope",
+      "reason": "Question about whether purchased inventory licenses are implemented/required was deferred to the success team; customer closed pending internal discussion. No concrete answer captured.",
+      "citation": "I don't believe you have to use it once implemented but that would be a question for the success team to be honest."
+    },
+    {
+      "ticket_id": "302410",
+      "subject": "[EXT]Perpetual Inventory",
+      "date": "2025-10-24",
+      "category": "Self-resolved",
+      "reason": "Customer questioned why perpetual showed 8 cs vs 4 on hand, then determined it was their own user error before any agent diagnosis.",
+      "citation": "Please disregard this request.  It WAS user error...mine!"
+    },
+    {
+      "ticket_id": "309859",
+      "subject": "KILLEEN ISD / Items On Production Withdrawal Showing as 0 on hand",
+      "date": "2026-01-21",
+      "category": "No resolution captured",
+      "reason": "Agent noted items were withdrawn before the production withdrawal attempt but handed investigation back to the customer; no reusable behavior or fix captured.",
+      "citation": "it looks like your items had been withdrawn from that site before they attempted the production withdrawal today, and you are going to research this on your end"
+    },
+    {
+      "ticket_id": "313652",
+      "subject": "PrimeroEdge - Bellflower USD - Warehouse item",
+      "date": "2026-03-05",
+      "category": "No resolution captured",
+      "reason": "Agent showed the system already reflected 12 cases and requested a screenshot; customer asked to close without explaining the cause. Inconclusive, no reusable answer.",
+      "citation": "currently the system is showing there are 12 cases in the warehouse [...] please close 313652"
+    },
+    {
+      "ticket_id": "317727",
+      "subject": "PrimeroEdge MS - Lawrence CO School District - MS - Perpetual inventory",
+      "date": "2026-04-21",
+      "category": "Transient/system error",
+      "reason": "Perpetual did not immediately reflect a withdrawal; agent attributed it to update lag and asked if it appeared now. Chat trails off with no confirmed reusable guidance.",
+      "citation": "maybe took a few to update the number [...] do you see it now??"
+    },
+    {
+      "ticket_id": "321362",
+      "subject": "Capistrano Unified School District - Online 5 - Start Date for June Inventory",
+      "date": "2026-05-28",
+      "category": "No resolution captured",
+      "reason": "Single description noting June inventory not yet on the dropdown; no agent response or answer captured.",
+      "citation": "June inventory availability not yet present on drop down. Should become available in June."
+    }
+  ]
+}

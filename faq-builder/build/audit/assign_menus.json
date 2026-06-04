@@ -1,0 +1,196 @@
+{
+  "function": "Assign Menus",
+  "used": [
+    "290474",
+    "290889",
+    "291112",
+    "292004",
+    "292173",
+    "292177",
+    "293130",
+    "293964",
+    "294022",
+    "294583",
+    "296617",
+    "296696",
+    "297006",
+    "297561",
+    "298338",
+    "298386",
+    "299524",
+    "300119",
+    "300340",
+    "300609",
+    "301451",
+    "301492",
+    "301863",
+    "302492",
+    "303084",
+    "303800",
+    "304375",
+    "304395",
+    "305024",
+    "305108",
+    "305114",
+    "307019",
+    "307059",
+    "307164",
+    "308569",
+    "310499",
+    "310831",
+    "311538",
+    "311852",
+    "312776",
+    "313018",
+    "313523",
+    "313547",
+    "314336",
+    "314576",
+    "315171",
+    "315415",
+    "315592",
+    "315606",
+    "315614",
+    "317049",
+    "317628",
+    "317631",
+    "317759",
+    "318268",
+    "318333",
+    "318907",
+    "318911",
+    "319187",
+    "320208",
+    "320292"
+  ],
+  "rejected": [
+    {
+      "ticket_id": "292559",
+      "subject": "online3 - Buffalo PS - Assign Menus",
+      "date": "2025-08-15",
+      "category": "No content",
+      "reason": "Description is only a repeat of the subject line; no question, no resolution, no usable content.",
+      "citation": "online3 - Buffalo PS - Assign Menus"
+    },
+    {
+      "ticket_id": "294120",
+      "subject": "PE Implementation - Placentia-Yorba Linda USD - Delete Assigned Menus/Production Plans",
+      "date": "2025-08-25",
+      "category": "Data fix (no user guidance)",
+      "reason": "Implementation request to delete training records; agent removed them via an internal date-window trick, no reusable user-facing guidance.",
+      "citation": "I think I got them all removed (only dates prior to 8/25) I changed the editing past dates to 60 days, and then put it back to 7 days."
+    },
+    {
+      "ticket_id": "296678",
+      "subject": "PENN HILLS CHARTER SCHOOL OF ENTREPRENEURSHIP-Need help with menu item switch on menus",
+      "date": "2025-09-10",
+      "category": "No resolution captured",
+      "reason": "Cycle-menu switch issue escalated; agent left a voicemail and chat ends with no captured answer.",
+      "citation": "I just left you a voicemail. I was trying to reach you to assist you with your menu changes that you spoke about in a PrimeroEdge chat."
+    },
+    {
+      "ticket_id": "298114",
+      "subject": "Minneapolis Public Schools / Assistance with assigning menus please",
+      "date": "2025-09-22",
+      "category": "No resolution captured",
+      "reason": "Special-diet menus not reaching some sites; agent could not reproduce, said it should not happen again; customer would report if recurs. No concrete cause/fix.",
+      "citation": "Its likely something wasn't set up at the time you assigned the menus, but I have checked every configuration ... and it should not happen again going forward."
+    },
+    {
+      "ticket_id": "304343",
+      "subject": "PA - Pottstown",
+      "date": "2025-11-12",
+      "category": "No content",
+      "reason": "Single-line internal note with no description, conversation, or resolution.",
+      "citation": "Fix menu so that it can be assigned"
+    },
+    {
+      "ticket_id": "305356",
+      "subject": "[EXT]No Breakfast Menu",
+      "date": "2025-11-20",
+      "category": "Data fix (no user guidance)",
+      "reason": "Missing breakfast menus on holiday dates; agent fixed it via GTA by removing lunch meals for the holiday; no walkthrough or reusable guidance captured.",
+      "citation": "worked via gta and removed the lunch meals for thanksgiving holiday"
+    },
+    {
+      "ticket_id": "307298",
+      "subject": "[EXT]Analysis Suddenly Incorrect Question",
+      "date": "2025-12-15",
+      "category": "Routed/out-of-scope",
+      "reason": "PA district routed to CN Resource (state contractor) as initial point of contact; no PrimeroEdge resolution given; also an analysis/compliance question.",
+      "citation": "Please contact CN Resource ... This team is contracted by the State of Pennsylvania as your initial point of contact."
+    },
+    {
+      "ticket_id": "307341",
+      "subject": "Virginia Beach City PS - Menus",
+      "date": "2025-12-15",
+      "category": "Transient/system error",
+      "reason": "Could not advance past December to assign January; resolved itself, attributed to server issues. No reusable guidance.",
+      "citation": "I'm not sure what happened yesterday, but I am able to get into January. ... I believe it may of had something to do with the server issues."
+    },
+    {
+      "ticket_id": "310877",
+      "subject": "Texarkana ISD-Production Records Assigning to Two Sites",
+      "date": "2026-02-03",
+      "category": "Data fix (no user guidance)",
+      "reason": "CACFP snack menu showed on a regular site; root cause was leftover line config tied to a prior setup; resolved by agent backend cleanup, not user-facing steps.",
+      "citation": "Added Snack back to Nash and then removed assigned snack menus, then removed Snack from the site again"
+    },
+    {
+      "ticket_id": "312880",
+      "subject": "PR 16.3-PBI 113382-Re: [EXT]Nutrislice - TNG PrimeroEdge Issues",
+      "date": "2026-02-25",
+      "category": "Other-module/integration",
+      "reason": "Nutrislice API sync issue (menu item Tags not transmitting); resolved via a code fix (PBI 113382) for the integration, not Assign Menus guidance.",
+      "citation": "We identified an issue following a recent update to PrimeroEdge (v15.17) that affected how menu item Tags were transmitted via the API to Nutrislice."
+    },
+    {
+      "ticket_id": "315799",
+      "subject": "SENATOBIA SEPARATE SCHOOL DISTRICT - MS - Assigned Menu Cycle Start To Wrong Day",
+      "date": "2026-03-31",
+      "category": "Self-resolved",
+      "reason": "Customer mistakenly started a cycle on the wrong day and fixed it themselves before any agent guidance; description only.",
+      "citation": "deleted the previous days in the cycle and started the cycle on the desired day to fix the issue"
+    },
+    {
+      "ticket_id": "316758",
+      "subject": "Anchorage - Menu Line showing on assign menus for sites without the menu line attached",
+      "date": "2026-04-09",
+      "category": "No resolution captured",
+      "reason": "Perceived issue could not be reproduced; agent tested and reassured that assignment only goes to configured sites; verified working, no concrete fix.",
+      "citation": "I tested out our configuration by assigning one menu for NSLP Breakfast and found it is only assigning to the sites we have configured ... verified with Tanya working as expected"
+    },
+    {
+      "ticket_id": "316770",
+      "subject": "PrimeroEdge WA - Castle Rock Schools - Platform help",
+      "date": "2026-04-09",
+      "category": "Routed/out-of-scope",
+      "reason": "Scoping/sales inquiry about modules and ordering; routed to Solutions for an Inventory quote.",
+      "citation": "I have asked your Solutions contact, Shelley Perry, to get in touch with you about an Inventory quote."
+    },
+    {
+      "ticket_id": "319957",
+      "subject": "Online 5 - Minneapolis Public Schools - Issue when assigning menus",
+      "date": "2026-05-13",
+      "category": "No resolution captured",
+      "reason": "Menu not existing for desired grade level; customer opted to call instead of typing; chat ends with no answer captured.",
+      "citation": "Ill just call them. ... It's all good, im just not good at typing the issue"
+    },
+    {
+      "ticket_id": "320213",
+      "subject": "PrimeroEdge - San Angelo ISD - Production for july and august",
+      "date": "2026-05-15",
+      "category": "Self-resolved",
+      "reason": "Customer discovered and removed a misapplied Thanksgiving holiday blocking July/August dates on their own before any agent diagnosis.",
+      "citation": "I figured it out ... a Thanksgiving holiday had mistakenly been applied to all of July and August ... I removed the holiday, and the calendar returned to normal."
+    },
+    {
+      "ticket_id": "320468",
+      "subject": "Online 2 - MADISON METROPOLITAN SCHOOL DISTRICT - Assigning menus",
+      "date": "2026-05-19",
+      "category": "Self-resolved",
+      "reason": "Customer asked for help then immediately self-resolved with no agent involvement.",
+      "citation": "Never mind, I figured it out."
+    }
+  ]
+}

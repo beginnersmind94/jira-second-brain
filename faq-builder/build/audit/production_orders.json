@@ -1,0 +1,110 @@
+{
+  "function": "Production Orders",
+  "used": [
+    "290901",
+    "292372",
+    "292475",
+    "293083",
+    "293126",
+    "295097",
+    "295300",
+    "295952",
+    "298032",
+    "299978",
+    "300306",
+    "300723",
+    "302528",
+    "303473",
+    "304956",
+    "306740",
+    "308645",
+    "308767",
+    "309519",
+    "309760",
+    "309874",
+    "310056",
+    "312468",
+    "313846",
+    "314190",
+    "314213",
+    "317337",
+    "319354",
+    "319731",
+    "320790",
+    "321248"
+  ],
+  "rejected": [
+    {
+      "ticket_id": "290811",
+      "subject": "Colorado Department of Human Services",
+      "date": "2025-08-05",
+      "category": "No resolution captured",
+      "reason": "Customer gets 'order already exists' error; agent investigates, asks for date range/site, then converts chat to Team Inbox ticket with no documented fix.",
+      "citation": "let me take a look, one moment please ... Take to Team Inbox"
+    },
+    {
+      "ticket_id": "294421",
+      "subject": "Littleton Public Schools / Production Ordering Glitch",
+      "date": "2025-08-26",
+      "category": "No resolution captured",
+      "reason": "Production order pulling incorrect production dates; resolved on a phone call with no documented outcome captured in the ticket.",
+      "citation": "I had a call with district and will walk over to tell you what we came up with."
+    },
+    {
+      "ticket_id": "296638",
+      "subject": "South Washington County Schools - Assist with Lead Times",
+      "date": "2025-09-10",
+      "category": "No resolution captured",
+      "reason": "Lead-time / delivery-day setup question taken to a phone call with no documented fix or guidance recorded.",
+      "citation": "Called and discussed with customer"
+    },
+    {
+      "ticket_id": "298149",
+      "subject": "Portland: PE - Production Orders",
+      "date": "2025-09-22",
+      "category": "No resolution captured",
+      "reason": "Customer reports staff must click Central Warehouse since an update; agent cannot reproduce and customer closes ticket unable to retest. Inconclusive, no fix.",
+      "citation": "I did not.  The order pulled up without having to click on Warehouse."
+    },
+    {
+      "ticket_id": "300949",
+      "subject": "Fort Worth ISD - Production Tab Slowness",
+      "date": "2025-10-10",
+      "category": "Transient/system error",
+      "reason": "Production tab slowness during audit prep resolved on its own; no reusable cause or fix.",
+      "citation": "PRE is moving faster today and everything we needed last week for the audit has been completed."
+    },
+    {
+      "ticket_id": "300957",
+      "subject": "SPPS Gluten Free Bread Ordering",
+      "date": "2025-10-10",
+      "category": "No resolution captured",
+      "reason": "Item won't add to production order; agent reply inconclusive and ticket ends on an internal note of troubleshooting questions with no answer.",
+      "citation": "I am not seeing anything that would prevent them from adding the item to their production orders."
+    },
+    {
+      "ticket_id": "302342",
+      "subject": "MADISON METROPOLITAN SCHOOL DISTRICT / Order amount different from plans",
+      "date": "2025-10-23",
+      "category": "No resolution captured",
+      "reason": "Customer asks why production order qty differs from plan, then defers without providing an example; chat ends with no diagnosis or fix.",
+      "citation": "I have to do another order today so I think I'll reach back out when I've got more info to share."
+    },
+    {
+      "ticket_id": "308597",
+      "subject": "Belton ISD / Animal error when doing orders",
+      "date": "2026-01-07",
+      "category": "Transient/system error",
+      "reason": "Sporadic 'animal error' when adding items; agent cannot identify cause, error does not recur, no concrete fix captured.",
+      "citation": "I am not able to see anything from this side that would indicate what specifically is causing the error."
+    },
+    {
+      "ticket_id": "319642",
+      "subject": "Online 3 - Boulder Valley School District - Inventory reports",
+      "date": "2026-05-11",
+      "category": "No resolution captured",
+      "reason": "Customer asks which reports show enough inventory to fulfill orders; agent gives generic note on how production orders calculate and asks for site/day, then thread trails off with no report named.",
+      "citation": "Do you know what site, and what day they served the smoothies?"
+    }
+  ]
+}

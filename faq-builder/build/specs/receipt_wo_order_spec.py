@@ -6,7 +6,7 @@ SECTIONS = [
     ('Getting started', [
         ('We received items that were never ordered in PrimeroEdge. How do we record them?',
          ['Use the Receipt w/o Order function in the Inventory module. It is built for exactly this situation: items arrived at the site but were not ordered through PrimeroEdge, and they still need to be received so the Perpetual Inventory is updated. Go to Inventory -> Orders -> Receipts w/o Orders, choose the Receiving Site and Vendor, enter the invoice details, add the items with their quantities, and Confirm Receipt.', 'If an item has never been received at a site, you generally have to receive it (through a receipt w/o order) or add it to inventory before you can withdraw it; one site could not withdraw a product because its history showed it had never been received there.'],
-         'Tickets 309796, 305015'),
+         'Ticket 309796'),
         ('We are buying something one time for a special event and will not buy it again. Should we enter it as a receipt w/o order?',
          ['That depends on what your district needs the record for, and it is a decision for you and your district rather than something the software forces. Support has advised that you may not need to enter a true one-time purchase into PrimeroEdge if you do not keep those items in your inventory. Before deciding, consider what documentation your department is expected to produce: whether the items need to be tracked on production records, whether they are simply being handed out or sold, or whether you only need the vendor invoice for accounting. Once you know the impact and requirements, it is easier to decide whether to record it.'],
          'Tickets 298936'),
@@ -23,13 +23,13 @@ SECTIONS = [
     ('When an item or vendor will not appear', [
         ('I created a new vendor (or item), but it does not show up when I try to do a receipt w/o order. Why?',
          ["The Vendors and Items have to be configured before they are available on a receipt w/o order. In practice this means the new vendor needs its stock items set up so you can receive product against it, and the item's ordering has to be set up correctly. Multiple sites found that once they had the item's ordering configured properly for the new vendor, the receipt worked. A newly created vendor can also take a short time to catch up before it appears in the dropdown.", 'You configure these under Inventory -> Configuration -> Vendors and Inventory -> Configuration -> Items.'],
-         'Tickets 297107, 310102'),
+         'Ticket 297107'),
         ('My item is active and orderable, but it still will not appear (or will not add) on a receipt w/o order. What should I check?',
          ["Check that the receiving site is included in the item's orderable site list. In one case an item was active but only set to be orderable at a single site; once the other sites that needed to receive it were added to the item's site list, the receipt worked.", 'Also confirm there is no stray space in the item number. In one case an item populated when searched but would not add, and the cause was a space in front of the number; once the space was removed, the item added with no issue.', 'As a workaround when Quick Entry View will not let you add an item that you can see, switch to List View, which lists all orderable items for the chosen vendor; several sites were able to find and add the item that way.'],
          'Tickets 306626, 306728, 306725, 292991'),
         ('I get a message that the item is not available for order on this delivery date, even though I backdated the item. Why?',
          ['The receipt date has to fall on or after the dates that make the item orderable from that vendor. Two dates are critical: the Item Vendor Price date and the Vendor Contract start date. In one case an item backdated to August still could not be added to a receipt dated November 5 because the vendor contract did not start until December 5; once the contract start date was moved earlier, the item became orderable for the November date. In another case an item could not be received on a January receipt because its orderable start date for that vendor was set in February.', "You can adjust the item's start date yourself: go to Inventory -> Configuration -> Items -> Vendor & Price Info tab, click the Edit (pencil) button on the specific item-vendor row, change the start date as needed, and save. Customer & Expert Care can also correct the vendor contract or price dates for you if needed."],
-         'Tickets 306493, 312635, 311601'),
+         'Tickets 306493, 312635'),
     ]),
     ('Editing, canceling, and correcting a receipt', [
         ('I assigned the wrong vendor to a receipt. Can the vendor be switched?',
@@ -52,11 +52,6 @@ SECTIONS = [
         ('I get an error message when I click Confirm Receipt and cannot save the receipt at all. What is going on?',
          ['If a receipt w/o order suddenly fails with an error on Confirm Receipt right after a version update, it may be a software defect rather than anything you configured. After one environment was updated, sites began getting an error when confirming a receipt w/o order; Expert Care traced it to a defect introduced by the update (the receipt was not generating an order number internally) and logged it as a bug (PBI 112048). It was corrected in a hotfix and confirmed working in a later version. If you hit an unexplained error on Confirm Receipt, especially soon after an update, contact Customer & Expert Care so they can check whether it is a known defect.'],
          'Tickets 309692'),
-    ]),
-    ('Additional source cases reviewed', [
-        ('Which other support cases were reviewed for this guide?',
-         ['These additional cases from the source filter were reviewed while building this guide. Each was resolved without distinct new guidance - for example a transient error cleared by refreshing, a question the requester resolved on their own, or a one-off configuration or data fix handled directly with the support team - and is listed here so the guide accounts for every case in the source filter.'],
-         'Tickets 305425, 307466'),
     ]),
 ]
 CLOSING = 'Still stuck? PrimeroEdge Customer & Expert Care is available by phone at 866.442.6030, Monday-Friday, 6 a.m.-6 p.m. CT. You create and confirm receipts in your own Receipts w/o Orders screen, but some fixes, such as changing the vendor on a receipt that has already gone through inventory, canceling a receipt to re-enter it, or correcting a defect introduced by a version update, are completed by Expert Care on request.'

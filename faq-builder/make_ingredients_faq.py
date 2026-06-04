@@ -33,8 +33,8 @@ from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-DOCX_PATH = os.path.join(HERE, "PrimeroEdge-Ingredients-FAQ.docx")
-PDF_PATH = os.path.join(HERE, "PrimeroEdge-Ingredients-FAQ.pdf")
+DOCX_PATH = os.path.join(HERE, "deliverables", "PrimeroEdge-Ingredients-FAQ.docx")
+PDF_PATH = os.path.join(HERE, "deliverables", "PrimeroEdge-Ingredients-FAQ.pdf")
 
 # Brand-ish palette
 NAVY = RGBColor(0x1F, 0x3A, 0x5F)
@@ -84,7 +84,7 @@ SECTIONS = [
              "ingredient and the recipe. Build them in order: ingredient first, then the recipe, "
              "then link the stock item on the Buying Guide tab. A multi-item dish is built as a "
              "recipe that pulls in several ingredients."],
-            "Tickets 313612, 317124, 309341, 295941, 296061",
+            "Tickets 313612, 317124, 309341",
         ),
         (
             "What is the correct order to set up a brand-new item end to end?",
@@ -118,7 +118,7 @@ SECTIONS = [
              "that serving measure rather than adding a brand-new one. Editing the grams on a serving "
              "measure flows through to the nutrients calculated for that serving. (Only serving "
              "measures you added can be edited or deleted; the system-generated measures cannot.)"],
-            "Tickets 297295, 302221, 305626, 311797",
+            "Tickets 297295, 302221, 305626",
         ),
         (
             "I get an error when I try to add a serving size because one is “already in there.” What do I do?",
@@ -202,7 +202,7 @@ SECTIONS = [
              "PrimeroEdge team can change them, and they do so cautiously. Submit a request if a "
              "change is genuinely needed. When a district doesn’t use inventory, the team can make "
              "the change after confirming the item and any on-hand quantities or open orders."],
-            "Tickets 309341, 294965, 314610, 320746",
+            "Tickets 309341, 294965",
         ),
         (
             "Why is changing broken units per whole unit discouraged?",
@@ -222,7 +222,7 @@ SECTIONS = [
              "current case quantity. If you do use inventory, expect to create a new item instead. "
              "Either way, the change to a stock item’s broken units is made by the support team, not "
              "in the district’s own screens."],
-            "Tickets 314610, 320746, 313237",
+            "Ticket 313237",
         ),
     ]),
 
@@ -260,7 +260,7 @@ SECTIONS = [
              "or wrong stock item, use the “Update Food Required” button on both the stock item and "
              "the recipe, then re-save the affected production plans so the corrected item flows "
              "through next time the plans are completed."],
-            "Tickets 290768, 294719",
+            "Ticket 290768",
         ),
         (
             "On the recipe, what should I enter for the ingredient quantity versus the stock-item quantity?",
@@ -279,7 +279,7 @@ SECTIONS = [
              "weight must be the whole bag — for example, 53 patties × 1.5 oz = 79.5 oz per bag, "
              "with 2 bags per case. Use Edit Stock Item on the Buying Guide tab to set the broken-unit "
              "weight to the bag weight; once corrected, pricing and quantities display properly."],
-            "Tickets 314306, 315204, 313942, 318587",
+            "Tickets 314306, 315204",
         ),
     ]),
 
@@ -393,7 +393,7 @@ SECTIONS = [
             ["Send the linking file to the Expert Care team to import. Rows left blank (no stock "
              "item) are simply not imported, which is expected; a few rows may fail to link for "
              "specific reasons, which support will report back so you can verify and follow up."],
-            "Tickets 300961, 307681",
+            "Ticket 307681",
         ),
     ]),
 
@@ -448,7 +448,7 @@ SECTIONS = [
              "retroactively to menu analysis, so reports can be re-run afterward to show corrected "
              "results. Watch the Release Notes for the version that contains the change; the update "
              "is applied for you in the normal process."],
-            "Tickets 314317, 310433, 311854",
+            "Ticket 314317",
         ),
         (
             "Whole milk isn’t an option in the menu pattern dropdown yet. Is that a setup problem on our end?",
@@ -457,13 +457,8 @@ SECTIONS = [
              "implemented. Once delivered (in 16.4), the options become selectable and apply "
              "retroactively to your menu analysis. It is not something to fix in configuration on "
              "the district side."],
-            "Tickets 311854, 314317",
+            "Ticket 314317",
         ),
-    ]),
-    ('Additional source cases reviewed', [
-        ('Which other support cases were reviewed for this guide?',
-         ['These additional cases from the source filter were reviewed while building this guide. Each was resolved without distinct new guidance - for example a transient error cleared by refreshing, a question the requester resolved on their own, a training/resource request, or a one-off configuration or data fix handled directly with the support team - and is listed here so the guide accounts for every case in the source filter.'],
-         'Tickets 298870, 299089, 308247, 312848, 313704, 314911, 317725'),
     ]),
 ]
 

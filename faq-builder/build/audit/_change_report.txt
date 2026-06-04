@@ -1,0 +1,38 @@
+
+=== Menu Cycles ===
+  agent: used=52 rejected=13
+  stripped (rejected secondary cites removed from docs): []
+  kept USED to preserve an answer (agent-rejected but sole source): ['314325', '315470', '320731']
+
+=== Ingredients ===
+  agent: used=63 rejected=19
+  stripped (rejected secondary cites removed from docs): []
+  kept USED to preserve an answer (agent-rejected but sole source): ['299668', '317589', '319087']
+  agent-USED but not cited in any Q&A -> moved to rejected register: ['299089', '308247']
+
+=== Transfer Items ===
+  agent: used=8 rejected=3
+  stripped (rejected secondary cites removed from docs): []
+  kept USED to preserve an answer (agent-rejected but sole source): ['317972']
+
+=== Assign Menus ===
+  agent: used=61 rejected=16
+  stripped (rejected secondary cites removed from docs): []
+  kept USED to preserve an answer (agent-rejected but sole source): ['316758']
+  agent-USED but not cited in any Q&A -> moved to rejected register: ['296617', '313547', '315415', '315592']
+
+=== Perpetual Inventory ===
+  agent: used=12 rejected=10
+  stripped (rejected secondary cites removed from docs): []
+  kept USED to preserve an answer (agent-rejected but sole source): ['302309', '309859', '317727', '321362']
+
+=== Receipt w/o Order ===
+  agent: used=20 rejected=4
+  stripped (rejected secondary cites removed from docs): []
+  kept USED to preserve an answer (agent-rejected but sole source): ['306681']
+  agent-USED but not cited in any Q&A -> moved to rejected register: ['305425', '307466']
+
+=== Production Orders ===
+  agent: used=31 rejected=9
+  stripped (rejected secondary cites removed from docs): []
+  kept USED to preserve an answer (agent-rejected but sole source): ['296638', '300949']
