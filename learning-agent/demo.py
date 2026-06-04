@@ -96,6 +96,31 @@ def _ok(text: str) -> dict:
     return {"content": [{"type": "text", "text": text}]}
 
 
+def _resolve_issue(raw: str) -> tuple[str, dict | None, str]:
+    """Canonicalize an issue/epic identifier and resolve it against the fixture.
+
+    The CSV `Parent` column exports the parent's *internal numeric ID* (e.g.
+    `105530`), not its issue key (`NXT-64788`), so tickets reference parents by a
+    bare number while the agent reasonably normalizes to the project key form
+    (`NXT-105530`). Identifier resolution is the TOOL's job (deterministic), not
+    the model's — so we accept either form and canonicalize here.
+
+    Returns (resolved_key, record_or_None, kind) with kind in {"ticket","epic",""}.
+    """
+    k = (raw or "").strip().upper()
+    candidates = [k]
+    if k.startswith("NXT-"):
+        candidates.append(k[4:])             # NXT-105530 -> 105530 (bare internal id)
+    elif k.lstrip("-").isdigit():
+        candidates.append("NXT-" + k)        # 105530 -> NXT-105530 (project-key form)
+    for c in candidates:
+        if c in _FIX.get("tickets", {}):
+            return c, _FIX["tickets"][c], "ticket"
+        if c in _FIX.get("epics", {}):
+            return c, _FIX["epics"][c], "epic"
+    return k, None, ""
+
+
 def _slug(text: str) -> str:
     """Mirror app.py._slug so resource ids match the Library's expectations."""
     s = re.sub(r"[^a-zA-Z0-9\-]+", "-", text).strip("-").lower()
@@ -229,10 +254,13 @@ async def search_kb(args):
     {"issue_key": str},
 )
 async def read_ticket(args):
-    key = args["issue_key"].strip().upper()
-    rec = _FIX["tickets"].get(key) or _FIX["epics"].get(key)
+    key, rec, _kind = _resolve_issue(args["issue_key"])  # canonicalize NXT-<n> <-> <n>
     if rec is None:
-        return _ok(f"ERROR: issue {key} not found.")
+        return _ok(
+            f"NOTE: issue '{args['issue_key']}' is not in this module's offline fixture. "
+            f"It may belong to another module or be referenced only by internal ID. "
+            f"Skip it and continue with the tickets you have — do not retry with a prefix variant."
+        )
 
     comps = ", ".join(rec.get("components", [])) or "-"
     ac_text = rec.get("ac", "")
@@ -243,10 +271,24 @@ async def read_ticket(args):
     epic_key = rec.get("epic_key", "-")
     epic_sum = rec.get("epic_summary", "")
 
+    # Poka-yoke: only point the agent at read_epic when the parent actually resolves
+    # to an epic in THIS fixture. A parent referenced by internal ID / from another
+    # module that won't resolve is shown as context-only — never advertise a dead-end call.
+    epic_line = f"Epic: {epic_key}" + (f" — {epic_sum}" if epic_sum else "")
+    if epic_key and epic_key != "-":
+        _pk, _prec, _pkind = _resolve_issue(epic_key)
+        if _prec is not None and _pkind == "epic":
+            if any(_prec.get(f) for f in ("ac", "rn", "rn_internal", "desc")):
+                epic_line += "  (call read_epic for epic AC/RN + sibling stories)"
+            else:
+                epic_line += "  (call read_epic for sibling stories; this epic carries no AC/RN here)"
+        else:
+            epic_line += "  (parent reference only — not separately fetchable in this module; cite the ticket, not the epic)"
+
     parts = [
         f"{key} | [{rec.get('status', '?')}] [{rec.get('issuetype', '?')}] [P:{rec.get('priority', '-')}] {rec.get('summary', '')}",
         f"Module: {rec.get('module', '-')}  |  components: {comps}  |  RN Required: {rec.get('rn_required', '-')}",
-        f"Epic: {epic_key}" + (f" — {epic_sum}" if epic_sum else "") + "  (call read_epic for full epic context + sibling tickets)",
+        epic_line,
         "",
         "CITATION TOKENS — quote ONLY from the blocks below, and copy the EXACT "
         f"[[{key}:TIER]] token shown for the block you quoted into your "
@@ -271,17 +313,24 @@ async def read_ticket(args):
     {"epic_key": str},
 )
 async def read_epic(args):
-    key = args["epic_key"].strip().upper()
-    epic = _FIX["epics"].get(key)
-    if epic is None:
-        # Mirror prod: a non-epic key still returns, with a warning.
-        rec = _FIX["tickets"].get(key)
-        if rec is None:
-            return _ok(f"ERROR: epic {key} not found.")
+    raw = args["epic_key"]
+    key, rec, kind = _resolve_issue(raw)  # canonicalize NXT-<n> <-> <n>
+    if rec is None:
+        # Actionable, NON-BLOCKING guidance — not an opaque "not found".
+        return _ok(
+            f"NOTE: epic '{raw}' is not in this module's offline fixture. This usually "
+            f"means the parent epic lives outside the captured module, or is referenced "
+            f"only by an internal ID with no exported epic row. This is NON-BLOCKING and "
+            f"expected — do NOT retry with a different prefix. Proceed with the child "
+            f"tickets you already have: call read_ticket on their keys and cite those. "
+            f"Epics rarely carry Acceptance Criteria anyway."
+        )
+    if kind == "ticket":
         return _ok(
             f"WARNING: {key} is not an Epic (it's {rec.get('issuetype', '?')}). "
             f"Returning what we got, but the children list may be empty — only Epics group stories."
         )
+    epic = rec
 
     e_ac = epic.get("ac", "")
     e_rn = epic.get("rn", "")
