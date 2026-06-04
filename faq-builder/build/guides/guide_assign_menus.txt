@@ -1,0 +1,96 @@
+==== PAGE 1 ====
+ PROPRIETARY AND CONFIDENTIAL Menu Planning 
+© Cybersoft PrimeroEdge  Page 1 of 3 
+ 
+ASSIGN MENUS 
+Assign Menus to the Production Module.  
+Go to:  Menu Planning > Menus > Assign Menus 
+Process / Descriptions Images 
+1. Select the Meal Type (Breakfast, Lunch, or Snack) 
+2. Select Site Group (Elementary, Intermediate, Middle School, or High School) 
+If you do not see your Site Group, you can add a Site Group under Configuration > Site Group 
+3. Select the Organization Level (District or Site) 
+4. Select the Menu Line  
+ 
+ 
+ 
+The current process step will be highlighted  
+ 
+5. Select the start date for the Menu Cycle on the Menu Calendar 
+Users are unable to select a past date 
+ 
+ 
+ 
+ 
+Category: MENUS Document Type: 
+Quick Steps 
+Author: 
+Content Team 
+Software Version: 
+9.14 
+Updated: 
+12/2/2019 
+==== PAGE 2 ====
+ PROPRIETARY AND CONFIDENTIAL Menu Planning 
+© Cybersoft PrimeroEdge  Page 2 of 3 
+6. Enter in the search criteria for the desired 
+Menu /Cycles ( Menus, Menu Cycles, 
+Include Discontinued Menus/ Cycles, Data 
+Source, etc.) 
+7. Click Apply 
+ 
+ 
+ 
+8. Select the desired Menu Cycle 
+Users can click the expand arrow to view more details about the menu and click the arrow again to collapse 
+the information. 
+ 
+ 
+ 
+9. Click Next  
+Click Previous to return to the previous step 
+ 
+ 
+ 
+10. Select if you would like the Menu Cycle to Skip Holidays / Weekends or Use All Menus 
+Note in the case the Use All Menus option is selected, and the menu is not served one day, all the menus will be 
+moved over one day. For example, the Monday Menu didn’t get served due to a holiday; the Monday menu will be 
+assigned on Tuesday. 
+11. Click Apply 
+ 
+ 
+ 
+ 
+
+==== PAGE 3 ====
+ PROPRIETARY AND CONFIDENTIAL Menu Planning 
+© Cybersoft PrimeroEdge  Page 3 of 3 
+12. Review the information (Serving Date, Day, Menu, etc.) to ensure everything is correct 
+ 
+ 
+ 
+13. Click Assign 
+ 
+ 
+ 
+The user should be directed to the first page 
+on Assign Menus, and a process message may 
+appear 
+ 
+ 
+ 
+ 
+NEXT STEPS 
+ 
+After the menus have been assigned, users 
+can conduct a Multi-Line Analysis and work on 
+the Production Plan under the Production 
+Module. 
+Please see the Multi-Line Analysis, and 
+Production Plan quick steps for more 
+information 
+ 
+ 
+ 
+ 
+ 

@@ -1,0 +1,10 @@
+key,module,issuetype,status,reason,summary
+NXT-65573,Accountability,Story,Done Done,State-level (North Carolina districts) compliance; names New Brunswick County Schools only as example - not a single customer,ACC - Attendance Feature - Edit Check Worksheet Report
+NXT-65729,Family Hub,Task,Done Done,"FD #292500 (Benton School District) but a default-setting flip [Task], minimal dev",Family Hub - Request to change the default setting for Show Eligibility Benefits For APP
+NXT-67945,Family Hub,Enhancement,New,"FD-flagged but reads as a general configurable eligibility-privacy setting, no single customer",SchoolCafé - Admin - Settings - Add setting to hide Eligibility Info - Notifications content
+NXT-68910,Family Hub,Enhancement,Done Done,Q1 catch-all of small changes; only one item (FD #307409) is FD-driven; rest general,FamPortal- Miscellaneous Small Changes 2026 Q1 (Part 1)
+NXT-69341,Family Hub,Enhancement,Done Done,Austin ISD named as one complainant but productized as 5 general settings for all districts,FamPortal - School Menus - Add settings to control field behavior display 'Contains' allergen texts
+NXT-70309,Financials,Story,New,General GL posting-frequency feature; Adams 12 cited only as a use-case driver,FIN - Configure GL Posting Aggregation Frequency
+NXT-70622,Inspections,Task,Done Done,"Yotta/Clear Creek ISD app CRASH fix [Task] - customer-named but a fix, not enhancement",Yotta Services App Issues
+NXT-71628,Accountability,Story,Done Done,General deposit/credit-card feature; only the alphanumeric Bank Deposit Slip # is Adams 12-specific,Deposit Feature - Add New Section for Cards
+NXT-72140,Eligibility,Story,New,Federal 2026-27 eligibility guidelines (all districts/regulatory); FD #316868 referenced,Eligibility - Settings - Income Guidelines - Eligibility Guidelines - Update new Eligibility Guidelines for 2026-27 (OBSOLETE?)

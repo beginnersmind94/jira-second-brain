@@ -79,10 +79,14 @@ section.edit .diff-table .ln{background:#eef1f5;color:#6b7280;text-align:right;w
 .modal .skipped ul{margin:0;padding-left:18px;font-size:13px;color:#5b3e0a}
 .modal .skipped li{margin:3px 0}
 .modal .skipped li strong{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
-.modal .row{display:flex;gap:10px;justify-content:flex-end}
-.modal .btn-download{background:#1b7a3a;color:#fff;border:0;border-radius:6px;padding:10px 18px;font-size:14px;cursor:pointer;text-decoration:none;font-weight:600;display:inline-block}
-.modal .btn-download:hover{background:#15602e}
+.modal .row{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+.modal .btn-primary{background:#1b7a3a;color:#fff;border:0;border-radius:6px;padding:10px 16px;font-size:13.5px;cursor:pointer;text-decoration:none;font-weight:600;display:inline-block}
+.modal .btn-primary:hover{background:#15602e}
+.modal .btn-secondary{background:#fff;color:#1f2933;border:1px solid #d9dde4;border-radius:6px;padding:10px 14px;font-size:13px;cursor:pointer;text-decoration:none;font-weight:500;display:inline-block}
+.modal .btn-secondary:hover{background:#f3f5f8;border-color:#c4cad2}
 .modal .btn-close{background:#fff;color:#5b6470;border:1px solid #d9dde4;border-radius:6px;padding:10px 14px;font-size:13px;cursor:pointer}
+.modal .pdf-hint{margin:10px 0 14px;padding:8px 12px;background:#f5f7fa;border-radius:6px;font-size:12px;color:#5b6470;line-height:1.5}
+.modal .pdf-hint strong{color:#1f2933;font-weight:600}
 @media (max-width:900px){.layout{grid-template-columns:1fr}.footer-bar{left:0}}
 </style></head><body>
 <div class="layout">
@@ -154,7 +158,7 @@ section.edit .diff-table .ln{background:#eef1f5;color:#6b7280;text-align:right;w
 
 <div class="footer-bar">
   <div class="count"><strong id="approvedCount">0</strong> approved · <strong id="rejectedCount">0</strong> rejected · <strong id="pendingCount">{{ n_edits }}</strong> pending</div>
-  <button id="renderBtn" class="btn-render" onclick="render()" {% if n_edits == 0 %}disabled{% endif %}>Render PDF</button>
+  <button id="renderBtn" class="btn-render" onclick="render()" {% if n_edits == 0 %}disabled{% endif %}>Render &amp; preview</button>
 </div>
 
 <div class="modal-bg" id="resultModal">
@@ -165,9 +169,14 @@ section.edit .diff-table .ln{background:#eef1f5;color:#6b7280;text-align:right;w
       <h3>Skipped edits</h3>
       <ul id="resultSkippedList"></ul>
     </div>
+    <div class="pdf-hint">
+      <strong>Need a PDF?</strong> Open the HTML preview, then use your browser's <strong>Print → Save as PDF</strong>. Print styles are baked in.
+    </div>
     <div class="row">
       <button class="btn-close" onclick="document.getElementById('resultModal').classList.remove('show')">Back to review</button>
-      <a class="btn-download" id="resultDownload" target="_blank" rel="noopener">Download PDF</a>
+      <a class="btn-secondary" id="resultDownloadMd" download>Download .md</a>
+      <a class="btn-secondary" id="resultDownloadHtml" download>Download .html</a>
+      <a class="btn-primary" id="resultView" target="_blank" rel="noopener">Open HTML preview ↗</a>
     </div>
   </div>
 </div>
@@ -197,9 +206,8 @@ async function render(){
   const btn=document.getElementById('renderBtn');
   btn.disabled=true;btn.textContent='Rendering…';
   const res=await fetch(`/jobs/${jobId}/render`,{method:'POST'});
-  if(!res.ok){alert('render failed: '+await res.text());btn.disabled=false;btn.textContent='Render PDF';return;}
+  if(!res.ok){alert('render failed: '+await res.text());btn.disabled=false;btn.textContent='Render & preview';return;}
   const j=await res.json();
-  // Results modal
   const summary=`Applied ${j.applied} of ${j.approved} approved edit${j.approved===1?'':'s'}.`;
   document.getElementById('resultSummary').textContent=summary;
   const skipBox=document.getElementById('resultSkipped');
@@ -217,9 +225,11 @@ async function render(){
     skipBox.style.display='none';
     document.getElementById('resultTitle').textContent='Render complete';
   }
-  document.getElementById('resultDownload').href=j.pdf_url;
+  document.getElementById('resultView').href=j.html_url;
+  document.getElementById('resultDownloadMd').href=j.md_url;
+  document.getElementById('resultDownloadHtml').href=j.html_download_url;
   document.getElementById('resultModal').classList.add('show');
-  btn.disabled=false;btn.textContent='Render PDF';
+  btn.disabled=false;btn.textContent='Render & preview';
 }
 </script>
 </body></html>"""
@@ -275,160 +285,144 @@ def apply_edits(md: str, proposals: list[dict], approved_ids: set[str]) -> tuple
     return out, applied, skipped
 
 
-def _inline_md(s: str) -> str:
-    """Convert inline markdown (bold, italic, code, frontmatter-safe) to ReportLab's
-    paragraph mini-HTML. Escapes &, <, > first so user content can't break the tags
-    we then inject."""
-    s = html.escape(s, quote=False)
-    # `code` → monospace; do this BEFORE bold/italic so backticks inside ** aren't
-    # mistakenly bolded.
-    s = re.sub(r"`([^`]+?)`", r'<font face="Courier" size="9.5">\1</font>', s)
-    # **bold** (non-greedy, must not span more than reasonable)
-    s = re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", s)
-    # *italic* — avoid matching inside words (e.g., "Some*thing*"); require non-word
-    # boundary on each side.
-    s = re.sub(r"(?<![\w*])\*([^*\n]+?)\*(?![\w*])", r"<i>\1</i>", s)
-    return s
+HTML_DOC_CSS = """
+:root { --ink:#1f2933; --muted:#5b6470; --rule:#d9dde4; --accent:#d27c3a; --bg-soft:#fafbfc; }
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+               "Helvetica Neue", Arial, sans-serif;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 56px 28px 96px;
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 1.65;
+  background: #fff;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+.doc-header {
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 14px;
+  margin-bottom: 28px;
+}
+.doc-header .eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 600;
+  margin: 0 0 6px;
+}
+.doc-header .meta {
+  margin: 8px 0 0;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+h1 { font-size: 30px; margin: 0; line-height: 1.2; letter-spacing: -0.01em; font-weight: 700; }
+h2 {
+  font-size: 21px; margin: 38px 0 12px; line-height: 1.3;
+  border-bottom: 1px solid var(--rule); padding-bottom: 6px; font-weight: 700;
+}
+h3 { font-size: 17px; margin: 26px 0 8px; line-height: 1.35; font-weight: 700; }
+h4 { font-size: 14.5px; margin: 20px 0 6px; line-height: 1.4; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+p  { margin: 0 0 14px; }
+ol, ul { margin: 0 0 16px; padding-left: 28px; }
+li { margin: 5px 0; }
+li > p { margin: 4px 0; }
+li > ol, li > ul { margin-top: 4px; margin-bottom: 8px; }
+strong { font-weight: 600; color: var(--ink); }
+em { font-style: italic; }
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, "Cascadia Mono", Consolas, monospace;
+  font-size: 0.92em;
+  background: #eef1f5;
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+pre {
+  background: var(--bg-soft);
+  border: 1px solid var(--rule);
+  padding: 14px 16px;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 0 0 18px;
+  font-size: 13.5px;
+  line-height: 1.55;
+}
+pre code { background: none; padding: 0; border-radius: 0; font-size: inherit; }
+blockquote {
+  margin: 0 0 18px;
+  padding: 8px 18px;
+  border-left: 3px solid var(--accent);
+  color: var(--muted);
+  background: #fffaf0;
+  font-style: italic;
+}
+blockquote > :last-child { margin-bottom: 0; }
+hr { border: 0; border-top: 1px solid var(--rule); margin: 36px 0; }
+table { border-collapse: collapse; width: 100%; margin: 0 0 18px; font-size: 14.5px; }
+th, td { border: 1px solid var(--rule); padding: 8px 12px; text-align: left; vertical-align: top; }
+th { background: var(--bg-soft); font-weight: 600; }
+a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(210,124,58,0.35); }
+a:hover { border-bottom-color: var(--accent); }
+img { max-width: 100%; height: auto; }
+
+@media print {
+  body { padding: 12mm 14mm 18mm; max-width: 100%; font-size: 11pt; }
+  h1 { font-size: 22pt; }
+  h2 { font-size: 14pt; page-break-after: avoid; }
+  h3 { font-size: 12pt; page-break-after: avoid; }
+  pre, blockquote, table { page-break-inside: avoid; }
+  .doc-header .meta { display: none; }
+}
+"""
 
 
-def md_to_pdf(md_path: Path, pdf_path: Path) -> None:
-    """Render markdown to a styled PDF.
+def md_to_html(md_path: Path, html_path: Path, title: str = "", subtitle: str = "") -> None:
+    """Render a markdown file to a self-contained styled HTML document.
 
-    Supports headers (H1–H3), paragraphs, ordered/unordered lists, blockquotes,
-    horizontal rules, and inline bold/italic/code. YAML frontmatter at the top
-    is stripped. Tables and code blocks fall back to plain paragraph rendering.
-    Not pixel-matched to the source guide's branding — just legible like a
-    document, not like raw markdown source.
+    YAML frontmatter is stripped before rendering. The output is a single .html
+    file with embedded CSS — opens cleanly in any browser, includes print styles
+    so browser Print → Save as PDF produces a decent PDF.
     """
-    from reportlab.lib import colors
-    from reportlab.lib.pagesizes import LETTER
-    from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
-    from reportlab.lib.units import inch
-    from reportlab.platypus import (
-        HRFlowable,
-        ListFlowable,
-        ListItem,
-        Paragraph,
-        SimpleDocTemplate,
-        Spacer,
-    )
+    import markdown as md_lib
 
     text = md_path.read_text(encoding="utf-8")
-    # Strip YAML frontmatter
+    # Strip YAML frontmatter so it doesn't render as plain text at the top
     if text.startswith("---\n"):
         end = text.find("\n---", 4)
         if end != -1:
             text = text[end + 4 :].lstrip("\n")
 
-    ink = colors.HexColor("#1f2933")
-    muted = colors.HexColor("#5b6470")
-    rule = colors.HexColor("#d9dde4")
-
-    base = getSampleStyleSheet()
-    body = ParagraphStyle("body", parent=base["BodyText"], fontName="Helvetica",
-                          fontSize=10.5, leading=15, spaceAfter=6, textColor=ink)
-    h1 = ParagraphStyle("h1", parent=body, fontName="Helvetica-Bold",
-                        fontSize=20, leading=26, spaceBefore=4, spaceAfter=14)
-    h2 = ParagraphStyle("h2", parent=body, fontName="Helvetica-Bold",
-                        fontSize=15, leading=20, spaceBefore=14, spaceAfter=6)
-    h3 = ParagraphStyle("h3", parent=body, fontName="Helvetica-Bold",
-                        fontSize=12, leading=16, spaceBefore=10, spaceAfter=4)
-    list_item = ParagraphStyle("li", parent=body, spaceAfter=2)
-    quote = ParagraphStyle("quote", parent=body, leftIndent=16,
-                           fontName="Helvetica-Oblique", textColor=muted,
-                           borderPadding=(2, 0, 2, 8))
-
-    story = []
-    lines = text.split("\n")
-    i = 0
-    while i < len(lines):
-        line = lines[i]
-        stripped = line.strip()
-
-        if not stripped:
-            story.append(Spacer(1, 4))
-            i += 1
-            continue
-
-        # Headers
-        if stripped.startswith("### "):
-            story.append(Paragraph(_inline_md(stripped[4:]), h3))
-            i += 1
-            continue
-        if stripped.startswith("## "):
-            story.append(Paragraph(_inline_md(stripped[3:]), h2))
-            i += 1
-            continue
-        if stripped.startswith("# "):
-            story.append(Paragraph(_inline_md(stripped[2:]), h1))
-            i += 1
-            continue
-
-        # Horizontal rule
-        if stripped == "---":
-            story.append(HRFlowable(width="100%", thickness=0.5, color=rule,
-                                    spaceBefore=8, spaceAfter=10))
-            i += 1
-            continue
-
-        # Blockquote (single-line for POC; multi-line continues naturally)
-        if stripped.startswith("> "):
-            story.append(Paragraph(_inline_md(stripped[2:]), quote))
-            i += 1
-            continue
-
-        # Bullet list — collect consecutive bullets at the same indent level
-        if re.match(r"^[-*]\s+", stripped):
-            items = []
-            while i < len(lines) and re.match(r"^\s*[-*]\s+", lines[i]):
-                content = re.sub(r"^\s*[-*]\s+", "", lines[i])
-                items.append(ListItem(Paragraph(_inline_md(content), list_item),
-                                      leftIndent=14, bulletColor=muted))
-                i += 1
-            story.append(ListFlowable(items, bulletType="bullet", start="•",
-                                      leftIndent=20, bulletFontSize=9))
-            continue
-
-        # Numbered list
-        if re.match(r"^\d+\.\s+", stripped):
-            items = []
-            while i < len(lines) and re.match(r"^\s*\d+\.\s+", lines[i]):
-                content = re.sub(r"^\s*\d+\.\s+", "", lines[i])
-                items.append(ListItem(Paragraph(_inline_md(content), list_item),
-                                      leftIndent=14))
-                i += 1
-            story.append(ListFlowable(items, bulletType="1", leftIndent=24))
-            continue
-
-        # Fallback: regular paragraph (collect consecutive non-blank, non-special lines)
-        para_lines = [stripped]
-        i += 1
-        while i < len(lines) and lines[i].strip() and not _line_is_block_start(lines[i]):
-            para_lines.append(lines[i].strip())
-            i += 1
-        story.append(Paragraph(_inline_md(" ".join(para_lines)), body))
-
-    doc = SimpleDocTemplate(
-        str(pdf_path),
-        pagesize=LETTER,
-        leftMargin=0.75 * inch,
-        rightMargin=0.75 * inch,
-        topMargin=0.7 * inch,
-        bottomMargin=0.7 * inch,
-        title=md_path.stem,
+    body_html = md_lib.markdown(
+        text,
+        extensions=["fenced_code", "tables", "sane_lists", "smarty"],
+        output_format="html5",
     )
-    doc.build(story)
 
+    title_text = title or md_path.stem
+    eyebrow = "Updated guide" if subtitle else ""
+    meta_html = f'<p class="meta">{html.escape(subtitle)}</p>' if subtitle else ""
+    eyebrow_html = f'<p class="eyebrow">{html.escape(eyebrow)}</p>' if eyebrow else ""
 
-def _line_is_block_start(line: str) -> bool:
-    """True if the line begins a new markdown block (so we should stop greedy paragraph collection)."""
-    s = line.strip()
-    return bool(
-        s == "---"
-        or s.startswith(("# ", "## ", "### ", "> "))
-        or re.match(r"^[-*]\s+", s)
-        or re.match(r"^\d+\.\s+", s)
+    doc = (
+        "<!doctype html>\n"
+        '<html lang="en">\n<head>\n<meta charset="utf-8">\n'
+        f"<title>{html.escape(title_text)}</title>\n"
+        '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
+        f"<style>{HTML_DOC_CSS}</style>\n"
+        "</head>\n<body>\n"
+        '<div class="doc-header">'
+        f"{eyebrow_html}"
+        f"<h1>{html.escape(title_text)}</h1>"
+        f"{meta_html}"
+        "</div>\n"
+        f"{body_html}\n"
+        "</body>\n</html>\n"
     )
+    html_path.write_text(doc, encoding="utf-8")
 
 
 def register_review_routes(app, jobs_dir: Path, repo: Path) -> None:
@@ -495,18 +489,44 @@ def register_review_routes(app, jobs_dir: Path, repo: Path) -> None:
             json.dumps({"approved": len(approved_ids), "applied": applied, "skipped": skipped}, indent=2),
             encoding="utf-8",
         )
-        md_to_pdf(d / "out.md", d / "out.pdf")
+
+        # Pull a friendly title from the original filename
+        src_name = (d / "filename.txt").read_text(encoding="utf-8") if (d / "filename.txt").exists() else "Updated guide"
+        title = src_name.rsplit(".", 1)[0].replace("_", " ").replace("-", " ").strip() or "Updated guide"
+        subtitle = f"{len(applied)} of {len(approved_ids)} approved edits applied"
+        md_to_html(d / "out.md", d / "out.html", title=title, subtitle=subtitle)
+
         return jsonify({
-            "pdf_url": url_for("download_pdf", job_id=job_id),
+            "html_url": url_for("view_html", job_id=job_id),
+            "md_url": url_for("download_md", job_id=job_id),
+            "html_download_url": url_for("download_html", job_id=job_id),
             "approved": len(approved_ids),
             "applied": len(applied),
             "skipped": skipped,
         })
 
-    @app.route("/jobs/<job_id>/out.pdf")
-    def download_pdf(job_id: str):
+    @app.route("/jobs/<job_id>/out.html")
+    def view_html(job_id: str):
         d = jdir(job_id)
-        pdf_path = d / "out.pdf"
-        if not pdf_path.exists():
+        html_path = d / "out.html"
+        if not html_path.exists():
             abort(404)
-        return send_file(pdf_path, mimetype="application/pdf", as_attachment=False, download_name=f"{job_id}.pdf")
+        return send_file(html_path, mimetype="text/html; charset=utf-8", as_attachment=False)
+
+    @app.route("/jobs/<job_id>/out.html/download")
+    def download_html(job_id: str):
+        d = jdir(job_id)
+        html_path = d / "out.html"
+        if not html_path.exists():
+            abort(404)
+        return send_file(html_path, mimetype="text/html; charset=utf-8",
+                         as_attachment=True, download_name=f"{job_id}.html")
+
+    @app.route("/jobs/<job_id>/out.md")
+    def download_md(job_id: str):
+        d = jdir(job_id)
+        md_path = d / "out.md"
+        if not md_path.exists():
+            abort(404)
+        return send_file(md_path, mimetype="text/markdown; charset=utf-8",
+                         as_attachment=True, download_name=f"{job_id}.md")

@@ -1,0 +1,79 @@
+key,module,status,cycle_days,comments,sprints,summary
+NXT-70120,Menu Planning,Closed,21,8,2,Mankato District Migration - Multiple Observations
+NXT-72122,Menu Planning,Closed,19,3,1,Washburn District Migration - Multiple observations
+NXT-72213,Menu Planning,Closed,11,4,1,Washburn District Migration - Contributions jumbled.
+NXT-72214,Menu Planning,Closed,11,4,1,Washburn District Migration - Serving Weights issue.
+NXT-72216,Menu Planning,Closed,20,6,2,Washburn District Migration - Sub recipe issue.
+NXT-72234,Menu Planning,Closed,21,9,2,Washburn District Migration - Preferred Measure flag is missing.
+NXT-72235,Menu Planning,On Hold,,2,1,District Migration(Washburn) - Not bringing Tap Water as recipe ingredient.
+NXT-72236,Menu Planning,Closed,21,5,2,Washburn District Migration - Quantity needed changed from Ounce to Cup.
+NXT-72684,Eligibility,New,,2,2,Dilworth District Migration - Eligibility - Case type info is blank on application details
+NXT-72686,Eligibility,On Hold,,2,2,Dilworth District Migration - Eligibility -  SSN and signature info are not matching on ap
+NXT-72687,Eligibility,In Progress,,3,2,Dilworth District Migration - Eligibility -  Notification date on verification details pag
+NXT-72741,Menu Planning,Closed,9,3,1,Washburn District Migration - Not all ingredients from the Recipe are being migrated.
+NXT-72749,Menu Planning,Closed,8,8,1,Washburn District Migration - Menu Item without Contributions.
+NXT-72751,Menu Planning,Closed,2,4,1,Washburn District Migration - Showing a blank cost or value on the Menu Item serving.
+NXT-72761,Menu Planning,Closed,2,4,1,Washburn District Migration - Pre preparation instructions are lost.
+NXT-72763,Menu Planning,Closed,3,3,1,Washburn District Migration - Documents missing during migration.
+NXT-72775,Menu Planning,Closed,7,6,1,Washburn District Migration - Converting Servings to extra Menu Item servings.
+NXT-72778,Menu Planning,Closed,2,3,1,Washburn District Migration - Dual unit scenario
+NXT-72793,Menu Planning,Closed,2,4,1,Washburn District Migration - Site Configuration > Sites and meal services got duplicated.
+NXT-72801,Eligibility,In Progress,,1,2,Dilworth District Migration - Eligibility -  Notification date and Documents on verificati
+NXT-72803,Eligibility,Closed,16,3,2,Dilworth District Migration - Eligibility -  Verification Type info is incorrect
+NXT-72804,Eligibility,Fixed,,2,2,Dilworth District Migration - Eligibility -  Verification Status info is incorrect
+NXT-72805,Eligibility,On Hold,,1,2,Dilworth District Migration - Eligibility -  Basis info is incorrect in Post-Verification 
+NXT-72806,Eligibility,Fixed,,0,2,Dilworth District Migration - Eligibility -  Verification Tracking Form
+NXT-72807,Menu Planning,Closed,6,2,1,Washburn District Migration - Not displaying Allergens in the Recipe list page.
+NXT-72808,Menu Planning,Closed,1,2,1,Washburn District Migration - Recipe ingredient is duplicated when used in multiple steps.
+NXT-72809,Eligibility,Fixed,,3,2,Dilworth District Migration - Eligibility -  Verification Collection Report
+NXT-72810,Menu Planning,Deployed to QA,,4,2,Washburn District Migration - Replace Pack Size with Serving measure in Recipe Step Ingred
+NXT-72811,Menu Planning,Closed,2,3,1,Washburn District Migration - Standard measures appearing as Recipe Servings.
+NXT-72812,Eligibility,Closed,0,1,1,Dilworth District Migration - Eligibility -  DC Score Card - SSN Info is missing 
+NXT-72813,Menu Planning,Closed,6,4,1,Washburn District Migration - Incorrect Meal Contributions on Menu
+NXT-72814,Eligibility,Closed,6,1,1,Dilworth District Migration - Eligibility - The total number of DC files doesn't match for
+NXT-72816,Eligibility,In Progress,,6,2,Dilworth District Migration - Eligibility - DC Extension Reviewed - The unmatch button is 
+NXT-72817,Menu Planning,Closed,13,3,1,"Washburn District Migration - The default MI serving size on the Menu List page is wrong, "
+NXT-72818,Menu Planning,Closed,7,3,1,Washburn District Migration - Migrated incorrect contributions data.
+NXT-72819,Menu Planning,Closed,6,6,1,Washburn District Migration - Redundant servings are being migrated.
+NXT-72820,Menu Planning,Closed,7,3,1,Washburn District Migration - Incorrect Serving weight.
+NXT-72821,Menu Planning,Closed,7,2,1,Washburn District Migration - Scaled Contributions show incorrect values.
+NXT-72836,Menu Planning,Closed,6,7,1,Washburn District Migration - Blank Steps
+NXT-72837,Menu Planning,Closed,7,3,1,Washburn District Migration - Menu shows contributions for a Menu Item that has none confi
+NXT-72838,Menu Planning,Closed,0,4,1,Washburn District Migration - Whole and broken units relations are brought over incorrectl
+NXT-72839,Menu Planning,Closed,7,4,1,Washburn District Migration - Veg - BP to MMA conversion factor is not migrated correctly.
+NXT-72840,Menu Planning,Closed,5,2,1,Washburn District Migration - Clicking the Inventory Info tab throws 404 error.
+NXT-72841,Menu Planning,Closed,1,4,1,Washburn District Migration - Both highest and base unit pack sizes have the same descript
+NXT-72843,Menu Planning,Closed,7,3,1,Washburn District Migration - Menu item present on the Menu without serving description
+NXT-72844,Menu Planning,Closed,7,5,1,Washburn District Migration - Recipe serving is not visible in edit mode.
+NXT-72845,Menu Planning,Closed,0,4,1,Washburn District Migration - HACCP process lost.
+NXT-72924,Menu Planning,Closed,4,4,1,Washburn District Migration - Duplicate documents.
+NXT-72926,Menu Planning,Closed,4,4,1,"Washburn District Migration - ""Ounce"" isn't set as a pack size on the PE side, but got mig"
+NXT-72928,Menu Planning,Closed,4,2,1,Washburn District Migration - Clicking throws 404 errors on multiple items.
+NXT-72937,Eligibility,New,,5,2,Dilworth District Migration - Eligibility -  Student details aren't showing up on the appl
+NXT-72938,Eligibility,In Progress,,1,2,Dilworth District Migration - Eligibility -  The total counts for free eligibility on the 
+NXT-72939,Eligibility,Fixed,,1,2,Dilworth District Migration - Eligibility -  DC Files - The total record count is showing 
+NXT-73026,Menu Planning,Closed,4,6,1,Washburn District Migration - MI contributions display range even with a single serving me
+NXT-73107,Menu Planning,Fixed,,4,1,Dilworth District Migration - Not migrating images.
+NXT-73108,Menu Planning,Closed,2,2,1,Dilworth District Migration -  Bringing incorrect weights for recipe ingredients.
+NXT-73109,Menu Planning,On Hold,,2,1,Dilworth District Migration - Incorrect recipe and serving cost. Big difference between PE
+NXT-73111,Menu Planning,Fixed,,4,1,Dilworth District Migration - Migrating Recipe ingredients that are not actually recipe in
+NXT-73113,Menu Planning,Fixed,,2,2,Dilworth District Migration - Incorrect sub-recipes or ingredients are linked.
+NXT-73114,Menu Planning,In Progress,,1,1,Dilworth District Migration - Sub quantities are missing.
+NXT-73118,Menu Planning,New,,1,1,Dilworth District Migration - The menu item shows a lower contribution value.
+NXT-73119,Menu Planning,New,,1,1,"Dilworth District Migration - Serving weight in grams is not migrated correctly, off by mo"
+NXT-73120,Menu Planning,New,,1,1,Dilworth District Migration - Incorrect broken units per whole unit are brought over.
+NXT-73203,Menu Planning,New,,1,1,Dilworth District Migration - Menu item serving does not show exceptions.
+NXT-73204,Menu Planning,Fixed,,2,1,Dilworth District Migration -  Recipe steps are blank.
+NXT-73206,Menu Planning,On Hold,,2,1,Dilworth District Migration - Not migrating the correct edible yield factor.
+NXT-73207,Menu Planning,In Progress,,1,1,Dilworth District Migration - Duplicate CCPs.
+NXT-73225,Menu Planning,New,,1,1,"Dilworth District Migration - The item has nutrition information on the PE side, but we ar"
+NXT-73226,Menu Planning,New,,1,1,Dilworth District Migration - The serving of an item displays the Recipe Linked Identifier
+NXT-73227,Menu Planning,New,,1,1,Dilworth District Migration - Incorrect merging in dual unit scenario.
+NXT-73228,Menu Planning,New,,1,1,Dilworth District Migration - Dual unit scenario.
+NXT-73234,Menu Planning,New,,1,1,Dilworth District Migration - Two different items in the system share the same code LI - #
+NXT-73235,Menu Planning,New,,1,1,Dilworth District Migration - When searching with an active Menu Item Code or the name of 
+NXT-73236,Menu Planning,New,,1,1,Dilworth District Migration -  Recipe with 0 serving size weight.
+NXT-73259,Menu Planning,New,,1,1,Dilworth District Migration - Missing Recipe Ingredient that is a sub recipe. 
+NXT-73260,Menu Planning,New,,1,1,Dilworth District Migration - CNDB items as recipe ingredients scenario.
+NXT-73261,Menu Planning,New,,1,1,Dilworth District Migration - Duplicate Servings.
+NXT-73262,Menu Planning,New,,1,1,Dilworth District Migration - Menu item added on the Menu without a serving measure.

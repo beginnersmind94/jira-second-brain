@@ -1,0 +1,200 @@
+district_id,entity_class,n_variants,variants,fd_2.0_tickets,fd_implementation,nxt_dev_items,nxt_migration_items
+hutto,customer,1,Hutto ISD,128,0,0,0
+glastonbury,customer,1,Glastonbury School District,101,1,0,0
+southwest,customer,1,Southwest ISD,95,6,0,0
+adams,customer,2,Adams 12 (NXT) | Adams 12 Five Star Schools,92,7,2,0
+edge,internal-test,1,Edge District,78,9,0,0
+greenfield,customer,1,Greenfield Public Schools,65,0,0,0
+caring,customer,1,Caring ISD,65,2,0,0
+bridge city,customer,1,Bridge City ISD,65,11,0,0
+comal,customer,1,Comal ISD,64,8,0,0
+dilworth,customer,1,Dilworth (mig),0,0,0,57
+creston,customer,1,Creston Community School District,54,9,0,0
+benton,customer,1,Benton School District,48,6,0,0
+washburn,customer,1,Washburn (mig),0,0,0,46
+dayton,customer,1,Dayton Independent School District,45,0,0,0
+decorah,customer,1,Decorah Community School District,43,10,0,0
+port neches groves,customer,1,Port Neches-Groves ISD,41,4,0,0
+wadena deer creek,customer,2,Wadena- Deer Creek Public Schools | Wadena-Deer Creek (NXT),37,10,1,0
+carl junction,customer,2,Carl Junction (NXT) | Carl Junction Schools,37,3,1,0
+garrison,customer,1,Garrison ISD,36,1,0,0
+waller,customer,1,Waller ISD,32,0,0,0
+arkansas arts,customer,1,Arkansas Arts Academy,32,2,0,0
+suffolk city,customer,1,Suffolk City Public Schools,31,8,0,0
+franklin,customer,1,Franklin Public Schools,31,1,0,0
+texas city,customer,2,Texas City (NXT) | Texas City ISD,30,6,3,0
+morgan,customer,1,Morgan County School District,30,8,0,0
+healdsburg,customer,1,Healdsburg Unified School District,29,1,0,0
+west branch,customer,1,West Branch Community School District,27,5,0,0
+mankato,customer,4,Mankato (NXT) | Mankato (mig) | Mankato Area Public Schools ISD 77 | Mankato Area School District ISD 77,21,2,1,5
+groton,customer,1,Groton Public Schools,26,0,0,0
+mashpee,customer,1,Mashpee Public Schools,26,0,0,0
+east newton vi,customer,1,East Newton School District R-VI,25,0,0,0
+mexico,customer,1,Mexico School District 59,24,4,0,0
+parlier,customer,1,Parlier Unified School District,24,4,0,0
+fortune of education,customer,1,Fortune School of Education,24,0,0,0
+cardinal,customer,1,Cardinal Community School District,24,2,0,0
+colorado for the deaf and blind,customer,1,Colorado School for the Deaf and Blind,23,8,0,0
+van alstyne,customer,1,Van Alstyne ISD,23,1,0,0
+coventry,customer,1,Coventry Public Schools,21,0,0,0
+spring bluff xv,customer,1,Spring Bluff R-XV,20,7,0,0
+cole,customer,1,Cole Academy,20,1,0,0
+woodville,customer,1,Woodville ISD,19,5,0,0
+sheridan,customer,1,Sheridan School District #2,18,0,0,0
+lincoln consolidated,customer,1,Lincoln Consolidated School District,18,6,0,0
+old saybrook,customer,1,Old Saybrook Public Schools,18,7,0,0
+carbon,customer,1,Carbon County School District #2,17,1,0,0
+lake city community,customer,1,Lake City Community School,17,0,0,0
+simsbury,customer,1,Simsbury Public Schools,16,1,0,0
+needville,customer,1,Needville ISD,16,2,0,0
+future of fort smith,customer,1,Future School of Fort Smith,15,0,0,0
+gladewater,customer,1,Gladewater ISD,14,0,0,0
+harvest preparatory,customer,1,Harvest Preparatory School,14,4,0,0
+intermediate,customer,1,Intermediate District 287,14,0,0,0
+nauset,customer,1,Nauset Public Schools,14,0,0,0
+old colony,customer,1,Old Colony Regional Vocational Technical,14,0,0,0
+timpson,customer,1,Timpson ISD,14,0,0,0
+stephenville,customer,1,Stephenville ISD,13,7,0,0
+east chambers,customer,1,East Chambers ISD,13,3,0,0
+shepherd,customer,1,Shepherd Independent School District,12,5,0,0
+st mary s,customer,1,St. Mary's Academy,11,5,0,0
+anthony,customer,1,Anthony ISD,11,0,0,0
+north berkshire union,customer,1,North Berkshire School Union,11,4,0,0
+responsiveed arkansas,customer,1,ResponsiveEd Arkansas,11,5,0,0
+evadale,customer,1,Evadale ISD,10,2,0,0
+river road,customer,1,River Road ISD,10,0,0,0
+salem,customer,1,Salem Public Schools,10,0,0,0
+gloucester,customer,1,Gloucester Public Schools,10,1,0,0
+montville,customer,1,Montville Public Schools,9,6,0,0
+martinsville,customer,1,Martinsville Independent School District,9,0,0,0
+burton adventist,customer,1,Burton Adventist Academy,9,2,0,0
+sarcoxie ii,customer,1,Sarcoxie R-II School District,9,0,0,0
+clinton graceville beardsley,customer,1,Clinton Graceville Beardsley Public Schools,9,3,0,0
+sabine pass,customer,1,Sabine Pass Independent School District,8,6,0,0
+cornerstones of care,customer,1,Cornerstones of Care,8,7,0,0
+maud,customer,1,Maud ISD,8,5,0,0
+medford,customer,1,Medford Public Schools,8,2,0,0
+des arc,customer,1,Des Arc School District,8,0,0,0
+brownwood,customer,1,Brownwood ISD,8,4,0,0
+winston dillard,customer,1,Winston-Dillard School District,8,4,0,0
+tecumseh,customer,1,Tecumseh Public Schools,7,0,0,0
+st mary s parish,customer,1,St. Mary's Parish School,7,0,0,0
+ft leavenworth,customer,1,Ft Leavenworth Unified School District,7,0,0,0
+palestine,customer,1,Palestine Independent School District,6,5,0,0
+st century charter of gary,customer,1,21st Century Charter School of Gary,6,5,0,0
+rains,customer,1,Rains ISD,6,3,0,0
+bridge creek,customer,1,Bridge Creek Public Schools,6,0,0,0
+sage international middleton campus,customer,1,Sage International Middleton Campus,6,0,0,0
+camas,customer,1,Camas County School District,6,0,0,0
+easton department,customer,1,Easton School Department,6,0,0,0
+epiphany catholic,customer,1,Epiphany Catholic School,5,5,0,0
+belchertown,customer,1,Belchertown Public Schools,5,4,0,0
+kernville union,customer,1,Kernville Union School District,5,3,0,0
+los molinos,customer,1,Los Molinos Unified School District,5,0,0,0
+buna,customer,1,Buna ISD,5,2,0,0
+gap,customer,1,GAP School,5,0,0,0
+institute for the creative arts,customer,1,Institute for the Creative Arts,5,1,0,0
+balmorhea,customer,1,Balmorhea ISD,5,5,0,0
+el segundo,customer,1,El Segundo Unified School District,4,0,0,0
+lake ridge new tech,customer,1,Lake Ridge New Tech Schools,4,0,0,0
+grants pass,customer,1,Grants Pass School District,4,0,0,0
+essence preparatory public,customer,1,Essence Preparatory Public School,4,0,0,0
+hanford joint union high,customer,1,Hanford Joint Union High School District,4,0,0,0
+public for performing arts,customer,1,Public Academy for Performing Arts,4,0,0,0
+great river,customer,1,Great River School,4,0,0,0
+elsberry,customer,1,Elsberry R-2 School District,4,1,0,0
+hadley,customer,1,Hadley Public Schools,4,2,0,0
+maria montessori,customer,1,Maria Montessori Academy,3,3,0,0
+blooming grove,customer,1,Blooming Grove Independent School District,3,3,0,0
+chequamegon,customer,1,Chequamegon School District,3,0,0,0
+the for god,customer,1,The Academy for God,3,2,0,0
+south fork union,customer,1,South Fork Union School District,3,2,0,0
+hill city,customer,2,Hill City ISD #2 | Hill City ISD (NXT),3,2,1,0
+greenville,customer,1,Greenville ISD,3,0,0,0
+northwest children s home,customer,1,Northwest Children's Home,3,1,0,0
+monona grove,customer,1,Monona Grove School District,3,0,0,0
+sutton,customer,1,Sutton Public Schools,3,0,0,0
+jesuit high,customer,1,Jesuit High School,3,0,0,0
+skyline education,customer,1,Skyline Education,3,0,0,0
+anchorage,customer,1,Anchorage (mig),0,0,0,3
+campbell,customer,1,Campbell Independent School District,2,2,0,0
+dallas,customer,1,Dallas County R1 School District,2,0,0,0
+forney,customer,1,Forney ISD,2,1,0,0
+edge test account,internal-test,1,Edge County Schools - TEST Account,2,0,0,0
+texico municipal,customer,1,Texico Municipal Schools,2,2,0,0
+cleburne,customer,1,Cleburne ISD,2,0,0,0
+mississinewa,customer,1,Mississinewa Community Schools,2,2,0,0
+liberty eylau,customer,1,Liberty-Eylau Independent School District,2,1,0,0
+austin,customer,1,Austin Public Schools,2,1,0,0
+south western city,customer,1,South Western City Schools,2,2,0,0
+johnson creek,customer,1,Johnson Creek School District,2,0,0,0
+claremore,customer,1,Claremore Public Schools,2,1,0,0
+kountze,customer,1,Kountze Independent School District,1,1,0,0
+beaumont,customer,1,Beaumont ISD,1,0,0,0
+newton,customer,1,Newton County Schools,1,1,0,0
+fabens,customer,1,Fabens ISD,1,0,0,0
+boles,customer,1,Boles ISD,1,0,0,0
+maumee valley country day,customer,1,Maumee Valley Country Day School,1,0,0,0
+marion p charter,customer,1,Marion P Charter School,1,0,0,0
+surprise valley joint,customer,1,Surprise Valley Joint Unified School District,1,1,0,0
+massachusetts department of youth services,customer,1,Massachusetts Department of Youth Services,1,1,0,0
+paris special,customer,1,Paris Special School District,1,0,0,0
+grapevine faith christian,customer,1,Grapevine Faith Christian School,1,0,0,0
+calhoun,customer,1,Calhoun County School District,1,0,0,0
+southwest preparatory,customer,1,SOUTHWEST PREPARATORY SCHOOLS,1,0,0,0
+southwest charter,customer,1,SOUTHWEST CHARTER SCHOOL,1,0,0,0
+simplot,vendor,1,Simplot,1,1,0,0
+centinela valley union high,customer,1,Centinela Valley Union High School District,1,1,0,0
+brookeland,customer,1,Brookeland Independent School District,1,1,0,0
+haralson,customer,1,Haralson County School District,1,1,0,0
+celeste,customer,1,Celeste Independent School District,1,1,0,0
+unparalleled preparatory,customer,1,Unparalleled Preparatory Academy,1,1,0,0
+wasatch peak,customer,1,Wasatch Peak Academy,1,1,0,0
+clear lake,customer,1,Clear Lake Community School District,1,1,0,0
+richardson,customer,1,Richardson ISD,1,0,0,0
+windham,customer,1,Windham Public Schools,1,0,0,0
+sst discovery,customer,1,SST DISCOVERY,1,0,0,0
+magnolia montessori for al,customer,1,MAGNOLIA MONTESSORI FOR AL,1,0,0,0
+la academia de estrellas,customer,1,LA ACADEMIA DE ESTRELLAS,1,0,0,0
+jarrell,customer,1,JARRELL ISD,1,0,0,0
+alamo heights,customer,1,ALAMO HEIGHTS ISD,1,0,0,0
+sisters of st mary of oregon ministries corp,customer,1,Sisters of St. Mary of Oregon Ministries Corp,1,0,0,0
+central catholic high,customer,1,Central Catholic High School,1,0,0,0
+los alamos,customer,1,LOS ALAMOS PUBLIC SCHOOLS,1,0,0,0
+salem city,customer,1,Salem City School District,1,0,0,0
+myron l powell,customer,1,Myron L. Powell,1,0,0,0
+st joseph s,customer,1,St. Joseph's School District,1,0,0,0
+jefferson,customer,1,Jefferson County School District,1,0,0,0
+newman international,customer,1,NEWMAN INTERNATIONAL ACADEMY,1,0,0,0
+chequamnegon,customer,1,Chequamnegon School District,1,1,0,0
+el dorado,customer,1,El Dorado School District,1,1,0,0
+seneca,customer,1,Seneca R-7 School District,1,0,0,0
+mat su,customer,1,MAT-SU School District,1,0,0,0
+indiana state of department of education,customer,1,Indiana (State of) Department Of Education,1,1,0,0
+hacienda la puente,customer,1,Hacienda La Puente Unified School District,1,0,0,0
+bolivar,customer,1,Bolivar R-1 Schools,1,1,0,0
+joplin,customer,1,Joplin SD,1,0,0,0
+ledyard charter,customer,1,Ledyard Charter School,1,0,0,0
+houston,customer,1,Houston ISD,1,0,0,0
+reeds spring,customer,1,Reeds Spring Schools,1,1,0,0
+amherst,customer,1,Amherst County Public Schools,1,1,0,0
+east hampton,customer,1,East Hampton Public Schools,1,0,0,0
+mount vernon city,customer,1,Mount Vernon City Schools District 80,1,0,0,0
+boling,customer,1,Boling ISD,1,0,0,0
+columbia,customer,1,Columbia Public Schools,1,0,0,0
+lena public,customer,1,Lena Public School District,1,0,0,0
+simply scratch,customer,1,Simply Scratch,1,1,0,0
+monroe j,customer,1,Monroe School District 1J,1,0,0,0
+magdalena municipal,customer,1,Magdalena Municipal Schools,1,1,0,0
+phoenix of roseburg,customer,1,Phoenix School of Roseburg,1,1,0,0
+bogalusa city,customer,1,Bogalusa City School District,1,0,0,0
+st mary parish,customer,1,St. Mary Parish Public Schools,1,1,0,0
+glide,customer,1,Glide School District 12,1,1,0,0
+west jasper cons sch dist ms,customer,1,WEST JASPER CONS SCH DIST - MS,1,0,0,0
+cushing,customer,1,Cushing Public Schools,1,1,0,0
+stanfield elementary,customer,1,Stanfield Elementary School District 24,1,0,0,0
+albany,customer,1,Albany Area Schools,1,1,0,0
+eastern allamakee,customer,1,Eastern Allamakee Community School District,1,0,0,0
+mexic,customer,1,Mexic School District 59,1,1,0,0
+stillwater,customer,1,Stillwater (NXT),0,0,1,0
+tullahoma,customer,1,Tullahoma (NXT),0,0,1,0

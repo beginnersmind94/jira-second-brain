@@ -1,0 +1,5408 @@
+==========================================================================================
+TICKET 294871  |  Wichita Public Schools / Transfer enhancement
+==========================================================================================
+
+--- turn 0 [customer/description] NSTech <nstech@usd259.net>  2025-08-28T21:47:17Z ---
+This is one of the issues we have with not being able to add to an order. Since it was entered as 0 (or not entered, which defaults to 0) on the initial ticket, it will not allow an addition. I am adding PE support to this email as more documentation to our request for enhancement of this feature.
+
+You can't do a new receipt either. CW will have to do a transfer. Adding RJ, also.
+
+RJ - please transfer 1 case of 44120 to SE dated 8/12.
+
+PE - please add to ticket requesting enhancement for adjusting quantities on receipts.
+
+NS Technology Group
+
+Nutrition Services
+
+Wichita Public Schools
+
+3850 N. Hydraulic | Wichita, KS | 67219
+
+P:  316-973-2160
+
+F:  316-973-2162
+
+www.usd259.org/nutrition
+
+www.usd259.org/KidsEat
+
+From:
+ Kammie Anderson (Food Prod) <kanderson9@usd259.net>
+
+Sent:
+ Tuesday, August 26, 2025 1:40 PM
+
+To:
+ Traci Wood (Southeast) <twood2@usd259.net>; Patty Leary <pleary@usd259.net>
+
+Cc:
+ NSTech <nstech@usd259.net>
+
+Subject:
+ Re: transfer
+
+
+
+I just re-opened the order (PE49980).
+
+Kristi/Vicki - Can you tell me how to edit the qty received for this item?  Do I "Create a New Receipt"?
+
+Thanks!
+
+Kammie Anderson
+
+Supervisor
+
+Nutrition Services
+
+
+
+Wichita Public Schools
+
+3850 N. Hydraulic Wichita, KS 67219
+
+P: 316-973-2171
+
+F: 316-973-2162
+
+www.usd259.org/nutrition
+
+
+
+From:
+ Traci Wood (Southeast) <twood2@usd259.net>
+
+Sent:
+ Tuesday, August 26, 2025 1:35 PM
+
+To:
+ Kammie Anderson (Food Prod) <kanderson9@usd259.net>; Patty Leary <pleary@usd259.net>
+
+Cc:
+ NSTech <nstech@usd259.net>
+
+Subject:
+ Re: transfer
+
+
+
+Sorry I see now did you add them for me?
+
+From:
+ Kammie Anderson (Food Prod) <kanderson9@usd259.net>
+
+Sent:
+ Tuesday, August 26, 2025 1:33 PM
+
+To:
+ Traci Wood (Southeast) <twood2@usd259.net>; Patty Leary <pleary@usd259.net>
+
+Cc:
+ NSTech <nstech@usd259.net>
+
+Subject:
+ Re: transfer
+
+
+
+The middle column is the Qty Received (whole and broken).  The first column is Qty Ordered and last column is Qty Due.  You will need to re-open and receive this item if you are able. 🙂
+
+Kammie Anderson
+
+Supervisor
+
+Nutrition Services
+
+
+
+Wichita Public Schools
+
+3850 N. Hydraulic Wichita, KS 67219
+
+P: 316-973-2171
+
+F: 316-973-2162
+
+www.usd259.org/nutrition
+
+
+
+From:
+ Traci Wood (Southeast) <twood2@usd259.net>
+
+Sent:
+ Tuesday, August 26, 2025 1:30 PM
+
+To:
+ Kammie Anderson (Food Prod) <kanderson9@usd259.net>; Patty Leary <pleary@usd259.net>
+
+Cc:
+ NSTech <nstech@usd259.net>
+
+Subject:
+ Re: transfer
+
+
+
+That is broken unit in the whole unit it says 1
+
+From:
+ Kammie Anderson (Food Prod) <kanderson9@usd259.net>
+
+Sent:
+ Tuesday, August 26, 2025 1:15 PM
+
+To:
+ Traci Wood (Southeast) <twood2@usd259.net>; Patty Leary <pleary@usd259.net>
+
+Cc:
+ NSTech <nstech@usd259.net>
+
+Subject:
+ Re: transfer
+
+
+
+PE is showing you receiving zero on the receipt, so I'm assuming that is why it is not in your inventory and you are able to withdrawal.  I did not see that the warehouse sent you a transfer for this either.
+
+Kammie Anderson
+
+Supervisor
+
+Nutrition Services
+
+
+
+Wichita Public Schools
+
+3850 N. Hydraulic Wichita, KS 67219
+
+P: 316-973-2171
+
+F: 316-973-2162
+
+www.usd259.org/nutrition
+
+
+
+From:
+ Traci Wood (Southeast) <twood2@usd259.net>
+
+Sent:
+ Tuesday, August 26, 2025 9:19 AM
+
+To:
+ Kammie Anderson (Food Prod) <kanderson9@usd259.net>; Patty Leary <pleary@usd259.net>
+
+Cc:
+ NSTech <nstech@usd259.net>
+
+Subject:
+ Re: transfer
+
+
+
+August 12th
+
+From:
+ Kammie Anderson (Food Prod) <kanderson9@usd259.net>
+
+Sent:
+ Tuesday, August 26, 2025 9:13 AM
+
+To:
+ Traci Wood (Southeast) <twood2@usd259.net>; Patty Leary <pleary@usd259.net>
+
+Cc:
+ NSTech <nstech@usd259.net>
+
+Subject:
+ Re: transfer
+
+
+
+Traci,
+
+Do you remember which day you received these?
+
+Kammie Anderson
+
+Supervisor
+
+Nutrition Services
+
+
+
+Wichita Public Schools
+
+3850 N. Hydraulic Wichita, KS 67219
+
+P: 316-973-2171
+
+F: 316-973-2162
+
+www.usd259.org/nutrition
+
+
+
+From:
+ Traci Wood (Southeast) <twood2@usd259.net>
+
+Sent:
+ Monday, August 25, 2025 1:55 PM
+
+To:
+ Patty Leary <pleary@usd259.net>; Kammie Anderson (Food Prod) <kanderson9@usd259.net>
+
+Cc:
+ NSTech <nstech@usd259.net>
+
+Subject:
+ transfer
+
+
+
+I received a case of French toast goldfish, history doesn't show that I used any, but it will not let me withdrawal
+
+--- turn 1 [agent/private_note] agent:22039013083  2025-08-28T22:03:45Z ---
+Customer requesting an enhancement where transfer from the Central Warehouse need to be reviewed before entering the inventory at the new site.
+
+This was rejected in ticket:
+https://primeroedge.freshdesk.com/a/tickets/291214
+ - But no one ever reached out to let the customer know (at least through that ticket). However the customer is still expecting this enhancement from what I can tell based on this thread.  This thread could probably be merged into that one, as that ticket is still open, but for now I will leave it separate.
+
+Per Audene the rejection needs to come from EC or Dev. Also worth noting Wichita is a high profile customer we have regular meetings with.
+
+--- turn 2 [customer/reply] NSTech <nstech@usd259.net>  2025-08-29T11:16:57Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Here is the transfer.
+
+
+
+Richard Johnson
+
+Supervisor, Warehouse and Delivery
+
+
+
+From:
+ NSTech <nstech@usd259.net>
+
+Sent:
+ Thursday, August 28, 2025 4:47 PM
+
+To:
+ Kammie Anderson (Food Prod) <kanderson9@usd259.net>; Traci Wood (Southeast) <twood2@usd259.net>; Patty Leary <pleary@usd259.net>; Richard Johnson (Food Prod) <rjohnson5@usd259.net>; Primero Edge Support <customercare@primeroedge.com>; Kristi Wiseman
+ <kwiseman@usd259.net>
+
+Cc:
+ Terri Brown <terri.brown@primeroedge.com>
+
+Subject:
+ Re: transfer
+
+
+
+This is one of the issues we have with not being able to add to an order. Since it was entered as 0 (or not entered, which defaults to 0) on the initial ticket, it will not allow an addition. I am adding PE support
+ to this email as more documentation to our request for enhancement of this feature.
+
+
+
+You can't do a new receipt either. CW will have to do a transfer. Adding RJ, also.
+
+RJ - please transfer 1 case of 44120 to SE dated 8/12.
+
+
+
+PE - please add to ticket requesting enhancement for adjusting quantities on receipts.
+
+
+
+
+
+NS Technology Group
+
+
+
+Nutrition Services
+
+Wichita Public Schools
+
+3850 N. Hydraulic | Wichita, KS | 67219
+
+P:  316-973-2160
+
+F:  316-973-2162
+
+www.usd259.org/nutrition
+
+www.usd259.org/KidsEat
+
+
+
+
+
+
+
+From:
+ Kammie Anderson (Food Prod) <
+kanderson9@usd259.net
+>
+
+Sent:
+ Tuesday, August 26, 2025 1:40 PM
+
+To:
+ Traci Wood (Southeast) <
+twood2@usd259.net
+>; Patty Leary <
+pleary@usd259.net
+>
+
+Cc:
+ NSTech <
+nstech@usd259.net
+>
+
+Subject:
+ Re: transfer
+
+
+
+I just re-opened the order (PE49980).
+
+
+
+Kristi/Vicki - Can you tell me how to edit the qty received for this item?  Do I "Create a New Receipt"?
+
+
+
+Thanks!
+
+
+
+Kammie Anderson
+
+Supervisor
+
+Nutrition Services
+
+
+
+Wichita Public Schools
+
+3850 N. Hydraulic Wichita, KS 67219
+
+P: 316-973-2171
+
+F: 316-973-2162
+
+www.usd259.org/nutrition
+
+
+
+From:
+ Traci Wood (Southeast) <
+twood2@usd259.net
+>
+
+Sent:
+ Tuesday, August 26, 2025 1:35 PM
+
+To:
+ Kammie Anderson (Food Prod) <
+kanderson9@usd259.net
+>; Patty Leary <
+pleary@usd259.net
+>
+
+Cc:
+ NSTech <
+nstech@usd259.net
+>
+
+Subject:
+ Re: transfer
+
+
+
+Sorry I see now did you add them for me?
+
+From:
+ Kammie Anderson (Food Prod) <
+kanderson9@usd259.net
+>
+
+Sent:
+ Tuesday, August 26, 2025 1:33 PM
+
+To:
+ Traci Wood (Southeast) <
+twood2@usd259.net
+>; Patty Leary <
+pleary@usd259.net
+>
+
+Cc:
+ NSTech <
+nstech@usd259.net
+>
+
+Subject:
+ Re: transfer
+
+
+
+The middle column is the Qty Received (whole and broken).  The first column is Qty Ordered and last column is Qty Due.  You will need to re-open and receive this item if you are
+ able.
+🙂
+
+
+
+
+
+Kammie Anderson
+
+Supervisor
+
+Nutrition Services
+
+
+
+Wichita Public Schools
+
+3850 N. Hydraulic Wichita, KS 67219
+
+P: 316-973-2171
+
+F: 316-973-2162
+
+www.usd259.org/nutrition
+
+
+
+From:
+ Traci Wood (Southeast) <
+twood2@usd259.net
+>
+
+Sent:
+ Tuesday, August 26, 2025 1:30 PM
+
+To:
+ Kammie Anderson (Food Prod) <
+kanderson9@usd259.net
+>; Patty Leary <
+pleary@usd259.net
+>
+
+Cc:
+ NSTech <
+nstech@usd259.net
+>
+
+Subject:
+ Re: transfer
+
+
+
+That is broken unit in the whole unit it says 1
+
+From:
+ Kammie Anderson (Food Prod) <
+kanderson9@usd259.net
+>
+
+Sent:
+ Tuesday, August 26, 2025 1:15 PM
+
+To:
+ Traci Wood (Southeast) <
+twood2@usd259.net
+>; Patty Leary <
+pleary@usd259.net
+>
+
+Cc:
+ NSTech <
+nstech@usd259.net
+>
+
+Subject:
+ Re: transfer
+
+
+
+PE is showing you receiving zero on the receipt, so I'm assuming that is why it is not in your inventory and you are able to withdrawal.  I did not see that the warehouse sent you
+ a transfer for this either.
+
+
+
+Kammie Anderson
+
+Supervisor
+
+Nutrition Services
+
+
+
+Wichita Public Schools
+
+3850 N. Hydraulic Wichita, KS 67219
+
+P: 316-973-2171
+
+F: 316-973-2162
+
+www.usd259.org/nutrition
+
+
+
+From:
+ Traci Wood (Southeast) <
+twood2@usd259.net
+>
+
+Sent:
+ Tuesday, August 26, 2025 9:19 AM
+
+To:
+ Kammie Anderson (Food Prod) <
+kanderson9@usd259.net
+>; Patty Leary <
+pleary@usd259.net
+>
+
+Cc:
+ NSTech <
+nstech@usd259.net
+>
+
+Subject:
+ Re: transfer
+
+
+
+August 12th
+
+From:
+ Kammie Anderson (Food Prod) <
+kanderson9@usd259.net
+>
+
+Sent:
+ Tuesday, August 26, 2025 9:13 AM
+
+To:
+ Traci Wood (Southeast) <
+twood2@usd259.net
+>; Patty Leary <
+pleary@usd259.net
+>
+
+Cc:
+ NSTech <
+nstech@usd259.net
+>
+
+Subject:
+ Re: transfer
+
+
+
+Traci,
+
+
+
+Do you remember which day you received these?
+
+
+
+
+
+Kammie Anderson
+
+Supervisor
+
+Nutrition Services
+
+
+
+Wichita Public Schools
+
+3850 N. Hydraulic Wichita, KS 67219
+
+P: 316-973-2171
+
+F: 316-973-2162
+
+www.usd259.org/nutrition
+
+
+
+From:
+ Traci Wood (Southeast) <
+twood2@usd259.net
+>
+
+Sent:
+ Monday, August 25, 2025 1:55 PM
+
+To:
+ Patty Leary <
+pleary@usd259.net
+>; Kammie Anderson (Food Prod) <
+kanderson9@usd259.net
+>
+
+Cc:
+ NSTech <
+nstech@usd259.net
+>
+
+Subject:
+ transfer
+
+
+
+I received a case of French toast goldfish, history doesn't show that I used any, but it will not let me withdrawal
+
+--- turn 3 [agent/private_note] agent:22004298836  2025-08-29T12:11:25Z ---
+As a note - we will NOT be making changes to the transfer process when it comes to Central Warehouse.
+
+Sites can not receive items that are not reflected as "Shipped" from the warehouse, and the warehouse must initiate their own Transfer.
+
+There is a perpetual inventory for the warehouse that would be impacted if sites were able to add items that were not on their ship ticket... if all items in the warehouse are "committed" - then there are none available for the site to be able to "add to receipt."
+
+--- turn 4 [customer/reply] NSTech <nstech@usd259.net>  2025-08-29T12:11:56Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Thank you
+
+From: Richard Johnson (Food Prod) <rjohnson5@usd259.net>
+
+Sent:
+ Friday, August 29, 2025 6:16 AM
+
+To:
+ NSTech <nstech@usd259.net>; Kammie Anderson (Food Prod) <kanderson9@usd259.net>; Traci Wood (Southeast) <twood2@usd259.net>; Patty Leary <pleary@usd259.net>; Primero Edge Support <customercare@primeroedge.com>; Kristi Wiseman <kwiseman@usd259.net>
+
+Cc:
+ Terri Brown <terri.brown@primeroedge.com>
+
+Subject:
+ RE: transfer
+
+
+
+Here is the transfer.
+
+
+
+Richard Johnson
+
+Supervisor, Warehouse and Delivery
+
+
+
+From:
+ NSTech <nstech@usd259.net>
+
+Sent:
+ Thursday, August 28, 2025 4:47 PM
+
+To:
+ Kammie Anderson (Food Prod) <kanderson9@usd259.net>; Traci Wood (Southeast) <twood2@usd259.net>; Patty Leary <pleary@usd259.net>; Richard Johnson (Food Prod) <rjohnson5@usd259.net>; Primero Edge Support <customercare@primeroedge.com>; Kristi Wiseman
+ <kwiseman@usd259.net>
+
+Cc:
+ Terri Brown <terri.brown@primeroedge.com>
+
+Subject:
+ Re: transfer
+
+
+
+This is one of the issues we have with not being able to add to an order. Since it was entered as 0 (or not entered, which defaults to 0) on the initial ticket, it will not allow an addition. I am adding PE support
+ to this email as more documentation to our request for enhancement of this feature.
+
+
+
+You can't do a new receipt either. CW will have to do a transfer. Adding RJ, also.
+
+RJ - please transfer 1 case of 44120 to SE dated 8/12.
+
+
+
+PE - please add to ticket requesting enhancement for adjusting quantities on receipts.
+
+
+
+
+
+NS Technology Group
+
+
+
+Nutrition Services
+
+Wichita Public Schools
+
+3850 N. Hydraulic | Wichita, KS | 67219
+
+P:  316-973-2160
+
+F:  316-973-2162
+
+www.usd259.org/nutrition
+
+www.usd259.org/KidsEat
+
+
+
+
+
+
+
+From:
+ Kammie Anderson (Food Prod) <
+kanderson9@usd259.net
+>
+
+Sent:
+ Tuesday, August 26, 2025 1:40 PM
+
+To:
+ Traci Wood (Southeast) <
+twood2@usd259.net
+>; Patty Leary <
+pleary@usd259.net
+>
+
+Cc:
+ NSTech <
+nstech@usd259.net
+>
+
+Subject:
+ Re: transfer
+
+
+
+I just re-opened the order (PE49980).
+
+
+
+Kristi/Vicki - Can you tell me how to edit the qty received for this item?  Do I "Create a New Receipt"?
+
+
+
+Thanks!
+
+
+
+Kammie Anderson
+
+Supervisor
+
+Nutrition Services
+
+
+
+Wichita Public Schools
+
+3850 N. Hydraulic Wichita, KS 67219
+
+P: 316-973-2171
+
+F: 316-973-2162
+
+www.usd259.org/nutrition
+
+
+
+From:
+ Traci Wood (Southeast) <
+twood2@usd259.net
+>
+
+Sent:
+ Tuesday, August 26, 2025 1:35 PM
+
+To:
+ Kammie Anderson (Food Prod) <
+kanderson9@usd259.net
+>; Patty Leary <
+pleary@usd259.net
+>
+
+Cc:
+ NSTech <
+nstech@usd259.net
+>
+
+Subject:
+ Re: transfer
+
+
+
+Sorry I see now did you add them for me?
+
+From:
+ Kammie Anderson (Food Prod) <
+kanderson9@usd259.net
+>
+
+Sent:
+ Tuesday, August 26, 2025 1:33 PM
+
+To:
+ Traci Wood (Southeast) <
+twood2@usd259.net
+>; Patty Leary <
+pleary@usd259.net
+>
+
+Cc:
+ NSTech <
+nstech@usd259.net
+>
+
+Subject:
+ Re: transfer
+
+
+
+The middle column is the Qty Received (whole and broken).  The first column is Qty Ordered and last column is Qty Due.  You will need to re-open and receive this item if you
+ are able.
+🙂
+
+
+
+
+
+Kammie Anderson
+
+Supervisor
+
+Nutrition Services
+
+
+
+Wichita Public Schools
+
+3850 N. Hydraulic Wichita, KS 67219
+
+P: 316-973-2171
+
+F: 316-973-2162
+
+www.usd259.org/nutrition
+
+
+
+From:
+ Traci Wood (Southeast) <
+twood2@usd259.net
+>
+
+Sent:
+ Tuesday, August 26, 2025 1:30 PM
+
+To:
+ Kammie Anderson (Food Prod) <
+kanderson9@usd259.net
+>; Patty Leary <
+pleary@usd259.net
+>
+
+Cc:
+ NSTech <
+nstech@usd259.net
+>
+
+Subject:
+ Re: transfer
+
+
+
+That is broken unit in the whole unit it says 1
+
+From:
+ Kammie Anderson (Food Prod) <
+kanderson9@usd259.net
+>
+
+Sent:
+ Tuesday, August 26, 2025 1:15 PM
+
+To:
+ Traci Wood (Southeast) <
+twood2@usd259.net
+>; Patty Leary <
+pleary@usd259.net
+>
+
+Cc:
+ NSTech <
+nstech@usd259.net
+>
+
+Subject:
+ Re: transfer
+
+
+
+PE is showing you receiving zero on the receipt, so I'm assuming that is why it is not in your inventory and you are able to withdrawal.  I did not see that the warehouse sent
+ you a transfer for this either.
+
+
+
+Kammie Anderson
+
+Supervisor
+
+Nutrition Services
+
+
+
+Wichita Public Schools
+
+3850 N. Hydraulic Wichita, KS 67219
+
+P: 316-973-2171
+
+F: 316-973-2162
+
+www.usd259.org/nutrition
+
+
+
+From:
+ Traci Wood (Southeast) <
+twood2@usd259.net
+>
+
+Sent:
+ Tuesday, August 26, 2025 9:19 AM
+
+To:
+ Kammie Anderson (Food Prod) <
+kanderson9@usd259.net
+>; Patty Leary <
+pleary@usd259.net
+>
+
+Cc:
+ NSTech <
+nstech@usd259.net
+>
+
+Subject:
+ Re: transfer
+
+
+
+August 12th
+
+From:
+ Kammie Anderson (Food Prod) <
+kanderson9@usd259.net
+>
+
+Sent:
+ Tuesday, August 26, 2025 9:13 AM
+
+To:
+ Traci Wood (Southeast) <
+twood2@usd259.net
+>; Patty Leary <
+pleary@usd259.net
+>
+
+Cc:
+ NSTech <
+nstech@usd259.net
+>
+
+Subject:
+ Re: transfer
+
+
+
+Traci,
+
+
+
+Do you remember which day you received these?
+
+
+
+
+
+Kammie Anderson
+
+Supervisor
+
+Nutrition Services
+
+
+
+Wichita Public Schools
+
+3850 N. Hydraulic Wichita, KS 67219
+
+P: 316-973-2171
+
+F: 316-973-2162
+
+www.usd259.org/nutrition
+
+
+
+From:
+ Traci Wood (Southeast) <
+twood2@usd259.net
+>
+
+Sent:
+ Monday, August 25, 2025 1:55 PM
+
+To:
+ Patty Leary <
+pleary@usd259.net
+>; Kammie Anderson (Food Prod) <
+kanderson9@usd259.net
+>
+
+Cc:
+ NSTech <
+nstech@usd259.net
+>
+
+Subject:
+ transfer
+
+
+
+I received a case of French toast goldfish, history doesn't show that I used any, but it will not let me withdrawal
+
+--- turn 5 [agent/reply] "customercare@primeroedge.com" <customercare@primeroedge.com>  2025-08-29T12:14:07Z ---
+Good morning,
+
+We will not be making changes to the functionality for transfers or receipts where the warehouse is involved in the transaction.
+
+Sites can not receive items that are not reflected as "Shipped" from the warehouse, and the warehouse must initiate their own Transfer.
+
+There is a perpetual inventory for the warehouse that would be impacted if sites were able to add items that were not on their ship ticket... if all items in the warehouse are "committed" - then there are none (or no extra quantities) available for the site to be able to "add to receipt."
+
+We do allow for a site to receive LESS than the quantity listed on the ship ticket, as there is an allowance for items being damaged en route... and the appropriate adjustments for those scenarios can be performed from within the warehouse distribution.
+
+✅
+ Complete your Year Begin Tasks
+
+✨
+ Explore PrimeroEdge’s fresh look:
+reimagined.primeroedge.com
+
+📘
+ See the
+Navigation
+Guide
+ and latest
+Release Notes
+ in
+RESOURCES
+ (formerly AMIGO)
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click Here
+
+SchoolCafe
+ Training WEBINARS Available:
+Click
+Here
+
+Let us know if you have any questions regarding this ticket by
+replying all to this ticket
+
+Schrenia Bockholt
+ |
+CYBERSOFT
+
+Business Analyst, Product Management
+
+PrimeroEdge
+ |
+SchoolCafé
+
+--- turn 6 [customer/reply] NSTech <nstech@usd259.net>  2025-08-29T12:28:05Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Good morning,
+
+Just to be clear, in this specific example, the product was shipped from CW and was on the pick ticket. The site accidentally didn’t receive it and now can’t change the ticket to add it.
+
+vicki
+
+
+
+
+
+From:
+ customercare@primeroedge.com <customercare@primeroedge.com>
+
+Sent:
+ Friday, August 29, 2025 7:14 AM
+
+To:
+ NSTech <nstech@usd259.net>
+
+Cc:
+ Kammie Anderson (Food Prod) <kanderson9@usd259.net>; Traci Wood (Southeast) <twood2@usd259.net>; Patty Leary <pleary@usd259.net>; Richard Johnson (Food Prod) <rjohnson5@usd259.net>; Kristi Wiseman <kwiseman@usd259.net>; terri.brown@primeroedge.com;
+ Vicki Schumacher <vschumacher@usd259.net>; NSTech <nstech@usd259.net>
+
+Subject:
+ Re: Wichita Public Schools / Transfer enhancement-[#294871]
+
+
+
+[This message came from outside of Wichita Public Schools]
+ Do not reply, open attachments, or click any links in this email
+ unless you validate the sender and know the content is safe.
+
+Good morning,
+
+We will not be making changes to the functionality for transfers or receipts where the warehouse is involved in the transaction.
+
+
+
+Sites can not receive items that are not reflected as "Shipped" from the warehouse, and the warehouse must initiate their own Transfer.
+
+
+
+There is a perpetual inventory for the warehouse that would be impacted if sites were able to add items that were not on their ship ticket... if all items in
+ the warehouse are "committed" - then there are none (or no extra quantities) available for the site to be able to "add to receipt."
+
+
+
+We do allow for a site to receive LESS than the quantity listed on the ship ticket, as there is an allowance for items being damaged en route... and the appropriate
+ adjustments for those scenarios can be performed from within the warehouse distribution.
+
+
+
+
+
+✅
+ Complete your Year Begin Tasks
+
+✨
+ Explore PrimeroEdge’s fresh look:
+
+reimagined.primeroedge.com
+
+📘
+ See the
+
+Navigation Guide
+ and latest
+Release Notes
+ in
+
+RESOURCES
+ (formerly AMIGO)
+
+
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click
+ Here
+
+
+SchoolCafe
+ Training WEBINARS Available:
+
+Click Here
+
+Let us know if you have any questions regarding this ticket by replying all to this ticket
+
+Schrenia Bockholt
+ |
+CYBERSOFT
+
+Business Analyst, Product Management
+
+PrimeroEdge
+ |
+SchoolCafé
+
+On Fri, Aug 29 at 7:11 AM
+
+, Traci Wood (Southeast) <
+twood2@usd259.net
+> wrote:
+
+CAUTION
+: This email originated from outside of the organization. Do not click links
+ or open attachments unless you recognize the sender and know the content is safe.
+
+Thank you
+
+From: Richard Johnson (Food Prod) <
+rjohnson5@usd259.net
+>
+
+Sent:
+ Friday, August 29, 2025 6:16 AM
+
+To:
+ NSTech <
+nstech@usd259.net
+>; Kammie Anderson (Food Prod) <
+kanderson9@usd259.net
+>; Traci Wood (Southeast) <
+twood2@usd259.net
+>;
+ Patty Leary <
+pleary@usd259.net
+>; Primero Edge Support <
+customercare@primeroedge.com
+>; Kristi Wiseman <
+kwiseman@usd259.net
+>
+
+Cc:
+ Terri Brown <
+terri.brown@primeroedge.com
+>
+
+Subject:
+ RE: transfer
+
+
+
+Here is the transfer.
+
+
+
+Richard Johnson
+
+Supervisor, Warehouse and Delivery
+
+
+
+From:
+ NSTech <
+nstech@usd259.net
+>
+
+Sent:
+ Thursday, August 28, 2025 4:47 PM
+
+To:
+ Kammie Anderson (Food Prod) <
+kanderson9@usd259.net
+>; Traci Wood (Southeast) <
+twood2@usd259.net
+>; Patty Leary <
+pleary@usd259.net
+>;
+ Richard Johnson (Food Prod) <
+rjohnson5@usd259.net
+>; Primero Edge Support <
+customercare@primeroedge.com
+>; Kristi Wiseman <
+kwiseman@usd259.net
+>
+
+Cc:
+ Terri Brown <
+terri.brown@primeroedge.com
+>
+
+Subject:
+ Re: transfer
+
+
+
+This is one of the issues we have with not being able to add to an order. Since it was entered as 0 (or not entered, which defaults to 0) on the initial ticket,
+ it will not allow an addition. I am adding PE support to this email as more documentation to our request for enhancement of this feature.
+
+
+
+You can't do a new receipt either. CW will have to do a transfer. Adding RJ, also.
+
+RJ - please transfer 1 case of 44120 to SE dated 8/12.
+
+
+
+PE - please add to ticket requesting enhancement for adjusting quantities on receipts.
+
+
+
+
+
+NS Technology Group
+
+
+
+Nutrition Services
+
+Wichita Public Schools
+
+3850 N. Hydraulic | Wichita, KS | 67219
+
+P:  316-973-2160
+
+F:  316-973-2162
+
+www.usd259.org/nutrition
+
+www.usd259.org/KidsEat
+
+
+
+
+
+
+
+From:
+ Kammie Anderson (Food Prod) <
+kanderson9@usd259.net
+>
+
+Sent:
+ Tuesday, August 26, 2025 1:40 PM
+
+To:
+ Traci Wood (Southeast) <
+twood2@usd259.net
+>; Patty Leary <
+pleary@usd259.net
+>
+
+Cc:
+ NSTech <
+nstech@usd259.net
+>
+
+Subject:
+ Re: transfer
+
+
+
+I just re-opened the order (PE49980).
+
+
+
+Kristi/Vicki - Can you tell me how to edit the qty received for this item?  Do I "Create a New Receipt"?
+
+
+
+Thanks!
+
+
+
+Kammie Anderson
+
+Supervisor
+
+Nutrition Services
+
+
+
+Wichita Public Schools
+
+3850 N. Hydraulic Wichita, KS 67219
+
+P: 316-973-2171
+
+F: 316-973-2162
+
+www.usd259.org/nutrition
+
+
+
+From:
+ Traci Wood (Southeast) <
+twood2@usd259.net
+>
+
+Sent:
+ Tuesday, August 26, 2025 1:35 PM
+
+To:
+ Kammie Anderson (Food Prod) <
+kanderson9@usd259.net
+>; Patty Leary <
+pleary@usd259.net
+>
+
+Cc:
+ NSTech <
+nstech@usd259.net
+>
+
+Subject:
+ Re: transfer
+
+
+
+Sorry I see now did you add them for me?
+
+From:
+ Kammie Anderson (Food Prod) <
+kanderson9@usd259.net
+>
+
+Sent:
+ Tuesday, August 26, 2025 1:33 PM
+
+To:
+ Traci Wood (Southeast) <
+twood2@usd259.net
+>; Patty Leary <
+pleary@usd259.net
+>
+
+Cc:
+ NSTech <
+nstech@usd259.net
+>
+
+Subject:
+ Re: transfer
+
+
+
+The middle column is the Qty Received (whole and broken).  The first column is Qty Ordered and last column is Qty Due.  You will need to re-open and receive this
+ item if you are able.
+🙂
+
+
+
+
+
+Kammie Anderson
+
+Supervisor
+
+Nutrition Services
+
+
+
+Wichita Public Schools
+
+3850 N. Hydraulic Wichita, KS 67219
+
+P: 316-973-2171
+
+F: 316-973-2162
+
+www.usd259.org/nutrition
+
+
+
+From:
+ Traci Wood (Southeast) <
+twood2@usd259.net
+>
+
+Sent:
+ Tuesday, August 26, 2025 1:30 PM
+
+To:
+ Kammie Anderson (Food Prod) <
+kanderson9@usd259.net
+>; Patty Leary <
+pleary@usd259.net
+>
+
+Cc:
+ NSTech <
+nstech@usd259.net
+>
+
+Subject:
+ Re: transfer
+
+
+
+That is broken unit in the whole unit it says 1
+
+From:
+ Kammie Anderson (Food Prod) <
+kanderson9@usd259.net
+>
+
+Sent:
+ Tuesday, August 26, 2025 1:15 PM
+
+To:
+ Traci Wood (Southeast) <
+twood2@usd259.net
+>; Patty Leary <
+pleary@usd259.net
+>
+
+Cc:
+ NSTech <
+nstech@usd259.net
+>
+
+Subject:
+ Re: transfer
+
+
+
+PE is showing you receiving zero on the receipt, so I'm assuming that is why it is not in your inventory and you are able to withdrawal.  I did not see that the
+ warehouse sent you a transfer for this either.
+
+
+
+Kammie Anderson
+
+Supervisor
+
+Nutrition Services
+
+
+
+Wichita Public Schools
+
+3850 N. Hydraulic Wichita, KS 67219
+
+P: 316-973-2171
+
+F: 316-973-2162
+
+www.usd259.org/nutrition
+
+
+
+From:
+ Traci Wood (Southeast) <
+twood2@usd259.net
+>
+
+Sent:
+ Tuesday, August 26, 2025 9:19 AM
+
+To:
+ Kammie Anderson (Food Prod) <
+kanderson9@usd259.net
+>; Patty Leary <
+pleary@usd259.net
+>
+
+Cc:
+ NSTech <
+nstech@usd259.net
+>
+
+Subject:
+ Re: transfer
+
+
+
+August 12th
+
+From:
+ Kammie Anderson (Food Prod) <
+kanderson9@usd259.net
+>
+
+Sent:
+ Tuesday, August 26, 2025 9:13 AM
+
+To:
+ Traci Wood (Southeast) <
+twood2@usd259.net
+>; Patty Leary <
+pleary@usd259.net
+>
+
+Cc:
+ NSTech <
+nstech@usd259.net
+>
+
+Subject:
+ Re: transfer
+
+
+
+Traci,
+
+
+
+Do you remember which day you received these?
+
+
+
+
+
+Kammie Anderson
+
+Supervisor
+
+Nutrition Services
+
+
+
+Wichita Public Schools
+
+3850 N. Hydraulic Wichita, KS 67219
+
+P: 316-973-2171
+
+F: 316-973-2162
+
+www.usd259.org/nutrition
+
+
+
+From:
+ Traci Wood (Southeast) <
+twood2@usd259.net
+>
+
+Sent:
+ Monday, August 25, 2025 1:55 PM
+
+To:
+ Patty Leary <
+pleary@usd259.net
+>; Kammie Anderson (Food Prod) <
+kanderson9@usd259.net
+>
+
+Cc:
+ NSTech <
+nstech@usd259.net
+>
+
+Subject:
+ transfer
+
+
+
+I received a case of French toast goldfish, history doesn't show that I used any, but it will not let me withdrawal
+
+294871:507611
+
+--- turn 7 [agent/reply] "customercare@primeroedge.com" <customercare@primeroedge.com>  2025-09-02T11:36:33Z ---
+Hello ,
+
+If the item is on the delivery ticket, then it means it was sent from the warehouse and the site does not need to add it... it should be on the receipt page when the user clicks on it.
+
+Example:
+
+Order placed, and site did not order oranges, so they are not on the original order.
+
+Warehouse picked AND marked Oranges as shipped to this site.
+
+Clicking on "Receipt" at the site to receive that order will list the oranges - the "Ordered" quantity will show zero, but there will be column to confirm receipt of the shipped quantity.
+
+I'm attaching a 2 1/2 minute video where I performed the process on the training site so that you can see the steps and the manner in which it appears.
+
+✅
+ Complete your Year Begin Tasks
+
+✨
+ Explore PrimeroEdge’s fresh look:
+reimagined.primeroedge.com
+
+📘
+ See the
+Navigation
+Guide
+ and latest
+Release Notes
+ in
+RESOURCES
+ (formerly AMIGO)
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click Here
+
+SchoolCafe
+ Training WEBINARS Available:
+Click
+Here
+
+Let us know if you have any questions regarding this ticket by
+replying all to this ticket
+
+Schrenia Bockholt
+ |
+CYBERSOFT
+
+Business Analyst, Product Management
+
+PrimeroEdge
+ |
+SchoolCafé
+
+--- turn 8 [customer/reply] NSTech <nstech@usd259.net>  2025-09-05T17:41:58Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+I don't think we are on the same page here yet.
+
+The site ordered the item.
+
+The warehouse shipped the item.
+
+The item was on the ticket.
+
+The site received 0 for the item.
+
+The site closed the ticket.
+
+The site re-opened the ticket
+
+The item is no longer listed on the ticket.
+
+The site can't receive the item.
+
+The site has the item but not in inventory.
+
+NS Technology Group
+
+Nutrition Services
+
+Wichita Public Schools
+
+3850 N. Hydraulic | Wichita, KS | 67219
+
+P:  316-973-2160
+
+F:  316-973-2162
+
+www.usd259.org/nutrition
+
+www.usd259.org/KidsEat
+
+From: customercare@primeroedge.com <customercare@primeroedge.com>
+
+Sent:
+ Friday, September 5, 2025 7:16 AM
+
+To:
+ NSTech <nstech@usd259.net>
+
+Subject:
+ Ticket awaiting your response - [#294871] - Wichita Public Schools / Transfer enhancement
+
+
+
+[This message came from outside of Wichita Public Schools]
+
+Do not reply, open attachments, or click any links in this email unless you validate the sender and know the content is safe.
+
+Hello NSTech,
+
+
+
+Please read the full details of this email.  The additional information we are needing or providing is located towards the bottom in the information needed or provided section.
+
+This
+ automated email is to let you know that we are awaiting your response from you on the following ticket:
+
+
+
+
+Ticket Number: 294871
+
+Subject: Wichita Public Schools / Transfer enhancement
+
+Kindly review the additional clarification given or reply back with the necessary requested information below so we can continue to work on the issue.
+
+Information needed or provided:
+
+Schrenia Bockholt :
+
+Hello ,
+
+If the item is on the delivery ticket, then it means it was sent from the warehouse and the site does not need to add it... it should be on the receipt page when the user clicks on it.
+
+Example:
+
+Order placed, and site did not order oranges, so they are not on the original order.
+
+Warehouse picked AND marked Oranges as shipped to this site.
+
+Clicking on 'Receipt' at the site to receive that order will list the oranges - the 'Ordered' quantity will show zero, but there will be column to confirm receipt of the shipped quantity.
+
+I'm attaching a 2 1/2 minute video where I performed the process on the training site so that you can see the steps and the manner in which it appears.
+
+✅
+ Complete your Year Begin Tasks
+
+✨
+ Explore PrimeroEdge’s fresh look:
+
+reimagined.primeroedge.com
+
+📘
+ See the
+
+NavigationGuide
+ and latest
+Release Notes
+ in
+
+RESOURCES
+ (formerly AMIGO)
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click
+ Here
+
+SchoolCafe
+ Training WEBINARS Available:
+
+ClickHere
+
+Let us know if you have any questions regarding this ticket byreplying all to this ticket
+
+Schrenia Bockholt
+ |
+CYBERSOFT
+
+Business Analyst, Product Management
+
+PrimeroEdge
+ |
+SchoolCafé
+
+Attachments :1.
+
+WichitaPS Sep02_2025.mp4
+
+Thank you,
+
+Cybersoft PrimeroEdge Support Team
+
+--- turn 9 [agent/reply] "customercare@primeroedge.com" <customercare@primeroedge.com>  2025-09-05T18:22:14Z ---
+Hello,
+
+So it sounds as though the issue is that the site confirmed receiving zero quantity of the item that was indeed shipped.
+
+The person receiving the product needs to make sure to confirm their items correctly, and yes, in the meantime, the only way to remedy the counts correctly would be to transfer the item from the warehouse to the site.
+
+Thank you for the clarification.
+
+✅
+ Complete your Year Begin Tasks
+
+✨
+ Explore PrimeroEdge’s fresh look:
+reimagined.primeroedge.com
+
+📘
+ See the
+Navigation
+Guide
+ and latest
+Release Notes
+ in
+RESOURCES
+ (formerly AMIGO)
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click Here
+
+SchoolCafe
+ Training WEBINARS Available:
+Click
+Here
+
+Let us know if you have any questions regarding this ticket by
+replying all to this ticket
+
+Schrenia Bockholt
+ |
+CYBERSOFT
+
+Business Analyst, Product Management
+
+PrimeroEdge
+ |
+SchoolCafé
+
+--- turn 10 [customer/reply] NSTech <nstech@usd259.net>  2025-09-05T18:44:59Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Ok, now that we are on the same page, lol, good thing it’s Friday!!!...
+
+
+
+Back to my original point – It would be way less hassle if a site could just remedy the mistake by adding it to their receipt.
+
+😊
+
+
+
+Thanks for listening!
+
+Have a great weekend - Vicki
+
+
+
+From:
+ customercare@primeroedge.com <customercare@primeroedge.com>
+
+Sent:
+ Friday, September 5, 2025 1:22 PM
+
+To:
+ NSTech <nstech@usd259.net>
+
+Cc:
+ Kammie Anderson (Food Prod) <kanderson9@usd259.net>; Traci Wood (Southeast) <twood2@usd259.net>; Patty Leary <pleary@usd259.net>; Richard Johnson (Food Prod) <rjohnson5@usd259.net>; Kristi Wiseman <kwiseman@usd259.net>; terri.brown@primeroedge.com;
+ Vicki Schumacher <vschumacher@usd259.net>
+
+Subject:
+ Re: Wichita Public Schools / Transfer enhancement-[#294871]
+
+
+
+[This message came from outside of Wichita Public Schools]
+ Do not reply, open attachments, or click any links in this email
+ unless you validate the sender and know the content is safe.
+
+Hello,
+
+So it sounds as though the issue is that the site confirmed receiving zero quantity of the item that was indeed shipped.
+
+The person receiving the product needs to make sure to confirm their items correctly, and yes, in the meantime, the only way to remedy the counts correctly would
+ be to transfer the item from the warehouse to the site.
+
+Thank you for the clarification.
+
+
+
+
+
+✅
+ Complete your Year Begin Tasks
+
+✨
+ Explore PrimeroEdge’s fresh look:
+
+reimagined.primeroedge.com
+
+📘
+ See the
+
+Navigation Guide
+ and latest
+Release Notes
+ in
+
+RESOURCES
+ (formerly AMIGO)
+
+
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click
+ Here
+
+
+SchoolCafe
+ Training WEBINARS Available:
+
+Click Here
+
+Let us know if you have any questions regarding this ticket by replying all to this ticket
+
+Schrenia Bockholt
+ |
+CYBERSOFT
+
+Business Analyst, Product Management
+
+PrimeroEdge
+ |
+SchoolCafé
+
+On Fri, Sep 5 at 12:41 PM
+
+, NSTech <
+nstech@usd259.net
+> wrote:
+
+CAUTION
+: This email originated from outside of the organization. Do not click links
+ or open attachments unless you recognize the sender and know the content is safe.
+
+I don't think we are on the same page here yet.
+
+
+
+The site ordered the item.
+
+The warehouse shipped the item.
+
+The item was on the ticket.
+
+The site received 0 for the item.
+
+The site closed the ticket.
+
+The site re-opened the ticket
+
+The item is no longer listed on the ticket.
+
+The site can't receive the item.
+
+The site has the item but not in inventory.
+
+
+
+
+
+NS Technology Group
+
+
+
+Nutrition Services
+
+Wichita Public Schools
+
+3850 N. Hydraulic | Wichita, KS | 67219
+
+P:  316-973-2160
+
+F:  316-973-2162
+
+www.usd259.org/nutrition
+
+www.usd259.org/KidsEat
+
+
+
+
+
+From:
+
+customercare@primeroedge.com
+ <
+customercare@primeroedge.com
+>
+
+Sent:
+ Friday, September 5, 2025 7:16 AM
+
+To:
+ NSTech <
+nstech@usd259.net
+>
+
+Subject:
+ Ticket awaiting your response - [#294871] - Wichita Public Schools / Transfer enhancement
+
+
+
+[This message came from outside of Wichita Public Schools]
+
+Do not reply, open attachments, or click any links in this email unless you validate the sender and know the content is safe.
+
+Hello NSTech,
+
+
+
+Please read the full details of this email.  The additional information we are needing or providing is located towards the bottom in the information needed or provided section.
+
+
+
+This automated email is to let you know that we are awaiting your response from you on the following ticket:
+
+
+
+
+Ticket Number: 294871
+
+Subject: Wichita Public Schools / Transfer enhancement
+
+Kindly review the additional clarification given or reply back with the necessary requested information below so we can continue to work on the issue.
+
+Information needed or provided:
+
+Schrenia Bockholt :
+
+Hello ,
+
+If the item is on the delivery ticket, then it means it was sent from the warehouse and the site does not need to add it... it should be on the receipt page when the user
+ clicks on it.
+
+
+
+Example:
+
+Order placed, and site did not order oranges, so they are not on the original order.
+
+Warehouse picked AND marked Oranges as shipped to this site.
+
+Clicking on 'Receipt' at the site to receive that order will list the oranges - the 'Ordered' quantity will show zero, but there will be column to confirm receipt of the shipped
+ quantity.
+
+
+
+I'm attaching a 2 1/2 minute video where I performed the process on the training site so that you can see the steps and the manner in which it appears.
+
+
+
+
+
+✅
+ Complete your Year Begin Tasks
+
+✨
+ Explore PrimeroEdge’s fresh look:
+
+reimagined.primeroedge.com
+
+📘
+ See the
+
+NavigationGuide
+ and latest
+
+Release Notes
+ in
+
+RESOURCES
+ (formerly AMIGO)
+
+
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click
+ Here
+
+
+SchoolCafe
+ Training WEBINARS Available:
+
+ClickHere
+
+Let us know if you have any questions regarding this ticket byreplying all to this ticket
+
+Schrenia Bockholt
+ |
+CYBERSOFT
+
+Business Analyst, Product Management
+
+PrimeroEdge
+ |
+SchoolCafé
+
+Attachments :1.
+
+WichitaPS Sep02_2025.mp4
+
+
+
+Thank you,
+
+Cybersoft PrimeroEdge Support Team
+
+
+
+294871:507611
+
+
+==========================================================================================
+TICKET 294892  |  PR 15.14-PBI 108521-PE Implementation - Texarkana ISD - "Confirm Transfer" button is not disabled once the transfer has been sent
+==========================================================================================
+
+--- turn 0 [customer/description] Lindsey Douglass <lindsey.douglass@txkisd.net>  2025-08-29T13:02:50Z ---
+District is running into an issue when they transfer items and they click the "confirm transfer" button.
+
+Once the button is clicked, it isn't disabled or grayed out, which makes it seem like it didn't work so it gets clicked multiple times and causes multiple transfers.
+
+The "confirm transfer" button also reappears once they try to print the ticket as well.
+
+--- turn 1 [agent/private_note] agent:22001284891  2025-08-29T13:03:56Z ---
+These are the steps that the customer took:
+
+Here is the transfer duplication example. It has the "confirm transfer" button, but I do see that the status is sent. If we do not notice that (this is the first time I noticed the status), the status is sent, we will click the confirm button again.
+
+
+
+The transaction is in the transfer list (PE1565):
+
+
+
+The transaction is not in the withdrawals list:
+
+
+
+I clicked confirm again. It says the status is sent:
+
+I clicked print transfer ticket, and then it gave me the option to confirm transfer again:
+
+--- turn 2 [agent/reply] "customercare@primeroedge.com" <customercare@primeroedge.com>  2025-08-29T17:12:22Z ---
+Hello Lindsey,
+
+Currently there is a setting which requires approval for all transfers for a receiving site.  When a site creates a transfer it is withdrawn out of their perpetual inventory, but the receiving site must also receive the items for it to complete the transfer and be added into their inventory.   This process is the same for all sites including the warehouse.
+
+I did a test in your UAT site and sent an item from the warehouse to Bloomburg.  The screenshot below is what appears after the warehouse completes the transfer.  The transfer still needs to be approved.
+
+✅
+ Complete your Year Begin Tasks
+
+✨
+ Explore PrimeroEdge’s fresh look:
+reimagined.primeroedge.com
+
+📘
+ See the
+Navigation
+Guide
+ and latest
+Release Notes
+ in
+RESOURCES
+ (formerly AMIGO)
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click Here
+
+SchoolCafe
+ Training WEBINARS Available:
+Click
+Here
+
+Let us know if you have any questions regarding this ticket by
+replying all to this ticket
+
+Jaime Lawrence
+
+Customer Success Manager
+
+Ph: 281.453.8592
+
+Email |
+
+customersuccess@primeroedge.com
+
+We help school nutrition professionals achieve excellence
+
+--- turn 3 [customer/reply] Lindsey Douglass <lindsey.douglass@txkisd.net>  2025-09-02T14:21:28Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Good morning,
+
+Yes, I am aware that the receiving site needs to approve the transfer. However, this information does not resolve the issue:
+
+On Fri, Aug 29, 2025 at 12:12 PM
+
+customercare@primeroedge.com
+ <
+customercare@primeroedge.com
+> wrote:
+
+Hello Lindsey,
+
+Currently there is a setting which requires approval for all transfers for a receiving site.  When a site creates a transfer it is withdrawn out of their perpetual inventory, but the receiving site must also receive the items for it to complete
+ the transfer and be added into their inventory.   This process is the same for all sites including the warehouse.
+
+I did a test in your UAT site and sent an item from the warehouse to Bloomburg.  The screenshot below is what appears after the warehouse completes the transfer.  The transfer still needs to be approved.
+
+✅
+ Complete your Year Begin Tasks
+
+✨
+ Explore PrimeroEdge’s fresh look:
+
+reimagined.primeroedge.com
+
+📘
+ See the
+
+Navigation Guide
+ and latest
+
+Release Notes
+ in
+
+RESOURCES
+ (formerly AMIGO)
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click
+ Here
+
+
+SchoolCafe
+ Training WEBINARS Available:
+
+Click Here
+
+Let us know if you have any questions regarding this ticket by replying all to this ticket
+
+Jaime Lawrence
+
+Customer Success Manager
+
+Ph: 281.453.8592
+
+Email |
+
+customersuccess@primeroedge.com
+
+We help school nutrition professionals achieve excellence
+
+On Fri, Aug 29 at 8:02 AM
+, Lindsey Douglass <
+lindsey.douglass@txkisd.net
+> wrote:
+
+District is running into an issue when they transfer items and they click the "confirm transfer" button.
+
+Once the button is clicked, it isn't disabled or grayed out, which makes it seem like it didn't work so it gets clicked multiple times and causes multiple transfers.
+
+The "confirm transfer" button also reappears once they try to print the ticket as well.
+
+--
+
+Lindsey Douglass
+
+Child Nutrition Inventory Control Specialist
+
+Texarkana Independent School District
+
+1600 Waterall Texarkana, TX 75503
+
+903.792.2231 Ext 1974
+
+--- turn 4 [agent/reply] "customercare@primeroedge.com" <customercare@primeroedge.com>  2025-09-02T17:48:59Z ---
+Hello Lindsey,
+
+I discussed with Sam to clarify and I want to confirm - you're not reporting a bug, but you're wanting to submit an enhancement request, correct?  You would like for the "Confirm Transfer" button to be disabled after the sending site has completed the transfer?  Is that correct?
+
+✅
+ Complete your Year Begin Tasks
+
+✨
+ Explore PrimeroEdge’s fresh look:
+reimagined.primeroedge.com
+
+📘
+ See the
+Navigation
+Guide
+ and latest
+Release Notes
+ in
+RESOURCES
+ (formerly AMIGO)
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click Here
+
+SchoolCafe
+ Training WEBINARS Available:
+Click
+Here
+
+Let us know if you have any questions regarding this ticket by
+replying all to this ticket
+
+Jaime Lawrence
+
+Customer Success Manager
+
+Ph: 281.453.8592
+
+Email |
+
+customersuccess@primeroedge.com
+
+We help school nutrition professionals achieve excellence
+
+--- turn 5 [customer/reply] Lindsey Douglass <lindsey.douglass@txkisd.net>  2025-09-08T13:07:42Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Good morning,
+
+I would consider this a bug, but if you would like to think of it as an enhancement request, that would be great.
+
+Thank you.
+
+On Sun, Sep 7, 2025 at 1:16 PM
+
+customercare@primeroedge.com
+ <
+customercare@primeroedge.com
+> wrote:
+
+Hello
+ Lindsey,
+
+
+
+
+Please read the full details of this email.  The additional information or provided information is located towards the bottom in the information needed or provided section.
+
+I know you must be very busy at t
+his time, but we are still awaiting some additional information from you for your ticket below.
+
+
+
+Ticket Number: 294892
+
+Subject: PE Implementation - Texarkana ISD - "Confirm Transfer" button is not disabled once the transfer has been sent
+
+2nd Attempt
+
+
+
+Kindly review the additional clarification given or reply back with the necessary requested information below so we can continue to work on the issue.
+
+Information needed or provided:
+
+Jaime Lawrence :
+
+Hello Lindsey,
+
+I discussed with Sam to clarify and I want to confirm - you're not reporting a bug, but you're wanting to submit an enhancement request, correct?  You would like for the 'Confirm Transfer' button to be disabled after the sending site has completed
+ the transfer?  Is that correct?
+
+✅
+ Complete your Year Begin Tasks
+
+✨
+ Explore PrimeroEdge’s fresh look:
+
+reimagined.primeroedge.com
+
+📘
+ See the
+
+NavigationGuide
+ and latest
+Release Notes
+ in
+
+RESOURCES
+ (formerly AMIGO)
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click
+ Here
+
+SchoolCafe
+ Training WEBINARS Available:
+
+ClickHere
+
+Let us know if you have any questions regarding this ticket byreplying all to this ticket
+
+Jaime Lawrence
+
+Customer Success Manager
+
+Ph: 281.453.8592
+
+Email |
+
+customersuccess@primeroedge.com
+
+We help school nutrition professionals achieve excellence
+
+Thank you,
+
+Cybersoft PrimeroEdge Support Team
+
+--
+
+Lindsey Douglass
+
+Child Nutrition Inventory Control Specialist
+
+Texarkana Independent School District
+
+1600 Waterall Texarkana, TX 75503
+
+903.792.2231 Ext 1974
+
+--- turn 6 [agent/private_note] agent:22010986567  2025-09-08T14:37:27Z ---
+Please see note from district.  Looks to me like an enhancement, but they're reporting as a bug.
+
+--- turn 7 [agent/private_note] agent:22001856315  2025-09-08T17:00:56Z ---
+District is running into an issue when they transfer items, and they click the "confirm transfer" button. Once the button is clicked, it isn't disabled or grayed out, which makes it seem like it didn't work, so it gets clicked multiple times and causes multiple transfers.The "confirm transfer" button also reappears once they try to print the ticket as well. Can this button be disabled or a notification added once the button has already been pushed?
+
+--- turn 8 [agent/private_note] agent:22003423909  2025-09-17T14:01:02Z ---
+Hi Michael, I thought you addressed this issue recently , could you please review this. Thanks.
+
+--- turn 9 [agent/private_note] agent:22003349708  2025-09-17T17:09:12Z ---
+We added a check on the button that creates the transfer. We didn't do anything with the approve button.
+
+--- turn 10 [agent/private_note] agent:22003349708  2025-09-17T21:21:27Z ---
+PBI #108521
+
+--- turn 11 [agent/reply] "customercare@primeroedge.com" <customercare@primeroedge.com>  2026-01-26T16:39:43Z ---
+Hello Lindsey,
+
+The version containing the update needed for this ticket has been released, so this should now be resolved. However, just to ensure please test yourself and let us know if anything else is needed.
+
+Thank you for your patience. We are always here to assist!
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click Here
+
+SchoolCafe
+ Training WEBINARS Available:
+Click Here
+
+Let us know if you have any questions regarding this ticket by
+replying all to this ticket
+
+Thank you,
+
+Jared Bell |
+
+CYBERSOFT
+
+Region Lead, Customer and Expert Care
+
+Support: 866.442.6030 | Email:
+customercare@primeroedge.com
+
+Primero
+Edge
+ |
+SchoolCafé
+
+See availability and schedule appointments directly to my calendar using Calendly:
+Book Now
+
+Let’s Chat
+ …Send an email to
+customercare@primeroedge.com
+ to enable your PrimeroEdge support
+LIVE CHAT
+ feature!
+
+Get ready for back to school with a refresher training check out
+
+PrimeroEdge Academy
+
+
+==========================================================================================
+TICKET 300796  |  OL3 - Colonial SD - Transfer and receive
+==========================================================================================
+
+--- turn 0 [customer/description] Laureen (Reenie) Briody <laureen.briody@colonial.k12.de.us>  2025-10-09T17:16:50Z ---
+Hi!
+
+
+
+When a school transfers a case of a food item to another school, does the receiving school need to “receive in” the case or does it automatically enter the receiving schools inventory?
+
+
+
+Will this received item automatically show on inventory on hand for the receiving school?
+
+
+
+Thank you!
+
+
+
+Reenie
+
+Reenie Briody, MBA, RD, LDN, SNS
+
+Nutrition Services Operations Associate
+
+Colonial School District
+
+318 East Basin Road
+
+New Castle, DE 19720
+
+302-323-2743
+
+laureen.briody@colonial.k12.de.us
+
+Colonial School Menus
+
+--- turn 1 [agent/reply] "customercare@primeroedge.com" <customercare@primeroedge.com>  2025-10-09T17:45:38Z ---
+Hello Briody,
+
+After reviewing your settings, you do not require approval for receiving transfers.
+
+So once, you click "Transfer Items", the system will immediately, take it of your inventory and put it in theirs.
+
+If need be, we show you how to change that setting to require approval.
+
+✅
+ Complete your Year Begin Tasks
+
+✨
+ Explore PrimeroEdge’s fresh look:
+reimagined.primeroedge.com
+
+📘
+ See the
+Navigation
+Guide
+ and latest
+Release Notes
+ in
+RESOURCES
+ (formerly AMIGO)
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click Here
+
+SchoolCafe
+ Training WEBINARS Available:
+Click Here
+
+Let us know if you have any questions regarding this ticket by
+replying all to this ticket
+
+Christopher Rios
+
+Customer Care Specialist, Customer Care
+|
+CYBERSOFT
+
+
+call:
+866.442.6030
+
+email:
+customercare@primeroedge.com
+
+
+www.primeroedge.com
+
+YOUR GOALS ARE OUR GOALS.
+
+Let’s Chat
+
+…Send an email to
+CustomerCare@primeroedge.com
+ to enable your PrimeroEdge support
+LIVE CHAT
+ feature
+
+Check out our refresher training courses in the
+
+PrimeroEdge Academy
+
+--- turn 2 [customer/reply] Laureen (Reenie) Briody <laureen.briody@colonial.k12.de.us>  2025-10-09T17:46:38Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Ok, thank you!
+
+
+
+From:
+ customercare@primeroedge.com <customercare@primeroedge.com>
+
+Sent:
+ Thursday, October 9, 2025 1:46 PM
+
+To:
+ Briody Laureen <Laureen.Briody@colonial.k12.de.us>
+
+Subject:
+ [External] Re: OL3 - Colonial SD - Transfer and receive-[#300796]
+
+
+
+
+
+WARNING:
+
+External Email -
+T
+his
+ email originated outside of the State email system.
+
+DO NOT CLICK
+ links or attachments unless you recognize the sender and
+are expecting
+ the email.
+
+
+
+Hello Briody,
+
+After reviewing your settings, you do not require approval for receiving transfers.
+
+So once, you click "Transfer Items", the system will immediately, take it of your inventory and put it in theirs.
+
+If need be, we show you how to change that setting to require approval.
+
+
+
+✅
+ Complete your Year Begin Tasks
+
+✨
+ Explore PrimeroEdge’s fresh look:
+
+reimagined.primeroedge.com
+
+📘
+ See the
+
+Navigation Guide
+ and latest
+Release Notes
+ in
+
+RESOURCES
+ (formerly AMIGO)
+
+
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click
+ Here
+
+
+SchoolCafe
+ Training WEBINARS Available:
+Click
+ Here
+
+Let us know if you have any questions regarding this ticket by replying all to this ticket
+
+Christopher Rios
+
+Customer Care Specialist, Customer Care
+|
+CYBERSOFT
+
+call:
+866.442.6030
+
+email:
+customercare@primeroedge.com
+
+
+www.primeroedge.com
+
+YOUR GOALS ARE OUR GOALS.
+
+Let’s Chat
+ …Send an email to
+CustomerCare@primeroedge.com
+ to
+ enable your PrimeroEdge support
+LIVE CHAT
+ feature
+
+Check out our refresher training courses in the
+PrimeroEdge
+ Academy
+
+
+On Thu, Oct 9 at 12:16 PM
+
+, Briody Laureen <
+laureen.briody@colonial.k12.de.us
+> wrote:
+
+Hi!
+
+
+
+When a school transfers a case of a food item to another school, does the receiving school need to “receive in” the case or does it automatically enter the receiving schools
+ inventory?
+
+
+
+Will this received item automatically show on inventory on hand for the receiving school?
+
+
+
+Thank you!
+
+
+
+Reenie
+
+Reenie Briody, MBA, RD, LDN, SNS
+
+Nutrition Services Operations Associate
+
+Colonial School District
+
+318 East Basin Road
+
+New Castle, DE 19720
+
+302-323-2743
+
+laureen.briody@colonial.k12.de.us
+
+Colonial School Menus
+
+
+
+300796:507611
+
+--- turn 3 [agent/reply] "customercare@primeroedge.com" <customercare@primeroedge.com>  2025-10-09T17:48:11Z ---
+Hello Briody,
+
+May I close this ticket?
+
+✅
+ Complete your Year Begin Tasks
+
+✨
+ Explore PrimeroEdge’s fresh look:
+reimagined.primeroedge.com
+
+📘
+ See the
+Navigation
+Guide
+ and latest
+Release Notes
+ in
+RESOURCES
+ (formerly AMIGO)
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click Here
+
+SchoolCafe
+ Training WEBINARS Available:
+Click Here
+
+Let us know if you have any questions regarding this ticket by
+replying all to this ticket
+
+Christopher Rios
+
+Customer Care Specialist, Customer Care
+|
+CYBERSOFT
+
+
+call:
+866.442.6030
+
+email:
+customercare@primeroedge.com
+
+
+www.primeroedge.com
+
+YOUR GOALS ARE OUR GOALS.
+
+Let’s Chat
+
+…Send an email to
+CustomerCare@primeroedge.com
+ to enable your PrimeroEdge support
+LIVE CHAT
+ feature
+
+Check out our refresher training courses in the
+
+PrimeroEdge Academy
+
+--- turn 4 [customer/reply] Laureen (Reenie) Briody <laureen.briody@colonial.k12.de.us>  2025-10-09T18:05:59Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Yes
+
+
+
+From:
+ customercare@primeroedge.com <customercare@primeroedge.com>
+
+Sent:
+ Thursday, October 9, 2025 1:48 PM
+
+To:
+ Briody Laureen <Laureen.Briody@colonial.k12.de.us>
+
+Subject:
+ [External] Re: OL3 - Colonial SD - Transfer and receive-[#300796]
+
+
+
+
+
+WARNING:
+
+External Email -
+T
+his
+ email originated outside of the State email system.
+
+DO NOT CLICK
+ links or attachments unless you recognize the sender and
+are expecting
+ the email.
+
+
+
+Hello Briody,
+
+May I close this ticket?
+
+
+
+
+
+✅
+ Complete your Year Begin Tasks
+
+✨
+ Explore PrimeroEdge’s fresh look:
+
+reimagined.primeroedge.com
+
+📘
+ See the
+
+Navigation Guide
+ and latest
+Release Notes
+ in
+
+RESOURCES
+ (formerly AMIGO)
+
+
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click
+ Here
+
+
+SchoolCafe
+ Training WEBINARS Available:
+Click
+ Here
+
+Let us know if you have any questions regarding this ticket by replying all to this ticket
+
+Christopher Rios
+
+Customer Care Specialist, Customer Care
+|
+CYBERSOFT
+
+call:
+866.442.6030
+
+email:
+customercare@primeroedge.com
+
+
+www.primeroedge.com
+
+YOUR GOALS ARE OUR GOALS.
+
+Let’s Chat
+ …Send an email to
+CustomerCare@primeroedge.com
+ to
+ enable your PrimeroEdge support
+LIVE CHAT
+ feature
+
+Check out our refresher training courses in the
+PrimeroEdge
+ Academy
+
+
+On Thu, Oct 9 at 12:46 PM
+
+, Briody Laureen <
+laureen.briody@colonial.k12.de.us
+> wrote:
+
+CAUTION
+: This email originated from outside of the organization. Do not click links
+ or open attachments unless you recognize the sender and know the content is safe.
+
+Ok, thank you!
+
+
+
+From:
+
+customercare@primeroedge.com
+ <
+customercare@primeroedge.com
+>
+
+Sent:
+ Thursday, October 9, 2025 1:46 PM
+
+To:
+ Briody Laureen <
+Laureen.Briody@colonial.k12.de.us
+>
+
+Subject:
+ [External] Re: OL3 - Colonial SD - Transfer and receive-[#300796]
+
+
+
+
+
+WARNING:
+
+External
+ Email -
+T
+his email originated outside of the State email system.
+
+DO NOT CLICK
+ links or attachments unless you recognize the sender and
+are expecting
+ the email.
+
+
+
+Hello Briody,
+
+
+
+After reviewing your settings, you do not require approval for receiving transfers.
+
+So once, you click "Transfer Items", the system will immediately, take it of your inventory and put it in theirs.
+
+If need be, we show you how to change that setting to require approval.
+
+
+
+✅
+ Complete your Year Begin Tasks
+
+✨
+ Explore PrimeroEdge’s fresh look:
+
+reimagined.primeroedge.com
+
+📘
+ See the
+
+Navigation Guide
+ and latest
+
+Release Notes
+ in
+
+RESOURCES
+ (formerly AMIGO)
+
+
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click
+ Here
+
+
+SchoolCafe
+ Training WEBINARS Available:
+Click
+ Here
+
+
+Let us know if you have any questions regarding this ticket by replying all to this ticket
+
+
+
+Christopher Rios
+
+Customer Care Specialist, Customer Care
+|
+CYBERSOFT
+
+call:
+866.442.6030
+
+email:
+customercare@primeroedge.com
+
+
+www.primeroedge.com
+
+YOUR GOALS ARE OUR GOALS.
+
+Let’s Chat
+ …Send an email to
+CustomerCare@primeroedge.com
+ to
+ enable your PrimeroEdge support
+LIVE CHAT
+ feature
+
+Check out our refresher training courses in the
+PrimeroEdge
+ Academy
+
+
+On Thu, Oct 9 at 12:16 PM
+
+, Briody Laureen <
+laureen.briody@colonial.k12.de.us
+> wrote:
+
+Hi!
+
+
+
+When a school transfers a case of a food item to another school, does the receiving school need to “receive in” the case or does it automatically enter the receiving schools
+ inventory?
+
+
+
+Will this received item automatically show on inventory on hand for the receiving school?
+
+
+
+Thank you!
+
+
+
+Reenie
+
+Reenie Briody, MBA, RD, LDN, SNS
+
+Nutrition Services Operations Associate
+
+Colonial School District
+
+318 East Basin Road
+
+New Castle, DE 19720
+
+302-323-2743
+
+laureen.briody@colonial.k12.de.us
+
+Colonial School Menus
+
+
+
+300796:507611
+
+300796:507611
+
+
+==========================================================================================
+TICKET 302470  |  Blue Springs - Transfer
+==========================================================================================
+
+--- turn 0 [customer/description] Leah Anne Luethje <lluethje@bssd.net>  2025-10-24T16:14:49Z ---
+District noticed since the update you are now able to view items that are not configured to be transferred to specific site.
+
+--- turn 1 [agent/private_note] agent:22037971404  2025-10-24T16:16:44Z ---
+============================
+
+Did not attempt to complete transfer but mentioned before update if item was not configured orderable then it would not appear as a option
+
+Leah Anne asked if Terri would take a look at this and HI!
+
+--- turn 2 [agent/reply] "customercare@primeroedge.com" <customercare@primeroedge.com>  2025-10-27T11:20:13Z ---
+Hello Leah Anne,
+
+It's not only about the "current" settings when working with the transfer process... if the item has EVER been available at the site being selected, then it can receive that item via a transfer.
+
+Likewise, if the site were to select "All Items" when performing a physical inventory, every single item they've ever had access to will show up for counting.
+
+In the transfers area, this helps when there are instances where districts need a site to have "once per year" access to something, and allowing it in the transfer process makes it so that they don't have to go change the configuration of the item to get it there, and then go change it back...  for the physical inventory, the "All Items" access allows sites to be able to enter counts for products that may no longer be orderable/receivable, but they might still have some on hand that needs to be counted with the physical inventory.
+
+It happens most often for things that are used only at school events on very specific occasions. (Pep Rally's, Bake Sales, Grandparents Breakfast, etc.)
+
+✅
+ Complete your Year Begin Tasks
+
+✨
+ Explore PrimeroEdge’s fresh look:
+reimagined.primeroedge.com
+
+📘
+ See the
+Navigation
+Guide
+ and latest
+Release Notes
+ in
+RESOURCES
+ (formerly AMIGO)
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click Here
+
+SchoolCafe
+ Training WEBINARS Available:
+Click Here
+
+Let us know if you have any questions regarding this ticket by
+replying all to this ticket
+
+Schrenia Bockholt
+ |
+CYBERSOFT
+
+Business Analyst, Product Management
+
+PrimeroEdge
+ |
+SchoolCafé
+
+
+==========================================================================================
+TICKET 305259  |  Wichita Public Schools - RE: Transfer Issue
+==========================================================================================
+
+--- turn 0 [customer/description] Vicki Schumacher <vschumacher@usd259.net>  2025-11-19T22:29:38Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Good question!
+
+Adding PE support as even though the ticket shows put away, there is no inventory in CW for the CPK item. I can’t edit the transfer ticket, and I can’t transfer it back since it doesn’t exist in CW inventory…
+
+
+
+
+
+
+
+From:
+ Richard Johnson (Food Prod) <rjohnson5@usd259.net>
+
+Sent:
+ Tuesday, November 18, 2025 7:02 AM
+
+To:
+ Vicki Schumacher <vschumacher@usd259.net>; Kristi Wiseman <kwiseman@usd259.net>
+
+Cc:
+ Pedro Sixtos <psixtos@usd259.net>
+
+Subject:
+ Transfer Issue
+
+
+
+Good morning.  I didn’t catch that a CPK# was being sent as a transfer to CW.  How do I correct this?  See attached transfer ticket.
+
+
+
+Richard Johnson
+
+Supervisor, Warehouse and Delivery
+
+--- turn 1 [customer/reply] Vicki Schumacher <vschumacher@usd259.net>  2025-11-20T12:22:20Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+V,
+
+  I wasn’t sure what to do so I sent it back to FPC in a transfer.  In the future it would be nice to know how to handle these situations.
+
+
+
+Richard Johnson
+
+Supervisor, Warehouse and Delivery
+
+
+
+From:
+ Vicki Schumacher <vschumacher@usd259.net>
+
+Sent:
+ Wednesday, November 19, 2025 4:29 PM
+
+To:
+ Richard Johnson (Food Prod) <rjohnson5@usd259.net>; Kristi Wiseman <kwiseman@usd259.net>; customercare@primeroedge.com
+
+Cc:
+ Pedro Sixtos <psixtos@usd259.net>; Terri Brown <terri.brown@primeroedge.com>
+
+Subject:
+ RE: Transfer Issue
+
+
+
+Good question!
+
+Adding PE support as even though the ticket shows put away, there is no inventory in CW for the CPK item. I can’t edit the transfer ticket, and I can’t transfer it back since it doesn’t exist in CW inventory…
+
+
+
+
+
+
+
+From:
+ Richard Johnson (Food Prod) <
+rjohnson5@usd259.net
+>
+
+Sent:
+ Tuesday, November 18, 2025 7:02 AM
+
+To:
+ Vicki Schumacher <
+vschumacher@usd259.net
+>; Kristi Wiseman <
+kwiseman@usd259.net
+>
+
+Cc:
+ Pedro Sixtos <
+psixtos@usd259.net
+>
+
+Subject:
+ Transfer Issue
+
+
+
+Good morning.  I didn’t catch that a CPK# was being sent as a transfer to CW.  How do I correct this?  See attached transfer ticket.
+
+
+
+Richard Johnson
+
+Supervisor, Warehouse and Delivery
+
+--- turn 2 [customer/reply] Vicki Schumacher <vschumacher@usd259.net>  2025-11-20T13:12:02Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Gotcha. That is exactly what I would have done. We will see what PE support recommends as well.
+
+Thanks!
+
+
+
+From:
+ Richard Johnson (Food Prod) <rjohnson5@usd259.net>
+
+Sent:
+ Thursday, November 20, 2025 6:22 AM
+
+To:
+ Vicki Schumacher <vschumacher@usd259.net>; Kristi Wiseman <kwiseman@usd259.net>; customercare@primeroedge.com
+
+Cc:
+ Pedro Sixtos <psixtos@usd259.net>; Terri Brown <terri.brown@primeroedge.com>
+
+Subject:
+ RE: Transfer Issue
+
+
+
+V,
+
+  I wasn’t sure what to do so I sent it back to FPC in a transfer.  In the future it would be nice to know how to handle these situations.
+
+
+
+Richard Johnson
+
+Supervisor, Warehouse and Delivery
+
+
+
+From:
+ Vicki Schumacher <
+vschumacher@usd259.net
+>
+
+Sent:
+ Wednesday, November 19, 2025 4:29 PM
+
+To:
+ Richard Johnson (Food Prod) <
+rjohnson5@usd259.net
+>; Kristi Wiseman <
+kwiseman@usd259.net
+>;
+
+customercare@primeroedge.com
+
+Cc:
+ Pedro Sixtos <
+psixtos@usd259.net
+>; Terri Brown <
+terri.brown@primeroedge.com
+>
+
+Subject:
+ RE: Transfer Issue
+
+
+
+Good question!
+
+Adding PE support as even though the ticket shows put away, there is no inventory in CW for the CPK item. I can’t edit the transfer ticket, and I can’t transfer it back since it doesn’t exist in CW inventory…
+
+
+
+
+
+
+
+From:
+ Richard Johnson (Food Prod) <
+rjohnson5@usd259.net
+>
+
+Sent:
+ Tuesday, November 18, 2025 7:02 AM
+
+To:
+ Vicki Schumacher <
+vschumacher@usd259.net
+>; Kristi Wiseman <
+kwiseman@usd259.net
+>
+
+Cc:
+ Pedro Sixtos <
+psixtos@usd259.net
+>
+
+Subject:
+ Transfer Issue
+
+
+
+Good morning.  I didn’t catch that a CPK# was being sent as a transfer to CW.  How do I correct this?  See attached transfer ticket.
+
+
+
+Richard Johnson
+
+Supervisor, Warehouse and Delivery
+
+--- turn 3 [agent/reply] "customercare@primeroedge.com" <customercare@primeroedge.com>  2025-11-20T16:49:50Z ---
+Hello All,
+
+The only other thing I can think of would be to cancel the original transfer if you did not already put it away.  If so, then transfer back would be my thoughts as well.
+
+✅
+ Complete your Year Begin Tasks
+
+✨
+ Explore PrimeroEdge’s fresh look:
+reimagined.primeroedge.com
+
+📘
+ See the
+Navigation
+Guide
+ and latest
+Release Notes
+ in
+RESOURCES
+ (formerly AMIGO)
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click Here
+
+SchoolCafe
+ Training WEBINARS Available:
+Click Here
+
+Let us know if you have any questions regarding this ticket by
+replying all to this ticket
+
+Terri Brown
+ |
+
+CYBERSOFT
+
+Region Lead,
+Customer and Expert Care
+
+Support: 866.442.6030 | Email:
+customercare@primeroedge.com
+
+
+PrimeroEdge
+ |
+SchoolCafé
+
+
+
+Let’s Chat
+ …Send an email to
+customercare@primeroedge.com
+
+to enable your PrimeroEdge
+support
+LIVE CHAT
+ feature
+
+--- turn 4 [customer/reply] Vicki Schumacher <vschumacher@usd259.net>  2025-11-20T18:29:00Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Thank you.
+
+
+
+From:
+ customercare@primeroedge.com <customercare@primeroedge.com>
+
+Sent:
+ Thursday, November 20, 2025 10:50 AM
+
+To:
+ Vicki Schumacher <vschumacher@usd259.net>
+
+Cc:
+ Richard Johnson (Food Prod) <rjohnson5@usd259.net>; Kristi Wiseman <kwiseman@usd259.net>; Pedro Sixtos <psixtos@usd259.net>; Vicki Schumacher <vschumacher@usd259.net>
+
+Subject:
+ Re: Wichita Public Schools - RE: Transfer Issue-[#305259]
+
+
+
+[This message came from outside of Wichita Public Schools]
+ Do not reply, open attachments, or click any links in this email
+ unless you validate the sender and know the content is safe.
+
+Hello All,
+
+The only other thing I can think of would be to cancel the original transfer if you did not already put it away.  If so, then transfer back would be my thoughts as well.
+
+
+
+
+
+✅
+ Complete your Year Begin Tasks
+
+✨
+ Explore PrimeroEdge’s fresh look:
+
+reimagined.primeroedge.com
+
+📘
+ See the
+
+Navigation Guide
+ and latest
+Release Notes
+ in
+
+RESOURCES
+ (formerly AMIGO)
+
+
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click
+ Here
+
+
+SchoolCafe
+ Training WEBINARS Available:
+
+Click Here
+
+Let us know if you have any questions regarding this ticket by replying all to this ticket
+
+Terri Brown
+ |
+
+CYBERSOFT
+
+Region Lead, Customer and Expert Care
+
+Support: 866.442.6030 | Email:
+customercare@primeroedge.com
+
+
+PrimeroEdge
+ |
+SchoolCafé
+
+
+
+
+
+Let’s Chat
+ …Send
+ an email to
+customercare@primeroedge.com
+
+to
+ enable your PrimeroEdge support
+LIVE CHAT
+ feature
+
+
+
+
+
+
+
+On Thu, Nov 20 at 7:12 AM
+
+, Vicki Schumacher <vschumacher@usd259.net> wrote:
+
+CAUTION
+: This email originated from outside of the organization. Do not click links
+ or open attachments unless you recognize the sender and know the content is safe.
+
+Gotcha. That is exactly what I would have done. We will see what PE support recommends as well.
+
+Thanks!
+
+
+
+From:
+ Richard Johnson (Food Prod) <rjohnson5@usd259.net>
+
+Sent:
+ Thursday, November 20, 2025 6:22 AM
+
+To:
+ Vicki Schumacher <vschumacher@usd259.net>; Kristi Wiseman <kwiseman@usd259.net>; customercare@primeroedge.com
+
+Cc:
+ Pedro Sixtos <psixtos@usd259.net>; Terri Brown <terri.brown@primeroedge.com>
+
+Subject:
+ RE: Transfer Issue
+
+
+
+V,
+
+  I wasn’t sure what to do so I sent it back to FPC in a transfer.  In the future it would be nice to know how to handle these situations.
+
+
+
+Richard Johnson
+
+Supervisor, Warehouse and Delivery
+
+
+
+From:
+ Vicki Schumacher <
+vschumacher@usd259.net
+>
+
+Sent:
+ Wednesday, November 19, 2025 4:29 PM
+
+To:
+ Richard Johnson (Food Prod) <
+rjohnson5@usd259.net
+>; Kristi Wiseman <
+kwiseman@usd259.net
+>;
+
+customercare@primeroedge.com
+
+Cc:
+ Pedro Sixtos <
+psixtos@usd259.net
+>; Terri Brown <
+terri.brown@primeroedge.com
+>
+
+Subject:
+ RE: Transfer Issue
+
+
+
+Good question!
+
+Adding PE support as even though the ticket shows put away, there is no inventory in CW for the CPK item. I can’t edit the transfer ticket, and I can’t transfer it back since
+ it doesn’t exist in CW inventory…
+
+
+
+
+
+
+
+From:
+ Richard Johnson (Food Prod) <
+rjohnson5@usd259.net
+>
+
+Sent:
+ Tuesday, November 18, 2025 7:02 AM
+
+To:
+ Vicki Schumacher <
+vschumacher@usd259.net
+>; Kristi Wiseman <
+kwiseman@usd259.net
+>
+
+Cc:
+ Pedro Sixtos <
+psixtos@usd259.net
+>
+
+Subject:
+ Transfer Issue
+
+
+
+Good morning.  I didn’t catch that a CPK# was being sent as a transfer to CW.  How do I correct this?  See attached transfer ticket.
+
+
+
+Richard Johnson
+
+Supervisor, Warehouse and Delivery
+
+
+
+305259:507611
+
+
+==========================================================================================
+TICKET 306477  |  Ector County ISD - Transfer Item
+==========================================================================================
+
+--- turn 0 [customer/description] Margarita Corral <margarita.corral@ectorcountyisd.org>  2025-12-05T16:19:52Z ---
+Maggie called us in regards to being unable to transfer the item Utility Cart/Bussing - (6062)
+
+After some investigation, we were unable to find any sort of count for said item.
+
+I was confirming with Maggie again that she did have the items in her inventory before creating a ticket, and when she went to double-check, she realized they hadn't been added. We both shared a laugh and made sure the items showed up for the Transfer Items after she updated her inventory.
+
+All is good, and this ticket will be closed.
+
+--- turn 1 [agent/private_note] agent:22052164409  2025-12-05T16:41:39Z ---
+Inventory > Transfers/Withdrawals > Transfer Items
+
+Entered in the
+From
+ and
+To
+ sites. The Item List will display below, giving you the option to select the Item Category / Item Description / Whole vs Broken Unit quantity.
+
+Inventory > Reports > Items
+
+General Search of items within the district's history.
+
+Inventory > Transfers/Withdrawals > Transfer List
+
+Looked up the "From Site" and located the "To Site".
+
+Checked the comments to locate "Small Equipment".
+
+
+==========================================================================================
+TICKET 306654  |  FL - St Lucie County Schools - Transfer Items - Error
+==========================================================================================
+
+--- turn 0 [customer/description] Curtis Chambers <curtis.chambers@stlucieschools.org>  2025-12-08T19:02:52Z ---
+- Customer is experiencing an error when transferring an item to another school
+
+--- turn 1 [agent/reply] "customercare@primeroedge.com" <customercare@primeroedge.com>  2025-12-08T19:06:41Z ---
+Hello Curtis,
+
+It was a pleasure to assist you, I will escalate this ticket for further review.
+
+✨
+ Explore PrimeroEdge’s fresh look:
+reimagined.primeroedge.com
+
+📘
+ See the
+Navigation
+Guide
+ and latest
+Release Notes
+ in
+RESOURCES
+ (formerly AMIGO)
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click Here
+
+SchoolCafe
+ Training WEBINARS Available:
+Click Here
+
+Let us know if you have any questions regarding this ticket by
+replying all to this ticket
+
+Christopher Rios
+
+Customer Care Specialist, Customer Care
+|
+CYBERSOFT
+
+
+call:
+866.442.6030
+
+email:
+customercare@primeroedge.com
+
+
+www.primeroedge.com
+
+YOUR GOALS ARE OUR GOALS.
+
+Let’s Chat
+
+…Send an email to
+CustomerCare@primeroedge.com
+ to enable your PrimeroEdge support
+LIVE CHAT
+ feature
+
+Check out our refresher training courses in the
+
+PrimeroEdge Academy
+
+--- turn 2 [agent/private_note] agent:22044930030  2025-12-08T19:10:44Z ---
+- Escalating for review.
+
+- When trying to do a Transfer Items, it presents an error.
+
+--- turn 3 [agent/reply] "customercare@primeroedge.com" <customercare@primeroedge.com>  2025-12-08T19:18:37Z ---
+Hello Curtis,
+
+Can you please provide the item you are trying to transfer as well as from and to which sites?
+
+Thank you.
+
+✨
+ Explore PrimeroEdge’s fresh look:
+reimagined.primeroedge.com
+
+📘
+ See the
+Navigation
+Guide
+ and latest
+Release Notes
+ in
+RESOURCES
+ (formerly AMIGO)
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click Here
+
+SchoolCafe
+ Training WEBINARS Available:
+Click Here
+
+Let us know if you have any questions regarding this ticket by
+replying all to this ticket
+
+Richard Benson |
+
+CYBERSOFT
+
+SchoolCafé Team
+Lead, Customer and Expert Care
+
+Support: 855.729.2328 | Email::
+customercare@schoolcafe.com
+
+
+
+PrimeroEdge
+ |
+SchoolCafé
+
+--- turn 4 [agent/private_note] agent:None  2025-12-08T19:18:38Z ---
+Please do not resolve this ticket until a response is received from the district per their request.
+
+--- turn 5 [customer/reply] Curtis Chambers <curtis.chambers@stlucieschools.org>  2025-12-08T19:20:42Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Hello,
+
+It’s no specific site at all. As soon as I click any store transferring and receiving we get this error message.
+
+The error message comes up before items will even load.
+
+Thanks
+
+Get
+Outlook for iOS
+
+From: customercare@primeroedge.com <customercare@primeroedge.com>
+
+Sent:
+ Monday, December 8, 2025 2:18:37 PM
+
+To:
+ CHAMBERS, CURTIS H. <CURTIS.CHAMBERS@stlucieschools.org>
+
+Subject:
+ [EXTERNAL EMAIL] - Re: FL - St Lucie County Schools - Transfer Items - Error-[#306654]
+
+
+
+Caution:
+ This is an external email and may have suspicious content. Please take care when clicking links or opening attachments. When in doubt, contact your IT Department
+
+Hello Curtis,
+
+Can you please provide the item you are trying to transfer as well as from and to which sites?
+
+Thank you.
+
+✨
+ Explore PrimeroEdge’s fresh
+ look:
+
+reimagined.primeroedge.com
+
+📘
+ See the
+
+Navigation Guide
+ and latest
+Release Notes
+ in
+
+RESOURCES
+ (formerly AMIGO)
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click
+ Here
+
+
+SchoolCafe
+ Training WEBINARS Available:
+Click
+ Here
+
+Let us know if you have any questions regarding this ticket by replying all to this ticket
+
+Richard Benson |
+
+CYBERSOFT
+
+SchoolCafé Team Lead, Customer and Expert Care
+
+Support: 855.729.2328 | Email::
+customercare@schoolcafe.com
+
+
+
+PrimeroEdge
+ |
+SchoolCafé
+
+On Mon, Dec 8 at 1:06 PM
+
+, customercare@primeroedge.com <customercare@primeroedge.com> wrote:
+
+Hello Curtis,
+
+It was a pleasure to assist you, I will escalate this ticket for further review.
+
+✨
+ Explore PrimeroEdge’s fresh
+ look:
+
+reimagined.primeroedge.com
+
+📘
+ See the
+
+Navigation Guide
+ and latest
+Release Notes
+ in
+
+RESOURCES
+ (formerly AMIGO)
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click
+ Here
+
+
+SchoolCafe
+ Training WEBINARS Available:
+Click
+ Here
+
+Let us know if you have any questions regarding this ticket by replying all to this ticket
+
+Christopher Rios
+
+Customer Care Specialist, Customer Care
+|
+CYBERSOFT
+
+
+call:
+866.442.6030
+
+email:
+customercare@primeroedge.com
+
+
+www.primeroedge.com
+
+YOUR GOALS ARE OUR GOALS.
+
+Let’s Chat
+
+…Send
+ an email to
+CustomerCare@primeroedge.com
+ to
+ enable your PrimeroEdge support
+LIVE CHAT
+ feature
+
+Check out our refresher training courses in the
+
+PrimeroEdge
+ Academy
+
+
+On Mon, Dec 8 at 1:02 PM
+
+, Curtis Chambers <curtis.chambers@stlucieschools.org> wrote:
+
+- Customer is experiencing an error when transferring an item to another school
+
+--- turn 6 [agent/reply] "customercare@primeroedge.com" <customercare@primeroedge.com>  2025-12-08T19:24:45Z ---
+Hello Curtis,
+
+I appreciate the details. I was able to replicate the issue. I'm escalating to expert care for further review.
+
+Thank you.
+
+✨
+ Explore PrimeroEdge’s fresh look:
+reimagined.primeroedge.com
+
+📘
+ See the
+Navigation
+Guide
+ and latest
+Release Notes
+ in
+RESOURCES
+ (formerly AMIGO)
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click Here
+
+SchoolCafe
+ Training WEBINARS Available:
+Click Here
+
+Let us know if you have any questions regarding this ticket by
+replying all to this ticket
+
+Richard Benson |
+
+CYBERSOFT
+
+SchoolCafé Team
+Lead, Customer and Expert Care
+
+Support: 855.729.2328 | Email::
+customercare@schoolcafe.com
+
+
+
+PrimeroEdge
+ |
+SchoolCafé
+
+--- turn 7 [agent/private_note] agent:None  2025-12-08T19:24:46Z ---
+Please do not resolve this ticket until a response is received from the district per their request.
+
+--- turn 8 [agent/private_note] agent:22019931776  2025-12-08T19:28:06Z ---
+- Error generates after making any type of selection on Transfer Items page.
+
+--- turn 9 [agent/private_note] agent:22052027946  2025-12-08T21:50:29Z ---
+Version 14.6.1
+
+PrimeroEdge FL > St Lucie County Schools > Inventory > Transfers/ Withdrawals > Transfer Items >
+
+Checked for 10-12 sites. All of them had the message - Selected site does not have any items for the chosen category.
+
+Getting an error as soon as I try to enter From Site and To Site. I am also attaching the screen recording from above.
+
+PAGE EXCEPTION:
+
+1) Exception Information
+
+*********************************************
+
+Exception Type: System.Exception
+
+Message: Error while executing IM_SiteItem_GetCommonItems.Arithmetic overflow error converting numeric to data type numeric.
+
+Data: System.Collections.ListDictionaryInternal
+
+TargetSite: NULL
+
+HelpLink: NULL
+
+Source: .Net SqlClient Data Provider
+
+HResult: -2146233088
+
+StackTrace Information
+
+*********************************************
+
+at Cybersoft.Primero.Data.InventoryDatabase.IM_SiteItem_GetCommonItems(DataSet ds, String tableName, Nullable`1 SiteId1, Nullable`1 SiteId2) at Cybersoft.Primero.InventoryManagement.Business.SiteItemManager.GetCommonItems(Int32 TositeId1, Int32 FromsiteId2) at Cybersoft.Primero.Webpages.SimpleTransferItems.dataBindItemsAndCategories() at Cybersoft.Primero.Webpages.SimpleTransferItems.changeOnReload() at Cybersoft.Primero.Webpages.SimpleTransferItems.toRegionSiteTypeSiteSelector_ReloadDropDownEvent(Object sender, EventArgs e) at Cybersoft.Primero.Webpages.RegionSiteSelector.ddlSites_SelectedIndexChanged(Object sender, EventArgs e) at Telerik.Web.UI.RadComboBox.OnSelectedIndexChanged() at Telerik.Web.UI.RadComboBox.RaisePostDataChangedEvent() at Telerik.Web.UI.RadDataBoundControl.System.Web.UI.IPostBackDataHandler.RaisePostDataChangedEvent() at System.Web.UI.Page.RaiseChangedEvents() at System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)ERRORPAGE EXCEPTION:
+
+1) Exception Information
+
+*********************************************
+
+Exception Type: System.Exception
+
+Message: Error while executing IM_SiteItem_GetCommonItems.Arithmetic overflow error converting numeric to data type numeric.
+
+Data: System.Collections.ListDictionaryInternal
+
+TargetSite: NULL
+
+HelpLink: NULL
+
+Source: .Net SqlClient Data Provider
+
+HResult: -2146233088
+
+StackTrace Information
+
+*********************************************
+
+at Cybersoft.Primero.Data.InventoryDatabase.IM_SiteItem_GetCommonItems(DataSet ds, String tableName, Nullable`1 SiteId1, Nullable`1 SiteId2) at Cybersoft.Primero.InventoryManagement.Business.SiteItemManager.GetCommonItems(Int32 TositeId1, Int32 FromsiteId2) at Cybersoft.Primero.Webpages.SimpleTransferItems.dataBindItemsAndCategories() at Cybersoft.Primero.Webpages.SimpleTransferItems.changeOnReload() at Cybersoft.Primero.Webpages.SimpleTransferItems.toRegionSiteTypeSiteSelector_ReloadDropDownEvent(Object sender, EventArgs e) at Cybersoft.Primero.Webpages.RegionSiteSelector.ddlSites_SelectedIndexChanged(Object sender, EventArgs e) at Telerik.Web.UI.RadComboBox.OnSelectedIndexChanged() at Telerik.Web.UI.RadComboBox.RaisePostDataChangedEvent() at Telerik.Web.UI.RadDataBoundControl.System.Web.UI.IPostBackDataHandler.RaisePostDataChangedEvent() at System.Web.UI.Page.RaiseChangedEvents() at System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+
+--- turn 10 [agent/private_note] agent:22052027946  2025-12-09T15:23:16Z ---
+checking with EC
+
+--- turn 11 [agent/private_note] agent:22052027946  2025-12-09T22:04:45Z ---
+Discussed with Alekya. We have verified the data, and it appears there is an arithmetic overflow. We need to obtain access from the district on Thursday.
+
+Select * from IM_SiteItem_GetSiteItems(2983,0)
+
+Error while executing NF_CTL_DynQuery_ExecuteQueryOnDemand.Arithmetic overflow error converting numeric to data type numeric.
+
+--- turn 12 [agent/private_note] agent:22004661029  2025-12-11T20:27:00Z ---
+The configuration of this item is what is causing the issue on the Transfers page.
+
+The Broken Unit size is blown up and is causing the error.  Please ask the district to change the item configuration for the Broken Unit Size.
+
+--- turn 13 [agent/private_note] agent:22052027946  2025-12-11T20:38:21Z ---
+The error encountered while using the transfer items page is due to the configuration of item CL110911USDA. Specifically, the Broken Unit size is inflated, causing the issue. To resolve this problem, please modify the item configuration by adjusting the Broken Unit Size.
+Please let us know if you require any further assistance.
+
+--- turn 14 [agent/reply] "customercare@primeroedge.com" <customercare@primeroedge.com>  2025-12-11T20:39:27Z ---
+Hello Curtis,
+
+The error encountered while using the transfer items page is due to the configuration of item CL110911USDA. Specifically, the Broken Unit size is inflated, causing the issue. To resolve this problem, please modify the item configuration by adjusting the Broken Unit Size. Please let us know if you require any further assistance.
+
+✨
+ Explore PrimeroEdge’s fresh look:
+reimagined.primeroedge.com
+
+📘
+ See the
+Navigation
+Guide
+ and latest
+Release Notes
+ in
+RESOURCES
+ (formerly AMIGO)
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click Here
+
+SchoolCafe
+ Training WEBINARS Available:
+Click Here
+
+Let us know if you have any questions regarding this ticket by
+replying all to this ticket
+
+--- turn 15 [customer/reply] Curtis Chambers <curtis.chambers@stlucieschools.org>  2025-12-11T21:54:01Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Thank you
+
+Curtis Chambers
+
+Child Nutrition Services - Area Specialist
+
+St. Lucie Public Schools
+
+9461 Brandywine Lane
+
+Port St Lucie, Fl 34986
+
+772-867-2209
+
+Curtis.Chambers@stlucieschools.org
+
+From: customercare@primeroedge.com <customercare@primeroedge.com>
+
+Sent:
+ Thursday, December 11, 2025 3:39 PM
+
+To:
+ CHAMBERS, CURTIS H. <CURTIS.CHAMBERS@stlucieschools.org>
+
+Subject:
+ [EXTERNAL EMAIL] - Re: FL - St Lucie County Schools - Transfer Items - Error-[#306654]
+
+
+
+Caution:
+ This is an external email and may have suspicious content. Please take care when clicking links or opening attachments. When in doubt, contact your IT Department
+
+Hello Curtis,
+
+The error encountered while using the transfer items page is due to the configuration of item CL110911USDA. Specifically, the Broken Unit size is inflated, causing the issue. To resolve this problem, please modify the item configuration by adjusting
+ the Broken Unit Size. Please let us know if you require any further assistance.
+
+✨
+ Explore PrimeroEdge’s fresh
+ look:
+
+reimagined.primeroedge.com
+
+📘
+ See the
+
+Navigation Guide
+ and latest
+Release Notes
+ in
+
+RESOURCES
+ (formerly AMIGO)
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click
+ Here
+
+
+SchoolCafe
+ Training WEBINARS Available:
+Click
+ Here
+
+Let us know if you have any questions regarding this ticket by replying all to this ticket
+
+On Mon, Dec 8 at 1:24 PM
+
+, customercare@primeroedge.com <customercare@primeroedge.com> wrote:
+
+Hello Curtis,
+
+I appreciate the details. I was able to replicate the issue. I'm escalating to expert care for further review.
+
+Thank you.
+
+✨
+ Explore PrimeroEdge’s fresh
+ look:
+
+reimagined.primeroedge.com
+
+📘
+ See the
+
+Navigation Guide
+ and latest
+Release Notes
+ in
+
+RESOURCES
+ (formerly AMIGO)
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click
+ Here
+
+
+SchoolCafe
+ Training WEBINARS Available:
+Click
+ Here
+
+Let us know if you have any questions regarding this ticket by replying all to this ticket
+
+Richard Benson |
+
+CYBERSOFT
+
+SchoolCafé Team Lead, Customer and Expert Care
+
+Support: 855.729.2328 | Email::
+customercare@schoolcafe.com
+
+
+
+PrimeroEdge
+ |
+SchoolCafé
+
+On Mon, Dec 8 at 1:20 PM
+
+, Curtis Chambers <curtis.chambers@stlucieschools.org> wrote:
+
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Hello,
+
+It’s no specific site at all. As soon as I click any store transferring and receiving we get this error message.
+
+The error message comes up before items will even load.
+
+Thanks
+
+Get
+
+Outlook for iOS
+
+
+From: customercare@primeroedge.com <customercare@primeroedge.com>
+
+Sent:
+ Monday, December 8, 2025 2:18:37 PM
+
+To:
+ CHAMBERS, CURTIS H. <CURTIS.CHAMBERS@stlucieschools.org>
+
+Subject:
+ [EXTERNAL EMAIL] - Re: FL - St Lucie County Schools - Transfer Items - Error-[#306654]
+
+
+
+Caution:
+ This is an external email and may have suspicious content. Please take care when clicking links or opening attachments. When in doubt, contact your IT Department
+
+Hello Curtis,
+
+Can you please provide the item you are trying to transfer as well as from and to which sites?
+
+Thank you.
+
+✨
+ Explore PrimeroEdge’s fresh
+ look:
+
+reimagined.primeroedge.com
+
+📘
+ See the
+
+Navigation Guide
+ and latest
+Release Notes
+ in
+
+RESOURCES
+ (formerly AMIGO)
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click
+ Here
+
+
+SchoolCafe
+ Training WEBINARS Available:
+Click
+ Here
+
+Let us know if you have any questions regarding this ticket by replying all to this ticket
+
+Richard Benson |
+
+CYBERSOFT
+
+SchoolCafé Team Lead, Customer and Expert Care
+
+Support: 855.729.2328 | Email::
+customercare@schoolcafe.com
+
+
+
+PrimeroEdge
+ |
+SchoolCafé
+
+On Mon, Dec 8 at 1:06 PM
+
+, customercare@primeroedge.com <customercare@primeroedge.com> wrote:
+
+Hello Curtis,
+
+It was a pleasure to assist you, I will escalate this ticket for further review.
+
+✨
+ Explore PrimeroEdge’s fresh
+ look:
+
+reimagined.primeroedge.com
+
+📘
+ See the
+
+Navigation Guide
+ and latest
+Release Notes
+ in
+
+RESOURCES
+ (formerly AMIGO)
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click
+ Here
+
+
+SchoolCafe
+ Training WEBINARS Available:
+Click
+ Here
+
+Let us know if you have any questions regarding this ticket by replying all to this ticket
+
+Christopher Rios
+
+Customer Care Specialist, Customer Care
+|
+CYBERSOFT
+
+
+call:
+866.442.6030
+
+email:
+customercare@primeroedge.com
+
+
+www.primeroedge.com
+
+YOUR GOALS ARE OUR GOALS.
+
+Let’s Chat
+
+…Send
+ an email to
+CustomerCare@primeroedge.com
+ to
+ enable your PrimeroEdge support
+LIVE CHAT
+ feature
+
+Check out our refresher training courses in the
+
+PrimeroEdge
+ Academy
+
+
+==========================================================================================
+TICKET 309690  |  IN - MSD of Martinsville - Transfer Items - Central Warehouse
+==========================================================================================
+
+--- turn 0 [customer/description] Kurt Bodell <kurt.bodell@msdmartinsville.org>  2026-01-20T12:33:56Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Keith-
+
+Thank you for helping my team last week while I was away attending SNIC in Austin.
+
+Looking over the trouble below from my team, it sounds like something within the Site Config for our Central Warehouse was adjusted not to allow site-to-site transfer.
+
+When we click transfer, then transfer items, our Central Warehouse site is no longer an option.
+
+Can you please look into this?
+
+Thanks, Kurt
+
+---------- Forwarded message ---------
+
+From:
+Kim Walls
+
+
+<
+kim.walls@msdmartinsville.org
+>
+
+Date: Tue, Jan 20, 2026 at 6:26 AM
+
+Subject: Re: Transfer
+
+To: Jeanna Hughey <
+jeanna.hughey@msdmartinsville.org
+>
+
+Cc: Kurt Bodell <
+kurt.bodell@msdmartinsville.org
+>
+
+Jeanna,
+
+I'm going to have to contact PrimeroEdge when they get in this morning.  I think they changed the name of our warehouse site to "Central Office", but it doesn't have any of the inventory items or history that the warehouse site had.  I'll let you know
+ when I get it figured out.
+
+Thanks,
+
+Kim
+
+On Fri, Jan 16, 2026 at 2:08 PM Jeanna Hughey <
+jeanna.hughey@msdmartinsville.org
+> wrote:
+
+Transfer 4 mozzarella cheese & 4 cheddar cheese to hs.  Thank you so much.
+
+--
+
+Kim Walls
+
+MSD of Martinsville Food Service
+
+Business Specialist
+
+765-349-4452
+
+Ext. 2
+
+--
+
+Kurt
+
+--- turn 1 [agent/private_note] agent:22001013774  2026-01-20T16:44:11Z ---
+District was updated to 15.17.1 last night.  This morning Central Warehouse no longer shows in the drop downs for to and from transfers:
+
+--- turn 2 [agent/private_note] agent:22001958196  2026-01-20T16:52:24Z ---
+After the district rename and license shenanigans with Martinsville last week, the first thing I checked was that the Central Warehouse had its Central Warehouse license on it. The license is present and assigned.
+
+Cleared cache, just in case it was changed recently. Confirmed the issue was still present.
+
+Checking with EC.
+
+--- turn 3 [agent/private_note] agent:22001958196  2026-01-20T17:03:16Z ---
+Per Alekya, reassigned to her.
+
+--- turn 4 [agent/private_note] "customercare@primeroedge.com" <customercare@primeroedge.com>  2026-01-21T01:10:19Z ---
+Please take a look at ticket
+
+#309690
+
+raised by Kurt Bodell (kurt.bodell@msdmartinsville.org).
+
+Hi Sai/ Michael,
+
+The Environment got updated to 15.17 last night, and then Transfer Item under Inventory has no more "Central Warehouse" site Listed on the sites list for Transfer items.
+
+Not Just Transfer Items, "Central Warehouse" Site is no more listed on Withdrawals List, Withdrawal Items, Transfer List, Standard Withdrawal, Physical Inventory, Perpetual Inventory  or any function anymore even when the site is Active and has the Central Warehouse license.
+
+The site is not listed in the site selection in Non of the reports. Verified for Item History report, Inventory valuation, back order, Print Order and other reports, and it shows nowhere except for Item status report and warehouse issues. None of the other reports show the site listed.
+
+Thank you,
+
+Alekya Kotta |
+
+CYBERSOFT
+
+Expert Care Team
+Lead, Expert Care
+
+Support: 866.442.6030 | Email:
+customercare@primeroedge.com
+
+
+PrimeroEdge
+ |
+SchoolCafé
+
+Let’s Chat
+ …Send an email to
+customercare@primeroedge.com
+
+to enable your PrimeroEdge
+support
+LIVE CHAT
+ feature
+
+
+
+Check out our refresher training check out
+PrimeroEdge
+Academy
+
+--- turn 5 [agent/private_note] agent:22004661029  2026-01-21T01:17:39Z ---
+Hi Terri/ Keith,
+
+Never mind. All the above details are Not Valid because the Inventory License has been removed for the Central Warehouse site for Some reason.
+
+I am not sure why these changes were made.  Also, this has nothing to do with the Version DEPLOYMENT because the version was deployed on 01/19/2026, and these license changes happened on 01/15/2026 and 01/16/2026.
+
+The Central Warehouse will need both Central Warehouse license and also the Inventory License in order for it to work as a Central Warehouse site in Inventory module.
+
+Since the Site has only Central Warehouse license is why its not getting list of the above mentioned Pages.  Please see why it was removed and add it back as needed.
+
+--- turn 6 [agent/private_note] agent:22001856480  2026-01-21T12:18:09Z ---
+This issue was originally caused by someone on state team changing the name of the district, which messed up the licenses. See the two tickets below.
+
+In troubleshooting, I attempted to add the license and remove it to see what happeded.
+
+It was discovered the name change caused this. So the name was changed back to original,
+
+Then, Malik and Pramod got ahold of it and changed the name again because thats what the SFA wanted in the first place, it just was not done properly.
+
+Because  you cannot just change the name of the district without updating the license too.
+
+[#309403] IN - Martinsville, MSD of - Cannot use system. License error : Cybersoft PrimeroEdge
+
+
+[#309525] IN - Martinsville, MSD of - License issue : Cybersoft PrimeroEdge
+
+--- turn 7 [agent/reply] "customercare@primeroedge.com" <customercare@primeroedge.com>  2026-01-21T14:33:25Z ---
+Hello Kurt,
+
+You should be able to complete warehouse functions now including transfers.  Thank you for your patience while we worked on this ticket.
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click Here
+
+SchoolCafe
+ Training WEBINARS Available:
+Click Here
+
+Let us know if you have any questions regarding this ticket by
+replying all to this ticket
+
+Terri Brown
+ |
+
+CYBERSOFT
+
+Region Lead,
+Customer and Expert Care
+
+Support: 866.442.6030 | Email:
+customercare@primeroedge.com
+
+
+PrimeroEdge
+ |
+SchoolCafé
+
+
+
+Let’s Chat
+ …Send an email to
+customercare@primeroedge.com
+
+to enable your PrimeroEdge
+support
+LIVE CHAT
+ feature
+
+
+==========================================================================================
+TICKET 311921  |  Online 5 - Chesterfield County Public Schools - Item no showing up to transfer
+==========================================================================================
+
+--- turn 0 [customer/description] Theresa Mercaldo <theresa_mercaldo@ccpsnet.net>  2026-02-16T12:36:27Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Hello,
+
+The school below was trying to transfer the Trays.  They have inventory, but when they try to transfer some to another school, the item doesn't show up for them to transfer (see below).  Can you please look into this and let me know?  Thank you
+
+
+Theresa
+ Mercaldo
+
+  Purchasing Coordinator
+
+  Food & Nutrition Services
+
+  O - 804-743-3731
+
+
+oneCCPS.org
+
+--- turn 1 [customer/reply] Theresa Mercaldo <theresa_mercaldo@ccpsnet.net>  2026-02-16T14:02:03Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Please close this ticket.  I figured out what the issue is.  I do apologize!
+
+
+Theresa
+ Mercaldo
+
+  Purchasing Coordinator
+
+  Food & Nutrition Services
+
+  O - 804-743-3731
+
+
+oneCCPS.org
+
+
+
+
+
+
+
+On Mon, Feb 16, 2026 at 7:36 AM
+
+customercare@primeroedge.com
+ <
+customercare@primeroedge.com
+> wrote:
+
+Dear ,
+
+We would like to acknowledge that we have received your request and a ticket has been created.
+
+A support representative will be reviewing your request and will update you with additional information as it becomes available.
+
+Your ticket number is 311921
+
+The subject is: Online 5 - Chesterfield County Public Schools - Item no showing up to transfer
+
+A brief Description:
+
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Hello,
+
+The school below was trying to transfer the Trays.  They have inventory, but when they try to transfer some to another school, the item doesn't show up for them to transfer (see below).  Can you please look into this and let me know?  Thank you
+
+
+Theresa
+ Mercaldo
+
+
+  Purchasing Coordinator
+
+  Food & Nutrition Services
+
+  O - 804-743-3731
+
+
+oneCCPS.org
+
+
+
+
+
+
+
+Thank you for your patience and let us know if you have any questions.
+
+Sincerely,
+
+Cybersoft PrimeroEdge Support Team
+
+
+==========================================================================================
+TICKET 317972  |  Azle ISD - Clear out Pending Transfer
+==========================================================================================
+
+--- turn 0 [customer/description] Laura G. Woody <laura.woody@azleisd.net>  2026-04-23T14:12:07Z ---
+District called in about seeing about clearing out the pending transfer's for the entire district to prep for their inventory.
+
+--- turn 1 [agent/reply] "customercare@primeroedge.com" <customercare@primeroedge.com>  2026-04-23T14:15:07Z ---
+Hello Laura,
+
+To help us attempt to clear out the pending transfers for you, could you please provide the specific date range you would like us to address? Also if we could get the specific sites as well?
+
+Thank you.
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click Here
+
+SchoolCafe
+ Training WEBINARS Available:
+Click Here
+
+Let us know if you have any questions regarding this ticket by
+replying all to this ticket
+
+--- turn 2 [agent/private_note] agent:22053243986  2026-04-23T14:34:00Z ---
+(empty)
+
+--- turn 3 [customer/reply] Laura G. Woody <laura.woody@azleisd.net>  2026-04-23T15:24:21Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Please do all sites from 1/1/2024 to present
+
+
+
+
+
+From: customercare@primeroedge.com <customercare@primeroedge.com>
+
+Sent:
+ Thursday, April 23, 2026 9:15 AM
+
+To:
+ Laura G. Woody <Laura.Woody@azleisd.net>
+
+Subject:
+ Re: Azle ISD - Clear out Pending Transfer-[#317972]
+
+
+
+CAUTION: This email was
+NOT
+ sent from an AZLE ISD email server.
+DO NOT
+ click
+ links or open attachments unless you recognize the source of this email and know the content is safe.
+
+
+
+
+
+Hello Laura,
+
+
+
+To help us attempt to clear out the pending transfers for you, could you please provide the specific date range you would like us to address? Also if we could get the specific
+ sites as well?
+
+
+
+Thank you.
+
+
+
+
+
+
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click
+ Here
+
+
+SchoolCafe
+ Training WEBINARS Available:
+
+Click Here
+
+Let us know if you have any questions regarding this ticket by replying all to this ticket
+
+
+
+
+
+On Thu, Apr 23 at 9:12 AM
+
+, Laura G. Woody <
+laura.woody@azleisd.net
+> wrote:
+
+District called in about seeing about clearing out the pending transfer's for the entire district to prep for their inventory.
+
+317972:507611
+
+--- turn 4 [agent/private_note] agent:22053243986  2026-04-23T16:05:40Z ---
+Escalating for further review, please let me know if there is any missing information.
+
+Video Project 5.mp4
+
+
+-District is trying to have their sites doing inventory, but previous inventories are open and getting errors like screenshot one
+
+-District is requesting to see if we can clear out/approve the pending transfer for all sites.
+
+--- turn 5 [agent/private_note] agent:22001013774  2026-04-23T17:45:20Z ---
+Please place all transfers in a closed/cancelled status district wide from 1/1/25 to present:
+
+--- turn 6 [agent/private_note] agent:22004661029  2026-04-23T18:28:13Z ---
+IM
+_transactionHeader
+ has the statusID as 50,
+
+IM
+_IncompleteTransactionHeader
+ table has the status Id 21
+
+And its not just simple status update like the orders because the Transfers will create the withdrawal transaction at the same time as the Transfer record. so it needs a bit work done to have these cancelled.
+
+--- turn 7 [agent/reply] "customercare@primeroedge.com" <customercare@primeroedge.com>  2026-05-01T21:25:51Z ---
+Hello Laura,
+
+All the Pending Transfers are resolved already and no more pending Transfers. Please let us know if anything else needed here with this.
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click Here
+
+SchoolCafe
+ Training WEBINARS Available:
+Click Here
+
+Let us know if you have any questions regarding this ticket by
+replying all to this ticket
+
+Thank you,
+
+Alekya Kotta |
+
+CYBERSOFT
+
+Expert Care Team
+Lead, Expert Care
+
+Support: 866.442.6030 | Email:
+customercare@primeroedge.com
+
+
+PrimeroEdge
+ |
+SchoolCafé
+
+Let’s Chat
+ …Send an email to
+customercare@primeroedge.com
+
+to enable your PrimeroEdge
+support
+LIVE CHAT
+ feature
+
+
+
+Check out our refresher training check out
+PrimeroEdge
+Academy
+
+
+==========================================================================================
+TICKET 318299  |  St. Landry Parish School Board - Item inventory transfer
+==========================================================================================
+
+--- turn 0 [customer/description] Burnell Offord <bofford@slpsb.org>  2026-04-27T17:35:08Z ---
+Hello Burnell,
+
+We spoke on the phone. Just to reiterate I am getting more information on this issue regarding an item transfer of item 100313. Please bear with me.
+
+Thank you for your patience.
+
+--- turn 1 [agent/private_note] agent:22053879665  2026-04-27T17:37:35Z ---
+Item 100313 corn
+
+Customer is asking to transfer item from Aug 2025 at northeast elem to warehouse.
+
+--- turn 2 [customer/reply] Burnell Offord <bofford@slpsb.org>  2026-04-27T18:42:02Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Thank you for your assistance.  Let me further explain the problem.
+
+I am trying to enter inventory for August 2025.  I entered the Quantity on Hand, as I was instructed, and then proceeded to do transfers to individual schools.
+
+My initial quantity on hand for Corn (Item # 100313) prior to August 2025 was
+
+8
+.  On August 1, 2025, I received 75 cases of corn.  Therefore, I entered the
+
+Quantity on Hand for August 2025 to be 83.  83 currently shows as the Quantity on Hand.
+ I did not know that I should have gone to the
+
+Transfer/Withdrawals;
+
+Add to Inventory
+ tab and add the 75 cases of corn there.
+
+Next I transferred items from the Warehouse to individual schools.  The date that I used was August 5, 2025.
+
+When I tried to transfer corn to Northeast Elementary the system did not allow me to transfer the corn because it thought there was no corn left to transfer.
+
+I had previously transferred a total of
+
+8 corn
+to the below schools
+:
+
+   Grand Coteau Elem = 1 case
+
+   Leonville Elem = 2 cases
+
+   Beau Chene High - 1 case
+
+   Port Barre Elem = 1 case
+
+   Magnet Academy for Cultural Arts = 1 case
+
+   Opelousas Jr. High School = 1 case
+
+   CAPS = 1 case
+
+The above totals 8 cases of corn.  8 was my initial count so according to the system, I have no more corn in the warehouse to transfer.
+
+Although I entered the Quantity on Hand to be 83, the system is not acknowledging that count because I did not know that I was
+
+supposed to go to the Add to Inventory tab and enter the 75 cans of corn that I received on August 1, 2025.
+
+Today I spoke with a Primero Edge Representative and while on the phone with her, I attempted to add the 75 cases of corn to the Warehouse,
+
+but I did not realize that the system had defaulted to Arnaudville so I wrongly added the 75 cases of corn to Arnaudville.  Then I tried to transfer
+
+the corn from Arnaudville to the warehouse but I noticed it had today's date instead of August 1, 2025.  At this time, I need the 75 cases of corn
+
+to be added to the warehouse inventory.
+
+I was also unable to transfer 1 case of French Fries from the warehouse to Opelousas Senior High School as of 8/5/2025.
+
+I think that in addition to entering the Quantity on Hand, I was supposed to
+
+"Add to Inventory"
+ all items that I had received for 8/1/2025.  Those items
+
+which I received on 8/1/2025 and need to add to the "Add to Inventory" tab are:
+
+The above items were received 8/1/2025 and so I need to add them to the Inventory (Add to Inventory tab).
+
+I already included them in the Quantity on Hand.
+
+After reading the above explanation, I would like for someone to give me a call, please.
+
+Thank you.
+
+Ms. Burnell Offord
+
+Nutrition Coordinator
+
+St. Landry Parish School Board
+
+Phone:  (337) 948-3657  Ext. 10737
+
+On Mon, Apr 27, 2026 at 12:35 PM
+
+customercare@primeroedge.com
+ <
+customercare@primeroedge.com
+> wrote:
+
+Dear ,
+
+We acknowledge receipt of your request and have created a ticket.
+
+A support representative will review your request and provide updates as additional information becomes available.
+
+Your ticket number is 318299
+
+The subject is: St. Landry Parish School Board - Item inventory transfer
+
+A brief Description:
+
+Hello Burnell,
+
+We spoke on the phone. Just to reiterate I am getting more information on this issue regarding an item transfer of item 100313. Please bear with me.
+
+Thank you for your patience.
+
+Thank you for your patience and let us know if you have any questions.
+
+If you require more immediate assistance, we offer chat support. Please contact us to enable chat support for your district.
+
+
+Sincerely,
+
+Cybersoft Support Team
+
+--- turn 3 [agent/private_note] agent:22053879665  2026-04-27T21:35:21Z ---
+District is new to PE and is attempting to move all information from previous software. They are attempting to add items from before Aug 25'. They are unable to do so. Is there a work around for this?
+
+Item# 100313
+
+--- turn 4 [agent/reply] "customercare@primeroedge.com" <customercare@primeroedge.com>  2026-04-28T16:46:53Z ---
+Hello Burnell,
+
+I tried to reach you via phone to discuss this ticket but was unfortunately unable to reach you. If you would like to discuss this ticket over the phone, please schedule time with me via
+Please click here to
+Setup A Meeting
+ with Tony.
+Alternatively, reach us at 866 442 6030, and if I am available, I will take your call.
+
+
+My hours are 6 am to 2 pm CST.
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click Here
+
+SchoolCafe
+ Training WEBINARS Available:
+Click Here
+
+Let us know if you have any questions regarding this ticket by
+replying all to this ticket
+
+Tony Terral |
+
+CYBERSOFT
+
+Customer Care Specialist, Customer and Expert Care
+
+PrimeroEdge Support
+1.866.442.6030
+ | Email::
+customercare@primeroedge.com
+
+SchoolCafe
+ Support 1.855.737.2233
+
+PrimeroEdge
+ |
+SchoolCafé
+
+Let’s Chat
+ …Send an email to
+customercare@primeroedge.com
+
+to enable your PrimeroEdge support
+LIVE CHAT
+ feature
+
+
+
+Get ready for
+back to school
+ with a refresher training check out
+PrimeroEdge Academy
+
+--- turn 5 [agent/private_note] agent:22039468393  2026-04-29T14:31:19Z ---
+Called and spoke with Burnell and advised on how to edit their inventory.
+
+--- turn 6 [customer/reply] Burnell Offord <bofford@slpsb.org>  2026-05-01T20:45:30Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+This ticket can be closed.
+
+I now see the added corn, 100313 in the Perpetual Inventory and the transfer to a school was successful.
+
+Regards,
+
+Ms. Burnell Offord
+
+Nutrition Coordinator
+
+St. Landry Parish School Board
+
+Phone:  (337) 948-3657  Ext. 10737
+
+On Fri, May 1, 2026 at 12:15 PM
+
+customercare@primeroedge.com
+ <
+customercare@primeroedge.com
+> wrote:
+
+Hello Burnell,
+
+
+
+Please read the full details of this email.  The additional information we are needing or providing is located towards the bottom in the information needed or provided section.
+
+This automated email is to
+ let you know that we are awaiting your response from you on the following ticket:
+
+
+
+
+Ticket Number: 318299
+
+Subject: St. Landry Parish School Board - Item inventory transfer
+
+Kindly review the additional clarification given or reply back with the necessary requested information below so we can continue to work on the issue.
+
+Information needed or provided:
+
+Anthony Terral :
+
+Hello Burnell,
+
+I tried to reach you via phone to discuss this ticket but was unfortunately unable to reach you. If you would like to discuss this ticket over the phone, please schedule time with me via
+
+Please click here to
+
+Setup A Meeting
+ with Tony.
+Alternatively, reach us at 866 442 6030, and if I am available, I will take your call.
+
+
+My hours are 6 am to 2 pm CST.
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click
+ Here
+
+SchoolCafe
+ Training WEBINARS Available:
+Click Here
+
+Let us know if you have any questions regarding this ticket byreplying all to this ticket
+
+Tony Terral |
+
+CYBERSOFT
+
+Customer Care Specialist, Customer and Expert Care
+
+PrimeroEdge Support
+1.866.442.6030
+ | Email::
+customercare@primeroedge.com
+
+SchoolCafe
+ Support
+ 1.855.737.2233
+
+PrimeroEdge
+ |
+SchoolCafé
+
+Let’s Chat
+ …Send
+ an email to
+customercare@primeroedge.com
+
+to
+ enable your PrimeroEdge support
+LIVE CHAT
+ feature
+
+
+
+Get ready for
+back to school
+ with a refresher training check out
+PrimeroEdge
+ Academy
+
+Thank you,
+
+Cybersoft PrimeroEdge Support Team
+

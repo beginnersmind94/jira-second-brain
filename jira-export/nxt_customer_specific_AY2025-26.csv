@@ -1,0 +1,28 @@
+key,request_type,named_customer,module,issuetype,status,resolution,done,created,evidence,summary
+NXT-63908,FD,,Inventory,Story,Done Done,Done,Y,7/10/2025 1:16 PM,Desc: Freshdesk #287828 (duplicate VI# complaint),INV - Vendors - Items - Ignore unorderable items for VI# uniqueness
+NXT-65504,FD,Adams 12,Family Hub,Story,Done Done,Done,Y,8/12/2025 9:19 AM,"Desc: Freshdesk #289943; ""As an Adams 12 parent""",FH - WebView Update for Adams 12 App
+NXT-65541,FD,,Accountability,Story,New,,N,8/13/2025 10:30 AM,Desc: Freshdesk #289187/289213/289232/289234 (FO Year Begin feedback),FO - Year Begin - Updates
+NXT-66821,FD,,Eligibility,Story,Done Done,Done,Y,9/23/2025 3:10 PM,Desc: Freshdesk #295727/296439/314274 (DC extension),"Elig - DC - Extensions - Extending a different DC Type to the same student, blocking inactive Source students"
+NXT-67479,direct,Tullahoma,Financials,Story,Done Done,,Y,10/15/2025 11:29 AM,"Summary+AC ""Tullahoma Financials enhancements""; Azure DevOps PBIs",Tullahoma Financials enhancements
+NXT-67947,FD,,Family Hub,Enhancement,Done Done,Done,Y,10/29/2025 3:02 PM,Desc: Freshdesk #302464/303154 (menu sort),FamPortal - School Menus - Modify Category/Item Display order logic
+NXT-68249,FD,Texas City,Menu Planning,Enhancement,Done Done,Done,Y,11/12/2025 1:35 PM,"Summary ""Texas City""; Desc FD #303802 print; Comment FD 303802",Texas City - Pre-K Meal pattern(2 of 5 Components) 
+NXT-68250,direct,Texas City,Menu Planning,Enhancement,New,,N,11/12/2025 1:46 PM,"Summary ""Texas City - Snack Pre-K Meal pattern and CACFP"" (continuation)",Texas City - Snack Pre-K Meal pattern and CACFP
+NXT-68256,FD,,Eligibility,Story,Done Done,Done,Y,11/12/2025 3:01 PM,Desc: Freshdesk #298990 (CEP apps),"Elig - Verification - 2026 QoL Updates, Include CEP Setting Update"
+NXT-69292,FD,Hill City ISD,Menu Planning,Enhancement,Done Done,Done,Y,1/2/2026 11:24 AM,"Summary ""SC Implementation - Hill City ISD #2""; Comment FD #308059",SC Implementation - Hill City ISD #2 - Nutrient Report Issue
+NXT-69463,FD,Texas City,Menu Planning,Enhancement,Done Done,Done,Y,1/14/2026 10:10 AM,"Desc FD #303802 print (Pre-K 2 of 5 components, Texas City origin)",MP- Pre-K Meal pattern(2 of 5 Components) - Adjust Nutrition Report and Slideout for Fail (API Only)
+NXT-69492,FD,Adams 12,Accountability,Story,Done Done,Done,Y,1/15/2026 2:22 PM,"Summary ""Adams 12""; Desc FD #309264 Oracle financial exports; AC ""sample files for customer approval""",Acc DQ - Adams 12 - SchoolCafe - Oracle financial exports
+NXT-69710,FD,,Accountability,Story,Done Done,Done,Y,1/21/2026 2:54 PM,Desc: Freshdesk #309797 (bulk entry partial),FO - Attendance  > Monthly Entry Type> Bulk Entry tool > Allow partial entry for Either AF or ADA
+NXT-70214,FD,,Accountability,Story,Done Done,Done,Y,2/11/2026 2:46 PM,Desc: Freshdesk #308434 (closed period exceptions),FO - Accountability > Transactions > Exceptions > Do not allow exceptions adjustments during a closed period.
+NXT-70215,FD,,Accountability,Story,Story Refinement/Efforting,,N,2/11/2026 2:50 PM,Desc: Freshdesk #308434 (SNP archive),FO - Accountability  > Claims > SNP Reports > Standard Export > Show Actual Claim data (Archive) and add generation date note.
+NXT-70265,FD,,Account Management,Task,Done Done,,Y,2/13/2026 8:47 AM,Desc: Freshdesk #311711 (ID card barcode template) [recovered from Task],Acct Mgmt - ID Cards - Update the template html code to generate a bar code 
+NXT-70380,FD,,Eligibility,Enhancement,Done Done,Done,Y,2/18/2026 2:54 PM,Desc: Freshdesk #267487 (income surveys auto-process),Elig./FH - Income Surveys - Add New Setting to stop auto-processing Surveys with Unidentified Students
+NXT-70381,FD,,Family Hub,Enhancement,Done Done,Done,Y,2/18/2026 4:00 PM,Summary+Desc: FD #310993 (ingredients display),"FH - Menus - Display Ingredients for all menu item types, inclusive of sub-recipes (FD: 310993)"
+NXT-70424,FD,,Accountability,Enhancement,Done Done,Done,Y,2/20/2026 1:04 PM,Desc: Freshdesk #305261 (serving site),Acc - Add Transaction - Use session location instead of patron enrollment site for recording data
+NXT-70586,FD,,Accountability,Story,Done Done,Done,Y,2/26/2026 3:36 PM,Desc: Freshdesk #312058 (remove status),Acc > End of Day - Remove Status from Suspicious Transactions task
+NXT-70587,FD,,Accountability,Story,Done Done,Done,Y,2/26/2026 3:52 PM,Desc: Freshdesk #311719 (edit check worksheet enrollment),Acc > Reports > Edit Check Worksheet - Add Total Enrollment count
+NXT-71417,FD,,Production,Story,Done Done,Done,Y,3/24/2026 12:53 PM,Comment: committed to FD #315146 (production withdrawal),PR - Status - Production Withdrawal 
+NXT-71744,FD,,Platform - Data Exchange,Story,Done Done,Done,Y,4/7/2026 8:47 AM,Desc: Freshdesk #316155 (headerless Adult import / PowerSchool),Adult Import Header-less File
+NXT-71821,FD,,Family Hub,Enhancement,Ready For Testing,,N,4/9/2026 12:47 PM,Desc: Freshdesk #264863/279685 (intermediate site staff menus),Fam.Portal - Menus - Handle visibility of Menus for Staff at Intermediate sites
+NXT-72038,FD,Stillwater Area Schools,SCTV,Story,New,,N,4/15/2026 12:06 PM,Desc+Comment: FD #317174 Stillwater Area Schools #834 (SCTV Spanish),SCTV - Support Spanish Language Display on SchoolCafe TV Boards
+NXT-72790,FD,Mankato,Item Management,Story,Story Refinement/Efforting,,N,5/12/2026 9:56 AM,Desc: FD #318430 + FD #321324 (Mankato); Front-Office-only customer,IM - Item Config - Menu Item Categories - allow Cybersoft categories to be disabled for POS Item
+NXT-73278,FD,Wadena-Deer Creek Public Schools,Accountability,Enhancement,In Progress,,N,5/28/2026 7:50 AM,"Summary names district; Desc ""District called"" + FD attachments",Acc-Wadena- Deer Creek Public Schools - Edit Check notation question
