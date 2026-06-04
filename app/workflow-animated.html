@@ -1,0 +1,807 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>How a Jira-driven guide update works — animated walkthrough</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root {
+  --ink: #1f2933;
+  --muted: #5b6470;
+  --bg: #f7f8fa;
+  --card: #ffffff;
+  --line: #d9dde4;
+  --line-soft: #e3e7ec;
+
+  --green-fill: #d2efd6;
+  --green-edge: #5da06a;
+  --beige-fill: #e9e1d3;
+  --beige-edge: #a09786;
+  --orange-fill: #fbe4cf;
+  --orange-edge: #d27c3a;
+  --orange-ink: #9a4a14;
+  --blue-fill: #dde6f5;
+  --blue-edge: #5b7bb3;
+  --blue-ink: #2a3f6b;
+  --purple-fill: #ece0f0;
+  --purple-edge: #7a4e8c;
+  --red: #b21f2d;
+  --red-soft: #fbd5d8;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 28px 24px 40px;
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* ─── Header / narration ─── */
+.hero h1 {
+  margin: 0;
+  font-size: 22px;
+  letter-spacing: -0.01em;
+}
+.hero .lede {
+  margin: 4px 0 14px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.narration {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px 18px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  box-shadow: 0 1px 2px rgba(0,0,0,.03);
+}
+.narration .step-num {
+  flex: 0 0 auto;
+  background: var(--orange-fill);
+  color: var(--orange-ink);
+  border-radius: 999px;
+  width: 36px; height: 36px;
+  display: grid; place-items: center;
+  font-weight: 700;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+.narration .meta { flex: 1; min-width: 0; }
+.narration .step-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0 0 4px;
+  color: var(--ink);
+}
+.narration .step-text {
+  margin: 0;
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.55;
+  transition: opacity .25s ease;
+}
+
+/* ─── Stage / diagram ─── */
+.stage {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.04);
+  position: relative;
+}
+.canvas {
+  position: relative;
+  width: 100%;
+  /* fixed aspect to keep positioning predictable */
+  aspect-ratio: 1140 / 560;
+  min-height: 420px;
+}
+.arrows {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* All tiles */
+.tile {
+  position: absolute;
+  border-radius: 10px;
+  border: 2px solid;
+  background: white;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  z-index: 2;
+  transition: opacity .55s ease, transform .55s cubic-bezier(.34,.1,.22,1), box-shadow .55s ease, filter .55s ease;
+  opacity: .38;
+  filter: saturate(.85);
+}
+.tile .label {
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.tile .sub {
+  font-size: 10.5px;
+  color: var(--muted);
+  margin-top: 4px;
+  line-height: 1.35;
+}
+.tile.done {
+  opacity: .82;
+  filter: saturate(.95);
+}
+.tile.active {
+  opacity: 1;
+  filter: saturate(1.05);
+  transform: scale(1.05);
+  box-shadow: 0 0 0 4px rgba(255,255,255,1), 0 0 24px var(--glow, rgba(0,0,0,.15)), 0 6px 16px rgba(0,0,0,.08);
+}
+
+/* Color variants */
+.tile.t-green { background: var(--green-fill); border-color: var(--green-edge); --glow: rgba(93,160,106,.55); }
+.tile.t-purple { background: var(--purple-fill); border-color: var(--purple-edge); --glow: rgba(122,78,140,.5); }
+.tile.t-beige { background: var(--beige-fill); border-color: var(--beige-edge); --glow: rgba(160,151,134,.55); }
+.tile.t-blue { background: var(--blue-fill); border-color: var(--blue-edge); --glow: rgba(91,123,179,.55); }
+.tile.t-orange { background: var(--orange-fill); border-color: var(--orange-edge); --glow: rgba(210,124,58,.55); .label { color: var(--orange-ink); } }
+
+/* Pipeline backdrop tile (the orange "AI pipeline" container) */
+.pipeline-bg {
+  position: absolute;
+  border-radius: 14px;
+  background: var(--orange-fill);
+  border: 2px dashed var(--orange-edge);
+  z-index: 0;
+  opacity: .45;
+  transition: opacity .55s ease;
+}
+.pipeline-bg .pipeline-title {
+  position: absolute;
+  top: 8px; left: 0; right: 0;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--orange-ink);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.pipeline-bg.active { opacity: .9; }
+
+/* Quality criteria — popover that animates in during step 6 */
+.criteria {
+  position: absolute;
+  background: var(--card);
+  border: 1.5px dashed var(--purple-edge);
+  border-radius: 10px;
+  padding: 12px 14px;
+  z-index: 5;
+  opacity: 0;
+  transform: translateY(-6px) scale(.95);
+  transition: opacity .4s ease, transform .4s cubic-bezier(.34,.1,.22,1);
+  pointer-events: none;
+  width: 360px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.08);
+}
+.criteria.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+.criteria .crit-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--purple-edge);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  margin: 0 0 6px;
+}
+.criteria ul { margin: 0; padding: 0; list-style: none; }
+.criteria li {
+  font-size: 12px;
+  color: var(--ink);
+  padding: 3px 0 3px 22px;
+  position: relative;
+  line-height: 1.4;
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity .3s ease, transform .3s ease;
+}
+.criteria li::before {
+  content: "✓";
+  position: absolute;
+  left: 0; top: 3px;
+  color: var(--green-edge);
+  font-weight: 700;
+  font-size: 13px;
+}
+.criteria.show li { opacity: 1; transform: translateX(0); }
+.criteria.show li:nth-child(1) { transition-delay: .15s; }
+.criteria.show li:nth-child(2) { transition-delay: .35s; }
+.criteria.show li:nth-child(3) { transition-delay: .55s; }
+.criteria.show li:nth-child(4) { transition-delay: .75s; }
+
+/* Sample edit popover for the "Draft edits" step */
+.sample-edit {
+  position: absolute;
+  background: var(--card);
+  border: 1.5px solid var(--orange-edge);
+  border-radius: 10px;
+  padding: 10px 12px;
+  z-index: 5;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+  line-height: 1.45;
+  color: var(--ink);
+  opacity: 0;
+  transform: translateY(-6px) scale(.95);
+  transition: opacity .4s ease, transform .4s cubic-bezier(.34,.1,.22,1);
+  pointer-events: none;
+  width: 320px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.08);
+}
+.sample-edit.show { opacity: 1; transform: translateY(0) scale(1); }
+.sample-edit .se-label {
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--orange-ink);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  margin: 0 0 6px;
+}
+.sample-edit .se-row { display: flex; gap: 6px; }
+.sample-edit .se-row .se-k { color: var(--muted); flex: 0 0 60px; }
+.sample-edit .se-row .se-v { color: var(--ink); flex: 1; min-width: 0; word-break: break-word; }
+.sample-edit .se-before { color: var(--red); }
+.sample-edit .se-after { color: var(--green-edge); }
+
+/* Retry hint pill */
+.retry-pill {
+  position: absolute;
+  background: white;
+  border: 1.5px solid var(--red);
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--red);
+  z-index: 5;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity .35s ease, transform .35s ease;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.retry-pill.show { opacity: 1; transform: translateY(0); }
+
+/* Approve/Reject icons over the User tile */
+.decision-icons {
+  position: absolute;
+  z-index: 5;
+  display: flex;
+  gap: 14px;
+  opacity: 0;
+  transition: opacity .3s ease, transform .3s ease;
+  transform: translateY(-4px);
+  pointer-events: none;
+}
+.decision-icons.show { opacity: 1; transform: translateY(0); }
+.decision-icons .pill {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: white;
+  border: 1.5px solid;
+  display: flex; align-items: center; gap: 4px;
+}
+.decision-icons .approve { color: var(--green-edge); border-color: var(--green-edge); }
+.decision-icons .reject { color: var(--red); border-color: var(--red); }
+
+/* ─── SVG arrows ─── */
+.arrow-path {
+  fill: none;
+  stroke: #c5c9d0;
+  stroke-width: 2;
+  transition: stroke .35s ease, stroke-width .35s ease, opacity .35s ease;
+  opacity: .55;
+}
+.arrow-path.done {
+  stroke: #a8aeb6;
+  opacity: .85;
+}
+.arrow-path.active {
+  stroke: var(--muted);
+  stroke-width: 2.5;
+  opacity: 1;
+  stroke-dasharray: 8 6;
+  animation: flow 1.2s linear infinite;
+}
+.arrow-path.retry { stroke: #d9b6bb; }
+.arrow-path.retry.active { stroke: var(--red); animation: flow 1.2s linear infinite; }
+
+@keyframes flow { to { stroke-dashoffset: -14; } }
+
+.arrow-label {
+  font-size: 11px;
+  fill: var(--ink);
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  opacity: .45;
+  transition: opacity .35s ease;
+  pointer-events: none;
+}
+.arrow-label.active, .arrow-label.done { opacity: 1; }
+.arrow-label-bg {
+  fill: white;
+  opacity: .85;
+}
+
+/* ─── Controls ─── */
+.controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.controls button {
+  font: inherit;
+  font-size: 13px;
+  padding: 9px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  cursor: pointer;
+  color: var(--ink);
+  transition: background .15s ease, border-color .15s ease, transform .1s ease;
+  font-weight: 600;
+}
+.controls button:hover:not(:disabled) { background: #eef1f5; border-color: #c4cad2; }
+.controls button:active:not(:disabled) { transform: scale(.97); }
+.controls button:disabled { opacity: .45; cursor: not-allowed; }
+.controls button.primary { background: var(--orange-edge); color: white; border-color: var(--orange-edge); }
+.controls button.primary:hover { background: #b56222; border-color: #b56222; }
+
+.progress-bar {
+  position: relative;
+  height: 4px;
+  background: var(--line-soft);
+  border-radius: 999px;
+  overflow: hidden;
+  margin: 0 4px;
+  flex: 1;
+  max-width: 380px;
+  min-width: 180px;
+}
+.progress-bar .fill {
+  position: absolute;
+  inset: 0 100% 0 0;
+  background: var(--orange-edge);
+  transition: right .45s cubic-bezier(.4,.0,.2,1);
+}
+
+.kbd {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: #eef1f5;
+  border: 1px solid var(--line);
+  color: var(--muted);
+}
+
+@media (max-width: 760px) {
+  .canvas { min-height: 540px; }
+  .tile .label { font-size: 11.5px; }
+  .tile .sub { font-size: 9.5px; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="hero">
+    <h1>How a Jira-driven guide update works</h1>
+    <p class="lede">Step through the pipeline at your own pace, or hit play. <span class="kbd">←</span> / <span class="kbd">→</span> to step · <span class="kbd">Space</span> to play/pause.</p>
+    <div class="narration">
+      <div class="step-num" id="step-num">1</div>
+      <div class="meta">
+        <p class="step-title" id="step-title">User has a guide to update</p>
+        <p class="step-text" id="step-text">Loading…</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="stage">
+    <div class="canvas" id="canvas">
+      <svg class="arrows" viewBox="0 0 1140 560" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <marker id="m-arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="strokeWidth">
+            <path d="M0,0 L10,5 L0,10 z" fill="#5b6470"/>
+          </marker>
+          <marker id="m-arrow-red" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="strokeWidth">
+            <path d="M0,0 L10,5 L0,10 z" fill="#b21f2d"/>
+          </marker>
+        </defs>
+
+        <!-- Arrow paths. IDs match keys used in step definitions. -->
+        <!-- Inputs → pipeline (descending) -->
+        <path id="a-csv-index"     class="arrow-path" d="M 220,90 L 360,90" marker-end="url(#m-arrow)"/>
+        <path id="a-index-find"    class="arrow-path" d="M 480,135 C 480,200 320,200 280,235" marker-end="url(#m-arrow)"/>
+        <path id="a-pdf-pipeline"  class="arrow-path" d="M 855,135 C 855,200 780,210 720,235" marker-end="url(#m-arrow)"/>
+
+        <!-- User ↔ pipeline -->
+        <path id="a-user-pipeline" class="arrow-path" d="M 150,290 L 200,290" marker-end="url(#m-arrow)"/>
+        <path id="a-pipeline-user" class="arrow-path" d="M 200,340 L 150,340" marker-end="url(#m-arrow)"/>
+        <path id="a-user-decide"   class="arrow-path" d="M 150,400 L 200,400" marker-end="url(#m-arrow)"/>
+
+        <!-- Stage 1 → 2 → 3 → 4 (forward) -->
+        <path id="a-s1-s2" class="arrow-path" d="M 360,290 L 400,290" marker-end="url(#m-arrow)"/>
+        <path id="a-s2-s3" class="arrow-path" d="M 560,290 L 600,290" marker-end="url(#m-arrow)"/>
+        <path id="a-s3-s4" class="arrow-path" d="M 760,290 L 800,290" marker-end="url(#m-arrow)"/>
+
+        <!-- Retry: stage 3 → stage 2 (curved back, red) -->
+        <path id="a-retry" class="arrow-path retry"
+              d="M 690,255 C 690,160 470,160 470,255" marker-end="url(#m-arrow-red)"/>
+
+        <!-- Stage 4 → Output -->
+        <path id="a-s4-output" class="arrow-path" d="M 960,290 L 1000,290" marker-end="url(#m-arrow)"/>
+
+        <!-- Arrow labels -->
+        <g class="labels">
+          <g><rect class="arrow-label-bg" x="248" y="78" width="62" height="16" rx="4"/><text class="arrow-label" id="lbl-csv-index" x="280" y="90" text-anchor="middle" dominant-baseline="middle">indexed</text></g>
+          <g><rect class="arrow-label-bg" x="356" y="170" width="172" height="16" rx="4"/><text class="arrow-label" id="lbl-index-find" x="443" y="182" text-anchor="middle" dominant-baseline="middle">relevant tickets pulled</text></g>
+          <g><rect class="arrow-label-bg" x="800" y="170" width="60" height="16" rx="4"/><text class="arrow-label" id="lbl-pdf-pipeline" x="830" y="182" text-anchor="middle" dominant-baseline="middle">PDF in</text></g>
+          <g><rect class="arrow-label-bg" x="138" y="278" width="74" height="16" rx="4"/><text class="arrow-label" id="lbl-user-pipeline" x="175" y="290" text-anchor="middle" dominant-baseline="middle">drops PDF</text></g>
+          <g><rect class="arrow-label-bg" x="129" y="328" width="92" height="16" rx="4"/><text class="arrow-label" id="lbl-pipeline-user" x="175" y="340" text-anchor="middle" dominant-baseline="middle">proposed edits</text></g>
+          <g><rect class="arrow-label-bg" x="116" y="388" width="118" height="16" rx="4"/><text class="arrow-label" id="lbl-user-decide" x="175" y="400" text-anchor="middle" dominant-baseline="middle">approve / reject</text></g>
+          <g><rect class="arrow-label-bg" x="966" y="278" width="84" height="16" rx="4"/><text class="arrow-label" id="lbl-s4-output" x="1008" y="290" text-anchor="middle" dominant-baseline="middle">revised PDF</text></g>
+          <g><rect class="arrow-label-bg" x="754" y="278" width="32" height="16" rx="4"/><text class="arrow-label" id="lbl-s3-s4" x="770" y="290" text-anchor="middle" dominant-baseline="middle">pass</text></g>
+        </g>
+      </svg>
+
+      <!-- Pipeline backdrop (sits behind stage tiles) -->
+      <div class="pipeline-bg" id="pipeline-bg" style="left:195px; top:215px; width:770px; height:150px;">
+        <div class="pipeline-title">AI pipeline</div>
+      </div>
+
+      <!-- Tiles: Inputs row -->
+      <div class="tile t-green" id="t-csv" style="left:20px; top:55px; width:200px; height:70px;">
+        <div class="label">Past Jira tickets</div>
+        <div class="sub">All modules · all shipped work</div>
+      </div>
+      <div class="tile t-purple" id="t-index" style="left:360px; top:55px; width:240px; height:70px;">
+        <div class="label">Searchable ticket index</div>
+        <div class="sub">Built once across all modules</div>
+      </div>
+      <div class="tile t-green" id="t-pdf" style="left:760px; top:55px; width:200px; height:70px;">
+        <div class="label">Source guide (PDF)</div>
+        <div class="sub">Dropped by the user</div>
+      </div>
+
+      <!-- Middle row: User, 4 stages, Output -->
+      <div class="tile t-beige" id="t-user" style="left:20px; top:250px; width:130px; height:200px;">
+        <div class="label">User</div>
+        <div class="sub">drops PDF<br>picks module<br>reviews edits</div>
+      </div>
+
+      <div class="tile t-blue" id="t-s1" style="left:200px; top:250px; width:160px; height:80px;">
+        <div class="label">1. Find tickets</div>
+        <div class="sub">4 filters · search · follow links</div>
+      </div>
+      <div class="tile t-orange" id="t-s2" style="left:400px; top:250px; width:160px; height:80px;">
+        <div class="label">2. Draft edits</div>
+        <div class="sub">AI proposes before / after</div>
+      </div>
+      <div class="tile t-purple" id="t-s3" style="left:600px; top:250px; width:160px; height:80px;">
+        <div class="label">3. Quality check</div>
+        <div class="sub">verify each edit</div>
+      </div>
+      <div class="tile t-beige" id="t-s4" style="left:800px; top:250px; width:160px; height:80px;">
+        <div class="label">4. Build new doc</div>
+        <div class="sub">apply approved, render PDF</div>
+      </div>
+
+      <div class="tile t-beige" id="t-output" style="left:1000px; top:250px; width:130px; height:200px;">
+        <div class="label">Output</div>
+        <div class="sub">revised PDF<br>ready to download</div>
+      </div>
+
+      <!-- Quality criteria popover (revealed during step 6) -->
+      <div class="criteria" id="criteria" style="left:480px; top:355px;">
+        <p class="crit-title">Quality check verifies (per edit)</p>
+        <ul>
+          <li>Quote is real — verbatim in the source</li>
+          <li>Nothing fabricated — every claim sourced</li>
+          <li>Nothing important dropped silently</li>
+          <li>Cited the right source type (guide → changelog → ticket)</li>
+        </ul>
+      </div>
+
+      <!-- Sample edit popover (revealed during step 5) -->
+      <div class="sample-edit" id="sample-edit" style="left:380px; top:355px;">
+        <p class="se-label">Sample proposed edit</p>
+        <div class="se-row"><span class="se-k">ticket</span><span class="se-v">NXT-35144</span></div>
+        <div class="se-row"><span class="se-k">section</span><span class="se-v">Pending Apps actions</span></div>
+        <div class="se-row"><span class="se-k">before</span><span class="se-v se-before">"View, Delete, History"</span></div>
+        <div class="se-row"><span class="se-k">after</span><span class="se-v se-after">"View, Deny, Refuse, Delete, History"</span></div>
+      </div>
+
+      <!-- Retry pill (revealed during step 7) -->
+      <div class="retry-pill" id="retry-pill" style="left:480px; top:175px;">
+        ⟲ Quality check failed — AI retries with the reason (≤3 tries)
+      </div>
+
+      <!-- Decision pills (revealed during step 8) -->
+      <div class="decision-icons" id="decision-icons" style="left:38px; top:215px;">
+        <span class="pill approve">✓ approve</span>
+        <span class="pill reject">✕ reject</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button id="btn-reset" title="Reset to step 1">⟲ Reset</button>
+    <button id="btn-prev" title="Previous step (←)">← Prev</button>
+    <button class="primary" id="btn-play" title="Play / Pause (Space)">▶ Play</button>
+    <button id="btn-next" title="Next step (→)">Next →</button>
+    <div class="progress-bar"><div class="fill" id="progress-fill"></div></div>
+    <span id="step-readout" style="font-size:12px; color:var(--muted); font-variant-numeric: tabular-nums;">1 / 10</span>
+  </div>
+
+</div>
+
+<script>
+// ─────────────── STEP DEFINITIONS ───────────────
+// Each step describes which tiles/arrows/popovers should be in the "active" state.
+// Tiles/arrows not listed in a step's `active` list are inactive by default. Tiles
+// from earlier steps automatically become `done` (faded but not dimmed).
+
+const STEPS = [
+  {
+    title: "User has a guide to update",
+    text: "A team member has a published PDF guide that's getting stale — Jira tickets have shipped changes that aren't reflected yet. They open the tool.",
+    activeTiles: ["t-user"],
+    activeArrows: [],
+    show: [],
+  },
+  {
+    title: "Step 1 · Drop the PDF, pick the module",
+    text: "The user drags the guide PDF into the tool and picks which product module it belongs to (e.g. Eligibility). The system creates a new job and starts processing.",
+    activeTiles: ["t-user", "t-pdf"],
+    activeArrows: ["a-user-pipeline"],
+    show: [],
+  },
+  {
+    title: "Step 2 · Pull in past tickets from the index",
+    text: "The system queries the searchable ticket index — built once across every module — filtering by the chosen module to narrow the candidate set.",
+    activeTiles: ["t-csv", "t-index"],
+    activeArrows: ["a-csv-index", "a-index-find"],
+    show: [],
+  },
+  {
+    title: "Step 3 · Read the source guide",
+    text: "In parallel, the uploaded PDF is extracted to plain text. The pipeline now has both the source guide and a set of candidate tickets — ready to draft edits.",
+    activeTiles: ["t-pdf"],
+    activeArrows: ["a-pdf-pipeline"],
+    show: [],
+  },
+  {
+    title: "Step 4 · Find tickets (Stage 1)",
+    text: "Four filters narrow the candidates: module, resolution (Done/Fixed/Resolved), date window, and Release Notes Required. Vector search then ranks the remainder by relevance to this specific guide.",
+    activeTiles: ["t-s1"],
+    activeArrows: [],
+    show: [],
+  },
+  {
+    title: "Step 5 · Draft edits (Stage 2)",
+    text: "An AI agent proposes targeted edits. For each relevant ticket, it picks a guide section and writes a 'before' (what the guide currently says) and an 'after' (the proposed change), with the source quote that justifies it.",
+    activeTiles: ["t-s2"],
+    activeArrows: ["a-s1-s2"],
+    show: ["sample-edit"],
+  },
+  {
+    title: "Step 6 · Quality check (Stage 3)",
+    text: "Every proposed edit goes through four verification checks. Edits that fail any check are sent back to the AI for revision; only passing edits move on.",
+    activeTiles: ["t-s3"],
+    activeArrows: ["a-s2-s3"],
+    show: ["criteria"],
+  },
+  {
+    title: "Step 7 · If checks fail, retry",
+    text: "When an edit doesn't pass, the AI is told which check failed and on which edit, then asked to revise. Up to 3 retries. If still failing, the edit is dropped and logged.",
+    activeTiles: ["t-s3", "t-s2"],
+    activeArrows: ["a-retry"],
+    show: ["retry-pill"],
+  },
+  {
+    title: "Step 8 · Edits stream to the user for review",
+    text: "Each passing edit streams back to the user as it's ready. They see a card per edit with source ticket, before/after, and the justifying quote. They approve or reject individually.",
+    activeTiles: ["t-user", "t-s3"],
+    activeArrows: ["a-pipeline-user"],
+    show: ["decision-icons"],
+  },
+  {
+    title: "Step 9 · Build the revised doc (Stage 4)",
+    text: "Approved edits are applied to the guide markdown and rendered to PDF. Rejected edits are discarded but logged for the audit trail. Intermediate files are saved per job for debug.",
+    activeTiles: ["t-user", "t-s4"],
+    activeArrows: ["a-user-decide", "a-s3-s4"],
+    show: [],
+  },
+  {
+    title: "Done · Revised PDF, ready to download",
+    text: "The user gets a download link. End-to-end: drop a PDF in, get a verified, source-cited update back out — with a complete audit trail of every edit, every check, and every decision.",
+    activeTiles: ["t-output"],
+    activeArrows: ["a-s4-output"],
+    show: [],
+  },
+];
+
+// ─────────────── STATE + WIRING ───────────────
+const TOTAL = STEPS.length;
+let current = 0;            // 0-indexed
+let playing = false;
+let playTimer = null;
+const PLAY_INTERVAL_MS = 5200;
+
+const $ = (id) => document.getElementById(id);
+
+function render() {
+  const step = STEPS[current];
+
+  // Step meta
+  $("step-num").textContent = current + 1;
+  $("step-title").textContent = step.title;
+  // Fade-swap narration text
+  const tx = $("step-text");
+  tx.style.opacity = "0";
+  setTimeout(() => {
+    tx.textContent = step.text;
+    tx.style.opacity = "1";
+  }, 180);
+
+  // Progress bar + readout
+  const pct = ((current + 1) / TOTAL) * 100;
+  $("progress-fill").style.right = (100 - pct) + "%";
+  $("step-readout").textContent = `${current + 1} / ${TOTAL}`;
+
+  // Tile states
+  document.querySelectorAll(".tile").forEach(el => {
+    el.classList.remove("active", "done");
+    const id = el.id;
+    if (step.activeTiles.includes(id)) {
+      el.classList.add("active");
+    } else if (wasActiveBefore(id, current)) {
+      el.classList.add("done");
+    }
+  });
+
+  // Pipeline backdrop
+  const pipelineActive = step.activeTiles.some(id => ["t-s1","t-s2","t-s3","t-s4"].includes(id))
+                        || step.activeArrows.some(id => id.startsWith("a-s") || id === "a-retry");
+  $("pipeline-bg").classList.toggle("active", pipelineActive);
+
+  // Arrow states
+  document.querySelectorAll(".arrow-path").forEach(el => {
+    el.classList.remove("active", "done");
+    const id = el.id;
+    if (step.activeArrows.includes(id)) {
+      el.classList.add("active");
+    } else if (wasActiveArrowBefore(id, current)) {
+      el.classList.add("done");
+    }
+  });
+
+  // Arrow labels — active labels light up, past-active labels stay visible (done)
+  document.querySelectorAll(".arrow-label").forEach(el => {
+    el.classList.remove("active", "done");
+    const arrowId = el.id.replace(/^lbl-/, "a-");
+    if (step.activeArrows.includes(arrowId)) {
+      el.classList.add("active");
+    } else if (wasActiveArrowBefore(arrowId, current)) {
+      el.classList.add("done");
+    }
+  });
+
+  // Show/hide popovers (criteria, sample-edit, retry-pill, decision-icons)
+  ["criteria", "sample-edit", "retry-pill", "decision-icons"].forEach(id => {
+    $(id).classList.toggle("show", step.show.includes(id));
+  });
+
+  // Button states
+  $("btn-prev").disabled = current === 0;
+  $("btn-next").disabled = current === TOTAL - 1;
+}
+
+function wasActiveBefore(tileId, idx) {
+  for (let i = 0; i < idx; i++) {
+    if (STEPS[i].activeTiles.includes(tileId)) return true;
+  }
+  return false;
+}
+function wasActiveArrowBefore(arrowId, idx) {
+  for (let i = 0; i < idx; i++) {
+    if (STEPS[i].activeArrows.includes(arrowId)) return true;
+  }
+  return false;
+}
+
+function next() {
+  if (current < TOTAL - 1) { current++; render(); }
+  else { stopPlay(); }
+}
+function prev() {
+  if (current > 0) { current--; render(); }
+}
+function reset() {
+  current = 0;
+  stopPlay();
+  render();
+}
+function startPlay() {
+  if (current === TOTAL - 1) current = 0;
+  playing = true;
+  $("btn-play").innerHTML = "⏸ Pause";
+  $("btn-play").classList.remove("primary");
+  tick();
+  playTimer = setInterval(tick, PLAY_INTERVAL_MS);
+  render();
+}
+function stopPlay() {
+  playing = false;
+  $("btn-play").innerHTML = "▶ Play";
+  $("btn-play").classList.add("primary");
+  if (playTimer) { clearInterval(playTimer); playTimer = null; }
+}
+function togglePlay() {
+  if (playing) stopPlay(); else startPlay();
+}
+function tick() {
+  if (!playing) return;
+  if (current >= TOTAL - 1) { stopPlay(); render(); return; }
+  current++;
+  render();
+}
+
+// Wire up
+$("btn-prev").addEventListener("click", () => { stopPlay(); prev(); });
+$("btn-next").addEventListener("click", () => { stopPlay(); next(); });
+$("btn-play").addEventListener("click", togglePlay);
+$("btn-reset").addEventListener("click", reset);
+
+document.addEventListener("keydown", (e) => {
+  if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+  if (e.key === "ArrowRight") { e.preventDefault(); stopPlay(); next(); }
+  else if (e.key === "ArrowLeft") { e.preventDefault(); stopPlay(); prev(); }
+  else if (e.key === " ") { e.preventDefault(); togglePlay(); }
+  else if (e.key === "r" || e.key === "R") { reset(); }
+});
+
+// Initial render
+render();
+</script>
+</body>
+</html>

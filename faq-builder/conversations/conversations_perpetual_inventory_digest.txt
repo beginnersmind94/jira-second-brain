@@ -1,0 +1,6620 @@
+==========================================================================================
+TICKET 290408  |  OL3 - Colorado Department of Human Services - exception errors
+==========================================================================================
+
+--- turn 0 [customer/description] Ratha Chiwapong - CDHS <ratha.chiwapong@state.co.us>  2025-08-01T16:17:12Z ---
+Ratha Chiwapong
+
+
+
+
+We are experiencing of server error.
+
+
+
+09:30 AM, 01st Aug
+
+
+
+
+
+
+
+Ratha Chiwapong
+
+
+
+
+many facilities cannot enter the counts
+
+
+
+09:30 AM, 01st Aug
+
+
+
+
+
+
+
+Keith
+
+
+
+
+hello
+
+
+
+09:30 AM, 01st Aug
+
+
+
+
+
+
+
+Keith
+
+
+
+
+what are you doing when the error happens
+
+
+
+09:30 AM, 01st Aug
+
+
+
+
+
+
+
+Ratha Chiwapong
+
+
+
+
+Are you updating the server or something.
+
+
+
+09:30 AM, 01st Aug
+
+
+
+
+
+
+
+Keith
+
+
+
+
+no
+
+
+
+09:31 AM, 01st Aug
+
+
+
+
+
+
+
+Ratha Chiwapong
+
+
+
+
+OK Let me try again.
+
+
+
+09:31 AM, 01st Aug
+
+
+
+
+
+
+
+Keith
+
+
+
+
+can you try clearing cache.
+
+
+
+09:31 AM, 01st Aug
+
+
+
+
+
+
+
+Keith
+
+
+
+
+i did get one other report this am about your environment
+
+
+
+09:31 AM, 01st Aug
+
+
+
+
+
+
+
+Ratha Chiwapong
+
+
+
+
+Thank you it works now.
+
+
+
+09:34 AM, 01st Aug
+
+
+
+
+
+
+
+Keith
+
+
+
+
+ok please keep me informed if you have any more issues
+
+
+
+09:34 AM, 01st Aug
+
+
+
+
+
+
+
+Ratha Chiwapong
+
+
+
+
+Thank you
+
+
+
+09:36 AM, 01st Aug
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Take to
+Team Inbox
+
+
+==========================================================================================
+TICKET 291545  |  [EXT]inventory valuation report
+==========================================================================================
+
+--- turn 0 [customer/description] Lauren Koff <lauren.koff@hcbe.net>  2025-08-11T12:11:06Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Hello,
+
+
+
+I am looking for a manual on inventory. I am trying to figure out reasons inventory value would differ from market value.
+
+
+
+I know market value is the value of the inventory on hand based on the current price. We have the method set to moving average price, however, one thing we have noticed is inventory value is sometimes higher
+ than you would expect. (ie: Cereal was $50 a case, it is now $60 a case. If I brought in 1 case at the old price and one case at the new price, the averaged value would be likely $110 dollars. But the inventory value is higher than that?)
+
+
+
+We are just looking to understand the differences.
+
+
+
+Thank you.
+
+
+
+Lauren Koff,
+
+MS, RD, LD, SNS
+
+Dietitian
+
+Houston County School Nutrition Program
+
+1600 Macon Road
+
+Suite C
+
+Perry, Georgia 31069
+
+(478) 322-3308
+
+
+
+
+
+
+
+
+Disclaimer
+
+The information contained in this communication from the sender is confidential. It is intended solely for use by the recipient and others authorized to receive it. If you are not the recipient,
+ you are hereby notified that any disclosure, copying, distribution or taking action in relation of the contents of this information is strictly prohibited and may be unlawful.
+
+This email has been scanned for viruses and malware, and may have been automatically archived by
+
+Mimecast Ltd
+, an innovator in Software as a Service (SaaS) for business. Providing a
+
+safer
+ and
+more useful
+ place for your human generated data. Specializing in; Security, archiving and compliance. To find out more
+
+Click Here
+.
+
+--- turn 1 [agent/reply] "customercare@primeroedge.com" <customercare@primeroedge.com>  2025-08-12T13:53:41Z ---
+Hello Lauren,
+
+Do you have an example of an item exhibiting this behavior so that we can look into this further. I want to check why this would be happening since i remember when we set it to MAP's evaluation and should work that way. Let me know and I can get back to you on that. Thanks.
+
+✅
+ Complete your Year Begin Tasks
+
+✨
+ Explore PrimeroEdge’s fresh look:
+reimagined.primeroedge.com
+
+📘
+ See the
+Navigation
+Guide
+ and latest
+Release Notes
+ in
+RESOURCES
+ (formerly AMIGO)
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click Here
+
+SchoolCafe
+ Training WEBINARS Available:
+Click
+Here
+
+Let us know if you have any questions regarding this ticket by
+replying all to this ticket
+
+Jorge Rodriguez
+
+Customer Care Specialist, Customer Care
+|
+CYBERSOFT
+
+
+call:
+866.442.6030
+
+email:
+customercare@primeroedge.com
+
+
+www.primeroedge.com
+
+YOUR GOALS ARE OUR GOALS.
+
+Let’s Chat
+
+…Send an email to
+CustomerCare@primeroedge.com
+ to enable your PrimeroEdge support
+LIVE CHAT
+ feature
+
+Check out our refresher training courses in the
+
+PrimeroEdge Academy
+
+--- turn 2 [customer/reply] Lauren Koff <lauren.koff@hcbe.net>  2025-08-13T18:35:43Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+My apologies. I was looking at the wrong price condition.
+
+
+
+I think I understand why those columns differ.
+
+
+
+From:
+ customercare@primeroedge.com <customercare@primeroedge.com>
+
+Sent:
+ Tuesday, August 12, 2025 9:54 AM
+
+To:
+ Koff, Lauren <lauren.koff@hcbe.net>
+
+Subject:
+ Re: [EXT]inventory valuation report-[#291545]
+
+
+
+CAUTION:
+
+This email originated from outside of the Houston County School District. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+
+
+Hello Lauren,
+
+Do you have an example of an item exhibiting this behavior so that we can look into this further. I want to check why this would be happening since i remember
+ when we set it to MAP's evaluation and should work that way. Let me know and I can get back to you on that. Thanks.
+
+
+
+
+
+
+
+✅
+ Complete your Year Begin Tasks
+
+✨
+ Explore PrimeroEdge’s fresh look:
+
+reimagined.primeroedge.com
+
+📘
+ See the
+
+Navigation Guide
+ and latest
+Release Notes
+ in
+
+RESOURCES
+ (formerly AMIGO)
+
+
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click
+ Here
+
+
+SchoolCafe
+ Training WEBINARS Available:
+
+Click Here
+
+Let us know if you have any questions regarding this ticket by replying all to this ticket
+
+
+
+Jorge Rodriguez
+
+Customer Care Specialist, Customer Care
+|
+CYBERSOFT
+
+call:
+866.442.6030
+
+email:
+customercare@primeroedge.com
+
+
+www.primeroedge.com
+
+YOUR GOALS ARE OUR GOALS.
+
+Let’s Chat
+ …Send an email to
+CustomerCare@primeroedge.com
+ to
+ enable your PrimeroEdge support
+LIVE CHAT
+ feature
+
+Check out our refresher training courses in the
+
+PrimeroEdge
+ Academy
+
+
+On Mon, Aug 11 at 7:11 AM
+
+, Lauren Koff <lauren.koff@hcbe.net> wrote:
+
+CAUTION
+: This email originated from outside of the organization. Do not click links
+ or open attachments unless you recognize the sender and know the content is safe.
+
+Hello,
+
+
+
+I am looking for a manual on inventory. I am trying to figure out reasons inventory value would differ from market value.
+
+
+
+I know market value is the value of the inventory on hand based on the current price. We have the method set to moving average price, however, one thing we have noticed is
+ inventory value is sometimes higher than you would expect. (ie: Cereal was $50 a case, it is now $60 a case. If I brought in 1 case at the old price and one case at the new price, the averaged value would be likely $110 dollars. But the inventory value is
+ higher than that?)
+
+
+
+We are just looking to understand the differences.
+
+
+
+Thank you.
+
+
+
+Lauren Koff,
+
+MS, RD, LD, SNS
+
+Dietitian
+
+Houston County School Nutrition Program
+
+1600 Macon Road
+
+Suite C
+
+Perry, Georgia 31069
+
+(478) 322-3308
+
+
+
+
+
+
+
+
+
+
+Disclaimer
+
+The information contained in this communication from the sender is confidential. It is intended solely for use by the recipient and others authorized to receive
+ it. If you are not the recipient, you are hereby notified that any disclosure, copying, distribution or taking action in relation of the contents of this information is strictly prohibited and may be unlawful.
+
+This email has been scanned for viruses and malware, and may have been automatically archived by
+
+Mimecast Ltd
+, an innovator in Software as a Service (SaaS) for business. Providing a
+
+safer
+ and
+more useful
+ place for your human generated data. Specializing in; Security, archiving and compliance. To find out more
+
+Click Here
+.
+
+291545:507611
+
+
+==========================================================================================
+TICKET 291616  |  Fort Bend - question on inventory
+==========================================================================================
+
+--- turn 0 [customer/description] Siew Lim <siew.lim@fortbendisd.gov>  2025-08-11T15:16:23Z ---
+Siew Lim
+
+
+
+
+What can I do if the July inventory is not received and invoices were received for August?
+
+
+
+04:04 PM, 08th Aug
+
+
+
+
+
+
+
+Siew Lim
+
+
+
+
+What will be the best solutions?
+
+
+
+04:05 PM, 08th Aug
+
+
+
+
+
+
+
+Terri
+
+
+
+
+I would cancel any july inventories that were not reconciled. You can do an "Interim" inventory any day of the month. You would just need to do them either prior to receiving in orders or after
+
+
+
+04:34 PM, 08th Aug
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Take to
+Team Inbox
+
+
+==========================================================================================
+TICKET 295285  |  Lamar - Question on perpetual
+==========================================================================================
+
+--- turn 0 [customer/description] Kelly Casias-Ruiz <kelly.ruiz@lcisd.org>  2025-09-02T19:40:48Z ---
+Kelly Casias-Ruiz
+
+
+
+
+How to print item perpetual report
+
+
+
+02:29 PM, 02nd Sep
+
+
+
+
+
+
+
+Terri
+
+
+
+
+Are you asking about your stock items?
+
+
+
+02:37 PM, 02nd Sep
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Take to
+Team Inbox
+
+--- turn 1 [agent/reply] "customercare@primeroedge.com" <customercare@primeroedge.com>  2025-09-02T19:41:43Z ---
+Hello kelly,
+
+Below is how to get your perpetual inventory report:
+
+✅
+ Complete your Year Begin Tasks
+
+✨
+ Explore PrimeroEdge’s fresh look:
+reimagined.primeroedge.com
+
+📘
+ See the
+Navigation
+Guide
+ and latest
+Release Notes
+ in
+RESOURCES
+ (formerly AMIGO)
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click Here
+
+SchoolCafe
+ Training WEBINARS Available:
+Click
+Here
+
+Let us know if you have any questions regarding this ticket by
+replying all to this ticket
+
+Terri Brown
+ |
+
+CYBERSOFT
+
+Region Lead,
+Customer and Expert Care
+
+Support: 866.442.6030 | Email:
+customercare@primeroedge.com
+
+
+PrimeroEdge
+ |
+SchoolCafé
+
+
+
+Let’s Chat
+ …Send an email to
+customercare@primeroedge.com
+
+to enable your PrimeroEdge
+support
+LIVE CHAT
+ feature
+
+
+==========================================================================================
+TICKET 298450  |  San Gabriel USD - Adding item to inventory Not on Perpetual
+==========================================================================================
+
+--- turn 0 [customer/description] Nanci Leanos <leanos_n@sgusd.k12.ca.us>  2025-09-23T21:00:08Z ---
+Dear PrimeroEdge Support Team,
+
+I hope this message finds you well. I’m reaching out for assistance with adding an item (#800166) to our inventory.  The item (#800166) is currently on the floor and in use, but it does not appear in our perpetual inventory records.
+
+Could you please guide me through the correct process to add this item so that our inventory reflects it accurately?
+
+Thank you,
+
+Nanci Leaños
+
+Nutrition Service Operations Manager
+
+San Gabriel Unified School District
+
+408 Junipero Serra Drive
+
+San Gabriel, Ca 91776
+
+📞 Office: (626) 451-5454
+
+ 📧
+nutritionservices@sgusd.net
+
+🌐
+ Visit Our Nutrition Web Page
+
+--- turn 1 [agent/private_note] agent:22037971404  2025-09-23T21:04:57Z ---
+(empty)
+
+--- turn 2 [agent/reply] "customercare@primeroedge.com" <customercare@primeroedge.com>  2025-09-23T21:13:09Z ---
+Hello Nanci,
+
+After reviewing your perpetual inventory I did see item #
+800166
+
+
+
+
+✅
+ Complete your Year Begin Tasks
+
+✨
+ Explore PrimeroEdge’s fresh look:
+reimagined.primeroedge.com
+
+📘
+ See the
+Navigation
+Guide
+ and latest
+Release Notes
+ in
+RESOURCES
+ (formerly AMIGO)
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click Here
+
+SchoolCafe
+ Training WEBINARS Available:
+Click Here
+
+Let us know if you have any questions regarding this ticket by
+replying all to this ticket
+
+Thank you,
+
+Justus Redix
+ |
+
+CYBERSOFT
+
+Specialist, Customer Care
+
+Support: 866.442.6030 | Email:
+customercare@primeroedge.com
+
+PrimeroEdge
+ |
+SchoolCafé
+
+Let’s Chat
+ …Send an email to
+customercare@primeroedge.com
+
+to enable your PrimeroEdge support
+LIVE CHAT
+ feature
+
+
+
+Check out
+PrimeroEdge Academy
+
+for additional module-based training videos!
+
+--- turn 3 [customer/reply] Nanci Leanos <leanos_n@sgusd.k12.ca.us>  2025-09-23T21:16:32Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Unfortunately, I do not see how many we have in stock. On my end it states 'no records to display'
+
+Nanci Leaños
+
+Nutrition Service Operations Manager
+
+San Gabriel Unified School District
+
+408 Junipero Serra Drive
+
+San Gabriel, Ca 91776
+
+📞 Office: (626) 451-5454
+
+📧
+nutritionservices@sgusd.net
+
+🌐
+
+Visit Our Nutrition Web Page
+
+From: customercare@primeroedge.com <customercare@primeroedge.com>
+
+Sent:
+ Tuesday, September 23, 2025 2:13 PM
+
+To:
+ Nanci Leanos <leanos_n@sgusd.k12.ca.us>
+
+Subject:
+ Re: San Gabriel USD - Adding item to inventory Not on Perpetual-[#298450]
+
+
+
+Hello Nanci,
+
+After reviewing your perpetual inventory I did see item #
+
+800166
+
+
+
+
+✅
+ Complete your Year Begin Tasks
+
+✨
+ Explore PrimeroEdge’s fresh look:
+
+reimagined.primeroedge.com
+
+📘
+ See the
+
+Navigation Guide
+ and latest
+
+Release Notes
+ in
+
+RESOURCES
+ (formerly AMIGO)
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click
+ Here
+
+
+SchoolCafe
+ Training WEBINARS Available:
+Click Here
+
+Let us know if you have any questions regarding this ticket by replying all to this ticket
+
+Thank you,
+
+Justus Redix
+ |
+
+CYBERSOFT
+
+Specialist, Customer Care
+
+Support: 866.442.6030 | Email:
+customercare@primeroedge.com
+
+PrimeroEdge
+ |
+SchoolCafé
+
+Let’s
+ Chat
+ …Send an email to
+customercare@primeroedge.com
+
+to
+ enable your PrimeroEdge support
+LIVE CHAT
+ feature
+
+
+
+
+Check out
+PrimeroEdge
+ Academy
+
+
+for additional module-based training videos!
+
+
+On Tue, Sep 23 at 4:00 PM
+
+, Nanci Leanos <leanos_n@sgusd.k12.ca.us> wrote:
+
+Dear PrimeroEdge Support Team,
+
+I hope this message finds you well. I’m reaching out for assistance with adding an item (#800166) to our inventory.  The item (#800166) is currently on the floor and in use, but it does not appear in our perpetual inventory records.
+
+Could you please guide me through the correct process to add this item so that our inventory reflects it accurately?
+
+Thank you,
+
+Nanci Leaños
+
+Nutrition Service Operations Manager
+
+San Gabriel Unified School District
+
+408 Junipero Serra Drive
+
+San Gabriel, Ca 91776
+
+📞 Office: (626) 451-5454
+
+ 📧
+nutritionservices@sgusd.net
+
+🌐
+
+ Visit Our Nutrition Web Page
+
+--- turn 4 [customer/reply] Nanci Leanos <leanos_n@sgusd.k12.ca.us>  2025-09-24T14:16:19Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Good Morning Justus,
+
+I’m following up on our previous conversation. As of today, the perpetual inventory (which displays only on-hand inventory items) still does not show item #800166.
+
+Could you please advise on how I can add this item into the inventory so that it accurately reflects what is currently on the floor
+
+Thank you,
+
+Nanci Leaños
+
+Nutrition Service Operations Manager
+
+San Gabriel Unified School District
+
+408 Junipero Serra Drive
+
+San Gabriel, Ca 91776
+
+📞 Office: (626) 451-5454
+
+📧
+nutritionservices@sgusd.net
+
+🌐
+
+Visit Our Nutrition Web Page
+
+From: Nanci Leanos <leanos_n@sgusd.k12.ca.us>
+
+Sent:
+ Tuesday, September 23, 2025 2:16 PM
+
+To:
+ customercare@primeroedge.com <customercare@primeroedge.com>
+
+Subject:
+ Re: San Gabriel USD - Adding item to inventory Not on Perpetual-[#298450]
+
+
+
+Unfortunately, I do not see how many we have in stock. On my end it states 'no records to display'
+
+Nanci Leaños
+
+Nutrition Service Operations Manager
+
+San Gabriel Unified School District
+
+408 Junipero Serra Drive
+
+San Gabriel, Ca 91776
+
+📞 Office: (626) 451-5454
+
+📧
+nutritionservices@sgusd.net
+
+🌐
+
+Visit Our Nutrition Web Page
+
+From:
+ customercare@primeroedge.com <customercare@primeroedge.com>
+
+Sent:
+ Tuesday, September 23, 2025 2:13 PM
+
+To:
+ Nanci Leanos <leanos_n@sgusd.k12.ca.us>
+
+Subject:
+ Re: San Gabriel USD - Adding item to inventory Not on Perpetual-[#298450]
+
+
+
+Hello Nanci,
+
+After reviewing your perpetual inventory I did see item #
+
+800166
+
+
+
+
+✅
+ Complete your Year Begin Tasks
+
+✨
+ Explore PrimeroEdge’s fresh look:
+
+reimagined.primeroedge.com
+
+📘
+ See the
+
+Navigation Guide
+ and latest
+
+Release Notes
+ in
+
+RESOURCES
+ (formerly AMIGO)
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click
+ Here
+
+
+SchoolCafe
+ Training WEBINARS Available:
+Click Here
+
+Let us know if you have any questions regarding this ticket by replying all to this ticket
+
+Thank you,
+
+Justus Redix
+ |
+
+CYBERSOFT
+
+Specialist, Customer Care
+
+Support: 866.442.6030 | Email:
+customercare@primeroedge.com
+
+PrimeroEdge
+ |
+SchoolCafé
+
+Let’s
+ Chat
+ …Send an email to
+customercare@primeroedge.com
+
+to
+ enable your PrimeroEdge support
+LIVE CHAT
+ feature
+
+
+
+
+Check out
+PrimeroEdge
+ Academy
+
+
+for additional module-based training videos!
+
+
+On Tue, Sep 23 at 4:00 PM
+
+, Nanci Leanos <leanos_n@sgusd.k12.ca.us> wrote:
+
+Dear PrimeroEdge Support Team,
+
+I hope this message finds you well. I’m reaching out for assistance with adding an item (#800166) to our inventory.  The item (#800166) is currently on the floor and in use, but it does not appear in our perpetual inventory records.
+
+Could you please guide me through the correct process to add this item so that our inventory reflects it accurately?
+
+Thank you,
+
+Nanci Leaños
+
+Nutrition Service Operations Manager
+
+San Gabriel Unified School District
+
+408 Junipero Serra Drive
+
+San Gabriel, Ca 91776
+
+📞 Office: (626) 451-5454
+
+ 📧
+nutritionservices@sgusd.net
+
+🌐
+
+ Visit Our Nutrition Web Page
+
+--- turn 5 [agent/private_note] agent:22037971404  2025-09-24T14:49:55Z ---
+========================
+
+District would like to add this item into the inventory so that it accurately reflects what is currently on the floor
+
+--- turn 6 [agent/private_note] agent:22001013774  2025-09-24T16:26:36Z ---
+called and showed her add to inventory so she is good now
+
+
+==========================================================================================
+TICKET 299098  |  Texarkana ISD / Perpetual missing items
+==========================================================================================
+
+--- turn 0 [customer/description] Lindsey Douglass <lindsey.douglass@txkisd.net>  2025-09-29T14:12:17Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Good morning,
+
+Linden Kildare High reconciled inventory on 9/26.
+
+Why is this all that is showing in her perpetual inventory?
+
+Thank you.
+
+--
+
+Lindsey Douglass
+
+Child Nutrition Inventory Control Specialist
+
+Texarkana Independent School District
+
+1600 Waterall, Texarkana, TX 75503
+
+903.792.2231 Ext 1974
+
+Need assistance with ordering, receiving, or inventory?
+
+Click here to book an appointment.
+
+--- turn 1 [agent/private_note] agent:22039468393  2025-09-29T15:59:48Z ---
+(empty)
+
+--- turn 2 [agent/reply] "customercare@primeroedge.com" <customercare@primeroedge.com>  2025-09-29T16:23:36Z ---
+Hello Lindsey,
+
+Thank you for our call today, I just wanted to send a brief email to go over the cause as a follow up.
+
+A second inventory was submitted the same day as the period inventory, and nothing was recorded in it. Additionally, it was reconciled which caused all the items to be zeroed out.
+
+✅
+ Complete your Year Begin Tasks
+
+✨
+ Explore PrimeroEdge’s fresh look:
+reimagined.primeroedge.com
+
+📘
+ See the
+Navigation
+Guide
+ and latest
+Release Notes
+ in
+RESOURCES
+ (formerly AMIGO)
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click Here
+
+SchoolCafe
+ Training WEBINARS Available:
+Click Here
+
+Let us know if you have any questions regarding this ticket by
+replying all to this ticket
+
+Tony Terral |
+
+CYBERSOFT
+
+Customer Care Specialist, Customer and Expert Care
+
+PrimeroEdge Support
+1.866.442.6030
+ | Email::
+customercare@primeroedge.com
+
+SchoolCafe
+ Support 1.855.737.2233
+
+PrimeroEdge
+ |
+SchoolCafé
+
+Let’s Chat
+ …Send an email to
+customercare@primeroedge.com
+
+to enable your PrimeroEdge support
+LIVE CHAT
+ feature
+
+
+
+Get ready for
+back to school
+ with a refresher training check out
+PrimeroEdge Academy
+
+--- turn 3 [customer/reply] Lindsey Douglass <lindsey.douglass@txkisd.net>  2025-09-29T18:52:06Z ---
+(empty)
+
+
+==========================================================================================
+TICKET 299108  |  Chesterfield County Public Schools - inventory work sheet
+==========================================================================================
+
+--- turn 0 [customer/description] April Maker <april_maker@ccpsnet.net>  2025-09-29T14:31:46Z ---
+April Maker
+
+
+
+
+Are schools able to print their inventory worksheets before opening the months inventory?
+
+
+
+08:49 AM, 29th Sep
+
+
+
+
+
+
+
+Keith
+
+
+
+
+Hi, you can, you Fake start one and just print the count sheet
+
+
+
+08:54 AM, 29th Sep
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Take to
+Team Inbox
+
+
+==========================================================================================
+TICKET 301390  |  WAYNE CO SCHOOL DISTRICT - MS - Perpetual Inventory Report
+==========================================================================================
+
+--- turn 0 [customer/description] Melanie Taylor <taylorm@wcsdms.com>  2025-10-15T18:54:08Z ---
+Melanie Taylor
+
+
+
+
+I went and checked this out, but on my report the MAP column is missing that shows money amounts.
+
+
+
+01:30 PM, 15th Oct
+
+
+
+
+
+
+
+Keith
+
+
+
+
+hello
+
+
+
+01:43 PM, 15th Oct
+
+
+
+
+
+
+
+Keith
+
+
+
+
+yeah i see that, kind of goofy. Even if I export it. it shows on the view though
+
+
+
+01:43 PM, 15th Oct
+
+
+
+
+
+
+
+Keith
+
+
+
+
+let me see if i can find a better report
+
+
+
+01:44 PM, 15th Oct
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Take to
+Team Inbox
+
+--- turn 1 [agent/private_note] agent:22001856480  2025-10-15T18:55:15Z ---
+Melanie Taylor
+
+I had a question about perpetual inventory. I wanted to run a perpetual inventory report showing the value of each item and the total.
+
+11:07 AM, 15th Oct
+
+Keith
+
+that report would be right on this page
+
+11:30 AM, 15th Oct
+
+--- turn 2 [agent/private_note] agent:22001856480  2025-10-15T18:56:38Z ---
+This report does not make sense to me.
+
+It does not include the MAP when generated, exported, or printable view?
+
+What can a customer use to get this data?
+
+Do we need to make a DQ?
+
+--- turn 3 [agent/private_note] agent:22052027946  2025-10-15T20:29:54Z ---
+MS is in version 15.8.1. The perpetual inventory report is not including the MAP column in the report.
+
+I have tested this for a few districts: WAYNE CO SCHOOL DISTRICT - MS, BOONEVILLE SCHOOL DISTRICT - MS, and WEST JASPER CONS SCH DIST - MS.
+
+WAYNE CO SCHOOL DISTRICT - MS
+
+
+BOONEVILLE SCHOOL DISTRICT - MS
+
+WEST JASPER CONS SCH DIST - MS
+
+
+The UAT website is currently on version 15.13.1. The perpetual inventory report is not including the map column in the report. I have tested this for several districts, including WAYNE CO SCHOOL DISTRICT - MS, BOONEVILLE SCHOOL DISTRICT - MS, and WEST JASPER CONS SCH DIST - MS.
+
+--- turn 4 [agent/private_note] agent:22005941002  2025-10-15T20:37:54Z ---
+POC request for addition to report to include MAP.
+
+--- turn 5 [agent/private_note] agent:22003423909  2025-10-16T14:27:02Z ---
+I thought MAP column was hidden to all users except  CSSUPPORT, Michael can you please check and let me know the current behavior? I am not sure if the MAP column values are calculating correct, I remember there was an issue with it. please confirm. Assigning this to you for now,.
+
+--- turn 6 [agent/private_note] agent:22003349708  2025-10-16T17:38:03Z ---
+That column only shows if the user has the function CYBADMIN. It shouldn't be showing for a normal user. I'm not sure how that user is even aware of the column. As far as I know that value is correct,its not something we usually pay much attention to.
+
+Here is an example with a user without cssupport permission. The MAP column does not show.
+
+--- turn 7 [agent/reply] "customercare@primeroedge.com" <customercare@primeroedge.com>  2025-10-21T16:52:05Z ---
+Hello Melanie,
+
+Is there a reason that you're looking for information regarding the moving average price? We don't typically recommend using that as a costing standard, and provide several reports with valuation and price details that should be used.
+
+We are working to figure out how you even have that column displayed, as it should have been completely turned off for all user views, and we will be looking to rectify that in your instance. I apologize that you're seeing it to confuse things, and as soon as we can get that removed for you, we will definitely do so.
+
+Let us know if you have any questions regarding this ticket by
+replying all to this ticket
+
+Schrenia Bockholt
+ |
+CYBERSOFT
+
+Business Analyst, Product Management
+
+PrimeroEdge
+ |
+SchoolCafé
+
+--- turn 8 [customer/reply] Melanie Taylor <taylorm@wcsdms.com>  2025-10-21T17:00:51Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+To clarify this I just want to know can you show me the report to run
+with valuation and price details?
+
+Thank you,
+
+Melanie
+
+On Tue, Oct 21, 2025 at 11:52 AM
+
+customercare@primeroedge.com
+ <
+customercare@primeroedge.com
+> wrote:
+
+Hello Melanie,
+
+Is there a reason that you're looking for information regarding the moving average price? We don't typically recommend using that as a costing standard, and provide several reports with valuation and price details that should be used.
+
+We are working to figure out how you even have that column displayed, as it should have been completely turned off for all user views, and we will be looking to rectify that in your instance. I apologize that you're seeing it to confuse things,
+ and as soon as we can get that removed for you, we will definitely do so.
+
+Let us know if you have any questions regarding this ticket by replying all to this ticket
+
+Schrenia
+ Bockholt
+ |
+CYBERSOFT
+
+Business Analyst, Product Management
+
+PrimeroEdge
+ |
+SchoolCafé
+
+On Wed, Oct 15 at 1:54 PM
+, Melanie Taylor <
+taylorm@wcsdms.com
+> wrote:
+
+Melanie Taylor
+
+I went and checked this out, but on my report the MAP column is missing that shows money amounts.
+
+01:30 PM, 15th Oct
+
+Keith
+
+hello
+
+01:43 PM, 15th Oct
+
+Keith
+
+yeah i see that, kind of goofy. Even if I export it. it shows on the view though
+
+01:43 PM, 15th Oct
+
+Keith
+
+let me see if i can find a better report
+
+01:44 PM, 15th Oct
+
+Take to
+
+Team Inbox
+
+--- turn 9 [agent/reply] "customercare@primeroedge.com" <customercare@primeroedge.com>  2025-10-22T11:34:49Z ---
+Good morning Melanie,
+
+There are quite a number of reports in the inventory section that give costing information... the two mentioned are the  Valuation Report and Price Details report which can be found in the Reports section of Inventory.  I definitely recommend going through the reports in each module when you have time, as there are many that have great value to them. Some of them may not be evident to you until you look at the data that they contain in regards to your district. Some users find different reports more relevant to their needs than others, depending on the way different districts run their processes.
+
+✅
+ Complete your Year Begin Tasks
+
+✨
+ Explore PrimeroEdge’s fresh look:
+reimagined.primeroedge.com
+
+📘
+ See the
+Navigation
+Guide
+ and latest
+Release Notes
+ in
+RESOURCES
+ (formerly AMIGO)
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click Here
+
+SchoolCafe
+ Training WEBINARS Available:
+Click Here
+
+Let us know if you have any questions regarding this ticket by
+replying all to this ticket
+
+Schrenia Bockholt
+ |
+CYBERSOFT
+
+Business Analyst, Product Management
+
+PrimeroEdge
+ |
+SchoolCafé
+
+--- turn 10 [customer/reply] Melanie Taylor <taylorm@wcsdms.com>  2025-10-22T12:02:40Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Thank you for your help!
+
+On Wed, Oct 22, 2025 at 6:34 AM
+
+customercare@primeroedge.com
+ <
+customercare@primeroedge.com
+> wrote:
+
+Good morning Melanie,
+
+There are quite a number of reports in the inventory section that give costing information... the two mentioned are the  Valuation Report and Price Details report which can be found in the Reports section of Inventory.  I definitely recommend
+ going through the reports in each module when you have time, as there are many that have great value to them. Some of them may not be evident to you until you look at the data that they contain in regards to your district. Some users find different reports
+ more relevant to their needs than others, depending on the way different districts run their processes.
+
+✅
+ Complete your Year Begin Tasks
+
+✨
+ Explore PrimeroEdge’s fresh look:
+
+reimagined.primeroedge.com
+
+📘
+ See the
+
+Navigation Guide
+ and latest
+
+Release Notes
+ in
+
+RESOURCES
+ (formerly AMIGO)
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click
+ Here
+
+
+SchoolCafe
+ Training WEBINARS Available:
+
+Click Here
+
+Let us know if you have any questions regarding this ticket by replying all to this ticket
+
+Schrenia
+ Bockholt
+ |
+CYBERSOFT
+
+Business Analyst, Product Management
+
+PrimeroEdge
+ |
+SchoolCafé
+
+On Tue, Oct 21 at 12:00 PM
+, Melanie Taylor <
+taylorm@wcsdms.com
+> wrote:
+
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+To clarify this I just want to know can you show me the report to run
+with valuation and price details?
+
+Thank you,
+
+Melanie
+
+On Tue, Oct 21, 2025 at 11:52 AM
+
+customercare@primeroedge.com
+ <
+customercare@primeroedge.com
+> wrote:
+
+Hello Melanie,
+
+Is there a reason that you're looking for information regarding the moving average price? We don't typically recommend using that as a costing standard, and provide several reports with valuation and price details that should be used.
+
+We are working to figure out how you even have that column displayed, as it should have been completely turned off for all user views, and we will be looking to rectify that in your instance. I apologize that you're seeing it to confuse things,
+ and as soon as we can get that removed for you, we will definitely do so.
+
+Let us know if you have any questions regarding this ticket by replying all to this ticket
+
+Schrenia
+ Bockholt
+ |
+CYBERSOFT
+
+Business Analyst, Product Management
+
+PrimeroEdge
+ |
+SchoolCafé
+
+On Wed, Oct 15 at 1:54 PM
+, Melanie Taylor <
+taylorm@wcsdms.com
+> wrote:
+
+Melanie Taylor
+
+I went and checked this out, but on my report the MAP column is missing that shows money amounts.
+
+01:30 PM, 15th Oct
+
+Keith
+
+hello
+
+01:43 PM, 15th Oct
+
+Keith
+
+yeah i see that, kind of goofy. Even if I export it. it shows on the view though
+
+01:43 PM, 15th Oct
+
+Keith
+
+let me see if i can find a better report
+
+01:44 PM, 15th Oct
+
+Take to
+
+Team Inbox
+
+
+==========================================================================================
+TICKET 302110  |  [EXT]Stock Items on Hand Feature
+==========================================================================================
+
+--- turn 0 [customer/description] Lauren Koff <lauren.koff@hcbe.net>  2025-10-22T13:14:09Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Hello.
+
+
+
+We have had several instances of this feature being incorrect. It is a very handy feature when working properly. However, it can cause issues when trying to prepare for and accommodate a new bid, or when looking
+ for things.
+
+
+
+Attached is an example of a school that completed production all the way through withdrawal for the day this item was to be used. It was a special order item for a promotion that was only used the first week
+ in October. It still shows she has the entire amount (5 cases) that she ordered and used.
+
+
+
+Can you assist?
+
+
+
+Thank you,
+
+Lauren Koff,
+
+MS, RD, LD, SNS
+
+Dietitian
+
+Houston County School Nutrition Program
+
+1600 Macon Road
+
+Suite C
+
+Perry, Georgia 31069
+
+(478) 322-3308
+
+
+
+
+
+
+
+
+Disclaimer
+
+The information contained in this communication from the sender is confidential. It is intended solely for use by the recipient and others authorized to receive it. If you are not the recipient,
+ you are hereby notified that any disclosure, copying, distribution or taking action in relation of the contents of this information is strictly prohibited and may be unlawful.
+
+This email has been scanned for viruses and malware, and may have been automatically archived by
+
+Mimecast Ltd
+, an innovator in Software as a Service (SaaS) for business. Providing a
+
+safer
+ and
+more useful
+ place for your human generated data. Specializing in; Security, archiving and compliance. To find out more
+
+Click Here
+.
+
+--- turn 1 [agent/reply] "customercare@primeroedge.com" <customercare@primeroedge.com>  2025-10-23T14:12:57Z ---
+Hello Lauren,
+
+Sorry it took a bit to get back to you but here are my findings for this particular case. The pickles item number 102535 shows that they were manually withdrawn due to the production withdraw for 10/2 not coming through which is shown below in the item history report. The issue lies on the single ingredient recipe that most likely used the pickles in question which was lr 1690 which if you look at the food required section of the production plan is empty due to the buying guide section not linking it to the stock items so it would not pull through onto the production withdraw since the system missing the item and weight to pull it though automatically and unless the item was manually added at that particular production withdraw (which it does not seem to be based on the withdrawal item list for 10/2 ) it would not pull the items from the perpetual until it was done manually. Let me know if you have questions and thank you.
+
+✅
+ Complete your Year Begin Tasks
+
+✨
+ Explore PrimeroEdge’s fresh look:
+reimagined.primeroedge.com
+
+📘
+ See the
+Navigation
+Guide
+ and latest
+Release Notes
+ in
+RESOURCES
+ (formerly AMIGO)
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click Here
+
+SchoolCafe
+ Training WEBINARS Available:
+Click Here
+
+Let us know if you have any questions regarding this ticket by
+replying all to this ticket
+
+Jorge Rodriguez
+
+Customer Care Specialist, Customer Care
+|
+CYBERSOFT
+
+
+call:
+866.442.6030
+
+email:
+customercare@primeroedge.com
+
+
+www.primeroedge.com
+
+YOUR GOALS ARE OUR GOALS.
+
+Let’s Chat
+
+…Send an email to
+CustomerCare@primeroedge.com
+ to enable your PrimeroEdge support
+LIVE CHAT
+ feature
+
+Check out our refresher training courses in the
+
+PrimeroEdge Academy
+
+--- turn 2 [customer/reply] Lauren Koff <lauren.koff@hcbe.net>  2025-10-24T12:53:02Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Got it. I missed that.
+
+
+
+We have had issues with other items in the past, and it has often been a weight issue. I will let you know if we have any further issues.
+
+
+
+Thank you.
+
+
+
+From:
+ customercare@primeroedge.com <customercare@primeroedge.com>
+
+Sent:
+ Thursday, October 23, 2025 10:13 AM
+
+To:
+ Koff, Lauren <lauren.koff@hcbe.net>
+
+Subject:
+ Re: [EXT]Stock Items on Hand Feature-[#302110]
+
+
+
+CAUTION:
+
+This email originated from outside of the Houston County School District. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+
+
+Hello Lauren,
+
+Sorry it took a bit to get back to you but here are my findings for this particular case. The pickles item number 102535 shows that they were manually withdrawn
+ due to the production withdraw for 10/2 not coming through which is shown below in the item history report. The issue lies on the single ingredient recipe that most likely used the pickles in question which was lr 1690 which if you look at the food required
+ section of the production plan is empty due to the buying guide section not linking it to the stock items so it would not pull through onto the production withdraw since the system missing the item and weight to pull it though automatically and unless the
+ item was manually added at that particular production withdraw (which it does not seem to be based on the withdrawal item list for 10/2 ) it would not pull the items from the perpetual until it was done manually. Let me know if you have questions and thank
+ you.
+
+✅
+ Complete your Year Begin Tasks
+
+✨
+ Explore PrimeroEdge’s fresh look:
+
+reimagined.primeroedge.com
+
+📘
+ See the
+
+Navigation Guide
+ and latest
+Release Notes
+ in
+
+RESOURCES
+ (formerly AMIGO)
+
+
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click
+ Here
+
+
+SchoolCafe
+ Training WEBINARS Available:
+Click
+ Here
+
+Let us know if you have any questions regarding this ticket by replying all to this ticket
+
+
+
+Jorge Rodriguez
+
+Customer Care Specialist, Customer Care
+|
+CYBERSOFT
+
+call:
+866.442.6030
+
+email:
+customercare@primeroedge.com
+
+
+www.primeroedge.com
+
+YOUR GOALS ARE OUR GOALS.
+
+Let’s Chat
+ …Send an email to
+CustomerCare@primeroedge.com
+ to
+ enable your PrimeroEdge support
+LIVE CHAT
+ feature
+
+Check out our refresher training courses in the
+
+PrimeroEdge
+ Academy
+
+
+On Wed, Oct 22 at 8:14 AM
+
+, Lauren Koff <
+lauren.koff@hcbe.net
+> wrote:
+
+CAUTION
+: This email originated from outside of the organization. Do not click links
+ or open attachments unless you recognize the sender and know the content is safe.
+
+Hello.
+
+
+
+We have had several instances of this feature being incorrect. It is a very handy feature when working properly. However, it can cause issues when trying to prepare for and
+ accommodate a new bid, or when looking for things.
+
+
+
+Attached is an example of a school that completed production all the way through withdrawal for the day this item was to be used. It was a special order item for a promotion
+ that was only used the first week in October. It still shows she has the entire amount (5 cases) that she ordered and used.
+
+
+
+Can you assist?
+
+
+
+Thank you,
+
+Lauren Koff,
+
+MS, RD, LD, SNS
+
+Dietitian
+
+Houston County School Nutrition Program
+
+1600 Macon Road
+
+Suite C
+
+Perry, Georgia 31069
+
+(478) 322-3308
+
+
+
+
+
+
+
+
+
+
+Disclaimer
+
+The information contained in this communication from the sender is confidential. It is intended solely for use by the recipient and others authorized to receive
+ it. If you are not the recipient, you are hereby notified that any disclosure, copying, distribution or taking action in relation of the contents of this information is strictly prohibited and may be unlawful.
+
+This email has been scanned for viruses and malware, and may have been automatically archived by
+
+Mimecast Ltd
+, an innovator in Software as a Service (SaaS) for business. Providing a
+
+safer
+ and
+more useful
+ place for your human generated data. Specializing in; Security, archiving and compliance. To find out more
+
+Click Here
+.
+
+302110:507611
+
+
+==========================================================================================
+TICKET 302309  |  [EXT]Inventory question
+==========================================================================================
+
+--- turn 0 [customer/description] Ilene Agustin <ileneagustin@csi.state.co.us>  2025-10-23T14:27:25Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Hello,
+
+I have attached the licenses that we purchased when we set up Primero Edge. By looking at this you can see we should have inventory for a majority of our schools. Would
+ this just be something that needs to be set up if we choose to use it or do we have access to it now?
+
+Ilene
+
+
+
+Ilene Agustin, MSOL, RD, SNS |Director of School Nutrition
+
+( she/her/hers)
+
+
+
+Colorado Charter School Institute
+
+Mobile: (720)765-2981
+
+1525 Sherman St, B76, Denver, CO 80203
+
+Website
+
+ |
+Facebook
+
+ |
+Twitter
+
+--- turn 1 [agent/reply] "customercare@primeroedge.com" <customercare@primeroedge.com>  2025-10-23T14:36:35Z ---
+Hello Ilene,
+
+Do you know if you were fully implemented for inventory by customer success because i do see that it was done for the front end but unsure of the back end implementation and maybe why you dont see inventory despite having the licenses for it. Let me know and Thank you.
+
+✅
+ Complete your Year Begin Tasks
+
+✨
+ Explore PrimeroEdge’s fresh look:
+reimagined.primeroedge.com
+
+📘
+ See the
+Navigation
+Guide
+ and latest
+Release Notes
+ in
+RESOURCES
+ (formerly AMIGO)
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click Here
+
+SchoolCafe
+ Training WEBINARS Available:
+Click Here
+
+Let us know if you have any questions regarding this ticket by
+replying all to this ticket
+
+Jorge Rodriguez
+
+Customer Care Specialist, Customer Care
+|
+CYBERSOFT
+
+
+call:
+866.442.6030
+
+email:
+customercare@primeroedge.com
+
+
+www.primeroedge.com
+
+YOUR GOALS ARE OUR GOALS.
+
+Let’s Chat
+
+…Send an email to
+CustomerCare@primeroedge.com
+ to enable your PrimeroEdge support
+LIVE CHAT
+ feature
+
+Check out our refresher training courses in the
+
+PrimeroEdge Academy
+
+--- turn 2 [customer/reply] Ilene Agustin <ileneagustin@csi.state.co.us>  2025-10-23T14:42:17Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+I am going to assume we were not since we decided not to use it initially. If it is implemented for us to see it does it have to be used?
+
+Ilene
+
+
+
+Ilene Agustin MSOL, RD, SNS | Director of School Nutrition
+
+Colorado Charter School Institute
+
+C: (720)765-2981
+
+
+
+
+
+
+
+From:
+ customercare@primeroedge.com <customercare@primeroedge.com>
+
+Sent:
+ Thursday, October 23, 2025 8:37 AM
+
+To:
+ Agustin, Ilene <IleneAgustin@csi.state.co.us>
+
+Cc:
+ Necaise, Maggie <MaggieNecaise@csi.state.co.us>
+
+Subject:
+ Re: [EXT]Inventory question-[#302309]
+
+
+
+Hello Ilene,
+
+Do you know if you were fully implemented for inventory by customer success because i do see that it was done for the front end but unsure of the back end implementation
+ and maybe why you dont see inventory despite having the licenses for it. Let me know and Thank you.
+
+
+
+
+
+
+
+✅
+ Complete your Year Begin Tasks
+
+✨
+ Explore PrimeroEdge’s fresh look:
+
+reimagined.primeroedge.com
+
+📘
+ See the
+
+Navigation Guide
+ and latest
+Release Notes
+ in
+
+RESOURCES
+ (formerly AMIGO)
+
+
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click
+ Here
+
+
+SchoolCafe
+ Training WEBINARS Available:
+Click
+ Here
+
+Let us know if you have any questions regarding this ticket by replying all to this ticket
+
+
+
+Jorge Rodriguez
+
+Customer Care Specialist, Customer Care
+|
+CYBERSOFT
+
+call:
+866.442.6030
+
+email:
+customercare@primeroedge.com
+
+
+www.primeroedge.com
+
+YOUR GOALS ARE OUR GOALS.
+
+Let’s Chat
+ …Send an email to
+CustomerCare@primeroedge.com
+ to
+ enable your PrimeroEdge support
+LIVE CHAT
+ feature
+
+Check out our refresher training courses in the
+
+PrimeroEdge
+ Academy
+
+
+On Thu, Oct 23 at 9:27 AM
+
+, Ilene Agustin <
+ileneagustin@csi.state.co.us
+> wrote:
+
+CAUTION
+: This email originated from outside of the organization. Do not click links
+ or open attachments unless you recognize the sender and know the content is safe.
+
+Hello,
+
+I have attached the licenses that we purchased when we set up Primero Edge. By looking at this you can see we should have inventory for a majority
+ of our schools. Would this just be something that needs to be set up if we choose to use it or do we have access to it now?
+
+Ilene
+
+
+
+Ilene Agustin, MSOL, RD, SNS |Director of School Nutrition
+
+( she/her/hers)
+
+
+
+Colorado Charter School Institute
+
+Mobile: (720)765-2981
+
+1525 Sherman St, B76, Denver, CO 80203
+
+Website
+
+ |
+Facebook
+
+ |
+Twitter
+
+
+
+
+
+302309:507611
+
+--- turn 3 [agent/reply] "customercare@primeroedge.com" <customercare@primeroedge.com>  2025-10-23T15:40:10Z ---
+Hello Ilene,
+
+I don't believe you have to use it once implemented but that would be a question for the success team to be honest. Thank you.
+
+✅
+ Complete your Year Begin Tasks
+
+✨
+ Explore PrimeroEdge’s fresh look:
+reimagined.primeroedge.com
+
+📘
+ See the
+Navigation
+Guide
+ and latest
+Release Notes
+ in
+RESOURCES
+ (formerly AMIGO)
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click Here
+
+SchoolCafe
+ Training WEBINARS Available:
+Click Here
+
+Let us know if you have any questions regarding this ticket by
+replying all to this ticket
+
+Jorge Rodriguez
+
+Customer Care Specialist, Customer Care
+|
+CYBERSOFT
+
+
+call:
+866.442.6030
+
+email:
+customercare@primeroedge.com
+
+
+www.primeroedge.com
+
+YOUR GOALS ARE OUR GOALS.
+
+Let’s Chat
+
+…Send an email to
+CustomerCare@primeroedge.com
+ to enable your PrimeroEdge support
+LIVE CHAT
+ feature
+
+Check out our refresher training courses in the
+
+PrimeroEdge Academy
+
+--- turn 4 [customer/reply] Ilene Agustin <ileneagustin@csi.state.co.us>  2025-10-27T20:54:53Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Thank you  you can close this ticket. We will let you know if we need inventory implemented once I have more conversation with my team.
+
+Ilene
+
+
+
+Ilene Agustin MSOL, RD, SNS | Director of School Nutrition
+
+Colorado Charter School Institute
+
+C: (720)765-2981
+
+
+
+
+
+
+
+From:
+ customercare@primeroedge.com <customercare@primeroedge.com>
+
+Sent:
+ Sunday, October 26, 2025 10:17 AM
+
+To:
+ Agustin, Ilene <IleneAgustin@csi.state.co.us>
+
+Subject:
+ Ticket awaiting your response - [#302309] - [EXT]Inventory question
+
+
+
+Hello Ilene,
+
+
+
+Please read the full details of this email.  The additional information we are needing or providing is located towards the bottom in the information needed or provided section.
+
+
+
+This automated email is to let you know that we are awaiting your response from you on the following ticket:
+
+
+
+
+Ticket Number: 302309
+
+Subject: [EXT]Inventory question
+
+Kindly review the additional clarification given or reply back with the necessary requested information below so we can continue to work on the issue.
+
+Information needed or provided:
+
+Jorge Rodriguez :
+
+Hello Ilene,
+
+I don't believe you have to use it once implemented but that would be a question for the success team to be honest. Thank you.
+
+
+
+
+
+
+
+✅
+ Complete your Year Begin Tasks
+
+✨
+ Explore PrimeroEdge’s fresh look:
+
+reimagined.primeroedge.com
+
+📘
+ See the
+
+NavigationGuide
+ and latest
+
+Release Notes
+ in
+
+RESOURCES
+ (formerly AMIGO)
+
+
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click
+ Here
+
+SchoolCafe
+ Training WEBINARS Available:
+Click
+ Here
+
+Let us know if you have any questions regarding this ticket byreplying all to this ticket
+
+
+
+Jorge Rodriguez
+
+Customer Care Specialist, Customer Care | CYBERSOFT
+
+call: 866.442.6030
+
+email:
+customercare@primeroedge.com
+
+
+www.primeroedge.com
+
+YOUR GOALS ARE OUR GOALS.
+
+Let’s Chat
+ …Send an email to
+CustomerCare@primeroedge.com
+ to
+ enable your PrimeroEdge support
+LIVE CHAT
+ feature
+
+Check out our refresher training courses in the
+
+PrimeroEdge
+ Academy
+
+
+
+Thank you,
+
+Cybersoft PrimeroEdge Support Team
+
+302309:507611
+
+
+==========================================================================================
+TICKET 302410  |  [EXT]Perpetual Inventory
+==========================================================================================
+
+--- turn 0 [customer/description] Theresa Mercaldo <theresa_mercaldo@ccpsnet.net>  2025-10-24T11:44:01Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Hello,
+
+I have stumbled upon what may be a problem, or maybe it's user error, not sure...
+
+I was looking at the Perpetual Inventory for Clover Hill Elementary, specifically at item 90032 Chicken Nuggets.  I went to Inventory>Inventory>Perpetual Inventory and below is the search criteria I used and attached is the report I ran
+
+As you can see on the report this item is showing 8 cs/3.41 lbs.  When I confirmed it with the manager at the school, she said she only had 4 cs.  So I went looking...
+
+On her Physical Inventory for period "September 2025 (09/01 - 09/30)" she recorded 4 cs.  Since October 1, she has received 2 more cases and withdrew 1cs/26.59 lbs.  This would leave her with the 4 cs. she says she has now.
+
+My question is, why is her perpetual inventory showing 8 cs?  I thought I was looking at the correct thing (Perpetual Inventory-Current) to see what she had on hand at that moment.
+
+Thank you
+
+
+Theresa
+ Mercaldo
+
+  Purchasing Coordinator
+
+  Food & Nutrition Services
+
+  O - 804-743-3731
+
+
+oneCCPS.org
+
+--- turn 1 [customer/reply] Theresa Mercaldo <theresa_mercaldo@ccpsnet.net>  2025-10-24T13:04:33Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Please disregard this request.  It WAS user error...mine!
+
+So sorry to bother you!!
+
+
+Theresa
+ Mercaldo
+
+  Purchasing Coordinator
+
+  Food & Nutrition Services
+
+  O - 804-743-3731
+
+
+oneCCPS.org
+
+
+
+
+
+
+
+On Fri, Oct 24, 2025 at 7:44 AM
+
+customercare@primeroedge.com
+ <
+customercare@primeroedge.com
+> wrote:
+
+Dear ,
+
+We would like to acknowledge that we have received your request and a ticket has been created.
+
+A support representative will be reviewing your request and will update you with additional information as it becomes available.
+
+Your ticket number is 302410
+
+The subject is: [EXT]Perpetual Inventory
+
+A brief Description:
+
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Hello,
+
+I have stumbled upon what may be a problem, or maybe it's user error, not sure...
+
+I was looking at the Perpetual Inventory for Clover Hill Elementary, specifically at item 90032 Chicken Nuggets.  I went to Inventory>Inventory>Perpetual Inventory and below is the search criteria I used and attached is the report I ran
+
+As you can see on the report this item is showing 8 cs/3.41 lbs.  When I confirmed it with the manager at the school, she said she only had 4 cs.  So I went looking...
+
+On her Physical Inventory for period "September 2025 (09/01 - 09/30)" she recorded 4 cs.  Since October 1, she has received 2 more cases and withdrew 1cs/26.59 lbs.  This would leave her with the 4 cs. she says she has now.
+
+My question is, why is her perpetual inventory showing 8 cs?  I thought I was looking at the correct thing (Perpetual Inventory-Current) to see what she had on hand at that moment.
+
+Thank you
+
+
+Theresa
+ Mercaldo
+
+
+  Purchasing Coordinator
+
+  Food & Nutrition Services
+
+  O - 804-743-3731
+
+
+oneCCPS.org
+
+
+
+
+
+
+
+Ticket attachments : 1.
+
+Clover Hill Elementary PerpetualInventoryByGroups (4).pdf
+
+
+Thank you for your patience and let us know if you have any questions.
+
+Sincerely,
+
+Cybersoft PrimeroEdge Support Team
+
+
+==========================================================================================
+TICKET 302710  |  Manatee - Inventory Storage
+==========================================================================================
+
+--- turn 0 [customer/description] Jennifer Davis <davisj@manateeschools.net>  2025-10-28T13:38:37Z ---
+Good morning,
+
+
+
+Lakewood Ranch High is starting their inventory and they only see the Dry storage category.  The other two are missing.  Can you help?
+
+
+
+Jennifer Davis
+
+Jennifer Davis
+
+Business and Technology Supervisor
+
+
+
+Food & Nutrition Services
+
+School District of Manatee County
+
+Wakeland Support Center
+
+1812 27th St E, Bradenton, FL  34208
+
+www.manateeschools.net/FNS
+
+
+
+Phone: 941-739-5700 x 45018
+
+Fax: 941-708-8852
+
+davisj@manateeschools.net
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+“Florida has a very broad Public Records Law. Virtually all written communications to or from School District Personnel are public records available to the public and media upon request. E-mail sent or received on the School District system will be considered public and will only be withheld from disclosure if deemed confidential pursuant to State Law.”
+
+--- turn 1 [agent/reply] "customercare@primeroedge.com" <customercare@primeroedge.com>  2025-10-28T13:48:40Z ---
+Hello Jennifer,
+
+It is possible that somehow the when starting the physical inventory the other two categories were unchecked.  I know they have already started entering counts, but I would suggest canceling this inventory and starting a new making sure all storage categories are checked.  The other option would be to complete this "Period" inventory and then starting an "Interim" physical inventory for the missed two storage categories.
+
+✅
+ Complete your Year Begin Tasks
+
+✨
+ Explore PrimeroEdge’s fresh look:
+reimagined.primeroedge.com
+
+📘
+ See the
+Navigation
+Guide
+ and latest
+Release Notes
+ in
+RESOURCES
+ (formerly AMIGO)
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click Here
+
+SchoolCafe
+ Training WEBINARS Available:
+Click Here
+
+Let us know if you have any questions regarding this ticket by
+replying all to this ticket
+
+Terri Brown
+ |
+
+CYBERSOFT
+
+Region Lead,
+Customer and Expert Care
+
+Support: 866.442.6030 | Email:
+customercare@primeroedge.com
+
+
+PrimeroEdge
+ |
+SchoolCafé
+
+
+
+Let’s Chat
+ …Send an email to
+customercare@primeroedge.com
+
+to enable your PrimeroEdge
+support
+LIVE CHAT
+ feature
+
+--- turn 2 [customer/reply] Jennifer Davis <davisj@manateeschools.net>  2025-10-28T16:20:06Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Thank you! I will let her know.
+
+😊
+
+
+
+
+
+Jennifer Davis
+
+Jennifer Davis
+
+Business and Technology Supervisor
+
+
+
+Food & Nutrition Services
+
+School District of Manatee County
+
+Wakeland Support Center
+
+1812 27th St E, Bradenton, FL  34208
+
+www.manateeschools.net/FNS
+
+
+
+Phone: 941-739-5700 x 45018
+
+Fax: 941-708-8852
+
+davisj@manateeschools.net
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+From:
+ customercare@primeroedge.com <customercare@primeroedge.com>
+
+Sent:
+ Tuesday, October 28, 2025 9:49 AM
+
+To:
+ Davis, Jennifer <davisj@manateeschools.net>
+
+Subject:
+ Re: Manatee - Inventory Storage-[#302710]
+
+
+
+*****
+
+
+WARNING: This email was sent from a source outside of the School District of Manatee County!!
+
+
+
+Hello Jennifer,
+
+It is possible that somehow the when starting the physical inventory the other two categories were unchecked.  I know they have already started entering counts, but I would
+ suggest canceling this inventory and starting a new making sure all storage categories are checked.  The other option would be to complete this "Period" inventory and then starting an "Interim" physical inventory for the missed two storage categories.
+
+
+
+
+
+✅
+ Complete your Year Begin Tasks
+
+✨
+ Explore PrimeroEdge’s fresh look:
+
+reimagined.primeroedge.com
+
+📘
+ See the
+
+Navigation Guide
+ and latest
+Release Notes
+ in
+
+RESOURCES
+ (formerly AMIGO)
+
+
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click
+ Here
+
+
+SchoolCafe
+ Training WEBINARS Available:
+Click
+ Here
+
+Let us know if you have any questions regarding this ticket by replying all to this ticket
+
+Terri Brown
+ |
+
+CYBERSOFT
+
+Region Lead, Customer and Expert Care
+
+Support: 866.442.6030 | Email:
+customercare@primeroedge.com
+
+
+PrimeroEdge
+ |
+SchoolCafé
+
+
+
+
+
+Let’s Chat
+ …Send
+ an email to
+customercare@primeroedge.com
+
+to
+ enable your PrimeroEdge support
+LIVE CHAT
+ feature
+
+
+
+
+
+
+
+On Tue, Oct 28 at 8:38 AM
+
+, Jennifer Davis <davisj@manateeschools.net> wrote:
+
+Good morning,
+
+
+
+Lakewood Ranch High is starting their inventory and they only see the Dry storage category.  The other two are missing.  Can you help?
+
+
+
+Jennifer Davis
+
+Jennifer Davis
+
+Business and Technology Supervisor
+
+
+
+Food & Nutrition Services
+
+School District of Manatee County
+
+Wakeland Support Center
+
+1812 27th St E, Bradenton, FL  34208
+
+www.manateeschools.net/FNS
+
+
+
+Phone: 941-739-5700 x 45018
+
+Fax: 941-708-8852
+
+davisj@manateeschools.net
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+“Florida has a very broad Public Records Law. Virtually all written communications to or from School District Personnel are public records available to the public and media
+ upon request. E-mail sent or received on the School District system will be considered public and will only be withheld from disclosure if deemed confidential pursuant to State Law.”
+
+302710:507611
+
+
+==========================================================================================
+TICKET 303074  |  Pittsburgh SD - PA - several Inventory Items are showing as Negative Perpetual balance despite Settings not allowing negatives
+==========================================================================================
+
+--- turn 0 [customer/description] Branden Gottfreid <bgottfreid1@pghschools.org>  2025-10-30T18:40:21Z ---
+Example Items: #972624 and CKNL011
+
+--- turn 1 [agent/private_note] agent:22038606503  2025-10-30T18:44:38Z ---
+Branden said he has confirme the two settings are set to not allow Negatives ... didn't understand how this happened.  He has identified a total of 9 Items that have Negatives at Cent. Warehouse so far.
+
+Terri took a look and found that something happened around 8/25 that threw these items Negative, but is not a fault of the system settings; she said the way these are listed is a loophole in the settings. Examples below from Item History reports:
+
+I had Branden run out this report for these two Example items and it rang a bell relative to the way 'John' in their Warehouse was handling things back in August, before they were using Production.  Sounds like he was 'zeroing out' orders since they weren't fully using the system at that point.
+
+Branden believes this is the case for all the Negative items, will work this from his side and monitor for a couple of days and let us know that this is OK after that.
+
+--- turn 2 [agent/reply] "customercare@primeroedge.com" <customercare@primeroedge.com>  2025-10-30T18:46:14Z ---
+Hello Branden,
+
+Thanks for your call about some of your inventory items showing as Negative.  As discussed, let me know what happens after you monitor this for the next couple of days, you can reply to this email and your comments will be added to this ticket, which will remain Open.
+
+✅
+ Complete your Year Begin Tasks
+
+✨
+ Explore PrimeroEdge’s fresh look:
+reimagined.primeroedge.com
+
+📘
+ See the
+Navigation
+Guide
+ and latest
+Release Notes
+ in
+RESOURCES
+ (formerly AMIGO)
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click Here
+
+SchoolCafe
+ Training WEBINARS Available:
+Click Here
+
+Let us know if you have any questions regarding this ticket by
+replying all to this ticket
+
+Regards,
+
+Tim West |
+
+CYBERSOFT
+
+Customer Care
+Specialist, Customer and Expert Care
+
+Support: 866.442.6030 | Email:
+customercare@primeroedge.com
+
+
+PrimeroEdge
+ |
+SchoolCafé
+
+
+
+Let’s Chat
+ …Send an email to
+customercare@primeroedge.com
+
+to enable your PrimeroEdge
+support
+LIVE CHAT
+ feature
+
+Get ready for
+back to school
+ with a refresher training check out
+PrimeroEdge
+Academy
+
+--- turn 3 [agent/reply] "customercare@primeroedge.com" <customercare@primeroedge.com>  2025-11-10T13:42:44Z ---
+Hello Branden,
+
+The Line items have different time/date stamps to explain what occurred with the items.
+
+Just looking at this one...
+
+on 9/25 at 11:31am - the starting balance was zero, and 34 units were added to the inventory, creating a positive balance of 34 total units.
+
+on 9/25 at 11:32am - those 34 units were withdrawn in a distribution, putting the balance back to zero total units.
+
+Because the "inserted" transaction dates are in a different order - with the pick ticket withdrawal displaying 9/25 at 9:41am, the withdrawal "appears" to be before the "Add to Inventory" - even though it did not really take place in that order.
+
+It looks as though you may have tried to move to Picking Complete, and then had to adjust quantities before it would let you finalize that process... that's usually what has occurred when I see two different time stamps inside a distribution next to the "Picking Complete" notations. They generally match if everything went smoothly... but there can be variances in that time when product quantities need to be adjusted for distribution.
+
+While I did only investigate this one item - if you look at the other reports/dates/items, I'm sure you'll see a similar pattern with them.
+
+Let us know if you have any questions regarding this ticket by
+replying all to this ticket
+
+Schrenia Bockholt
+ |
+CYBERSOFT
+
+Business Analyst, Product Management
+
+PrimeroEdge
+ |
+SchoolCafé
+
+--- turn 4 [customer/reply] Branden Gottfreid <bgottfreid1@pghschools.org>  2025-11-10T14:25:09Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Good morning,
+
+Thanks for looking into that further for us. I believe this happened because we were not doing the central kitchen production logs and were manually 'adding' whatever amount needed to be 'withdrawn' for the orders of any given day. Since we've been doing the
+ production records, I haven't seen any inventory items go negative since I called this in.
+
+All of that explanation seems like it was just us doing that manual add in to get quantity correct but the timestamp codes made it difficult to track that through the day.
+
+I would say this one has been resolved since we haven't had to do the manual step recently and nothing in inventory has gone negative since.
+
+Thank you!
+
+*Please direct all CACFP/Afterschool communication to Deana Pouch (dpouch1@pghschools.org) *
+
+Branden Gottfreid
+
+
+Technology Coordinator
+
+Phone
+:
+ 412.529.3301
+
+Email
+:
+
+bgottfreid
+1@pghschools.org
+
+
+Address
+:
+ 8 South 13
+th
+ Street Pittsburgh PA 15203
+
+Web
+:
+
+www.pghschools.org/foodservice
+
+
+From: customercare@primeroedge.com <customercare@primeroedge.com>
+
+Sent:
+ Monday, November 10, 2025 8:42 AM
+
+To:
+ Gottfreid, Branden <bgottfreid1@pghschools.org>
+
+Subject:
+ Re: Pittsburgh SD - PA - several Inventory Items are showing as Negative Perpetual balance despite Settings not allowing negatives-[#303074]
+
+
+
+[External] This email originated from outside of the Pittsburgh Public Schools. Even if you are familiar with the sender, do not click links or open attachments unless you expected to receive them and know the content is safe.
+
+Hello Branden,
+
+The Line items have different time/date stamps to explain what occurred with the items.
+
+Just looking at this one...
+
+on 9/25 at 11:31am - the starting balance was zero, and 34 units were added to the inventory, creating a positive balance of 34 total units.
+
+on 9/25 at 11:32am - those 34 units were withdrawn in a distribution, putting the balance back to zero total units.
+
+Because the "inserted" transaction dates are in a different order - with the pick ticket withdrawal displaying 9/25 at 9:41am, the withdrawal "appears" to be before the "Add to Inventory" - even though it did not really take place in that order.
+
+It looks as though you may have tried to move to Picking Complete, and then had to adjust quantities before it would let you finalize that process... that's usually what has occurred when I see two different time stamps inside a distribution
+ next to the "Picking Complete" notations. They generally match if everything went smoothly... but there can be variances in that time when product quantities need to be adjusted for distribution.
+
+While I did only investigate this one item - if you look at the other reports/dates/items, I'm sure you'll see a similar pattern with them.
+
+Let us know if you have any questions regarding this ticket by replying all to this ticket
+
+Schrenia Bockholt
+ |
+CYBERSOFT
+
+Business Analyst, Product Management
+
+PrimeroEdge
+ |
+SchoolCafé
+
+On Thu, Oct 30 at 1:46 PM
+
+, customercare@primeroedge.com <customercare@primeroedge.com> wrote:
+
+Hello Branden,
+
+Thanks for your call about some of your inventory items showing as Negative.  As discussed, let me know what happens after you monitor this for the next couple of days, you can reply to this email and your comments will be added to this ticket,
+ which will remain Open.
+
+✅
+ Complete your Year Begin Tasks
+
+✨
+ Explore PrimeroEdge’s fresh look:
+
+reimagined.primeroedge.com
+
+📘
+ See the
+
+Navigation Guide
+ and latest
+Release Notes
+ in
+
+RESOURCES
+ (formerly AMIGO)
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click
+ Here
+
+
+SchoolCafe
+ Training WEBINARS Available:
+Click
+ Here
+
+Let us know if you have any questions regarding this ticket by replying all to this ticket
+
+Regards,
+
+Tim West |
+
+CYBERSOFT
+
+Customer Care Specialist, Customer and Expert Care
+
+Support: 866.442.6030 | Email:
+customercare@primeroedge.com
+
+
+PrimeroEdge
+ |
+SchoolCafé
+
+
+
+Let’s Chat
+ …Send
+ an email to
+customercare@primeroedge.com
+
+to
+ enable your PrimeroEdge support
+LIVE CHAT
+ feature
+
+
+Get ready for
+back to school
+ with a refresher training check out
+
+PrimeroEdge Academy
+
+
+On Thu, Oct 30 at 1:40 PM
+
+, Branden Gottfreid <bgottfreid1@pghschools.org> wrote:
+
+Example Items: #972624 and CKNL011
+
+--- turn 5 [agent/reply] "customercare@primeroedge.com" <customercare@primeroedge.com>  2025-11-10T14:47:37Z ---
+Hello Branden,
+
+I will go ahead close this ticket. Have a great day.
+
+✅
+ Complete your Year Begin Tasks
+
+✨
+ Explore PrimeroEdge’s fresh look:
+reimagined.primeroedge.com
+
+📘
+ See the
+Navigation
+Guide
+ and latest
+Release Notes
+ in
+RESOURCES
+ (formerly AMIGO)
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click Here
+
+SchoolCafe
+ Training WEBINARS Available:
+Click Here
+
+Let us know if you have any questions regarding this ticket by
+replying all to this ticket
+
+Christopher Rios
+
+Customer Care Specialist, Customer Care
+|
+CYBERSOFT
+
+
+call:
+866.442.6030
+
+email:
+customercare@primeroedge.com
+
+
+www.primeroedge.com
+
+YOUR GOALS ARE OUR GOALS.
+
+Let’s Chat
+
+…Send an email to
+CustomerCare@primeroedge.com
+ to enable your PrimeroEdge support
+LIVE CHAT
+ feature
+
+Check out our refresher training courses in the
+
+PrimeroEdge Academy
+
+
+==========================================================================================
+TICKET 309859  |  KILLEEN ISD / Items On Production Withdrawal Showing as 0 on hand
+==========================================================================================
+
+--- turn 0 [customer/description] Yolanda Torresortiz <yolanda.torresortiz@killeenisd.org>  2026-01-21T16:32:53Z ---
+Items On Production Withdrawal Showing as 0 on hand
+
+--- turn 1 [agent/private_note] agent:22052845875  2026-01-21T16:38:04Z ---
+Customer had several items on production withdrawal dated 1/21 at Patterson Middle School that showed 0 balance available; she claimed the perpetual inventory for this site showed items available
+
+We ran a item history report using 48116 (chocolate milk) as an example she gave and then the item history below show the item withdrawals were cleared out from inventory
+
+Explained to the customer, she'll track back to the withdrawal code to find out what happened.
+
+--- turn 2 [agent/reply] "customercare@primeroedge.com" <customercare@primeroedge.com>  2026-01-21T16:40:31Z ---
+Hello Yolanda,
+
+Thanks for calling in today, as we had discussed it looks like your items had been withdrawn from that site before they attempted the production withdrawal today, and you are going to research this on your end to solve further discrepancies.
+
+As such we will go ahead and close this ticket, if you have any questions let us know.
+
+Thank you,
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click Here
+
+SchoolCafe
+ Training WEBINARS Available:
+Click Here
+
+Let us know if you have any questions regarding this ticket by
+replying all to this ticket
+
+Jordan King
+|
+
+CYBERSOFT
+
+call:
+866.442.6030
+
+
+email:
+customercare@primeroedge.com
+
+
+
+www.primeroedge.com
+
+YOUR GOALS ARE OUR GOALS.
+
+Let’s Chat
+ …Send an email to
+CustomerCare@primeroedge.com
+ to enable your PrimeroEdge support
+LIVE CHAT
+ feature
+
+Check out our refresher training courses in the
+PrimeroEdge Academy
+
+
+==========================================================================================
+TICKET 310872  |  Littleton Public Schools-Inventory Items Going into Negative
+==========================================================================================
+
+--- turn 0 [customer/description] Shelby Foelsch <sfoelsch@lps.k12.co.us>  2026-02-03T15:16:50Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Hi PrimeroEdge,
+
+We have some sites that have inventory items that are entering the negative. For example Littleton High School has negative milk?
+
+Is this a setting we can change?
+
+Thanks,
+
+Shelby
+
+--
+
+
+ Shelby
+ Foelsch, MS, RD, SNS
+
+   Assistant Director, Nutrition Services and Warehouse
+
+   O:
+
+(303) 347-3357
+
+   E:
+
+sfoelsch@lps.k12.co.us
+
+   W:
+
+www.littletonpublicschools.net/nutrition
+
+   A:
+
+5776 S. Crocker St. Littleton, CO 80120
+
+--- turn 1 [agent/reply] "customercare@primeroedge.com" <customercare@primeroedge.com>  2026-02-03T16:00:30Z ---
+Hello Shelby,
+
+The site is not "actually" going into the negative... what you are seeing is based on time stamps in the system.
+
+The yellow highlight shows the dates where you're seeing the effect of the time stamps... the red blocks show the withdrawal time stamps that are occurring after the receipt of the product is entered when it comes from the vendor.
+
+The most evident will be on January 14th, as the withdrawals are backdated an entire day...
+
+Looking at January 14th - you'll see that 3 cases were received from the vendor at 3:18pm. This was technically the "first" entry after the usage recorded on January 12, which left 1 case & 13 broken units in stock.
+
+On January 15th, the additional withdrawals were entered with time stamps BEFORE the receipt, which causes the math to appear as though negative quantities occurred. The left column of dates/times is when the transactions "should have" taken place, but did not.
+
+If you were to reorder the columns based on the time the user actually keyed in the transactions (2nd column - labeled "Transaction Date"), then there would be no appearance of negative numbers. There was a starting balance of 0 at the end of January 12 (blue outline in screenshot of report).
+
+If users enter the receives at the time they arrive, they will not need to backdate their transactions. I'm sure the milk was received prior to the meal services in order to complete the services.
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click Here
+
+SchoolCafe
+ Training WEBINARS Available:
+Click Here
+
+Let us know if you have any questions regarding this ticket by
+replying all to this ticket
+
+Schrenia Bockholt
+ |
+CYBERSOFT
+
+Business Analyst, Product Management
+
+PrimeroEdge
+ |
+SchoolCafé
+
+--- turn 2 [customer/reply] Shelby Foelsch <sfoelsch@lps.k12.co.us>  2026-02-09T14:46:03Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+That makes sense!
+
+Thanks,
+
+Shelby
+
+On Sun, Feb 8, 2026 at 12:15 PM
+
+customercare@primeroedge.com
+ <
+customercare@primeroedge.com
+> wrote:
+
+Hello
+ Shelby,
+
+
+
+
+Please read the full details of this email.  The additional information or provided information is located towards the bottom in the information needed or provided section.
+
+I know you must be very busy at t
+his time, but we are still awaiting some additional information from you for your ticket below.
+
+
+
+Ticket Number: 310872
+
+Subject: Littleton Public Schools-Inventory Items Going into Negative
+
+2nd Attempt
+
+
+
+Kindly review the additional clarification given or reply back with the necessary requested information below so we can continue to work on the issue.
+
+Information needed or provided:
+
+Schrenia Bockholt :
+
+Hello Shelby,
+
+The site is not 'actually' going into the negative... what you are seeing is based on time stamps in the system.
+
+The yellow highlight shows the dates where you're seeing the effect of the time stamps... the red blocks show the withdrawal time stamps that are occurring after the receipt of the product is entered when it comes from the vendor.
+
+The most evident will be on January 14th, as the withdrawals are backdated an entire day...
+
+Looking at January 14th - you'll see that 3 cases were received from the vendor at 3:18pm. This was technically the 'first' entry after the usage recorded on January 12, which left 1 case & 13 broken units in stock.
+
+On January 15th, the additional withdrawals were entered with time stamps BEFORE the receipt, which causes the math to appear as though negative quantities occurred. The left column of dates/times is when the transactions 'should have' taken place, but did
+ not.
+
+If you were to reorder the columns based on the time the user actually keyed in the transactions (2nd column - labeled 'Transaction Date'), then there would be no appearance of negative numbers. There was a starting balance of 0 at the end of January 12 (blue
+ outline in screenshot of report).
+
+If users enter the receives at the time they arrive, they will not need to backdate their transactions. I'm sure the milk was received prior to the meal services in order to complete the services.
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click
+ Here
+
+SchoolCafe
+ Training WEBINARS Available:
+Click Here
+
+Let us know if you have any questions regarding this ticket byreplying all to this ticket
+
+Schrenia
+ Bockholt
+ |
+CYBERSOFT
+
+Business Analyst, Product Management
+
+PrimeroEdge
+ |
+SchoolCafé
+
+Thank you,
+
+Cybersoft PrimeroEdge Support Team
+
+--
+
+
+ Shelby
+ Foelsch, MS, RD, SNS
+
+   Assistant Director, Nutrition Services and Warehouse
+
+   O:
+
+(303) 347-3357
+
+   E:
+
+sfoelsch@lps.k12.co.us
+
+   W:
+
+www.littletonpublicschools.net/nutrition
+
+   A:
+
+5776 S. Crocker St. Littleton, CO 80120
+
+
+==========================================================================================
+TICKET 313652  |  PrimeroEdge - Bellflower USD - Warehouse item
+==========================================================================================
+
+--- turn 0 [customer/description] Lisa Long <llong@busd.k12.ca.us>  2026-03-05T15:42:58Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Good morning Customer Service,
+
+Product 202835 Poptart, trying to have this product with 12 cases.  Entered 2x and it does not show any inventory to this number.
+
+Thanks,
+
+--
+
+Lisa Long
+
+
+
+Clerical Assistant 1
+
+Nutrition Center
+
+10247 Alondra Blvd.
+
+Bellflower, Ca 90706
+
+562-866-4192
+
+Fax 562-461-2205
+
+--- turn 1 [agent/private_note] agent:22053243986  2026-03-05T16:09:15Z ---
+(empty)
+
+--- turn 2 [agent/reply] "customercare@primeroedge.com" <customercare@primeroedge.com>  2026-03-05T16:15:31Z ---
+Hello Lisa,
+
+After some research, currently the system is showing there are 12 cases in the warehouse (see screenshot below). If you could please send me a screenshot where you are seeing the 0 on your end.
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click Here
+
+SchoolCafe
+ Training WEBINARS Available:
+Click Here
+
+Let us know if you have any questions regarding this ticket by
+replying all to this ticket
+
+--- turn 3 [customer/reply] Lisa Long <llong@busd.k12.ca.us>  2026-03-09T14:10:16Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Thank you, please close 313652
+
+On Sun, Mar 8, 2026 at 9:16 AM
+
+customercare@primeroedge.com
+ <
+customercare@primeroedge.com
+> wrote:
+
+Hello Lisa,
+
+
+
+Please read the full details of this email.  The additional information we are needing or providing is located towards the bottom in the information needed or provided section.
+
+This automated email is to
+ let you know that we are awaiting your response from you on the following ticket:
+
+
+
+
+Ticket Number: 313652
+
+Subject: PrimeroEdge - Bellflower USD - Warehouse item
+
+Kindly review the additional clarification given or reply back with the necessary requested information below so we can continue to work on the issue.
+
+Information needed or provided:
+
+Danny Viveros :
+
+Hello Lisa,
+
+After some research, currently the system is showing there are 12 cases in the warehouse (see screenshot below). If you could please send me a screenshot where you are seeing the 0 on your end.
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click
+ Here
+
+SchoolCafe
+ Training WEBINARS Available:
+
+Click Here
+
+Let us know if you have any questions regarding this ticket byreplying all to this ticket
+
+Thank you,
+
+Cybersoft PrimeroEdge Support Team
+
+--
+
+Lisa Long
+
+
+
+Clerical Assistant 1
+
+Nutrition Center
+
+10247 Alondra Blvd.
+
+Bellflower, Ca 90706
+
+562-866-4192
+
+Fax 562-461-2205
+
+
+==========================================================================================
+TICKET 315728  |  Online 4 - Alief ISD - Negative balance
+==========================================================================================
+
+--- turn 0 [customer/description] Nganhai Ngyuen <nganhai.nguyen@aliefisd.net>  2026-03-31T13:41:00Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Good morning,
+
+     Attached is the history of item #52129. Can you help me understand why Youens could withdraw when the balance is negative? Did someone overwrite the transaction?
+
+The manager tried to do the withdrawal on 3/27, but she couldn't because the item was negative.
+
+Thank you!
+
+Nganhai Nguyen
+
+
+Alief ISD Nutrition Bookkeeper
+
+(281) 988-3420 Ext 29036
+
+--- turn 1 [agent/reply] "customercare@primeroedge.com" <customercare@primeroedge.com>  2026-03-31T18:30:29Z ---
+Hello Nganhai,
+
+Based on the report you provided, you’ll notice two columns:
+Actual Transaction Date
+ and
+Transaction Date
+.
+
+The transaction in question was entered on 3/20 at 2:24 PM, but it was backdated to 3/2. The system verifies inventory based on when the transaction is entered, not the backdated transaction date.
+
+Since there was enough inventory available at the time of entry, the system allowed the quantity to be deducted. However, when you look at the backdated transaction date (3/2), it may show a negative balance because inventory levels were different on that date.
+
+In summary, the
+Actual Transaction Date
+ determines whether the transaction can be processed, while the
+Transaction Date
+ affects how it appears in reports. Please let me know if you have any questions!
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click Here
+
+SchoolCafe
+ Training WEBINARS Available:
+Click Here
+
+Let us know if you have any questions regarding this ticket by
+replying all to this ticket
+
+PrimeroEdge’s
+ fresh new look! Resources here:
+https://reimagined.primeroedge.com
+
+Coming soon in version 15.4—watch your dashboardannouncements for launch dates,
+Sneak a peek?
+NavigationGuide link
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+ClickHere
+
+SchoolCafe
+ Training WEBINARS Available:
+ClickHere
+
+Let us know if you have any questions regarding this ticket.
+
+Amanda Schulman |
+
+CYBERSOFT
+
+SchoolCafé TeamLead, Customer and Expert Care
+
+Support: 855.729.2328 | Email::
+customercare@schoolcafe.com
+
+
+
+PrimeroEdge
+ |
+SchoolCafé
+
+--- turn 2 [customer/reply] Nganhai Ngyuen <nganhai.nguyen@aliefisd.net>  2026-03-31T18:47:21Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+What are the differences between adjustment and Perpetual Balance? What did this manager do on 3/2 as the starting balance I circle in BLUE? Did she override the balance to make it zero to start the month of March?
+
+From: customercare@primeroedge.com <customercare@primeroedge.com>
+
+Sent:
+ Tuesday, March 31, 2026 1:30 PM
+
+To:
+ Nguyen, Nganhai T <Nganhai.Nguyen@aliefisd.net>
+
+Subject:
+ Re: Online 4 - Alief ISD - Negative balance-[#315728]
+
+
+
+
+
+CAUTION: [EXTERNAL EMAIL] - This email originated from outside of Alief ISD. DO NOT CLICK links or open
+ attachments unless you recognize the sender and know the content is safe. If in doubt, contact the sender separately to verify the content or call the AISD Technology Services Help Desk x22530.
+
+
+
+Hello Nganhai,
+
+Based on the report you provided, you’ll notice two columns:
+Actual Transaction Date
+ and
+Transaction Date
+.
+
+The transaction in question was entered on 3/20 at 2:24 PM, but it was backdated to 3/2. The system verifies inventory based on when the transaction is entered, not the backdated transaction date.
+
+Since there was enough inventory available at the time of entry, the system allowed the quantity to be deducted. However, when you look at the backdated transaction date (3/2), it may show a negative balance because inventory levels were different on that
+ date.
+
+In summary, the
+Actual Transaction Date
+ determines whether the transaction can be processed, while the
+Transaction Date
+ affects how it appears in reports. Please let me know if you have any questions!
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click
+ Here
+
+
+SchoolCafe
+ Training WEBINARS Available:
+
+Click Here
+
+Let us know if you have any questions regarding this ticket by replying all to this ticket
+
+PrimeroEdge’s
+ fresh new look! Resources here:
+
+https://reimagined.primeroedge.com
+
+Coming soon in version 15.4—watch your dashboardannouncements for launch dates,
+Sneak a peek?
+NavigationGuide
+ link
+
+
+Check out
+PrimeroEdge
+ Training
+ WEBINARS Available:
+ClickHere
+
+SchoolCafe
+ Training WEBINARS Available:
+
+ClickHere
+
+Let us know
+ if you have any questions regarding this ticket.
+
+Amanda Schulman |
+
+CYBERSOFT
+
+SchoolCafé TeamLead, Customer
+ and Expert Care
+
+Support: 855.729.2328 | Email::
+customercare@schoolcafe.com
+
+
+
+PrimeroEdge
+ |
+SchoolCafé
+
+On Tue, Mar 31 at 8:41 AM
+
+, Nganhai Ngyuen <nganhai.nguyen@aliefisd.net> wrote:
+
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Good morning,
+
+     Attached is the history of item #52129. Can you help me understand why Youens could withdraw when the balance is negative? Did someone overwrite the transaction?
+
+The manager tried to do the withdrawal on 3/27, but she couldn't because the item was negative.
+
+Thank you!
+
+Nganhai Nguyen
+
+
+Alief ISD Nutrition Bookkeeper
+
+(281) 988-3420 Ext 29036
+
+--- turn 3 [agent/reply] "customercare@primeroedge.com" <customercare@primeroedge.com>  2026-03-31T20:26:37Z ---
+Hello Nganhai,
+
+The
+Adjustment
+ column shows the change that was made. For example, an adjustment of 12 means that 12 broken units were removed. If the inventory was at zero before that day, removing 12 would result in a perpetual balance of -12.
+
+So, the
+Adjustment
+ column reflects what was changed, and the
+Perpetual
+ column shows the inventory balance after that change.
+
+The only exception is when the entry is labeled as a
+Reconciliation
+. Since physical inventory is not a manual override, the quantity entered becomes the new perpetual balance, and the adjustment reflects the difference between what was previously recorded and what was physically counted.
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click Here
+
+SchoolCafe
+ Training WEBINARS Available:
+Click Here
+
+Let us know if you have any questions regarding this ticket by
+replying all to this ticket
+
+PrimeroEdge’s
+ fresh new look! Resources here:
+https://reimagined.primeroedge.com
+
+Coming soon in version 15.4—watch your dashboardannouncements for launch dates,
+Sneak a peek?
+NavigationGuide link
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+ClickHere
+
+SchoolCafe
+ Training WEBINARS Available:
+ClickHere
+
+Let us know if you have any questions regarding this ticket.
+
+Amanda Schulman |
+
+CYBERSOFT
+
+SchoolCafé TeamLead, Customer and Expert Care
+
+Support: 855.729.2328 | Email::
+customercare@schoolcafe.com
+
+
+
+PrimeroEdge
+ |
+SchoolCafé
+
+--- turn 4 [customer/reply] Nganhai Ngyuen <nganhai.nguyen@aliefisd.net>  2026-04-01T13:34:25Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Base on the screenshot below, the month of March start at zero balance, the balance became -12 when the manager withdrawal 12 units on 3/20
+
+What does all the number in RED mean?  When she withdrew 38 unit, the WU is -1 and the BU is 0
+
+From: customercare@primeroedge.com <customercare@primeroedge.com>
+
+Sent:
+ Tuesday, March 31, 2026 3:26 PM
+
+To:
+ Nguyen, Nganhai T <Nganhai.Nguyen@aliefisd.net>
+
+Subject:
+ Re: Online 4 - Alief ISD - Negative balance-[#315728]
+
+
+
+
+
+CAUTION: [EXTERNAL EMAIL] - This email originated from outside of Alief ISD. DO NOT CLICK links or open
+ attachments unless you recognize the sender and know the content is safe. If in doubt, contact the sender separately to verify the content or call the AISD Technology Services Help Desk x22530.
+
+
+
+Hello Nganhai,
+
+The
+Adjustment
+ column shows the change that was made. For example, an adjustment of 12 means that 12 broken units were removed. If the inventory was at zero before that day, removing 12 would result in a perpetual balance of -12.
+
+So, the
+Adjustment
+ column reflects what was changed, and the
+Perpetual
+ column shows the inventory balance after that change.
+
+The only exception is when the entry is labeled as a
+Reconciliation
+. Since physical inventory is not a manual override, the quantity entered becomes the new perpetual balance, and the adjustment reflects the difference between what was
+ previously recorded and what was physically counted.
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click
+ Here
+
+
+SchoolCafe
+ Training WEBINARS Available:
+Click
+ Here
+
+Let us know if you have any questions regarding this ticket by replying all to this ticket
+
+PrimeroEdge’s
+ fresh new look! Resources here:
+https://reimagined.primeroedge.com
+
+Coming soon in version 15.4—watch your dashboardannouncements for launch dates,
+Sneak a peek?
+NavigationGuide
+ link
+
+
+Check out
+PrimeroEdge
+ Training
+ WEBINARS Available:
+ClickHere
+
+SchoolCafe
+ Training WEBINARS Available:
+ClickHere
+
+Let us know
+ if you have any questions regarding this ticket.
+
+Amanda Schulman |
+
+CYBERSOFT
+
+SchoolCafé TeamLead, Customer
+ and Expert Care
+
+Support: 855.729.2328 | Email::
+customercare@schoolcafe.com
+
+
+
+PrimeroEdge
+ |
+SchoolCafé
+
+On Tue, Mar 31 at 1:47 PM
+
+, Nganhai Ngyuen <nganhai.nguyen@aliefisd.net> wrote:
+
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+What are the differences between adjustment and Perpetual Balance? What did this manager do on 3/2 as the starting balance I circle in BLUE? Did she override the balance to make it zero to start the month of March?
+
+From: customercare@primeroedge.com <customercare@primeroedge.com>
+
+Sent:
+ Tuesday, March 31, 2026 1:30 PM
+
+To:
+ Nguyen, Nganhai T <Nganhai.Nguyen@aliefisd.net>
+
+Subject:
+ Re: Online 4 - Alief ISD - Negative balance-[#315728]
+
+
+
+
+
+CAUTION: [EXTERNAL EMAIL] - This email originated from outside of Alief ISD. DO NOT CLICK links or open
+ attachments unless you recognize the sender and know the content is safe. If in doubt, contact the sender separately to verify the content or call the AISD Technology Services Help Desk x22530.
+
+
+
+Hello Nganhai,
+
+Based on the report you provided, you’ll notice two columns:
+Actual Transaction Date
+ and
+Transaction Date
+.
+
+The transaction in question was entered on 3/20 at 2:24 PM, but it was backdated to 3/2. The system verifies inventory based on when the transaction is entered, not the backdated transaction date.
+
+Since there was enough inventory available at the time of entry, the system allowed the quantity to be deducted. However, when you look at the backdated transaction date (3/2), it may show a negative balance because inventory levels were different on that
+ date.
+
+In summary, the
+Actual Transaction Date
+ determines whether the transaction can be processed, while the
+Transaction Date
+ affects how it appears in reports. Please let me know if you have any questions!
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click
+ Here
+
+
+SchoolCafe
+ Training WEBINARS Available:
+
+Click Here
+
+Let us know if you have any questions regarding this ticket by replying all to this ticket
+
+PrimeroEdge’s
+ fresh new look! Resources here:
+
+https://reimagined.primeroedge.com
+
+Coming soon in version 15.4—watch your dashboardannouncements for launch dates,
+Sneak a peek?
+NavigationGuide
+ link
+
+
+Check out
+PrimeroEdge
+ Training
+ WEBINARS Available:
+ClickHere
+
+SchoolCafe
+ Training WEBINARS Available:
+
+ClickHere
+
+Let us know
+ if you have any questions regarding this ticket.
+
+
+Amanda Schulman |
+
+CYBERSOFT
+
+SchoolCafé TeamLead, Customer
+ and Expert Care
+
+Support: 855.729.2328 | Email::
+customercare@schoolcafe.com
+
+
+
+PrimeroEdge
+ |
+SchoolCafé
+
+On Tue, Mar 31 at 8:41 AM
+
+, Nganhai Ngyuen <nganhai.nguyen@aliefisd.net> wrote:
+
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Good morning,
+
+     Attached is the history of item #52129. Can you help me understand why Youens could withdraw when the balance is negative? Did someone overwrite the transaction?
+
+The manager tried to do the withdrawal on 3/27, but she couldn't because the item was negative.
+
+Thank you!
+
+Nganhai Nguyen
+
+
+Alief ISD Nutrition Bookkeeper
+
+(281) 988-3420 Ext 29036
+
+--- turn 5 [agent/reply] "customercare@primeroedge.com" <customercare@primeroedge.com>  2026-04-01T15:24:06Z ---
+Hello Nganhai,
+
+Based on the report, you’ll notice the
+Actual Transaction Date
+ and
+Transaction Date
+ columns reflect two different things.
+
+The withdrawal transactions were entered on 3/20 (at 2:24 PM and 2:25 PM) but were backdated to 3/2. Looking at the circled values, you can see that one adjustment removed 12 units, bringing the balance to -12, and another removed 38 units. This caused the balance on 3/2 to show as negative (for example, -1), even though it later returns to 0.00.
+
+This happens because the system checks inventory based on what was available at the time the transactions were entered on 3/20, not the backdated date of 3/2. Since there was enough inventory on hand at the time of entry, the system allowed both withdrawals.
+
+In short, the
+Actual Transaction Date
+ determines whether the system allows the transaction, while the
+Transaction Date
+ affects how the inventory appears historically sometimes resulting in negative balances when backdated. Let me know if you have any questions!
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click Here
+
+SchoolCafe
+ Training WEBINARS Available:
+Click Here
+
+Let us know if you have any questions regarding this ticket by
+replying all to this ticket
+
+PrimeroEdge’s
+ fresh new look! Resources here:
+https://reimagined.primeroedge.com
+
+Coming soon in version 15.4—watch your dashboardannouncements for launch dates,
+Sneak a peek?
+NavigationGuide link
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+ClickHere
+
+SchoolCafe
+ Training WEBINARS Available:
+ClickHere
+
+Let us know if you have any questions regarding this ticket.
+
+Amanda Schulman |
+
+CYBERSOFT
+
+SchoolCafé TeamLead, Customer and Expert Care
+
+Support: 855.729.2328 | Email::
+customercare@schoolcafe.com
+
+
+
+PrimeroEdge
+ |
+SchoolCafé
+
+--- turn 6 [customer/reply] Nganhai Ngyuen <nganhai.nguyen@aliefisd.net>  2026-04-01T15:52:27Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+I'm sorry, I still don't understand I though the balance should be -50 (12+38) when they withdrew 38 unit.
+
+"Since there was enough inventory on hand at the time of entry" -
+
+what does it mean by "on hand"?
+
+" the
+Actual Transaction Date
+ determines whether the system allows the transaction" -
+
+does it mean the quantity of the item is based on the amount we placed in the order in Primero?
+
+"the
+Transaction Date
+ affects how the inventory appears historically sometimes resulting in negative balances when backdated" -
+
+The enter date is not a matter when withdrawing, correct?
+
+From: customercare@primeroedge.com <customercare@primeroedge.com>
+
+Sent:
+ Wednesday, April 1, 2026 10:24 AM
+
+To:
+ Nguyen, Nganhai T <Nganhai.Nguyen@aliefisd.net>
+
+Subject:
+ Re: Online 4 - Alief ISD - Negative balance-[#315728]
+
+
+
+
+
+CAUTION: [EXTERNAL EMAIL] - This email originated from outside of Alief ISD. DO NOT CLICK links or open
+ attachments unless you recognize the sender and know the content is safe. If in doubt, contact the sender separately to verify the content or call the AISD Technology Services Help Desk x22530.
+
+
+
+Hello Nganhai,
+
+Based on the report, you’ll notice the
+Actual Transaction Date
+ and
+Transaction Date
+ columns reflect two different things.
+
+The withdrawal transactions were entered on 3/20 (at 2:24 PM and 2:25 PM) but were backdated to 3/2. Looking at the circled values, you can see that one adjustment removed 12 units, bringing the balance to -12, and another removed 38 units. This caused
+ the balance on 3/2 to show as negative (for example, -1), even though it later returns to 0.00.
+
+This happens because the system checks inventory based on what was available at the time the transactions were entered on 3/20, not the backdated date of 3/2. Since there was enough inventory on hand at the time of entry, the system allowed both withdrawals.
+
+In short, the
+Actual Transaction Date
+ determines whether the system allows the transaction, while the
+
+Transaction Date
+ affects how the inventory appears historically sometimes resulting in negative balances when backdated. Let me know if you have any questions!
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click
+ Here
+
+
+SchoolCafe
+ Training WEBINARS Available:
+Click
+ Here
+
+Let us know if you have any questions regarding this ticket by replying all to this ticket
+
+PrimeroEdge’s
+ fresh new look! Resources here:
+https://reimagined.primeroedge.com
+
+Coming soon in version 15.4—watch your dashboardannouncements for launch dates,
+Sneak a peek?
+NavigationGuide
+ link
+
+
+Check out
+PrimeroEdge
+ Training
+ WEBINARS Available:
+ClickHere
+
+SchoolCafe
+ Training WEBINARS Available:
+ClickHere
+
+Let us know
+ if you have any questions regarding this ticket.
+
+Amanda Schulman |
+
+CYBERSOFT
+
+SchoolCafé TeamLead, Customer
+ and Expert Care
+
+Support: 855.729.2328 | Email::
+customercare@schoolcafe.com
+
+
+
+PrimeroEdge
+ |
+SchoolCafé
+
+On Wed, Apr 1 at 8:34 AM
+
+, Nganhai Ngyuen <nganhai.nguyen@aliefisd.net> wrote:
+
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Base on the screenshot below, the month of March start at zero balance, the balance became -12 when the manager withdrawal 12 units on 3/20
+
+What does all the number in RED mean?  When she withdrew 38 unit, the WU is -1 and the BU is 0
+
+From: customercare@primeroedge.com <customercare@primeroedge.com>
+
+Sent:
+ Tuesday, March 31, 2026 3:26 PM
+
+To:
+ Nguyen, Nganhai T <Nganhai.Nguyen@aliefisd.net>
+
+Subject:
+ Re: Online 4 - Alief ISD - Negative balance-[#315728]
+
+
+
+
+
+CAUTION: [EXTERNAL EMAIL] - This email originated from outside of Alief ISD. DO NOT CLICK links or open
+ attachments unless you recognize the sender and know the content is safe. If in doubt, contact the sender separately to verify the content or call the AISD Technology Services Help Desk x22530.
+
+
+
+Hello Nganhai,
+
+The
+Adjustment
+ column shows the change that was made. For example, an adjustment of 12 means that 12 broken units were removed. If the inventory was at zero before that day, removing 12 would result in a perpetual balance of -12.
+
+So, the
+Adjustment
+ column reflects what was changed, and the
+Perpetual
+ column shows the inventory balance after that change.
+
+The only exception is when the entry is labeled as a
+Reconciliation
+. Since physical inventory is not a manual override, the quantity entered becomes the new perpetual balance, and the adjustment reflects the difference between what was
+ previously recorded and what was physically counted.
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click
+ Here
+
+
+SchoolCafe
+ Training WEBINARS Available:
+Click
+ Here
+
+Let us know if you have any questions regarding this ticket by replying all to this ticket
+
+PrimeroEdge’s
+ fresh new look! Resources here:
+https://reimagined.primeroedge.com
+
+Coming soon in version 15.4—watch your dashboardannouncements for launch dates,
+Sneak a peek?
+NavigationGuide
+ link
+
+
+Check out
+PrimeroEdge
+ Training
+ WEBINARS Available:
+ClickHere
+
+SchoolCafe
+ Training WEBINARS Available:
+ClickHere
+
+Let us know
+ if you have any questions regarding this ticket.
+
+
+Amanda Schulman |
+
+CYBERSOFT
+
+SchoolCafé TeamLead, Customer
+ and Expert Care
+
+Support: 855.729.2328 | Email::
+customercare@schoolcafe.com
+
+
+
+PrimeroEdge
+ |
+SchoolCafé
+
+On Tue, Mar 31 at 1:47 PM
+
+, Nganhai Ngyuen <nganhai.nguyen@aliefisd.net> wrote:
+
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+What are the differences between adjustment and Perpetual Balance? What did this manager do on 3/2 as the starting balance I circle in BLUE? Did she override the balance to make it zero to start the month of March?
+
+From: customercare@primeroedge.com <customercare@primeroedge.com>
+
+Sent:
+ Tuesday, March 31, 2026 1:30 PM
+
+To:
+ Nguyen, Nganhai T <Nganhai.Nguyen@aliefisd.net>
+
+Subject:
+ Re: Online 4 - Alief ISD - Negative balance-[#315728]
+
+
+
+
+
+CAUTION: [EXTERNAL EMAIL] - This email originated from outside of Alief ISD. DO NOT CLICK links or
+ open attachments unless you recognize the sender and know the content is safe. If in doubt, contact the sender separately to verify the content or call the AISD Technology Services Help Desk x22530.
+
+
+
+Hello Nganhai,
+
+Based on the report you provided, you’ll notice two columns:
+Actual Transaction Date
+ and
+Transaction Date
+.
+
+The transaction in question was entered on 3/20 at 2:24 PM, but it was backdated to 3/2. The system verifies inventory based on when the transaction is entered, not the backdated transaction date.
+
+Since there was enough inventory available at the time of entry, the system allowed the quantity to be deducted. However, when you look at the backdated transaction date (3/2), it may show a negative balance because inventory levels were different on that
+ date.
+
+In summary, the
+Actual Transaction Date
+ determines whether the transaction can be processed, while the
+Transaction Date
+ affects how it appears in reports. Please let me know if you have any questions!
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click
+ Here
+
+
+SchoolCafe
+ Training WEBINARS Available:
+
+Click Here
+
+Let us know if you have any questions regarding this ticket by replying all to this ticket
+
+PrimeroEdge’s
+ fresh new look! Resources here:
+
+https://reimagined.primeroedge.com
+
+Coming soon in version 15.4—watch your dashboardannouncements for launch dates,
+Sneak a peek?
+NavigationGuide
+ link
+
+
+Check out
+PrimeroEdge
+ Training
+ WEBINARS Available:
+ClickHere
+
+SchoolCafe
+ Training WEBINARS Available:
+
+ClickHere
+
+Let us know
+ if you have any questions regarding this ticket.
+
+
+Amanda Schulman |
+
+CYBERSOFT
+
+SchoolCafé TeamLead, Customer
+ and Expert Care
+
+Support: 855.729.2328 | Email::
+customercare@schoolcafe.com
+
+
+
+PrimeroEdge
+ |
+SchoolCafé
+
+On Tue, Mar 31 at 8:41 AM
+
+, Nganhai Ngyuen <nganhai.nguyen@aliefisd.net> wrote:
+
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Good morning,
+
+     Attached is the history of item #52129. Can you help me understand why Youens could withdraw when the balance is negative? Did someone overwrite the transaction?
+
+The manager tried to do the withdrawal on 3/27, but she couldn't because the item was negative.
+
+Thank you!
+
+Nganhai Nguyen
+
+
+Alief ISD Nutrition Bookkeeper
+
+(281) 988-3420 Ext 29036
+
+--- turn 7 [agent/private_note] agent:22051317727  2026-04-01T15:58:48Z ---
+Assigning to Yolisaa per our conversation.
+
+--- turn 8 [agent/private_note] agent:22001856469  2026-04-01T17:39:02Z ---
+I think the missing piece is that they pulled the report as of 3/1, but needed to pull it further back to see what actually occurred and where it all started from.
+
+This item was already a mess before 3/20. It was not starting clean at zero in any meaningful “safe to withdraw” way. There were already a ton of earlier backdated withdrawals and receipts affecting the running history for this item. The extended item history shows repeated negative perpetual balances and multiple receives/withdrawals well before the questioned transaction. On 3/2 at 12:52:31 PM, there was a Receive transaction for 5 WU, which brought the balance back to 0 WU / 0 BU. Then, later on 3/2, additional transactions were entered, including the questioned withdrawals that were actually entered on 3/20 around 2:24–2:26 PM.
+
+The system did not allow the withdrawal because it “ignored” a negative balance. It allowed it because the item history had additional inventory activity and the transaction was processed based on the balance available at the time it was entered, not just the customer’s isolated view of those two rows.
+
+The customer is reading only these two lines below and thinking, "shouldn't that just equal -50?", but that's not how this report works.
+
+3/20 entry that removed 12 BU
+
+3/20 entry that removed 38 BU
+
+The Perpetual Balance is a running balance, not a standalone calculator per row. So each row reflects, what happened before it, whether there were receipts, whether there were other withdrawals, whether there were whole units vs broken , units, and whether inventory had already shifted between WU and BU. That’s why the customer’s “12 + 38 = -50” logic is too simplified for this report.
+
+--- turn 9 [agent/reply] "customercare@primeroedge.com" <customercare@primeroedge.com>  2026-04-01T17:40:48Z ---
+Hello Nganhai,
+
+Thank you for your patience while we reviewed this further.
+
+I’ve attached a screenshot from the item history report to help explain what occurred. It helps to pull a further date range to see what occurred.
+
+The main thing to note is that this report is showing two different date concepts:
+
+Actual Transaction Date = the date the transaction is applied to in inventory history
+
+Transaction Date = when the transaction was actually entered into the system
+
+In the highlighted rows, you can see that the withdrawals in question were tied to 3/2, but they were actually entered on 3/20 at 2:24 PM and 2:25 PM.
+
+You can also see there were other inventory transactions already affecting this item, including a Receive transaction on 3/2 at 12:52 PM, which impacted the running balance.
+
+Because of that, the Perpetual Balance is not calculated by looking at only the two withdrawal rows by themselves. It is a running balance that reflects all transactions already recorded for that item.
+
+That is why the balance does not simply calculate as 0 - 12 - 38 = -50 when reviewing the history.
+
+In short:
+
+The system did not ignore the balance
+
+The transaction was allowed based on the inventory activity recorded at the time it was entered
+
+The negative balance appearance is due to how the transaction was backdated into the historical timeline
+
+Please let us know if you would like us to walk through the report with you line by line.
+
+
+
+Thank you!
+
+Yolissa
+Cumba
+ |
+
+CYBERSOFT
+
+Coordinator,
+Customer and Expert Care
+
+Support: 866.442.6030 | Email:
+customercare@primeroedge.com
+
+
+PrimeroEdge
+ |
+SchoolCafé
+
+
+
+PrimeroEdge’s
+ fresh new look! Resources here:
+https://reimagined.primeroedge.com
+
+Coming soon in version 15.4—watch your dashboard announcements for launch dates,
+Sneak a peek?
+Navigation Guide link
+
+Reminders:
+
+✅
+ Complete your Year Begin Tasks
+
+✨
+ Explore PrimeroEdge’s fresh look:
+reimagined.primeroedge.com
+
+--- turn 10 [customer/reply] Nganhai Ngyuen <nganhai.nguyen@aliefisd.net>  2026-04-01T17:56:54Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Please do not clos ethe ticket yet. I have the training in the afternoon and will look at the information tomorrow. Thanks so much!
+
+Hai Nguyen
+
+From: customercare@primeroedge.com <customercare@primeroedge.com>
+
+Sent:
+ Wednesday, April 1, 2026 12:40 PM
+
+To:
+ Nguyen, Nganhai T <Nganhai.Nguyen@aliefisd.net>
+
+Subject:
+ Re: Online 4 - Alief ISD - Negative balance-[#315728]
+
+
+
+
+
+CAUTION: [EXTERNAL EMAIL] - This email originated from outside of Alief ISD. DO NOT CLICK links or open
+ attachments unless you recognize the sender and know the content is safe. If in doubt, contact the sender separately to verify the content or call the AISD Technology Services Help Desk x22530.
+
+
+
+Hello Nganhai,
+
+Thank you for your patience while we reviewed this further.
+
+I’ve attached a screenshot from the item history report to help explain what occurred. It helps to pull a further date range to see what occurred.
+
+The main thing to note is that this report is showing two different date concepts:
+
+Actual Transaction Date = the date the transaction is applied to in inventory history
+
+Transaction Date = when the transaction was actually entered into the system
+
+In the highlighted rows, you can see that the withdrawals in question were tied to 3/2, but they were actually entered on 3/20 at 2:24 PM and 2:25 PM.
+
+You can also see there were other inventory transactions already affecting this item, including a Receive transaction on 3/2 at 12:52 PM, which impacted the running balance.
+
+Because of that, the Perpetual Balance is not calculated by looking at only the two withdrawal rows by themselves. It is a running balance that reflects all transactions already recorded for that item.
+
+That is why the balance does not simply calculate as 0 - 12 - 38 = -50 when reviewing the history.
+
+In short:
+
+The system did not ignore the balance
+
+The transaction was allowed based on the inventory activity recorded at the time it was entered
+
+The negative balance appearance is due to how the transaction was backdated into the historical timeline
+
+Please let us know if you would like us to walk through the report with you line by line.
+
+
+
+Thank you!
+
+Yolissa Cumba
+ |
+
+CYBERSOFT
+
+Coordinator, Customer and Expert Care
+
+Support: 866.442.6030 | Email:
+customercare@primeroedge.com
+
+
+PrimeroEdge
+ |
+SchoolCafé
+
+
+
+PrimeroEdge’s
+ fresh new look! Resources here:
+
+https://reimagined.primeroedge.com
+
+Coming soon in version 15.4—watch your dashboard announcements for launch dates,
+Sneak a peek?
+Navigation
+ Guide link
+
+
+Reminders:
+
+✅
+ Complete
+ your Year Begin Tasks
+
+✨
+ Explore
+ PrimeroEdge’s fresh look:
+
+reimagined.primeroedge.com
+
+
+
+On Wed, Apr 1 at 10:52 AM
+
+, Nganhai Ngyuen <nganhai.nguyen@aliefisd.net> wrote:
+
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+I'm sorry, I still don't understand I though the balance should be -50 (12+38) when they withdrew 38 unit.
+
+"Since there was enough inventory on hand at the time of entry" -
+
+what does it mean by "on hand"?
+
+
+" the
+Actual Transaction Date
+ determines whether the system allows the transaction" -
+
+does it mean the quantity of the item is based on the amount we placed in the order in Primero?
+
+"the
+Transaction Date
+ affects how the inventory appears historically sometimes resulting in negative balances when backdated" -
+
+The enter date is not a matter when withdrawing, correct?
+
+From: customercare@primeroedge.com <customercare@primeroedge.com>
+
+Sent:
+ Wednesday, April 1, 2026 10:24 AM
+
+To:
+ Nguyen, Nganhai T <Nganhai.Nguyen@aliefisd.net>
+
+Subject:
+ Re: Online 4 - Alief ISD - Negative balance-[#315728]
+
+
+
+
+
+CAUTION: [EXTERNAL EMAIL] - This email originated from outside of Alief ISD. DO NOT CLICK links or open
+ attachments unless you recognize the sender and know the content is safe. If in doubt, contact the sender separately to verify the content or call the AISD Technology Services Help Desk x22530.
+
+
+
+Hello Nganhai,
+
+Based on the report, you’ll notice the
+Actual Transaction Date
+ and
+Transaction Date
+ columns reflect two different things.
+
+The withdrawal transactions were entered on 3/20 (at 2:24 PM and 2:25 PM) but were backdated to 3/2. Looking at the circled values, you can see that one adjustment removed 12 units, bringing the balance to -12, and another removed 38 units. This caused
+ the balance on 3/2 to show as negative (for example, -1), even though it later returns to 0.00.
+
+This happens because the system checks inventory based on what was available at the time the transactions were entered on 3/20, not the backdated date of 3/2. Since there was enough inventory on hand at the time of entry, the system allowed both withdrawals.
+
+In short, the
+Actual Transaction Date
+ determines whether the system allows the transaction, while the
+
+Transaction Date
+ affects how the inventory appears historically sometimes resulting in negative balances when backdated. Let me know if you have any questions!
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click
+ Here
+
+
+SchoolCafe
+ Training WEBINARS Available:
+Click
+ Here
+
+Let us know if you have any questions regarding this ticket by replying all to this ticket
+
+PrimeroEdge’s
+ fresh new look! Resources here:
+https://reimagined.primeroedge.com
+
+Coming soon in version 15.4—watch your dashboardannouncements for launch dates,
+Sneak a peek?
+NavigationGuide
+ link
+
+
+Check out
+PrimeroEdge
+ Training
+ WEBINARS Available:
+ClickHere
+
+SchoolCafe
+ Training WEBINARS Available:
+ClickHere
+
+Let us know
+ if you have any questions regarding this ticket.
+
+
+Amanda Schulman |
+
+CYBERSOFT
+
+SchoolCafé TeamLead, Customer
+ and Expert Care
+
+Support: 855.729.2328 | Email::
+customercare@schoolcafe.com
+
+
+
+PrimeroEdge
+ |
+SchoolCafé
+
+On Wed, Apr 1 at 8:34 AM
+
+, Nganhai Ngyuen <nganhai.nguyen@aliefisd.net> wrote:
+
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Base on the screenshot below, the month of March start at zero balance, the balance became -12 when the manager withdrawal 12 units on 3/20
+
+What does all the number in RED mean?  When she withdrew 38 unit, the WU is -1 and the BU is 0
+
+From: customercare@primeroedge.com <customercare@primeroedge.com>
+
+Sent:
+ Tuesday, March 31, 2026 3:26 PM
+
+To:
+ Nguyen, Nganhai T <Nganhai.Nguyen@aliefisd.net>
+
+Subject:
+ Re: Online 4 - Alief ISD - Negative balance-[#315728]
+
+
+
+
+
+CAUTION: [EXTERNAL EMAIL] - This email originated from outside of Alief ISD. DO NOT CLICK links or
+ open attachments unless you recognize the sender and know the content is safe. If in doubt, contact the sender separately to verify the content or call the AISD Technology Services Help Desk x22530.
+
+
+
+Hello Nganhai,
+
+The
+Adjustment
+ column shows the change that was made. For example, an adjustment of 12 means that 12 broken units were removed. If the inventory was at zero before that day, removing 12 would result in a perpetual balance of -12.
+
+So, the
+Adjustment
+ column reflects what was changed, and the
+Perpetual
+ column shows the inventory balance after that change.
+
+The only exception is when the entry is labeled as a
+Reconciliation
+. Since physical inventory is not a manual override, the quantity entered becomes the new perpetual balance, and the adjustment reflects the difference between what was
+ previously recorded and what was physically counted.
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click
+ Here
+
+
+SchoolCafe
+ Training WEBINARS Available:
+Click
+ Here
+
+Let us know if you have any questions regarding this ticket by replying all to this ticket
+
+PrimeroEdge’s
+ fresh new look! Resources here:
+https://reimagined.primeroedge.com
+
+Coming soon in version 15.4—watch your dashboardannouncements for launch dates,
+Sneak a peek?
+NavigationGuide
+ link
+
+
+Check out
+PrimeroEdge
+ Training
+ WEBINARS Available:
+ClickHere
+
+SchoolCafe
+ Training WEBINARS Available:
+ClickHere
+
+Let us know
+ if you have any questions regarding this ticket.
+
+
+Amanda Schulman |
+
+CYBERSOFT
+
+SchoolCafé TeamLead, Customer
+ and Expert Care
+
+Support: 855.729.2328 | Email::
+customercare@schoolcafe.com
+
+
+
+PrimeroEdge
+ |
+SchoolCafé
+
+On Tue, Mar 31 at 1:47 PM
+
+, Nganhai Ngyuen <nganhai.nguyen@aliefisd.net> wrote:
+
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+What are the differences between adjustment and Perpetual Balance? What did this manager do on 3/2 as the starting balance I circle in BLUE? Did she override the balance to make it zero to start the month of March?
+
+From: customercare@primeroedge.com <customercare@primeroedge.com>
+
+Sent:
+ Tuesday, March 31, 2026 1:30 PM
+
+To:
+ Nguyen, Nganhai T <Nganhai.Nguyen@aliefisd.net>
+
+Subject:
+ Re: Online 4 - Alief ISD - Negative balance-[#315728]
+
+
+
+
+
+CAUTION: [EXTERNAL EMAIL] - This email originated from outside of Alief ISD. DO NOT CLICK links
+ or open attachments unless you recognize the sender and know the content is safe. If in doubt, contact the sender separately to verify the content or call the AISD Technology Services Help Desk x22530.
+
+
+
+Hello Nganhai,
+
+Based on the report you provided, you’ll notice two columns:
+Actual Transaction Date
+ and
+Transaction Date
+.
+
+The transaction in question was entered on 3/20 at 2:24 PM, but it was backdated to 3/2. The system verifies inventory based on when the transaction is entered, not the backdated transaction date.
+
+Since there was enough inventory available at the time of entry, the system allowed the quantity to be deducted. However, when you look at the backdated transaction date (3/2), it may show a negative balance because inventory levels were different on that
+ date.
+
+In summary, the
+Actual Transaction Date
+ determines whether the transaction can be processed, while the
+Transaction Date
+ affects how it appears in reports. Please let me know if you have any questions!
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click
+ Here
+
+
+SchoolCafe
+ Training WEBINARS Available:
+
+Click Here
+
+Let us know if you have any questions regarding this ticket by replying all to this ticket
+
+PrimeroEdge’s
+ fresh new look! Resources here:
+
+https://reimagined.primeroedge.com
+
+Coming soon in version 15.4—watch your dashboardannouncements for launch dates,
+Sneak a peek?
+NavigationGuide
+ link
+
+
+Check out
+PrimeroEdge
+ Training
+ WEBINARS Available:
+ClickHere
+
+SchoolCafe
+ Training WEBINARS Available:
+
+ClickHere
+
+Let us know
+ if you have any questions regarding this ticket.
+
+
+Amanda Schulman |
+
+CYBERSOFT
+
+SchoolCafé TeamLead, Customer
+ and Expert Care
+
+Support: 855.729.2328 | Email::
+customercare@schoolcafe.com
+
+
+
+PrimeroEdge
+ |
+SchoolCafé
+
+On Tue, Mar 31 at 8:41 AM
+
+, Nganhai Ngyuen <nganhai.nguyen@aliefisd.net> wrote:
+
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Good morning,
+
+     Attached is the history of item #52129. Can you help me understand why Youens could withdraw when the balance is negative? Did someone overwrite the transaction?
+
+The manager tried to do the withdrawal on 3/27, but she couldn't because the item was negative.
+
+Thank you!
+
+Nganhai Nguyen
+
+
+Alief ISD Nutrition Bookkeeper
+
+(281) 988-3420 Ext 29036
+
+--- turn 11 [customer/reply] Nganhai Ngyuen <nganhai.nguyen@aliefisd.net>  2026-04-02T13:12:57Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Good morning Ms. Cumba,
+
+      What is the number that I can call you? Each time I call the customer support number, there's a different person pick up the phone, and I have to explain everything a gain from the beginning.
+
+Hai Nguyen
+
+
+Alief ISD Nutrition Bookkeeper
+
+(281) 988-3420 Ext 29036
+
+From: customercare@primeroedge.com <customercare@primeroedge.com>
+
+Sent:
+ Wednesday, April 1, 2026 12:40 PM
+
+To:
+ Nguyen, Nganhai T <Nganhai.Nguyen@aliefisd.net>
+
+Subject:
+ Re: Online 4 - Alief ISD - Negative balance-[#315728]
+
+
+
+
+
+CAUTION: [EXTERNAL EMAIL] - This email originated from outside of Alief ISD. DO NOT CLICK links or open
+ attachments unless you recognize the sender and know the content is safe. If in doubt, contact the sender separately to verify the content or call the AISD Technology Services Help Desk x22530.
+
+
+
+Hello Nganhai,
+
+Thank you for your patience while we reviewed this further.
+
+I’ve attached a screenshot from the item history report to help explain what occurred. It helps to pull a further date range to see what occurred.
+
+The main thing to note is that this report is showing two different date concepts:
+
+Actual Transaction Date = the date the transaction is applied to in inventory history
+
+Transaction Date = when the transaction was actually entered into the system
+
+In the highlighted rows, you can see that the withdrawals in question were tied to 3/2, but they were actually entered on 3/20 at 2:24 PM and 2:25 PM.
+
+You can also see there were other inventory transactions already affecting this item, including a Receive transaction on 3/2 at 12:52 PM, which impacted the running balance.
+
+Because of that, the Perpetual Balance is not calculated by looking at only the two withdrawal rows by themselves. It is a running balance that reflects all transactions already recorded for that item.
+
+That is why the balance does not simply calculate as 0 - 12 - 38 = -50 when reviewing the history.
+
+In short:
+
+The system did not ignore the balance
+
+The transaction was allowed based on the inventory activity recorded at the time it was entered
+
+The negative balance appearance is due to how the transaction was backdated into the historical timeline
+
+Please let us know if you would like us to walk through the report with you line by line.
+
+
+
+Thank you!
+
+Yolissa Cumba
+ |
+
+CYBERSOFT
+
+Coordinator, Customer and Expert Care
+
+Support: 866.442.6030 | Email:
+customercare@primeroedge.com
+
+
+PrimeroEdge
+ |
+SchoolCafé
+
+
+
+PrimeroEdge’s
+ fresh new look! Resources here:
+
+https://reimagined.primeroedge.com
+
+Coming soon in version 15.4—watch your dashboard announcements for launch dates,
+Sneak a peek?
+Navigation
+ Guide link
+
+
+Reminders:
+
+✅
+ Complete
+ your Year Begin Tasks
+
+✨
+ Explore
+ PrimeroEdge’s fresh look:
+
+reimagined.primeroedge.com
+
+
+
+On Wed, Apr 1 at 10:52 AM
+
+, Nganhai Ngyuen <nganhai.nguyen@aliefisd.net> wrote:
+
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+I'm sorry, I still don't understand I though the balance should be -50 (12+38) when they withdrew 38 unit.
+
+"Since there was enough inventory on hand at the time of entry" -
+
+what does it mean by "on hand"?
+
+
+" the
+Actual Transaction Date
+ determines whether the system allows the transaction" -
+
+does it mean the quantity of the item is based on the amount we placed in the order in Primero?
+
+"the
+Transaction Date
+ affects how the inventory appears historically sometimes resulting in negative balances when backdated" -
+
+The enter date is not a matter when withdrawing, correct?
+
+From: customercare@primeroedge.com <customercare@primeroedge.com>
+
+Sent:
+ Wednesday, April 1, 2026 10:24 AM
+
+To:
+ Nguyen, Nganhai T <Nganhai.Nguyen@aliefisd.net>
+
+Subject:
+ Re: Online 4 - Alief ISD - Negative balance-[#315728]
+
+
+
+
+
+CAUTION: [EXTERNAL EMAIL] - This email originated from outside of Alief ISD. DO NOT CLICK links or open
+ attachments unless you recognize the sender and know the content is safe. If in doubt, contact the sender separately to verify the content or call the AISD Technology Services Help Desk x22530.
+
+
+
+Hello Nganhai,
+
+Based on the report, you’ll notice the
+Actual Transaction Date
+ and
+Transaction Date
+ columns reflect two different things.
+
+The withdrawal transactions were entered on 3/20 (at 2:24 PM and 2:25 PM) but were backdated to 3/2. Looking at the circled values, you can see that one adjustment removed 12 units, bringing the balance to -12, and another removed 38 units. This caused
+ the balance on 3/2 to show as negative (for example, -1), even though it later returns to 0.00.
+
+This happens because the system checks inventory based on what was available at the time the transactions were entered on 3/20, not the backdated date of 3/2. Since there was enough inventory on hand at the time of entry, the system allowed both withdrawals.
+
+In short, the
+Actual Transaction Date
+ determines whether the system allows the transaction, while the
+
+Transaction Date
+ affects how the inventory appears historically sometimes resulting in negative balances when backdated. Let me know if you have any questions!
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click
+ Here
+
+
+SchoolCafe
+ Training WEBINARS Available:
+Click
+ Here
+
+Let us know if you have any questions regarding this ticket by replying all to this ticket
+
+PrimeroEdge’s
+ fresh new look! Resources here:
+https://reimagined.primeroedge.com
+
+Coming soon in version 15.4—watch your dashboardannouncements for launch dates,
+Sneak a peek?
+NavigationGuide
+ link
+
+
+Check out
+PrimeroEdge
+ Training
+ WEBINARS Available:
+ClickHere
+
+SchoolCafe
+ Training WEBINARS Available:
+ClickHere
+
+Let us know
+ if you have any questions regarding this ticket.
+
+
+Amanda Schulman |
+
+CYBERSOFT
+
+SchoolCafé TeamLead, Customer
+ and Expert Care
+
+Support: 855.729.2328 | Email::
+customercare@schoolcafe.com
+
+
+
+PrimeroEdge
+ |
+SchoolCafé
+
+On Wed, Apr 1 at 8:34 AM
+
+, Nganhai Ngyuen <nganhai.nguyen@aliefisd.net> wrote:
+
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Base on the screenshot below, the month of March start at zero balance, the balance became -12 when the manager withdrawal 12 units on 3/20
+
+What does all the number in RED mean?  When she withdrew 38 unit, the WU is -1 and the BU is 0
+
+From: customercare@primeroedge.com <customercare@primeroedge.com>
+
+Sent:
+ Tuesday, March 31, 2026 3:26 PM
+
+To:
+ Nguyen, Nganhai T <Nganhai.Nguyen@aliefisd.net>
+
+Subject:
+ Re: Online 4 - Alief ISD - Negative balance-[#315728]
+
+
+
+
+
+CAUTION: [EXTERNAL EMAIL] - This email originated from outside of Alief ISD. DO NOT CLICK links or
+ open attachments unless you recognize the sender and know the content is safe. If in doubt, contact the sender separately to verify the content or call the AISD Technology Services Help Desk x22530.
+
+
+
+Hello Nganhai,
+
+The
+Adjustment
+ column shows the change that was made. For example, an adjustment of 12 means that 12 broken units were removed. If the inventory was at zero before that day, removing 12 would result in a perpetual balance of -12.
+
+So, the
+Adjustment
+ column reflects what was changed, and the
+Perpetual
+ column shows the inventory balance after that change.
+
+The only exception is when the entry is labeled as a
+Reconciliation
+. Since physical inventory is not a manual override, the quantity entered becomes the new perpetual balance, and the adjustment reflects the difference between what was
+ previously recorded and what was physically counted.
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click
+ Here
+
+
+SchoolCafe
+ Training WEBINARS Available:
+Click
+ Here
+
+Let us know if you have any questions regarding this ticket by replying all to this ticket
+
+PrimeroEdge’s
+ fresh new look! Resources here:
+https://reimagined.primeroedge.com
+
+Coming soon in version 15.4—watch your dashboardannouncements for launch dates,
+Sneak a peek?
+NavigationGuide
+ link
+
+
+Check out
+PrimeroEdge
+ Training
+ WEBINARS Available:
+ClickHere
+
+SchoolCafe
+ Training WEBINARS Available:
+ClickHere
+
+Let us know
+ if you have any questions regarding this ticket.
+
+
+Amanda Schulman |
+
+CYBERSOFT
+
+SchoolCafé TeamLead, Customer
+ and Expert Care
+
+Support: 855.729.2328 | Email::
+customercare@schoolcafe.com
+
+
+
+PrimeroEdge
+ |
+SchoolCafé
+
+On Tue, Mar 31 at 1:47 PM
+
+, Nganhai Ngyuen <nganhai.nguyen@aliefisd.net> wrote:
+
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+What are the differences between adjustment and Perpetual Balance? What did this manager do on 3/2 as the starting balance I circle in BLUE? Did she override the balance to make it zero to start the month of March?
+
+From: customercare@primeroedge.com <customercare@primeroedge.com>
+
+Sent:
+ Tuesday, March 31, 2026 1:30 PM
+
+To:
+ Nguyen, Nganhai T <Nganhai.Nguyen@aliefisd.net>
+
+Subject:
+ Re: Online 4 - Alief ISD - Negative balance-[#315728]
+
+
+
+
+
+CAUTION: [EXTERNAL EMAIL] - This email originated from outside of Alief ISD. DO NOT CLICK links
+ or open attachments unless you recognize the sender and know the content is safe. If in doubt, contact the sender separately to verify the content or call the AISD Technology Services Help Desk x22530.
+
+
+
+Hello Nganhai,
+
+Based on the report you provided, you’ll notice two columns:
+Actual Transaction Date
+ and
+Transaction Date
+.
+
+The transaction in question was entered on 3/20 at 2:24 PM, but it was backdated to 3/2. The system verifies inventory based on when the transaction is entered, not the backdated transaction date.
+
+Since there was enough inventory available at the time of entry, the system allowed the quantity to be deducted. However, when you look at the backdated transaction date (3/2), it may show a negative balance because inventory levels were different on that
+ date.
+
+In summary, the
+Actual Transaction Date
+ determines whether the transaction can be processed, while the
+Transaction Date
+ affects how it appears in reports. Please let me know if you have any questions!
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click
+ Here
+
+
+SchoolCafe
+ Training WEBINARS Available:
+
+Click Here
+
+Let us know if you have any questions regarding this ticket by replying all to this ticket
+
+PrimeroEdge’s
+ fresh new look! Resources here:
+
+https://reimagined.primeroedge.com
+
+Coming soon in version 15.4—watch your dashboardannouncements for launch dates,
+Sneak a peek?
+NavigationGuide
+ link
+
+
+Check out
+PrimeroEdge
+ Training
+ WEBINARS Available:
+ClickHere
+
+SchoolCafe
+ Training WEBINARS Available:
+
+ClickHere
+
+Let us know
+ if you have any questions regarding this ticket.
+
+
+Amanda Schulman |
+
+CYBERSOFT
+
+SchoolCafé TeamLead, Customer
+ and Expert Care
+
+Support: 855.729.2328 | Email::
+customercare@schoolcafe.com
+
+
+
+PrimeroEdge
+ |
+SchoolCafé
+
+On Tue, Mar 31 at 8:41 AM
+
+, Nganhai Ngyuen <nganhai.nguyen@aliefisd.net> wrote:
+
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Good morning,
+
+     Attached is the history of item #52129. Can you help me understand why Youens could withdraw when the balance is negative? Did someone overwrite the transaction?
+
+The manager tried to do the withdrawal on 3/27, but she couldn't because the item was negative.
+
+Thank you!
+
+Nganhai Nguyen
+
+
+Alief ISD Nutrition Bookkeeper
+
+(281) 988-3420 Ext 29036
+
+--- turn 12 [agent/reply] "customercare@primeroedge.com" <customercare@primeroedge.com>  2026-04-02T19:37:27Z ---
+Hello Nganhai,
+
+You can call the support number and reference this ticket number; all details are in the ticket, but you are also welcome to ask to speak to me, and any agent can transfer. Otherwise, I have an SMe link that many customers prefer to use to schedule time with me directly on my calendar.
+
+https://calendly.com/yolissa-cumba/sme-q-a
+
+If you have any questions or additional information to share, please feel free to reply to this email and update the case.
+
+
+
+Thank you!
+
+Yolissa
+Cumba
+ |
+
+CYBERSOFT
+
+Coordinator,
+Customer and Expert Care
+
+Support: 866.442.6030 | Email:
+customercare@primeroedge.com
+
+
+PrimeroEdge
+ |
+SchoolCafé
+
+
+
+PrimeroEdge’s
+ fresh new look! Resources here:
+https://reimagined.primeroedge.com
+
+Coming soon in version 15.4—watch your dashboard announcements for launch dates,
+Sneak a peek?
+Navigation Guide link
+
+Reminders:
+
+✅
+ Complete your Year Begin Tasks
+
+✨
+ Explore PrimeroEdge’s fresh look:
+reimagined.primeroedge.com
+
+--- turn 13 [agent/private_note] agent:22001856469  2026-04-07T19:25:28Z ---
+we met today, and I helped her through all her questions. She said it is okay to close now.
+
+
+==========================================================================================
+TICKET 315733  |  LAWRENCE CO SCHOOL DISTRICT - MS / Issue with Perpetual Inventory
+==========================================================================================
+
+--- turn 0 [customer/description] Shelly Nichols <shelly.nichols@lawcosd.org>  2026-03-31T14:01:21Z ---
+This call involved Shelley Nichols from the Lawrence County School District in Mississippi seeking assistance with inventory discrepancies, specifically regarding hamburger buns, and Anthony Terral attempting to access the district's account to address the issue. The call was interrupted due to technical difficulties, and a callback was scheduled.
+
+--- turn 1 [agent/private_note] agent:22039468393  2026-03-31T14:01:37Z ---
+Calling Shelly back at 6015874895 once I can login
+
+--- turn 2 [agent/private_note] agent:22039468393  2026-03-31T14:16:29Z ---
+The issue is that item 1228 is showing a total amount of 64 WU in perpetual when it should be 64 BU
+
+Caused by transaction 23932 which is tied to a physical inventory that was counted on 2/28/2026 but modified on 3/17/2026
+
+4 cases and 60 each were placed in the physical inventory, but it was changed to 64 for some odd reason, escalating for further review.
+
+--- turn 3 [agent/private_note] agent:22001856480  2026-03-31T14:52:55Z ---
+The district is experiencing a perpetual inventory discrepancy related to Item 1228 (hamburger buns).
+
+The item is currently showing 64 Whole Units (WU) in perpetual inventory when it should reflect 64 Broken Units (BU). Which does not really make sense to me, but anyways.
+
+The discrepancy appears to stem from Transaction 23932, which is tied to a physical inventory count completed on 02/28/2026. The transaction
+was later modified on 03/17/2026.
+
+count entered: 4 cases and 60 each
+
+The quantity was subsequently altered to 64 units for unclear reasons
+
+This change appears to have caused an unintended unit conversion or overwrite, resulting in incorrect perpetual inventory values
+
+The transaction history shows the modification occurred after the physical inventory was finalized
+
+No clear justification for the unit change has been identified
+
+Requesting review to determine:
+
+Why the physical inventory transaction was altered post-count
+
+How/why the system converted or stored the quantity as WU instead of BU
+
+--- turn 4 [customer/reply] Shelly Nichols <shelly.nichols@lawcosd.org>  2026-03-31T15:41:35Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Thank you
+
+From: customercare@primeroedge.com <customercare@primeroedge.com>
+
+Sent:
+ Tuesday, March 31, 2026 10:27 AM
+
+To:
+ Shelly Nichols <Shelly.Nichols@lawcosd.org>
+
+Subject:
+ Re: LAWRENCE CO SCHOOL DISTRICT - MS / Issue with Perpetual Inventory-[#315733]
+
+
+
+Hello Shelly Nichols,
+
+With regards to ticket: 315733-LAWRENCE CO SCHOOL DISTRICT - MS / Issue with Perpetual Inventory, this ticket has been escalated to our Expert Care Team. We will follow up with you if they have any additional questions,
+ clarification or once the ticket is resolved.
+
+We are actively working to resolve this as quickly as possible.
+
+Please
+ let us know if you have any questions.
+
+
+Kind Regards,
+
+Cybersoft PrimeroEdge Customer Care Team
+
+On Tue, 31 Mar at 9:01 AM
+
+, Shelly Nichols <shelly.nichols@lawcosd.org> wrote:
+
+This call involved Shelley Nichols from the Lawrence County School District in Mississippi seeking assistance with inventory discrepancies, specifically regarding hamburger buns, and Anthony Terral attempting to access the district's account
+ to address the issue. The call was interrupted due to technical difficulties, and a callback was scheduled.
+
+--- turn 5 [agent/private_note] agent:22052027946  2026-04-01T15:59:22Z ---
+For item 1228, the whole unit to broken unit conversion is configured as 1 whole unit = 1 broken unit (1 case = 1 each). This configuration is why the system converts '4 cases, 60 each' to 64 cases. Therefore, the perpetual quantity for item 1228 is currently displayed as 64 cases. Please let us know if you have any other doubts or require any further assistance.
+
+--- turn 6 [agent/reply] "customercare@primeroedge.com" <customercare@primeroedge.com>  2026-04-01T17:13:21Z ---
+Hello Shelly,
+
+For item 1228, the whole unit to broken unit conversion is configured as 1 whole unit = 1 broken unit (1 case = 1 each). This configuration is why the system converts '4 cases, 60 each' to 64 cases. Therefore, the perpetual quantity for item 1228 is currently displayed as 64 cases. Please let us know if you have any other doubts or require any further assistance.
+
+
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click Here
+
+SchoolCafe
+ Training WEBINARS Available:
+Click Here
+
+Let us know if you have any questions regarding this ticket by
+replying all to this ticket
+
+--- turn 7 [customer/reply] Shelly Nichols <shelly.nichols@lawcosd.org>  2026-04-01T17:17:12Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+I understand that but how do I fix it and keep it from happening again.  Is this something I can fix?
+
+From: customercare@primeroedge.com <customercare@primeroedge.com>
+
+Sent:
+ Wednesday, April 1, 2026 12:13 PM
+
+To:
+ Shelly Nichols <Shelly.Nichols@lawcosd.org>
+
+Subject:
+ Re: LAWRENCE CO SCHOOL DISTRICT - MS / Issue with Perpetual Inventory-[#315733]
+
+
+
+Hello Shelly,
+
+For item 1228, the whole unit to broken unit conversion is configured as 1 whole unit = 1 broken unit (1 case = 1 each). This configuration is why the system converts '4 cases, 60 each' to 64 cases. Therefore, the perpetual quantity for item 1228 is currently
+ displayed as 64 cases. Please let us know if you have any other doubts or require any further assistance.
+
+
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click
+ Here
+
+
+SchoolCafe
+ Training WEBINARS Available:
+Click
+ Here
+
+Let us know if you have any questions regarding this ticket by replying all to this ticket
+
+On Tue, Mar 31 at 10:41 AM
+
+, Shelly Nichols <shelly.nichols@lawcosd.org> wrote:
+
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+Thank you
+
+From: customercare@primeroedge.com <customercare@primeroedge.com>
+
+Sent:
+ Tuesday, March 31, 2026 10:27 AM
+
+To:
+ Shelly Nichols <Shelly.Nichols@lawcosd.org>
+
+Subject:
+ Re: LAWRENCE CO SCHOOL DISTRICT - MS / Issue with Perpetual Inventory-[#315733]
+
+
+
+Hello Shelly Nichols,
+
+With regards to ticket: 315733-LAWRENCE CO SCHOOL DISTRICT - MS / Issue with Perpetual Inventory, this ticket has been escalated to our Expert Care Team. We will follow up with you if they have any additional questions,
+ clarification or once the ticket is resolved.
+
+We are actively working to resolve this as quickly as possible.
+
+Please
+ let us know if you have any questions.
+
+
+Kind Regards,
+
+Cybersoft PrimeroEdge Customer Care Team
+
+On Tue, 31 Mar at 9:01 AM
+
+, Shelly Nichols <shelly.nichols@lawcosd.org> wrote:
+
+This call involved Shelley Nichols from the Lawrence County School District in Mississippi seeking assistance with inventory discrepancies, specifically regarding hamburger buns, and Anthony Terral attempting to access the district's account
+ to address the issue. The call was interrupted due to technical difficulties, and a callback was scheduled.
+
+--- turn 8 [agent/reply] "customercare@primeroedge.com" <customercare@primeroedge.com>  2026-04-01T21:24:00Z ---
+Hello Shelly,
+
+Confirming that item 1228 is 1 broken unit (each) = 1 case correct?
+
+If so, 1 broken unit should = 1 case to keep things in line.
+
+Right now it is set as a 1 to 1 ratio.
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click Here
+
+SchoolCafe
+ Training WEBINARS Available:
+Click Here
+
+Let us know if you have any questions regarding this ticket by
+replying all to this ticket
+
+Marcus Suarez |
+
+CYBERSOFT
+
+Expert Care Team Lead, Customer and Expert Care
+
+Support: 866.442.6030 | Email:
+customercare@primeroedge.com
+
+PrimeroEdge
+ |
+SchoolCafé
+
+--- turn 9 [customer/reply] Shelly Nichols <shelly.nichols@lawcosd.org>  2026-04-07T11:37:45Z ---
+CAUTION
+: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+I am in the process if emailing Karen Hathorn ( child nutrition director) the list of item that need t be corrected for the broken units.
+
+From: customercare@primeroedge.com <customercare@primeroedge.com>
+
+Sent:
+ Saturday, April 4, 2026 5:15 PM
+
+To:
+ Shelly Nichols <Shelly.Nichols@lawcosd.org>
+
+Subject:
+ Ticket awaiting your response - [#315733] - LAWRENCE CO SCHOOL DISTRICT - MS / Issue with Perpetual Inventory
+
+
+
+Hello Shelly,
+
+
+
+Please read the full details of this email.  The additional information we are needing or providing is located towards the bottom in the information needed or provided section.
+
+This
+ automated email is to let you know that we are awaiting your response from you on the following ticket:
+
+
+
+
+Ticket Number: 315733
+
+Subject: LAWRENCE CO SCHOOL DISTRICT - MS / Issue with Perpetual
+ Inventory
+
+Kindly review the additional clarification given or reply back with the necessary requested information below so we can continue to work on the issue.
+
+Information needed or provided:
+
+Marcus Suarez :
+
+Hello Shelly,
+
+Confirming that item 1228 is 1 broken unit (each) = 1 case correct?
+
+If so, 1 broken unit should = 1 case to keep things in line.
+
+Right now it is set as a 1 to 1 ratio.
+
+Check out
+PrimeroEdge
+ Training WEBINARS Available:
+Click
+ Here
+
+SchoolCafe
+ Training WEBINARS Available:
+Click
+ Here
+
+Let us know if you have any questions regarding this ticket byreplying all to this ticket
+
+Marcus Suarez |
+
+CYBERSOFT
+
+Expert Care Team Lead, Customer and Expert Care
+
+Support: 866.442.6030 | Email:
+customercare@primeroedge.com
+
+PrimeroEdge
+ |
+SchoolCafé
+
+Thank you,
+
+Cybersoft PrimeroEdge Support Team
+
+
+==========================================================================================
+TICKET 316647  |  -  - Warehouse corrections
+==========================================================================================
+
+--- turn 0 [customer/description] Mike Suttle <1115322805362173@freshchat.com>  2026-04-08T20:53:28Z ---
+Mike Suttle
+
+
+
+
+Tried to fix this yesterday, we have a inventory issue, the inventory shows we have no shredded Cheddar #2601 but I do have 6 cases in the cooler of item 2601. I tried to add to inventory and I was able but it does not show in the inventory. can you help me fix the inventory to show I have 6 cases on hand to finish production for tomorrow?
+
+
+
+09:28 AM, 08th Apr
+
+
+
+
+
+
+
+Keith
+
+
+
+
+what site please
+
+
+
+09:39 AM, 08th Apr
+
+
+
+
+
+
+
+Mike Suttle
+
+
+
+
+The warehouse
+
+
+
+10:00 AM, 08th Apr
+
+
+
+
+
+
+
+Jared
+
+
+
+
+Good morning Mike, it is me, I realized I did not get your email before disconnecting yesterday
+
+
+
+10:36 AM, 08th Apr
+
+
+
+
+
+
+
+Jared
+
+
+
+
+I checked, and I don't see any record of you having completed adding the cheese to inventory, did you add it at the warehouse? Or one of your sites directly?
+
+
+
+10:36 AM, 08th Apr
+
+
+
+
+
+
+
+Jared
+
+
+
+
+Are you still with me?
+
+
+
+12:35 PM, 08th Apr
+
+
+
+
+
+
+
+Mike Suttle
+
+
+
+
+Sorry at sites all morning, It is for the warehouse, I have 6 cases of shred cheddar in warehouse but perpetual inventory says I have 2 package. How do I add the product into the inventory so I can distribute it.
+
+
+
+03:08 PM, 08th Apr
+
+
+
+
+
+
+
+Jared
+
+
+
+
+So if you go to Add to Inventory, then add the item at the warehouse for today, and finalize the process it will update the quantity on hand
+
+
+
+03:22 PM, 08th Apr
+
+
+
+
+
+
+
+Jared
+
+
+
+
+If you would like we could do the process during a screen share
+
+
+
+03:22 PM, 08th Apr
+
+
+
+
+
+
+
+Jared
+
+
+
+
+So I can watch as you do so, you mentioned doing the add to inventory already yesterday, but I see no completed additions from yesterday, so either it was not done or not saved
+
+
+
+03:23 PM, 08th Apr
+
+
+
+
+
+
+
+Mike Suttle
+
+
+
+
+I will try one more time and then maybe you could walk me through if that does not work.
+
+
+
+03:25 PM, 08th Apr
+
+
+
+
+
+
+
+Jared
+
+
+
+
+Sure! I am here to help
+
+
+
+03:29 PM, 08th Apr
+
+
+
+
+
+
+
+Jared
+
+
+
+
+also just in case we do get disconnected again, I realized after yesterday I don't have a good contact email or number for you
+
+
+
+03:29 PM, 08th Apr
+
+
+
+
+
+
+
+Jared
+
+
+
+
+I said I would email you and then realized the error when I went to send it and had no email to address it to haha
+
+
+
+03:29 PM, 08th Apr
+
+
+
+
+
+
+
+Mike Suttle
+
+
+
+
+lets have you walk me through, it did not go through.
+
+
+
+03:32 PM, 08th Apr
+
+
+
+
+
+
+
+Mike Suttle
+
+
+
+
+My email is msuttles@scusd.net
+
+
+
+03:32 PM, 08th Apr
+
+
+
+
+
+
+
+Jared
+
+
+
+
+thank you for that, and do you mind if I call you? I think it should be relatively quick
+
+
+
+03:33 PM, 08th Apr
+
+
+
+
+
+
+
+Jared
+
+
+
+
+We can talk it out and get it taken care of
+
+
+
+03:33 PM, 08th Apr
+
+
+
+
+
+
+
+Mike Suttle
+
+
+
+
+my number is 619 246-3684
+
+
+
+03:35 PM, 08th Apr
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Take to
+Team Inbox
+
+--- turn 1 [agent/private_note] customercare@primeroedge.com  2026-04-08T20:54:27Z ---
+This ticket is closed and merged into ticket
+316534
+
+
+==========================================================================================
+TICKET 317727  |  PrimeroEdge MS - Lawrence CO School District - MS - Perpetual inventory
+==========================================================================================
+
+--- turn 0 [customer/description] Shelly Nichols <shelly.nichols@lawcosd.org>  2026-04-21T15:42:20Z ---
+Shelly Nichols
+
+
+
+
+I got cut off from the chat for some reason. My perpetual inventory shows 1 case. It did not take out the 3 bags of gravy.
+
+
+
+09:45 AM, 21st Apr
+
+
+
+
+
+
+
+Keith
+
+
+
+
+then the perpetual is wrong. You have 3 each on hand.
+
+
+
+09:46 AM, 21st Apr
+
+
+
+
+
+
+
+Keith
+
+
+
+
+
+
+09:47 AM, 21st Apr
+
+
+
+
+
+
+
+Keith
+
+
+
+
+the perpetual shows 3, ?????
+
+
+
+09:48 AM, 21st Apr
+
+
+
+
+
+
+
+Keith
+
+
+
+
+maybe took a few to update the number
+
+
+
+09:52 AM, 21st Apr
+
+
+
+
+
+
+
+Keith
+
+
+
+
+do you see it now??
+
+
+
+09:53 AM, 21st Apr
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Take to
+Team Inbox
+
+
+==========================================================================================
+TICKET 321008  |  Online - LIBERTY PUBLIC SCHOOLS - Liberty PS - Question on edit physical inventory
+==========================================================================================
+
+--- turn 0 [customer/description] Misty Newland <misty.newland@lps53.org>  2026-05-26T16:11:17Z ---
+Misty Newland
+
+
+
+
+How do I reopen a reconciled inventory to correct errors
+
+
+
+09:59 AM, 26th May
+
+
+
+
+
+
+
+Terri
+
+
+
+
+You have to scroll to the bottom of the inventory once you hit view. Once at the bottom you can select modify physical inventory
+
+
+
+10:21 AM, 26th May
+
+
+
+
+
+
+
+Misty Newland
+
+
+
+
+Liberty Academy is not showing a modify button
+
+
+
+10:26 AM, 26th May
+
+
+
+
+
+
+
+Terri
+
+
+
+
+What site are you looking for?
+
+
+
+10:28 AM, 26th May
+
+
+
+
+
+
+
+Terri
+
+
+
+
+i see Liberty Academy
+
+
+
+10:28 AM, 26th May
+
+
+
+
+
+
+
+Terri
+
+
+
+
+
+
+10:30 AM, 26th May
+
+
+
+
+
+
+
+Terri
+
+
+
+
+You can only edit the last inventory that has been reconciled witch is the one showing N/A
+
+
+
+10:31 AM, 26th May
+
+
+
+
+
+
+
+Terri
+
+
+
+
+If you want to update the "May" physical inventory you will need to modify and then cancel the one showing N/A
+
+
+
+10:32 AM, 26th May
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Take to
+Team Inbox
+
+
+==========================================================================================
+TICKET 321362  |  Capistrano Unified School District - Online 5 - Start Date for June Inventory
+==========================================================================================
+
+--- turn 0 [customer/description] Heidi A. Rivera <harivera@capousd.org>  2026-05-28T20:12:36Z ---
+June inventory availability not yet present on drop down. Should become available in June.
+

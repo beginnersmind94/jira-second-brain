@@ -26,6 +26,10 @@ jira-brain/
 ├── reports/                 # Per-module dry-runs and filter outputs for guide-update workflows
 ├── app/                     # Flask POC: drop a PDF, apply Jira edits, review inline, export PDF
 ├── learning-agent/          # FastAPI POC: turn an SME transcript into a cited HTML learning resource
+├── faq-builder/             # Pipeline: Freshdesk conversations → per-function PrimeroEdge FAQ .docx + .pdf
+├── jira-export/             # Customer-cost analysis project (NXT SC2.0 audit, onboarding pipeline proof)
+├── working-drafts/          # In-progress SME drafts (financials, customer-cost action plan, mockups)
+├── jira-csv-export-reference.md  # Reference: schema of the raw Jira CSV export format
 ├── check_links.py           # Standalone wikilink validator
 ├── cleaned/                 # Cleaned Jira CSV + thresholds + data dictionary (gitignored)
 ├── cleaned_private/         # PII audit + district map (gitignored, never committed)
@@ -445,6 +449,60 @@ learning-agent/
 **Relationship to jira-brain:** This subproject's `search_kb` tool reads markdown from the parent jira-brain repo (`raw/guides/markdown/`, `wiki/concepts/`, `wiki/workflows/`). The `.env.example` defaults to `JIRA_BRAIN_PATH=../jira-brain` for the original sibling layout; when running from inside this monorepo, override that to `JIRA_BRAIN_PATH=..` (the parent of `learning-agent/`).
 
 **Authority:** learning-agent is authoritative for the generation pipeline (transcript → cited HTML). jira-brain remains authoritative for ticket data (`raw/tickets/`), guides (`raw/guides/`), and curated wiki content. The CLAUDE.md anti-hallucination rules apply equally here — the verbatim-citation pattern in learning-agent's templates is the same shape as the guide-edit citation rule in jira-brain.
+
+### `faq-builder/`
+A third subproject. Pipeline that turns Freshdesk customer-conversation history into per-function PrimeroEdge FAQ documents (`.docx` + `.pdf`).
+
+```
+faq-builder/
+├── README.md                   # Runbook + directory map
+├── faq_builder.py              # Shared builder library: spec → .docx → .pdf (pywin32 + MS Word)
+├── make_all_faqs.py            # Assembles every function FAQ from build/specs/*_spec.py
+├── make_ingredients_faq.py     # Standalone builder for the Ingredients FAQ
+├── make_menu_cycles_faq.py     # Standalone builder for the Menu Cycles FAQ
+├── fetch/                      # Freshdesk fetchers (fetch_conversations.py, fetch_batch.py,
+│                               # fetch_function.py, fetch_ingredients.py)
+├── build/                      # Content-spec authoring + augmentation
+│   ├── specs/                  # Per-function content specs (one .py module per FAQ)
+│   ├── guides/                 # Source guide material consulted by specs
+│   ├── apply_wiki_framing.py / augment_specs.py / patch_standalone.py
+├── conversations/              # Cached Freshdesk pulls (.jsonl per topic + .txt digests)
+└── deliverables/               # Final FAQ docs handed to customers / SMEs
+    └── PrimeroEdge-<Function>-FAQ.{docx,pdf}
+```
+
+**Inputs:** Freshdesk API (not Jira). Independent of `raw/tickets/`. **Outputs:** Word + PDF deliverables. Anti-hallucination rules apply: every FAQ claim should trace to a real conversation or sourced guide.
+
+**Windows-only build:** `faq_builder.py` uses MS Word COM automation via `pywin32` to render PDFs. No cross-platform path.
+
+### `jira-export/`
+Self-contained analysis project. Drives off a Jira export (separate from `raw/_imports/`) to produce customer-cost audits and onboarding-pipeline proofs.
+
+```
+jira-export/
+├── NXT_SC2.0_customer_cost_COMPREHENSIVE.md   # Comprehensive customer-cost report
+├── NXT_customer_cost_AUDIT.md                 # Audit findings
+├── NXT_customer_cost_GAMMA_brief.md           # Gamma-deck brief
+├── NXT_onboarding_pipeline_PROOF.md           # Onboarding pipeline proof
+├── _fd_keys_p1.json                           # Freshdesk-key index (intermediate)
+├── _inscope_light.json                        # In-scope ticket list (intermediate)
+├── analysis_run.py                            # Driver for the analysis
+├── build_audit.py                             # Build the audit report
+├── build_pipeline_proof.py                    # Build the pipeline proof
+└── analysis/                                  # Subreports + working artifacts
+```
+
+These outputs are reference deliverables, not part of the ingest → wiki → resource pipeline.
+
+### `working-drafts/`
+In-progress SME drafts that don't yet fit `wiki/` or `resources/` shape — usually because the source/citation chain isn't pinned down. Promote into the proper location once stable.
+
+```
+working-drafts/
+├── financials-import-export-log-and-reverse.md   # Financials import/export feature draft
+├── mockup-financials-import-export-activity.html # HTML mockup
+└── sc20-customer-cost-action-plan.md             # Companion to jira-export/ audit findings
+```
 
 ### `cleaned/` and `cleaned_private/`
 Outputs from `scripts/clean_im_data.py` and PII auditing — both **gitignored**. They live on disk so the analyst can iterate, but they don't go to GitHub because the cleaned data still carries internal employee names (assignee/reporter/creator) and `cleaned_private/` carries district→label mappings.

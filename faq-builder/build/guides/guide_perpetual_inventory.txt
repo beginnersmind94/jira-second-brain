@@ -1,0 +1,40 @@
+==== PAGE 1 ====
+ PROPRIETARY AND CONFIDENTIAL Inventory 
+© Cybersoft PrimeroEdge  Page 1 of 2 
+ 
+PERPETUAL INVENTORY 
+The Perpetual Inventory function allows users to see what items they have in their Inventory, based on the items that 
+they input into the system. Perpetual inventory is what the system thinks a user has at their site.  
+For Perpetual Inventory, go to Inventory > Inventory > Perpetual Inventory. 
+VIEW PERPETUAL INVENTORY INFORMATION  
+ 
+On the Perpetual Inventory page  
+1. Select a Site and from the dropdown 
+Your Site displays; if you have access to more than one Site, select the desired Site. 
+2. Select Show All Inventory Items or Show Only On Hand Inventory Items 
+3. Select an Item Category from the dropdown 
+4. Enter an Item Description and Item 
+5. Click Apply 
+ 
+  
+Category: INVENTORY Document Type: 
+Quick Steps 
+Author: 
+Content Team 
+Software Version: 
+10.4.2 
+Updated: 
+7/22/2020 
+==== PAGE 2 ====
+ PROPRIETARY AND CONFIDENTIAL Inventory 
+© Cybersoft PrimeroEdge  Page 2 of 2 
+Below is an example of the Perpetual Inventory output when searching for Items in the Breads/Grains/Pasta 
+Category for the specific Site. 
+1. Click Print Perpetual Inventory to view the Perpetual Inventory Report based on the search criteria selected. 
+Also note the Printable Page option. 
+ 
+This Report lists the Item Description, Units, Whole Units and Broken Units for each Item. This information is 
+separated by Storage Category and Item Category.  
+Click the  Export icon to select a file format to export, then save and/or print. 
+ 
+ 

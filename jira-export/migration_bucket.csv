@@ -1,0 +1,168 @@
+key,issuetype,module,status,resolution,created,summary
+NXT-63839,Bug,System,Closed,Done,7/8/2025 4:20 AM,Regression | CR | PDF reports are not being distributed in the migration environment
+NXT-63858,Bug,System,Closed,Done,7/9/2025 1:52 AM,Regression Bug - UAT & Migration Env - We are getting 500 Error when we try to update Profile page.
+NXT-63936,Task,Eligibility,Done Done,,7/11/2025 1:12 PM,Testing in Migration Environment - 9.0 Release
+NXT-63967,Task,Item Management,Done Done,,7/14/2025 12:04 PM,BO - Migration Smoke Testing(9.3)
+NXT-64136,Task,Platform - Data Exchange,Done Done,,7/15/2025 2:14 PM,Brownwood Migration Findings
+NXT-64653,Task,Menu Planning,Done Done,,7/25/2025 5:07 AM,"Migration - Navigation and basic functionalities check on menu planning, production, and inventory modules"
+NXT-64705,Task,Menu Planning,Done Done,,7/28/2025 6:35 AM,"QA, UAT & Migration - Worked on multiple tasks in all environments"
+NXT-64989,Task,Eligibility,Done Done,,8/4/2025 3:51 PM,Testing in Migration Environment - 9.3 Release
+NXT-65175,Task,Menu Planning,Done Done,,8/6/2025 6:15 AM,Tried to replicate the PCS-4297 observation in UAT and Migration Environment
+NXT-65504,Story,Family Hub,Done Done,Done,8/12/2025 9:19 AM,FH - WebView Update for Adams 12 App
+NXT-65733,Task,Platform - Data Exchange,Done Done,,8/20/2025 5:18 PM,Anchorage School District Migration
+NXT-65769,Task,Eligibility,Done Done,,8/21/2025 11:15 AM,Testing in Migration Environment - 9.4 Release
+NXT-65775,Task,Eligibility,Done Done,,8/21/2025 11:16 AM,Testing in Migration Environment - 9.5 Release
+NXT-65781,Task,Eligibility,Done Done,,8/21/2025 11:18 AM,Testing in Migration Environment - 9.6 Release
+NXT-65787,Task,Eligibility,Done Done,,8/21/2025 11:20 AM,Testing in Migration Environment - 9.11 Release
+NXT-65793,Task,Eligibility,Done Done,,8/21/2025 11:21 AM,Testing in Migration Environment - 9.7 and 9.8 Release
+NXT-65800,Task,Eligibility,Done Done,,8/21/2025 11:23 AM,Testing in Migration Environment - 9.9 Release
+NXT-65808,Task,Eligibility,Done Done,,8/21/2025 11:25 AM,Testing in Migration Environment - 9.10 Release
+NXT-66001,Task,Menu Planning,Done Done,,8/27/2025 10:50 AM,Recipe Onboarding  - Testing in Migration and Staging env
+NXT-66331,Story,Accountability,Done Done,Done,9/7/2025 8:13 PM,ACC - Attendance Feature - Migration
+NXT-66443,Story,Family Hub,Release Testing,Done,9/11/2025 9:42 AM,Family Hub - WoodForest migration
+NXT-66990,Task,Item Management,Done Done,,10/3/2025 9:57 AM,BO - Migration/Production Smoke Testing(9.4)
+NXT-67042,Task,Global Catalog,In Progress,,10/6/2025 3:45 AM,"Migration environment testing for GC Portal, SC and PE."
+NXT-67372,Task,Item Management,Done Done,,10/9/2025 1:15 PM,Remove Duplicate Units in production created during migration
+NXT-67438,Task,Platform - Data Exchange,Done Done,,10/14/2025 8:54 PM,Anchorage District Migration - BO
+NXT-67479,Story,Financials,Done Done,,10/15/2025 11:29 AM,Tullahoma Financials enhancements
+NXT-67621,Story,Platform - Data Exchange,New,,10/23/2025 11:59 AM,District Migration-Anchorage School District-BO Migration
+NXT-67663,Task,Item Management,Done Done,,10/24/2025 9:50 AM,BO - Migration/Production Smoke Testing(9.5)
+NXT-68139,Bug,Production,Closed,Done,11/6/2025 9:22 AM,Planner AI - Planner AI > Menu Analysis API calls are throwing 404 error in Migration.
+NXT-68249,Enhancement,Menu Planning,Done Done,Done,11/12/2025 1:35 PM,Texas City - Pre-K Meal pattern(2 of 5 Components) 
+NXT-68250,Enhancement,Menu Planning,New,,11/12/2025 1:46 PM,Texas City - Snack Pre-K Meal pattern and CACFP
+NXT-68325,Task,Item Management,Done Done,,11/14/2025 12:42 PM,BO - Migration/Production Smoke Testing(9.6)
+NXT-68632,Story,Platform - Data Exchange,Done Done,,11/24/2025 10:58 AM,District Migration-Mankato Area Public Schools ISD 77
+NXT-68762,Task,Item Management,Done Done,,12/3/2025 12:49 PM,BO - Migration/Production Smoke Testing(9.8)
+NXT-69292,Enhancement,Menu Planning,Done Done,Done,1/2/2026 11:24 AM,SC Implementation - Hill City ISD #2 - Nutrient Report Issue
+NXT-69492,Story,Accountability,Done Done,Done,1/15/2026 2:22 PM,Acc DQ - Adams 12 - SchoolCafe - Oracle financial exports
+NXT-69511,Task,Item Management,Done Done,,1/16/2026 1:32 PM,BO - Migration Smoke Testing(9.10)
+NXT-69805,Story,Platform - Data Exchange,New,,1/29/2026 7:09 AM,District Migration-Inventory Module Migration
+NXT-69850,Story,Platform - Data Exchange,Done Done,,2/1/2026 7:01 PM,District Migration-Mankato Area Public Schools ISD 77
+NXT-70116,Task,Family Hub,Done Done,,2/10/2026 12:02 PM,Data Migration Testing - Mankato School ISD (Family Hub)
+NXT-70120,Bug,Menu Planning,Closed,Done,2/10/2026 12:52 PM,Mankato District Migration - Multiple Observations
+NXT-70188,Task,Menu Planning,Done Done,,2/11/2026 8:53 AM,District Migration Testing 
+NXT-70196,Task,Item Management,Done Done,,2/11/2026 10:55 AM,BO - District Migration Testing
+NXT-70267,Task,Eligibility,Done Done,,2/13/2026 10:12 AM,Updating the UAT and Migration Environments for the Latest Eligibility UI components
+NXT-70518,Task,Eligibility,Done Done,,2/25/2026 6:06 PM,Testing in Migration Environment - 9.12 Release
+NXT-70524,Task,Eligibility,Done Done,,2/25/2026 6:07 PM,Testing in Migration Environment - 9.13 Release
+NXT-70627,Task,Item Management,Done Done,,2/27/2026 2:06 PM,BO - Migration Smoke Testing(9.11)
+NXT-70754,Story,Platform - Data Exchange,Done Done,,3/3/2026 7:39 AM,District Migration  - Post Migration Mankato Findings
+NXT-71223,Story,Platform - Data Exchange,Done Done,,3/17/2026 4:09 PM,District Migration - Washburn
+NXT-71276,Task,Item Management,Done Done,,3/20/2026 8:41 AM,BO - Migration Smoke Testing(9.12)
+NXT-71439,Task,Item Management,Done Done,,3/25/2026 2:24 AM,Release & Migration Testing - IM - Bulk update tool
+NXT-71678,Bug,Item Management,Closed,Done,4/6/2026 2:26 AM,Regression: Migration-Bulk Update-Published/Unpublished Inventory status are missing in overview page
+NXT-71743,Feature,Platform - Data Exchange,In Progress,,4/7/2026 8:42 AM,District Migrations 2026
+NXT-71845,Task,Item Management,Done Done,,4/10/2026 8:29 AM,BO - Migration Smoke Testing(9.13)
+NXT-71875,Story,Platform - Data Exchange,Done Done,,4/13/2026 8:06 AM,FamilyHub - District Migration - Washburn
+NXT-71887,Task,Accountability,Testing,,4/13/2026 2:53 PM,Dilworth District Migration Testing - FO Modules
+NXT-71897,Story,Platform - Data Exchange,In Progress,,4/13/2026 4:20 PM,Dilworth - District Migration
+NXT-72021,Task,Item Management,Done Done,,4/15/2026 8:58 AM,Washburn - District Migration Testing
+NXT-72040,Story,Platform - Data Exchange,In Progress,,4/15/2026 5:02 PM,Dilworth - FamilyHub District Migration
+NXT-72097,Task,Menu Planning,Done Done,,4/16/2026 6:46 AM,Production Planning Data Migration & Contracts Finalized for Add Menu And Menu Item Info 
+NXT-72122,Bug,Menu Planning,Closed,Done,4/17/2026 9:46 AM,Washburn District Migration - Multiple observations
+NXT-72211,Bug,System,Closed,Done,4/24/2026 12:55 PM,Regression - Acc DQ - Adams 12 - SchoolCafe - Oracle financial exports -issue
+NXT-72213,Bug,Menu Planning,Closed,Done,4/24/2026 3:19 PM,Washburn District Migration - Contributions jumbled.
+NXT-72214,Bug,Menu Planning,Closed,Done,4/24/2026 3:43 PM,Washburn District Migration - Serving Weights issue.
+NXT-72216,Bug,Menu Planning,Closed,Done,4/24/2026 4:00 PM,Washburn District Migration - Sub recipe issue.
+NXT-72234,Bug,Menu Planning,Closed,Done,4/27/2026 2:22 PM,Washburn District Migration - Preferred Measure flag is missing.
+NXT-72235,Bug,Menu Planning,On Hold,,4/27/2026 2:28 PM,District Migration(Washburn) - Not bringing Tap Water as recipe ingredient.
+NXT-72236,Bug,Menu Planning,Closed,Done,4/27/2026 2:35 PM,Washburn District Migration - Quantity needed changed from Ounce to Cup.
+NXT-72367,Task,Item Management,Done Done,,5/1/2026 12:17 PM,Washburn - District Migration Testing
+NXT-72401,Task,Item Management,Done Done,,5/4/2026 4:58 AM,"QA, UAT & Migration - Testing : PCS-4510 - Recipes ""<-- Back"" button takes to Item Page and not Recipes Page"
+NXT-72487,Task,Eligibility,Done Done,,5/5/2026 9:25 AM,Testing in Migration Environment - 9.14 Release
+NXT-72493,Task,Eligibility,New,,5/5/2026 9:29 AM,Testing in Migration Environment - 9.15 Release
+NXT-72645,Task,Family Hub,In Progress,,5/6/2026 8:53 AM,Family Hub (Production) - Migrate the data from Authorize.Net to WoodForest
+NXT-72680,Bug,Accountability,Rejected,,5/8/2026 1:53 PM,Dilworth District Migration - Edit check page - issue
+NXT-72681,Bug,Accountability,Closed,Done,5/8/2026 1:57 PM,Dilworth District Migration - Accountability - pages are not showing
+NXT-72682,Bug,Account Management,In Progress,,5/8/2026 2:36 PM,Dilworth District Migration - Acct Mgmt - Notification history and generated time
+NXT-72683,Bug,Account Management,In Progress,,5/8/2026 2:44 PM,Dilworth District Migration - Acct Mgmt - Multiple observations on Account Info
+NXT-72684,Bug,Eligibility,New,,5/8/2026 3:20 PM,Dilworth District Migration - Eligibility - Case type info is blank on application details page
+NXT-72686,Bug,Eligibility,On Hold,,5/8/2026 3:42 PM,Dilworth District Migration - Eligibility -  SSN and signature info are not matching on application details page
+NXT-72687,Bug,Eligibility,In Progress,,5/8/2026 3:53 PM,Dilworth District Migration - Eligibility -  Notification date on verification details page
+NXT-72701,Bug,Family Hub,Closed,Done,5/11/2026 9:52 AM,Regression - Family Hub - Woodforest payments are failing if phone number does not have 10 digits
+NXT-72717,Bug,Family Hub,Closed,Done,5/11/2026 10:41 AM,Washburn - District migration - family hub - publish menus for Lunch meal type - it is not showing in the family hub
+NXT-72741,Bug,Menu Planning,Closed,Done,5/11/2026 12:46 PM,Washburn District Migration - Not all ingredients from the Recipe are being migrated.
+NXT-72745,Bug,Accountability,Closed,Done,5/11/2026 12:54 PM,Dilworth - migration - Activity report - is not matching
+NXT-72749,Bug,Menu Planning,Closed,Done,5/11/2026 1:00 PM,Washburn District Migration - Menu Item without Contributions.
+NXT-72751,Bug,Menu Planning,Closed,Done,5/11/2026 1:17 PM,Washburn District Migration - Showing a blank cost or value on the Menu Item serving.
+NXT-72752,Bug,Accountability,Closed,Done,5/11/2026 1:18 PM,Dilworth- Migration- Edit check report - is not matching
+NXT-72756,Bug,Accountability,Closed,Done,5/11/2026 1:49 PM,Dilworth District Migration - Cash collection -  data is not matching
+NXT-72759,Bug,Accountability,Closed,Done,5/11/2026 1:58 PM,Dilworth District Migration - Patron participation - paid and reduced are not matching
+NXT-72761,Bug,Menu Planning,Closed,Done,5/11/2026 2:03 PM,Washburn District Migration - Pre preparation instructions are lost.
+NXT-72763,Bug,Menu Planning,Closed,Done,5/11/2026 2:14 PM,Washburn District Migration - Documents missing during migration.
+NXT-72765,Bug,Accountability,Closed,Done,5/11/2026 2:16 PM,Dilworth District Migration - Payment report- Some dates are not matching
+NXT-72768,Bug,Family Hub,In Progress,,5/11/2026 2:32 PM,Dilworth District Migration - family hub - schoolmenus are not showing
+NXT-72769,Bug,Accountability,Closed,Done,5/11/2026 2:37 PM,Dilworth District Migration - Accountability - labor Hours-  setting and KPI Benchmarks are disabled
+NXT-72775,Bug,Menu Planning,Closed,Done,5/11/2026 3:03 PM,Washburn District Migration - Converting Servings to extra Menu Item servings.
+NXT-72777,Bug,Account Management,Closed,Done,5/11/2026 3:16 PM,Dilworth District Migration - Acct Mgmt - Inactive Student accounts count
+NXT-72778,Bug,Menu Planning,Closed,Done,5/11/2026 3:55 PM,Washburn District Migration - Dual unit scenario
+NXT-72779,Bug,Family Hub,Closed,Done,5/11/2026 4:36 PM,Washburn- migration - family hub - after creating the poll - it is not showing in the parent account
+NXT-72793,Bug,Menu Planning,Closed,Done,5/12/2026 10:27 AM,Washburn District Migration - Site Configuration > Sites and meal services got duplicated.
+NXT-72796,Bug,Item Management,On Hold,,5/12/2026 1:08 PM,Washburn Migration - Recipe contributions has multiple milk varieties selected
+NXT-72801,Bug,Eligibility,In Progress,,5/12/2026 1:41 PM,Dilworth District Migration - Eligibility -  Notification date and Documents on verification details page
+NXT-72803,Bug,Eligibility,Closed,Done,5/12/2026 1:54 PM,Dilworth District Migration - Eligibility -  Verification Type info is incorrect
+NXT-72804,Bug,Eligibility,Fixed,,5/12/2026 1:55 PM,Dilworth District Migration - Eligibility -  Verification Status info is incorrect
+NXT-72805,Bug,Eligibility,On Hold,,5/12/2026 2:05 PM,Dilworth District Migration - Eligibility -  Basis info is incorrect in Post-Verification section on verification details page
+NXT-72806,Bug,Eligibility,Fixed,,5/12/2026 2:16 PM,Dilworth District Migration - Eligibility -  Verification Tracking Form
+NXT-72807,Bug,Menu Planning,Closed,Done,5/12/2026 2:23 PM,Washburn District Migration - Not displaying Allergens in the Recipe list page.
+NXT-72808,Bug,Menu Planning,Closed,Done,5/12/2026 2:29 PM,Washburn District Migration - Recipe ingredient is duplicated when used in multiple steps.
+NXT-72809,Bug,Eligibility,Fixed,,5/12/2026 2:31 PM,Dilworth District Migration - Eligibility -  Verification Collection Report
+NXT-72810,Bug,Menu Planning,Deployed to QA,,5/12/2026 2:41 PM,Washburn District Migration - Replace Pack Size with Serving measure in Recipe Step Ingredient serving
+NXT-72811,Bug,Menu Planning,Closed,Done,5/12/2026 2:43 PM,Washburn District Migration - Standard measures appearing as Recipe Servings.
+NXT-72812,Bug,Eligibility,Closed,Done,5/12/2026 2:50 PM,Dilworth District Migration - Eligibility -  DC Score Card - SSN Info is missing 
+NXT-72813,Bug,Menu Planning,Closed,Done,5/12/2026 2:59 PM,Washburn District Migration - Incorrect Meal Contributions on Menu
+NXT-72814,Bug,Eligibility,Closed,Done,5/12/2026 3:00 PM,Dilworth District Migration - Eligibility - The total number of DC files doesn't match for previous year
+NXT-72815,Bug,POS,Closed,Done,5/12/2026 3:02 PM,Dilworth District Migration - POS-- menu grid -- it is showing more one item as default menu item
+NXT-72816,Bug,Eligibility,In Progress,,5/12/2026 3:27 PM,"Dilworth District Migration - Eligibility - DC Extension Reviewed - The unmatch button is disabled, even though it doesn’t need to be for this case."
+NXT-72817,Bug,Menu Planning,Closed,Done,5/12/2026 3:34 PM,"Washburn District Migration - The default MI serving size on the Menu List page is wrong, and contributions show up multiple times on the Menu Items list page."
+NXT-72818,Bug,Menu Planning,Closed,Done,5/12/2026 9:14 PM,Washburn District Migration - Migrated incorrect contributions data.
+NXT-72819,Bug,Menu Planning,Closed,Done,5/12/2026 9:22 PM,Washburn District Migration - Redundant servings are being migrated.
+NXT-72820,Bug,Menu Planning,Closed,Done,5/12/2026 10:46 PM,Washburn District Migration - Incorrect Serving weight.
+NXT-72821,Bug,Menu Planning,Closed,Done,5/12/2026 10:53 PM,Washburn District Migration - Scaled Contributions show incorrect values.
+NXT-72834,Task,Family Hub,In Progress,,5/13/2026 10:01 AM,Family Hub - Default Gateway Change to Woodforest
+NXT-72836,Bug,Menu Planning,Closed,Done,5/13/2026 11:12 AM,Washburn District Migration - Blank Steps
+NXT-72837,Bug,Menu Planning,Closed,Done,5/13/2026 11:21 AM,Washburn District Migration - Menu shows contributions for a Menu Item that has none configured
+NXT-72838,Bug,Menu Planning,Closed,Done,5/13/2026 11:31 AM,Washburn District Migration - Whole and broken units relations are brought over incorrectly. 
+NXT-72839,Bug,Menu Planning,Closed,Done,5/13/2026 12:13 PM,Washburn District Migration - Veg - BP to MMA conversion factor is not migrated correctly.
+NXT-72840,Bug,Menu Planning,Closed,Done,5/13/2026 12:41 PM,Washburn District Migration - Clicking the Inventory Info tab throws 404 error.
+NXT-72841,Bug,Menu Planning,Closed,Done,5/13/2026 12:45 PM,Washburn District Migration - Both highest and base unit pack sizes have the same description.
+NXT-72843,Bug,Menu Planning,Closed,Done,5/13/2026 2:39 PM,Washburn District Migration - Menu item present on the Menu without serving description
+NXT-72844,Bug,Menu Planning,Closed,Done,5/13/2026 3:29 PM,Washburn District Migration - Recipe serving is not visible in edit mode.
+NXT-72845,Bug,Menu Planning,Closed,Done,5/13/2026 3:51 PM,Washburn District Migration - HACCP process lost.
+NXT-72924,Bug,Menu Planning,Closed,Done,5/14/2026 2:40 PM,Washburn District Migration - Duplicate documents.
+NXT-72926,Bug,Menu Planning,Closed,Done,5/14/2026 2:59 PM,"Washburn District Migration - ""Ounce"" isn't set as a pack size on the PE side, but got migrated."
+NXT-72927,Bug,System,Closed,Done,5/14/2026 9:10 PM,District Migration Environment - The Resource Catalogs aren't updated to match the latest release version.
+NXT-72928,Bug,Menu Planning,Closed,Done,5/14/2026 10:10 PM,Washburn District Migration - Clicking throws 404 errors on multiple items.
+NXT-72937,Bug,Eligibility,New,,5/15/2026 10:43 AM,Dilworth District Migration - Eligibility -  Student details aren't showing up on the application details page
+NXT-72938,Bug,Eligibility,In Progress,,5/15/2026 10:49 AM,Dilworth District Migration - Eligibility -  The total counts for free eligibility on the economically disadvantaged report aren't right.
+NXT-72939,Bug,Eligibility,Fixed,,5/15/2026 1:36 PM,Dilworth District Migration - Eligibility -  DC Files - The total record count is showing up as zero for manual entry records.
+NXT-73026,Bug,Menu Planning,Closed,Done,5/21/2026 2:12 PM,Washburn District Migration - MI contributions display range even with a single serving measure.
+NXT-73027,Task,Menu Planning,Done Done,,5/21/2026 4:04 PM,BO -  Migration task
+NXT-73060,Bug,System,Under Review by QA,,5/22/2026 3:43 PM,Dilworth District Migration - Template Issues
+NXT-73107,Bug,Menu Planning,Fixed,,5/26/2026 12:15 PM,Dilworth District Migration - Not migrating images.
+NXT-73108,Bug,Menu Planning,Closed,Done,5/26/2026 12:20 PM,Dilworth District Migration -  Bringing incorrect weights for recipe ingredients.
+NXT-73109,Bug,Menu Planning,On Hold,,5/26/2026 12:24 PM,Dilworth District Migration - Incorrect recipe and serving cost. Big difference between PE and SC.
+NXT-73111,Bug,Menu Planning,Fixed,,5/26/2026 12:30 PM,Dilworth District Migration - Migrating Recipe ingredients that are not actually recipe ingredients.
+NXT-73113,Bug,Menu Planning,Fixed,,5/26/2026 12:41 PM,Dilworth District Migration - Incorrect sub-recipes or ingredients are linked.
+NXT-73114,Bug,Menu Planning,In Progress,,5/26/2026 12:44 PM,Dilworth District Migration - Sub quantities are missing.
+NXT-73116,Task,Item Management,In Progress,,5/26/2026 1:16 PM,Dilworth - District Migration Testing
+NXT-73118,Bug,Menu Planning,New,,5/26/2026 2:30 PM,Dilworth District Migration - The menu item shows a lower contribution value.
+NXT-73119,Bug,Menu Planning,New,,5/26/2026 2:38 PM,"Dilworth District Migration - Serving weight in grams is not migrated correctly, off by more than 2000 grams."
+NXT-73120,Bug,Menu Planning,New,,5/26/2026 3:12 PM,Dilworth District Migration - Incorrect broken units per whole unit are brought over.
+NXT-73203,Bug,Menu Planning,New,,5/27/2026 5:17 AM,Dilworth District Migration - Menu item serving does not show exceptions.
+NXT-73204,Bug,Menu Planning,Fixed,,5/27/2026 5:31 AM,Dilworth District Migration -  Recipe steps are blank.
+NXT-73206,Bug,Menu Planning,On Hold,,5/27/2026 5:44 AM,Dilworth District Migration - Not migrating the correct edible yield factor.
+NXT-73207,Bug,Menu Planning,In Progress,,5/27/2026 6:06 AM,Dilworth District Migration - Duplicate CCPs.
+NXT-73225,Bug,Menu Planning,New,,5/27/2026 2:21 PM,"Dilworth District Migration - The item has nutrition information on the PE side, but we are not transferring it to SC."
+NXT-73226,Bug,Menu Planning,New,,5/27/2026 2:28 PM,"Dilworth District Migration - The serving of an item displays the Recipe Linked Identifier but, Assigned to recipes show as 0."
+NXT-73227,Bug,Menu Planning,New,,5/27/2026 2:39 PM,Dilworth District Migration - Incorrect merging in dual unit scenario.
+NXT-73228,Bug,Menu Planning,New,,5/27/2026 2:56 PM,Dilworth District Migration - Dual unit scenario.
+NXT-73234,Bug,Menu Planning,New,,5/27/2026 4:16 PM,Dilworth District Migration - Two different items in the system share the same code LI - #.
+NXT-73235,Bug,Menu Planning,New,,5/27/2026 4:32 PM,"Dilworth District Migration - When searching with an active Menu Item Code or the name of a Menu Item, the system does not return any results."
+NXT-73236,Bug,Menu Planning,New,,5/27/2026 4:41 PM,Dilworth District Migration -  Recipe with 0 serving size weight.
+NXT-73259,Bug,Menu Planning,New,,5/28/2026 12:21 PM,Dilworth District Migration - Missing Recipe Ingredient that is a sub recipe. 
+NXT-73260,Bug,Menu Planning,New,,5/28/2026 12:32 PM,Dilworth District Migration - CNDB items as recipe ingredients scenario.
+NXT-73261,Bug,Menu Planning,New,,5/28/2026 12:40 PM,Dilworth District Migration - Duplicate Servings.
+NXT-73262,Bug,Menu Planning,New,,5/28/2026 4:10 PM,Dilworth District Migration - Menu item added on the Menu without a serving measure.
+NXT-73278,Enhancement,Accountability,In Progress,,5/28/2026 7:50 AM,Acc-Wadena- Deer Creek Public Schools - Edit Check notation question
+NXT-73281,Story,Platform - Data Exchange,New,,5/29/2026 7:08 PM,Washburn - Post Migration Observations & Fixes

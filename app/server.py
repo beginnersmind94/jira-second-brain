@@ -251,6 +251,7 @@ Rules:
 - For `replace`, the backend will replace `before` with `after`.
 - Make `before` unique enough to anchor cleanly. Include surrounding lines if needed.
 - Keep `after` concise — match the surrounding voice.
+- The output is rendered as styled HTML/PDF, so **use proper markdown hierarchy** in `after`: `##` for section headings, `###` for subsections, numbered lists (`1.`, `2.`) for sequential steps, `-` bullets for non-sequential items, **bold** for UI labels (button names, field labels), `> blockquote` for tips/warnings, and code spans (`code`) for system codes, settings names, or values shown literally. Don't write a wall of prose where a list or heading would read better.
 - If no tickets produce a user-visible change to this guide, return an empty `proposed_edits` array and explain in `open_notes`.
 
 CURRENT GUIDE (markdown):

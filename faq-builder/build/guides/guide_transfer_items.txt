@@ -1,0 +1,60 @@
+==== PAGE 1 ====
+ PROPRIETARY AND CONFIDENTIAL Inventory 
+© Cybersoft PrimeroEdge  Page 1 of 2 
+ 
+TRANSFER ITEMS 
+The Transfer Items function allows sites to transfer Inventory Items to another site. 
+A Receiving Site cannot create the Transfer in PrimeroEdge. 
+For Transfer Items, go to Inventory > Transfers/Withdrawals > Transfer Items.  
+Process / Descriptions Images 
+1. Select the From Site from the dropdown 
+2. Select the To Site from the dropdown 
+3. Enter/Select the Transaction Date and 
+Time 
+The default for the Transaction Date 
+and Time field is the current time that the 
+Transfer was entered in PrimeroEdge. 
+4. Enter Comments as needed 
+ 
+Add the Items to be transferred in the Item List 
+section: 
+5. Select the Item Category from the 
+dropdown to narrow down Items 
+6. Select the Item Description 
+7. Enter the Whole Unit Qty and Broken Unit 
+Qty to be transferred 
+8. Enter Comments as needed 
+9. Click Add 
+ 
+  
+Category: TRANSFERS/WITHDRAWALS Document Type: 
+Quick Steps 
+Author: 
+Content Team 
+Software Version: 
+10.4.2 
+Updated: 
+7/14/2020 
+==== PAGE 2 ====
+ PROPRIETARY AND CONFIDENTIAL Inventory 
+© Cybersoft PrimeroEdge  Page 2 of 2 
+Added Items are listed under the Item List section. Repeat steps 5-9 to add more items to the list. 
+10. Modify the Whole Unit Qty or the Broken Unit Qty as needed 
+11. Click the Note icon to view or revise a comment 
+12. Click the Trash Can icon to delete an item from the list 
+ 
+If there are no Comments added for an 
+item, an Add Comment icon replaces the Note 
+icon. Users can click the Add Comment icon to 
+add a comment for the item. 
+ 
+13. Click Next  
+ 
+A new Transfer Items page with the summary of the Transfer appears.  
+14. Click Edit Transfer Items to return to the previous page and edit the Transfer information 
+15. Click Confirm Transfer to save the Transfer 
+ 
+A successful green message appears. Note that 
+the message includes the Transfer #. 
+ 
+ 

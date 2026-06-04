@@ -1,0 +1,142 @@
+==== PAGE 1 ====
+ PROPRIETARY AND CONFIDENTIAL Inventory 
+© Cybersoft PrimeroEdge  Page 1 of 6 
+ 
+RECEIPTS W/O ORDERS 
+The Receipts w/o Orders function is used when Items were not ordered via PrimeroEdge but was received by the site. 
+However, the Item will still need to be received in the system to update the Perpetual Inventory. An example of this 
+usage is when there is a scheduled delivery of items. The items are not ordered via PrimeroEdge since it’s automatically 
+delivered to the site, but will still need to be accounted for in the system.  
+ The Vendors and Items must be appropriately configured before using the Receipts w/o Orders function. To 
+configure the Vendors and Items, go to Inventory > Configuration > Vendors and Inventory > Configuration > Items. 
+For Receipts w/o Orders, go to Inventory > Orders > Receipts w/o Orders. 
+RECEIPT HEADER 
+ 
+1. Select a Receiving Site from the dropdown 
+The listed Receiving Site is dependent on the users access. 
+2. Select a Vendor from the dropdown 
+3. Enter or select the Transaction Date and Time 
+4. Enter an Invoice # and Invoice Amount 
+ The Invoice # and Invoice Amount are required fields. The Invoice Amount must equal the Receipt Amount. The 
+Receipt Amount is calculated based on the items entered under the Received Items section. 
+5. Enter Delivered By 
+6. Enter Comments 
+7. Users can toggle between List View and Quick Entry View for the Received Items section 
+ 
+Category: ORDERS Document Type: 
+Quick Steps 
+Author: 
+Content Team 
+Software Version: 
+10.4.2 
+Updated: 
+6/29/2020 
+==== PAGE 2 ====
+ PROPRIETARY AND CONFIDENTIAL Inventory 
+© Cybersoft PrimeroEdge  Page 2 of 6 
+RECEIVED ITEMS 
+The orderable Items are listed in two views:  
+• Quick Entry View – This view allows the user to search for specific items to add in the Received Items section. 
+• List View – This view lists all orderable Items for the Vendor chosen under the Receipt Header section. 
+QUICK ENTRY VIEW 
+1. If in the List View, click Switch to Quick 
+Entry View from the Receipt Header 
+section  
+2. Enter an Item # into the field, if known, or 
+click the Three-Dot Look Up button to 
+search for an Item 
+ 
+The Search Item pop-up appears. 
+3. Select an Item Category, Storage Category 
+from the dropdown, enter Item Description 
+like* or enter Item# like* 
+4. Click Get Items 
+Click Get Items without filtering to list all 
+items.  
+Items that meet the filter criteria will be listed 
+under the Item List section. 
+5. Click the Item # link to select the Item 
+ 
+  
+
+==== PAGE 3 ====
+ PROPRIETARY AND CONFIDENTIAL Inventory 
+© Cybersoft PrimeroEdge  Page 3 of 6 
+The user will be navigated back to the Create Orders page. 
+6. Enter the Whole Units to be ordered 
+Repeat steps 2 – 6 to add more items to the list. 
+The Unit Price is based on the Items configuration. If the Unit Price is changed in this Receipt, it will not change 
+the configuration of the Item. For a permanent price change, go to Inventory > Configuration > Items > Vendor & 
+Price Info tab. 
+Charges and discounts are listed under the Additional Charges/Discounts section. To add these charges and 
+discounts, go to Inventory > Configuration > Charges/Discounts. 
+7. Click Next 
+ 
+The user can also click the floating menu 
+located on the left-hand side of the screen. The 
+warning triangle sign lets the user know that 
+there are some changes that need to be made 
+in the page.   
+A pop-up will appear if the Receipt Amount 
+does not equal the Invoice Amount. Click OK to 
+accept the unequal amount. Click Cancel to 
+cancel the process and modify the amounts.  
+ 
+ 
+  
+
+==== PAGE 4 ====
+ PROPRIETARY AND CONFIDENTIAL Inventory 
+© Cybersoft PrimeroEdge  Page 4 of 6 
+LIST VIEW 
+1. If in the Quick Entry View, click Switch to 
+List View from the Vendor Information 
+section  
+All the orderable Items for the vendor will be listed and grouped by Storage Category. 
+2. Enter the Whole Units to be ordered 
+The Unit Price is based on the Items configuration. If the Unit Price is changed in this Receipt, it will not change 
+the configuration of the Item. For a permanent price change, go to Inventory > Configuration > Items > Vendor & 
+Price Info tab. 
+3. Enter Comments, as needed 
+Charges and discounts are listed under the Additional Charges/Discounts section. To add these charges and 
+discounts, go to Inventory > Configuration > Charges/Discounts. 
+4. Click Next 
+ 
+The user can also click the floating menu 
+located on the left-hand side of the screen. The 
+warning traingle sign lets the user know that 
+there are some changes that need to be made 
+in the page.   
+
+==== PAGE 5 ====
+ PROPRIETARY AND CONFIDENTIAL Inventory 
+© Cybersoft PrimeroEdge  Page 5 of 6 
+ A pop-up will appear if the Receipt Amount 
+does not equal the Invoice Amount. Click OK to 
+accept the unequal amount. Click Cancel to 
+cancel the process and modify the amounts.  
+ 
+ 
+ 
+CONFIRM RECEIPT 
+ 
+A new page with the Receipt details appears. 
+1. Click Edit Receipt to go back to the previous page and make modifications to the Receipt 
+2. Click Save as Incomplete to save the changes but not confirm the Receipt 
+3. Click Confirm Receipt to finish the process 
+ 
+
+==== PAGE 6 ====
+ PROPRIETARY AND CONFIDENTIAL Inventory 
+© Cybersoft PrimeroEdge  Page 6 of 6 
+If Save as Incomplete is selected, a pop-up 
+appears with the Order # to refer to when 
+continuing the Receipt process.  
+ 
+If Confirm Receipt is selected, a pop-up 
+appears stating that the Items have been 
+received along with the Order #. The statement 
+means that the Perpetual Inventory has been 
+updated with the new quantity. 
+ 
+ 

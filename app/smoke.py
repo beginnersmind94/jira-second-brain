@@ -26,7 +26,7 @@ from server import (  # noqa: E402
     filter_csv_for_module,
     guess_module_from_filename,
 )
-from review import apply_edits, inline_diff_html, md_to_pdf  # noqa: E402
+from review import apply_edits, inline_diff_html, md_to_html  # noqa: E402
 
 
 def step(name):
@@ -115,9 +115,9 @@ def main():
     print(f"  rendered {len(html)} chars of HTML")
     assert "diff-table" in html
 
-    step("7. md_to_pdf produces a real PDF with styled markdown")
+    step("7. md_to_html produces a styled HTML document")
     out_md = APP_DIR / "jobs" / "_smoke.md"
-    out_pdf = APP_DIR / "jobs" / "_smoke.pdf"
+    out_html = APP_DIR / "jobs" / "_smoke.html"
     out_md.parent.mkdir(exist_ok=True)
     rich = """---
 id: TEST
@@ -130,9 +130,9 @@ The Sampling function allows users to generate sample applications used in the *
 
 ## Schedule Verification Samples
 
-1. Click the SCHEDULE SAMPLE button in the top right corner of the page.
+1. Click the **SCHEDULE SAMPLE** button in the top right corner of the page.
 2. Pick a date.
-3. Click Save.
+3. Click **Save**.
 
 ## Verification Type
 
@@ -144,15 +144,22 @@ The Sampling function allows users to generate sample applications used in the *
 The Sampling page shows the selected application date and the student count date for each scheduled sample.
 """
     out_md.write_text(rich, encoding="utf-8")
-    md_to_pdf(out_md, out_pdf)
-    size = out_pdf.stat().st_size
-    print(f"  wrote {out_pdf.name} ({size} bytes)")
-    assert out_pdf.exists() and size > 1000, f"PDF too small ({size}b)"
-    # Sanity-check the raw PDF for header glyph presence (Helvetica-Bold instead of mono dump)
-    pdf_bytes = out_pdf.read_bytes()
-    assert b"Helvetica-Bold" in pdf_bytes, "PDF didn't embed Helvetica-Bold — heading style likely broken"
-    assert b"## " not in pdf_bytes, "Raw markdown `## ` leaked into PDF text — rendering didn't strip header markers"
-    print("  OK PDF embeds Helvetica-Bold (real headers, not raw `##` markers)")
+    md_to_html(out_md, out_html, title="Sampling Quick Guide", subtitle="2 of 3 approved edits applied")
+    size = out_html.stat().st_size
+    print(f"  wrote {out_html.name} ({size} bytes)")
+    assert out_html.exists() and size > 500, f"HTML too small ({size}b)"
+    body = out_html.read_text(encoding="utf-8")
+    # Real markdown rendered (not raw markers leaking through)
+    assert "<h1" in body and "Sampling Quick Guide" in body, "no H1 rendered"
+    assert "<h2" in body, "no H2 rendered"
+    assert "<ol>" in body and "<li>" in body, "ordered list didn't render"
+    assert "<ul>" in body, "bullet list didn't render"
+    assert "<blockquote>" in body, "blockquote didn't render"
+    assert "<strong>" in body, "bold didn't render"
+    assert "## " not in body, "raw `## ` leaked into HTML — frontmatter strip or markdown render broken"
+    assert "id: TEST" not in body, "YAML frontmatter leaked into HTML body"
+    assert "<style>" in body and ":root" in body, "embedded CSS missing"
+    print("  OK HTML embeds CSS + renders real headers/lists/blockquote (no raw markers)")
 
     print("\nALL SMOKE CHECKS PASSED")
     return 0

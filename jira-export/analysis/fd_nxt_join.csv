@@ -1,0 +1,90 @@
+nxt_key,nxt_type,nxt_module,fd_ticket,fd_district
+NXT-63774,Bug,POS,287158,Healdsburg Unified School District
+NXT-63908,Story,Inventory,287828,Carl Junction Schools
+NXT-63912,Bug,Eligibility,287919,Edge District
+NXT-63942,Bug,Accountability,287623,Dayton Independent School District
+NXT-64015,Bug,Accountability,287623,Dayton Independent School District
+NXT-64334,Bug,Eligibility,287964,Adams 12 Five Star Schools
+NXT-64334,Bug,Eligibility,288387,Arkansas Arts Academy
+NXT-64893,Task,Item Management,289899,Simsbury Public Schools
+NXT-64921,Task,Item Management,290245,Southwest ISD
+NXT-65115,Bug,Eligibility,290389,Southwest ISD
+NXT-65251,Bug,System,290969,Caring ISD
+NXT-65329,Bug,Accountability,290227,Southwest ISD
+NXT-65351,Task,Item Management,290473,Spring Bluff R-XV
+NXT-65504,Story,Family Hub,289943,Adams 12 Five Star Schools
+NXT-65541,Story,Accountability,289187,Caring ISD
+NXT-65541,Story,Accountability,289213,Caring ISD
+NXT-65541,Story,Accountability,289232,Caring ISD
+NXT-65541,Story,Accountability,289234,Caring ISD
+NXT-65549,Bug,Account Management,290613,Sage International Middleton Campus
+NXT-65585,Task,Item Management,291735,Phoenix School of Roseburg
+NXT-65729,Task,Family Hub,292500,Benton School District
+NXT-65815,Task,Accountability,300978,Fortune School of Education
+NXT-65816,Task,Accountability,303856,Franklin Public Schools
+NXT-65819,Task,Accountability,309462,Greenfield Public Schools
+NXT-65991,Bug,Accountability,293744,Benton School District
+NXT-66005,Bug,POS,294166,Medford Public Schools
+NXT-66821,Story,Eligibility,295727,Cardinal Community School District
+NXT-66821,Story,Eligibility,296439,Port Neches-Groves ISD
+NXT-66821,Story,Eligibility,314274,Hutto ISD
+NXT-67092,Task,System,298156,Caring ISD
+NXT-67213,Task,Accountability,299887,Hutto ISD
+NXT-67390,Task,Item Management,302460,Old Colony Regional Vocational Technical
+NXT-67586,Bug,Accountability,300160,Hutto ISD
+NXT-67945,Enhancement,Family Hub,301178,Northside ISD
+NXT-67945,Enhancement,Family Hub,403294,(not in FD export)
+NXT-67947,Enhancement,Family Hub,302464,Old Colony Regional Vocational Technical
+NXT-67947,Enhancement,Family Hub,303154,Glastonbury School District
+NXT-68023,Task,Item Management,303802,Texas City ISD
+NXT-68256,Story,Eligibility,298990,Intermediate District 287
+NXT-68545,Task,Inventory,304177,Adams 12 Five Star Schools
+NXT-68910,Enhancement,Family Hub,307409,Edge County Schools - TEST Account
+NXT-69297,Task,Inventory,307330,Adams 12 Five Star Schools
+NXT-69297,Task,Inventory,308059,Hill City ISD #2
+NXT-69297,Task,Inventory,308370,St. Mary's Academy
+NXT-69297,Task,Inventory,308841,Healdsburg Unified School District
+NXT-69341,Enhancement,Family Hub,295174,Austin Independent School District
+NXT-69492,Story,Accountability,309264,Adams 12 Five Star Schools
+NXT-69680,Task,Inventory,310859,Coventry Public Schools
+NXT-69680,Task,Inventory,311245,Nauset Public Schools
+NXT-69680,Task,Inventory,311415,Mashpee Public Schools
+NXT-69710,Story,Accountability,309797,Caring ISD
+NXT-69808,Bug,Accountability,309678,Decorah Community School District
+NXT-70214,Story,Accountability,308434,Hutto ISD
+NXT-70215,Story,Accountability,308434,Hutto ISD
+NXT-70225,Tech-Debt,System,311857,Adams 12 Five Star Schools
+NXT-70265,Task,Account Management,311711,Carthage R-9 School District
+NXT-70380,Enhancement,Eligibility,267487,(not in FD export)
+NXT-70381,Enhancement,Family Hub,310993,Old Colony Regional Vocational Technical
+NXT-70424,Enhancement,Accountability,305261,Hutto ISD
+NXT-70530,Task,Accountability,313323,Comal ISD
+NXT-70530,Task,Accountability,313844,Evadale ISD
+NXT-70586,Story,Accountability,312058,Creston Community School District
+NXT-70587,Story,Accountability,311719,Glastonbury School District
+NXT-70622,Task,Inspections,310039,Houston ISD
+NXT-70622,Task,Inspections,312742,Clear Creek ISD
+NXT-70884,Tech-Debt,System,314487,Caring ISD
+NXT-70884,Tech-Debt,System,314489,Caring ISD
+NXT-71406,Task,Inventory,315524,Mankato Area School District ISD 77
+NXT-71406,Task,Inventory,315525,Mankato Area School District ISD 77
+NXT-71406,Task,Inventory,315737,Mashpee Public Schools
+NXT-71417,Story,Production,315146,Edge District
+NXT-71507,Bug,Family Hub,313445,
+NXT-71744,Story,Platform - Data Exchange,316155,Caring ISD
+NXT-71821,Enhancement,Family Hub,264863,(not in FD export)
+NXT-71821,Enhancement,Family Hub,279685,(not in FD export)
+NXT-71857,Task,Inventory,318264,Southwest ISD
+NXT-71857,Task,Inventory,318389,Mankato Area School District ISD 77
+NXT-72038,Story,SCTV,317174,Stillwater Area Schools ISD #834
+NXT-72140,Story,Eligibility,316868,Edge County Schools - TEST Account
+NXT-72365,Task,Inventory,319079,Southwest ISD
+NXT-72365,Task,Inventory,319142,Southwest ISD
+NXT-72365,Task,Inventory,319912,Healdsburg Unified School District
+NXT-72677,Story,Platform - Data Exchange,317627,Sabine Pass Independent School District
+NXT-72702,Bug,Family Hub,314679,Lamar CISD
+NXT-72756,Bug,Accountability,287529,
+NXT-72765,Bug,Accountability,287512,
+NXT-72765,Bug,Accountability,288216,
+NXT-72790,Story,Item Management,318430,Caring ISD
+NXT-72790,Story,Item Management,321324,Mankato Area School District ISD 77

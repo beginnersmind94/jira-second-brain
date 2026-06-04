@@ -1,0 +1,1144 @@
+key,issuetype,module,status,status_category,resolution,created,resolved,candidate_flags,summary
+NXT-63749,Enhancement,Family Hub,Done Done,Done,,7/1/2025 2:36 PM,,,Family Portal - Holidays - Feedback from Menu Publishing Demo
+NXT-63750,Story,Global Catalog,Release Merge,To Do,Done,7/1/2025 3:18 PM,7/4/2025 8:56 AM,,PE/SC - DB Enabler - CNDB - Enable all the Fields
+NXT-63751,Story,Global Catalog,Release Merge,To Do,Done,7/1/2025 3:19 PM,7/7/2025 8:54 AM,,PE / SC - DB Enabler - USDA Branded Foods - Enable All the fields
+NXT-63752,Story,Global Catalog,Release Merge,To Do,Done,7/1/2025 3:40 PM,7/16/2025 8:40 AM,,PE / SC - Item Name Matching based on USDA and CNDB
+NXT-63753,Story,Eligibility,Done Done,Done,Done,7/1/2025 4:24 PM,7/8/2025 12:55 PM,,FH - FRE Apps - SSN question for Students at CEP Sites
+NXT-63762,Story,PE Insights,Done Done,Done,Done,7/2/2025 6:22 AM,7/16/2025 10:57 AM,,PEI - For the non serving days display all cards with appropriate data.
+NXT-63828,Story,Global Catalog,Release Merge,To Do,Done,7/7/2025 1:55 PM,7/31/2025 11:43 AM,,SC - Serving Size Parsing - GDSN / Vendor Item Upload
+NXT-63851,Story,Inventory,New,In Progress,,7/8/2025 12:26 PM,,,INV - Orders - Order Details & History improvements
+NXT-63852,Story,SCTV,Done Done,Done,Done,7/8/2025 1:35 PM,8/28/2025 3:01 PM,,SCTV+ - Fix Serving Line Data Mismatch between TV and Family Hub
+NXT-63862,Story,Item Management,Done Done,Done,Done,7/9/2025 4:08 AM,8/12/2025 10:22 AM,,QA - Regression - ITMM - Search filter issue.
+NXT-63884,Story,Global Catalog,Future Merge,In Progress,Done,7/9/2025 3:39 PM,8/4/2025 8:50 AM,,"SC - Cybersoft Catalog - UI Changes (Filter, Data Query Framework)"
+NXT-63908,Story,Inventory,Done Done,Done,Done,7/10/2025 1:16 PM,9/29/2025 9:54 PM,FD_descAC,INV - Vendors - Items - Ignore unorderable items for VI# uniqueness
+NXT-63958,Story,PE Insights,Done Done,Done,Done,7/14/2025 9:39 AM,7/25/2025 11:26 AM,,SC Insights - Workspace Insights Menu Hyperlink
+NXT-63974,Story,Accountability,Done Done,Done,Done,7/14/2025 2:22 PM,7/22/2025 4:47 PM,,Acc - Reports - Cash Collection - Page / Report Updates
+NXT-63975,Story,Accountability,Done Done,Done,Done,7/14/2025 2:24 PM,7/28/2025 4:19 PM,,Acc - Reports - Account Balance - Page / Report Updates
+NXT-63976,Story,Accountability,Done Done,Done,Done,7/14/2025 2:26 PM,8/5/2025 5:23 PM,,Acc - Reports - Participation - Page / Report Updates
+NXT-63977,Story,Accountability,Done Done,Done,Done,7/14/2025 2:28 PM,7/31/2025 10:08 AM,,Acc - Reports - Payment - Page / Report Updates
+NXT-63978,Story,Accountability,Done Done,Done,Done,7/14/2025 2:29 PM,7/28/2025 4:20 PM,,Acc - Reports - Revenue - Page / Report Updates
+NXT-63979,Story,Accountability,Done Done,Done,Done,7/14/2025 2:31 PM,7/28/2025 4:18 PM,,Acc - Reports - Site Balance - Page / Report Updates
+NXT-63980,Story,Eligibility,Done Done,Done,Done,7/14/2025 2:37 PM,8/22/2025 10:26 AM,,Elig - Reports - Application Counts - Page / Report Updates
+NXT-63981,Story,Eligibility,Done Done,Done,Done,7/14/2025 2:40 PM,8/18/2025 10:45 AM,,Elig - Reports - CEP Identified Students - Page / Report Updates
+NXT-63982,Story,Eligibility,Done Done,Done,Done,7/14/2025 2:41 PM,8/18/2025 10:41 AM,,Elig - Reports - Direct Certification Counts - Page / Report Updates
+NXT-63983,Story,Eligibility,Done Done,Done,Done,7/14/2025 2:42 PM,8/18/2025 10:42 AM,,Elig - Reports - Eco Dis % - Page / Report Updates
+NXT-63984,Story,Eligibility,Done Done,Done,Done,7/14/2025 2:43 PM,8/18/2025 10:43 AM,,Elig - Reports - Eligibility Summary - Page / Report Updates
+NXT-63985,Story,Eligibility,Done Done,Done,Done,7/14/2025 2:43 PM,8/25/2025 12:56 PM,,Elig - Reports - Income Survey - Page / Report Updates
+NXT-64007,Story,Global Catalog,Future Merge,In Progress,Done,7/14/2025 3:44 PM,9/3/2025 8:30 AM,,"Cy. Catalog - PE/SC - Usage of Valuation Group, Storage Category and Item Category - API & UI"
+NXT-64011,Story,PE Insights,Done Done,Done,Done,7/14/2025 5:22 PM,7/22/2025 9:07 AM,,SC Insights - Create base project to build Web APIs
+NXT-64132,Story,Mobile App,Future Merge,In Progress,Done,7/15/2025 12:06 PM,10/1/2025 10:33 AM,,TH - Sec - PE Auth - Verify App Code
+NXT-64134,Story,Mobile App,New,In Progress,,7/15/2025 12:33 PM,,,TH - Production - Integrate with SC Production Records
+NXT-64326,Enhancement,Family Hub,Done Done,Done,Done,7/16/2025 3:52 PM,8/11/2025 2:32 PM,,FamPortal - Super Admin - Payment Guidelines - Remove conveniece fee validation when 'Mixed' option is selected
+NXT-64328,Story,Inventory,Done Done,Done,Done,7/16/2025 4:39 PM,12/23/2025 2:34 PM,,INV - Internal Vendors - Contracts - Seasonal Contracts
+NXT-64333,Story,PE Insights,Done Done,Done,Done,7/16/2025 9:15 PM,7/25/2025 11:26 AM,,SC Insights - Benchmark functionality
+NXT-64335,Story,PE Insights,Done Done,Done,Done,7/16/2025 9:17 PM,7/25/2025 11:22 AM,,SC Insights - Command Center API
+NXT-64336,Story,PE Insights,Done Done,Done,Done,7/16/2025 9:19 PM,11/17/2025 10:12 AM,,WS - Benchmark - User Preference API
+NXT-64397,Story,PE Insights,Done Done,Done,Done,7/17/2025 9:50 AM,8/6/2025 9:07 AM,,SC Insights - Revenue Card
+NXT-64398,Story,PE Insights,Done Done,Done,Done,7/17/2025 9:52 AM,7/25/2025 11:39 AM,,SC Insights - Revenue Drawer
+NXT-64401,Story,PE Insights,Done Done,Done,Done,7/17/2025 10:22 AM,7/25/2025 11:39 AM,,SC Insights - EcoDis Card
+NXT-64402,Story,PE Insights,Done Done,Done,Done,7/17/2025 10:23 AM,7/25/2025 11:40 AM,,SC Insights - EcoDis Drawer
+NXT-64405,Enhancement,Family Hub,Done Done,Done,Done,7/17/2025 11:39 AM,2/5/2026 3:32 PM,,FamPortal - Super Admin - Payment Guidelines - Trigger an email upon saving new guidelines
+NXT-64419,Story,PE Insights,Done Done,Done,Done,7/17/2025 1:28 PM,7/30/2025 1:43 PM,,SC Insights AI
+NXT-64420,Story,PE Insights,Done Done,Done,Done,7/17/2025 1:31 PM,7/29/2025 1:59 PM,,SC Insights AI Workspace
+NXT-64421,Story,PE Insights,Done Done,Done,Done,7/17/2025 1:33 PM,7/29/2025 1:56 PM,,SC Insights Schoolie
+NXT-64422,Story,PE Insights,Done Done,Done,Done,7/17/2025 1:34 PM,9/10/2025 11:34 AM,,SC Insights - Waste Card
+NXT-64423,Story,PE Insights,Done Done,Done,Done,7/17/2025 1:35 PM,9/10/2025 11:35 AM,,SC Insights - Waste Drawer
+NXT-64443,Story,Global Catalog,Ready for Development,To Do,,7/17/2025 3:45 PM,,,SC - USDA Branded Foods - Excel Export (API)
+NXT-64444,Story,Global Catalog,Future Merge,In Progress,Done,7/17/2025 3:50 PM,8/6/2025 9:31 AM,,SC - Bulk Import USDA Branded Foods items Via Global Catalog (UI Integration)
+NXT-64445,Story,Global Catalog,Ready for Development,To Do,,7/17/2025 3:52 PM,,,SC - USDA Branded Foods - View an Item (API) - Common View for any Data Source - Fetch Missing Information
+NXT-64446,Story,Global Catalog,Future Merge,In Progress,Done,7/17/2025 3:55 PM,8/26/2025 8:10 AM,,SC - UI Integration - USDA Branded Foods (Search Items)
+NXT-64447,Story,Global Catalog,Release Merge,To Do,Done,7/17/2025 3:56 PM,7/31/2025 3:57 AM,,SC - DB Enabler - USDA Branded Foods (Search API)
+NXT-64472,Story,Inventory,New,In Progress,,7/18/2025 2:04 PM,,,INV - Orders - Receipt Details - Enhanced Icons for Changes
+NXT-64496,Story,SCTV,Done Done,Done,Done,7/21/2025 9:37 AM,9/24/2025 2:06 PM,,SCTV+ - Implement Backend Heartbeat Monitoring with Reconnection Triggers for Stale Devices
+NXT-64497,Story,Accountability,Done Done,Done,Done,7/21/2025 1:37 PM,9/4/2025 10:00 AM,,Sys > Reim. Rates - CACFP Updates
+NXT-64498,Story,Accountability,Done Done,Done,Done,7/21/2025 3:30 PM,10/2/2025 9:54 AM,,Acc - CACFP Reports - Activity
+NXT-64507,Story,Accountability,Done Done,Done,Done,7/21/2025 3:49 PM,2/2/2026 9:19 AM,,Acc - CACFP Reports - Edit Check
+NXT-64518,Story,Accountability,Done Done,Done,Done,7/21/2025 4:30 PM,8/22/2025 10:30 AM,,Acc - CACFP Reports - Participation
+NXT-64519,Story,Accountability,Done Done,Done,Done,7/21/2025 4:31 PM,9/4/2025 10:15 AM,,Acc - CACFP Reports - Revenue
+NXT-64565,Enhancement,Family Hub,New,In Progress,,7/22/2025 1:18 PM,,,FamPortal - Super Admin - Email Alert Log - Display Campus Store emails for future tracking
+NXT-64568,Story,PE Insights,Done Done,Done,Done,7/22/2025 4:17 PM,7/25/2025 11:38 AM,,SC Insights - MEQs Card
+NXT-64569,Story,PE Insights,Done Done,Done,Done,7/22/2025 4:21 PM,7/30/2025 1:38 PM,,SC Inisghts - MEQs drawer
+NXT-64572,Enhancement,Item Management,Done Done,Done,Done,7/22/2025 4:36 PM,8/19/2025 12:03 AM,,IM - Item Configuration - 'Item Configuration' missing from breadcrumb path
+NXT-64574,Story,Global Catalog,Story Refinement/Efforting,In Progress,,7/23/2025 12:18 AM,,,GC Portal - CNDB - API for Update
+NXT-64575,Story,Global Catalog,Future Merge,In Progress,Done,7/23/2025 12:18 AM,9/15/2025 8:29 AM,,GC Portal - USDA Branded Foods - API for Update
+NXT-64576,Story,Global Catalog,Future Merge,In Progress,Done,7/23/2025 12:18 AM,8/26/2025 8:00 AM,,GC Portal - Cybersoft Catalog - API for Update
+NXT-64577,Story,Global Catalog,Story Refinement/Efforting,In Progress,,7/23/2025 12:18 AM,,,GC Portal - USDA Foods - API for Update
+NXT-64580,Story,Global Catalog,Future Merge,In Progress,Done,7/23/2025 12:18 AM,9/3/2025 8:31 AM,,GC Portal - USDA Braded Foods - UI Integration  (View)
+NXT-64581,Story,Global Catalog,Story Refinement/Efforting,In Progress,,7/23/2025 12:22 AM,,,GC Portal - CNDB - CRUD Operations - UI Integration
+NXT-64582,Story,Global Catalog,Future Merge,In Progress,Done,7/23/2025 12:22 AM,9/29/2025 8:57 AM,,GC Portal - USDA Branded Foods - CRUD Operations - UI Integration
+NXT-64583,Story,Global Catalog,New,In Progress,,7/23/2025 12:22 AM,,,GC Portal - USDA Foods - CRUD Operations - UI Integration
+NXT-64584,Story,Global Catalog,Future Merge,In Progress,Done,7/23/2025 12:22 AM,9/17/2025 8:21 AM,,GC Portal - Cybersoft Catalog - CRUD Operations - UI Integration
+NXT-64599,Story,System,Done Done,Done,Done,7/23/2025 12:16 PM,7/29/2025 1:48 PM,,Insights AI - System Setting
+NXT-64606,Story,PE Insights,Done Done,Done,Done,7/23/2025 2:25 PM,7/31/2025 10:40 AM,,SC Insights - Meals Card
+NXT-64607,Story,PE Insights,Done Done,Done,,7/23/2025 2:26 PM,,,SC Insights - Meals Drawer
+NXT-64641,Story,PE Insights,Done Done,Done,Done,7/24/2025 3:40 PM,7/29/2025 1:50 PM,,SC Insights - Meals ADP Card
+NXT-64642,Story,PE Insights,Done Done,Done,Done,7/24/2025 3:51 PM,7/29/2025 2:59 PM,,SC Insights - Meals ADP Drawer
+NXT-64655,Enhancement,Item Management,Done Done,Done,Done,7/25/2025 5:18 AM,3/13/2026 12:01 PM,,IM - Item Onboarding - Future Enhancements & corner case issues 
+NXT-64663,Enhancement,Eligibility,Done Done,Done,Done,7/25/2025 10:56 AM,7/28/2025 9:38 AM,,Elig - Default setting for SSN Required update
+NXT-64664,Story,PE Insights,Done Done,Done,Done,7/25/2025 12:04 PM,8/28/2025 11:59 AM,,WS - Benchmark - Previous Years - PE
+NXT-64665,Story,PE Insights,Done Done,Done,Done,7/25/2025 12:11 PM,8/28/2025 11:58 AM,,WS - Benchmark - Previous Years - SC
+NXT-64666,Story,PE Insights,Done Done,Done,Done,7/25/2025 12:12 PM,11/17/2025 10:15 AM,,WS - Benchmark - Value Type Indicators
+NXT-64667,Story,PE Insights,Done Done,Done,Done,7/25/2025 12:24 PM,9/17/2025 8:53 AM,,WS - Benchmark - Sum count and dollar daily values-PE
+NXT-64672,Story,PE Insights,Done Done,Done,Done,7/25/2025 3:59 PM,7/31/2025 10:41 AM,,SC Insights - School performance
+NXT-64674,Story,PE Insights,Done Done,Done,Done,7/25/2025 4:13 PM,8/6/2025 9:09 AM,,SC Insights - Performance Trend
+NXT-64676,Story,PE Insights,Done Done,Done,Done,7/25/2025 4:29 PM,8/27/2025 11:16 AM,,SC Insights - Team Hub
+NXT-64712,Story,PE Insights,New,In Progress,,7/28/2025 11:34 AM,,,Insights - PE - Sync Mechanism
+NXT-64715,Story,PE Insights,New,In Progress,,7/28/2025 11:43 AM,,,WS - Insights - Data - Data Extraction Enablement
+NXT-64716,Story,PE Insights,New,In Progress,,7/28/2025 11:46 AM,,,WS - Insights - Data - Raw Data Extraction
+NXT-64717,Story,PE Insights,New,In Progress,,7/28/2025 11:47 AM,,,WS - Insights - Data - Externalized APIs (R&D)
+NXT-64718,Story,PE Insights,New,In Progress,,7/28/2025 11:48 AM,,,WS - Insights - KPI - Task Compliance
+NXT-64719,Story,PE Insights,New,In Progress,,7/28/2025 11:49 AM,,,WS - Insights - KPI - Staff Performance
+NXT-64720,Story,PE Insights,New,In Progress,,7/28/2025 11:50 AM,,,WS - Insights - KPI - Line Speed (R&D)
+NXT-64721,Story,PE Insights,New,In Progress,,7/28/2025 11:51 AM,,,WS - Insights - Sec - Role-Based Access Control
+NXT-64722,Story,PE Insights,New,In Progress,,7/28/2025 11:56 AM,,,WS - Insights - Vis - Visualization Enhancements
+NXT-64723,Story,PE Insights,New,In Progress,,7/28/2025 11:57 AM,,,WS - Insights - Vis - Slide Out Panel
+NXT-64724,Story,PE Insights,New,In Progress,,7/28/2025 11:59 AM,,,WS - Insights - Filters - Sites Needing Attention
+NXT-64725,Story,PE Insights,Done Done,Done,Done,7/28/2025 12:03 PM,8/28/2025 11:52 AM,,WS - Filters - Date Range All Previous Years - PE
+NXT-64726,Story,PE Insights,Done Done,Done,Done,7/28/2025 12:06 PM,8/28/2025 11:54 AM,,WS - Filters - Date Range All Previous Years - SC
+NXT-64727,Story,PE Insights,Done Done,Done,Done,7/28/2025 12:07 PM,12/9/2025 9:58 AM,,WS - Filters - Site Types - PE
+NXT-64728,Story,PE Insights,Done Done,Done,Done,7/28/2025 12:12 PM,12/9/2025 9:58 AM,,WS - Filters - Site Types - SC
+NXT-64729,Story,PE Insights,New,In Progress,,7/28/2025 12:16 PM,,,WS - Insights - Comp - Site by Site
+NXT-64730,Story,PE Insights,New,In Progress,,7/28/2025 12:16 PM,,,WS - Insights - Comp - Historical Trends
+NXT-64731,Story,PE Insights,New,In Progress,,7/28/2025 12:17 PM,,,WS - Insights - Rec - Contributing Factors Assessment
+NXT-64732,Story,PE Insights,New,In Progress,,7/28/2025 12:18 PM,,,WS - Insights - Rec - Guidance to Reports and Pages
+NXT-64733,Story,PE Insights,New,In Progress,,7/28/2025 12:18 PM,,,WS - Insights - Bot - Task Automation (R&D)
+NXT-64735,Story,PE Insights,New,In Progress,,7/28/2025 12:25 PM,,,WS - Insights - MT - Central Level
+NXT-64736,Story,PE Insights,New,In Progress,,7/28/2025 12:26 PM,,,WS - Insights - MT - District Level
+NXT-64744,Story,PE Insights,Story Refinement/Efforting,In Progress,,7/28/2025 1:11 PM,,,WS - Insights - KPI - Menu Performance
+NXT-64745,Story,PE Insights,Done Done,Done,Done,7/28/2025 1:13 PM,4/8/2026 9:46 AM,,PE-Insights-Workspace-AI Summary
+NXT-64746,Story,PE Insights,Done Done,Done,Done,7/28/2025 1:13 PM,4/8/2026 12:47 PM,,WS - Insights - KPI - Inventory Turnover Rate - Dashboard Screen
+NXT-64747,Story,PE Insights,Done Done,Done,,7/28/2025 1:13 PM,,,WS - Insights - KPI - Inventory Value - Benchmark Config Screen
+NXT-64748,Story,PE Insights,Done Done,Done,Done,7/28/2025 1:14 PM,4/14/2026 9:59 AM,,WS - Insights - KPI - Physical Inventory Discrepancy
+NXT-64749,Story,PE Insights,In Progress,In Progress,,7/28/2025 1:14 PM,,,Insights - KPI - MPLH - Dashboard - PE
+NXT-64750,Story,PE Insights,New,In Progress,,7/28/2025 1:15 PM,,,WS - Insights - KPI - Plate Cost
+NXT-64751,Story,PE Insights,New,In Progress,,7/28/2025 1:15 PM,,,WS - Insights - KPI - Food Cost as % of Revenue
+NXT-64752,Story,PE Insights,New,In Progress,,7/28/2025 1:16 PM,,,WS - Insights - KPI - Labor as % of Revenue
+NXT-64753,Story,PE Insights,New,In Progress,,7/28/2025 1:16 PM,,,WS - Insights - KPI - Profit & Loss
+NXT-64754,Story,System,PO Review,To Do,,7/28/2025 1:40 PM,,,SC - PBIRD - Activity Report – Enhancements
+NXT-64755,Story,System,New,In Progress,,7/28/2025 1:42 PM,,,SC - MVR - All FO MVR Reports
+NXT-64756,Story,System,New,In Progress,,7/28/2025 1:42 PM,,,SC - MVR - All BO MVR Reports
+NXT-64757,Story,System,New,In Progress,,7/28/2025 1:43 PM,,,WS - SC - Report Center Integration
+NXT-64758,Story,System,New,In Progress,,7/28/2025 1:43 PM,,,WS - PE - Report Center Integration
+NXT-64759,Story,System,Future Merge,In Progress,Done,7/28/2025 1:47 PM,1/9/2026 7:30 AM,,SC - MT - District + New & Edit Screens
+NXT-64760,Story,System,Done Done,Done,Done,7/28/2025 1:49 PM,1/9/2026 7:34 AM,,SC - MT - District - Link Districts
+NXT-64761,Story,System,Future Merge,In Progress,Done,7/28/2025 1:50 PM,1/20/2026 7:52 AM,,SC - MT - Roles & Permissions Update
+NXT-64763,Story,System,New,In Progress,,7/28/2025 1:56 PM,,,WS - Learn - Resource Management & Access
+NXT-64764,Story,System,New,In Progress,,7/28/2025 1:58 PM,,,WS - Learn - Tracks and Courses
+NXT-64765,Story,System,New,In Progress,,7/28/2025 1:59 PM,,,WS - Learn - Quiz Tool
+NXT-64766,Story,System,New,In Progress,,7/28/2025 1:59 PM,,,WS - Learn - Reporting
+NXT-64767,Story,System,New,In Progress,,7/28/2025 2:00 PM,,,WS - Learn - Onboarding
+NXT-64768,Story,System,New,In Progress,,7/28/2025 2:00 PM,,,WS - Learn - Gamification (Badges) (R&D)
+NXT-64769,Story,System,New,In Progress,,7/28/2025 2:06 PM,,,WS - Usage - Track Product and Feature Usage - Spike
+NXT-64770,Story,System,New,In Progress,,7/28/2025 2:14 PM,,,WS - Learn - Learning Center
+NXT-64771,Story,Mobile App,Done Done,Done,Done,7/28/2025 2:19 PM,9/22/2025 2:07 PM,,CC - AI - Schoolie Recap
+NXT-64772,Story,Mobile App,Release Merge,To Do,Done,7/28/2025 2:21 PM,11/21/2025 11:06 AM,,CC - AI - Schoolie Prompt
+NXT-64773,Story,Mobile App,New,In Progress,,7/28/2025 2:22 PM,,,CC - AI - Digitize Integration for Capturing Documents
+NXT-64774,Story,Mobile App,New,In Progress,,7/28/2025 2:23 PM,,,CC - Inv - Inventory Counting
+NXT-64775,Story,Mobile App,New,In Progress,,7/28/2025 2:24 PM,,,CC - Inv - Inventory Order Receiving NTH
+NXT-64776,Story,Mobile App,New,In Progress,,7/28/2025 2:26 PM,,,CC - Inv - Inventory Item Label Scanning for Item Updates R&D
+NXT-64784,Story,PE Insights,Done Done,Done,,7/28/2025 3:45 PM,,,SC Insights - Waste APIs
+NXT-64828,Story,PE Insights,Done Done,Done,,7/29/2025 1:37 PM,,,WS - Benchmark - Audit Log
+NXT-64844,Story,PE Insights,Done Done,Done,Done,7/29/2025 3:01 PM,1/9/2026 7:14 AM,,WS - Benchmark - Autofill PE & SC
+NXT-64845,Story,PE Insights,Done Done,Done,Done,7/29/2025 3:16 PM,9/17/2025 8:54 AM,,WS - General Updates
+NXT-64853,Story,System,Done Done,Done,,7/30/2025 2:11 AM,,,"Handle Accessibility Issues in UI Server, custom reports, system UI"
+NXT-64890,Story,Global Catalog,Future Merge,In Progress,Done,7/30/2025 9:31 PM,9/15/2025 8:30 AM,,SC - Matching Status (API + UI)
+NXT-64891,Story,Global Catalog,Future Merge,In Progress,Done,7/30/2025 9:31 PM,9/12/2025 8:24 AM,,GC Portal - API / SQL Job for Importable Item (Indicator/Tool Tip)
+NXT-64892,Story,Global Catalog,New,In Progress,,7/30/2025 9:31 PM,,,GC Portal - Manufacturer API with Pagination
+NXT-64909,Story,PE Insights,Done Done,Done,Done,7/31/2025 10:21 AM,3/9/2026 11:18 AM,,WS - Filters - Site Groups - PE & SC
+NXT-64910,Story,PE Insights,Done Done,Done,Done,7/31/2025 10:23 AM,12/9/2025 9:59 AM,,WS - Filters - Sites Multi-Select - PE
+NXT-64911,Story,PE Insights,Story Refinement/Efforting,In Progress,,7/31/2025 10:28 AM,,,Reuse-WS - Filters - Site Groups - SC
+NXT-64912,Story,PE Insights,Done Done,Done,Done,7/31/2025 10:29 AM,12/9/2025 9:59 AM,,WS - Filters - Sites Multi-Select - SC
+NXT-64954,Story,PE Insights,Done Done,Done,,8/1/2025 2:51 PM,,,WS - Benchmark - Paging & Sticky Headers Update
+NXT-64955,Story,PE Insights,Done Done,Done,Done,8/1/2025 2:55 PM,12/2/2025 7:59 AM,,WS - Benchmark - Site Type Filtering
+NXT-64956,Story,PE Insights,Done Done,Done,,8/1/2025 3:20 PM,,,WS - Benchmark - Bulk Update
+NXT-64970,Story,PE Insights,Done Done,Done,Done,8/4/2025 9:08 AM,12/11/2025 9:46 AM,,WS - Benchmark - Grid Previous Actuals
+NXT-64973,Story,SCTV,Done Done,Done,Done,8/4/2025 11:42 AM,9/2/2025 9:58 AM,,SCTV - Remove static data categories for default templates
+NXT-64974,Story,SCTV,Done Done,Done,Done,8/4/2025 12:05 PM,8/28/2025 3:13 PM,,SCTV - Auto-update menus in response to auto-publishing of menus 
+NXT-64976,Story,Financials,New,In Progress,,8/4/2025 1:24 PM,,,Define Account Code Structure (Proposed #1)
+NXT-65000,Story,Financials,New,In Progress,,8/4/2025 7:28 PM,,,Ledger Entry Rules (Proposed #5)
+NXT-65006,Story,Financials,New,In Progress,,8/4/2025 7:59 PM,,,System Accounts (Proposed #4)
+NXT-65009,Story,Financials,Done Done,Done,Done,8/4/2025 8:11 PM,12/3/2025 9:09 AM,,Account Categories Management (#2)
+NXT-65010,Story,Financials,Done Done,Done,Done,8/4/2025 8:14 PM,12/8/2025 10:04 AM,,Individual GL Accounts (Proposed #3)
+NXT-65011,Story,Financials,New,In Progress,,8/4/2025 8:17 PM,,,GL Account Mapping in UI (not wizard)
+NXT-65048,Story,PE Insights,Done Done,Done,Done,8/5/2025 7:03 AM,8/8/2025 4:38 PM,,Key board user friendly functionality for expected bench mark values in Bench Mark configuration Page.
+NXT-65050,Story,Inventory,Done Done,Done,Done,8/5/2025 9:28 AM,9/19/2025 2:50 PM,,INV - Distribution - Quantities Report - Site Order Details & Item Category grouping
+NXT-65051,Story,Item Management,Done Done,Done,Done,8/5/2025 9:28 AM,9/11/2025 1:58 PM,,IM- CNDB 2025.X- Monthly Database Update
+NXT-65077,Story,PrimeroEdge (Classic),Done Done,Done,Done,8/5/2025 9:55 AM,8/5/2025 9:57 AM,,PE - USDA Menu Planning Certification Development (25-26 Reqs)
+NXT-65078,Story,PrimeroEdge (Classic),Done Done,Done,,8/5/2025 9:56 AM,,,PE - USDA Menu Planning Certification Submission (25-26 Regs)
+NXT-65080,Story,PrimeroEdge (Classic),Done Done,Done,,8/5/2025 10:17 AM,,,PE - Insights (Menu Analysis Integration) Development
+NXT-65081,Story,Menu Planning,Done Done,Done,Done,8/5/2025 10:18 AM,9/5/2025 12:24 PM,,MP - Menu/ Menu Cycle Analysis - Update and Combining Fruits & Veg for Daily and Weekly (SBP 14+)
+NXT-65082,Story,Menu Planning,Done Done,Done,Done,8/5/2025 10:19 AM,9/9/2025 12:17 PM,,PR - Pre and Post Production Analysis - Update and Combining Fruits & Veg for Daily and Weekly (SBP 14+)
+NXT-65085,Story,PrimeroEdge (Classic),Done Done,Done,,8/5/2025 10:34 AM,,,PE - Insights (Menu Analysis Integration) Planning
+NXT-65086,Story,PrimeroEdge (Classic),Done Done,Done,,8/5/2025 10:35 AM,,,PE - Insights (Menu Analysis Integration) Delivery
+NXT-65088,Story,Menu Planning,Done Done,Done,Done,8/5/2025 10:40 AM,9/9/2025 12:48 PM,,MP - Menu/ Menu Cycle Analysis - Update and Combining Grains and MMA for Daily and Weekly (SBP 14+)
+NXT-65089,Story,Menu Planning,Done Done,Done,Done,8/5/2025 10:50 AM,9/9/2025 3:40 PM,,PR - Pre and Post Production Analysis - Update and Combining Grains and MMA for Daily and Weekly (SBP 14+)
+NXT-65090,Story,Menu Planning,Done Done,Done,Done,8/5/2025 10:57 AM,9/9/2025 1:07 PM,,MP - Menu Planner - Update and Combining Grains and MMA for Daily and Weekly (SBP 14+)
+NXT-65091,Story,Menu Planning,Done Done,Done,Done,8/5/2025 10:57 AM,9/9/2025 1:04 PM,,MP - Menu Planner - Update and Combining Fruits & Veg for Daily and Weekly (SBP 14+)
+NXT-65117,Story,SCTV,Done Done,Done,Done,8/5/2025 2:05 PM,8/29/2025 11:43 AM,,SCTV - Meal Type Filter for accurate menus
+NXT-65122,New Feature,Financials,New,In Progress,,8/5/2025 3:05 PM,,,General Ledger
+NXT-65123,Story,Financials,Done Done,Done,Done,8/5/2025 3:09 PM,12/12/2025 8:14 AM,,Fin - Journal view (UI)
+NXT-65124,Story,Financials,Done Done,Done,Done,8/5/2025 3:28 PM,12/12/2025 8:15 AM,,Fin - Ledger View (UI)
+NXT-65132,Story,Financials,New,In Progress,,8/5/2025 3:45 PM,,,Manual Entry
+NXT-65133,Story,Financials,Done Done,Done,Done,8/5/2025 3:46 PM,12/5/2025 12:08 PM,,Add New Entry (UI)
+NXT-65153,Story,Mobile App,Future Merge,In Progress,Done,8/6/2025 1:58 AM,11/25/2025 9:49 AM,,TH - Insights Widgets Toggles needs to be saved along with ordering
+NXT-65157,Story,System,Done Done,Done,,8/6/2025 2:10 AM,,,LMA-Licensing Module - Integrate with CN WorkSpace 
+NXT-65159,Story,System,Done Done,Done,Done,8/6/2025 2:34 AM,9/22/2025 4:31 AM,,Accessibilty testing 
+NXT-65256,Story,PE Insights,Done Done,Done,Done,8/6/2025 5:40 PM,8/28/2025 11:51 AM,,WS - Meals ADP changes - PE
+NXT-65294,Story,Accountability,Done Done,Done,Done,8/7/2025 1:24 PM,9/16/2025 3:04 PM,,ACC - Labor Hours Feature - New Page
+NXT-65295,Story,Accountability,Done Done,Done,Done,8/7/2025 1:25 PM,10/22/2025 3:51 PM,,ACC - Labor Hours Feature - Search and Results (displaying data in the grid)
+NXT-65296,Story,Accountability,Done Done,Done,Done,8/7/2025 1:26 PM,10/22/2025 3:38 PM,,ACC - Labor Hours Feature - Updates
+NXT-65297,Story,Accountability,Done Done,Done,Done,8/7/2025 1:26 PM,9/29/2025 10:04 PM,,ACC - Labor Hours Feature - EoD Labor Task
+NXT-65298,Story,Accountability,Done Done,Done,Done,8/7/2025 1:27 PM,10/22/2025 3:39 PM,,ACC - Labor Hours Feature - MPLH Report
+NXT-65301,Story,Accountability,Done Done,Done,Done,8/7/2025 1:29 PM,9/29/2025 10:10 PM,,ACC - Labor Hours Feature - Benchmark Config (target entry per site per month / yearly)
+NXT-65306,Story,Accountability,Done Done,Done,Done,8/7/2025 1:32 PM,10/29/2025 9:49 AM,,ACC - Attendance Feature - Edit Checks
+NXT-65307,Story,Accountability,Done Done,Done,Done,8/7/2025 1:32 PM,10/22/2025 3:40 PM,,ACC - Attendance Feature - End of Day Task
+NXT-65310,Story,Accountability,Done Done,Done,Done,8/7/2025 1:34 PM,10/27/2025 2:10 PM,,ACC - Attendance Feature - Edit Check Report
+NXT-65332,Story,Accountability,Done Done,Done,Done,8/8/2025 12:11 PM,11/5/2025 6:37 PM,,ACC - Attendance Feature - ADA - ADP Report
+NXT-65345,Story,PE Insights,Done Done,Done,Done,8/8/2025 1:29 PM,9/17/2025 8:53 AM,,WS - Benchmark - Sum count and dollar daily values-SC
+NXT-65353,Story,Menu Planning,Done Done,Done,Done,8/8/2025 2:12 PM,10/3/2025 2:00 PM,,MP- Menu Analysis- CACFP - Use MMA as Grain (Breakfast)
+NXT-65366,Story,Menu Planning,Done Done,Done,Done,8/11/2025 6:52 AM,10/6/2025 2:18 PM,,MP- Menu Cycle Analysis- CACFP - Use MMA as Grain (Breakfast)
+NXT-65367,Story,Production,Done Done,Done,Done,8/11/2025 7:25 AM,10/23/2025 1:19 PM,,PR- Pre and Post Production Analysis- CACFP - Use MMA as Grain (Breakfast)
+NXT-65369,Story,Menu Planning,Done Done,Done,Done,8/11/2025 7:33 AM,10/6/2025 11:48 AM,,MP - Menu/Menu Cycle Analysis - Consider Product Based Added Sugars (CACFP)
+NXT-65370,Story,Menu Planning,Done Done,Done,Done,8/11/2025 7:38 AM,10/10/2025 1:46 PM,,MP - Menu Planner Daily/Weekly - Consider Product Based Added Sugars (CACFP)
+NXT-65371,Story,Menu Planning,Done Done,Done,Done,8/11/2025 7:39 AM,10/6/2025 12:52 PM,,PR - Pre & Post Analysis - Consider Product Based Added Sugars (CACFP)
+NXT-65372,Story,Menu Planning,Done Done,Done,Done,8/11/2025 7:47 AM,10/7/2025 1:53 PM,,MP- Menu Planner- CACFP - Use MMA as Grain (Breakfast)
+NXT-65475,Story,Financials,New,In Progress,,8/11/2025 3:05 PM,,,Income Statement Pt. 1 (POS Posting)
+NXT-65476,Story,PE Insights,Done Done,Done,Done,8/11/2025 3:45 PM,8/27/2025 11:18 AM,,WS-Meals ADP changes-SC
+NXT-65480,Story,Financials,New,In Progress,,8/11/2025 3:50 PM,,,Income Statement Pt.2 Reimbursements
+NXT-65481,Story,Financials,New,In Progress,,8/11/2025 4:00 PM,,,Income Statement Pt.3 Cost of Goods Sold
+NXT-65482,Story,Financials,Story Refinement/Efforting,In Progress,,8/11/2025 4:09 PM,,,Configuration -> Valuation Categories
+NXT-65483,Story,Financials,New,In Progress,,8/11/2025 4:26 PM,,,Income Statement Pt. 4 Expenses
+NXT-65485,Story,Financials,New,In Progress,,8/11/2025 4:49 PM,,,Create Stored Procedure to Apply Debit/Credit Rules and Post Transactions to General Ledger
+NXT-65486,Story,Financials,New,In Progress,,8/11/2025 5:29 PM,,,Income Statement Pt.5 Meal Counts
+NXT-65487,Story,Financials,New,In Progress,,8/11/2025 5:57 PM,,, View POS Postings
+NXT-65504,Story,Family Hub,Done Done,Done,Done,8/12/2025 9:19 AM,8/22/2025 10:21 AM,FD_descAC|known_customer,FH - WebView Update for Adams 12 App
+NXT-65541,Story,Accountability,New,In Progress,,8/13/2025 10:30 AM,,FD_descAC,FO - Year Begin - Updates
+NXT-65553,Story,Inventory,Done Done,Done,Done,8/13/2025 3:33 PM,11/12/2025 3:52 PM,,INV - Internal Vendors - Contracts - Distribution Settings
+NXT-65567,Story,PE Insights,Done Done,Done,Done,8/14/2025 6:52 AM,8/28/2025 11:55 AM,,WS - Filters - Custom Date functionality - WS - Filters - Date Range All Previous Years - PE & SC
+NXT-65571,Story,SCTV,New,In Progress,,8/14/2025 11:31 AM,,,Prod APIs Environment for 2.0
+NXT-65573,Story,Accountability,Done Done,Done,Done,8/14/2025 3:05 PM,11/5/2025 6:27 PM,struct_desc,ACC - Attendance Feature - Edit Check Worksheet Report
+NXT-65574,Story,Production,Story Refinement/Efforting,In Progress,,8/14/2025 3:05 PM,,,PR - Pre & Post Production Analysis - Combine into Single Page & ability to pick analysis type
+NXT-65588,Story,Global Catalog,Future Merge,In Progress,Done,8/17/2025 7:56 PM,9/29/2025 8:59 AM,,GC Portal - UI Changes for Importable Item (Indicator/Tool Tip)
+NXT-65589,Story,Global Catalog,Future Merge,In Progress,Done,8/17/2025 10:18 PM,9/12/2025 8:22 AM,,PE - All Vs Cybersoft - UI Changes
+NXT-65590,Story,Global Catalog,Future Merge,In Progress,Done,8/17/2025 10:18 PM,8/26/2025 7:57 AM,,SC - All Vs Cybersoft - UI Changes
+NXT-65612,Story,Inventory,Done Done,Done,Done,8/18/2025 3:43 PM,9/11/2025 10:05 PM,,INV - Internal Vendors - Items - Emphasize Default group when no Schedule exists
+NXT-65613,Story,Inventory,New,In Progress,,8/18/2025 11:46 PM,,,INV - Distribution - Quantities Report - Expanded Header Info
+NXT-65614,Story,Inventory,Done Done,Done,Done,8/18/2025 11:55 PM,9/19/2025 2:49 PM,,INV - Distribution - Quantities Report - Unassigned Distributions (Summary Report)
+NXT-65644,Story,Inventory,Done Done,Done,Done,8/19/2025 8:55 AM,9/29/2025 9:52 PM,,INV - Internal Vendors - Ordering Conditions - Indicate Unassigned sites
+NXT-65651,Story,Platform - Data Exchange,Future Merge,In Progress,Done,8/19/2025 2:59 PM,9/12/2025 8:21 AM,,GC Portal - Settings in SC
+NXT-65652,Story,Global Catalog,Release Testing,To Do,Done,8/19/2025 2:59 PM,9/11/2025 2:04 PM,,GC Portal - Search and View Cybersoft Catalog Item
+NXT-65653,Story,Global Catalog,New,In Progress,,8/19/2025 2:59 PM,,,GC Portal - Audit Log - Master Data
+NXT-65654,Story,Global Catalog,New,In Progress,,8/19/2025 2:59 PM,,,GC Portal - Audit Log - Cybersoft Catalog Item
+NXT-65656,Story,Global Catalog,Future Merge,In Progress,Done,8/19/2025 3:13 PM,9/29/2025 8:59 AM,,PE - UI Changes for Importable Item (Indicator/Tool Tip)
+NXT-65657,Story,Global Catalog,Future Merge,In Progress,Done,8/19/2025 3:13 PM,9/29/2025 8:58 AM,,SC - UI Changes for Importable Item (Indicator/Tool Tip)
+NXT-65875,Story,PE Insights,Done Done,Done,Done,8/24/2025 5:25 PM,9/5/2025 9:01 AM,,SC-Insights-All KPI sql queries should run on SQL Server replica in Production environment
+NXT-65949,Story,Global Catalog,Future Merge,In Progress,Done,8/25/2025 10:05 PM,9/11/2025 2:06 PM,,GC Portal - Manage Publishing Process - UI Integration
+NXT-65992,Story,Inventory,Done Done,Done,Done,8/26/2025 2:59 PM,11/4/2025 11:20 PM,,INV - Vendors - Combine Vendor and Contact tabs
+NXT-66006,Story,Production,Done Done,Done,Done,8/27/2025 2:32 PM,11/21/2025 10:40 AM,,Planner AI - Menu Analysis - Add All date Ranges
+NXT-66007,Story,Item Management,Done Done,Done,Done,8/27/2025 2:53 PM,10/10/2025 1:24 PM,,IM - Item Onboarding - Add Special Permission
+NXT-66038,Story,Account Management,Done Done,Done,Done,8/28/2025 12:03 PM,10/1/2025 2:50 PM,,AcctMgt - Accounts - Excel export update for Barcode fields
+NXT-66042,Enhancement,SCTV,Done Done,Done,Done,8/28/2025 12:20 PM,9/5/2025 2:04 PM,,SCTV - New workflow for category assignment to default templates
+NXT-66043,Enhancement,SCTV,Done Done,Done,Done,8/28/2025 12:37 PM,9/25/2025 2:37 PM,,SCTV API Update – Restrict Categories to Linked Site
+NXT-66046,Enhancement,SCTV,New,In Progress,,8/28/2025 2:38 PM,,,Optimize resolution of SCTV Web App
+NXT-66123,Story,Financials,New,In Progress,,9/2/2025 11:50 AM,,,View Inventory Postings
+NXT-66135,Story,System,Future Merge,In Progress,Done,9/2/2025 2:08 PM,3/24/2026 1:14 PM,,LMA - License Keys - Bulk Renew
+NXT-66136,Story,Financials,New,In Progress,,9/2/2025 2:43 PM,,,Add New Entry button
+NXT-66138,Enhancement,Menu Planning,Done Done,Done,,9/2/2025 3:02 PM,,,"Menu Cycle / Pre / Post Analysis Food Components pages - Remove MMA Related Stuff  (2014+, Breakfast)"
+NXT-66208,Story,Inventory,Done Done,Done,Done,9/3/2025 11:28 PM,12/23/2025 2:33 PM,,INV - Orders (Internal Vendors) - Updated logic for ordering from distribution site perpetual
+NXT-66209,Story,Inventory,Done Done,Done,Done,9/3/2025 11:29 PM,11/12/2025 3:52 PM,contract,INV - Distribution - Consider setting for Source of Substitutions
+NXT-66210,Story,Inventory,Done Done,Done,Done,9/3/2025 11:30 PM,11/13/2025 5:24 PM,contract,INV - Distribution - Consider setting for Orders After Assignment
+NXT-66226,Story,Production,In Progress,In Progress,,9/4/2025 9:36 AM,,,PR - Record - Calculation update for Reimbursable menu items
+NXT-66228,Story,Production,Done Done,Done,Done,9/4/2025 11:47 AM,9/11/2025 12:07 PM,,MP/PR - USDA Corrections for Analysis 2025
+NXT-66237,Story,Accountability,Done Done,Done,Done,9/4/2025 1:52 PM,10/31/2025 11:58 AM,,"ACC - Labor Hours - Delete actions, History tracking"
+NXT-66238,Story,Accountability,Done Done,Done,Done,9/4/2025 2:06 PM,10/28/2025 2:04 PM,,ACC - Labor Hours - Copy Settings
+NXT-66293,Story,PE Insights,Done Done,Done,Done,9/5/2025 9:03 AM,12/11/2025 9:04 AM,struct_desc,PE-SC Insights -Reimbursable Meals- Revenue KPI
+NXT-66294,Enhancement,Menu Planning,PO Review,To Do,,9/5/2025 10:41 AM,,,CACFP - Fruits/Veg changes and Icon changes
+NXT-66298,Story,Mobile App,Future Merge,In Progress,Done,9/5/2025 1:48 PM,12/9/2025 10:03 AM,,CC - Reports - PE Distributed Reports
+NXT-66299,Story,Mobile App,Future Merge,In Progress,Done,9/5/2025 1:55 PM,11/25/2025 10:48 AM,,CC - WS - PE Messages
+NXT-66300,Story,Mobile App,Future Merge,In Progress,Done,9/5/2025 2:01 PM,11/14/2025 10:14 AM,,CC - General Updates
+NXT-66301,Story,Accountability,Done Done,Done,Done,9/5/2025 2:44 PM,10/28/2025 1:52 PM,,Sys - Special Programs - Override % options
+NXT-66303,Story,Global Catalog,Release Merge,To Do,Done,9/7/2025 3:14 PM,5/27/2026 4:37 AM,,PE - Render USDA Source - Based on New API
+NXT-66304,Story,Global Catalog,Future Merge,In Progress,Done,9/7/2025 3:14 PM,9/17/2025 9:26 AM,,PE -Populate Matching Status
+NXT-66305,Story,Global Catalog,Future Merge,In Progress,Done,9/7/2025 3:14 PM,11/6/2025 1:32 PM,,API - Include other GTINs / Product Code in Multiple GTIN Search Criteria
+NXT-66306,Story,Global Catalog,Future Merge,In Progress,Done,9/7/2025 3:14 PM,10/27/2025 1:19 PM,,"API Change - Populate Curated Include Item Category, Storage Category, Valuation Category"
+NXT-66307,Story,Global Catalog,Future Merge,In Progress,Done,9/7/2025 3:14 PM,10/16/2025 3:40 PM,,SC - View External Source Data - Inclusion of Images in UI
+NXT-66308,Story,Global Catalog,Future Merge,In Progress,Done,9/7/2025 3:14 PM,10/17/2025 9:56 AM,,GC Portal - View External Source Data - Inclusion of Images in UI
+NXT-66309,Story,Global Catalog,Story Refinement/Efforting,In Progress,,9/7/2025 3:14 PM,,,API Changes - Serving Size Parsing Changes
+NXT-66310,Story,Global Catalog,Future Merge,In Progress,Done,9/7/2025 3:14 PM,10/29/2025 9:01 AM,,Translated Data Download - Field Level Changes
+NXT-66311,Story,Global Catalog,Future Merge,In Progress,Done,9/7/2025 3:14 PM,10/16/2025 3:56 PM,,PE - View External Source Data - Inclusion of Images in UI
+NXT-66312,Story,Global Catalog,New,In Progress,,9/7/2025 3:14 PM,,,GC Portal - Manual Upload of New Items - USDA Branded Foods
+NXT-66313,Story,Global Catalog,New,In Progress,,9/7/2025 3:14 PM,,,PE - My Items Page
+NXT-66315,Story,Global Catalog,Story Refinement/Efforting,In Progress,,9/7/2025 3:14 PM,,,SC - Data Filters - UI Changes
+NXT-66316,Story,Global Catalog,Story Refinement/Efforting,In Progress,,9/7/2025 3:14 PM,,,GC Portal - Audit Log for Updating an Cybersoft Item (CRUD) - API Changes
+NXT-66317,Story,Global Catalog,Story Refinement/Efforting,In Progress,,9/7/2025 3:14 PM,,,GC Portal - Audit Log for Updating an Cybersoft Item (CRUD) - UI Changes
+NXT-66318,Story,Global Catalog,Story Refinement/Efforting,In Progress,,9/7/2025 3:14 PM,,,GC Portal - Audit Log for Updating an USDA Item (CRUD) - API Changes
+NXT-66319,Story,Global Catalog,Story Refinement/Efforting,In Progress,,9/7/2025 3:14 PM,,,GC Portal - Audit Log for Updating an USDA Item (CRUD) - UI Changes
+NXT-66320,Story,Global Catalog,Story Refinement/Efforting,In Progress,,9/7/2025 3:14 PM,,,GC Portal - Audit Log for Master Data - API Changes
+NXT-66321,Story,Global Catalog,Release Merge,To Do,Done,9/7/2025 3:14 PM,5/27/2026 4:37 AM,,SQL Job for Published Status - for New Items
+NXT-66322,Story,Global Catalog,New,In Progress,,9/7/2025 3:14 PM,,, API Change - Search by Vendor Product ID - Multiple
+NXT-66323,Story,Global Catalog,New,In Progress,,9/7/2025 3:14 PM,,,GC Portal - Default Home page - when user directly types them 
+NXT-66324,Story,Global Catalog,New,In Progress,,9/7/2025 3:14 PM,,,GC Portal - Dashboard
+NXT-66325,Story,Global Catalog,Future Merge,In Progress,Done,9/7/2025 3:14 PM,9/29/2025 8:57 AM,,GC - Portal Update Search Key - during CRUD Operations
+NXT-66326,Story,Global Catalog,New,In Progress,,9/7/2025 3:14 PM,,,PE - Create New Item using Vendor Item Template (GDSN Connect API)
+NXT-66327,Story,Global Catalog,New,In Progress,,9/7/2025 3:14 PM,,,SC - Create New Item using Vendor Item Template (GDSN Connect API) - In QA
+NXT-66329,Story,Global Catalog,New,In Progress,,9/7/2025 3:14 PM,,,PE - Pending Uploads - Mark as Reviewed - Count Overhaul
+NXT-66330,Story,Global Catalog,Future Merge,In Progress,Done,9/7/2025 3:49 PM,10/28/2025 12:12 PM,,"API Change - Missing Fields from external data sources, cybersoft and usda -all missing sections and from open food facts"
+NXT-66331,Story,Accountability,Done Done,Done,Done,9/7/2025 8:13 PM,10/15/2025 4:30 PM,,ACC - Attendance Feature - Migration
+NXT-66332,Story,Accountability,Done Done,Done,Done,9/7/2025 8:14 PM,10/15/2025 4:29 PM,,ACC - Attendance Feature - Monthly Entry - Main Grid and Filters
+NXT-66333,Story,Accountability,Done Done,Done,Done,9/7/2025 8:14 PM,10/15/2025 4:26 PM,,ACC - Attendance Feature - Monthly Entry Updates and Saving
+NXT-66334,Story,Accountability,Done Done,Done,Done,9/7/2025 8:15 PM,10/22/2025 3:41 PM,,ACC - Attendance Feature - Daily Entry - Main Grids and Filters
+NXT-66335,Story,Accountability,Done Done,Done,Done,9/7/2025 8:15 PM,10/15/2025 4:19 PM,,ACC - Attendance Feature - Daily Entry - Update and Saving
+NXT-66346,Story,Global Catalog,Future Merge,In Progress,Done,9/8/2025 9:19 PM,9/16/2025 8:31 AM,,GC Portal -Populate Matching Status
+NXT-66351,Enhancement,Item Management,Done Done,Done,Done,9/9/2025 1:38 AM,9/19/2025 4:47 AM,,IM - Item onboarding - Session IDs incrementing per environment instead of district wise
+NXT-66358,Story,PE Insights,In Progress,In Progress,,9/9/2025 2:32 AM,,,SC & PE > Insights UI for ADA compliance
+NXT-66379,Story,Financials,New,In Progress,,9/9/2025 5:42 PM,,,Import script for chart of accounts (Proposed #3)
+NXT-66380,Story,Financials,New,In Progress,,9/9/2025 5:53 PM,,,Import Button
+NXT-66384,Story,Financials,Done Done,Done,Done,9/9/2025 7:47 PM,2/26/2026 3:56 PM,,Fin - Push Meal Sales Revenue from Accountability to Financials for Automation
+NXT-66385,Story,Financials,New,In Progress,,9/9/2025 8:14 PM,,,Reimbursement Posting
+NXT-66386,Story,Financials,New,In Progress,,9/9/2025 8:22 PM,,,Inventory Usage (including Commodity Usage)
+NXT-66387,Story,Financials,New,In Progress,,9/9/2025 8:26 PM,,,Inventory Transfers (between sites or warehouse)
+NXT-66388,Story,Financials,New,In Progress,,9/9/2025 8:28 PM,,,Inventory Fees (warehouse-related costs)
+NXT-66389,Story,Financials,New,In Progress,,9/9/2025 8:29 PM,,,Inventory Withdrawals / Waste
+NXT-66392,Story,System,Done Done,Done,Done,9/9/2025 9:59 PM,10/10/2025 3:44 AM,,Login page remember me feature implementation
+NXT-66416,Story,PE Insights,Done Done,Done,,9/10/2025 11:36 AM,,,SC Insights - Remove Old Navigation
+NXT-66419,Story,SCTV,Done Done,Done,Done,9/10/2025 1:08 PM,10/9/2025 11:30 AM,,Update SchoolCafe TV FAQs
+NXT-66438,Story,Item Management,Ready for Development,To Do,,9/11/2025 8:30 AM,,,IM - Recipes - Ingredients - Direction Options (Print Recipe)
+NXT-66443,Story,Family Hub,Release Testing,To Do,Done,9/11/2025 9:42 AM,5/11/2026 9:40 AM,known_customer,Family Hub - WoodForest migration
+NXT-66550,Story,Financials,New,In Progress,,9/12/2025 11:47 AM,,,Initial Fund Balance Setup
+NXT-66563,Story,Financials,New,In Progress,,9/12/2025 3:17 PM,,,Manage POS Postings
+NXT-66565,Story,PE Insights,Done Done,Done,Done,9/14/2025 8:10 PM,9/22/2025 1:05 PM,,PE-Insights-Benchmark DB table changes for Benchmark History
+NXT-66570,Story,PE Insights,Done Done,Done,Done,9/14/2025 8:13 PM,10/21/2025 9:00 AM,,WS - Benchmark - DB table changes for Benchmark History
+NXT-66677,Story,Accountability,Testing,In Progress,,9/17/2025 10:04 AM,,,SchoolCafe - FO Modules - ADA Compliance
+NXT-66690,Story,Platform - Data Exchange,New,In Progress,,9/17/2025 11:55 AM,,,Rewrite Database Wrapper for Performance Improvements
+NXT-66719,Story,Accountability,New,In Progress,,9/18/2025 2:06 PM,,,FO - Accountability - reports - Site Balancing(maybe)
+NXT-66738,Enhancement,Inventory,Done Done,Done,Done,9/22/2025 2:19 AM,10/6/2025 4:14 PM,,INV - (Internal) Vendor - Ordering Conditions - Hide Unassigned and Default groups in the grid
+NXT-66773,Story,Accountability,New,In Progress,,9/22/2025 2:11 PM,,,Reconnection Trigger for Heartbeat in SCTV+
+NXT-66775,Enhancement,Inventory,Done Done,Done,Done,9/22/2025 2:44 PM,9/29/2025 9:55 PM,,INV - Orders - Quick Receipts - Hide internal vendors
+NXT-66785,Story,Global Catalog,Ready For Testing,To Do,,9/23/2025 8:45 AM,,,GC Portal - Create Item API (Cybersoft Catalog)
+NXT-66786,Story,Global Catalog,Ready For Testing,To Do,,9/23/2025 8:46 AM,,,GC Portal - Create Item - UI Integration (Cybersoft Catalog)
+NXT-66787,Story,Global Catalog,Future Merge,In Progress,Done,9/23/2025 8:46 AM,10/17/2025 8:56 AM,,GC Portal - Filter by Importable Item
+NXT-66788,Story,Global Catalog,Ready for Development,To Do,,9/23/2025 8:46 AM,,,GC Portal - Filter by Item Category
+NXT-66792,Story,POS,Done Done,Done,Done,9/23/2025 10:28 AM,10/15/2025 9:30 AM,,POS - Inactive Students - Do not pull inactive visiting students
+NXT-66795,Story,Financials,New,In Progress,,9/23/2025 1:41 PM,,,GL Account File Upload and Basic Validation
+NXT-66796,Story,Financials,New,In Progress,,9/23/2025 1:44 PM,,,GL Account Import Processing and Error Handling
+NXT-66797,Story,Financials,New,In Progress,,9/23/2025 1:50 PM,,,GL Account Re-upload and Replacement Logic
+NXT-66798,Story,Eligibility,Done Done,Done,Done,9/23/2025 2:03 PM,10/28/2025 2:46 PM,,Elig - Apps - Pending Students with multiple matches
+NXT-66800,Story,Global Catalog,New,In Progress,,9/23/2025 2:52 PM,,,DB Enabler - File Based Matching - API
+NXT-66801,Story,Global Catalog,New,In Progress,,9/23/2025 2:52 PM,,,PE - File Based Matching - UI
+NXT-66802,Story,Global Catalog,New,In Progress,,9/23/2025 2:52 PM,,,SC - File Based Matching - UI
+NXT-66803,Story,Global Catalog,New,In Progress,,9/23/2025 2:52 PM,,,GC Portal - File Based Matching - UI
+NXT-66804,Story,Global Catalog,New,In Progress,,9/23/2025 2:52 PM,,,"DB Enabler - USDA BF - Enable Fields for Meal Credits, Allergens, Pack Size, Images "
+NXT-66805,Story,Global Catalog,Ready for Development,To Do,,9/23/2025 2:52 PM,,,GC - Portal - Usage of Setup Values / Validations during CRUD operations
+NXT-66806,Story,Global Catalog,Story Refinement/Efforting,In Progress,,9/23/2025 2:52 PM,,,DB Enabler - Include Base GTIN Update during CRUD Operations
+NXT-66807,Story,Global Catalog,Future Merge,In Progress,Done,9/23/2025 2:57 PM,10/24/2025 12:10 PM,,API Enabler - Include Item Category for USDA BF
+NXT-66808,Story,Global Catalog,Future Merge,In Progress,Done,9/23/2025 2:57 PM,10/24/2025 12:05 PM,,API Enabler - Include Item Category for Cybersoft Catalog
+NXT-66809,Story,Global Catalog,Release Merge,To Do,Done,9/23/2025 2:57 PM,5/27/2026 4:37 AM,,PE - Include Item Category for USDA BF API
+NXT-66810,Story,Global Catalog,Future Merge,In Progress,Done,9/23/2025 2:58 PM,10/27/2025 12:24 PM,,SC - Include Item Category for USDA BF - UI
+NXT-66811,Story,Global Catalog,Future Merge,In Progress,Done,9/23/2025 2:58 PM,10/27/2025 12:17 PM,,GC Portal - Include Item Category for USDA BF - UI
+NXT-66812,Story,Global Catalog,Future Merge,In Progress,Done,9/23/2025 2:58 PM,3/17/2026 1:21 PM,,PE - Include Item Category for Cybersoft Catalog / UI
+NXT-66813,Story,Global Catalog,Future Merge,In Progress,Done,9/23/2025 2:58 PM,10/24/2025 12:07 PM,,SC - Include Item Category for Cybersoft Catalog / UI
+NXT-66814,Story,Global Catalog,Future Merge,In Progress,Done,9/23/2025 2:58 PM,10/27/2025 12:19 PM,,GC Portal - Include Item Category for Cybersoft Catalog / UI
+NXT-66815,Story,Global Catalog,New,In Progress,,9/23/2025 3:01 PM,,,SQL - Job - Add New Record in Brand Master
+NXT-66816,Story,Global Catalog,New,In Progress,,9/23/2025 3:01 PM,,,SQL - Job - Add New Record in Manufacturer Master
+NXT-66817,Story,Global Catalog,New,In Progress,,9/23/2025 3:01 PM,,,SQL - Job - Add New Record in Item Category Master
+NXT-66818,Story,Global Catalog,New,In Progress,,9/23/2025 3:01 PM,,,SQL - Job - Add New Record in Storage Category Master
+NXT-66819,Story,Global Catalog,New,In Progress,,9/23/2025 3:01 PM,,,SQL - Job - Add New Record in Valuation Group Master
+NXT-66820,Story,Global Catalog,New,In Progress,,9/23/2025 3:01 PM,,,SQL - Job - Add New Record in Vendor Master
+NXT-66821,Story,Eligibility,Done Done,Done,Done,9/23/2025 3:10 PM,4/15/2026 8:13 AM,FD_descAC,"Elig - DC - Extensions - Extending a different DC Type to the same student, blocking inactive Source students"
+NXT-66822,Story,Global Catalog,New,In Progress,,9/23/2025 3:18 PM,,,"SQL Job - Cybersoft - Process Rule Engine , Importable Item/Remarks/Search Key"
+NXT-66823,Story,Global Catalog,Story Refinement/Efforting,In Progress,,9/23/2025 3:24 PM,,,DB Enabler / SC (GDSNConnect) - Update Item API 
+NXT-66824,Story,Global Catalog,Story Refinement/Efforting,In Progress,,9/23/2025 3:24 PM,,,SC (GDSNConnect) - Update Item UI 
+NXT-66825,Story,Global Catalog,Story Refinement/Efforting,In Progress,,9/23/2025 3:24 PM,,,SC (GDSNConnect) - Merge Check for Update / Refresh Buttons as one 
+NXT-66826,Story,Global Catalog,New,In Progress,,9/23/2025 4:19 PM,,,GC Portal - Data Filters - UI Changes
+NXT-66827,Story,Global Catalog,Story Refinement/Efforting,In Progress,,9/23/2025 4:45 PM,,,GC Portal - Audit Log for Master Data - UI Changes
+NXT-66854,Story,System,Done Done,Done,,9/24/2025 2:43 PM,,,SC Insights - Insights System Setting
+NXT-66866,Story,Global Catalog,Ready for Development,To Do,,9/25/2025 8:17 AM,,,DB Enabler - Update Cybersoft Catalog upon saving a Record
+NXT-66867,Story,Global Catalog,Future Merge,In Progress,Done,9/25/2025 8:17 AM,10/28/2025 12:10 PM,,SC - UI/Include Non Importable Item as filter in the UI
+NXT-66869,Story,Global Catalog,Ready for Development,To Do,,9/25/2025 9:18 AM,,,DB Enabler - Data Filters - API Changes
+NXT-66896,Story,Financials,New,In Progress,,9/26/2025 1:28 PM,,,Page 1: Explanation of process
+NXT-66897,Story,Financials,New,In Progress,,9/26/2025 1:48 PM,,,Page 2: Account Code Structure
+NXT-66898,Story,Financials,New,In Progress,,9/26/2025 3:16 PM,,,Page 3: Import accounts
+NXT-66910,Story,Inventory,Done Done,Done,Done,9/29/2025 9:29 PM,12/22/2025 8:14 PM,,INV - Order Details - Consider Distribution QOH Setting on Edit
+NXT-66911,Story,Inventory,Done Done,Done,Done,9/29/2025 9:50 PM,12/22/2025 8:04 PM,,INV - Internal Vendors - Seasonal Contract - Inherit Item List
+NXT-66912,Story,Inventory,Story Refinement/Efforting,In Progress,,9/29/2025 10:51 PM,,,INV - Consolidated Perpetual - Transfers tab & Details
+NXT-66923,Story,Accountability,Done Done,Done,Done,9/30/2025 1:08 PM,11/13/2025 4:22 PM,,"Acc - Menu Item Sales - Terminal dropdown changes, Group By Terminal report change"
+NXT-66927,Story,Financials,New,In Progress,,9/30/2025 2:01 PM,,,Finance Coordinator
+NXT-66928,Story,Financials,New,In Progress,,9/30/2025 2:04 PM,,,"Director, Central Office, SchoolCafe Admin"
+NXT-66929,Story,Financials,New,In Progress,,9/30/2025 2:06 PM,,,Cafeteria Manager
+NXT-66930,Story,Financials,New,In Progress,,9/30/2025 2:10 PM,,,Base Architecture with Subcomponents
+NXT-66944,Story,Inventory,Done Done,Done,Done,9/30/2025 11:07 PM,12/22/2025 6:51 PM,,INV - Config - Ordering Conditions - Handle seasonal contracts for internal vendors
+NXT-66959,Enhancement,SCTV,Ready For Testing,To Do,,10/1/2025 10:17 AM,,,Enhance Navigation With Client-Side Routing and improve overall App Performance
+NXT-66960,Story,PE Insights,Story Refinement/Efforting,In Progress,,10/1/2025 10:19 AM,,,WS - Insights - LM - Integrate Site License from PE
+NXT-66961,Story,PE Insights,Story Refinement/Efforting,In Progress,,10/1/2025 10:31 AM,,,WS - Insights - LM - Integrate Site License from SC
+NXT-66962,Story,System,Future Merge,In Progress,Done,10/1/2025 10:36 AM,12/9/2025 12:34 PM,,LMA - Insights Site Licenses
+NXT-66963,Story,PE Insights,Story Refinement/Efforting,In Progress,,10/1/2025 11:15 AM,,,SC - WS - Insights - Waste - Days from Production Records
+NXT-66965,Story,Financials,New,In Progress,,10/1/2025 3:59 PM,,,Add Financial Oversight Module to License Management
+NXT-66966,Story,Financials,New,In Progress,,10/1/2025 4:03 PM,,,Financial Oversight Module Navigation Entry
+NXT-66974,Enhancement,Catering,Done Done,Done,,10/2/2025 1:14 PM,,,Catering - Sign Up/Forgot Password - List of items to refresh look and feel
+NXT-66979,Enhancement,Catering,Done Done,Done,,10/2/2025 3:28 PM,,,Catering - Back-end Checklist
+NXT-67003,Story,Financials,New,In Progress,,10/3/2025 12:21 PM,,,Create financial periods as an option for period management
+NXT-67005,Story,Financials,New,In Progress,,10/3/2025 12:51 PM,,,Page 4: Smart Mapping
+NXT-67058,Story,SCTV,Release Merge,To Do,Done,10/6/2025 10:55 AM,11/14/2025 9:51 AM,,Align Category Checkboxes Across All Meal Types During Device Linking
+NXT-67060,Story,System,Done Done,Done,,10/6/2025 2:12 PM,,,"Ignore, old (SC - MT - Central Screen)"
+NXT-67061,Story,System,Done Done,Done,,10/6/2025 2:18 PM,,,"Ignore, Old (SC - MT - Central - Link Users to Districts)"
+NXT-67080,Story,Platform - Data Exchange,Done Done,Done,,10/7/2025 2:07 AM,,,Performance & Recommendations - Sprint 9.5
+NXT-67229,Story,Global Catalog,Future Merge,In Progress,Done,10/7/2025 12:44 PM,3/17/2026 1:12 PM,,"GC > Item Catalog in PE> Add columns for Nutrients, Allergens , Meal Credits, and Stock Item Info in the results grid and display the Y/N value for each item in the grid. "
+NXT-67236,Enhancement,Catering,Done Done,Done,,10/7/2025 3:33 PM,,,Catering - Accounts - List of items to refresh look and feel
+NXT-67239,Story,Global Catalog,Future Merge,In Progress,Done,10/7/2025 3:47 PM,3/25/2026 10:28 AM,,"GC - PE - Item Catalog in PE - When viewing an item, display the meal contribution values. "
+NXT-67245,Story,Global Catalog,Ready For Testing,To Do,,10/7/2025 7:26 PM,,,GC> Item Catalog in PE >Item search by uploading a file with GTIN/Product Code/Vendor Item# information and preferred name 
+NXT-67247,Story,Global Catalog,In Progress,In Progress,,10/7/2025 8:25 PM,,,GC>Item Catalog in PE> Viewing/exporting/importing matched items after searching for items by uploading the file with preferred name
+NXT-67249,Story,Global Catalog,Testing,In Progress,,10/7/2025 9:09 PM,,,GC> ItemCatalog for PE> Export to excel button for reviewing and making corrections to the file for menu planning only districts
+NXT-67290,Story,Platform - Data Exchange,Done Done,Done,Done,10/8/2025 6:14 AM,4/14/2026 8:12 AM,,Publish React Vendor Files to Azure Cloud and Serve via FrontDoor
+NXT-67304,Story,Platform - Data Exchange,Pull Request,In Progress,,10/8/2025 6:23 AM,,,Optimize Nginx Route Configuration and Apply Performance Enhancements
+NXT-67337,Story,Global Catalog,Future Merge,In Progress,Done,10/8/2025 11:35 AM,3/17/2026 1:14 PM,,"GC > Upload Items in SC > Add columns for Nutrients, Allergens , Meal Credits, and Stock Item Info in the results grid and display the Y/N value for each item in the grid."
+NXT-67338,Story,Global Catalog,Testing,In Progress,,10/8/2025 11:38 AM,,,GC> Upload Items SC>Item search by uploading a file with GTIN/Product Code/Vendor Item# information and preferred name
+NXT-67339,Story,Global Catalog,Release Merge,To Do,Done,10/8/2025 11:50 AM,3/17/2026 1:18 PM,, GC>Item upload in SC> Viewing/exporting/importing matched items after searching for items by uploading the file with preferred name
+NXT-67340,Enhancement,Catering,Done Done,Done,Done,10/8/2025 1:11 PM,12/19/2025 9:14 AM,,Catering - Framework-Level Changes (2)
+NXT-67373,Story,System,Done Done,Done,,10/9/2025 1:59 PM,,,Financials Module Creation
+NXT-67401,Story,System,Future Merge,In Progress,Done,10/13/2025 12:39 PM,12/9/2025 11:35 AM,,LMA - License Keys - View License
+NXT-67402,Story,System,Future Merge,In Progress,Done,10/13/2025 12:45 PM,12/9/2025 12:23 PM,,LMA - License Keys - Limit Characters in Notes Fields
+NXT-67403,Story,System,Done Done,Done,,10/13/2025 12:51 PM,,,LMA - Settings - Toggle
+NXT-67404,Story,Item Management,Done Done,Done,Done,10/13/2025 1:30 PM,10/23/2025 2:39 PM,,USDA- Corrections for 2025 Submission
+NXT-67405,Story,Accountability,Done Done,Done,Done,10/13/2025 3:18 PM,11/14/2025 2:33 PM,,Acc - Edit Checks - Updates for CACFP and CEP
+NXT-67407,Story,Account Management,Done Done,Done,Done,10/13/2025 3:33 PM,1/9/2026 12:29 PM,,Elig - Apps - Controls for Automatic Pending Apps
+NXT-67408,Story,Accountability,New,In Progress,,10/13/2025 3:51 PM,,,Acc - Claims - Creation Workflow
+NXT-67409,Story,Accountability,Story Refinement/Efforting,In Progress,,10/13/2025 4:09 PM,,,Acc - Claims - Page Updates
+NXT-67410,Story,Accountability,Ready for Development,To Do,,10/13/2025 4:32 PM,,,Acc - Claims - Texas CACFP Claim Format
+NXT-67437,Story,Accountability,Done Done,Done,Done,10/14/2025 3:32 PM,11/12/2025 9:08 PM,,ACC - Attendance Feature - System Setting for Attendance Tie-ins
+NXT-67451,Story,Insights,Done Done,Done,,10/15/2025 10:10 AM,,,Insights - PE - MPLH 
+NXT-67452,Story,Insights,Done Done,Done,,10/15/2025 10:10 AM,,,Insights - PE - Paid Not Applied (PNA)
+NXT-67453,Story,Insights,Done Done,Done,,10/15/2025 10:11 AM,,,Insights - PE - Eligible Not Participating (ENP)
+NXT-67454,Story,Insights,Done Done,Done,Done,10/15/2025 10:12 AM,11/19/2025 5:00 PM,,Insights - SC - MPLH
+NXT-67455,Story,Insights,Done Done,Done,,10/15/2025 10:12 AM,,,Insights - SC - Paid Not Applied (PNA)
+NXT-67456,Story,Insights,Done Done,Done,Done,10/15/2025 10:12 AM,11/19/2025 5:03 PM,,Insights - SC - Eligible Not Participating (ENP)
+NXT-67459,Story,Inventory,Story Refinement/Efforting,In Progress,,10/15/2025 10:54 AM,,,PE Inventory: FSMC enablement- Physical Inventory Status page
+NXT-67460,Story,Inventory,Story Refinement/Efforting,In Progress,,10/15/2025 10:55 AM,,,PE Inventory: FSMC enablement - Inventory Valuation Report
+NXT-67461,Story,Inventory,Story Refinement/Efforting,In Progress,,10/15/2025 10:55 AM,,,PE Inventory: FSMC enablement - Item inventory report in central realm
+NXT-67462,Story,Inventory,New,In Progress,,10/15/2025 10:56 AM,,,PE Inventory: FSMC enablement - Usage report in central realm 
+NXT-67463,Story,Inventory,New,In Progress,,10/15/2025 10:57 AM,,,PE Inventory: FSMC enablement -Physical inventory Discrepancy report 
+NXT-67464,Story,Insights,Story Refinement/Efforting,In Progress,,10/15/2025 11:01 AM,,,Insights Dashboard - Inventory Value Card 
+NXT-67465,Story,Insights,Story Refinement/Efforting,In Progress,,10/15/2025 11:04 AM,,,Insights Dashboard - Inventory value Slide out 
+NXT-67466,Story,Insights,Story Refinement/Efforting,In Progress,,10/15/2025 11:04 AM,,,Insights Dashboard - Card for Inventory Turnover rate 
+NXT-67467,Story,Insights,Story Refinement/Efforting,In Progress,,10/15/2025 11:05 AM,,,Insights Dashboard - Inventory turnover rate slide out
+NXT-67468,Story,Insights,Story Refinement/Efforting,In Progress,,10/15/2025 11:06 AM,,,Insights Dashboard - Card for  Physical inventory discrepancy
+NXT-67469,Story,Insights,Story Refinement/Efforting,In Progress,,10/15/2025 11:06 AM,,,Insights Dashboard -  Physical inventory discrepancy Slide out
+NXT-67470,Story,Insights,Done Done,Done,,10/15/2025 11:15 AM,,,Insights > Insights Dashboard Page - Inventory Value KPI (Backend)
+NXT-67471,Story,Insights,Done Done,Done,,10/15/2025 11:16 AM,,,Insights > Insights Dashboard Page - Inventory Turnover Rate  (Backend)
+NXT-67472,Story,Insights,Done Done,Done,,10/15/2025 11:17 AM,,,Insights > Dashboard Page - Physical Inventory Discrepancy KPI (Backend)
+NXT-67475,Story,Menu Planning,Done Done,Done,,10/15/2025 11:22 AM,,,Central realm> MP > Forecast > Combined forecast : Excel report - District breakdown for combined forecast report
+NXT-67476,Story,Menu Planning,Done Done,Done,,10/15/2025 11:23 AM,,,MP > Recipe tagging based on common Ingredient tags
+NXT-67477,Story,Menu Planning,Done Done,Done,,10/15/2025 11:25 AM,,,MP> Menus > Menu cycle > Editing menu cycles in menu planner view by proving View link in the results grid.
+NXT-67478,Story,Menu Planning,Done Done,Done,,10/15/2025 11:25 AM,,,MP > Menus /Weekly analysis : Support for serving size ranges to limit added sugars value in breakfast cereal.
+NXT-67479,Story,Financials,Done Done,Done,,10/15/2025 11:29 AM,,known_customer,Tullahoma Financials enhancements
+NXT-67480,Story,Menu Planning,Done Done,Done,,10/15/2025 11:30 AM,,,Menu publishing APIs for Quest
+NXT-67481,Story,Financials,Done Done,Done,,10/15/2025 11:32 AM,,,Financials >  Purchase orders Functionality Enhancements
+NXT-67485,Story,Workspace,Done Done,Done,Done,10/15/2025 2:00 PM,2/10/2026 4:55 PM,,Menu Analysis- Sites Performance - Add Produced Column & Totals for all columns
+NXT-67488,Story,Workspace,Done Done,Done,Done,10/15/2025 2:40 PM,2/10/2026 4:56 PM,,Menu Analysis - Menu Item Performance - Add Cost per serving and Column level filters
+NXT-67503,Story,Financials,New,In Progress,,10/16/2025 11:51 AM,,,State template story
+NXT-67531,Story,Item Management,Done Done,Done,Done,10/17/2025 11:00 AM,12/4/2025 2:46 PM,,IM - Bulk Item - Start Update Session
+NXT-67532,Story,Financials,Done Done,Done,Done,10/17/2025 11:27 AM,12/4/2025 2:44 PM,,Story 1 — Account Code Structure (UI Build)
+NXT-67533,Story,Financials,Done Done,Done,Done,10/17/2025 11:30 AM,12/4/2025 2:15 PM,,Story 2 — Store & Maintain State Templates (Admin)
+NXT-67534,Story,Financials,Done Done,Done,Done,10/17/2025 11:31 AM,12/8/2025 10:02 AM,,Story 3 — Apply State Template (District)
+NXT-67538,Enhancement,Family Hub,Done Done,Done,Done,10/20/2025 2:56 PM,11/12/2025 11:38 AM,struct_desc,FamPortal - Low Balance Alerts/Make Payments - Update communication to specify alternate payment methods (Part 1)
+NXT-67539,Story,Financials,New,In Progress,,10/20/2025 7:36 PM,,,User Story 4: View Changes (History)  (UI)
+NXT-67540,Story,Financials,New,In Progress,,10/20/2025 8:35 PM,,,User Story 5: Store and Manage Account Code Structure Versions (Backend)
+NXT-67541,Story,Financials,New,In Progress,,10/20/2025 8:38 PM,,,Story 6: Save Account Code Structure with Effective Dates (UI)
+NXT-67554,Story,System,Future Merge,In Progress,Done,10/21/2025 5:38 AM,12/9/2025 12:27 PM,,Observations in LMA
+NXT-67559,Story,Family Hub,In Progress,In Progress,,10/21/2025 8:48 AM,,,FamPortal - Research/Implement New Age Verification Requirements
+NXT-67563,Story,Item Management,Done Done,Done,Done,10/21/2025 2:41 PM,2/17/2026 2:03 PM,,IM - Bulk Item - Overview Section Status Updates
+NXT-67565,Story,Item Management,Done Done,Done,Done,10/21/2025 2:46 PM,2/10/2026 12:55 PM,,IM - Bulk Item - Update Nutrients (Individual Slideout)
+NXT-67568,Story,Item Management,Done Done,Done,Done,10/21/2025 3:24 PM,2/11/2026 1:06 PM,,IM - Bulk Item - Serving Info Validations & Multiple Servings
+NXT-67569,Story,Item Management,Done Done,Done,Done,10/21/2025 3:41 PM,2/11/2026 12:02 PM,,IM - Bulk Item - Update Menu Item Info & Validations
+NXT-67585,Story,Item Management,Done Done,Done,Done,10/22/2025 11:12 AM,1/20/2026 2:24 PM,,IM - Bulk Item - Images and Docs Section
+NXT-67587,Story,Item Management,Done Done,Done,Done,10/22/2025 11:18 AM,12/4/2025 2:57 PM,,IM - Bulk Item - View Mode for Items in a Session
+NXT-67593,Story,System,New,In Progress,,10/23/2025 12:09 AM,,,Dynamic env config and APIM Injection for the required Modules
+NXT-67596,Story,Item Management,Done Done,Done,Done,10/23/2025 1:27 AM,2/10/2026 1:24 PM,,IM - Bulk Item - Update Nutrients Multiple Servings
+NXT-67613,Story,Inventory,Future Merge,In Progress,Done,10/23/2025 8:38 AM,2/10/2026 8:31 PM,,INV - Orders & Receipts - Update Quick Receipt to match redesign
+NXT-67614,Story,Inventory,Done Done,Done,Done,10/23/2025 8:49 AM,12/22/2025 8:39 PM,,INV - Hotshot Distributions - Pre-generate Order & Receipt
+NXT-67615,Story,Inventory,Done Done,Done,Done,10/23/2025 8:51 AM,12/22/2025 9:00 PM,,INV - Hotshot Distributions - Cancel Orders on Revert Shipment
+NXT-67617,Story,Inventory,Done Done,Done,Done,10/23/2025 9:02 AM,12/23/2025 2:33 PM,,INV - Distribution - Hotshot (manual) Distributions - Assign through Ship
+NXT-67621,Story,Platform - Data Exchange,New,In Progress,,10/23/2025 11:59 AM,,known_customer|struct_summary,District Migration-Anchorage School District-BO Migration
+NXT-67632,Story,Item Management,Done Done,Done,Done,10/23/2025 3:45 PM,2/17/2026 1:07 PM,,IM - Bulk Item - Update Contributions Multiple Servings
+NXT-67633,Story,Item Management,Done Done,Done,Done,10/23/2025 3:47 PM,2/11/2026 11:24 AM,,IM - Bulk Item - Update Contributions (Individual Item Slideout)
+NXT-67634,Story,Item Management,Done Done,Done,Done,10/23/2025 3:53 PM,1/20/2026 2:29 PM,,"IM - Bulk Item - Contributions Section add ""None"" Option"
+NXT-67635,Story,Item Management,UX in Progress,In Progress,,10/23/2025 3:56 PM,,,IM - Bulk Item - Bulk Apply for Allergens
+NXT-67674,Story,Financials,New,In Progress,,10/24/2025 12:05 PM,,,Account Deletion Logic
+NXT-67675,Story,Financials,Done Done,Done,Done,10/24/2025 12:18 PM,12/3/2025 8:33 AM,,Add New Account Form
+NXT-67676,Story,Financials,New,In Progress,,10/24/2025 12:22 PM,,,Transaction Snapshot Logic
+NXT-67677,Story,Financials,Done Done,Done,Done,10/24/2025 12:28 PM,12/8/2025 8:36 AM,,Account Category Detection and Sync
+NXT-67686,Story,System,Future Merge,In Progress,Done,10/26/2025 9:27 AM,11/21/2025 10:29 AM,,Track Login & Logout for each Session in Table Storage
+NXT-67708,Story,PE Insights,Done Done,Done,Done,10/27/2025 10:25 AM,12/9/2025 10:00 AM,,WS - Benchmark - Configuration -Show prior year benchmark values for each site and each KPI (PE & SC)
+NXT-67722,Story,Global Catalog,New,In Progress,,10/27/2025 3:55 PM,,,*GC > GDSN Connect (SC) - Items upload page >  Item Updates tab : Bulk Updates functionality for all selected items 
+NXT-67723,Story,Global Catalog,Ready for Development,To Do,,10/27/2025 4:19 PM,,,GC > GDSN Connect (SC)> Upload items page - Item updates tab:  Updating single item from item slide out panel
+NXT-67725,Story,Global Catalog,Ready for Development,To Do,,10/27/2025 4:40 PM,,,GC >GDSN Connect > SC >  Upload items page > Item Updates tab :  Single item updates: Mark as reviewed button functionality
+NXT-67866,Story,Accountability,Done Done,Done,Done,10/28/2025 2:25 PM,11/14/2025 11:19 AM,,Acc - Special Provision updates for 5 decimal places
+NXT-67871,Story,Inventory,Done Done,Done,Done,10/28/2025 4:20 PM,2/11/2026 1:04 PM,,INV/MP/PR - Change Site display to common format
+NXT-67933,Enhancement,Global Catalog,Future Merge,In Progress,Done,10/29/2025 12:08 PM,3/17/2026 1:19 PM,,GC - PE- Item catalog - Allow filtering and sorting of  items using column headers. 
+NXT-67934,Enhancement,Global Catalog,Future Merge,In Progress,Done,10/29/2025 12:12 PM,3/17/2026 1:20 PM,,GC -SC -Item management -  Upload items page - Search Database tab- Allow filtering and sorting of  items using column headers.
+NXT-67937,Enhancement,Family Hub,Done Done,Done,Done,10/29/2025 2:05 PM,12/3/2025 12:02 PM,,FamPortal - Super Admin - Configure Districts - Add new permission for 'Documents' link
+NXT-67942,Enhancement,Family Hub,Done Done,Done,Done,10/29/2025 2:15 PM,12/9/2025 11:37 AM,struct_desc,FamPortal - Alternate Payment Methods (Part 2) - Update other templates/areas to specify alternate payment methods
+NXT-67943,Enhancement,System,New,In Progress,,10/29/2025 2:17 PM,,,Delete Me
+NXT-67944,Enhancement,Family Hub,Done Done,Done,Done,10/29/2025 2:18 PM,12/5/2025 8:32 AM,FD_descAC,FamPortal - Super Admin - Configure Districts - Add 'Accept'/'Reject' buttons to Documents window
+NXT-67945,Enhancement,Family Hub,New,In Progress,,10/29/2025 2:22 PM,,FD_descAC|struct_desc,SchoolCafé - Admin - Settings - Add setting to hide Eligibility Info - Notifications content
+NXT-67946,Enhancement,Family Hub,Done Done,Done,Done,10/29/2025 2:28 PM,12/1/2025 1:11 PM,,FamPortal - Super Admin - Configure Districts - Add 'View Agreement History' link from Classic
+NXT-67947,Enhancement,Family Hub,Done Done,Done,Done,10/29/2025 3:02 PM,11/11/2025 1:10 PM,FD_descAC,FamPortal - School Menus - Modify Category/Item Display order logic
+NXT-67993,Story,Global Catalog,Future Merge,In Progress,Done,10/30/2025 2:53 PM,11/6/2025 2:12 PM,,"GC Portal -Add Columns for nutrients, allergens, meal credits, stock item information"
+NXT-68020,Story,Global Catalog,Ready for Development,To Do,,10/31/2025 8:57 AM,,,GC > [Tech Debt] Optimizing tables and SPs.  [not required anymore code refactoring was completed in dec 2025]
+NXT-68024,Story,Accountability,Done Done,Done,Done,10/31/2025 2:17 PM,11/26/2025 11:34 AM,,FO - Reports > Editcheck Worksheet > necessary changes for release
+NXT-68060,Story,Global Catalog,New,In Progress,,11/4/2025 9:20 AM,,,*GC- PE- Match Status counts needs to be corrected as GTIN search supports search with Product code and Vendor item number fields. 
+NXT-68061,Story,Global Catalog,Committed,To Do,Done,11/4/2025 9:21 AM,11/12/2025 3:40 PM,,GC -PE - Vendors display on item popup if vendor information is available for an item.
+NXT-68062,Story,Global Catalog,New,In Progress,,11/4/2025 9:23 AM,,,*GC- PE - Enhancements to show missing information data source on item information.
+NXT-68063,Story,Global Catalog,New,In Progress,,11/4/2025 9:24 AM,,,*GC- SC - Enhancements to show missing information data source on item information.
+NXT-68064,Story,Global Catalog,Story Refinement/Efforting,In Progress,,11/4/2025 9:24 AM,,,GC Portal - Display data source on item information popup and in the results grid as a tooltip. 
+NXT-68065,Story,Global Catalog,New,In Progress,,11/4/2025 9:27 AM,,,*GC- SC- Match Status counts needs to be corrected as GTIN search supports search with Product code and Vendor item number fields.
+NXT-68066,Story,Global Catalog,Ready For Testing,To Do,,11/4/2025 9:30 AM,,,GC Portal - Column filters and Sorting for both Cybersoft and USDA branded foods
+NXT-68094,Story,Production,Done Done,Done,,11/4/2025 10:26 AM,,,Report scheduling and  distribution for Production reports. 
+NXT-68095,Story,Menu Planning,Done Done,Done,,11/4/2025 10:51 AM,,,CN ingredients updates
+NXT-68096,Story,System,Future Merge,In Progress,Done,11/4/2025 1:14 PM,3/24/2026 1:22 PM,,SC - MT - Settings Update
+NXT-68097,Story,System,In Progress,In Progress,,11/4/2025 1:16 PM,,,SC - MT - Licenses Update
+NXT-68098,Story,System,New,In Progress,,11/4/2025 1:18 PM,,,SC - MT - Common UI Controls Update
+NXT-68099,Story,System,New,In Progress,,11/4/2025 1:19 PM,,,SC - MT - Reporting and Data Queries Update
+NXT-68100,Story,Platform - Data Exchange,Story Refinement/Efforting,In Progress,,11/4/2025 1:22 PM,,struct_desc,SC - Multi Tenant - Data Exchange Update
+NXT-68103,Story,Platform - Data Exchange,Done Done,Done,Done,11/4/2025 3:50 PM,11/27/2025 5:04 AM,,DE-SFTP Adult Import-Validate the import file before importing it.
+NXT-68104,Story,Item Management,Done Done,Done,Done,11/4/2025 10:15 PM,2/11/2026 11:29 AM,,IM - Bulk Item - Nutrients - Provide Missing checkbox
+NXT-68109,Enhancement,System,Done Done,Done,Done,11/5/2025 1:17 AM,11/21/2025 10:32 AM,,"When the CN workspace is enabled, a token is being appended to the URL when redirecting to SchoolCafe. This token should be removed."
+NXT-68116,Story,Item Management,Done Done,Done,Done,11/5/2025 8:52 AM,12/12/2025 1:09 PM,,IM - Items - Contributions - Add 'No Contributions' option
+NXT-68119,Story,Platform - Data Exchange,Done Done,Done,,11/5/2025 11:19 AM,,,"SchoolCafe- remove the Special Permission and General Permission tabs for every admin role, but leave the Users tab as it is."
+NXT-68143,Story,Global Catalog,Future Merge,In Progress,Done,11/6/2025 10:47 AM,3/17/2026 1:16 PM,,"GC- PE and SC-Item Search API logic- Enhancing the GTIN Search criteria to search by GTINs, Product codes, and Vendor item numbers for all Data providers."
+NXT-68148,Story,Global Catalog,Done Done,Done,,11/6/2025 2:32 PM,,,GC - USDA BF: API for reading Allergens from Ingredients information. 
+NXT-68187,Enhancement,Inventory,Done Done,Done,Done,11/10/2025 9:03 AM,12/23/2025 2:34 PM,,INV - Orders - Consider Distribution status for Merge Order function
+NXT-68188,Story,SCTV,Ready For Testing,To Do,,11/10/2025 11:44 AM,,,Display Meal-Specific Empty State Message
+NXT-68192,Story,Global Catalog,Future Merge,In Progress,Done,11/10/2025 7:45 PM,5/4/2026 10:39 AM,,GC - PE - Item Catalog in PE - Export meal credits when exporting ingredients only option. 
+NXT-68193,Story,Global Catalog,Future Merge,In Progress,Done,11/10/2025 8:34 PM,5/20/2026 2:19 PM,,GC portal - Display serving size for contribution section and allow editing when editing the item details.
+NXT-68212,Story,System,Done Done,Done,,11/11/2025 11:07 AM,,reqby,SC - MT - Users Update
+NXT-68222,Story,PE Insights,Done Done,Done,Done,11/11/2025 6:24 PM,12/2/2025 7:58 AM,,SC-PE-Insights-Multi Select UI-Add Apply and Clear buttons
+NXT-68245,Enhancement,Catering,Done Done,Done,Done,11/12/2025 11:15 AM,12/19/2025 9:15 AM,,Catering - Add SSO for SchoolCafé
+NXT-68249,Enhancement,Menu Planning,Done Done,Done,Done,11/12/2025 1:35 PM,1/7/2026 3:19 PM,FD_descAC|known_customer,Texas City - Pre-K Meal pattern(2 of 5 Components) 
+NXT-68250,Enhancement,Menu Planning,New,In Progress,,11/12/2025 1:46 PM,,known_customer,Texas City - Snack Pre-K Meal pattern and CACFP
+NXT-68252,Story,Accountability,Story Refinement/Efforting,In Progress,,11/12/2025 2:03 PM,,,Acc - Meal Count Report - Serving days by selected program / CACFP
+NXT-68254,Story,Accountability,Story Refinement/Efforting,In Progress,,11/12/2025 2:37 PM,,,FO - Templates - Add Privacy Field as a field option
+NXT-68256,Story,Eligibility,Done Done,Done,Done,11/12/2025 3:01 PM,5/5/2026 10:44 AM,FD_descAC,"Elig - Verification - 2026 QoL Updates, Include CEP Setting Update"
+NXT-68291,Story,Financials,New,In Progress,,11/13/2025 12:57 PM,,,Add New Entry (Backend)
+NXT-68294,Story,Financials,Done Done,Done,Done,11/13/2025 10:18 PM,12/12/2025 8:16 AM,,Fin - Reverse transactions from General Ledger (UI)
+NXT-68295,Story,Financials,New,In Progress,,11/13/2025 10:25 PM,,,Track transaction reversals in data model (Backend)
+NXT-68312,Story,Financials,Done Done,Done,Done,11/14/2025 8:50 AM,12/17/2025 2:28 AM,,Fin - Configure Site-Level GL Sub-Accounts for Each District Account
+NXT-68316,Story,Platform - Data Exchange,Done Done,Done,Done,11/14/2025 10:41 AM,12/9/2025 3:29 AM,,DE - SFTP > Student Import>Validate the import file before importing it
+NXT-68317,Story,Mobile App,Testing,In Progress,,11/14/2025 10:45 AM,,,K12 - WS - PE Announcements
+NXT-68318,Story,Mobile App,PO Review,To Do,,11/14/2025 10:46 AM,,,K12 - WS - PE Teams
+NXT-68320,Story,Mobile App,Future Merge,In Progress,Done,11/14/2025 11:28 AM,3/24/2026 1:13 PM,,CC - WS - Profile Updates
+NXT-68352,Enhancement,Global Catalog,New,In Progress,,11/17/2025 5:21 AM,,,List of Enhancements in PE.
+NXT-68364,Story,Item Management,Done Done,Done,Done,11/17/2025 4:47 PM,2/4/2026 10:51 AM,,IM - Menu Items - Include 'Added Sugar Product' in Menu Item Flags
+NXT-68441,Enhancement,Global Catalog,Ready For Testing,To Do,,11/18/2025 12:45 AM,,,Optimize Search/Get/View Performance Endpoints and Refactor API Responses for SC
+NXT-68529,Story,System,New,In Progress,,11/19/2025 8:29 AM,,,Performance & Recommendations
+NXT-68548,Story,Financials,Done Done,Done,Done,11/19/2025 1:13 PM,12/12/2025 8:16 AM,,Fin - General Ledger Excel Export (Per Account)
+NXT-68549,Story,Financials,Done Done,Done,Done,11/19/2025 1:14 PM,12/10/2025 2:01 PM,,Fin - Generate Journal Excel export for selected posted date range
+NXT-68555,Story,System,New,In Progress,,11/20/2025 1:20 AM,,,Observations in District licenses.
+NXT-68565,Story,Item Management,New,In Progress,,11/20/2025 9:15 AM,,,IM - Bulk Item - Overview filters
+NXT-68570,Story,Financials,Done Done,Done,Done,11/20/2025 10:14 AM,12/17/2025 2:30 AM,,Fin - Lock GL Account Base Type After Activity Is Posted
+NXT-68590,Story,Item Management,Done Done,Done,Done,11/20/2025 2:33 PM,3/24/2026 2:41 PM,,IM - Bulk Item - Check Updates
+NXT-68616,Story,System,Future Merge,In Progress,Done,11/21/2025 10:16 AM,1/20/2026 7:47 AM,,Track Login & Logout - UX
+NXT-68618,Enhancement,Item Management,Done Done,Done,Done,11/21/2025 1:10 PM,12/8/2025 6:37 PM,,USDA - IM/MP/PR - Show % of calories for added sugar with 0
+NXT-68631,Story,System,Future Merge,In Progress,Done,11/24/2025 10:41 AM,1/20/2026 7:52 AM,,SC - MT - District Dashboard
+NXT-68632,Story,Platform - Data Exchange,Done Done,Done,,11/24/2025 10:58 AM,,known_customer|struct_summary,District Migration-Mankato Area Public Schools ISD 77
+NXT-68633,Story,System,Future Merge,In Progress,Done,11/24/2025 11:07 AM,1/9/2026 7:08 AM,,SC - MT - Resource Catalogue Update
+NXT-68635,Story,Financials,Done Done,Done,Done,11/24/2025 12:21 PM,12/17/2025 6:26 PM,,Fin - Reports Landing Page – Report Selection
+NXT-68637,Story,Financials,Done Done,Done,Done,11/24/2025 1:38 PM,12/24/2025 7:40 PM,,"Fin - General Ledger Report – Account Selection, Export Generation"
+NXT-68638,Story,System,Future Merge,In Progress,Done,11/24/2025 1:53 PM,1/20/2026 7:53 AM,,SC - MT - Roles & Permissions for Child Realms
+NXT-68639,Story,System,Future Merge,In Progress,Done,11/24/2025 2:09 PM,1/20/2026 7:54 AM,,SC - MT - Roles & Permissions Central Admin
+NXT-68640,Story,System,Done Done,Done,,11/24/2025 2:28 PM,,,SC - MT - Navigation Menu Update
+NXT-68641,Story,Financials,Done Done,Done,Done,11/24/2025 2:32 PM,12/17/2025 2:48 AM,,"Fin - Journal Report – Location Selection, Export Generation, and Recent Journal Reports"
+NXT-68642,Story,System,Future Merge,In Progress,Done,11/24/2025 2:52 PM,1/9/2026 7:09 AM,,SC - MT - Change District Update
+NXT-68643,Story,Financials,Done Done,Done,Done,11/24/2025 3:22 PM,12/30/2025 11:27 AM,,"Fin - Revenue and Expenditure (P&L) Report – Parameters, Multi-Site Exports "
+NXT-68658,Story,Financials,Done Done,Done,Done,11/25/2025 11:41 AM,2/10/2026 9:12 AM,,FIN - Implement Financial Periods Management (Generate + Manage Tabs)
+NXT-68659,Story,Financials,Done Done,Done,Done,11/25/2025 11:52 AM,12/17/2025 8:43 AM,,"Fin - Display Net Income, Revenue, and Expenses Summary Card on Financial Dashboard"
+NXT-68660,Story,Financials,Story Refinement/Efforting,In Progress,,11/25/2025 12:14 PM,,,Implement Site-by-Site Performance Table
+NXT-68663,Story,PE Insights,Done Done,Done,Done,11/25/2025 8:22 PM,12/9/2025 9:57 AM,,PE-SC-Reload the KPI page when the user adds or updates the Benchmark value for a site on the Benchmark configuration page.
+NXT-68672,Enhancement,System,Done Done,Done,,11/26/2025 3:41 AM,,,LMA | Few enhancements required
+NXT-68685,Story,System,In Progress,In Progress,,11/27/2025 4:54 AM,,,UI Components Restructure - Package Upgrade
+NXT-68708,Story,Financials,New,In Progress,,12/1/2025 12:05 PM,,,Add Required “Entry Type” Field to Manual Journal Entries
+NXT-68719,Story,Financials,New,In Progress,,12/1/2025 4:16 PM,,,Backend Calculations for Profit & Loss Report
+NXT-68732,Story,Item Management,New,In Progress,,12/2/2025 11:23 AM,,,IM - Bulk Item - Update Use a File
+NXT-68733,Story,Item Management,Done Done,Done,Done,12/2/2025 11:39 AM,3/24/2026 2:42 PM,,IM - Bulk Item - Updates Publish to Local
+NXT-68734,Story,Inventory,New,In Progress,,12/2/2025 11:59 AM,,,Insights - Insights Dashboard Page - Inventory Value KPI (Backend)
+NXT-68735,Story,Inventory,New,In Progress,,12/2/2025 12:02 PM,,struct_desc,Insights - Dashboard Page - Physical Inventory Discrepancy KPI (Backend)
+NXT-68736,Story,Inventory,New,In Progress,,12/2/2025 1:16 PM,,,Insights - Insights Dashboard Page - Inventory Turnover Rate  (Backend)
+NXT-68770,Story,Financials,New,In Progress,,12/3/2025 1:26 PM,,,Backend Calculations for Profit & Loss Report
+NXT-68797,Story,Global Catalog,Future Merge,In Progress,Done,12/5/2025 11:57 AM,4/23/2026 11:14 AM,,"GC- SC-  Allergens column in search results grid should consider the flag for  ""None Indicated for Allergens"" "
+NXT-68824,Story,PE Insights,Done Done,Done,Done,12/8/2025 10:57 AM,12/10/2025 8:11 AM,,PE and SC-Show the API version on the UI
+NXT-68843,Story,System,Future Merge,In Progress,Done,12/9/2025 10:27 AM,1/20/2026 7:47 AM,,LMA - Observations
+NXT-68910,Enhancement,Family Hub,Done Done,Done,Done,12/10/2025 1:38 PM,1/29/2026 11:38 AM,FD_descAC,FamPortal- Miscellaneous Small Changes 2026 Q1 (Part 1)
+NXT-68969,Story,Item Management,Story Refinement/Efforting,In Progress,,12/11/2025 1:18 PM,,,IM - Direct Menu Items - Remove mention of 'Recipe' from Steps card
+NXT-68970,Enhancement,Accountability,Ready for Development,To Do,,12/11/2025 1:43 PM,,,Acc/AcctMgt - Add/Edit Tx - Update bonus amount when adding/adjusting transactions on the website
+NXT-68985,Story,PE Insights,Done Done,Done,Done,12/12/2025 8:43 AM,12/18/2025 8:55 AM,,WS - PE-SC-Benchmark DB table schema changes to support Audit Log
+NXT-68986,Enhancement,Family Hub,Done Done,Done,Done,12/12/2025 9:12 AM,2/5/2026 3:42 PM,,FamPortal- Admin - Add 'Hide Meal App if Site is CEP' setting (Carry-foward from Classic)
+NXT-69022,Story,PE Insights,New,In Progress,,12/15/2025 11:10 AM,,,PE - WS - Insights - Waste - Days from Production Records
+NXT-69059,Story,Financials,New,In Progress,,12/17/2025 11:49 AM,,,Create system accounts when Financials license is activated (Backend)
+NXT-69062,Story,Financials,New,In Progress,,12/17/2025 2:49 PM,,,Ledger Entry Rules for POS-related Transactions
+NXT-69070,Story,Financials,New,In Progress,,12/17/2025 8:49 PM,,,Account Mapping Wizard
+NXT-69071,Story,Financials,New,In Progress,,12/17/2025 9:11 PM,,,Configure Payroll System Accounts and Generate Ledger Entry Templates
+NXT-69081,Story,PE Insights,Done Done,Done,Done,12/18/2025 9:04 AM,12/19/2025 9:02 AM,,PE-Phase 2-Benchmark-Configuration-Schema changes-SQL Script
+NXT-69084,Story,Financials,Done Done,Done,Done,12/18/2025 11:18 AM,2/9/2026 1:16 PM,,Fin - Account Mapping Management View
+NXT-69097,Story,Financials,Done Done,Done,Done,12/19/2025 12:22 PM,1/15/2026 11:04 PM,,Fin - Static Data Points
+NXT-69098,Story,Financials,Ready for Development,To Do,,12/19/2025 12:24 PM,,,Dynamic POS Data Points (Config-Based)
+NXT-69099,Story,Financials,Done Done,Done,Done,12/19/2025 12:26 PM,1/15/2026 11:07 PM,,Fin - Dynamic Inventory Data Points (Config-Based)
+NXT-69100,Story,Financials,Done Done,Done,Done,12/19/2025 12:31 PM,1/15/2026 11:03 PM,,Fin - User-Created Data Points
+NXT-69101,Story,POS,Done Done,Done,,12/19/2025 1:52 PM,,,POS > Square Implementation Research Task
+NXT-69103,Enhancement,Inventory,Done Done,Done,Done,12/19/2025 4:39 PM,2/10/2026 8:09 PM,,INV - Distribution - Small Issues & Enhancements
+NXT-69114,Story,Financials,Done Done,Done,Done,12/22/2025 9:29 AM,2/2/2026 10:05 AM,,Fin - Complete Mapping on Account Mapping Page
+NXT-69127,Story,Financials,New,In Progress,,12/22/2025 1:44 PM,,,Change GL Account Mapping
+NXT-69272,Story,Financials,Done Done,Done,Done,12/30/2025 1:24 PM,2/6/2026 2:56 PM,,Fin - Data Point History Tracking
+NXT-69292,Enhancement,Menu Planning,Done Done,Done,Done,1/2/2026 11:24 AM,1/8/2026 5:17 PM,FD_commentonly|known_customer|struct_summary,SC Implementation - Hill City ISD #2 - Nutrient Report Issue
+NXT-69308,Story,System,Done Done,Done,,1/5/2026 3:57 AM,,,SC - MT - User Profile - Roles and permissions Grid (workspace and system)
+NXT-69313,Story,System,Future Merge,In Progress,Done,1/5/2026 4:20 AM,1/20/2026 7:51 AM,,SC- MT -Add a new selection item in Users page with Unassigned label.
+NXT-69317,Story,System,Done Done,Done,,1/5/2026 4:36 AM,,,SC - MT - User Update - Show history
+NXT-69338,Enhancement,Menu Planning,New,In Progress,,1/5/2026 1:01 PM,,,MP/PR - Analysis with missing days or serving groups
+NXT-69341,Enhancement,Family Hub,Done Done,Done,Done,1/5/2026 3:11 PM,2/11/2026 1:39 PM,FD_descAC|struct_desc,FamPortal - School Menus - Add settings to control field behavior display 'Contains' allergen texts
+NXT-69345,Story,System,Future Merge,In Progress,Done,1/6/2026 4:45 AM,1/20/2026 7:50 AM,,For a central user there should be a screen to view all the districts and countys under that state.
+NXT-69359,Story,Item Management,Done Done,Done,,1/6/2026 1:08 PM,,,IM - Bulk Item - Capture History for all sections (Update)
+NXT-69360,Story,Item Management,Done Done,Done,Done,1/6/2026 1:11 PM,3/27/2026 12:52 PM,,IM - Bulk Item - Capture History (Onboarding)
+NXT-69375,Story,PE Insights,In Progress,In Progress,,1/7/2026 8:34 AM,,,PE-SC-WS-Benchmark-Audit Log-Search
+NXT-69376,Story,PE Insights,New,In Progress,,1/7/2026 8:37 AM,,,Reuse
+NXT-69386,Story,Financials,New,In Progress,,1/7/2026 8:53 AM,,,Update Profit & Loss Revenue Section
+NXT-69388,Story,Financials,New,In Progress,,1/7/2026 10:24 AM,,,Push POS Reimbursement Claims to Financials for Automation (Backend)
+NXT-69392,Story,Financials,Done Done,Done,Done,1/7/2026 11:56 AM,2/2/2026 10:19 AM,,Fin - Display Data Point Business Rules in Account Mapping
+NXT-69413,Story,System,Future Merge,In Progress,Done,1/9/2026 2:54 AM,3/9/2026 9:52 AM,,Code refactoring for Notification scheduler  sync agent
+NXT-69421,Story,Financials,Done Done,Done,Done,1/9/2026 12:05 PM,3/20/2026 11:51 AM,,Fin - Global Excel Import for GL Account Categories and GL Accounts
+NXT-69422,Story,Financials,Done Done,Done,Done,1/9/2026 1:25 PM,2/6/2026 10:30 AM,,Fin - Editing GL accounts
+NXT-69433,Story,Financials,Done Done,Done,Done,1/12/2026 9:21 AM,2/2/2026 9:29 AM,,Fin - Show data points associated with an account on the GL Accounts page
+NXT-69435,Story,Platform - Data Exchange,Done Done,Done,Done,1/12/2026 2:19 PM,3/3/2026 9:18 AM,,Fin - General Ledger Accounts – Add to Import Types
+NXT-69463,Enhancement,Menu Planning,Done Done,Done,Done,1/14/2026 10:10 AM,3/3/2026 2:07 PM,FD_descAC,MP- Pre-K Meal pattern(2 of 5 Components) - Adjust Nutrition Report and Slideout for Fail (API Only)
+NXT-69488,Story,Financials,Done Done,Done,Done,1/15/2026 10:22 AM,2/20/2026 1:45 AM,,Fin - Create Custom Data Points with Business Rules
+NXT-69489,Story,PE Insights,Done Done,Done,Done,1/15/2026 10:34 AM,4/2/2026 7:17 AM,,WS - Insights - KPI - Inventory Value - Dashboard Screen
+NXT-69490,Story,PE Insights,Done Done,Done,Done,1/15/2026 10:59 AM,3/9/2026 11:13 AM,,WS - Insights - KPI - Inventory Value - Details Drawer
+NXT-69491,Story,PE Insights,Done Done,Done,Done,1/15/2026 1:42 PM,4/9/2026 4:40 AM,,PE-SC-Insights - KPI - MEQ - Adult Breakfast 0.67
+NXT-69492,Story,Accountability,Done Done,Done,Done,1/15/2026 2:22 PM,4/28/2026 2:52 PM,FD_descAC|known_customer,Acc DQ - Adams 12 - SchoolCafe - Oracle financial exports
+NXT-69493,Story,Financials,Done Done,Done,Done,1/15/2026 2:34 PM,2/26/2026 2:45 PM,,Fin - Posting Activity Log
+NXT-69495,Story,Item Management,Done Done,Done,Done,1/15/2026 3:43 PM,3/2/2026 1:18 PM,,IM - Bulk Item - Serving Info Review with Identifiers
+NXT-69496,Story,Item Management,Done Done,Done,Done,1/15/2026 3:47 PM,3/2/2026 9:52 AM,,IM - Bulk Item - Manage Servings Slideout
+NXT-69501,Story,Item Management,New,In Progress,,1/16/2026 9:04 AM,,,IM - Bulk Item - Footer Messaging for all Sections
+NXT-69503,Story,SCTV,Done Done,Done,Done,1/16/2026 10:18 AM,2/10/2026 5:17 PM,,SCTV+ - Compact Card
+NXT-69504,Story,Financials,Done Done,Done,Done,1/16/2026 11:26 AM,2/10/2026 9:14 AM,,Fin - Inactive Data Points
+NXT-69519,Story,Financials,Done Done,Done,Done,1/18/2026 7:45 PM,2/9/2026 7:42 AM,,Fin - Template Entries
+NXT-69520,Story,Financials,Done Done,Done,Done,1/18/2026 8:50 PM,2/2/2026 10:02 AM,,Fin - Account Mapping — Standalone Page
+NXT-69523,Story,Item Management,Done Done,Done,Done,1/19/2026 2:38 AM,3/26/2026 4:26 PM,,IM - Bulk Updates - Inventory Units & Sub-Qty
+NXT-69524,Story,Item Management,Done Done,Done,Done,1/19/2026 2:42 AM,4/13/2026 4:16 PM,,IM - Bulk Updates - Pack-Serving Link
+NXT-69525,Story,Item Management,Done Done,Done,Done,1/19/2026 2:47 AM,3/3/2026 2:05 PM,,IM - Bulk Updates - Cost/Value & Publishing
+NXT-69584,Story,Item Management,Story Refinement/Efforting,In Progress,,1/19/2026 11:37 AM,,,IM - Bulk Item - Nutrient Filters filtering in All views
+NXT-69606,Story,System,Done Done,Done,,1/20/2026 12:32 AM,,,SchoolCafe Testing & Utilities Tool
+NXT-69710,Story,Accountability,Done Done,Done,Done,1/21/2026 2:54 PM,3/16/2026 2:25 PM,FD_descAC,FO - Attendance  > Monthly Entry Type> Bulk Entry tool > Allow partial entry for Either AF or ADA
+NXT-69732,Story,Financials,New,In Progress,,1/22/2026 10:58 AM,,,Data Changed Column: Clickable Site Drilldown
+NXT-69733,Story,Financials,New,In Progress,,1/22/2026 11:02 AM,,,Sites Column: Clickable Site Status Drilldown
+NXT-69738,Story,Accountability,Done Done,Done,,1/22/2026 1:57 PM,,,"ACC - Square > Device Configuration Setup Page  Filters, Revoke butt, New Auth button, and Main Grid"
+NXT-69781,Story,Accountability,New,In Progress,,1/27/2026 3:44 PM,,struct_desc,Acc (Multi-Tenant) - Reports - Meal Participation
+NXT-69782,Story,Accountability,New,In Progress,,1/27/2026 3:50 PM,,,Acc (MT) - Reports - Participation
+NXT-69791,Story,PE Insights,Done Done,Done,Done,1/28/2026 8:46 AM,4/8/2026 12:27 PM,,WS - Insights - KPI - Inventory Turnover Rate- Benchmark Config Screen (PE)
+NXT-69792,Story,PE Insights,Done Done,Done,Done,1/28/2026 9:14 AM,4/8/2026 12:47 PM,,WS - Insights - KPI - Inventory Turnover Rate - Details Drawer
+NXT-69805,Story,Platform - Data Exchange,New,In Progress,,1/29/2026 7:09 AM,,struct_summary,District Migration-Inventory Module Migration
+NXT-69811,Story,PE Insights,Done Done,Done,Done,1/29/2026 11:31 AM,2/11/2026 8:07 AM,,WS - Insights- KPI Metric Text - Use static text
+NXT-69848,Story,Menu Planning,Done Done,Done,Done,1/30/2026 4:27 PM,3/10/2026 10:46 AM,,Menu Analysis - Site Performance - Planned Accuracy Metric & Slide out
+NXT-69849,Story,Menu Planning,Done Done,Done,Done,1/30/2026 4:28 PM,3/10/2026 10:48 AM,,Menu Analysis - Site Performance - Produced Accuracy Metric & Slide out
+NXT-69850,Story,Platform - Data Exchange,Done Done,Done,,2/1/2026 7:01 PM,,known_customer|struct_summary,District Migration-Mankato Area Public Schools ISD 77
+NXT-69852,Story,Accountability,Done Done,Done,,2/2/2026 1:27 PM,,,ACC -  Credit Card Terminals Page > Add and Edit Functions
+NXT-69853,Story,Accountability,Done Done,Done,,2/2/2026 1:37 PM,,,ACC - Credit Card Terminals > Square > Reminders
+NXT-69860,Story,Production,Done Done,Done,Done,2/2/2026 3:44 PM,3/10/2026 10:32 AM,,Insights- Waste KPI - Food Waste % calculation & Card Enhancement
+NXT-69861,Story,Production,Done Done,Done,Done,2/2/2026 3:50 PM,3/10/2026 10:57 AM,,Menu Analysis - Food Waste % calculation Revision (API)
+NXT-69862,Story,Menu Planning,Done Done,Done,Done,2/2/2026 4:14 PM,3/13/2026 1:31 PM,,Menu Analysis - Scoring Metric Update - Include Reach Score in Overall Scoring
+NXT-69863,Story,Menu Planning,Done Done,Done,Done,2/2/2026 5:19 PM,3/13/2026 1:19 PM,,Menu Analysis -Item Performance - Provide Filter sliders for Days Served and Schools Served
+NXT-69864,Story,Menu Planning,Done Done,Done,Done,2/2/2026 5:20 PM,3/13/2026 1:19 PM,,Menu Analysis -Dashboard - Item Performance - Provide Filter sliders for Days Served and Schools Served
+NXT-69866,Story,Production,Done Done,Done,Done,2/2/2026 11:48 PM,3/10/2026 10:48 AM,,Menu Analysis - Site Performance - Food Waste % Metric and Slide out
+NXT-69867,Story,Menu Planning,Done Done,Done,Done,2/2/2026 11:55 PM,3/12/2026 2:28 PM,,Menu Analysis - Multi Site Selection 
+NXT-69870,Story,Menu Planning,Done Done,Done,Done,2/3/2026 12:31 AM,3/10/2026 10:49 AM,,Menu Analysis - Item Performance - Menu item Drill down Page Updates
+NXT-69933,Story,Financials,Done Done,Done,Done,2/3/2026 10:49 AM,3/6/2026 2:47 PM,,FIN - Post Reimbursements Due on Claim Creation (with Period Close Fallback)
+NXT-69959,Story,Financials,Done Done,Done,Done,2/3/2026 10:58 AM,2/25/2026 7:48 AM,,FIN - Update Revenue Data Points
+NXT-69972,Story,Financials,New,In Progress,,2/3/2026 11:44 AM,,,FIN - Posting Activity Log Notifications
+NXT-69980,Story,Accountability,Done Done,Done,Done,2/3/2026 4:46 PM,3/18/2026 11:31 AM,,POS - Credit Cards > Square Integration > Square Transaction Feature
+NXT-69981,Story,Financials,New,In Progress,,2/3/2026 5:24 PM,,,FIN - Backend Posting Logic for FO
+NXT-69982,Story,Eligibility,Done Done,Done,Done,2/3/2026 9:19 PM,2/23/2026 1:48 PM,,"Eligibility - Forms Framework - Add/update necessary operations, and permissions "
+NXT-70000,Enhancement,Menu Planning,Done Done,Done,Done,2/4/2026 9:27 AM,2/17/2026 3:02 PM,,MP - Menu Costing report -  Consider the average cost of child menu items for the VMI cost. 
+NXT-70001,Story,Accountability,Done Done,Done,Done,2/4/2026 11:01 AM,3/23/2026 2:48 PM,,ACC - Reports > Revenue Report > Square Integration > New column and option
+NXT-70002,Story,Accountability,Done Done,Done,Done,2/4/2026 11:29 AM,3/25/2026 8:07 AM,,ACC - Reports > Activity Report > Square Integration
+NXT-70013,Story,Accountability,Done Done,Done,Done,2/4/2026 1:14 PM,3/24/2026 11:47 AM,,ACC - Sessions > Add and Edit Transaction > Square changes
+NXT-70014,Story,Accountability,Done Done,Done,Done,2/4/2026 3:02 PM,3/17/2026 10:32 AM,,ACC - Transactions > Square Integration > New Filter behaviors
+NXT-70030,Story,Accountability,Story Refinement/Efforting,In Progress,,2/5/2026 8:35 AM,,struct_desc,Acc (Multi-Tenant) - Reports - Meal Participation (Additional reports)
+NXT-70032,Enhancement,SCTV,Done Done,Done,Done,2/5/2026 12:14 PM,2/10/2026 2:35 PM,,"SCTV+ - Overlay Card should have initial background as ""White"" and color as ""Black"" & Calories should Show [0 CAL] "
+NXT-70053,Story,Accountability,Done Done,Done,Done,2/6/2026 10:30 AM,3/18/2026 11:01 AM,,POS - Credit Cards > Square Integration > Square Transaction Feature > Additional Messaging and Alerts
+NXT-70065,Story,Financials,New,In Progress,,2/6/2026 12:27 PM,,,FIN - Ready to Post Queue
+NXT-70066,Story,Financials,New,In Progress,,2/6/2026 12:29 PM,,,FIN - Summary Cards Redesign
+NXT-70067,Story,Financials,New,In Progress,,2/6/2026 12:30 PM,,,FIN - Failed Job Prioritization & Attention Routing
+NXT-70068,Story,Financials,New,In Progress,,2/6/2026 12:31 PM,,,FIN - Enhanced Completed Job Detail Panels
+NXT-70069,Story,Financials,New,In Progress,,2/6/2026 12:32 PM,,,FIN - Automatic Posting Awareness Banner
+NXT-70073,Story,Financials,New,In Progress,,2/6/2026 4:21 PM,,,Sites Column Drilldown on Periods Page
+NXT-70074,Story,Financials,New,In Progress,,2/6/2026 4:22 PM,,,FIN - Warning When Closing Period with Open Sites
+NXT-70075,Story,Financials,New,In Progress,,2/6/2026 4:23 PM,,,FIN - Period Context in Action Modals
+NXT-70092,Story,Eligibility,Done Done,Done,Done,2/9/2026 2:55 PM,2/23/2026 1:52 PM,,Eligibility - Forms Framework - Form Configuration - Add ability to add/update Forms (UI)
+NXT-70093,Story,Financials,Story Refinement/Efforting,In Progress,,2/9/2026 3:01 PM,,,Base Type Fallback When Account Category Is Blank
+NXT-70111,Story,Financials,New,In Progress,,2/10/2026 8:43 AM,,,Auto-Reprocess Failed Posting Jobs After GL Mapping Is Completed
+NXT-70119,Enhancement,SCTV,Done Done,Done,Done,2/10/2026 12:42 PM,3/2/2026 11:33 AM,,"SCTV+ - Update logo, colors. Move Fabric Server reference to SuperAdmin logins."
+NXT-70122,Enhancement,SCTV,New,In Progress,,2/10/2026 12:58 PM,,,SCTV+ - SSO Login
+NXT-70123,Enhancement,SCTV,Done Done,Done,Done,2/10/2026 1:43 PM,3/10/2026 3:08 PM,,SCTV+ - Device - Schedule Timing updates
+NXT-70124,Story,Family Hub,Done Done,Done,Done,2/10/2026 2:07 PM,2/17/2026 12:58 PM,,FamPortal - Website - Remove certain references within reCAPTCHA for compliance
+NXT-70125,Enhancement,SCTV,Done Done,Done,Done,2/10/2026 2:21 PM,2/25/2026 5:46 PM,,SCTV+ - Image Library - Changes to view
+NXT-70150,Story,Inventory,Testing,In Progress,Done,2/10/2026 8:23 PM,5/21/2026 11:12 PM,,INV - Orders & Receipts - Quick Receipt Updates
+NXT-70186,Story,System,Ready for Development,To Do,,2/11/2026 7:08 AM,,,SC - MT - Multiple Parents
+NXT-70187,Story,PE Insights,Future Merge,In Progress,Done,2/11/2026 8:53 AM,3/9/2026 10:56 AM,,WS - Insights - Benchmark Configuration -Disable all the controls while the grid is loading
+NXT-70189,Enhancement,Family Hub,New,In Progress,,2/11/2026 8:58 AM,,,FamPortal - School Menus - Hide custom allergens
+NXT-70191,Story,PE Insights,Done Done,Done,Done,2/11/2026 9:10 AM,4/14/2026 9:20 AM,,WS - Insights - KPI - Inventory Value - Schoolie
+NXT-70192,Story,PE Insights,Done Done,Done,Done,2/11/2026 9:13 AM,4/14/2026 9:21 AM,,WS - Insights - KPI - Inventory Turnover Rate - Schoolie
+NXT-70193,Story,Financials,Done Done,Done,Done,2/11/2026 9:39 AM,2/27/2026 9:31 AM,,FIN - Bulk Actions Mode
+NXT-70194,Story,Financials,New,In Progress,,2/11/2026 9:44 AM,,,Revenue Category Groups & Program Filter
+NXT-70214,Story,Accountability,Done Done,Done,Done,2/11/2026 2:46 PM,3/16/2026 2:33 PM,FD_descAC,FO - Accountability > Transactions > Exceptions > Do not allow exceptions adjustments during a closed period.
+NXT-70215,Story,Accountability,Story Refinement/Efforting,In Progress,,2/11/2026 2:50 PM,,FD_descAC,FO - Accountability  > Claims > SNP Reports > Standard Export > Show Actual Claim data (Archive) and add generation date note.
+NXT-70216,Story,System,Future Merge,In Progress,Done,2/11/2026 3:00 PM,3/9/2026 9:58 AM,,Update System Module to use SC License Management.
+NXT-70218,Story,Accountability,Story Refinement/Efforting,In Progress,,2/11/2026 4:40 PM,,,ACC - Credit Card Terminals > Square > Auto Renew Authorization Token.
+NXT-70220,Story,PE Insights,Future Merge,In Progress,Done,2/11/2026 7:13 PM,3/9/2026 10:55 AM,,WS-Insights-Inventory Value-Custom Date selection-Show the Inventory Value when the period exists.
+NXT-70221,Story,System,New,In Progress,,2/11/2026 10:42 PM,,,SC -License enhancements.
+NXT-70249,Story,System,Future Merge,In Progress,Done,2/12/2026 7:19 AM,3/9/2026 9:51 AM,,Change District Popup Enhancement
+NXT-70255,Story,SCTV,Story Refinement/Efforting,In Progress,,2/12/2026 12:05 PM,,,SCTV+ - Automated Schedule Playback
+NXT-70290,Story,System,In Progress,In Progress,,2/16/2026 5:03 AM,,,"package upgrade in System module - ( TypeScript, node, react and kendo etc)"
+NXT-70295,Story,Financials,Done Done,Done,Done,2/16/2026 8:30 AM,4/22/2026 12:22 PM,,FIN - Automated GL Posting from Inventory Period Close
+NXT-70296,Story,Financials,Done Done,Done,Done,2/16/2026 8:32 AM,4/16/2026 1:21 PM,,FIN - Add Cost of Foods Used to Profit & Loss Report
+NXT-70304,Story,Financials,Done Done,Done,Done,2/16/2026 2:25 PM,4/16/2026 1:17 PM,,FIN - Automate Sales Tax Liability Posting via System-Defined Entry Types
+NXT-70305,Story,Financials,New,In Progress,,2/16/2026 2:26 PM,,,FIN - Automate Prepaid Account Liability Posting via System-Defined Entry Types
+NXT-70309,Story,Financials,New,In Progress,,2/16/2026 4:19 PM,,known_customer,FIN - Configure GL Posting Aggregation Frequency
+NXT-70311,Story,Financials,New,In Progress,,2/16/2026 10:45 PM,,,FIN - Add Entry Amounts to Manage Periods Table
+NXT-70312,Story,Financials,New,In Progress,,2/16/2026 10:48 PM,,,FIN - Universal Bell Notifications for Data Changes & Pending Entries
+NXT-70320,Story,System,Code Review,In Progress,,2/17/2026 12:42 AM,,,LMA - Daily job to run licensing and check required status for the day.
+NXT-70340,Story,Financials,Done Done,Done,Done,2/17/2026 10:33 PM,4/6/2026 10:54 AM,,FIN — Prepaid Liability Posting Rules for All Payment Types
+NXT-70371,Enhancement,Accountability,Ready for Development,To Do,,2/18/2026 8:47 AM,,,Acc/AcctMgt - Bulk Adjustments - Update bonus amount when adding/adjusting transactions on the website
+NXT-70372,Story,Financials,Done Done,Done,Done,2/18/2026 9:30 AM,3/17/2026 3:39 PM,,FIN - Configure Prepaid Liability Posting Level (Enrollment vs. Central)
+NXT-70376,Story,PE Insights,Future Merge,In Progress,Done,2/18/2026 10:27 AM,3/20/2026 8:42 AM,,WS-PE-SC-Insights-Benchmark Configuration-View History grid pagination
+NXT-70380,Enhancement,Eligibility,Done Done,Done,Done,2/18/2026 2:54 PM,4/23/2026 1:11 PM,FD_descAC,Elig./FH - Income Surveys - Add New Setting to stop auto-processing Surveys with Unidentified Students
+NXT-70381,Enhancement,Family Hub,Done Done,Done,Done,2/18/2026 4:00 PM,3/24/2026 11:59 AM,FD_descAC,"FH - Menus - Display Ingredients for all menu item types, inclusive of sub-recipes (FD: 310993)"
+NXT-70422,Story,Financials,Done Done,Done,Done,2/20/2026 11:26 AM,5/5/2026 9:36 AM,,FIN - Enforce Universal GL Mapping Integrity Rules
+NXT-70423,Story,Financials,Done Done,Done,Done,2/20/2026 12:12 PM,4/13/2026 12:31 AM,,"FIN - Add ""Select All Accounts"" Shortcut and Export Format Choice to the General Ledger Report"
+NXT-70424,Enhancement,Accountability,Done Done,Done,Done,2/20/2026 1:04 PM,3/17/2026 9:59 AM,FD_descAC,Acc - Add Transaction - Use session location instead of patron enrollment site for recording data
+NXT-70426,Story,Financials,New,In Progress,,2/20/2026 2:50 PM,,,Add Segment Column Checkbox to Financials Report Configuration
+NXT-70429,Story,Inventory,Story Refinement/Efforting,In Progress,,2/21/2026 12:08 PM,,,INV - Consolidated Perpetual - Additions tab & Details
+NXT-70430,Story,Inventory,Story Refinement/Efforting,In Progress,,2/21/2026 12:08 PM,,,INV - Consolidated Perpetual - Withdrawals tab & Details
+NXT-70439,Enhancement,Family Hub,In Progress,In Progress,,2/23/2026 12:22 PM,,,FamPortal - Refunds - Allow users to Manually Refund Certain Transactions
+NXT-70440,Story,Eligibility,Done Done,Done,Done,2/23/2026 2:52 PM,5/12/2026 9:59 PM,,Eligibility - Other Forms - Display submitted Form Applications in Grid
+NXT-70450,Story,Eligibility,Done Done,Done,Done,2/24/2026 12:09 PM,4/14/2026 1:02 PM,,Eligibility - Forms - Form Configuration - Forms Tab - Add New Form to grid
+NXT-70451,Story,Eligibility,Done Done,Done,Done,2/24/2026 12:26 PM,4/14/2026 1:05 PM,,Eligibility - Forms - Form Configuration - Form Image Templates Tab - Add new image templates
+NXT-70452,Story,Eligibility,Done Done,Done,Done,2/24/2026 1:44 PM,3/31/2026 1:43 PM,,Eligibility - Forms - Form Configuration - Form Image Templates Tab - Template Grid
+NXT-70453,Story,Eligibility,Done Done,Done,Done,2/24/2026 1:59 PM,4/14/2026 1:21 PM,,Eligibility - Configuration - FRE Application Image - New page to modify FRE image
+NXT-70454,Story,Accountability,Done Done,Done,Done,2/24/2026 2:33 PM,2/26/2026 4:04 PM,,SCTV+ - [Big Card Menu Planning Widget ] Add 2×3 Column Support and Dynamic Scaling to Big Card Type (Max 5 Items per Widget)
+NXT-70455,Story,Accountability,Done Done,Done,Done,2/24/2026 2:36 PM,2/26/2026 4:06 PM,,SCTV+ - Enforce Strict Column Placement Rules for Menu Planning and Menu List Widgets-Web Dashboard 
+NXT-70459,Story,Menu Planning,Future Merge,In Progress,Done,2/24/2026 5:00 PM,5/18/2026 12:42 PM,,MP - Menu Versioning - Version Slide out 
+NXT-70460,Story,Menu Planning,Future Merge,In Progress,Done,2/24/2026 5:05 PM,5/6/2026 8:38 AM,,MP - Menu - Create From Template
+NXT-70461,Story,Menu Planning,Future Merge,In Progress,Done,2/24/2026 5:15 PM,5/18/2026 12:20 PM,,MP - Menu Versioning - Restore or Create Menu Option
+NXT-70462,Story,Production,UX in Progress,In Progress,,2/24/2026 5:25 PM,,,MP - Menu Versioning - Version on Plan/Record & Reports 
+NXT-70463,Story,Menu Planning,Future Merge,In Progress,Done,2/24/2026 5:39 PM,5/6/2026 8:21 AM,,MP - Menu - Menu List page filters 
+NXT-70479,Story,Menu Planning,Future Merge,In Progress,Done,2/25/2026 12:28 AM,5/4/2026 9:12 AM,,MP - Menu Cycle - Menu Cycle List page filters
+NXT-70482,Story,Menu Planning,Future Merge,In Progress,Done,2/25/2026 3:33 AM,5/5/2026 2:27 PM,,MP - Menu - Create New Menu Flow Redesign
+NXT-70485,Story,Menu Planning,Future Merge,In Progress,Done,2/25/2026 4:15 AM,5/6/2026 10:41 AM,,"MP - Menu - Edit Menu Flow Redesign Header, Serving Groups & Category"
+NXT-70486,Story,Menu Planning,Future Merge,In Progress,Done,2/25/2026 4:28 AM,5/5/2026 2:20 PM,,MP - Menu - Edit Menu Items and Counts
+NXT-70487,Story,Menu Planning,Future Merge,In Progress,Done,2/25/2026 4:35 AM,5/5/2026 1:31 PM,,MP - Menu - Edit Menu Sorting
+NXT-70488,Story,Menu Planning,Future Merge,In Progress,Done,2/25/2026 4:51 AM,5/6/2026 1:04 PM,,MP - Menu - View Mode Redesign
+NXT-70508,Story,Platform - Data Exchange,New,In Progress,,2/25/2026 10:57 AM,,,Add endpoint to fetch Custom Reports by Region ID
+NXT-70510,Story,SCTV,Done Done,Done,Done,2/25/2026 1:41 PM,3/10/2026 3:09 PM,,SCTV+ - Image Library - Image Caching
+NXT-70511,Story,SCTV,Done Done,Done,Done,2/25/2026 1:42 PM,3/10/2026 3:07 PM,,SCTV+ - Live Preview - Remove scroll bars
+NXT-70512,Story,SCTV,Done Done,Done,Done,2/25/2026 1:44 PM,4/1/2026 3:28 PM,,SCTV+ - MP Widget - Update existing widgets to 5 items max if another MP widget is added
+NXT-70513,Story,SCTV,Done Done,Done,Done,2/25/2026 1:50 PM,4/16/2026 1:25 PM,,SCTV+ - Non-MP Widgets - Dynamic Sizing updates
+NXT-70514,Story,SCTV,Done Done,Done,Done,2/25/2026 1:51 PM,4/14/2026 1:13 PM,,SCTV+ - MP Cards - Dynamic Sizing updates
+NXT-70515,Story,SCTV,Done Done,Done,Done,2/25/2026 1:52 PM,4/8/2026 3:37 PM,,SCTV+ - Overflow Cards - Use full slide design
+NXT-70577,Story,Global Catalog,Future Merge,In Progress,Done,2/26/2026 12:56 PM,5/28/2026 3:14 PM,,GC - PE - Item Catalog : Enable multi selection of Vendors / Manufacturers/ Brands / Item categories/States for searching items from catalog. 
+NXT-70578,Story,Global Catalog,Code Review,In Progress,,2/26/2026 1:05 PM,,,GC - PE- New report to give more details on matched items and unmatched items from uploaded file. 
+NXT-70579,Story,Global Catalog,PO Review,To Do,,2/26/2026 1:18 PM,,,"GC- PE - Enhance search by uploading a file match criteria to include new column data ingredient name, manufacturer, brand"
+NXT-70581,Story,Global Catalog,Future Merge,In Progress,Done,2/26/2026 1:39 PM,4/3/2026 9:44 AM,,GC - PE -Item Catalog - Item details popup - Import item with meal contribution.
+NXT-70582,Story,Global Catalog,Done Done,Done,Done,2/26/2026 1:50 PM,3/17/2026 9:44 AM,,"GC- PE- Display source for cybersoft items on the popup/slide out (USDA Branded foods, CC_GTIN,CC_PC, CC_VIN etc..) "
+NXT-70584,Story,Menu Planning,Future Merge,In Progress,Done,2/26/2026 3:28 PM,5/6/2026 10:05 AM,,MP - Menu Template - Edit Serving Details
+NXT-70585,Story,Menu Planning,New,In Progress,,2/26/2026 3:28 PM,,,MP - Menu - Draft Mode
+NXT-70586,Story,Accountability,Done Done,Done,Done,2/26/2026 3:36 PM,4/1/2026 10:35 AM,FD_descAC,Acc > End of Day - Remove Status from Suspicious Transactions task
+NXT-70587,Story,Accountability,Done Done,Done,Done,2/26/2026 3:52 PM,5/1/2026 1:14 PM,FD_descAC,Acc > Reports > Edit Check Worksheet - Add Total Enrollment count
+NXT-70588,Story,Accountability,New,In Progress,,2/26/2026 4:10 PM,,,AcctMgt - Special Accounts - Double check first name and last name for new districts and new sites
+NXT-70597,Story,Menu Planning,Done Done,Done,Done,2/26/2026 4:52 PM,3/13/2026 11:54 AM,,Menu analysis - Site Performance Dashboard- Grab all site information 
+NXT-70620,Story,Financials,Story Refinement/Efforting,In Progress,,2/27/2026 1:24 PM,,,FIN — Post Inventory Purchases (PURCH) by Valuation Category × Vendor (Level 2)
+NXT-70638,Story,Global Catalog,New,In Progress,,3/1/2026 11:55 AM,,,"GC- PE– Enhance Export and Import to Use Item Category, Storage Category, and Valuation Group Values from Uploaded File Instead of Global Catalog Defaults."
+NXT-70639,Story,Global Catalog,New,In Progress,,3/1/2026 12:56 PM,,,GC - PE - MP - Configuration - Import/Export -  Import ingredients +stock items option- import item meal contribution with meal contribution basis.
+NXT-70640,Story,Global Catalog,In Progress,In Progress,,3/1/2026 9:07 PM,,,"GC - MDM - Review Queue page -Enable AI search values for comparing with item details along with Cybersoft, USDA  Branded foods"
+NXT-70657,Story,Global Catalog,Done Done,Done,Done,3/2/2026 11:06 AM,3/17/2026 10:19 AM,,"GC- SC - Display source for Cybersoft items on the slide out (USDA Branded foods, CC_GTIN,CC_PC, CC_VIN etc..)"
+NXT-70660,Story,Global Catalog,Committed,To Do,,3/2/2026 2:35 PM,,,GC -SC - Vendors display on Silde out if vendor information is available for an item.
+NXT-70661,Story,Global Catalog,Future Merge,In Progress,Done,3/2/2026 2:49 PM,5/11/2026 9:41 AM,,"GC- PE -  Allergens column in search results grid should consider the flag for  ""None Indicated for Allergens"""
+NXT-70671,Story,Global Catalog,Future Merge,In Progress,Done,3/2/2026 3:41 PM,4/9/2026 10:54 PM,,GC - SC - Item Catalog : Enable multi selection of Vendors / Manufacturers/ Brands / Item categories/States for searching items from catalog.
+NXT-70672,Story,Global Catalog,Code Review,In Progress,,3/2/2026 3:43 PM,,,"GC- SC - Enhance search by uploading a file match criteria to include new column data ingredient name, manufacturer, brand"
+NXT-70679,Story,Global Catalog,Story Refinement/Efforting,In Progress,,3/2/2026 3:54 PM,,,"GC- SC – Enhance Export and Import to Use Item Category, Storage Category, and Valuation Group Values from Uploaded File Instead of Global Catalog Defaults."
+NXT-70681,Story,Global Catalog,Testing,In Progress,,3/2/2026 4:21 PM,,,"GC - SC- New report to give details on Search Filter page of All, Cybersoft and USDA datasource."
+NXT-70682,Story,Financials,New,In Progress,,3/2/2026 6:45 PM,,,School Nutrition Profit & Loss Promotional Report
+NXT-70754,Story,Platform - Data Exchange,Done Done,Done,,3/3/2026 7:39 AM,,known_customer|struct_summary,District Migration  - Post Migration Mankato Findings
+NXT-70767,Story,Menu Planning,In Progress,In Progress,,3/3/2026 9:30 AM,,,MP - Menu - Analysis Bar
+NXT-70777,Story,Financials,New,In Progress,,3/3/2026 1:49 PM,,,FIN — Payroll Import: Business Logic
+NXT-70819,Story,Global Catalog,New,In Progress,,3/4/2026 4:56 AM,,,Ability to import identical items across multiple sources during a bulk import process. Same for uploading a file scenario too
+NXT-70866,Story,Financials,New,In Progress,,3/4/2026 11:13 AM,,, Blocked Posting Notification
+NXT-70909,Story,Financials,New,In Progress,,3/5/2026 9:41 AM,,,Update Remaining Legacy “Prepaid Account” Rules After POS/Online Liability Split
+NXT-70947,Story,Global Catalog,New,In Progress,,3/9/2026 5:56 AM,,,"9.12 - Regression, Release & Misc Activities"
+NXT-70952,Story,SCTV,Done Done,Done,Done,3/9/2026 9:35 AM,3/24/2026 3:45 PM,,SCTV+ - Prevent parent accounts from logging in
+NXT-70957,Story,PE Insights,Testing,In Progress,,3/9/2026 1:43 PM,,,Insights - KPI - PNA - Dashboard - PE
+NXT-70958,Story,PE Insights,Future Merge,In Progress,Done,3/9/2026 1:45 PM,4/9/2026 8:11 AM,,Insights - KPI - PNA - Configuration - PE
+NXT-70959,Story,PE Insights,Testing,In Progress,,3/9/2026 1:45 PM,,,Insights - KPI - PNA - Drawer - PE
+NXT-70960,Story,PE Insights,Story Refinement/Efforting,In Progress,,3/9/2026 1:46 PM,,,Insights - KPI - PNA - Schoolie
+NXT-70961,Story,PE Insights,Future Merge,In Progress,Done,3/9/2026 1:49 PM,4/21/2026 3:02 PM,, Insights - KPI - MPLH - Configuration (PE)
+NXT-70962,Story,PE Insights,New,In Progress,,3/9/2026 1:50 PM,,,Insights - KPI - MPLH - Drawer - PE
+NXT-70963,Story,PE Insights,Story Refinement/Efforting,In Progress,,3/9/2026 1:50 PM,,,PE - Insights - KPI - MPLH - Schoolie
+NXT-70964,Story,PE Insights,In Progress,In Progress,,3/9/2026 1:52 PM,,,Insights - KPI - ENP - Dashboard - PE
+NXT-70965,Story,PE Insights,Future Merge,In Progress,Done,3/9/2026 1:54 PM,4/9/2026 8:12 AM,,Insights - KPI - ENP - Configuration - PE
+NXT-70966,Story,PE Insights,In Progress,In Progress,,3/9/2026 1:54 PM,,,Insights - KPI - ENP - Drawer - PE
+NXT-70967,Story,PE Insights,Story Refinement/Efforting,In Progress,,3/9/2026 1:55 PM,,,Insights - KPI - ENP - Schoolie
+NXT-70985,Story,Platform - Data Exchange,New,In Progress,,3/10/2026 9:35 AM,,,Platform - Test Automation Framework
+NXT-70987,Story,Menu Planning,Future Merge,In Progress,Done,3/10/2026 11:18 AM,5/6/2026 10:00 AM,,MP - Menu Configuration- Menu Template - Menu Template List page filters
+NXT-70988,Story,Menu Planning,Future Merge,In Progress,Done,3/10/2026 11:51 AM,5/6/2026 8:42 AM,,MP - Menu Template - Create New Menu Template Flow Redesign
+NXT-70989,Story,Menu Planning,New,In Progress,,3/10/2026 11:53 AM,,,MP - Menu Template - Draft Mode
+NXT-70990,Story,Menu Planning,Future Merge,In Progress,Done,3/10/2026 11:54 AM,5/6/2026 1:05 PM,,MP - Menu Template - View Mode Redesign
+NXT-70991,Story,Menu Planning,Future Merge,In Progress,Done,3/10/2026 11:55 AM,5/6/2026 8:43 AM,,"MP - Menu Template - Edit Menu Template Flow Redesign Header, Serving Groups & Category"
+NXT-70992,Story,Menu Planning,Future Merge,In Progress,Done,3/10/2026 12:03 PM,5/6/2026 10:04 AM,,MP - Menu Template - Edit Sorting
+NXT-71002,Story,Menu Planning,Future Merge,In Progress,Done,3/11/2026 2:46 AM,5/5/2026 1:31 PM,,MP - Menu - Edit Serving Details
+NXT-71003,Story,Menu Planning,Future Merge,In Progress,Done,3/11/2026 2:48 AM,5/6/2026 10:41 AM,,MP - Menu Template - Edit Menu Items and Counts
+NXT-71010,New Feature,Global Catalog,New,In Progress,,3/11/2026 6:37 AM,,,"If Stock Product Code and GTIN Code are available, those details should be shown in the stock item info tab."
+NXT-71015,Story,SCTV,Done Done,Done,Done,3/11/2026 10:55 AM,4/2/2026 12:34 PM,,SCTV+ - Logout Timer / Refresh
+NXT-71115,Story,Item Management,Done Done,Done,Done,3/11/2026 2:54 PM,3/31/2026 1:08 PM,,IM - Recipe - Not allowing Standard Measure units
+NXT-71124,Story,Eligibility,In Progress,In Progress,,3/11/2026 2:56 PM,,,Eligibility - Configuration - FRE Application Image - Display Revelant Application Images in ELIG/FH
+NXT-71147,Story,Insights,New,In Progress,,3/12/2026 5:02 PM,,,Insights > Dashboard > Inventory Value -  Performance trends graph - Update the x-axis label so that each data point clearly represents the “As of Date” for which the inventory value is calculated and displayed.
+NXT-71182,Story,Financials,Done Done,Done,Done,3/16/2026 12:38 PM,5/6/2026 9:41 AM,,FIN — Reports: Balance Sheet
+NXT-71184,Story,Financials,Done Done,Done,Done,3/16/2026 5:00 PM,5/26/2026 8:08 AM,,FIN — Reports: Trial Balance
+NXT-71211,Story,Item Management,Done Done,Done,Done,3/17/2026 10:56 AM,3/23/2026 10:16 AM,,IM - Bulk Item - Status Legend
+NXT-71221,Story,Item Management,Story Refinement/Efforting,In Progress,,3/17/2026 2:44 PM,,,IM - Expand Data Sources for Multi Tenancy support
+NXT-71222,Story,Item Management,Story Refinement/Efforting,In Progress,,3/17/2026 4:06 PM,,,IM - Configuration - Data Sources
+NXT-71223,Story,Platform - Data Exchange,Done Done,Done,,3/17/2026 4:09 PM,,known_customer|struct_summary,District Migration - Washburn
+NXT-71224,Story,Item Management,Story Refinement/Efforting,In Progress,,3/17/2026 4:13 PM,,,IM - Items - Data Sources
+NXT-71226,Story,Eligibility,Done Done,Done,Done,3/17/2026 10:47 PM,5/4/2026 2:53 PM,,Eligibility - Other Forms - (Part 1) Complete 'Add New Form Application' button functionality
+NXT-71227,Story,Family Hub,Done Done,Done,Done,3/17/2026 10:53 PM,4/28/2026 2:01 PM,,"SchoolCafé - Forms - (Part 1) Family Hub-related changes for Forms Licensing, Forms Template"
+NXT-71240,Story,Financials,Story Refinement/Efforting,In Progress,,3/18/2026 9:53 AM,,,FIN — Opening Balance Import: Business Logic
+NXT-71241,Story,PE Insights,Future Merge,In Progress,Done,3/18/2026 1:28 PM,4/21/2026 3:02 PM,,Insights - KPI - MPLH - Configuration (SC)
+NXT-71244,Enhancement,SCTV,Testing,In Progress,,3/18/2026 3:33 PM,,,"SCTV+ - App - Update logo, colors"
+NXT-71245,Story,Family Hub,Done Done,Done,Done,3/18/2026 3:43 PM,5/18/2026 11:19 AM,,"SchoolCafé - Forms - (Part 2) Family Hub-related changes for Forms, Fill out a Form Page/Submission"
+NXT-71246,Story,Eligibility,In Progress,In Progress,,3/18/2026 3:47 PM,,,Eligibility - Other Forms - (Part 2) Complete 'Add New Form Application' button functionality - Submit/Pending & App. Image
+NXT-71249,Story,Financials,New,In Progress,,3/19/2026 2:52 PM,,contract,FIN — Opening Balance Import: Data Exchange
+NXT-71252,Story,PE Insights,Done Done,Done,Done,3/19/2026 3:47 PM,4/8/2026 9:21 AM,,PE-SC-Insights-Benchmark History Enhancement
+NXT-71281,Story,PE Insights,Story Refinement/Efforting,In Progress,,3/20/2026 9:39 AM,,,Insights - KPI - MPLH - Dashboard - SC
+NXT-71282,Story,PE Insights,Story Refinement/Efforting,In Progress,,3/20/2026 12:04 PM,,,Insights - KPI - MPLH - Drawer - SC
+NXT-71351,Story,PE Insights,Future Merge,In Progress,Done,3/23/2026 9:57 AM,4/21/2026 3:01 PM,,Insights - KPI - PNA - Configuration - SC
+NXT-71352,Story,PE Insights,Testing,In Progress,,3/23/2026 10:43 AM,,,Insights - KPI - PNA - Dashboard - SC
+NXT-71353,Story,Global Catalog,In Progress,In Progress,,3/23/2026 10:55 AM,,,GC - PE - Item Catalog  - Do not require item selections for Exporting ingredients and Exporting ingredients and stock items  
+NXT-71354,Story,PE Insights,Testing,In Progress,,3/23/2026 12:06 PM,,,Insights - KPI - PNA - Drawer - SC
+NXT-71355,Story,Global Catalog,Future Merge,In Progress,Done,3/23/2026 12:26 PM,4/17/2026 1:11 PM,,GC - PE - Item catalog - Add nutrient serving size column in the results grid. 
+NXT-71358,Story,Global Catalog,Future Merge,In Progress,Done,3/23/2026 1:32 PM,4/17/2026 1:35 PM,,GC - SC - Itemmanagement - Items - Upload items : Add nutrient serving size column in the results grid.  
+NXT-71359,Story,PE Insights,Future Merge,In Progress,Done,3/23/2026 1:39 PM,4/21/2026 3:00 PM,,Insights - KPI - ENP - Configuration - SC
+NXT-71360,Story,PE Insights,In Progress,In Progress,,3/23/2026 2:09 PM,,,Insights - KPI - ENP - Dashboard - SC
+NXT-71361,Story,PE Insights,In Progress,In Progress,,3/23/2026 2:41 PM,,,Insights - KPI - ENP - Drawer - SC
+NXT-71370,Story,Global Catalog,Story Refinement/Efforting,In Progress,,3/23/2026 4:04 PM,,,GC - PE -Item Catalog - Enhance Review and Import items functionality - Convert Search Results into a tab and add new Review Items tab for reviewing the selected items.
+NXT-71372,Story,PE Insights,Done Done,Done,Done,3/23/2026 7:46 PM,4/14/2026 9:19 AM,,PE-SC-Insight-AI Summary Dashboard-Multi Select
+NXT-71376,Story,PE Insights,Future Merge,In Progress,Done,3/23/2026 7:52 PM,4/8/2026 9:27 AM,,PE-Insights-Benchmark Configuration changes to support decimal values for Benchmark
+NXT-71388,Story,Global Catalog,Testing,In Progress,,3/24/2026 12:14 AM,,,GC - SC- New report to give more details on matched items and unmatched items from uploaded file.
+NXT-71412,Story,System,Story Refinement/Efforting,In Progress,,3/24/2026 10:39 AM,,struct_desc,SC - MT - District - Linked Realms Tab Updates
+NXT-71413,Story,System,Story Refinement/Efforting,In Progress,,3/24/2026 10:46 AM,,,SC - MT - District - Realm Tab History
+NXT-71417,Story,Production,Done Done,Done,Done,3/24/2026 12:53 PM,4/15/2026 8:08 AM,FD_commentonly,PR - Status - Production Withdrawal 
+NXT-71428,Story,System,Story Refinement/Efforting,In Progress,,3/24/2026 3:05 PM,,,SC - MT - District - Central Boundaries Tab
+NXT-71430,Story,System,Story Refinement/Efforting,In Progress,,3/24/2026 3:10 PM,,,SC - MT - District - District Boundaries Tab
+NXT-71431,Story,System,Story Refinement/Efforting,In Progress,,3/24/2026 3:13 PM,,,SC - MT - District - District Boundaries History
+NXT-71432,Story,System,Story Refinement/Efforting,In Progress,,3/24/2026 3:15 PM,,,SC - MT - District - Central Boundaries History
+NXT-71435,Story,System,Story Refinement/Efforting,In Progress,,3/24/2026 3:42 PM,,,SC - MT - District - Boundary Definitions Tab
+NXT-71456,Enhancement,Global Catalog,Future Merge,In Progress,Done,3/25/2026 6:21 AM,4/23/2026 4:15 AM,,The filters are being cleared when searching with the dropdown selection after the result grid is displayed.
+NXT-71500,Story,System,PO Review,To Do,,3/25/2026 9:51 AM,,,SC - PBIRD - Activity Report – Add New
+NXT-71501,Story,System,PO Review,To Do,,3/25/2026 10:05 AM,,,SC - PBIRD - Dashboard
+NXT-71502,Story,System,PO Review,To Do,,3/25/2026 10:13 AM,,,SC - PBIRD - Dashboard - Starred
+NXT-71506,Story,System,PO Review,To Do,,3/25/2026 11:23 AM,,,SC - PBIRD - Dashboard – Edit
+NXT-71509,Story,System,PO Review,To Do,,3/25/2026 11:34 AM,,,SC - PBIRD - Dashboard – View Configuration
+NXT-71510,Story,System,PO Review,To Do,,3/25/2026 11:38 AM,,,SC - PBIRD - Dashboard – History
+NXT-71511,Story,System,PO Review,To Do,,3/25/2026 11:50 AM,,,SC - PBIRD - Dashboard – Recently Run Reports
+NXT-71512,Story,System,PO Review,To Do,,3/25/2026 12:21 PM,,,SC - PBIRD - Download
+NXT-71513,Story,System,PO Review,To Do,,3/25/2026 12:28 PM,,,SC - PBIRD - Email Now
+NXT-71514,Story,System,PO Review,To Do,,3/25/2026 12:34 PM,,,SC - PBIRD - Delete
+NXT-71515,Story,System,PO Review,To Do,,3/25/2026 12:41 PM,,,SC - PBIRD - Workspace - PowerBI Integration
+NXT-71516,Story,System,Story Refinement/Efforting,In Progress,,3/25/2026 12:46 PM,,,SC - PBIRD - K12 Insights – Power BI Integration
+NXT-71517,Story,System,In Progress,In Progress,,3/25/2026 12:56 PM,,,SC - PBIRD - Activity Report – Distribute Now
+NXT-71519,Story,Mobile App,Story Refinement/Efforting,In Progress,,3/25/2026 3:09 PM,,,K12 - Ins - Sites Update
+NXT-71520,Story,Mobile App,Story Refinement/Efforting,In Progress,,3/25/2026 3:14 PM,,,K12 - Ins - Date Selector Update
+NXT-71522,Story,Mobile App,Story Refinement/Efforting,In Progress,,3/25/2026 3:42 PM,,,K12 - Ins - Inventory Turnover Rate Card
+NXT-71523,Story,Mobile App,Story Refinement/Efforting,In Progress,,3/25/2026 4:03 PM,,,K12 - Ins - Physical Inventory Discrepancy Card
+NXT-71524,Story,Mobile App,Story Refinement/Efforting,In Progress,,3/25/2026 4:06 PM,,,K12 - Ins - Inventory Value Card
+NXT-71539,Story,System,PO Review,To Do,,3/26/2026 8:57 AM,,,SC - MVR - Sessions
+NXT-71542,Story,System,Story Refinement/Efforting,In Progress,,3/26/2026 11:34 AM,,,SC - MT - District - Boundary Assignment
+NXT-71543,Story,System,Story Refinement/Efforting,In Progress,,3/26/2026 1:22 PM,,,SC - MT - District - Cross-Realm Access Resolution
+NXT-71563,Enhancement,Financials,Done Done,Done,Done,3/27/2026 2:34 AM,5/14/2026 1:53 PM,,Financials - In data point rules if items per page set as 50 unable to see the data rules and unable to move the scroll bar
+NXT-71578,Story,PE Insights,Future Merge,In Progress,Done,3/27/2026 11:25 AM,4/8/2026 9:24 AM,,SC-Insights-Benchmark Configuration changes to support decimal values for Benchmark
+NXT-71616,Story,Menu Planning,Future Merge,In Progress,Done,3/31/2026 1:12 PM,5/5/2026 2:55 PM,,MP - Menu - Copy From Menu
+NXT-71617,Story,Menu Planning,Future Merge,In Progress,Done,3/31/2026 1:12 PM,5/6/2026 10:05 AM,,MP - Menu Configuration - Templates - Copy From
+NXT-71619,Story,System,Story Refinement/Efforting,In Progress,,3/31/2026 1:32 PM,,,SchoolCafe - System Settings - Change setting type for Publish Menus source into a Common (not Internal) setting
+NXT-71620,Story,Accountability,Done Done,Done,Done,3/31/2026 1:35 PM,5/4/2026 1:54 PM,,Activity Report - Remove Cards from Cash Sums
+NXT-71622,Story,Accountability,Done Done,Done,Done,3/31/2026 1:38 PM,5/1/2026 4:49 PM,,Cash Collection Report - Remove Cards from Report
+NXT-71623,Story,Accountability,Done Done,Done,Done,3/31/2026 1:51 PM,4/30/2026 5:21 PM,,Revenue Report - Column Header Change
+NXT-71628,Story,Accountability,Done Done,Done,Done,3/31/2026 3:47 PM,5/4/2026 2:12 PM,known_customer,Deposit Feature - Add New Section for Cards
+NXT-71655,Story,Item Management,New,In Progress,,4/2/2026 1:31 AM,,,IM - Configuration - Multi-Tenant Settings
+NXT-71656,Story,Item Management,Story Refinement/Efforting,In Progress,,4/2/2026 2:02 AM,,,IM - Recipes - Data Sources
+NXT-71659,Story,Item Management,New,In Progress,,4/2/2026 9:31 AM,,,IM - Configuration - Enable Data Source on sub-pages
+NXT-71661,Story,PE Insights,Story Refinement/Efforting,In Progress,,4/2/2026 1:41 PM,,,Reuse
+NXT-71665,Story,Global Catalog,PO Review,To Do,,4/3/2026 9:55 AM,,,GC - MDM - Create/View/Edit Cybersoft catalog Items in GC Portal.
+NXT-71666,Story,Global Catalog,Future Merge,In Progress,Done,4/3/2026 9:58 AM,5/1/2026 12:33 PM,,GC - MDM -  Search Page of Food Database Search in GC portal.
+NXT-71667,Story,Global Catalog,New,In Progress,,4/3/2026 10:38 AM,,contract,[Reuse ]GC - PE - Menu planning  -Global Catalog - Pending Updates - Get mapped items from Cybersoft catalog for items in the selected data source (backend)
+NXT-71675,Story,System,New,In Progress,,4/5/2026 11:37 AM,,,ClaudeCode - Setup
+NXT-71694,Story,Eligibility,Done Done,Done,Done,4/6/2026 12:14 PM,5/15/2026 2:47 PM,,Elig - DC - Split Street Address for DC Matching
+NXT-71695,Story,Accountability,New,In Progress,,4/6/2026 12:21 PM,,,Elig - DC - Add New DC Types / Edit Existing Names
+NXT-71698,Story,Global Catalog,Story Refinement/Efforting,In Progress,,4/6/2026 3:42 PM,,,GC - PE -Item Catalog - Enhance Review and Import items functionality- Nutrients popup
+NXT-71699,Story,Global Catalog,Story Refinement/Efforting,In Progress,,4/6/2026 3:43 PM,,,GC - PE -Item Catalog - Enhance Review and Import items functionality- Allergens popup
+NXT-71700,Story,Global Catalog,Story Refinement/Efforting,In Progress,,4/6/2026 3:44 PM,,,GC - PE -Item Catalog - Enhance Review and Import items functionality- Meal Credits popup
+NXT-71701,Story,Global Catalog,Story Refinement/Efforting,In Progress,,4/6/2026 3:45 PM,,,GC - PE -Item Catalog - Enhance Review and Import items functionality- Stock items popup
+NXT-71702,Story,Global Catalog,New,In Progress,,4/6/2026 3:46 PM,,,GC - PE -Item Catalog - Enhance Review and Import items functionality- Save as incomplete button functionality
+NXT-71703,Story,Global Catalog,New,In Progress,,4/6/2026 3:48 PM,,,GC - PE -Item Catalog - Enhance Review and Import items functionality- Import an item 
+NXT-71704,Story,Global Catalog,New,In Progress,,4/6/2026 3:51 PM,,,GC - PE -Item Catalog - Enhance Review and Import items functionality- Import Items (ALL Reviewed Items)
+NXT-71705,Story,Global Catalog,Story Refinement/Efforting,In Progress,,4/6/2026 3:52 PM,,,GC - PE -Item Catalog - Enhance Review and Import items functionality- Cancel button functionality
+NXT-71744,Story,Platform - Data Exchange,Done Done,Done,Done,4/7/2026 8:47 AM,5/6/2026 10:00 AM,FD_descAC,Adult Import Header-less File
+NXT-71755,Story,Accountability,PO Review,To Do,,4/7/2026 11:04 AM,,,FO - Insights - Change json formatting to flat sql table
+NXT-71757,Story,Production,In Progress,In Progress,,4/7/2026 11:18 AM,,,PR - Edit Mode Record Page
+NXT-71758,Story,Production,In Progress,In Progress,,4/7/2026 11:19 AM,,,PR- View Mode Record Page
+NXT-71759,Story,Production,In Progress,In Progress,,4/7/2026 11:21 AM,,,PR - Plan/Record - Add Menu Items Redesign
+NXT-71761,Story,Menu Planning,Future Merge,In Progress,Done,4/7/2026 11:31 AM,5/19/2026 2:24 PM,,MP - Menu/Templates - Add Menu items Redesign
+NXT-71762,Story,Global Catalog,Story Refinement/Efforting,In Progress,,4/7/2026 12:15 PM,,contract,GC - PE - Global Catalog - Pending Updates - Compare district items and Cybersoft catalog items data to identify the differences and populate items in the results grid.
+NXT-71763,Story,Menu Planning,Future Merge,In Progress,Done,4/7/2026 12:22 PM,5/19/2026 12:10 PM,,MP - Menu / Templates - Menu Item Info Redesign
+NXT-71764,Story,Family Hub,Testing,In Progress,,4/7/2026 12:34 PM,,,"SchoolCafé - Forms - (Part 4) Family Hub-related changes for Automatically Processed Forms, Other Settings"
+NXT-71765,Story,Menu Planning,PO Review,To Do,,4/7/2026 12:34 PM,,,PR - Plan/Record- Menu Item Info Redesign
+NXT-71766,Story,Global Catalog,Committed,To Do,,4/7/2026 12:42 PM,,,GC - PE - Global Catalog - Pending Updates - Ingredient changes popup for showing the updates when Cybersoft catalog is selected as data provider
+NXT-71767,Story,Global Catalog,Story Refinement/Efforting,In Progress,,4/7/2026 12:44 PM,,,GC - PE - Global Catalog - Pending Updates - Stock item changes popup for showing the updates when Cybersoft catalog is selected as data provider
+NXT-71768,Story,Global Catalog,Story Refinement/Efforting,In Progress,,4/7/2026 12:58 PM,,,GC - PE - Global Catalog - Pending Updates - Update Now button functionality for applying all selected changes to item from popup
+NXT-71769,Story,Global Catalog,Story Refinement/Efforting,In Progress,,4/7/2026 1:00 PM,,,GC - PE - Global Catalog - Pending Updates - Review items popup 
+NXT-71770,Story,Global Catalog,Story Refinement/Efforting,In Progress,,4/7/2026 1:01 PM,,,GC - PE - Global Catalog - Pending Updates - Update Items button functionality from Review Items popup
+NXT-71771,Story,Menu Planning,New,In Progress,,4/7/2026 1:09 PM,,,MP - Find and Replace - Always allow menus to be modified
+NXT-71772,Story,Family Hub,Done Done,Done,Done,4/7/2026 1:56 PM,5/19/2026 12:32 PM,,SchoolCafé - Forms - New Settings for Form Configuration and Display (SC Only)
+NXT-71773,Story,Global Catalog,Story Refinement/Efforting,In Progress,,4/7/2026 2:32 PM,,,GC- MDM - API to create a new batch for review by Importing items from logged in district.
+NXT-71774,Story,Global Catalog,New,In Progress,,4/7/2026 2:33 PM,,,GC- MDM - Import items using PrimeroEdge data template
+NXT-71776,Story,Family Hub,Done Done,Done,Done,4/7/2026 3:06 PM,5/26/2026 3:02 PM,,SchoolCafé - Forms Framework - Connect Application Result to Applications
+NXT-71784,Story,Workspace,Future Merge,In Progress,Done,4/8/2026 9:45 AM,4/14/2026 8:09 AM,,Profile Enhancement - Is broadcast user Editable when User have Customer Support role
+NXT-71796,Story,Menu Planning,New,In Progress,,4/9/2026 1:08 AM,,,MP - Menu - Analysis Bar  - AI POC Ticket
+NXT-71802,Story,PE Insights,Done Done,Done,Done,4/9/2026 8:20 AM,4/21/2026 2:59 PM,,PE-SC-Insights-School Performance-Dashboard-Grid- Sort Columns
+NXT-71821,Enhancement,Family Hub,Ready For Testing,To Do,,4/9/2026 12:47 PM,,FD_descAC,Fam.Portal - Menus - Handle visibility of Menus for Staff at Intermediate sites
+NXT-71823,Story,Eligibility,Done Done,Done,Done,4/9/2026 2:43 PM,5/28/2026 9:49 PM,,Eligibility - Configuration - FRE Application Image - Add Date Range to bind an image to a subset of Apps
+NXT-71830,Story,Global Catalog,Committed,To Do,,4/9/2026 3:14 PM,,,GC - MDM - My Items page - Getting District items to map with Cybersoft catalog items
+NXT-71831,Story,Global Catalog,Testing,In Progress,,4/9/2026 6:19 PM,,,"GC - MDM Portal - Review Queue page - Add dropdown selection to search for items that are not approved , approved and search online options."
+NXT-71859,Story,Family Hub,Ready For Testing,To Do,,4/10/2026 2:39 PM,,,SchoolCafé - Forms - (Part 3) Family Hub Forms - App Submission
+NXT-71861,Story,System,New,In Progress,,4/11/2026 9:50 AM,,,Add Bulk Users Creation via File Upload for SchoolCafe Administrators
+NXT-71863,Enhancement,Global Catalog,New,In Progress,,4/13/2026 4:57 AM,,,"Update data for missing items in Vendors, Manufacturers and other dropdowns compared to the master table"
+NXT-71875,Story,Platform - Data Exchange,Done Done,Done,,4/13/2026 8:06 AM,,known_customer|struct_summary,FamilyHub - District Migration - Washburn
+NXT-71891,Story,Global Catalog,Testing,In Progress,,4/13/2026 4:00 PM,,struct_desc,GC- MDM - AI search page and Review Items Queue - AI Search +Search by batch name for reviewing and approving items. 
+NXT-71897,Story,Platform - Data Exchange,In Progress,In Progress,,4/13/2026 4:20 PM,,known_customer|struct_summary,Dilworth - District Migration
+NXT-72017,Enhancement,Global Catalog,Future Merge,In Progress,Done,4/15/2026 7:03 AM,5/1/2026 1:00 PM,,"No information is available when viewing the item if the allergen has ""Processed in a facility that also processes"" as its designation."
+NXT-72027,Story,Menu Planning,Future Merge,In Progress,Done,4/15/2026 10:32 AM,5/6/2026 12:28 PM,,MP - Menu - History Consolidation
+NXT-72038,Story,SCTV,New,In Progress,,4/15/2026 12:06 PM,,FD_descAC,SCTV - Support Spanish Language Display on SchoolCafe TV Boards
+NXT-72040,Story,Platform - Data Exchange,In Progress,In Progress,,4/15/2026 5:02 PM,,known_customer|struct_summary,Dilworth - FamilyHub District Migration
+NXT-72100,Enhancement,SCTV,Done Done,Done,Done,4/16/2026 9:01 AM,4/22/2026 10:55 AM,,SCTV+ - Optimize Small Card Spacing for dense lists & resolve menu pagination for menu List Widget
+NXT-72106,New Feature,Eligibility,New,In Progress,,4/16/2026 9:24 PM,,,SC - MT/Central - SE - DC File Management and History
+NXT-72107,New Feature,Eligibility,New,In Progress,,4/16/2026 9:25 PM,,,SC - MT/Central - SE - DC Data Processing and Distribution to Districts
+NXT-72108,New Feature,Eligibility,New,In Progress,,4/16/2026 9:29 PM,,,SC - MT/Central - DC Stats and Reporting Dashboard
+NXT-72109,New Feature,Eligibility,New,In Progress,,4/16/2026 9:30 PM,,,SC - MT/Central - New Configuration for DC Jobs
+NXT-72110,New Feature,Eligibility,New,In Progress,,4/16/2026 9:32 PM,,,SC - MT/Central - Feature Enablement and District Program Configuration
+NXT-72112,Story,Eligibility,New,In Progress,,4/17/2026 12:56 AM,,,SC - MT/Central - New State DC upload
+NXT-72113,Story,Eligibility,New,In Progress,,4/17/2026 1:14 AM,,,SC - MT/Central - State Student File upload
+NXT-72139,Story,Eligibility,Done Done,Done,Done,4/20/2026 2:09 PM,5/26/2026 2:25 PM,,Eligibility - Other Forms - Add 'Decline Benefits' step/function to 'Add New Form Application' Stepper
+NXT-72140,Story,Eligibility,New,In Progress,,4/20/2026 2:51 PM,,FD_descAC,Eligibility - Settings - Income Guidelines - Eligibility Guidelines - Update new Eligibility Guidelines for 2026-27 (OBSOLETE?)
+NXT-72160,Story,Financials,New,In Progress,,4/22/2026 8:09 AM,,contract,FIN — Payroll Import: Data Exchange
+NXT-72161,Story,Eligibility,In Progress,In Progress,,4/22/2026 9:21 AM,,,"Eligibility - Other Forms - Edit Form Application Details - Edit, Process, Pending"
+NXT-72204,Story,Global Catalog,Future Merge,In Progress,Done,4/23/2026 1:57 PM,5/26/2026 4:51 PM,,GC - PE - Item Catalog page - Add a new button to navigate to GC portal site for an user and district.
+NXT-72212,Story,POS,New,In Progress,,4/24/2026 1:02 PM,,,SC - MT/Central - State Claims - New page
+NXT-72215,Enhancement,Global Catalog,New,In Progress,,4/24/2026 3:57 PM,,,GC- SC - Item creation tab - parsed data template -   Importing items with no allergen indicated value is not assigning the none indicated checkbox for items after import 
+NXT-72217,Enhancement,Global Catalog,New,In Progress,,4/24/2026 4:00 PM,,,GC - SC - USDA BF - Remove allergen information for USDA BF as USDA branded foods provided only nutrient information. 
+NXT-72232,Story,Financials,New,In Progress,,4/27/2026 12:48 PM,,,Enhance GL Balance Fields to Display Debit/Credit Direction
+NXT-72233,Story,Financials,New,In Progress,,4/27/2026 1:09 PM,,,Year-End Close — Post Closing Entries to Retained Earnings
+NXT-72237,Story,PE Insights,Story Refinement/Efforting,In Progress,,4/27/2026 2:48 PM,,,Insights - Drawer Updates - MEQ
+NXT-72239,Story,PE Insights,Story Refinement/Efforting,In Progress,,4/27/2026 6:12 PM,,,"Insights - Drawer Updates - Br., Lu., Su., Sn."
+NXT-72240,Story,PE Insights,Story Refinement/Efforting,In Progress,,4/27/2026 6:35 PM,,,Insights - Drawer Updates - Revenue
+NXT-72241,Story,PE Insights,PO Review,To Do,,4/28/2026 12:34 AM,,,PE-SC-Benchmark-Autofill-Enhancement
+NXT-72249,Story,PE Insights,Story Refinement/Efforting,In Progress,,4/28/2026 9:33 AM,,,Insights - Drawer Updates - Waste
+NXT-72250,Story,PE Insights,Story Refinement/Efforting,In Progress,,4/28/2026 10:26 AM,,,Insights - Drawer Updates - Eco Dis
+NXT-72251,Story,PE Insights,Story Refinement/Efforting,In Progress,,4/28/2026 10:35 AM,,,Insights - Drawer Updates - Meals
+NXT-72252,Story,PE Insights,Story Refinement/Efforting,In Progress,,4/28/2026 10:48 AM,,,Insights - Drawer Updates - Phys. Inv. Discr.
+NXT-72253,Story,PE Insights,Story Refinement/Efforting,In Progress,,4/28/2026 11:00 AM,,,Insights - Drawer Updates - Summary Cards
+NXT-72254,Story,PE Insights,Story Refinement/Efforting,In Progress,,4/28/2026 12:42 PM,,,Insights - Drawer Updates - Phys. Inv. Discr. - Net Impact
+NXT-72255,Story,PE Insights,Story Refinement/Efforting,In Progress,,4/28/2026 12:47 PM,,,Insights - Drawer Updates - ItemCode in Item Description
+NXT-72256,Story,PE Insights,Story Refinement/Efforting,In Progress,,4/28/2026 1:19 PM,,,Insights - Drawer Updates - Phys. Inv. Turn.
+NXT-72257,Story,PE Insights,Story Refinement/Efforting,In Progress,,4/28/2026 1:35 PM,,,Insights - Drawer Updates - Inv. Value
+NXT-72259,Story,PE Insights,Story Refinement/Efforting,In Progress,,4/28/2026 3:00 PM,,,Insights - Security - Resource Catalogue - SC
+NXT-72260,Story,PE Insights,Story Refinement/Efforting,In Progress,,4/28/2026 3:42 PM,,,Insights - Security - Roles - PE
+NXT-72261,Story,PE Insights,Story Refinement/Efforting,In Progress,,4/28/2026 4:18 PM,,contract,Insights - Security - Resources API - SC
+NXT-72262,Story,PE Insights,Story Refinement/Efforting,In Progress,,4/28/2026 4:21 PM,,contract,Insights - Security - API - PE
+NXT-72266,Story,Production,Testing,In Progress,,4/28/2026 9:56 PM,,,PR - Plan - View Mode
+NXT-72267,Story,Production,Pull Request,In Progress,,4/28/2026 10:06 PM,,,PR - Plan - Initial Plan Incomplete Edit
+NXT-72268,Story,Production,Testing,In Progress,,4/28/2026 10:16 PM,,,PR - Plan - Edit after Plan Complete
+NXT-72269,Story,Production,PO Review,To Do,,4/28/2026 10:31 PM,,,PR - Production Record Configuration - New Page
+NXT-72270,Story,Production,In Progress,In Progress,,4/28/2026 10:37 PM,,,PR - Production Record Configurations - Track Additional Meals/Trays
+NXT-72271,Story,Production,In Progress,In Progress,,4/28/2026 10:40 PM,,,PR - Production Record Configuration - Tracking/Naming Non Reimbursable Servings 
+NXT-72281,Story,Production,In Progress,In Progress,,4/29/2026 7:17 AM,,,PR - Record - Menu Item Offering Overview
+NXT-72282,Story,Production,In Progress,In Progress,,4/29/2026 7:23 AM,,,PR - Record - Require Signature and timestamp
+NXT-72283,Story,Production,Mini Demo,To Do,,4/29/2026 7:32 AM,,,PR - Record - Personnel Process
+NXT-72284,Story,Production,In Progress,In Progress,,4/29/2026 7:36 AM,,,PR - Production Record Configuration - Capture History
+NXT-72286,Story,PE Insights,Story Refinement/Efforting,In Progress,,4/29/2026 9:21 AM,,,Insights - Security - Enforcement - Insights Screen
+NXT-72287,Story,PE Insights,Story Refinement/Efforting,In Progress,,4/29/2026 10:27 AM,,,Insights - Security - Enforcement - Menu Screen
+NXT-72288,Story,PE Insights,Story Refinement/Efforting,In Progress,,4/29/2026 11:30 AM,,,Insights - Security - Sites Trimming - SC API & Indicator
+NXT-72289,Story,PE Insights,Story Refinement/Efforting,In Progress,,4/29/2026 11:38 AM,,,Insights - Security - Sites Trimming - Dashbaord
+NXT-72290,Story,PE Insights,Story Refinement/Efforting,In Progress,,4/29/2026 11:46 AM,,,Insights - Security - Sites Trimming - Drawers
+NXT-72291,Story,Production,In Progress,In Progress,,4/29/2026 2:55 PM,,,PR - Record - Temperature Tracking Based on configuration 
+NXT-72292,Story,Production,In Progress,In Progress,,4/29/2026 2:57 PM,,,PR - Record - Inventory Designation
+NXT-72293,Story,Production,In Progress,In Progress,,4/29/2026 2:58 PM,,,PR - Record - Show Cost per serving for each menu item
+NXT-72294,Story,Global Catalog,Future Merge,In Progress,Done,4/29/2026 3:58 PM,5/19/2026 1:02 PM,,GC- MDM Portal - Logon to GC Portal site from School Cafe and PrimeroEdge should maintain the District and User (SSO)
+NXT-72306,Story,Production,Testing,In Progress,,4/30/2026 7:16 AM,,,PR - Plan - Food Required redesign and calculation
+NXT-72307,Story,Production,Pull Request,In Progress,,4/30/2026 7:16 AM,,,PR - Record - Food Used redesign and calculation
+NXT-72308,Story,Production,In Progress,In Progress,,4/30/2026 7:23 AM,,,PR - Quantities Calculations 
+NXT-72309,Story,Production,New,In Progress,,4/30/2026 7:59 AM,,,PR - Reports - Production Record/Form with configuration
+NXT-72342,Story,Global Catalog,Committed,To Do,,4/30/2026 1:48 PM,,,GC - SC - IM -Upload items -Search results - Select items-  Create a new onboarding session for items selected for importing in to SC district
+NXT-72345,Story,PE Insights,Story Refinement/Efforting,In Progress,,4/30/2026 6:38 PM,,,Insights - Schoolie  - Config Drawer
+NXT-72346,Story,Global Catalog,Future Merge,In Progress,Done,4/30/2026 6:52 PM,5/27/2026 3:38 PM,,GC - PE - Cybersoft Catalog - Unpublish the items that are customer sourced and not show in search results of item catalog. 
+NXT-72356,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/1/2026 8:59 AM,,,Insights - Schoolie  - Settings Drawer
+NXT-72357,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/1/2026 9:20 AM,,,Insights - Schoolie  - Workspace Prompt from Config
+NXT-72358,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/1/2026 9:24 AM,,,Insights - Schoolie  - Dashboard Prompt from Config
+NXT-72362,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/1/2026 10:10 AM,,,Insights - Schoolie  - Drawers Add AI Analysis
+NXT-72363,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/1/2026 11:43 AM,,,Insights - Schoolie  - Drawer Template
+NXT-72369,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/1/2026 12:58 PM,,,Insights - Schoolie  - Caching
+NXT-72370,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/1/2026 1:21 PM,,,Insights - Schoolie  - Compare Sites
+NXT-72371,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/1/2026 1:43 PM,,,Insights - Schoolie  - Trend Analysis
+NXT-72372,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/1/2026 2:10 PM,,contract,Insights - Schoolie  - Service Layer
+NXT-72373,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/1/2026 2:34 PM,,,Insights - Schoolie  - Feedback
+NXT-72379,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/2/2026 4:02 PM,,,Insights - Schoolie  - Feedback Usage Dashboard
+NXT-72380,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/2/2026 4:11 PM,,,Insights - Schoolie  - Feedback Usage AI
+NXT-72381,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/2/2026 4:35 PM,,,Insights - Schoolie  - Feedback Usage Download
+NXT-72383,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/3/2026 1:42 PM,,contract,Insights - Usage - Framework
+NXT-72384,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/3/2026 3:25 PM,,,Insights - Usage - App & Page
+NXT-72385,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/3/2026 3:57 PM,,,Insights - Usage - Insights Page
+NXT-72386,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/3/2026 4:03 PM,,,Insights - Usage - Menu Analysis Page
+NXT-72387,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/3/2026 4:17 PM,,,Insights - Usage - Reports Page
+NXT-72389,Story,Global Catalog,In Progress,In Progress,,5/3/2026 9:46 PM,,,GC - MDM - Review Queue- Ability to edit the general information tab
+NXT-72390,Story,Global Catalog,Testing,In Progress,,5/3/2026 10:51 PM,,,GC - MDM - Review Items - Results Grid columns
+NXT-72391,Story,Global Catalog,In Progress,In Progress,,5/3/2026 11:15 PM,,,GC - MDM - Search page - Ability to View/Add/delete images and documents while adding /editing an item
+NXT-72431,Story,PE Insights,Ready For Testing,To Do,,5/4/2026 10:20 AM,,,Insights - Downloads - Framework
+NXT-72433,Enhancement,Global Catalog,Testing,In Progress,Done,5/4/2026 11:07 AM,5/28/2026 3:12 PM,,"GC - PE - Item Catalog - Export ingredients only and export ingredients +stock items options - serving weight unit should match with how import function is expecting the data, "
+NXT-72434,Story,Global Catalog,Future Merge,In Progress,Done,5/4/2026 11:19 AM,5/19/2026 1:07 PM,,GC - SC - Cybersoft Catalog - Unpublish the items that are customer sourced and not show in search results of item catalog.
+NXT-72438,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/4/2026 2:20 PM,,,Insights - Usage - App Dashboard
+NXT-72439,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/4/2026 2:27 PM,,,Insights - Usage - App Dashboard - Schoolie Analysis
+NXT-72442,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/4/2026 2:54 PM,,,Insights - Usage - App Dashboard - Event List
+NXT-72445,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/4/2026 2:57 PM,,,Insights - Usage - App Dashboard - Session Detail
+NXT-72446,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/4/2026 3:20 PM,,,Insights - Usage - App Dashboard - Day & Time
+NXT-72448,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/4/2026 4:09 PM,,,Insights - Usage - App Dashboard - Funnel
+NXT-72449,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/4/2026 6:06 PM,,,Insights - Usage - Settings
+NXT-72451,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/4/2026 7:08 PM,,,Insights - Usage - Reports Dashboard
+NXT-72499,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/5/2026 10:28 AM,,,Insights - Usage - Insights Dashboard
+NXT-72502,Story,Global Catalog,In Progress,In Progress,,5/5/2026 10:50 AM,,,GC - MDM - Review Queue page - Ability to View/Add/delete images and documents while approving an item
+NXT-72503,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/5/2026 10:58 AM,,,Insights - Usage - Insights Dashboard - User Detail
+NXT-72504,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/5/2026 11:05 AM,,,Insights - Usage - Reports Dashboard - User Detail
+NXT-72505,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/5/2026 11:11 AM,,,Insights - Usage - Reports Dashboard - Schoolie Analysis
+NXT-72506,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/5/2026 11:12 AM,,,Insights - Usage - Insights Dashboard - Schoolie Analysis
+NXT-72598,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/5/2026 1:11 PM,,,Insights - Usage - Menu Analysis Dashboard
+NXT-72599,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/5/2026 1:30 PM,,,Insights - Usage - Menu Analysis Dashboard - Schoolie Analysis
+NXT-72600,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/5/2026 2:37 PM,,,Insights - Full Download - Framework
+NXT-72659,Story,PE Insights,PO Review,To Do,,5/7/2026 4:32 AM,,,WS > PE & SC > Insights > Implement Progress Messages for Long-Running Loader
+NXT-72677,Story,Platform - Data Exchange,Story Refinement/Efforting,In Progress,,5/8/2026 9:29 AM,,FD_descAC|reqby,Photo Import - Only One at a Time
+NXT-72690,Story,System,New,In Progress,,5/11/2026 2:31 AM,,,Enhance Background with image (custom Image) on Login Page
+NXT-72705,Story,PE Insights,New,In Progress,,5/11/2026 10:17 AM,,,Insights - Downloads - MPLH
+NXT-72706,Story,PE Insights,Testing,In Progress,,5/11/2026 10:20 AM,,,Insights - Downloads - PNA
+NXT-72707,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/11/2026 10:22 AM,,,Insights - Downloads - ENP
+NXT-72708,Story,PE Insights,Ready For Testing,To Do,,5/11/2026 10:25 AM,,,Insights - Downloads - Waste
+NXT-72709,Story,PE Insights,Testing,In Progress,,5/11/2026 10:27 AM,,,Insights - Downloads - Breakfast
+NXT-72710,Story,PE Insights,Testing,In Progress,,5/11/2026 10:28 AM,,,Insights - Downloads - Lunch
+NXT-72711,Story,PE Insights,Ready For Testing,To Do,,5/11/2026 10:30 AM,,,Insights - Downloads - Meals
+NXT-72712,Story,PE Insights,Testing,In Progress,,5/11/2026 10:32 AM,,,Insights - Downloads - Revenue
+NXT-72713,Story,PE Insights,Ready For Testing,To Do,,5/11/2026 10:34 AM,,,Insights - Downloads - Supper
+NXT-72714,Story,PE Insights,Testing,In Progress,,5/11/2026 10:36 AM,,,Insights - Downloads - Snack
+NXT-72715,Story,PE Insights,Ready For Testing,To Do,,5/11/2026 10:39 AM,,,Insights - Downloads - MEQs
+NXT-72716,Story,PE Insights,Ready For Testing,To Do,,5/11/2026 10:40 AM,,,Insights - Downloads - Eco Dis
+NXT-72718,Story,PE Insights,Ready For Testing,To Do,,5/11/2026 10:41 AM,,,Insights - Downloads - Inventory Value
+NXT-72719,Story,PE Insights,Ready For Testing,To Do,,5/11/2026 10:43 AM,,,Insights - Downloads - Turnover
+NXT-72720,Story,PE Insights,Ready For Testing,To Do,,5/11/2026 10:48 AM,,,Insights - Downloads - Discrepency
+NXT-72721,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/11/2026 10:56 AM,,,Insights - Downloads - Dashboard
+NXT-72722,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/11/2026 11:16 AM,,,Insights - Full Download - MPLH
+NXT-72723,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/11/2026 11:20 AM,,,Insights - Full Download - PNA
+NXT-72724,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/11/2026 11:22 AM,,,Insights - Full Download - ENP
+NXT-72725,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/11/2026 11:24 AM,,,Insights - Full Download - Waste
+NXT-72726,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/11/2026 11:26 AM,,,Insights - Full Download - Breakfast
+NXT-72727,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/11/2026 11:29 AM,,,Insights - Full Download - Lunch
+NXT-72728,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/11/2026 11:33 AM,,,Insights - Full Download - Supper
+NXT-72729,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/11/2026 11:36 AM,,,Insights - Full Download - Snack
+NXT-72730,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/11/2026 11:37 AM,,,Insights - Full Download - Inventory Value
+NXT-72731,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/11/2026 11:38 AM,,,Insights - Full Download - Turnover
+NXT-72732,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/11/2026 11:43 AM,,,Insights - Full Download - MEQs
+NXT-72733,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/11/2026 11:45 AM,,,Insights - Full Download - Meals
+NXT-72734,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/11/2026 11:47 AM,,,Insights - Full Download - Eco Dis
+NXT-72735,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/11/2026 11:48 AM,,,Insights - Full Download - Revenue
+NXT-72736,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/11/2026 11:53 AM,,,Insights - Full Download - Discrepency
+NXT-72738,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/11/2026 12:38 PM,,,Insights - Reports - Dashboard
+NXT-72739,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/11/2026 12:43 PM,,,Insights - Reports - Starred Section
+NXT-72740,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/11/2026 12:45 PM,,,Insights - Reports - Full Directory
+NXT-72742,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/11/2026 12:47 PM,,,Insights - Reports - Run Reports
+NXT-72743,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/11/2026 12:49 PM,,,Insights - Reports - Recent Reports
+NXT-72744,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/11/2026 12:53 PM,,,Insights - Reports - Config Drawer
+NXT-72746,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/11/2026 12:55 PM,,,Insights - Reports - Email Report
+NXT-72747,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/11/2026 12:56 PM,,,Insights - Reports - Distribute Report
+NXT-72748,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/11/2026 12:59 PM,,,Insights - Reports - Notification
+NXT-72750,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/11/2026 1:11 PM,,,Insights - Reports - Manage Starred Reports
+NXT-72753,Story,Financials,New,In Progress,,5/11/2026 1:45 PM,,,Payroll Import Duplicate Detection and Overwrite Previous Import
+NXT-72755,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/11/2026 1:48 PM,,contract,Insights - Telemetry - Standards
+NXT-72757,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/11/2026 1:53 PM,,,Insights - Telemetry - Shared Event Model
+NXT-72758,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/11/2026 1:55 PM,,,Insights - Telemetry - Unified Logger Framework
+NXT-72760,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/11/2026 2:01 PM,,,Insights - Telemetry - Session & Correlation Framework
+NXT-72762,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/11/2026 2:07 PM,,,Insights - Telemetry - Error Tracking Framework
+NXT-72764,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/11/2026 2:14 PM,,,Insights - Telemetry - Performance Tracking Framework
+NXT-72766,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/11/2026 2:17 PM,,contract,Insights - Telemetry - Migrate Usage
+NXT-72767,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/11/2026 2:18 PM,,,Insights - Telemetry - Unified Session Timeline
+NXT-72770,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/11/2026 2:47 PM,,,Insights - Telemetry - App Health Dashboard
+NXT-72771,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/11/2026 2:52 PM,,,Insights - Telemetry - Errors Dashboard
+NXT-72772,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/11/2026 2:54 PM,,,Insights - Telemetry - Performance Dashboard
+NXT-72773,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/11/2026 2:56 PM,,,Insights - Telemetry - Sessions Dashboard
+NXT-72774,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/11/2026 2:58 PM,,,Insights - Telemetry - Reliability Dashboard
+NXT-72776,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/11/2026 3:08 PM,,,Insights - Telemetry - Settings update
+NXT-72790,Story,Item Management,Story Refinement/Efforting,In Progress,,5/12/2026 9:56 AM,,FD_descAC|known_customer,IM - Item Config - Menu Item Categories - allow Cybersoft categories to be disabled for POS Item
+NXT-72794,Enhancement,Account Management,In Progress,In Progress,,5/12/2026 10:30 AM,,,Acct Mgmt - Accounts - Fix Weekly Checkbox Display/Export
+NXT-72795,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/12/2026 11:04 AM,,,Insights - Telemetry - Backend & Data Architecture
+NXT-72798,Enhancement,Family Hub,Release Testing,To Do,Done,5/12/2026 1:22 PM,6/1/2026 12:59 PM,,Fam.Portal - Apps/Forms - USDA Regulatory updates for Race/Ethnicity Collection
+NXT-72799,Enhancement,Family Hub,Release Testing,To Do,Done,5/12/2026 1:32 PM,6/1/2026 1:01 PM,,Eligibility - Forms - Application Details - Verify Race options for Middle Eastern or North African (MENA) and South Asian
+NXT-72800,Enhancement,Account Management,Testing,In Progress,,5/12/2026 1:33 PM,,,Acct Mgmt - Accounts - Student Details - Add Race options for Middle Eastern or North African (MENA) and South Asian
+NXT-72802,Enhancement,Eligibility,In Progress,In Progress,,5/12/2026 1:49 PM,,,Forms - Manage Forms/Letter Templates - Create & add support for a new default Letter Type for all new forms (If configured)
+NXT-72847,Story,Menu Planning,In Progress,In Progress,,5/14/2026 1:45 AM,,,MP - Menu Cycle - New Cycle
+NXT-72849,Story,Menu Planning,In Progress,In Progress,,5/14/2026 2:06 AM,,,MP - Menu Cycle - Standard Mode
+NXT-72850,Story,Menu Planning,Story Refinement/Efforting,In Progress,,5/14/2026 2:20 AM,,,MP - Menu Cycle - Planner mode
+NXT-72851,Story,Menu Planning,Story Refinement/Efforting,In Progress,,5/14/2026 2:25 AM,,,MP - Menu Cycle - Planner - Update Items & Counts
+NXT-72852,Story,Menu Planning,Story Refinement/Efforting,In Progress,,5/14/2026 2:31 AM,,,MP - Menu Cycle - Planner - Update Items & Counts - Add mode
+NXT-72853,Story,Menu Planning,Story Refinement/Efforting,In Progress,,5/14/2026 2:46 AM,,,MP - Menu Cycle - Planner - Update Serving Details
+NXT-72854,Story,Menu Planning,Story Refinement/Efforting,In Progress,,5/14/2026 2:50 AM,,,MP - Menu Cycle - Planner - Update Sorting
+NXT-72912,Story,Menu Planning,Ready for Development,To Do,,5/14/2026 8:39 AM,,,MP - Menu Cycle - Analysis Bar
+NXT-72914,Story,Menu Planning,Ready for UX,In Progress,,5/14/2026 10:19 AM,,,MP - Menu Cycle - Planner - Analysis UI Interactive Updates
+NXT-72916,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/14/2026 11:46 AM,,,Insights - Usage - Schoolie Dashboard
+NXT-72918,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/14/2026 11:53 AM,,,Insights - Usage - Schoolie Overview Tab
+NXT-72919,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/14/2026 11:54 AM,,,Insights - Usage - Schoolie Adoption Tab
+NXT-72920,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/14/2026 11:55 AM,,,Insights - Usage - Schoolie Engagement Tab
+NXT-72921,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/14/2026 11:58 AM,,,Insights - Usage - Schoolie Satisfaction Tab
+NXT-72922,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/14/2026 12:00 PM,,,Insights - Usage - Schoolie Operational Health
+NXT-72923,Story,PE Insights,Story Refinement/Efforting,In Progress,,5/14/2026 12:15 PM,,,Insights - Usage - Schoolie Drawers
+NXT-72948,Story,Global Catalog,Ready For Testing,To Do,,5/18/2026 1:37 PM,,,"GC- PE - Enhance search by uploading a file match criteria to include new column data ingredient name, manufacturer, brand-  [Part 2]"
+NXT-72966,Story,PE Insights,In Progress,In Progress,,5/19/2026 1:18 PM,,,Insights-PE-API- Implement CancellationToken Support Across all API
+NXT-72968,Story,Global Catalog,In Progress,In Progress,,5/19/2026 9:25 PM,,,GC - MDM - Review queue - Support for three pack sizes on stock item info tab.
+NXT-72995,Story,Global Catalog,In Progress,In Progress,,5/20/2026 12:45 PM,,,"GC - MDM - My Items page - Mapping District items to Cybersoft catalog items -prerequisite for getting updates, recipes etc.."
+NXT-72998,Story,Global Catalog,Committed,To Do,,5/20/2026 2:04 PM,,,GC - MDM - Search - Support for three pack sizes on Pack Size tab.
+NXT-73000,Enhancement,SCTV,PO Review,To Do,,5/20/2026 2:28 PM,,,"TV+ - Background Image filters including Transparency, Blur and Brightness"
+NXT-73001,Story,Global Catalog,Committed,To Do,,5/20/2026 3:39 PM,,,GC - MDM - Pending Updates - Grid for displaying the available updates by comparing the district item and Cybersoft catalog item information.
+NXT-73018,Story,Platform - Data Exchange,Testing,In Progress,,5/21/2026 10:32 AM,,,DE – Allow file upload up to 300 MB
+NXT-73033,Story,Inventory,Story Refinement/Efforting,In Progress,,5/21/2026 10:49 PM,,,INV - Orders - Receipt Details - Item Price Details Enhancement Slide-out
+NXT-73061,Story,PE Insights,Ready For Testing,To Do,,5/22/2026 3:58 PM,,,PE-Insights-EcoDis-Cache values of the EcoDis API so that these values can be used for PNA and ENP
+NXT-73217,Story,Menu Planning,New,In Progress,,5/27/2026 11:32 AM,,,MP - Meal Patterns - CACFP - Update Milk Varieties Based on Final Rule
+NXT-73278,Enhancement,Accountability,In Progress,In Progress,,5/28/2026 7:50 AM,,FD_descAC|known_customer|struct_summary,Acc-Wadena- Deer Creek Public Schools - Edit Check notation question
+NXT-73258,Story,Menu Planning,New,In Progress,,5/28/2026 11:31 AM,,,MP - Meal Patterns - USDA 14+ - Update Milk Varieties Based on Final Rule
+NXT-73276,Enhancement,SCTV,In Progress,In Progress,,5/29/2026 10:24 AM,,,SCTV+ - ST - Display Allergens
+NXT-73277,Enhancement,SCTV,In Progress,In Progress,,5/29/2026 10:28 AM,,,"SCTV+ - ST - Menu Planning - Image Controls, Stack option for Double Row"
+NXT-73281,Story,Platform - Data Exchange,New,In Progress,,5/29/2026 7:08 PM,,known_customer,Washburn - Post Migration Observations & Fixes
+NXT-73286,Story,Financials,New,In Progress,,5/31/2026 6:58 PM,,,FIN — Import & Export Log with Reverse Import
+NXT-73287,Story,Eligibility,Ready for Development,To Do,,5/31/2026 9:01 PM,,,Eligibility - Other Forms - Edit Form App. Details - Delete
+NXT-73288,Story,Eligibility,Ready for Development,To Do,,5/31/2026 9:05 PM,,,"Eligibility - Other Forms - Edit Form App. Details - Application Image, Export"
+NXT-73289,Story,Eligibility,Ready for Development,To Do,,5/31/2026 9:07 PM,,,Eligibility - Other Forms - Edit Form App. Details - Notify
+NXT-73290,Story,Eligibility,New,In Progress,,5/31/2026 9:18 PM,,,Eligibility - Other Forms - Edit Form App. Details - Refuse Benefits
+NXT-73303,Story,Financials,New,In Progress,,6/1/2026 8:42 AM,,,FIN — Reverse Import: Opening Balance Import
+NXT-73304,Story,Financials,New,In Progress,,6/1/2026 8:42 AM,,,FIN — Reverse Import: Payroll Import
+NXT-73305,Story,Menu Planning,New,In Progress,,6/1/2026 11:30 AM,,,MP - Menu Analysis - Considering Varieties based on Final Milk Rule
+NXT-73306,Story,Menu Planning,New,In Progress,,6/1/2026 11:30 AM,,,MP - Menu Cycle Analysis - Considering Varieties based on Final Milk Rule
+NXT-73307,Story,Menu Planning,New,In Progress,,6/1/2026 11:32 AM,,,PR- Pre/Post Production Analysis - Considering Varieties based on Final Milk Rule
+NXT-73308,Story,Menu Planning,New,In Progress,,6/1/2026 11:40 AM,,,MP - Menu Cycle Analysis - Sat Fat Exclusion for SBP Weekly analysis
+NXT-73309,Story,Menu Planning,New,In Progress,,6/1/2026 11:41 AM,,,PR - Pre and Post Production Analysis - Sat Fat Exclusion for SBP Weekly analysis
+NXT-73310,Story,Menu Planning,New,In Progress,,6/1/2026 11:41 AM,,,MP - Menu Cycle Analysis - Sat Fat Exclusion for NSLP Weekly analysis
+NXT-73311,Story,Menu Planning,New,In Progress,,6/1/2026 11:42 AM,,,PR - Pre and Post Analysis - Sat Fat Exclusion for NSLP Weekly analysis
+NXT-73313,Story,PE Insights,In Progress,In Progress,,6/1/2026 9:57 PM,,,PE-SC Insights-AI Assistant-CSS changes
+NXT-73314,Story,Eligibility,Story Refinement/Efforting,In Progress,,6/1/2026 10:11 PM,,,Eligibility - Other Forms - History Drawer
+NXT-73315,Story,Eligibility,Story Refinement/Efforting,In Progress,,6/1/2026 10:18 PM,,,Eligibility - Configuration - Form Configuration - Forms History Drawer
+NXT-73316,Story,Eligibility,Story Refinement/Efforting,In Progress,,6/1/2026 10:24 PM,,,Eligibility - Configuration - Form Configuration - Prevent certain Form config changes
+NXT-73317,Story,Account Management,Story Refinement/Efforting,In Progress,,6/1/2026 10:39 PM,,,Acct Mgmt - Accounts - Details - Display Form Notifications in Correspondence section
+NXT-73326,Story,Financials,New,In Progress,,6/2/2026 12:52 PM,,,FIN — Reverse Import: GL Accounts Import

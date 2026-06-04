@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MOCKUP — Financials › Configuration › Import &amp; Export Log (illustrative only)</title>
+<style>
+  /* =========================================================================
+     ILLUSTRATIVE STYLES ONLY. Every color, font, radius, icon, pill, menu and
+     modal is a HAND-ROLLED STAND-IN to convey layout & behavior — NOT the real
+     NXT/SchoolCafé component library. Any deviation from existing components &
+     UI/UX practice is unintentional and must be replaced with real components.
+     ========================================================================= */
+  :root{
+    --accent:#5b4bd6; --accent-weak:#ece9fb;
+    --ink:#2b2b3a; --ink-soft:#6b6b7b; --line:#e6e6ee; --bg:#f5f6fa;
+    --ok:#13855c; --ok-bg:#e3f5ec;
+    --run:#9a6a00; --run-bg:#fdf2d8;
+    --err:#b23b3b; --err-bg:#fbe7e7;
+    --rev:#5a5a6e; --rev-bg:#eceaf0;
+    --imp:#3b5bdb; --imp-bg:#e7edfb;
+    --exp:#0b7285; --exp-bg:#dcf3f6;
+    --radius:8px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);font-size:14px}
+
+  .dev-banner{position:sticky;top:0;z-index:60;
+    background:repeating-linear-gradient(45deg,#2b2b3a,#2b2b3a 14px,#3a3a4d 14px,#3a3a4d 28px);
+    color:#fff;padding:10px 18px;font-size:12.5px;line-height:1.5;display:flex;gap:14px;align-items:center;justify-content:space-between;border-bottom:3px solid #f5c518}
+  .dev-banner b{color:#ffd84d}
+  .dev-banner .tag{background:#f5c518;color:#2b2b3a;font-weight:700;padding:2px 8px;border-radius:4px;white-space:nowrap}
+  .dev-banner button{background:#fff;color:#2b2b3a;border:0;border-radius:5px;padding:6px 12px;font-weight:600;cursor:pointer;white-space:nowrap}
+
+  .appbar{background:#fff;border-bottom:1px solid var(--line);padding:10px 22px;display:flex;align-items:center;gap:14px}
+  .logo{font-weight:800;color:var(--accent);letter-spacing:.3px}
+  .logo .sub{color:var(--ink-soft);font-weight:600}
+  .module-pill{margin-left:6px;background:var(--accent-weak);color:var(--accent);font-weight:700;font-size:12px;padding:3px 10px;border-radius:20px}
+
+  .crumbs{padding:12px 22px 0;color:var(--ink-soft);font-size:13px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .crumbs a{color:var(--ink-soft);text-decoration:none}
+  .crumbs a:hover{color:var(--accent);text-decoration:underline}
+  .crumbs .sep{opacity:.5}
+  .crumbs .here{color:var(--ink);font-weight:600}
+
+  .pagehead{padding:6px 22px 0}
+  .pagehead h1{font-size:20px;margin:8px 0 2px}
+  .pagehead p{margin:0;color:var(--ink-soft);font-size:13px;max-width:760px;line-height:1.5}
+  .qlink{color:var(--accent);font-weight:600;text-decoration:none}
+  .qlink:hover{text-decoration:underline}
+
+  .card{margin:18px 22px;background:#fff;border:1px solid var(--line);border-radius:var(--radius)}
+
+  .filterbar{display:flex;gap:18px;align-items:flex-end;flex-wrap:wrap;padding:14px 16px;border-bottom:1px solid var(--line)}
+  .fgroup{display:flex;flex-direction:column;gap:5px}
+  .fgroup label{font-size:11px;font-weight:700;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.4px}
+  .fgroup input,.fgroup select{border:1px solid #c9c9d6;border-radius:6px;padding:7px 9px;font:inherit;font-size:13px;min-width:150px;background:#fff}
+  .segmented{display:inline-flex;border:1px solid #c9c9d6;border-radius:7px;overflow:hidden}
+  .segmented button{border:0;background:#fff;padding:8px 14px;font:inherit;font-size:13px;font-weight:600;color:var(--ink-soft);cursor:pointer}
+  .segmented button.active{background:var(--accent);color:#fff}
+  .searchwrap{flex:1;min-width:200px}
+  .searchwrap input{width:100%}
+  .daterow{display:flex;gap:6px}
+  .daterow input{min-width:135px;border:1px solid #c9c9d6;border-radius:6px;padding:7px 9px;font:inherit;font-size:13px}
+  /* inline per-column filter row (house grid pattern) */
+  .filtrow td{padding:6px 10px 10px;border-bottom:1px solid var(--line);background:#fbfbfe;vertical-align:top}
+  .filtrow input,.filtrow select{width:100%;border:1px solid #d3d3de;border-radius:6px;padding:5px 7px;font:inherit;font-size:12px;color:var(--ink);background:#fff}
+  .filtrow .daterow{display:flex;gap:5px}
+  .filtrow .daterow input{font-size:11px;padding:5px 4px}
+  .filtrow .nofilter{color:#c4c4d2;font-size:11px}
+
+  table{width:100%;border-collapse:collapse}
+  thead th{text-align:left;font-size:12.5px;color:var(--ink);font-weight:700;padding:13px 14px;border-bottom:1px solid var(--line);cursor:pointer;user-select:none;white-space:nowrap}
+  thead th .arrow{color:var(--accent);font-size:10px}
+  tbody td{padding:13px 14px;border-bottom:1px solid var(--line);font-size:13px;vertical-align:middle}
+  tbody tr:hover{background:#faf9ff}
+  .name{font-weight:600}
+  .muted{color:var(--ink-soft)}
+  .emptyrow td{text-align:center;color:var(--ink-soft);padding:40px;line-height:1.6}
+
+  .cat{display:inline-flex;align-items:center;font-size:11.5px;font-weight:700;padding:2px 10px;border-radius:5px}
+  .cat.import{color:var(--imp);background:var(--imp-bg)}
+  .cat.export{color:var(--exp);background:var(--exp-bg)}
+  .cat.report{color:#9a4f0f;background:#fbeede}
+
+  .pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:3px 10px;border-radius:20px}
+  .pill::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.9}
+  .pill.ok{color:var(--ok);background:var(--ok-bg)}
+  .pill.run{color:var(--run);background:var(--run-bg)}
+  .pill.err{color:var(--err);background:var(--err-bg)}
+  .pill.rev{color:var(--rev);background:var(--rev-bg)}
+
+  .actcell{white-space:nowrap;position:relative}
+  .linkbtn{border:0;background:transparent;color:var(--accent);font-weight:600;font-size:12.5px;cursor:pointer;padding:5px 8px;border-radius:6px}
+  .linkbtn:hover{background:var(--accent-weak)}
+  .linkbtn:disabled{color:#bdbdcb;cursor:not-allowed;background:transparent}
+  .iconbtn{border:0;background:transparent;cursor:pointer;color:var(--ink-soft);font-size:16px;padding:4px 7px;border-radius:6px;line-height:1}
+  .iconbtn:hover{background:var(--accent-weak);color:var(--accent)}
+  .menu{position:absolute;right:14px;top:44px;background:#fff;border:1px solid var(--line);border-radius:8px;box-shadow:0 10px 30px rgba(40,40,70,.16);min-width:230px;max-width:300px;z-index:30;overflow:hidden;display:none}
+  .menu.open{display:block}
+  .menu button{display:flex;width:100%;gap:9px;align-items:center;background:#fff;border:0;text-align:left;padding:10px 14px;font-size:13px;cursor:pointer;color:var(--ink)}
+  .menu button:hover:not(:disabled){background:var(--accent-weak)}
+  .menu button:disabled{color:#bdbdcb;cursor:not-allowed}
+  .menu .danger{color:var(--err)}
+  .menu .danger:hover:not(:disabled){background:var(--err-bg)}
+  .menu .why{font-size:11px;color:#9a9aab;padding:0 14px 8px;line-height:1.45}
+  .menu .why .gate{font-weight:700;text-transform:uppercase;letter-spacing:.3px;font-size:9.5px}
+  .menu .why .gate.hard{color:var(--err)}
+  .menu .why .gate.prereq{color:var(--run)}
+  .menu .why ul{margin:4px 0 0;padding-left:16px}
+  .menu hr{border:0;border-top:1px solid var(--line);margin:4px 0}
+
+  .scrim{position:fixed;inset:0;background:rgba(30,30,50,.45);display:none;align-items:center;justify-content:center;z-index:70}
+  .scrim.open{display:flex}
+  .modal{background:#fff;border-radius:12px;width:580px;max-width:94vw;box-shadow:0 24px 60px rgba(20,20,40,.3);overflow:hidden}
+  .modal .head{padding:18px 22px;border-bottom:1px solid var(--line);display:flex;gap:12px;align-items:flex-start}
+  .modal .warnico{font-size:22px}
+  .modal h3{margin:0 0 3px;font-size:17px}
+  .modal .head p{margin:0;color:var(--ink-soft);font-size:12.5px}
+  .modal .body{padding:18px 22px}
+  .impact{background:#fbe7e7;border:1px solid #f3c9c9;border-radius:8px;padding:12px 14px;color:#7c2b2b;font-size:13px;margin-bottom:14px;line-height:1.5}
+  .impact .row{display:flex;justify-content:space-between;margin-top:4px;gap:14px}
+  .details{border:1px solid var(--line);border-radius:8px;padding:12px 14px;font-size:12.5px;margin-bottom:14px;line-height:1.5}
+  .details .row{display:flex;justify-content:space-between;margin-top:4px;gap:14px}
+  .details .row:first-child{margin-top:0}
+  .details .casc{margin:8px 0 0;padding-left:18px}
+  .details .casc li{margin-top:2px}
+  .details .scope{font-weight:700;margin-bottom:6px}
+  .modal label{display:block;font-size:12.5px;font-weight:600;margin:0 0 6px}
+  .modal textarea{width:100%;min-height:74px;border:1px solid var(--line);border-radius:8px;padding:10px;font:inherit;resize:vertical}
+  .modal .count{font-size:11px;color:var(--ink-soft);text-align:right;margin-top:4px}
+  .modal .count.bad{color:var(--err)}
+  .modal .foot{padding:14px 22px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:10px}
+  .btn{border-radius:7px;padding:9px 16px;font-weight:600;font-size:13px;cursor:pointer;border:1px solid transparent}
+  .btn.ghost{background:#fff;border-color:var(--line);color:var(--ink)}
+  .btn.danger{background:var(--err);color:#fff}
+  .btn.danger:disabled{background:#e3a9a9;cursor:not-allowed}
+
+  .drawer{position:fixed;top:0;right:-580px;width:560px;max-width:96vw;height:100vh;background:#fff;box-shadow:-12px 0 40px rgba(20,20,40,.18);z-index:65;transition:right .22s ease;display:flex;flex-direction:column}
+  .drawer.open{right:0}
+  .drawer .dhead{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+  .drawer .dhead h3{margin:0;font-size:15px}
+  .logtabs{display:flex;gap:2px;padding:0 12px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .logtab{padding:10px 12px;font-size:12.5px;color:var(--ink-soft);font-weight:600;border-bottom:3px solid transparent;cursor:pointer}
+  .logtab.active{color:var(--accent);border-bottom-color:var(--accent)}
+  .logbody{padding:18px 20px;overflow:auto}
+  .sumgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  .sumcell{border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:#faf9ff}
+  .sumcell .sk{font-size:10.5px;color:var(--ink-soft);font-weight:700;text-transform:uppercase;letter-spacing:.3px}
+  .sumcell .sv{font-size:15px;font-weight:700;margin-top:2px}
+  .sumcell.exc .sv{color:var(--err)}
+  .deeplink{text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+  .revbanner{background:var(--rev-bg);border:1px solid #d8d6e0;color:var(--rev);border-radius:8px;padding:10px 12px;font-size:12.5px;margin-bottom:14px}
+  .exc-table{width:100%;border-collapse:collapse;font-size:12.5px}
+  .exc-table th,.exc-table td{border:1px solid var(--line);padding:8px;text-align:left;vertical-align:top}
+  .exc-mand{color:var(--err);font-weight:700}
+  .exc-opt{color:var(--run);font-weight:700}
+
+  .toaster{position:fixed;left:50%;transform:translateX(-50%);bottom:-90px;background:#2b2b3a;color:#fff;border-radius:10px;padding:12px 16px;display:flex;gap:16px;align-items:center;z-index:80;transition:bottom .25s ease;box-shadow:0 14px 40px rgba(0,0,0,.3)}
+  .toaster.show{bottom:24px}
+  .toaster .undo{background:transparent;border:1px solid #6a6a82;color:#ffd84d;font-weight:700;border-radius:6px;padding:6px 12px;cursor:pointer}
+  .toaster .ring{font-variant-numeric:tabular-nums;font-weight:700}
+
+  .pager{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;padding:12px 16px}
+  .pager-left{display:flex;align-items:center;gap:18px;font-size:12.5px}
+  .pager-size{display:flex;align-items:center;gap:6px;color:var(--ink-soft);font-weight:600}
+  .pager-size select{border:1px solid #c9c9d6;border-radius:6px;padding:5px 8px;font:inherit;font-size:12.5px}
+  .pager-right{display:flex;align-items:center;gap:4px}
+  .pager-right button{border:1px solid var(--line);background:#fff;color:var(--ink);min-width:32px;height:32px;border-radius:6px;font:inherit;font-size:12.5px;font-weight:600;cursor:pointer;padding:0 8px}
+  .pager-right button:hover:not(:disabled):not(.active){background:var(--accent-weak);border-color:var(--accent);color:var(--accent)}
+  .pager-right button.active{background:var(--accent);border-color:var(--accent);color:#fff;cursor:default}
+  .pager-right button:disabled{color:#c4c4d2;cursor:not-allowed}
+  .pager-right .ellipsis{min-width:auto;border:0;background:transparent;cursor:default;color:var(--ink-soft)}
+  .hide{display:none!important}
+</style>
+</head>
+<body>
+
+<div class="dev-banner" id="devBanner">
+  <div>
+    <span class="tag">⚠ ILLUSTRATIVE MOCKUP — NOT PRODUCTION UI</span>
+    &nbsp;Every element (grid, pills, menus, modal, drawer, toast, icons, colors, spacing) is a <b>hand-rolled stand-in</b> for
+    <b>layout &amp; behavior only</b>. <b>Any deviation from the existing NXT/SchoolCafé component library and UI/UX practice is unintentional and must be replaced with real components.</b>
+    Semantics (columns, statuses, reverse gates) trace to shipped tickets; visuals do not.
+  </div>
+  <button onclick="document.getElementById('devBanner').classList.add('hide')">Got it — hide</button>
+</div>
+
+<div class="appbar">
+  <span class="logo">SchoolCafé <span class="sub">NXT</span></span>
+  <span class="module-pill">Financials</span>
+</div>
+
+<div class="crumbs">
+  <a href="#">Financials</a><span class="sep">›</span>
+  <a href="#">Configuration</a><span class="sep">›</span>
+  <span class="here">Import &amp; Export Log</span>
+</div>
+
+<div class="pagehead">
+  <h1>Import &amp; Export Log</h1>
+  <p>All your Financials imports and exports in one place. View a run's summary, download a report, or reverse an import.
+     For full run logs, open
+     <a href="#" class="qlink" onclick="openMonitor('Import');return false;">Import Monitor ↗</a> or
+     <a href="#" class="qlink" onclick="openMonitor('Export');return false;">Export Monitor ↗</a>.</p>
+</div>
+
+<div class="card">
+  <div class="filterbar">
+    <div class="fgroup">
+      <label>Category</label>
+      <select id="fCat" onchange="setCat(this.value)">
+        <option value="all">All</option><option value="Import">Imports</option><option value="Export">Exports</option><option value="Report">Reports</option>
+      </select>
+    </div>
+    <div class="fgroup">
+      <label>Type</label>
+      <select id="fType" onchange="applyFilters()"></select>
+    </div>
+    <div class="fgroup">
+      <label>Status</label>
+      <select id="fStatus" onchange="applyFilters()">
+        <option value="">All</option><option>Done</option><option>Error</option><option>In Progress</option><option>Reversal In Progress</option><option>Reversed</option>
+      </select>
+    </div>
+    <div class="fgroup">
+      <label>Date</label>
+      <select id="fDateMode" onchange="onDateMode()">
+        <option value="">All dates</option>
+        <option value="24h">Last 24 hours</option>
+        <option value="30d">Last 30 days</option>
+        <option value="custom">Custom range…</option>
+      </select>
+    </div>
+    <div class="fgroup hide" id="customRange">
+      <label>From / To</label>
+      <div class="daterow">
+        <input type="date" id="fFrom" onchange="applyFilters()">
+        <input type="date" id="fTo" onchange="applyFilters()">
+      </div>
+    </div>
+  </div>
+
+  <table>
+    <thead>
+      <tr id="headRow">
+        <th onclick="sortBy('name')">Name <span class="arrow" data-k="name"></span></th>
+        <th onclick="sortBy('category')">Category <span class="arrow" data-k="category"></span></th>
+        <th onclick="sortBy('type')">Type <span class="arrow" data-k="type"></span></th>
+        <th onclick="sortBy('sort')">Date <span class="arrow" data-k="sort">▼</span></th>
+        <th onclick="sortBy('user')">User <span class="arrow" data-k="user"></span></th>
+        <th onclick="sortBy('status')">Status <span class="arrow" data-k="status"></span></th>
+        <th>Action(s)</th>
+      </tr>
+      <tr class="filtrow">
+        <td><input data-col="name" oninput="applyFilters()" placeholder="Search name"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td><input data-col="user" oninput="applyFilters()" placeholder="Search user"></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </thead>
+    <tbody id="grid"></tbody>
+  </table>
+
+  <div class="pager" id="pager">
+    <div class="pager-left">
+      <span id="pagerSummary" class="muted"></span>
+      <label class="pager-size">Rows per page
+        <select id="pageSize" onchange="setPageSize(this.value)">
+          <option>5</option><option selected>10</option><option>25</option><option>50</option>
+        </select>
+      </label>
+    </div>
+    <div class="pager-right" id="pagerBtns"></div>
+  </div>
+</div>
+
+<!-- OVERLAYS -->
+<div class="menu" id="rowMenu"></div>
+
+<div class="scrim" id="revScrim">
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="head">
+      <div class="warnico">⚠️</div>
+      <div>
+        <h3 id="revHead">Reverse Import</h3>
+        <p>Permanently deletes this import and everything it created. This is a hard delete — there is no offsetting entry.</p>
+      </div>
+    </div>
+    <div class="body">
+      <div class="impact" id="revWarn"></div>
+      <div class="details" id="revDetails"></div>
+      <label for="revComment">Reason for reversing (required, min 10 characters)</label>
+      <textarea id="revComment" maxlength="500" oninput="onCommentInput()" placeholder="Why are you reversing this import? Recorded on the audit trail."></textarea>
+      <div class="count" id="revCountWrap"><span id="revCount">0</span>/500 · <span id="revMin">need 10+</span></div>
+    </div>
+    <div class="foot">
+      <button class="btn ghost" onclick="closeReverse()" autofocus>Cancel</button>
+      <button class="btn danger" id="revProceed" disabled onclick="proceedReverse()">Confirm Reverse</button>
+    </div>
+  </div>
+</div>
+
+<div class="drawer" id="logDrawer">
+  <div class="dhead">
+    <h3 id="logTitle">Run details</h3>
+    <button class="iconbtn" onclick="closeLog()">✕</button>
+  </div>
+  <div class="logbody" id="logBody"></div>
+</div>
+
+<div class="toaster" id="toaster">
+  <span id="toastMsg">Import reversed.</span>
+  <button class="undo" onclick="document.getElementById('toaster').classList.remove('show')">Dismiss</button>
+</div>
+
+<script>
+/* ILLUSTRATIVE LOGIC ONLY — wired so reviewers can click the flow. Not production code. */
+
+/* This story: only GL Accounts Import exists as a Financials import type.
+   Reports come from Document Center (P&L/TB/BS) and Power BI (GL/Journal export events).
+   Configured Exports do not exist yet — the Exports pill is present but empty. */
+const IMPORT_TYPES = ['GL Accounts Import'];                  // OB & Payroll deferred (NXT-73303 / NXT-73304)
+const REPORT_TYPES = ['GL Report','Journal Report','P&L Report','Trial Balance','Balance Sheet'];
+const EXPORT_TYPES = [];                                       // none built yet
+
+let rows = [
+  // ---- IMPORTS (GL Accounts Import only) ----
+  // GL Accounts — Done, reversible (no gates; cascade scope shown in confirmation)
+  {id:'Import-22519', category:'Import', type:'GL Accounts Import', date:'05/21/2026 02:19 PM', sort:202605211419, user:'Prasoona Nalajala', status:'Done',
+   hasLog:true, recordType:'config', accounts:120, categories:8, reverseEligible:true,
+   deps:['1,284 journal entry lines posted to these accounts','2 GL entry template rules','1 sub-account mapping (SA-14)'],
+   sum:{total:160, added:0, updated:33, processed:33, exceptions:127, start:'05/21/2026 02:16 PM', end:'05/21/2026 02:19 PM'}},
+  {id:'Import-22001', category:'Import', type:'GL Accounts Import', date:'05/10/2026 10:15 AM', sort:202605101015, user:'Prasoona Nalajala', status:'Done',
+   hasLog:true, recordType:'config', accounts:64, categories:5, reverseEligible:true,
+   deps:['312 journal entry lines posted to these accounts','1 GL entry template rule'],
+   sum:{total:69, added:64, updated:0, processed:64, exceptions:5, start:'05/10/2026 10:15 AM', end:'05/10/2026 10:16 AM'}},
+  // GL Accounts — Reversal In Progress (BL executing the hard delete) → actions disabled
+  {id:'Import-22480', category:'Import', type:'GL Accounts Import', date:'05/19/2026 09:02 AM', sort:202605190902, user:'Rahul Mehta', status:'Reversal In Progress',
+   hasLog:true, recordType:'config', accounts:40, categories:3, reverseEligible:false},
+  // GL Accounts — Error (import failed)
+  {id:'Import-21990', category:'Import', type:'GL Accounts Import', date:'05/03/2026 02:20 PM', sort:202605031420, user:'Siva Chandalada', status:'Error',
+   hasLog:true, recordType:'config', reverseEligible:false,
+   sum:{total:64, added:0, updated:0, processed:0, exceptions:8, start:'05/03/2026 02:20 PM', end:'05/03/2026 02:21 PM'}},
+  // GL Accounts — In Progress (running) → View details + Reverse disabled
+  {id:'Import-22440', category:'Import', type:'GL Accounts Import', date:'05/01/2026 08:10 AM', sort:202605010810, user:'Prasoona Nalajala', status:'In Progress',
+   hasLog:false, recordType:'config', reverseEligible:false},
+  // GL Accounts — already Reversed
+  {id:'Import-21755', category:'Import', type:'GL Accounts Import', date:'04/12/2026 11:40 AM', sort:202604121140, user:'Prasoona Nalajala', status:'Reversed',
+   hasLog:true, recordType:'config', reverseEligible:false,
+   sum:{total:50, added:50, updated:0, processed:50, exceptions:0, start:'04/12/2026 11:40 AM', end:'04/12/2026 11:41 AM'}},
+
+  // ---- REPORTS (Document Center + Power BI export events) ----
+  {id:'GL Report — May 2026', category:'Report', type:'GL Report', date:'05/21/2026 03:12 PM', sort:202605211512, user:'Prasoona Nalajala', status:'Done', source:'Power BI', format:'PDF'},
+  {id:'Journal Report — May 2026', category:'Report', type:'Journal Report', date:'05/20/2026 04:05 PM', sort:202605201605, user:'Prasoona Nalajala', status:'Done', source:'Power BI', format:'Excel'},
+  {id:'P&L Report — May 2026 — All Sites', category:'Report', type:'P&L Report', date:'05/20/2026 04:50 PM', sort:202605201650, user:'Jignesh Shah', status:'Done', source:'Document Center'},
+  {id:'Trial Balance — FY 2025–2026', category:'Report', type:'Trial Balance', date:'05/18/2026 01:22 PM', sort:202605181322, user:'Jignesh Shah', status:'Done', source:'Document Center'},
+  {id:'Balance Sheet — FY 2025–2026', category:'Report', type:'Balance Sheet', date:'05/02/2026 09:30 AM', sort:202605020930, user:'Jignesh Shah', status:'Done', source:'Document Center'},
+
+  // ---- EXPORTS (configured export jobs) — none exist yet ----
+];
+
+const pillClass = {Done:'ok','In Progress':'run','Reversal In Progress':'run', Error:'err', Reversed:'rev'};
+let curCat='all', sortKey='sort', sortDir=-1, pageSize=10, curPage=1;
+
+function rebuildTypeFilter(){
+  const sel=document.getElementById('fType');
+  const list = curCat==='Import'?IMPORT_TYPES
+             : curCat==='Report'?REPORT_TYPES
+             : curCat==='Export'?EXPORT_TYPES
+             : [...IMPORT_TYPES,...REPORT_TYPES,...EXPORT_TYPES];
+  sel.innerHTML = ['<option value="">All types</option>', ...list.map(t=>`<option>${t}</option>`)].join('');
+}
+function dataFor(id){ return rows.find(r=>r.id===id); }
+
+function rowHtml(r){
+  const pill=`<span class="pill ${pillClass[r.status]||''}">${r.status}</span>`;
+  const catCls=r.category.toLowerCase();
+  return `<tr data-id="${r.id}">
+    <td class="name">${r.id}</td>
+    <td><span class="cat ${catCls}">${r.category}</span></td>
+    <td>${r.type}</td>
+    <td class="muted">${r.date}</td>
+    <td>${r.user}</td>
+    <td>${pill}</td>
+    <td class="actcell">${actionsHtml(r)}</td>
+  </tr>`;
+}
+function actionsHtml(r){
+  if(r.category==='Report'){
+    const tip = r.source==='Power BI' ? `Power BI export (${r.format}).` : 'From the Document Center.';
+    return `<button class="linkbtn" title="${tip}" onclick="download('${r.id}')">⬇ Download</button>`;
+  }
+  if(r.category==='Export'){
+    return `<span class="muted">—</span>`;   // configured exports: actions TBD (future story)
+  }
+  return `<button class="iconbtn" title="Actions" onclick="openMenu(event,'${r.id}')">⋮</button>`;
+}
+
+function colVal(c){ const el=document.querySelector('.filtrow [data-col="'+c+'"]'); return el?el.value:''; }
+function tsOf(r){ return new Date(r.date).getTime(); }
+// "Now" is anchored to the most recent activity so the relative presets are demonstrable in the mock.
+const NOW_MS = Math.max.apply(null, rows.map(tsOf));
+const DAY = 86400000;
+function onDateMode(){
+  const mode=document.getElementById('fDateMode').value;
+  document.getElementById('customRange').classList.toggle('hide', mode!=='custom');
+  applyFilters();
+}
+function visibleRows(){
+  const nameq=(colVal('name')||'').toLowerCase();
+  const userq=(colVal('user')||'').toLowerCase();
+  const type=document.getElementById('fType').value;
+  const status=document.getElementById('fStatus').value;
+  const mode=document.getElementById('fDateMode').value;
+  const from=document.getElementById('fFrom').value, to=document.getElementById('fTo').value;
+  let lo=null, hi=null;
+  if(mode==='24h') lo=NOW_MS-DAY;
+  else if(mode==='30d') lo=NOW_MS-30*DAY;
+  else if(mode==='custom'){ lo=from?new Date(from+'T00:00:00').getTime():null; hi=to?new Date(to+'T23:59:59').getTime():null; }
+  let out=rows.filter(r=>{
+    if(curCat!=='all' && r.category!==curCat) return false;
+    if(nameq && !r.id.toLowerCase().includes(nameq)) return false;
+    if(userq && !r.user.toLowerCase().includes(userq)) return false;
+    if(type && r.type!==type) return false;
+    if(status && r.status!==status) return false;
+    const ts=tsOf(r);
+    if(lo!=null && ts<lo) return false;
+    if(hi!=null && ts>hi) return false;
+    return true;
+  });
+  out.sort((a,b)=>{
+    let av=a[sortKey], bv=b[sortKey];
+    if(sortKey==='sort'){ return (av-bv)*sortDir; }
+    av=(''+av).toLowerCase(); bv=(''+bv).toLowerCase();
+    return av<bv?-1*sortDir : av>bv?1*sortDir : 0;
+  });
+  return out;
+}
+function render(){
+  const out=visibleRows();
+  const total=out.length;
+  const pages=Math.max(1,Math.ceil(total/pageSize));
+  if(curPage>pages) curPage=pages;
+  const start=(curPage-1)*pageSize;
+  const pageRows=out.slice(start,start+pageSize);
+  const g=document.getElementById('grid');
+  const emptyMsg = curCat==='Export'
+    ? 'No configured exports yet. Configured export jobs will appear here once they are built (future story).'
+    : 'No import or export activity yet.';
+  g.innerHTML = total ? pageRows.map(rowHtml).join('')
+    : `<tr class="emptyrow"><td colspan="7">${emptyMsg}</td></tr>`;
+  document.querySelectorAll('.arrow').forEach(a=>a.textContent = a.dataset.k===sortKey ? (sortDir<0?'▼':'▲') : '');
+  renderPager(total,pages,start,pageRows.length);
+  closeMenu();
+}
+function renderPager(total,pages,start,shown){
+  document.getElementById('pagerSummary').textContent = total ? `${start+1}–${start+shown} of ${total}` : '0 of 0';
+  const btns=document.getElementById('pagerBtns');
+  let h=`<button ${curPage<=1?'disabled':''} onclick="gotoPage(${curPage-1})" title="Previous">‹</button>`;
+  const win=[]; const add=n=>{if(!win.includes(n)&&n>=1&&n<=pages)win.push(n);};
+  add(1); add(pages); for(let n=curPage-1;n<=curPage+1;n++) add(n);
+  win.sort((a,b)=>a-b);
+  let prev=0;
+  win.forEach(n=>{ if(prev && n-prev>1) h+=`<button class="ellipsis" disabled>…</button>`;
+    h+=`<button class="${n===curPage?'active':''}" onclick="gotoPage(${n})">${n}</button>`; prev=n; });
+  h+=`<button ${curPage>=pages?'disabled':''} onclick="gotoPage(${curPage+1})" title="Next">›</button>`;
+  btns.innerHTML=h;
+}
+function gotoPage(n){ curPage=n; render(); }
+function setPageSize(v){ pageSize=Number(v); curPage=1; render(); }
+function applyFilters(){ curPage=1; render(); }
+function setCat(cat){
+  curCat=cat; curPage=1;
+  const sel=document.getElementById('fCat'); if(sel) sel.value=cat;
+  rebuildTypeFilter(); render();
+}
+function sortBy(k){ if(sortKey===k){sortDir*=-1;} else {sortKey=k; sortDir=(k==='sort'?-1:1);} curPage=1; render(); }
+
+rebuildTypeFilter(); render();
+
+/* row actions menu (imports) */
+function openMenu(ev,id){
+  ev.stopPropagation();
+  const r=dataFor(id);
+  const menu=document.getElementById('rowMenu');
+  let html='';
+  const busy = (r.status==='In Progress' || r.status==='Reversal In Progress');
+  const logDisabled = !r.hasLog || busy;
+  html+=`<button ${logDisabled?'disabled':''} onclick="viewLog('${id}')">📄 View details</button>`;
+  if(logDisabled){
+    const why = r.status==='Reversal In Progress' ? 'Disabled while the reversal is in progress'
+              : r.status==='In Progress' ? 'Disabled while running'
+              : 'No log data to show';
+    html+=`<div class="why">${why}</div>`;
+  }
+  html+='<hr>';
+  if(r.reverseEligible){
+    html+=`<button class="danger" onclick="openReverse('${id}')">↺ Reverse import</button>`;
+  } else {
+    html+=`<button class="danger" disabled>↺ Reverse import</button>`;
+    const why = r.status==='Reversed' ? 'This import has already been reversed.'
+              : r.status==='Reversal In Progress' ? 'A reversal is already in progress for this import.'
+              : r.status==='In Progress' ? 'Reverse becomes available once the import finishes.'
+              : r.status==='Error' ? 'Import failed — there is nothing to reverse.'
+              : 'Not reversible.';
+    html+=`<div class="why">${why}</div>`;
+  }
+  menu.innerHTML=html;
+  const rect=ev.target.getBoundingClientRect();
+  menu.style.top=(window.scrollY+rect.bottom+6)+'px';
+  menu.style.left=(window.scrollX+rect.right-230)+'px';
+  menu.classList.add('open');
+}
+function closeMenu(){ document.getElementById('rowMenu').classList.remove('open'); }
+document.addEventListener('click',e=>{ if(!e.target.closest('#rowMenu')&&!e.target.closest('.iconbtn')) closeMenu(); });
+
+function download(id){
+  const r=dataFor(id);
+  if(r && r.source==='Power BI') alert('Stand-in: re-downloads "'+id+'" — Power BI export in the selected format ('+r.format+').');
+  else alert('Stand-in: re-downloads "'+id+'" from the Document Center.');
+}
+
+/* View details — HYBRID: inline summary in Financials + deep-link to System's full log.
+   Financials does NOT rebuild the Activity Monitor / Source Data / History Log / Exceptions tabs. */
+const SUM_FIELDS=[['total','Total Records'],['added','Added'],['updated','Updated'],['processed','Processed'],['exceptions','Exceptions'],['status','Status'],['start','Start'],['end','End']];
+function viewLog(id){
+  closeMenu();
+  const r=dataFor(id); const s=r.sum||{};
+  document.getElementById('logTitle').textContent=`Run details — ${id}`;
+  const val=k=>{
+    if(k==='status') return r.status;
+    if(k==='start') return s.start || r.date;
+    if(k==='end') return s.end || '—';
+    return (s[k]!=null ? s[k] : '—');
+  };
+  const cells=SUM_FIELDS.map(([k,label])=>{
+    const exc = (k==='exceptions' && Number(s[k])>0);
+    return `<div class="sumcell ${exc?'exc':''}"><div class="sk">${label}</div><div class="sv">${val(k)}</div></div>`;
+  }).join('');
+  const reversedBanner = r.status==='Reversed'
+    ? `<div class="revbanner">Reversed — the records this import created were permanently deleted. The DE log is retained in System for audit.</div>` : '';
+  const body=document.getElementById('logBody');
+  body.innerHTML=`
+    ${reversedBanner}
+    <p class="muted" style="margin:0 0 12px">Lightweight summary read from Import Monitor — enough to decide whether to reverse. The full tabbed log lives in System.</p>
+    <div class="sumgrid">${cells}</div>
+    <div style="margin-top:16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+      <button class="btn ghost deeplink" title="Opens the full import log in System > Import Monitor." onclick="openSystem('${id}')">Open full log in System ↗</button>
+      <span class="muted" style="font-size:11.5px">Opens this run in System &gt; Import Monitor in a new tab${r.status==='Error'?', on the Exceptions tab':''}.</span>
+    </div>
+    <p class="muted" style="font-size:11.5px;margin-top:14px;line-height:1.5">Stand-in: Financials does <b>not</b> rebuild Activity Monitor / Source Data / History Log / Exceptions — those are DE-owned and reached via the deep-link (NXT-69421). Users without System Import Monitor access would see this summary only, with the deep-link hidden.</p>`;
+  document.getElementById('logDrawer').classList.add('open');
+}
+function openSystem(id){
+  const r=dataFor(id);
+  alert('Stand-in deep-link → opens System > Import Monitor for "'+id+'" in a NEW TAB, scoped to this run'+(r.status==='Error'?' (Exceptions tab).':'.'));
+}
+function openMonitor(which){
+  alert('Stand-in deep-link → opens System > '+which+' Monitor in a NEW TAB, pre-filtered to Financials '+(which==='Import'?'import types.':'report types (GL, Journal, P&L, Trial Balance, Balance Sheet).'));
+}
+function closeLog(){ document.getElementById('logDrawer').classList.remove('open'); }
+
+/* Reverse (hard delete) flow — NO post-confirm undo; executes immediately on confirm. */
+let reverseId=null;
+function openReverse(id){
+  closeMenu();
+  const r=dataFor(id); reverseId=id;
+  document.getElementById('revHead').textContent=`Reverse import — ${r.type} (${r.id})`;
+  const erp = `If you've exported this data to your ERP, you'll need to reverse it there — <b>Financials does not update your ERP.</b>`;
+  let warn, details;
+  if(r.recordType==='config'){
+    warn = `This will permanently delete <b>${r.accounts} accounts, ${r.categories} categories</b>, and all records listed below. <b>This cannot be undone.</b> ${erp}`;
+    details = `<div class="scope">Everything that will be deleted</div>
+      <div class="row"><span>Accounts</span><b>${r.accounts}</b></div>
+      <div class="row"><span>Categories</span><b>${r.categories}</b></div>
+      <div style="margin-top:8px">Plus all records built on top of these accounts (cascade):</div>
+      <ul class="casc">${(r.deps||[]).map(d=>`<li>${d}</li>`).join('')}</ul>
+      <div style="margin-top:8px" class="muted">Chart of Accounts returns to its pre-import state.</div>`;
+  } else {
+    warn = `This will permanently delete this import and all <b>${r.entries} entries</b> it created. <b>This cannot be undone.</b> ${erp}`;
+    details = `<div class="row"><span>Entries</span><b>${r.entries}</b></div>
+      <div class="row"><span>Lines</span><b>${r.lines}</b></div>
+      <div class="row"><span>Affected fiscal year(s)</span><b>${r.scope}</b></div>`;
+    if(r.dr) details += `<div class="row"><span>Total debits</span><b>${r.dr}</b></div>`;
+    if(r.cr) details += `<div class="row"><span>Total credits</span><b>${r.cr}</b></div>`;
+  }
+  document.getElementById('revWarn').innerHTML=warn;
+  document.getElementById('revDetails').innerHTML=details;
+  const ta=document.getElementById('revComment'); ta.value=''; onCommentInput();
+  document.getElementById('revScrim').classList.add('open');
+  setTimeout(()=>ta.focus(),50);
+}
+function onCommentInput(){
+  const v=document.getElementById('revComment').value;
+  document.getElementById('revCount').textContent=v.length;
+  const ok=v.trim().length>=10;
+  document.getElementById('revProceed').disabled=!ok;
+  document.getElementById('revMin').textContent = ok?'ok ✓':'need 10+';
+  document.getElementById('revCountWrap').classList.toggle('bad',!ok && v.length>0);
+}
+function closeReverse(){ document.getElementById('revScrim').classList.remove('open'); reverseId=null; }
+
+let toastTimer=null;
+function showToast(msg,ms){
+  const t=document.getElementById('toaster');
+  document.getElementById('toastMsg').textContent=msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer); if(ms) toastTimer=setTimeout(()=>t.classList.remove('show'),ms);
+}
+function proceedReverse(){
+  const id=reverseId; closeReverse();
+  const r=dataFor(id); if(!r) return;
+  // On confirm: status -> Reversal In Progress while BL executes the hard delete (no undo window)
+  r.status='Reversal In Progress'; r.reverseEligible=false;
+  render();
+  showToast(`Reversing ${id} — deleting all records it created…`, 0);
+  // Simulate BL cascade completion
+  setTimeout(()=>{
+    r.status='Reversed'; r.deps=undefined;
+    render();
+    showToast(`${id} reversed. The accounts, categories, and all records they built were permanently deleted.`, 4500);
+  }, 1800);
+}
+</script>
+</body>
+</html>
