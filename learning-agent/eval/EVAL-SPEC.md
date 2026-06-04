@@ -67,6 +67,12 @@ Isolation: only shared mutable state is `demo._FIX` (lock-guarded around the fas
 5. `aggregate.py` + `report.py` with the per-claim evidence table + `pass@k==0` broken-task flag.
 6. **Defer:** G7/G8 (LLM, advisory), G9 (human), saturation watcher, full 22-task set. Wire `--no-llm-grader` from day one.
 
+## 7b. Scope-resolution eval (intent-and-scope front end)
+
+The "describe what you need" agent's dangerous error is the DP9 failure — confidently resolving a request to the **wrong module** (or grounding a not-built area onto a present module). Mirroring the triage FNR, the **wrong-module rate is the gated metric**; over-asking/over-refusing is friction (tracked).
+
+**Built:** `eval/scope_cases.jsonl` (18 balanced cases: 9 module / 4 ambiguous / 5 no-fixture) + `eval/scope_eval.py` (deterministic scorer; offline oracle + degenerate "always pick a module" baseline that scores ~94% wrong-module; `--live` gates on `--wrong-gate`, default 0). **Live baseline (k=1, 18 cases): 0% wrong-module, 0% friction, 100% accuracy** — resolved all module cases, asked on all ambiguous, refused all not-built areas (Family Hub / Mobile POS / Production declined, not mapped to a present module). TODO: real-traffic cases (mine `logs/review-decisions.jsonl` `action:intent_resolve`), multi-turn (the eval scores single-turn resolution), and a larger/k≥3 run.
+
 ## 6. Open calibration questions
 1. G4 density floor (`_words/250`) and G7/G8 0.9 thresholds are asserted, not derived — calibrate from a baseline distribution.
 2. Cell-D registry circularity: grading registry tier-assignment needs an independent ground-truth field map separate from `_FIX`; until then the `demo_single` path is the only place tier-assignment is genuinely tested.
@@ -74,3 +80,25 @@ Isolation: only shared mutable state is `demo._FIX` (lock-guarded around the fas
 4. Need a labeled calibration corpus (known-good + known-defect drafts) to measure the LLM grader's false-pos/neg per release; gate trust at ≥90% agreement on tier-lie cases.
 5. Only `item-management-fixture.json` exists — a second module fixture is needed for cross-module tasks.
 6. Confirm whether `demo_single` quote-typing is still live; if dead, the cardinal-sin capability signal is constructed-HTML only (REG-01/02/03).
+7. Edit-triage classifier (sec 7): dataset (24, synthetic) + deterministic FPR/FNR scorer are **built**; still need a `--live` calibration run to record a baseline FNR, **real** reviewer-edit cases (not just synthetic), and the two-stage fast-filter optimization.
+
+## 7. Edit-triage classifier (review-gate router) — its own balanced eval
+
+The human-review gate adds an **edit-triage classifier**: after a reviewer requests an AI-assisted edit, it tags the change `stylistic` (wording/format — fast-path to approve) vs `substantive` (a cited claim/quote/tier/number/label/step may have changed — read closely). It is a **router, not a grader, and advisory only** — the deterministic grounding gate re-runs after *every* edit regardless, so the classifier can never weaken grounding; at worst it routes a safe edit for an extra (free) check.
+
+It still needs its **own eval**, because the live risk (per "Demystifying evals") is **over/under-triggering**:
+- **Under-trigger** (calls a substantive edit `stylistic`) is the dangerous direction — it lets a changed claim fast-path. Target: near-zero. Treat as the publish-blocking-direction metric.
+- **Over-trigger** (calls a stylistic edit `substantive`) only costs an extra check — track it as a cost/latency signal, not a failure.
+
+**Balanced set (~20–50 real edits), tagged so a degenerate always-`substantive` classifier is exposed:**
+- reword intro / fix typo / reorder bullets / tighten prose → **should be `stylistic`**
+- change a number, field label, menu path, or step; add a new sentence about behavior; insert a `[TO VERIFY]`; alter text adjacent to a citation → **should be `substantive`**
+- the always-`substantive` baseline must score 0 on the stylistic half (catches no-discrimination).
+
+**Graders:** deterministic confusion-matrix over the labeled set (under-trigger rate = primary, gated; over-trigger rate = tracked). Run as its own task family in `eval/` with the same trial loop + pass-consistency + latency/cost logging as the guide suite. The grounding-gate re-run is a separate deterministic check (already G1–G3) and is the real safety net — the classifier eval measures routing quality, not grounding.
+
+**Built (2026-06-04):** `eval/triage_cases.jsonl` (24 balanced cases, clearly-labeled) + `eval/triage_eval.py` (deterministic scorer, separate FPR/FNR, gated on FNR). Offline mode validates the dataset + scorer via an oracle and the two degenerate baselines (always-`substantive` → FNR 0 / FPR 1; always-`stylistic` → FNR 1 / FPR 0) with **no SDK**: `python -m eval.triage_eval`. `--live` scores the real `revise.build_triage_*` classifier and exits non-zero if `FNR > --fnr-gate`. The router was also made **reasoning-blind** — it judges the before→after diff, not the reviewer's stated intent (e.g. "make it punchier" that flips a conditional to absolute).
+
+**Still TODO:** (a) `--live` calibration run + record a baseline FNR/FPR; (b) collect **real** reviewer edits from `logs/review-decisions.jsonl` (every applied/refused/no-change decision is now logged with instruction + ops + triage verdict — mine these into labeled cases; all 24 current cases are synthetic, flagged in the runner output); (c) the **two-stage classifier** optimization — a fast single-token stylistic/substantive filter that errs toward `substantive`, with chain-of-thought reasoning only on what it flags (keeps latency off the common stylistic path). Sequence: live-calibrate first, then add two-stage, then the end-to-end live demo run.
+
+**Source (verified by direct read):** Anthropic, *How we built Claude Code auto mode: a safer way to skip permissions* (Mar 2026) — model-based approval classifier with a human backstop; report **FPR (needless friction) and FNR (dangerous misses) separately**, weight toward FNR (theirs ~17% on real overeager actions, and explicitly "not a drop-in replacement for careful human review"); two-stage fast-filter-then-reason; reasoning-blind design (judge what was done, not what was argued). Directly mirrors this router's advisory-with-deterministic-backstop posture.

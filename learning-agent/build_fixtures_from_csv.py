@@ -60,6 +60,8 @@ def main() -> None:
     ap.add_argument("csv_path")
     ap.add_argument("--modules", default=",".join(TARGET_MODULES),
                     help="comma-separated module names")
+    ap.add_argument("--strict", action="store_true",
+                    help="fail the build if any ticket's parent can't be resolved to a real epic")
     args = ap.parse_args()
     modules = [m.strip() for m in args.modules.split(",") if m.strip()]
 
@@ -71,6 +73,21 @@ def main() -> None:
 
     def first(name):
         return idx.get(name, [None])[0]
+
+    # The CSV `Parent` column stores the parent's *internal numeric ID*, not its
+    # issue key — so a story's Parent reads `105530` while the epic's key is
+    # `NXT-64788`. Build an id->key map (from ALL rows, across modules) so we can
+    # canonicalize Parent references to real keys. Guarded: no-op if the export
+    # has no "Issue id" column (then Parent is left as-is).
+    issue_id_col = first("Issue id")
+    key_col_for_map = first("Issue key")
+    id2key: dict[str, str] = {}
+    if issue_id_col is not None and key_col_for_map is not None:
+        for r in rows:
+            iid = _clean(r[issue_id_col]) if issue_id_col < len(r) else ""
+            kk = _clean(r[key_col_for_map]) if key_col_for_map < len(r) else ""
+            if iid and kk:
+                id2key[iid] = kk
 
     # Acceptance Criteria: pick the AC column that actually carries content.
     ac_cols = idx.get("Custom field (Acceptance Criteria)", [])
@@ -105,7 +122,8 @@ def main() -> None:
             "ac": _clean(row[ac_col]) if (ac_col is not None and ac_col < len(row)) else "",
             "rn": cell(row, C["rn"]), "rn_internal": cell(row, C["rn_internal"]),
             "desc": cell(row, C["desc"]),
-            "epic_key": cell(row, C["epic_key"]) or "-",
+            # Canonicalize Parent (internal id) -> real issue key when we can map it.
+            "epic_key": id2key.get(cell(row, C["epic_key"]), cell(row, C["epic_key"])) or "-",
             "epic_summary": cell(row, C["epic_summary"]),
         }
 
@@ -121,16 +139,47 @@ def main() -> None:
                 epics[rec["key"]] = {**rec, "children": []}
             else:
                 tickets[rec["key"]] = rec
+        # Unique epic-summary -> key map (real epics only) for the summary-match fallback.
+        by_summary: dict[str, list[str]] = {}
+        for k, e in epics.items():
+            s = (e.get("summary") or "").strip()
+            if s:
+                by_summary.setdefault(s, []).append(k)
+        uniq_summary = {s: ks[0] for s, ks in by_summary.items() if len(ks) == 1}
+        dup_summaries = {s: ks for s, ks in by_summary.items() if len(ks) > 1}
+
+        # Resolve every ticket's parent to a REAL epic key in THIS module. NEVER mint a
+        # stub and never persist a bare internal id. Order: (1) id->key already applied in
+        # record(); (2) already a real epic key -> link; (3) summary-match to a UNIQUE real
+        # epic; (4) otherwise DROP the parent (epic_key="-") — unresolved/cross-module refs
+        # are not fabricated. (Resolve identifiers at the boundary; fail loud, don't mask.)
+        dropped = 0
         for k, t in tickets.items():
             ek = t.get("epic_key")
-            if ek and ek != "-":
-                epics.setdefault(ek, {
-                    "key": ek, "summary": t.get("epic_summary", ""), "status": "?",
-                    "issuetype": "Epic", "priority": "-", "components": [], "module": module,
-                    "rn_required": "-", "rn_title": "", "ac": "", "rn": "", "rn_internal": "",
-                    "desc": "", "epic_key": "-", "epic_summary": "", "children": [],
-                })
+            if not ek or ek == "-":
+                continue
+            if ek in epics:
                 epics[ek]["children"].append(k)
+                continue
+            es = (t.get("epic_summary") or "").strip()
+            if es in uniq_summary:
+                t["epic_key"] = uniq_summary[es]
+                epics[uniq_summary[es]]["children"].append(k)
+            else:
+                t["epic_key"] = "-"
+                dropped += 1
+
+        # Validation invariant: after build, no ticket may point at a non-epic key.
+        bare_left = sorted({t["epic_key"] for t in tickets.values()
+                            if t["epic_key"] != "-" and t["epic_key"] not in epics})
+        if dropped or dup_summaries or bare_left:
+            msg = (f"[{module}] parent resolution — dropped {dropped} unresolved ref(s); "
+                   f"{len(dup_summaries)} duplicate-summary epic group(s); "
+                   f"{len(bare_left)} unresolved key(s) remaining.")
+            if args.strict and (dropped or bare_left):
+                raise SystemExit("STRICT FAIL — " + msg + " (re-export with an 'Issue id' column to resolve parents)")
+            print("  WARN " + msg)
+        assert not bare_left, f"invariant violated: bare parent keys persisted: {bare_left}"
 
         fixture = {"module": module, "captured_at": "from-csv:" + Path(args.csv_path).name,
                    "tickets": tickets, "epics": epics}

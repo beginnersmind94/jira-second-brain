@@ -1,0 +1,18 @@
+{"id": "MOD-01", "kind": "module", "expect": "Eligibility", "request": "How do staff run the verification sampling process for free-and-reduced applications?"}
+{"id": "MOD-02", "kind": "module", "expect": "Item Management", "request": "Walk me through creating and editing food items, their pack sizes and units."}
+{"id": "MOD-03", "kind": "module", "expect": "Menu Planning", "request": "How do we build menu cycles and attach recipes to a menu?"}
+{"id": "MOD-04", "kind": "module", "expect": "Accountability", "request": "Guide to daily reconciliation and running edit checks at the site level."}
+{"id": "MOD-05", "kind": "module", "expect": "Inventory", "request": "How do I receive stock and create a quick receipt against a vendor?"}
+{"id": "MOD-06", "kind": "module", "expect": "Insights", "request": "A guide to the KPI dashboards and the reporting workspace."}
+{"id": "MOD-07", "kind": "module", "expect": "Account Management", "request": "How do I set up a new staff account and assign its permissions?"}
+{"id": "MOD-08", "kind": "module", "expect": "Eligibility", "request": "Explain the income survey intake and auto-processing setting."}
+{"id": "MOD-09", "kind": "module", "expect": "Menu Planning", "request": "Nutrient analysis for a planned menu — how does it work?"}
+{"id": "AMB-01", "kind": "ambiguous", "expect": null, "request": "I need a quick guide for my new staff."}
+{"id": "AMB-02", "kind": "ambiguous", "expect": null, "request": "How do reports work in the system?"}
+{"id": "AMB-03", "kind": "ambiguous", "expect": null, "request": "Make me a one-pager on getting started."}
+{"id": "AMB-04", "kind": "ambiguous", "expect": null, "request": "Something about setting things up before go-live."}
+{"id": "NOFIX-01", "kind": "no_fixture", "expect": null, "request": "A guide to the mobile cashier POS app for lunch lines."}
+{"id": "NOFIX-02", "kind": "no_fixture", "expect": null, "request": "How do parents apply through the Family Hub portal?"}
+{"id": "NOFIX-03", "kind": "no_fixture", "expect": null, "request": "Month-end financials close and payroll export."}
+{"id": "NOFIX-04", "kind": "no_fixture", "expect": null, "request": "Production records and HACCP for the kitchen production module."}
+{"id": "NOFIX-05", "kind": "no_fixture", "expect": null, "request": "Professional Standards CEU training-hours tracking for staff."}

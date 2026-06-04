@@ -763,6 +763,74 @@
     }
     .badge.draft { background: var(--amber-soft); color: var(--amber-text); }
     .badge.pending { background: var(--amber-soft); color: var(--amber-text); border: 1px solid var(--border); }
+    .badge.approved { background: var(--green-soft); color: var(--green-text); border: 1px solid var(--border); }
+
+    /* ───────────────────────── Describe-what-you-need mode ───────────────────────── */
+    .seg { display:flex; gap:4px; background:var(--panel2); border:1px solid var(--border); border-radius:var(--radius-pill); padding:3px; margin-bottom:16px; }
+    .seg button { flex:1; border:0; background:transparent; padding:7px 10px; font-size:12.5px; font-family:var(--font); color:var(--muted); border-radius:var(--radius-pill); cursor:pointer; }
+    .seg button.active { background:var(--surface); color:var(--text); font-weight:650; box-shadow:0 1px 2px rgba(0,0,0,.05); }
+    #mode-describe textarea { width:100%; box-sizing:border-box; padding:9px 11px; font-family:var(--font); font-size:13px; color:var(--text); background:var(--surface); border:1px solid var(--border-strong); border-radius:var(--radius-sm); resize:vertical; }
+    #mode-describe textarea:focus-visible { outline:2px solid var(--teal); outline-offset:1px; }
+    .intent-convo { margin-top:14px; display:flex; flex-direction:column; gap:8px; }
+    .intent-convo .bubble { padding:9px 12px; border-radius:10px; font-size:13px; line-height:1.5; }
+    .intent-convo .bubble.user { background:var(--accent-soft); color:var(--text); align-self:flex-end; max-width:90%; }
+    .intent-convo .bubble.bot { background:var(--panel2); color:var(--text-soft); border:1px solid var(--border); font-family:var(--serif); }
+    .intent-convo .bubble.bot.warn { background:var(--amber-soft); color:var(--amber-text); border-color:var(--border); }
+    .scope-card { margin-top:14px; border:1px solid var(--border-strong); border-radius:var(--radius-sm); background:var(--surface); overflow:hidden; }
+    .scope-card .sc-head { padding:11px 14px; background:var(--panel2); border-bottom:1px solid var(--border); }
+    .scope-card .sc-title { font-weight:700; color:var(--text); font-size:13px; }
+    .scope-card .sc-meta { font-size:11.5px; color:var(--muted); margin-top:3px; }
+    .scope-card .sc-body { padding:6px 14px; max-height:280px; overflow-y:auto; }
+    .scope-card .sc-sec { padding:8px 0; border-bottom:1px solid var(--border); }
+    .scope-card .sc-sec:last-child { border-bottom:0; }
+    .scope-card .sc-sec .t { font-weight:650; color:var(--text); font-size:12.5px; }
+    .scope-card .sc-sec .sd { font-size:11.5px; color:var(--muted); margin-top:2px; }
+    .scope-card .sc-sec .k { font-family:var(--mono); font-size:11px; color:var(--clay); margin-top:3px; }
+    .scope-card .sc-actions { display:flex; gap:8px; padding:12px 14px; border-top:1px solid var(--border); background:var(--panel2); }
+    .scope-card .sc-actions button { flex:0 0 auto; }
+
+    /* ───────────────────────── Review: AI-assisted edit bar ───────────────────────── */
+    .edit-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: var(--panel2);
+      border-bottom: 1px solid var(--border);
+    }
+    .edit-bar input {
+      flex: 1;
+      min-width: 0;
+      padding: 8px 11px;
+      font-family: var(--font);
+      font-size: 13px;
+      color: var(--text);
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+    }
+    .edit-bar input:focus-visible { outline: 2px solid var(--teal); outline-offset: 1px; }
+    .edit-bar button { white-space: nowrap; }
+    .edit-result {
+      padding: 11px 16px;
+      background: var(--panel2);
+      border-bottom: 1px solid var(--border);
+      font-size: 12.5px;
+      color: var(--text-soft);
+    }
+    .edit-result .er-head { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+    .edit-result .er-tag {
+      font-size: 10px; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase;
+      padding: 2px 8px; border-radius: var(--radius-pill); border: 1px solid var(--border);
+    }
+    .edit-result .er-tag.stylistic { background: var(--green-soft); color: var(--green-text); }
+    .edit-result .er-tag.substantive { background: var(--amber-soft); color: var(--amber-text); }
+    .edit-result .er-tag.refused,
+    .edit-result .er-tag.broke { background: var(--red-soft); color: var(--red-text); }
+    .edit-result .er-reason { color: var(--text-soft); font-family: var(--serif); }
+    .edit-result .er-meta { color: var(--muted); margin-top: 4px; font-size: 11.5px; }
+    .edit-result ul { margin: 5px 0 0; padding-left: 18px; }
+    .edit-result li { margin: 2px 0; color: var(--muted); }
     .secondary.danger { color: var(--clay); border-color: var(--border-strong); }
     .secondary.danger:hover:not(:disabled) { background: var(--red-soft); border-color: var(--clay); }
     .secondary.accent { background: var(--text); color: #FAF9F5; border-color: var(--text); }
@@ -872,24 +940,42 @@
     <div class="panel">
       <div class="panel-header">Create a resource</div>
       <div class="panel-body">
-        <div class="field">
-          <label id="transcript-label" for="file">Training transcript</label>
-          <div id="drop" class="drop" role="button" tabindex="0" aria-labelledby="transcript-label" aria-describedby="drop-help">
-            <p class="big">Upload transcript</p>
-            <p id="drop-help">Markdown or plain text</p>
-            <input id="file" type="file" accept=".md,.txt" hidden />
+        <div class="seg" id="create-mode" role="tablist">
+          <button type="button" data-cmode="transcript" class="active">Upload transcript</button>
+          <button type="button" data-cmode="describe">Describe what you need</button>
+        </div>
+
+        <div id="mode-transcript">
+          <div class="field">
+            <label id="transcript-label" for="file">Training transcript</label>
+            <div id="drop" class="drop" role="button" tabindex="0" aria-labelledby="transcript-label" aria-describedby="drop-help">
+              <p class="big">Upload transcript</p>
+              <p id="drop-help">Markdown or plain text</p>
+              <input id="file" type="file" accept=".md,.txt" hidden />
+            </div>
+            <div id="chosen" class="chosen" style="display:none;"></div>
           </div>
-          <div id="chosen" class="chosen" style="display:none;"></div>
+          <div class="field">
+            <label for="module">Product module</label>
+            <select id="module"><option value="">Select a module</option></select>
+          </div>
+          <div class="field">
+            <label for="template">Resource format</label>
+            <select id="template"><option value="">Select a format</option></select>
+          </div>
+          <button id="run" class="primary" disabled>Create draft</button>
         </div>
-        <div class="field">
-          <label for="module">Product module</label>
-          <select id="module"><option value="">Select a module</option></select>
+
+        <div id="mode-describe" style="display:none;">
+          <div class="field">
+            <label for="intent-input">Describe the guide you need</label>
+            <textarea id="intent-input" rows="3" placeholder="e.g. a quick one-pager on income survey auto-processing in Eligibility"></textarea>
+            <p class="hint" style="margin-top:6px;">No transcript needed — name the module &amp; topic. I'll search the tickets, propose a scope, and you confirm before anything is written. (⌘/Ctrl+Enter to send)</p>
+          </div>
+          <button id="intent-go" class="primary">Find the scope</button>
+          <div id="intent-convo" class="intent-convo" aria-live="polite"></div>
+          <div id="scope-card" class="scope-card" style="display:none;"></div>
         </div>
-        <div class="field">
-          <label for="template">Resource format</label>
-          <select id="template"><option value="">Select a format</option></select>
-        </div>
-        <button id="run" class="primary" disabled>Create draft</button>
       </div>
     </div>
 
@@ -921,8 +1007,14 @@
           <span id="verdict-badge" class="verdict-badge" style="display:none;"></span>
           <button id="download-pdf" class="secondary pdf-btn" disabled>Download PDF</button>
           <button id="view-toggle" class="secondary" disabled>Show raw (with sources)</button>
-          <button id="publish" class="secondary accent" disabled>Release (Pending SME Review)</button>
+          <button id="publish" class="secondary accent" disabled>Approve &rarr; Add to Library</button>
         </div>
+        <div id="edit-bar" class="edit-bar" style="display:none;">
+          <input id="edit-instruction" type="text" autocomplete="off"
+                 placeholder="Request a change — e.g. &ldquo;shorten the intro&rdquo;, &ldquo;make step 3 clearer&rdquo;&hellip;" />
+          <button id="edit-run" class="secondary" disabled>Request edits</button>
+        </div>
+        <div id="edit-result" class="edit-result" style="display:none;"></div>
         <div id="preview" class="preview"><div class="empty">The generated resource will appear here.</div></div>
         <div id="eval-panel" class="eval-panel" style="display:none;">
           <div class="eval-header">
@@ -957,9 +1049,9 @@
       <div class="field">
         <label for="lib-status">Status</label>
         <select id="lib-status">
+          <option value="library" selected>In Library (approved)</option>
+          <option value="awaiting">Awaiting review</option>
           <option value="">All</option>
-          <option value="draft">Draft</option>
-          <option value="published">Published</option>
         </select>
       </div>
       <div class="field">
@@ -984,9 +1076,15 @@
           <div class="preview-toolbar">
             <span id="lib-resid" class="id">pick a resource</span>
             <button id="lib-download-pdf" class="secondary pdf-btn" disabled>Download PDF</button>
-            <button id="lib-publish" class="secondary accent" disabled>Release (Pending SME Review)</button>
+            <button id="lib-publish" class="secondary accent" disabled>Approve &rarr; Add to Library</button>
             <button id="lib-delete" class="secondary danger" disabled>Delete</button>
           </div>
+          <div id="lib-edit-bar" class="edit-bar" style="display:none;">
+            <input id="lib-edit-instruction" type="text" autocomplete="off"
+                   placeholder="Request a change — e.g. &ldquo;shorten the intro&rdquo;, &ldquo;make step 3 clearer&rdquo;&hellip;" />
+            <button id="lib-edit-run" class="secondary">Request edits</button>
+          </div>
+          <div id="lib-edit-result" class="edit-result" style="display:none;"></div>
           <div id="lib-preview" class="preview"><div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg><div class="hint">Select a guide from the list to preview it here.</div></div></div>
         </div>
       </div>
@@ -1019,8 +1117,8 @@
         <title id="dfd-title">Learning Studio data-flow</title>
         <desc id="dfd-desc">A training transcript loads into a four-stage pipeline (Map, Plan, Verify, Draft). A
           grounding cluster (Jira search, load epics, read tickets) feeds verbatim citations into Verify and Draft.
-          The draft is scored by the grounding evaluator; passing drafts publish to the Library, failing drafts loop
-          back to Draft for a re-write.</desc>
+          The draft is scored by the grounding evaluator; passing drafts go to a human reviewer who approves them
+          into the Library (or requests AI-assisted edits), while failing drafts loop back to Draft for a re-write.</desc>
         <defs>
           <marker id="ah" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#908C82"/></marker>
           <marker id="ah-pass" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#4F7A4E"/></marker>
@@ -1071,21 +1169,23 @@
         <text class="nsub" x="575" y="472" text-anchor="middle">every claim traced to a source</text>
         <text class="nsub" x="575" y="487" text-anchor="middle">cost per guide</text>
 
-        <rect class="node lib" x="715" y="430" width="120" height="52" rx="11"/>
-        <text class="ntitle" x="775" y="460" text-anchor="middle">Library</text>
+        <rect class="node lib" x="715" y="424" width="120" height="64" rx="11"/>
+        <text class="ntitle" x="775" y="450" text-anchor="middle">Library</text>
+        <text class="nsub" x="775" y="468" text-anchor="middle">human-approved</text>
 
         <!-- scored by (Draft → Eval) -->
         <path class="edge" d="M722,277 C742,350 705,400 642,413" marker-end="url(#ah)"/>
         <text class="elabel" x="724" y="352" text-anchor="start">scored by</text>
-        <!-- pass → Library -->
-        <path class="edge pass" d="M680,452 H712" marker-end="url(#ah-pass)"/>
-        <text class="elabel pass" x="696" y="445" text-anchor="middle">pass → publishes</text>
+        <!-- pass → human review → Library -->
+        <path class="edge pass" d="M680,456 H712" marker-end="url(#ah-pass)"/>
+        <text class="elabel pass" x="696" y="449" text-anchor="middle">pass → review → approve</text>
         <!-- fails → re-draft (loop) -->
         <path class="edge fail" d="M520,414 C496,348 560,312 688,276" marker-end="url(#ah-fail)"/>
         <text class="elabel fail" x="486" y="352" text-anchor="start">fails eval → re-draft</text>
       </svg>
       <p class="dfd-caption">Every guide flows from a training transcript through grounded research and a
-        four-stage pipeline, then must pass automated grounding checks before reaching the Library.</p>
+        four-stage pipeline, then must pass automated grounding checks. A human reviewer reads it — requesting
+        AI-assisted edits if needed — and approves it before it enters the Library.</p>
     </div>
 
     <div class="stage-grid">
@@ -1094,12 +1194,13 @@
       <div class="stage-card"><div class="sk"><b>3</b> Verify</div><p>Pulls Acceptance Criteria and Release Notes to confirm every claim against its true source and trust tier.</p></div>
       <div class="stage-card"><div class="sk"><b>4</b> Draft</div><p>Writes the guide and cites each claim by source ID — exact quotes are inserted from the registry, never typed by the model.</p></div>
       <div class="stage-card"><div class="sk">Grounding</div><p>Jira search → load epics → read tickets supplies the verbatim, correctly-tiered evidence the pipeline cites.</p></div>
-      <div class="stage-card"><div class="sk">Eval gate</div><p>Automated grounding checks score the draft; only provably-grounded guides reach the Library, marked Pending SME Review.</p></div>
+      <div class="stage-card"><div class="sk">Eval gate</div><p>Automated grounding checks score the draft — the machine floor. Only provably-grounded guides become reviewable.</p></div>
+      <div class="stage-card"><div class="sk">Review &amp; approve</div><p>A human reviews the grounded draft, can request AI-assisted edits (re-checked instantly and tagged stylistic or substantive), then approves it into the Library.</p></div>
     </div>
 
     <div class="legend">
       <span><i></i> data flow</span>
-      <span><i class="pass"></i> passes grounding → Library</span>
+      <span><i class="pass"></i> passes grounding → review → Library</span>
       <span><i class="fail"></i> fails eval → re-draft</span>
       <span><i class="box"></i> pipeline stage</span>
     </div>
@@ -1307,6 +1408,9 @@ runBtn.addEventListener('click', async () => {
   document.getElementById('download-pdf').disabled = true;
   document.getElementById('verdict-badge').style.display = 'none';
   document.getElementById('eval-panel').style.display = 'none';
+  document.getElementById('edit-bar').style.display = 'none';
+  document.getElementById('edit-result').style.display = 'none';
+  resetApproveBtn();
   currentDraftRaw = null;
   currentDraftClean = null;
   resetTasks();
@@ -1346,25 +1450,9 @@ runBtn.addEventListener('click', async () => {
   evtSource.addEventListener('text', e => handleText(JSON.parse(e.data)));
   evtSource.addEventListener('result', e => addDebug('result', JSON.parse(e.data)));
   evtSource.addEventListener('done', e => {
-    const d = JSON.parse(e.data);
-    currentResourceId = d.resource_id;
-    document.getElementById('resid').textContent = d.resource_id;
-    document.getElementById('download-pdf').disabled = false;
-    document.getElementById('log-link').href = `/logs/${d.resource_id}?format=raw`;
-    // Publish stays DISABLED until the Evaluator returns pass or warn.
-    document.getElementById('publish').disabled = true;
-    document.getElementById('publish').title = 'Waiting for Evaluator verdict...';
-    document.getElementById('view-toggle').disabled = false;
-    loadDraft(d.resource_id);
-    completeTask('generate');
-    setProgress(100);
-    setStatus(d.cost_usd != null ? `draft ready · $${Number(d.cost_usd).toFixed(4)}` : 'draft ready', 'done');
+    onDraftReady(JSON.parse(e.data));
     evtSource.close();
     runBtn.disabled = false;
-    // Auto-trigger the evaluator (Task 5)
-    runEvaluator(d.resource_id);
-    // Refresh the evals dashboard so each generation shows up live.
-    loadEvals();
   });
   evtSource.addEventListener('error', e => {
     let msg = 'stream error';
@@ -1375,6 +1463,174 @@ runBtn.addEventListener('click', async () => {
     evtSource.close();
     runBtn.disabled = false;
   });
+});
+
+// Shared: a freshly-generated draft is ready — wire the review pane (used by BOTH
+// the transcript path and the "describe what you need" scope path).
+function onDraftReady(d) {
+  currentResourceId = d.resource_id;
+  document.getElementById('resid').textContent = d.resource_id;
+  document.getElementById('download-pdf').disabled = false;
+  document.getElementById('log-link').href = `/logs/${d.resource_id}?format=raw`;
+  document.getElementById('publish').disabled = true;               // until grounding passes
+  document.getElementById('publish').title = 'Waiting for grounding check...';
+  document.getElementById('view-toggle').disabled = false;
+  document.getElementById('edit-bar').style.display = '';
+  document.getElementById('edit-run').disabled = false;
+  document.getElementById('edit-result').style.display = 'none';
+  resetApproveBtn();
+  loadDraft(d.resource_id);
+  completeTask('generate');
+  setProgress(100);
+  setStatus(d.cost_usd != null ? `draft ready · $${Number(d.cost_usd).toFixed(4)}` : 'draft ready', 'done');
+  runEvaluator(d.resource_id);   // deterministic grounding gate
+  loadEvals();
+}
+
+// ─── "Describe what you need" mode (intent-and-scope agent) ──────────────
+(function () {
+  const seg = document.getElementById('create-mode');
+  if (!seg) return;
+  seg.addEventListener('click', e => {
+    const b = e.target.closest('button[data-cmode]'); if (!b) return;
+    seg.querySelectorAll('button').forEach(x => x.classList.toggle('active', x === b));
+    document.getElementById('mode-transcript').style.display = b.dataset.cmode === 'transcript' ? '' : 'none';
+    document.getElementById('mode-describe').style.display = b.dataset.cmode === 'describe' ? '' : 'none';
+  });
+})();
+
+let intentHistory = [];   // [{role, text}] for multi-turn clarification
+function intentBubble(role, text, cls) {
+  const c = document.getElementById('intent-convo');
+  const d = document.createElement('div');
+  d.className = 'bubble ' + (role === 'user' ? 'user' : 'bot') + (cls ? ' ' + cls : '');
+  d.textContent = text;
+  c.appendChild(d); c.scrollTop = c.scrollHeight;
+}
+function intentHistoryText() {
+  return intentHistory.map(m => (m.role === 'user' ? 'User: ' : 'Assistant: ') + m.text).join('\n');
+}
+
+async function resolveIntent() {
+  const input = document.getElementById('intent-input');
+  const goBtn = document.getElementById('intent-go');
+  const text = (input.value || '').trim();
+  if (!text) { input.focus(); return; }
+  document.getElementById('scope-card').style.display = 'none';
+  intentBubble('user', text);
+  const prior = intentHistoryText();
+  intentHistory.push({ role: 'user', text });
+  input.value = '';
+  goBtn.disabled = true; goBtn.textContent = 'Thinking…';
+  let r;
+  try {
+    const resp = await fetch('/intent/resolve', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ request: text, history: prior }),
+    });
+    if (!resp.ok) throw new Error(await resp.text());
+    r = await resp.json();
+  } catch (e) {
+    intentBubble('assistant', 'Error: ' + (e.message || e), 'warn');
+    goBtn.disabled = false; goBtn.textContent = 'Find the scope'; return;
+  }
+  goBtn.disabled = false; goBtn.textContent = 'Find the scope';
+
+  if (r.stage === 'clarify') {
+    intentHistory.push({ role: 'assistant', text: r.question });
+    intentBubble('assistant', r.question);
+  } else if (r.stage === 'refused') {
+    intentBubble('assistant', r.reason + (r.available_modules ? '  · Available: ' + r.available_modules.join(', ') : ''), 'warn');
+  } else if (r.stage === 'unsupported') {
+    intentBubble('assistant', '[' + r.module + '] ' + r.note, 'warn');
+  } else if (r.stage === 'scope') {
+    intentBubble('assistant', `Proposed a ${r.scope.format} ${r.scope.module} guide — ${r.scope.sections.length} sections grounded in ${[...new Set(r.scope.sections.flatMap(s => s.ticket_keys || []))].length} tickets. Review & confirm below.`);
+    renderScopeCard(r.scope, r.cost_usd);
+  }
+}
+
+function renderScopeCard(scope, cost) {
+  const card = document.getElementById('scope-card');
+  const keys = [...new Set(scope.sections.flatMap(s => s.ticket_keys || []))];
+  const secs = scope.sections.map(s => `
+    <div class="sc-sec">
+      <div class="t">${escapeHtml(s.title)}</div>
+      ${s.scope ? `<div class="sd">${escapeHtml(s.scope)}</div>` : ''}
+      <div class="k">${(s.ticket_keys || []).map(escapeHtml).join(' · ') || '—'}</div>
+    </div>`).join('');
+  card.innerHTML = `
+    <div class="sc-head">
+      <div class="sc-title">${escapeHtml(scope.module)} · ${escapeHtml(scope.format)}${scope.assumed_format ? ' (assumed)' : ''}</div>
+      <div class="sc-meta">${escapeHtml(scope.topic || '')} · ${scope.sections.length} sections · ${keys.length} tickets${cost != null ? ' · $' + Number(cost).toFixed(4) : ''}</div>
+    </div>
+    <div class="sc-body">${secs}</div>
+    <div class="sc-actions">
+      <button class="primary" id="scope-confirm">Confirm &amp; generate</button>
+      <button class="secondary" id="scope-refine">Keep refining</button>
+    </div>`;
+  card.style.display = '';
+  document.getElementById('scope-confirm').onclick = () => confirmScope(scope);
+  document.getElementById('scope-refine').onclick = () => {
+    card.style.display = 'none'; document.getElementById('intent-input').focus();
+  };
+}
+
+// Consume an SSE stream delivered over POST (EventSource is GET-only).
+async function streamPost(url, body, onEvent) {
+  const resp = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  if (!resp.ok || !resp.body) throw new Error(await resp.text().catch(() => resp.statusText));
+  const reader = resp.body.getReader(); const dec = new TextDecoder(); let buf = '';
+  for (;;) {
+    const { value, done } = await reader.read(); if (done) break;
+    buf += dec.decode(value, { stream: true }).replace(/\r/g, '');
+    let i;
+    while ((i = buf.indexOf('\n\n')) >= 0) {
+      const chunk = buf.slice(0, i); buf = buf.slice(i + 2);
+      let ev = 'message', data = '';
+      for (const line of chunk.split('\n')) {
+        if (line.startsWith('event:')) ev = line.slice(6).trim();
+        else if (line.startsWith('data:')) data += line.slice(5).trim();
+      }
+      if (data) { try { onEvent(ev, JSON.parse(data)); } catch {} }
+    }
+  }
+}
+
+function activityLine(text) {
+  const a = document.getElementById('activity');
+  const d = document.createElement('div');
+  d.style.cssText = 'font-size:12.5px;color:var(--text-soft);padding:2px 0;white-space:pre-wrap;';
+  d.textContent = text;
+  a.appendChild(d); a.scrollTop = a.scrollHeight;
+}
+
+async function confirmScope(scope) {
+  document.getElementById('scope-card').style.display = 'none';
+  document.getElementById('activity').innerHTML = '';
+  document.getElementById('preview').innerHTML = '<div class="empty">Generating from your confirmed scope…</div>';
+  document.getElementById('resid').textContent = 'awaiting...';
+  ['publish', 'view-toggle', 'download-pdf'].forEach(id => document.getElementById(id).disabled = true);
+  document.getElementById('verdict-badge').style.display = 'none';
+  document.getElementById('eval-panel').style.display = 'none';
+  document.getElementById('edit-bar').style.display = 'none';
+  document.getElementById('edit-result').style.display = 'none';
+  resetApproveBtn(); resetTasks(); setProgress(15);
+  setStatus('generating from scope…', 'running');
+  intentBubble('assistant', 'Generating — watch the draft build on the right.');
+  try {
+    await streamPost('/intent/confirm', { scope }, (ev, d) => {
+      if (ev === 'text') activityLine((d.text || '').replace(/\n+$/, ''));
+      else if (ev === 'done') onDraftReady(d);
+      else if (ev === 'error') { setStatus('error: ' + (d.message || 'generation failed'), 'err'); activityLine('Error: ' + (d.message || '')); }
+    });
+  } catch (e) {
+    setStatus('confirm failed: ' + (e.message || e), 'err'); activityLine('Error: ' + (e.message || e));
+  }
+}
+
+document.getElementById('intent-go') && document.getElementById('intent-go').addEventListener('click', resolveIntent);
+document.getElementById('intent-input') && document.getElementById('intent-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); resolveIntent(); }
 });
 
 // ─── Evaluator (Task 5) ────────────────────────────────────────────────
@@ -1429,14 +1685,15 @@ function runEvaluator(rid) {
     setVerdictBadge(d.verdict || 'error', d.summary || '');
     renderEvalChecks(d);
     evalSource.close();
-    // Hard-gate publish on verdict
+    // Hard-gate approval on the grounding verdict.
     const publishBtn = document.getElementById('publish');
     if (d.verdict === 'pass' || d.verdict === 'warn') {
+      resetApproveBtn();
       publishBtn.disabled = false;
-      publishBtn.title = 'Grounding gate passed — release for use, marked Pending Review by SME.';
+      publishBtn.title = 'Grounding check passed — review the draft, then approve to add it to the Library.';
     } else {
       publishBtn.disabled = true;
-      publishBtn.title = 'Grounding gate FAILED — cannot release until grounding is clean. See checks below.';
+      publishBtn.title = 'Grounding check FAILED — cannot approve until grounding is clean. See checks below.';
     }
   });
   evalSource.addEventListener('eval_error', e => {
@@ -1469,24 +1726,123 @@ document.getElementById('view-toggle').addEventListener('click', () => {
   document.getElementById('preview').innerHTML = showRaw ? currentDraftRaw : currentDraftClean;
 });
 
+function resetApproveBtn() {
+  const btn = document.getElementById('publish');
+  btn.innerHTML = 'Approve &rarr; Add to Library';
+  btn.disabled = true;
+}
+
+// Approve — the human gate INTO the Library.
 document.getElementById('publish').addEventListener('click', async () => {
   if (!currentResourceId) return;
-  if (!confirm('Release this guide for use? It becomes available in the Library and for download, '
-    + 'marked "Pending Review by SME" until a subject-matter expert approves it.')) return;
-  const r = await fetch(`/resources/${currentResourceId}/publish_pending`, { method: 'POST' });
+  if (!confirm('Approve this guide and add it to the Library?\n\n'
+    + 'Grounding has been auto-verified. Approving is your sign-off that the content is correct.')) return;
+  const r = await fetch(`/resources/${currentResourceId}/approve`, { method: 'POST' });
   if (!r.ok) {
     let detail = await r.text();
     try {
       const j = JSON.parse(detail);
       detail = (j.detail && typeof j.detail === 'object') ? j.detail.message : (j.detail || detail);
     } catch {}
-    alert('Release blocked:\n\n' + detail);
+    alert('Approval blocked:\n\n' + detail);
     return;
   }
   const btn = document.getElementById('publish');
-  btn.textContent = '✓ Released — Pending SME Review';
+  btn.textContent = '✓ Approved · in Library';
   btn.disabled = true;
-  setStatus('released — Pending Review by SME', 'done');
+  document.getElementById('edit-run').disabled = true;
+  setStatus('approved — added to Library', 'done');
+  loadEvals();
+});
+
+// ─── AI-assisted edits (the review loop) ───────────────────────────────
+async function runRevision() {
+  if (!currentResourceId) return;
+  const input = document.getElementById('edit-instruction');
+  const instruction = (input.value || '').trim();
+  if (!instruction) { input.focus(); return; }
+  const runEditBtn = document.getElementById('edit-run');
+  const result = document.getElementById('edit-result');
+  runEditBtn.disabled = true;
+  runEditBtn.textContent = 'Revising…';
+  result.style.display = '';
+  result.innerHTML = '<div class="er-head"><span class="er-reason">Asking the editor to revise the draft…</span></div>';
+
+  let data;
+  try {
+    const r = await fetch(`/resources/${currentResourceId}/revise`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ instruction }),
+    });
+    if (!r.ok) throw new Error(await r.text());
+    data = await r.json();
+  } catch (e) {
+    result.innerHTML = `<div class="er-head"><span class="er-tag broke">Error</span></div>`
+      + `<div class="er-reason">${escapeHtml(String(e.message || e))}</div>`;
+    runEditBtn.disabled = false;
+    runEditBtn.textContent = 'Request edits';
+    return;
+  }
+
+  renderEditResult(data);
+  runEditBtn.disabled = false;
+  runEditBtn.textContent = 'Request edits';
+
+  if (data.refused || !data.changed) return;
+
+  // Refreshed content + re-open review: update preview, re-run the grounding
+  // check (which re-gates Approve), and require a fresh approval.
+  currentDraftRaw = data.raw_html;
+  currentDraftClean = data.html;
+  document.getElementById('preview').innerHTML = (showRaw ? currentDraftRaw : currentDraftClean) || '<div class="empty">empty draft</div>';
+  input.value = '';
+  resetApproveBtn();
+  runEvaluator(currentResourceId);
+}
+
+function renderEditResult(data, elId = 'edit-result') {
+  const result = document.getElementById(elId);
+  result.style.display = '';
+  if (data.refused) {
+    const hints = {
+      no_source: 'Declined to avoid inventing an uncited fact — rephrase, or resolve it against Jira.',
+      out_of_scope: 'This editor makes targeted, citation-preserving edits. Whole-document changes like translation are a separate action, not an inline edit.',
+    };
+    const hint = hints[data.refusal_kind] || '';
+    result.innerHTML = `<div class="er-head"><span class="er-tag refused">Edit declined</span></div>`
+      + `<div class="er-reason">${escapeHtml(data.refusal_reason || 'The editor declined this change.')}</div>`
+      + (hint ? `<div class="er-meta">${hint}</div>` : '');
+    return;
+  }
+  if (!data.changed) {
+    result.innerHTML = `<div class="er-head"><span class="er-tag stylistic">No change</span></div>`
+      + `<div class="er-reason">${escapeHtml(data.notes || 'No edits were applied.')}</div>`
+      + (data.skipped && data.skipped.length
+          ? `<div class="er-meta">${data.skipped.length} proposed edit(s) couldn't be anchored.</div>` : '');
+    return;
+  }
+  const cls = (data.triage && data.triage.classification) || 'substantive';
+  const groundingBroke = data.verdict !== 'pass';
+  const tagHtml = groundingBroke
+    ? `<span class="er-tag broke">Grounding broke</span>`
+    : `<span class="er-tag ${cls}">${cls === 'stylistic' ? 'Stylistic' : 'Substantive'}</span>`;
+  const reason = groundingBroke
+    ? 'This edit altered a citation — grounding now fails. Approval is blocked until it is clean (revise again or regenerate).'
+    : (cls === 'stylistic'
+        ? 'Wording/format only — no factual claim changed. Safe to approve.'
+        : 'A factual claim may have changed — re-checked against source; give it a closer read before approving.');
+  let html = `<div class="er-head">${tagHtml}<span class="er-reason">${escapeHtml((data.triage && data.triage.reason) || reason)}</span></div>`;
+  html += `<div class="er-meta">${data.applied.length} edit(s) applied`
+    + (data.skipped.length ? ` · ${data.skipped.length} skipped (couldn't anchor)` : '')
+    + (data.cost_usd != null ? ` · $${Number(data.cost_usd).toFixed(4)}` : '') + '</div>';
+  if (!groundingBroke) html += `<div class="er-meta">${escapeHtml(reason)}</div>`;
+  result.innerHTML = html;
+}
+
+document.getElementById('edit-run').addEventListener('click', runRevision);
+document.getElementById('edit-instruction').addEventListener('keydown', e => {
+  if (e.key === 'Enter') { e.preventDefault(); runRevision(); }
 });
 
 // ─── Activity log (friendly, production-style rendering) ───────────
@@ -1736,16 +2092,30 @@ function setStatus(text, cls) {
 }
 
 // ─── Library ───────────────────────────────────────────────────────
+// A resource is "in the Library" only once a human has approved it. Until then
+// it lives in the "Awaiting review" view, where it can be reviewed/edited/approved.
+function inLibrary(r) {
+  return r.approved === true || r.status === 'approved' || r.status === 'published';
+}
+
+function statusBadge(r) {
+  if (inLibrary(r)) return { cls: 'approved', label: 'Approved' };
+  if (r.status === 'pending_sme_review') return { cls: 'pending', label: 'Pending SME Review' };
+  return { cls: 'draft', label: 'Awaiting review' };
+}
+
 async function loadLibrary() {
   const qs = new URLSearchParams();
   const m = document.getElementById('lib-module').value;
   const t = document.getElementById('lib-template').value;
-  const s = document.getElementById('lib-status').value;
+  const view = document.getElementById('lib-status').value;  // 'library' | 'awaiting' | ''
   if (m) qs.set('module', m);
   if (t) qs.set('template', t);
-  if (s) qs.set('status', s);
   const resp = await fetch('/resources?' + qs.toString());
   let list = await resp.json();
+  // The Library proper shows only approved resources; the gate is human approval.
+  if (view === 'library') list = list.filter(inLibrary);
+  else if (view === 'awaiting') list = list.filter(r => !inLibrary(r));
   // client-side free-text search
   const q = (document.getElementById('lib-search').value || '').toLowerCase().trim();
   if (q) list = list.filter(x =>
@@ -1772,17 +2142,18 @@ async function loadLibrary() {
     card.className = 'lib-card';
     card.dataset.id = r.id;
     const verdict = normalizedVerdict(r.evaluator_verdict);
-    const evalLabel = r.status === 'published'
-      ? 'published'
+    const evalLabel = inLibrary(r)
+      ? 'grounded'
       : verdict ? `eval ${verdict}` : 'needs evaluation';
     const verdictClass = ['pass', 'warn', 'fail', 'error'].includes(verdict) ? verdict : 'error';
-    const evalClass = r.status === 'published'
-      ? 'published'
+    const evalClass = inLibrary(r)
+      ? 'eval-pass'
       : verdict ? `eval-${verdictClass}` : 'eval-missing';
+    const sb = statusBadge(r);
     card.innerHTML = `
       <p class="title">${r.module || '?'} | ${r.template || '?'}</p>
       <div class="row">
-        <span class="badge ${r.status === 'pending_sme_review' ? 'pending' : r.status}">${r.status === 'pending_sme_review' ? 'Pending SME Review' : r.status}</span>
+        <span class="badge ${sb.cls}">${sb.label}</span>
         <span class="badge ${evalClass}">${evalLabel}</span>
         <span>${(r.created_at || '').slice(0, 16).replace('T', ' ')}</span>
       </div>
@@ -1826,6 +2197,8 @@ async function selectLibResource(r) {
   document.getElementById('lib-download-pdf').disabled = false;
   const detail = await fetch(`/resources/${r.id}?view=clean`).then(x => x.json());
   document.getElementById('lib-preview').innerHTML = detail.html || '<div class="empty">empty</div>';
+
+  const isApproved = inLibrary(r);
   const delBtn = document.getElementById('lib-delete');
   delBtn.disabled = false;
   delBtn.onclick = async () => {
@@ -1836,25 +2209,79 @@ async function selectLibResource(r) {
     document.getElementById('lib-resid').textContent = 'pick a resource';
     document.getElementById('lib-download-pdf').disabled = true;
     document.getElementById('lib-publish').disabled = true;
+    document.getElementById('lib-edit-bar').style.display = 'none';
+    document.getElementById('lib-edit-result').style.display = 'none';
     delBtn.disabled = true;
     libSelectedId = null;
     loadLibrary();
   };
+
+  // Edit bar — only for resources still awaiting review (not yet approved).
+  const editBar = document.getElementById('lib-edit-bar');
+  const editResult = document.getElementById('lib-edit-result');
+  editResult.style.display = 'none';
+  editBar.style.display = isApproved ? 'none' : '';
+  document.getElementById('lib-edit-instruction').value = '';
+
+  // Approve — the human gate INTO the Library.
   const pubBtn = document.getElementById('lib-publish');
-  const released = r.status === 'pending_sme_review' || r.status === 'published';
-  pubBtn.textContent = released ? '✓ Pending SME Review' : 'Release (Pending SME Review)';
-  pubBtn.disabled = released;
-  pubBtn.title = released
-    ? 'Released for use — pending review by an SME.'
-    : 'Release for use, marked Pending Review by SME. Grounding is verified server-side before release.';
+  pubBtn.innerHTML = isApproved ? '✓ In Library' : 'Approve &rarr; Add to Library';
+  pubBtn.disabled = isApproved;
+  pubBtn.title = isApproved
+    ? 'Approved and available in the Library.'
+    : 'Approve this guide and add it to the Library. Grounding is verified server-side before approval.';
   pubBtn.onclick = async () => {
-    if (released) return;
-    if (!confirm('Release this guide for use, marked "Pending Review by SME"?')) return;
-    const resp = await fetch(`/resources/${r.id}/publish_pending`, { method: 'POST' });
-    if (!resp.ok) { alert('Release blocked:\n\n' + await publishErrorMessage(resp)); return; }
+    if (inLibrary(r)) return;
+    if (!confirm('Approve this guide and add it to the Library?\n\nGrounding has been auto-verified. Approving is your sign-off that the content is correct.')) return;
+    const resp = await fetch(`/resources/${r.id}/approve`, { method: 'POST' });
+    if (!resp.ok) { alert('Approval blocked:\n\n' + await publishErrorMessage(resp)); return; }
     loadLibrary();
+    loadEvals();
   };
 }
+
+// AI-assisted edit from the Library review queue.
+async function runLibRevision() {
+  const rid = libSelectedId;
+  if (!rid) return;
+  const input = document.getElementById('lib-edit-instruction');
+  const instruction = (input.value || '').trim();
+  if (!instruction) { input.focus(); return; }
+  const btn = document.getElementById('lib-edit-run');
+  const result = document.getElementById('lib-edit-result');
+  btn.disabled = true; btn.textContent = 'Revising…';
+  result.style.display = '';
+  result.innerHTML = '<div class="er-head"><span class="er-reason">Asking the editor to revise the draft…</span></div>';
+
+  let data;
+  try {
+    const r = await fetch(`/resources/${rid}/revise`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ instruction }),
+    });
+    if (!r.ok) throw new Error(await r.text());
+    data = await r.json();
+  } catch (e) {
+    result.innerHTML = `<div class="er-head"><span class="er-tag broke">Error</span></div>`
+      + `<div class="er-reason">${escapeHtml(String(e.message || e))}</div>`;
+    btn.disabled = false; btn.textContent = 'Request edits';
+    return;
+  }
+
+  renderEditResult(data, 'lib-edit-result');
+  btn.disabled = false; btn.textContent = 'Request edits';
+  if (data.refused || !data.changed) return;
+
+  document.getElementById('lib-preview').innerHTML = data.html || '<div class="empty">empty</div>';
+  input.value = '';
+  loadLibrary();  // refresh badges/verdict; doc remains awaiting review until approved
+}
+
+document.getElementById('lib-edit-run').addEventListener('click', runLibRevision);
+document.getElementById('lib-edit-instruction').addEventListener('keydown', e => {
+  if (e.key === 'Enter') { e.preventDefault(); runLibRevision(); }
+});
 
 // ─── Download PDF (Author + Library) ────────────────────────────────
 // GET /resources/<id>/pdf returns the resource's clean HTML rendered to a PDF

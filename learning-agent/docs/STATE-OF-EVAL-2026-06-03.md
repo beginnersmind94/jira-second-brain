@@ -2,6 +2,8 @@ I have all four structured inputs (MEASURE, RIGOR, READINESS, GENERALIZATION). T
 
 # State of the Eval & Demo — PM Readiness Report
 
+> **Addendum (2026-06-04):** A human review gate shipped after this report — the deterministic grounding gate is now the *machine* floor, and **human approval is the gate into the Library** (drafts aren't shown until approved). Reviewers can request **AI-assisted edits**; the grounding gate re-runs after every edit (so edits can't weaken grounding), and an **advisory edit-triage classifier** routes stylistic vs substantive. This sits *downstream* of the generator, so it does not change the scorecard below. New eval gap: the triage classifier needs its **own balanced eval** (under-trigger rate is the dangerous direction) — see `eval/EVAL-SPEC.md` §7 and open-q #7.
+
 ## 1. Executive Verdict
 
 The demo is **ready to show** and the grounding architecture is genuinely well-engineered, but the eval suite proves far less than its green dashboard suggests: it validates one happy path (one module, one fixture, code-graders only) and has **no hill to climb**. The single biggest risk for the incoming transcript is **silent wrong-module grounding** — if the new transcript is *not* Item Management and the presenter doesn't capture a fixture first, the system can emit confident, verbatim-cited, all-PASS output that quotes the *wrong feature's* tickets. The gate will say green and be wrong. Treat any new-topic transcript as a different-module case until proven otherwise, and complete the pre-flight in Section 5 before showing it live.

@@ -34,8 +34,8 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException, Query
-from fastapi.responses import HTMLResponse, Response
+from fastapi import Body, FastAPI, HTTPException, Query
+from fastapi.responses import HTMLResponse, JSONResponse, Response
 from sse_starlette.sse import EventSourceResponse
 
 from claude_agent_sdk import (
@@ -72,6 +72,10 @@ from demo_d import (
 )
 from demo import ALLOWED_TOOLS as DEMO_ALLOWED_TOOLS, MCP_SERVER_NAME, demo_mcp_server
 import pricing
+# AI-assisted review step — edit agent + edit-triage agent (network-free import).
+import revise
+# Intent-and-scope front end — "describe what you need" (network-free import).
+import intent_agent
 
 load_dotenv()
 
@@ -110,6 +114,76 @@ def _ensure_fixture(module: str) -> None:
     """Swap demo._FIX to the requested module's fixture (the tools read this global)."""
     if module in AVAILABLE_MODULES and demo._FIX.get("module") != module:
         demo._FIX = demo._load_fixture(module)
+
+
+async def _run_text(prompt: str, options) -> tuple[str, object]:
+    """Run a tool-less query() to completion; return (final_text, usage).
+
+    Used by the review/revise step for the edit + triage agents, which only
+    reason over text and emit a single JSON object.
+    """
+    parts: list[str] = []
+    usage = None
+    async for message in query(prompt=prompt, options=options):
+        if isinstance(message, AssistantMessage):
+            for block in (message.content or []):
+                if isinstance(block, TextBlock):
+                    parts.append(block.text)
+        elif isinstance(message, ResultMessage):
+            usage = getattr(message, "usage", None)
+    return "\n".join(parts).strip(), usage
+
+
+def _deterministic_eval(rid: str, draft_html: str) -> dict:
+    """The grounding gate, as data: re-check every citation token against the
+    fixture by exact match. No LLM — the deterministic check IS the guarantee.
+    Caller is responsible for _ensure_fixture() on the right module first.
+    Persists drafts/<rid>.eval.json and returns the verdict dict."""
+    integ = validate_citations(draft_html)
+    tier_lie, not_found, ok = integ["tier_lie"], integ["quote_not_found"], integ["ok"]
+    invalid = draft_html.count("INVALID_CITE_ID")
+    hard = tier_lie + not_found + invalid
+    eval_data = {
+        "verdict": "pass" if hard == 0 else "fail",
+        "summary": (f"Deterministic grounding check: {ok} citations verified verbatim against "
+                    f"source; {tier_lie} tier violations, {not_found} non-verbatim, {invalid} invalid IDs."),
+        "checks": [
+            {"name": "Citation tiers (no Description-as-AC)", "status": "ok" if tier_lie == 0 else "fail",
+             "detail": f"tier_lie={tier_lie}"},
+            {"name": "Verbatim citations", "status": "ok" if not_found == 0 else "fail",
+             "detail": f"non-verbatim={not_found}"},
+            {"name": "Valid citation IDs", "status": "ok" if invalid == 0 else "fail",
+             "detail": f"invalid_cite_id={invalid}"},
+            {"name": "Citations verified against source", "status": "ok",
+             "detail": f"{ok} exact-quote, correct-tier citations"},
+        ],
+        "method": "deterministic-registry-validation",
+        "resource_id": rid,
+        "evaluated_at": datetime.now().isoformat(timespec="seconds"),
+        "integrity": {"verified": ok, "tier_lie": tier_lie,
+                      "not_found": not_found, "invalid_cite_id": invalid},
+    }
+    prod._eval_path(rid).write_text(json.dumps(eval_data, indent=2), encoding="utf-8")
+    return eval_data
+
+
+def _log_review_decision(record: dict) -> None:
+    """Append one review-loop decision to a durable, append-only audit trail
+    (logs/review-decisions.jsonl). EVERY outcome is logged — edit applied,
+    refused, no-change, approved, approve-blocked — so a human (or an eval) can
+    later judge whether a refusal was appropriate or the editor over-reached
+    (took on a whole-doc/translation task it should have declined). This is also
+    the real-traffic corpus for the triage + scope evals (eval/EVAL-SPEC.md §7)."""
+    rec = {"at": datetime.now().isoformat(timespec="seconds"), **record}
+    try:
+        with (prod.LOGS / "review-decisions.jsonl").open("a", encoding="utf-8") as f:
+            f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+    except OSError:
+        pass
+
+
+def _trunc_ops(ops, n=8, L=160):
+    return [{"find": o.get("find", "")[:L], "replace": o.get("replace", "")[:L]} for o in ops[:n]]
 
 # ── Offline evaluator: same prompt as prod, but read_ticket serves the fixture ─
 EVAL_SERVER_NAME = "evaluator_tools"
@@ -169,12 +243,13 @@ async def resource_pdf(rid: str):
 
     clean_html = prod._strip_source_comments(raw_html)
 
-    # Stamp a banner unless the doc has been SME-approved (it never is in the demo).
+    # Stamp a "pending review" banner until a human has approved the guide.
+    # Approval (the Library gate) is the human sign-off — approved downloads are clean.
     meta = prod._read_meta(meta_path) or {}
     banner = None
-    if not meta.get("sme_approved"):
-        banner = ("⚠ PENDING REVIEW BY SME — provisional draft, grounding auto-verified "
-                  "but not yet approved by a subject-matter expert. Do not treat as final.")
+    if not (meta.get("approved") or meta.get("sme_approved")):
+        banner = ("⚠ PENDING REVIEW — provisional draft, grounding auto-verified "
+                  "but not yet approved by a human reviewer. Do not treat as final.")
 
     try:
         import pdf_export
@@ -539,32 +614,7 @@ async def generate(
 # errors and isn't needed — the deterministic check IS the guarantee).
 async def _stream_evaluation_demo(rid: str, draft_html: str, transcript_text: str, meta: dict):
     yield prod._sse_event("eval_start", {"resource_id": rid})
-
-    integ = validate_citations(draft_html)
-    tier_lie, not_found, ok = integ["tier_lie"], integ["quote_not_found"], integ["ok"]
-    invalid = draft_html.count("INVALID_CITE_ID")
-    hard = tier_lie + not_found + invalid
-    verdict = "pass" if hard == 0 else "fail"
-
-    eval_data = {
-        "verdict": verdict,
-        "summary": (f"Deterministic grounding check: {ok} citations verified verbatim against "
-                    f"source; {tier_lie} tier violations, {not_found} non-verbatim, {invalid} invalid IDs."),
-        "checks": [
-            {"name": "Citation tiers (no Description-as-AC)", "status": "ok" if tier_lie == 0 else "fail",
-             "detail": f"tier_lie={tier_lie}"},
-            {"name": "Verbatim citations", "status": "ok" if not_found == 0 else "fail",
-             "detail": f"non-verbatim={not_found}"},
-            {"name": "Valid citation IDs", "status": "ok" if invalid == 0 else "fail",
-             "detail": f"invalid_cite_id={invalid}"},
-            {"name": "Citations verified against source", "status": "ok",
-             "detail": f"{ok} exact-quote, correct-tier citations"},
-        ],
-        "method": "deterministic-registry-validation",
-        "resource_id": rid,
-        "evaluated_at": datetime.now().isoformat(timespec="seconds"),
-    }
-    prod._eval_path(rid).write_text(json.dumps(eval_data, indent=2), encoding="utf-8")
+    eval_data = _deterministic_eval(rid, draft_html)
     yield prod._sse_event("eval_done", eval_data)
 
 
@@ -578,17 +628,16 @@ async def evaluate_resource(rid: str):
     meta = prod._read_meta(meta_path) or {}
     if meta.get("module"):
         _ensure_fixture(meta["module"])  # grounding check must use this draft's module fixture
+    # The demo evaluator is DETERMINISTIC (validate_citations) and ignores the
+    # transcript, so a transcript is optional — scope-built drafts have none.
+    transcript_text = ""
     transcript_id = meta.get("transcript_id")
-    if not transcript_id:
-        raise HTTPException(400, "resource has no source transcript_id")
-    t_meta = prod._read_meta(prod.TRANSCRIPT_META / f"{transcript_id}.json")
-    if not t_meta:
-        raise HTTPException(404, "source transcript metadata missing")
-    transcript_path = (prod.BASE / t_meta["path"]).resolve()
-    if not transcript_path.exists():
-        raise HTTPException(404, "source transcript file missing")
-
-    transcript_text = transcript_path.read_text(encoding="utf-8")
+    if transcript_id:
+        t_meta = prod._read_meta(prod.TRANSCRIPT_META / f"{transcript_id}.json")
+        if t_meta:
+            tp = (prod.BASE / t_meta["path"]).resolve()
+            if tp.exists():
+                transcript_text = tp.read_text(encoding="utf-8")
     draft_html = html_path.read_text(encoding="utf-8")
     return EventSourceResponse(_stream_evaluation_demo(rid, draft_html, transcript_text, meta))
 
@@ -631,6 +680,359 @@ async def publish_pending(rid: str):
     return meta
 
 
+# ── Intent-and-scope front end: "describe what you need" (no transcript) ──────
+# The agent resolves WHAT to build (module, topic, format, outline) and grounds it
+# in real tickets; it never supplies content. A confirmed outline flows through the
+# SAME back half of the Cell-D pipeline (registry → section writers → assemble →
+# deterministic gate), so grounding-by-construction is identical to the transcript path.
+_SCOPE_TOOLS = [f"mcp__{MCP_SERVER_NAME}__{n}" for n in ("match_tickets", "read_ticket", "read_epic")]
+
+
+def _scope_search_options(module: str, fmt: str) -> ClaudeAgentOptions:
+    spec = demo_d._FORMAT_SPEC.get(fmt, demo_d._FORMAT_SPEC["long-form"])
+    return ClaudeAgentOptions(
+        model="claude-sonnet-4-6", effort="medium",
+        system_prompt=intent_agent.build_scope_system_prompt(module, fmt, spec),
+        mcp_servers={MCP_SERVER_NAME: demo_mcp_server},
+        allowed_tools=_SCOPE_TOOLS, disallowed_tools=_DISALLOWED,
+        tools=[], max_turns=20,
+    )
+
+
+async def _stream_from_scope(module: str, fmt: str, sections_plan: list[dict], topic: str):
+    """Generate from a CONFIRMED scope outline — the back half of _stream_celld,
+    minus the transcript planner. The outline IS the plan."""
+    _ensure_fixture(module)
+    rid = prod._resource_id(module, fmt)
+    log_path = prod.LOGS / f"{rid}.jsonl"
+
+    def log(k, p):
+        with log_path.open("a", encoding="utf-8") as f:
+            f.write(json.dumps({"k": k, "p": p}, ensure_ascii=False) + "\n")
+
+    yield prod._sse_event("start", {"resource_id": rid, "module": module, "template": fmt, "source": "intent-scope"})
+    budget = _FORMAT_BUDGET.get(fmt, _FORMAT_BUDGET["long-form"])
+    all_keys = [k for s in sections_plan for k in s.get("ticket_keys", [])]
+    registry, by_ticket = build_registry(all_keys)
+    yield prod._sse_event("text", {"text":
+        f"Confirmed scope: {len(sections_plan)} sections from {len(set(all_keys))} tickets "
+        f"({len(registry)} citable verbatim quotes). Writing sections in parallel…\n"})
+    log("scope_confirmed", {"sections": len(sections_plan), "spans": len(registry)})
+
+    sem = asyncio.Semaphore(4)
+
+    async def _idx(i, s):
+        return i, await write_section(s, registry, by_ticket, module, sem, budget=budget)
+
+    tasks = [asyncio.create_task(_idx(i, s)) for i, s in enumerate(sections_plan)]
+    ordered: list = [None] * len(tasks)
+    for fut in asyncio.as_completed(tasks):
+        i, sec = await fut
+        ordered[i] = sec
+        yield prod._sse_event("text", {"text": f"  ✓ {sec['title']}  ({sec['secs']:.0f}s)\n"})
+
+    html, asm = assemble(module, ordered, registry)
+    integ = validate_citations(html)
+    cost = pricing.cost_of([s.get("usage") for s in ordered])
+
+    (prod.DRAFTS / f"{rid}.html").write_text(html, encoding="utf-8")
+    draft_meta = {
+        "id": rid, "status": "draft", "module": module, "template": fmt,
+        "transcript_id": None, "transcript_filename": None,
+        "created_at": datetime.now().isoformat(timespec="seconds"),
+        "demo": True, "method": "scope+registry", "source": "intent-scope", "topic": topic,
+        "citation_integrity": {"verified": integ["ok"], "tier_lie": integ["tier_lie"],
+                               "not_found": integ["quote_not_found"], "invalid_cite_id": asm["invalid_cite_id"]},
+        "cost_usd": cost["cost_usd"], "cost": cost,
+    }
+    (prod.DRAFTS / f"{rid}.json").write_text(json.dumps(draft_meta, indent=2), encoding="utf-8")
+    _deterministic_eval(rid, html)  # write eval.json so the verdict is on file (no transcript needed)
+    yield prod._sse_event("text", {"text":
+        f"\nAssembled. {integ['ok']} citations verified verbatim; tier_lie={integ['tier_lie']}, "
+        f"non-verbatim={integ['quote_not_found']}, invalid={asm['invalid_cite_id']}.  ${cost['cost_usd']:.4f}\n"})
+    yield prod._sse_event("done", {"resource_id": rid, "status": "draft", **draft_meta})
+
+
+@app.post("/intent/resolve")
+async def intent_resolve(payload: dict = Body(...)):
+    """Stage 1 (module + intent) → Stage 2 (fixture-scoped scope search). Returns a
+    ScopeProposal, a clarifying question, or a refusal. Asks rather than guessing on
+    ambiguity — the primary defense against silent wrong-module grounding."""
+    request = (payload.get("request") or "").strip()
+    if not request:
+        raise HTTPException(400, "request is required")
+    history = payload.get("history") or ""
+    mods = sorted(AVAILABLE_MODULES)
+
+    try:
+        rtext, rusage = await _run_text(
+            intent_agent.build_resolver_prompt(request, mods, history),
+            intent_agent.build_resolver_options())
+    except Exception as e:
+        raise HTTPException(502, f"resolver failed: {e}")
+    r = intent_agent.parse_json(rtext) or {}
+
+    if r.get("refused"):
+        _log_review_decision({"action": "intent_resolve", "outcome": "refused",
+                              "request": request, "reason": r.get("refused_reason")})
+        return JSONResponse({"stage": "refused", "reason": r.get("refused_reason")
+                             or "No grounded data for that area yet.", "available_modules": mods})
+    module = r.get("module")
+    if r.get("ambiguous") or not module or module not in AVAILABLE_MODULES:
+        q = r.get("clarifying_question") or "Which product module should this cover?"
+        _log_review_decision({"action": "intent_resolve", "outcome": "clarify",
+                              "request": request, "question": q})
+        return JSONResponse({"stage": "clarify", "question": q, "available_modules": mods})
+
+    fmt = r.get("format") if r.get("format") in demo_d.VALID_FORMATS else "long-form"
+    topic = r.get("topic") or request
+    depth = r.get("depth") or ""
+    _ensure_fixture(module)
+    prompt = (f"The user wants a {fmt} guide about: {topic}\n"
+              f"Research the {module} Jira (module-scoped) and produce the section outline. Emit ONLY the JSON.")
+    try:
+        stext, susage = await _run_text(prompt, _scope_search_options(module, fmt))
+    except Exception as e:
+        raise HTTPException(502, f"scope search failed: {e}")
+    s = intent_agent.parse_json(stext) or {}
+    cost = pricing.cost_of([rusage, susage])
+
+    if not s.get("supported", True) or not s.get("sections"):
+        _log_review_decision({"action": "intent_resolve", "outcome": "unsupported",
+                              "request": request, "module": module, "note": s.get("note")})
+        return JSONResponse({"stage": "unsupported", "module": module,
+                             "note": s.get("note") or "No supporting tickets for that topic in this module.",
+                             "cost_usd": cost["cost_usd"]})
+
+    keys = sorted({k for sec in s["sections"] for k in sec.get("ticket_keys", [])})
+    _log_review_decision({"action": "intent_resolve", "outcome": "scope_proposed", "module": module,
+                          "request": request, "topic": topic, "format": fmt,
+                          "sections": len(s["sections"]), "ticket_keys": keys,
+                          "assumed_format": bool(r.get("assumed_format")), "cost_usd": cost["cost_usd"]})
+    return JSONResponse({"stage": "scope", "cost_usd": cost["cost_usd"], "scope": {
+        "module": module, "format": fmt, "depth": depth, "topic": topic,
+        "assumed_format": bool(r.get("assumed_format")), "sections": s["sections"]}})
+
+
+@app.post("/intent/confirm")
+async def intent_confirm(payload: dict = Body(...)):
+    """Hand a confirmed scope to the pipeline. Output is a draft, subject to the same
+    review → edit → triage → re-gate → approve flow as any other guide."""
+    scope = payload.get("scope") or {}
+    module = scope.get("module")
+    fmt = scope.get("format") if scope.get("format") in demo_d.VALID_FORMATS else "long-form"
+    sections = scope.get("sections") or []
+    if module not in AVAILABLE_MODULES:
+        raise HTTPException(400, f"unknown/missing module: {module}")
+    if not sections:
+        raise HTTPException(400, "scope has no sections")
+    return EventSourceResponse(_stream_from_scope(module, fmt, sections, scope.get("topic", "")))
+
+
+# ── POST /resources/{rid}/revise — AI-assisted edit (the human review loop) ───
+# Reviewer describes a change in plain English. An edit agent emits targeted
+# find/replace ops that NEVER touch <!-- Source --> citations; we apply them,
+# re-run the deterministic grounding gate (free), and a triage agent classifies
+# the edit stylistic vs substantive so stylistic tweaks approve fast and
+# substantive ones get flagged. An edit un-approves the doc (must re-approve).
+@app.post("/resources/{rid}/revise")
+async def revise_resource(rid: str, payload: dict = Body(...)):
+    instruction = (payload.get("instruction") or "").strip()
+    if not instruction:
+        raise HTTPException(400, "instruction is required")
+
+    resolved = prod._resolve_resource(rid)
+    if not resolved:
+        raise HTTPException(404, "resource not found")
+    html_path, meta_path, _status = resolved
+    meta = prod._read_meta(meta_path) or {}
+    module = meta.get("module")
+    fmt = meta.get("template", "?")
+    if module:
+        _ensure_fixture(module)  # grounding re-check must use this draft's module fixture
+    raw_html = html_path.read_text(encoding="utf-8")
+
+    # 1) Edit agent → find/replace ops (no whole-doc rewrite, no citation edits)
+    try:
+        edit_text, edit_usage = await _run_text(
+            revise.build_edit_prompt(raw_html, instruction, fmt, module or "?"),
+            revise.build_edit_options(),
+        )
+    except Exception as e:
+        raise HTTPException(502, f"edit agent failed: {e}")
+    edit_json = revise.parse_json(edit_text) or {}
+
+    if edit_json.get("refused"):
+        refusal_kind = edit_json.get("refusal_kind") or "none"
+        refusal_reason = edit_json.get("refusal_reason") or edit_json.get("notes") or "The edit was refused."
+        _log_review_decision({
+            "rid": rid, "module": module, "template": fmt, "action": "revise",
+            "instruction": instruction, "outcome": "refused",
+            "refusal_kind": refusal_kind, "refusal_reason": refusal_reason,
+        })
+        return JSONResponse({
+            "rid": rid, "changed": False, "refused": True,
+            "refusal_kind": refusal_kind, "refusal_reason": refusal_reason,
+            "applied": [], "skipped": [],
+        })
+
+    ops = edit_json.get("ops") or []
+    new_html, applied, skipped = revise.apply_ops(raw_html, ops)
+    changed = bool(applied) and new_html != raw_html
+
+    # 2) Deterministic grounding re-check — ALWAYS, free, non-negotiable backstop.
+    integ = validate_citations(new_html)
+    invalid = new_html.count("INVALID_CITE_ID")
+    violations = integ["tier_lie"] + integ["quote_not_found"] + invalid
+    verdict = "pass" if violations == 0 else "fail"
+    integrity = {"verified": integ["ok"], "tier_lie": integ["tier_lie"],
+                 "not_found": integ["quote_not_found"], "invalid_cite_id": invalid}
+
+    # 3) Triage agent → does this edit need a closer (substantive) human look?
+    triage = {"classification": "stylistic", "reason": "No operations were applied.", "confidence": 1.0}
+    triage_usage = None
+    if applied:
+        try:
+            triage_text, triage_usage = await _run_text(
+                revise.build_triage_prompt(instruction, applied),
+                revise.build_triage_options(),
+            )
+            parsed = revise.parse_json(triage_text)
+        except Exception:
+            parsed = None
+        if parsed and parsed.get("classification") in ("stylistic", "substantive"):
+            triage = parsed
+        else:
+            triage = {"classification": "substantive",
+                      "reason": "Triage output could not be parsed — defaulting to substantive (safe).",
+                      "confidence": 0.0}
+
+    cost = pricing.cost_of([edit_usage, triage_usage])
+
+    if changed:
+        ts = datetime.now().strftime("%Y%m%d-%H%M%S")
+        # Audit backup in a subdir so it is NOT picked up by the *.html resource glob.
+        backup_dir = prod.DRAFTS / "_pre_edit"
+        backup_dir.mkdir(exist_ok=True)
+        (backup_dir / f"{rid}-{ts}.html").write_text(raw_html, encoding="utf-8")
+        html_path.write_text(new_html, encoding="utf-8")
+
+        _deterministic_eval(rid, new_html)  # refresh drafts/<rid>.eval.json
+        meta["citation_integrity"] = integrity
+        # An edit re-opens review: an approved guide drops back to draft until re-approved.
+        if meta.get("approved"):
+            meta["approved"] = False
+            meta["status"] = "draft"
+            meta.pop("approved_at", None)
+            meta.pop("status_label", None)
+        meta.setdefault("edit_history", []).append({
+            "at": datetime.now().isoformat(timespec="seconds"),
+            "instruction": instruction,
+            "applied": len(applied), "skipped": len(skipped),
+            "classification": triage.get("classification"),
+            "reason": triage.get("reason"),
+            "verdict": verdict,
+            "cost_usd": cost["cost_usd"],
+        })
+        meta_path.write_text(json.dumps(meta, indent=2), encoding="utf-8")
+
+    _log_review_decision({
+        "rid": rid, "module": module, "template": fmt, "action": "revise",
+        "instruction": instruction,
+        "outcome": "applied" if changed else "no_change",
+        "ops_applied": len(applied), "ops_skipped": len(skipped),
+        "ops": _trunc_ops(applied), "skipped": [{"why": s.get("why"), "find": s.get("find", "")[:80]} for s in skipped[:8]],
+        "triage": triage, "verdict": verdict, "integrity": integrity,
+        "cost_usd": cost["cost_usd"],
+    })
+
+    return JSONResponse({
+        "rid": rid, "changed": changed, "refused": False,
+        "applied": applied, "skipped": skipped,
+        "notes": edit_json.get("notes", ""),
+        "integrity": integrity, "verdict": verdict,
+        "triage": triage,
+        "needs_closer_review": triage.get("classification") == "substantive",
+        "html": prod._strip_source_comments(new_html), "raw_html": new_html,
+        "cost_usd": cost["cost_usd"],
+    })
+
+
+# ── POST /resources/{rid}/approve — the human gate INTO the Library ───────────
+# Approval is the human floor on top of the machine grounding floor. Only an
+# approved resource appears in the Library. Grounding must be clean to approve.
+@app.post("/resources/{rid}/approve")
+async def approve_resource(rid: str):
+    resolved = prod._resolve_resource(rid)
+    if not resolved:
+        raise HTTPException(404, "resource not found")
+    html_path, meta_path, _status = resolved
+    meta = prod._read_meta(meta_path) or {}
+
+    # Machine floor: re-validate LIVE against the current fixture (don't trust a
+    # possibly-stale stored integrity — the gate must reflect ground truth now).
+    if meta.get("module"):
+        _ensure_fixture(meta["module"])
+    raw_html = html_path.read_text(encoding="utf-8")
+    integ = validate_citations(raw_html)
+    invalid = raw_html.count("INVALID_CITE_ID")
+    ci = {"verified": integ["ok"], "tier_lie": integ["tier_lie"],
+          "not_found": integ["quote_not_found"], "invalid_cite_id": invalid}
+    violations = ci["tier_lie"] + ci["not_found"] + ci["invalid_cite_id"]
+    if violations > 0:
+        _log_review_decision({
+            "rid": rid, "module": meta.get("module"), "template": meta.get("template"),
+            "action": "approve", "outcome": "approve_blocked", "integrity": ci,
+        })
+        raise HTTPException(409, detail={
+            "error": "grounding_not_clean",
+            "message": "Cannot approve: the grounding gate has violations. "
+                       "Fix grounding (or revise) before approving.",
+            "citation_integrity": ci,
+        })
+    meta["citation_integrity"] = ci  # refresh with the live result
+
+    meta["status"] = "approved"
+    meta["status_label"] = "Approved · in Library"
+    meta["approved"] = True
+    meta["available"] = True
+    meta["approved_at"] = datetime.now().isoformat(timespec="seconds")
+    meta_path.write_text(json.dumps(meta, indent=2), encoding="utf-8")
+    _log_review_decision({
+        "rid": rid, "module": meta.get("module"), "template": meta.get("template"),
+        "action": "approve", "outcome": "approved", "integrity": ci,
+    })
+    return meta
+
+
+# ── GET /review-log — the review-loop decision audit trail ────────────────────
+# Every edit/approve decision (applied, refused, no_change, approved, blocked).
+# Filter by ?rid= for one resource. The substrate for auditing appropriateness
+# and for mining real-traffic cases into the triage/scope evals.
+@app.get("/review-log")
+async def review_log(rid: str | None = None, limit: int = 200):
+    p = prod.LOGS / "review-decisions.jsonl"
+    if not p.exists():
+        return JSONResponse({"entries": [], "total": 0})
+    entries = []
+    for line in p.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            e = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if rid and e.get("rid") != rid:
+            continue
+        entries.append(e)
+    # quick tallies so an auditor sees the shape at a glance
+    counts: dict[str, int] = {}
+    for e in entries:
+        counts[e.get("outcome", "?")] = counts.get(e.get("outcome", "?"), 0) + 1
+    return JSONResponse({"total": len(entries), "counts": counts, "entries": entries[-limit:]})
+
+
 # ── DELETE /resources/{rid} — remove a guide + its metadata + eval ────────────
 @app.delete("/resources/{rid}")
 async def delete_resource(rid: str):
@@ -644,6 +1046,12 @@ async def delete_resource(rid: str):
                     removed.append(p.name)
                 except OSError:
                     pass
+    for bak in (prod.DRAFTS / "_pre_edit").glob(f"{rid}-*.html"):  # AI-edit audit backups
+        try:
+            bak.unlink()
+            removed.append(bak.name)
+        except OSError:
+            pass
     log_path = prod.LOGS / f"{rid}.jsonl"
     if log_path.exists():
         try:
