@@ -1,0 +1,37 @@
+[D:sectioned+registry] fixture: 4977 tickets + 888 epics (module 'Item Management')
+Stage 1: planning (research with tools, emit section plan)…
+  plan: 13 sections, 8 tickets, 232 citable spans  (197s)
+Stage 2: writing sections in parallel (CITE-IDs only, no quote text)…
+
+=== CELL D TELEMETRY [D:sectioned+registry] ===
+plan 197s | sections 146s | total 343s | 13 sections | 2534 words | 33406 chars
+ #   secs stop_reason    title
+ 1   76.9 end_turn       Overview
+ 2   29.6 end_turn       Roles & Permissions
+ 3   30.9 end_turn       Prerequisites
+ 4   37.4 end_turn       The Item Card — Universal Fields & Images
+ 5   38.7 end_turn       Non-Food Items: Building a Pack Size Hierarchy
+ 6   66.2 end_turn       Costing, GTIN/UPC & Inventory Settings
+ 7   27.4 end_turn       Food Items: Serving Sizes, Fluid Selection & Linki
+ 8   43.8 end_turn       Food Items: Nutrient Information & Ingredient Info
+ 9   37.4 end_turn       Food Items: Allergen Information & Custom Allergen
+10   39.0 end_turn       Food Items: Menu Info, HACCP Steps & POS Pricing
+11   48.8 end_turn       Key Fields, Statuses, Exceptions & Troubleshooting
+12    1.9 stop_sequence  Related Content
+13    3.5 stop_sequence  Sources
+
+assembly: rendered=118 invalid_cite_id=0 transcript=0
+validator on assembled: tier_lie=0 not_found=0 ok=118 tokened=118
+
+=== PASS CRITERIA [D:sectioned+registry] ===
+  [PASS] all sections present (>=8)
+  [PASS] no section truncated (max_tokens)
+  [PASS] tier_lie == 0
+  [PASS] not_found == 0
+  [PASS] invalid_cite_id == 0
+
+=== EVAL (semantic backstop) [D:sectioned+registry] ===
+long-form: VERDICT=ERROR (wc=None)
+  evaluator failed: Claude Code returned an error result: success
+
+View in the UI:  uvicorn app:app --host 127.0.0.1 --port 8000  → Library tab.

@@ -1,0 +1,27 @@
+{
+  "id": "20260603-151307-eligibility-long-form-195c99",
+  "status": "draft",
+  "module": "Eligibility",
+  "template": "long-form",
+  "transcript_id": "20260603-151307-eligibility-2026-05-22-eligibility-applications-verification",
+  "transcript_filename": null,
+  "created_at": "2026-06-03T15:17:54",
+  "demo": true,
+  "method": "sectioned+registry",
+  "citation_integrity": {
+    "verified": 97,
+    "tier_lie": 0,
+    "not_found": 0,
+    "invalid_cite_id": 0
+  },
+  "cost_usd": 1.207,
+  "cost": {
+    "model": "claude-sonnet-4-6",
+    "cost_usd": 1.207,
+    "input_tokens": 46,
+    "output_tokens": 32825,
+    "cache_read_tokens": 284644,
+    "cache_write_tokens": 167755,
+    "total_tokens": 485270
+  }
+}

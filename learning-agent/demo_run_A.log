@@ -1,0 +1,27 @@
+[A:bound-only] fixture: 4977 tickets + 888 epics (module 'Item Management')
+Step 1: generating long-form (full research, the long pole)…
+Step 2: deriving micro-guide + tldr from the long-form (no Jira)…
+
+=== TELEMETRY [A:bound-only] ===
+stage           secs   words    chars  out_tok   in_tok  cache_rd think_tok
+long-form      582.5    4381    42356    31428        8    214092      None
+micro-guide    142.1    1312    13505     9079        3     16529      None
+tldr            87.4     544     6068     5158        3     16529      None
+
+Total wall time: 724.7s  (long-form 582s + derivations)
+
+=== EVAL (grounding bars) [A:bound-only] ===
+
+long-form: VERDICT=FAIL  (wc=2600)
+  Draft fails on two grounds: systematic misattribution of Description (Tier 3) text as AC (Tier 1) text across all three spot-checked tickets, and the draft is truncated mid-sentence with five required long-form sections entirely absent.
+  checks: Template fit=fail; Length budget=fail; Source grounding=warn; Citation spot-check=fail; Discrepancy handling=warn; Unverifiable specifics=ok
+
+micro-guide: VERDICT=FAIL  (wc=1302)
+  Multiple inline citation comments claim AC-level text that in fact appears only in Jira Description (TIER 3) — fabricated AC quotes confirmed across NXT-37441, NXT-37111, NXT-35898, and NXT-30103.
+  checks: Template fit=ok; Length budget=ok; Source grounding=ok; Citation spot-check=fail; Discrepancy handling=ok; Unverifiable specifics=ok
+
+tldr: VERDICT=FAIL  (wc=531)
+  Two verbatim 'AC:' citations (NXT-37441, NXT-37111) are drawn from the Description field (TIER 3), not Acceptance Criteria; additionally, two uninvented specifics ('count mode', 'pallets') lack [TO VERIFY] markers.
+  checks: Template fit=ok; Length budget=warn; Source grounding=warn; Citation spot-check=fail; Discrepancy handling=warn; Unverifiable specifics=fail
+
+View in the UI:  uvicorn app:app --host 127.0.0.1 --port 8000  → Library tab.

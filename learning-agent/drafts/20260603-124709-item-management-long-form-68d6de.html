@@ -1,0 +1,514 @@
+<h1>Item Management: Learning Guide</h1>
+
+<h2>Overview</h2>
+
+<p>
+  The <strong>Item Management</strong> module is the foundational data layer for
+  your operations. Before staff can build menus, run point-of-sale transactions,
+  or track inventory counts, every item must be correctly defined here.
+  Downstream modules read directly from this record, so errors at setup
+  propagate everywhere. [TO VERIFY — no citable source available for downstream
+  dependency specifics; confirm against AC before publishing]
+</p>
+
+<h3>Two Item Types</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Typical examples</th>
+      <th>Key distinction</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Food</td>
+      <td>[TO VERIFY]</td>
+      <td>[TO VERIFY — confirm field and routing behavior from AC]</td>
+    </tr>
+    <tr>
+      <td>Non-food</td>
+      <td>[TO VERIFY]</td>
+      <td>[TO VERIFY — confirm field and routing behavior from AC]</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Why Setup Accuracy Matters</h3>
+<ul>
+  <li>Menu Planning pulls item records to build recipe and cost structures. [TO VERIFY]</li>
+  <li>POS uses item definitions to display names, prices, and modifiers at the register. [TO VERIFY]</li>
+  <li>Inventory relies on item records to track stock levels and trigger reorder alerts. [TO VERIFY]</li>
+</ul>
+
+<p>
+  <strong>Note to editor:</strong> This section contains no citable claims — the
+  available citation list for this job is empty. All [TO VERIFY] markers must be
+  resolved against ticket AC before this draft advances to review.
+</p>
+
+<h2>Roles & Permissions</h2>
+
+<p>This section could not be populated with verified role and permission details. No citation IDs were available for this scope, and the Citation Contract prohibits asserting product-behavior claims without a named source. Inserting role names, permission tiers, or access rules without evidence would violate the anti-hallucination rules in effect for this guide.</p>
+
+<p>The following placeholders mark the gaps for a human editor or SME to resolve before this section is published:</p>
+
+<ul>
+  <li>[TO VERIFY] — Which role(s) can <strong>create</strong> items in the Item Management module?</li>
+  <li>[TO VERIFY] — Which role(s) can <strong>edit</strong> existing items?</li>
+  <li>[TO VERIFY] — Which role(s) can <strong>publish or approve</strong> items?</li>
+  <li>[TO VERIFY] — Which role(s) are <strong>read-only</strong>, and what specifically is restricted?</li>
+  <li>[TO VERIFY] — Which configuration tasks (e.g., field setup, status management, template assignment) require elevated permissions such as Super User or Administrator access?</li>
+</ul>
+
+<p>To resolve these gaps, the editor should:</p>
+
+<ol>
+  <li>Check the Jira Acceptance Criteria for Item Management tickets that reference roles or access control.</li>
+  <li>Review the source training transcript for any role-specific demonstrations and note the timestamps.</li>
+  <li>Cross-reference with the platform's permissions matrix if one exists in the knowledge base.</li>
+</ol>
+
+<p>Once verified sources are available, each claim should be cited inline before this section moves to <code>review</code> or <code>published</code> status.</p>
+
+<h2>Prerequisites</h2>
+
+<p>Before you can create or import items, six configuration records must already exist in the system. The import engine validates each value against its corresponding configuration table — any mismatch causes that row to be rejected.<!-- Source: [[NXT-24910:AC]] "Values provided against Configuration related fields are absolutely matched" --></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Configuration Record</th>
+      <th>Validated Against</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Item Category</td>
+      <td>Item Category Configuration<!-- Source: [[NXT-24910:AC]] "Item Category should be a valid item category (Validate against Item Category Configuration)" --></td>
+    </tr>
+    <tr>
+      <td>Storage Category</td>
+      <td>Storage Category Configuration<!-- Source: [[NXT-24910:AC]] "Storage Category should be a valid storage category (Validate against Storage Category Configuration)" --></td>
+    </tr>
+    <tr>
+      <td>Valuation Group</td>
+      <td>Valuation Group Configuration<!-- Source: [[NXT-24910:AC]] "Valuation Group should be a valid Valuation Group (Validate against valuation group Configuration)" --></td>
+    </tr>
+    <tr>
+      <td>Brand</td>
+      <td>Item Brand Configuration<!-- Source: [[NXT-24910:AC]] "Validate against Item Brand Configuration" --></td>
+    </tr>
+    <tr>
+      <td>Manufacturer</td>
+      <td>Item Manufacturer Configuration<!-- Source: [[NXT-24910:AC]] "Validate against Item Manufacture Configuration" --></td>
+    </tr>
+    <tr>
+      <td>Allergens (custom)</td>
+      <td>Standard allergen list<!-- Source: [[NXT-24910:AC]] "Allergen Section is optional for all the records, the value should be imported as per the standard list" --></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Note: Brand–Manufacturer association is <strong>not</strong> enforced during import.<!-- Source: [[NXT-24910:AC]] "Brand Association with manufacturer need NOT be followed" --></p>
+
+<h3>Excel Bulk Import — Entry Point</h3>
+
+<p>For large catalog onboarding, use the Excel import path rather than manual item creation.<!-- Source: [[NXT-24910:DESC]] "As  an Item Management Super User / Administrator, I need to be able to onboard new Items using an excel file in order to speed the process of bringing customers working with SchoolCafe’s Backoffice." --> The process follows four steps managed through the Import Dashboard:<!-- Source: [[NXT-24910:DESC]] "System → Import Dashboard → Import Set Up" --></p>
+
+<ol>
+  <li><strong>Pre-Upload</strong> — Select import type and data source. The data source defaults to Local; other sources are out of scope.<!-- Source: [[NXT-24910:AC]] "The default data source = Local, other data sources are out of scope (Ex: CNDB, Global Catalog), Creation of Menu items Or Single Item Recipe are out of scope" --> Download the system template at this step if needed.<!-- Source: [[NXT-24910:DESC]] "The user shall be prompted (Would you like to download a template?) at this step either to download a template or not" --></li>
+  <li><strong>File Upload</strong> — Upload your completed Excel file. Empty files are filtered out before processing.<!-- Source: [[NXT-24910:DESC]] "Once file is uploaded the system shall provide the user with visual confirmation of success or failure. Any empty file gets filtered at this stage" --></li>
+  <li><strong>Field Mapping</strong> — Drag and drop source columns to target fields. All mandatory and optional fields can be mapped here.<!-- Source: [[NXT-24910:DESC]] "All mandatory or optional fields can be mapped at this stage" --></li>
+  <li><strong>Review &amp; Activate</strong> — Confirm mapped fields, save the mapping, then trigger the import from the dashboard.<!-- Source: [[NXT-24910:DESC]] "If the mapping is successful then the user shall be directed to the Import dashboard where the user shall have the option:" --></li>
+</ol>
+
+<p>Once submitted, track progress and review any row-level errors on the Monitoring page.<!-- Source: [[NXT-24910:DESC]] "To go to Monitoring page where the user can view the progress of file import and view log file" --></p>
+
+<h2>Workflow: Create a Non-Food Item</h2>
+
+<h3>Step 1 — Complete the Item Card</h3>
+<p>Fill in all required fields on the Item card before moving to Units. Optional fields can remain non-editable until needed. <!-- Source: [[NXT-37110:DESC]] "Keep optional/other fields non-editable" --></p>
+
+<h3>Step 2 — Build Pack Sizes on the Units Card</h3>
+<p>The Units card is where you define the pack size structure for the item. <!-- Source: [[NXT-37110:AC]] "Provide the ability to add pack size units in the combined Units grid" --> Use the add button to insert a new row in the Units grid for each pack size you need. <!-- Source: [[NXT-37110:DESC]] "Display an ‘+ Pack’ button which would insert a new row in the Units grid" --></p>
+
+<p><strong>Sub-Qty rules determine how pack sizes are linked:</strong></p>
+<ul>
+  <li>The first pack size you add does not have Sub-Qty enabled. <!-- Source: [[NXT-37110:DESC]] "Do not enable Sub-Qty for the first pack size being added" --></li>
+  <li>When adding a second pack size <em>below</em> an existing one (as a child), Sub-Qty appears on that same row. <!-- Source: [[NXT-37110:DESC]] "Sub-Qty on the same row" --> <!-- Source: [[NXT-37110:DESC]] "if the current pack size being added is a second pack size, being added as a child item to (below) the existing pack size" --></li>
+  <li>When adding a pack size <em>above</em> an existing one (as a parent), Sub-Qty appears on the child item row. <!-- Source: [[NXT-37110:DESC]] "Sub-Qty on the child item row" --> <!-- Source: [[NXT-37110:DESC]] "if the current pack size being added is a second pack size, being added as a parent to (above) the existing pack size" --></li>
+</ul>
+<p>The system highlights the correct Sub-Qty fields so you always know where to enter the linking quantity. <!-- Source: [[NXT-37110:AC]] "Bring attention to the appropriate Sub-Qty fields as required to link Pack Sizes" --></p>
+
+<p>Weight is optional in most cases, but becomes required in specific scenarios (such as linking to a serving base unit). <!-- Source: [[NXT-37110:AC]] "Emphasize Weight field for rare scenarios where required" --></p>
+
+<h3>Step 3 — Resolve the Inventory Readiness Banner</h3>
+<p>An Inventory Readiness banner is always displayed and operates as a live status indicator — not a one-time gate. <!-- Source: [[NXT-53530:AC]] "instead it should operate more like a status" --> <!-- Source: [[NXT-53530:AC]] "Always display the inventory readiness banner" --> Each banner version carries clear, specific messaging so you know exactly what is still required. <!-- Source: [[NXT-53530:AC]] "Provide very clear messaging for each banner version" --> The banner covers all scenarios, including a Non-Inventory state when the item is ineligible or disabled. <!-- Source: [[NXT-53530:AC]] "there will be a status/banner for every scenario, including one for ‘Non-Inventory’ for Ineligible or Disabled" --></p>
+
+<h3>Step 4 — Enter Cost</h3>
+<p>Cost and value fields are completed during the final finish tasks, not during initial pack size setup. <!-- Source: [[NXT-37110:DESC]] "Cost / Value - enabled at the end during finish tasks" --> You select the specific pack size unit on which to record the price. <!-- Source: [[NXT-37110:DESC]] "User can select the specific pack size (or inventory-able serving) unit on which to enter the pricing" --></p>
+
+<h2>Workflow: Create a Food Item</h2>
+
+<p>The <strong>Units card</strong> is the single place to manage both serving sizes and pack sizes for a food item. <!-- Source: [[NXT-35898:AC]] "Provide the new Units card in the item creation header which is the combination of the pack size and serving size sections" --> It becomes editable once the general info card is saved. <!-- Source: [[NXT-35898:DESC]] "This card should be editable once the general card is saved" --></p>
+
+<h3>Step 1 — Answer the header questions</h3>
+<p>Before the grid activates, two questions appear in the header bar. <!-- Source: [[NXT-35898:AC]] "Provide Food item and Fluid item questions in the header bar of the card before enabling the grid" --></p>
+<ol>
+  <li><strong>Food Item?</strong> — Answering No disables Serving Sizes entirely. <!-- Source: [[NXT-35898:DESC]] "if No, disable Serving Sizes" --></li>
+  <li><strong>Fluid Item?</strong> — Answering Yes switches serving size measurement to Volume; the column header changes to <em>Weight / Volume</em> because servings use fluid measures while pack sizes still use weight. <!-- Source: [[NXT-35898:DESC]] "Use ‘Weight / Volume’ if the item is fluid (NXT-37054)" --> <!-- Source: [[NXT-35898:DESC]] "this is because we will use fluid measures for the servings but weight for (most of the) pack sizes" --></li>
+</ol>
+<p>After both questions are answered, the grid loads with <strong>Add Serving Size</strong> and <strong>Add Pack Size</strong> actions. <!-- Source: [[NXT-35898:AC]] "After questions, load the grid with Add Serving Size and Add Pack Size actions (based on question input)" --></p>
+
+<h3>Step 2 — Add serving sizes</h3>
+<p>Each serving size row captures three fields. <!-- Source: [[NXT-35898:AC]] "Provide the ability to add and save independent serving sizes" --></p>
+<table>
+  <thead><tr><th>Field</th><th>Key rule</th></tr></thead>
+  <tbody>
+    <tr><td>Amount</td><td>Amount = 1 makes the serving "potentially inventory-able" and eligible for Sub-Qty linking. Any other value is a serving-only unit. <!-- Source: [[NXT-35898:DESC]] "if = 1, eligible for having sub-quantity and for possibly becoming a pack size (base unit)" --> <!-- Source: [[NXT-35898:DESC]] "if anything other than 1, it’s a serving size only (current behavior)" --></td></tr>
+    <tr><td>Description</td><td>Smart text field matched against standard measures. <!-- Source: [[NXT-35898:DESC]] "this should be a hybrid smart text field instead of a dropdown (NXT-37052)" --> <!-- Source: [[NXT-35898:DESC]] "we should still have the standard measures and try to match them in the text field (hence the ‘smart’ text field)" --></td></tr>
+    <tr><td>Weight / Volume</td><td>Defines the measurable unit; label switches based on Fluid answer. <!-- Source: [[NXT-35898:DESC]] "Column header label rules" --></td></tr>
+  </tbody>
+</table>
+
+<h3>Step 3 — Add pack sizes and set the hierarchy</h3>
+<p>Pack sizes are added via the <strong>+ Pack</strong> button. <!-- Source: [[NXT-37110:DESC]] "Display an ‘+ Pack’ button which would insert a new row in the Units grid" --> When a second pack size exists, Sub-Qty is required on the child row (lower unit) or the parent row (upper unit) to establish the Higher/Lower hierarchy. <!-- Source: [[NXT-37110:DESC]] "if the current pack size being added is a second pack size, being added as a child item to (below) the existing pack size" --> <!-- Source: [[NXT-37110:DESC]] "if the current pack size being added is a second pack size, being added as a parent to (above) the existing pack size" --> Sub-Qty is not enabled for the very first pack size. <!-- Source: [[NXT-37110:DESC]] "Do not enable Sub-Qty for the first pack size being added" --></p>
+
+<h3>Step 4 — Link servings to packs (Inventory Readiness)</h3>
+<p>To achieve Inventory Readiness, a serving size with Amount = 1 must be linked to a pack size via Sub-Qty. <!-- Source: [[NXT-37441:AC]] "Provide Sub-Qty on the Serving Size row in valid scenarios" --> <!-- Source: [[NXT-37441:AC]] "Trigger Inventory readiness based on proper pack-serving links" --> The system prompts: how many serving units fit inside the pack unit. <!-- Source: [[NXT-37441:DESC]] "Sub-Qty: “How many [description of serving] are in [description of pack unit]?”" --> Unlinked items remain inventory-ineligible. <!-- Source: [[NXT-37441:DESC]] "We will allow users to add pack units which are unlinked from servings, but these items will be Inventory Ineligible (Inventory Readiness)" --> An Inventory Readiness banner is always displayed so the status is visible at a glance. <!-- Source: [[NXT-53530:AC]] "Always display the inventory readiness banner" --></p>
+
+<h3>Step 5 — Resolve Missing Costing</h3>
+<p>Cost / Value becomes editable during finish tasks on pack sizes and on inventory-eligible serving sizes linked via Sub-Qty. <!-- Source: [[NXT-37110:DESC]] "Cost / Value - enabled at the end during finish tasks" --> <!-- Source: [[NXT-37110:DESC]] "User can select the specific pack size (or inventory-able serving) unit on which to enter the pricing" --></p>
+
+<h3>Serving vs. pack — purpose summary</h3>
+<ul>
+  <li><strong>Serving sizes</strong> — drive Menu Planning and production quantities.</li>
+  <li><strong>Pack sizes</strong> — drive Inventory tracking; linking to a serving ensures the inventory unit maps to the correct menu-planning version. <!-- Source: [[NXT-37441:DESC]] "As a user configuring items I want the requirement to link servings and packs when both exist so that my inventory item is always linked to the MP/PD version of the item." --></li>
+</ul>
+
+<h2>Workflow: Configure Nutrient & Ingredient Information</h2>
+
+<p>Whether nutrient data is required depends on the <strong>Is Food</strong> flag set earlier on the item record. Complete the <strong>Nutrient Info</strong> tab first, then the <strong>Ingredient Info</strong> card.</p>
+
+<h3>Nutrient Info Tab</h3>
+
+<p>For food items, five fields are mandatory — Calories, Total Fat, Saturated Fat, Carbohydrate, and Protein.<!-- Source: [[NXT-24910:AC]] "Calories, Total Fat, Saturated Fat, Carbohydrate, Protein" --> Non-mandatory nutrient fields left blank on a food item are flagged rather than rejected.<!-- Source: [[NXT-24910:AC]] "If Food Item = Yes and Nutrient fields are left blank then mark as (M) except for Mandatory Fields" --> For non-food items, the entire nutrient section is optional; any values provided are still accepted unless a data type mismatch occurs.<!-- Source: [[NXT-24910:AC]] "If Food Item = No, then whole Nutrient section is treated as optional for that record. Any value provided against the field should still be imported unless there a is data type mismatch" --></p>
+
+<table>
+  <thead>
+    <tr><th>Nutrient Field</th><th>Food Item (Is Food = Yes)</th><th>Non-Food Item (Is Food = No)</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Calories</td><td>Mandatory</td><td>Optional</td></tr>
+    <tr><td>Total Fat</td><td>Mandatory</td><td>Optional</td></tr>
+    <tr><td>Saturated Fat</td><td>Mandatory</td><td>Optional</td></tr>
+    <tr><td>Carbohydrate</td><td>Mandatory</td><td>Optional</td></tr>
+    <tr><td>Protein</td><td>Mandatory</td><td>Optional</td></tr>
+  </tbody>
+</table>
+
+<p>Serving-size fields — including serving size quantity, unit, weight, and weight unit — are also captured on this tab.<!-- Source: [[NXT-24910:AC]] "§  Serving Size Quantity, Serving Size Unit, Serving Size Weight, Serving, Size Weight Unit" --></p>
+
+<p>[TO VERIFY: confirm UI behavior for the Missing Value checkbox and whether a Per 100g column and daily-value percentages auto-calculate — no Jira source available for these specifics at time of generation.]</p>
+
+<h3>Ingredient Info Card</h3>
+
+<p>The <strong>Edible Yield Factor</strong> defaults to 100 unless a different value is explicitly provided.<!-- Source: [[NXT-24910:AC]] "Edible Yield Factor set to 100 by default unless explicitly specified otherwise" --></p>
+
+<p>[TO VERIFY: confirm UI fields and behavior for Sub Ingredients, Standard Recipe Directions, Locally Grown checkbox, Buy American checkbox, and exemption letter upload — no Jira source available for these specifics at time of generation.]</p>
+
+<h2>Workflow: Configure Allergen Information</h2>
+
+<p>Authorized nutrition service users can define custom allergens to supplement the standard allergen set, ensuring items are accurately flagged for site-specific dietary requirements.<!-- Source: [[NXT-24128:DESC]] "As an authorized Nutrition service user I need a way to create custom allergen  in order to help identify items with allergens" --></p>
+
+<h3>Add a Custom Allergen</h3>
+
+<p>Custom allergens are managed through a dedicated configuration area inside Item Management.<!-- Source: [[NXT-24128:AC]] "A Custom allergens option is added under IM configuration area" --> After selecting the configuration option, a pop-up window prompts for the data source and the configuration option desired; pressing <strong>Apply</strong> loads the relevant screen.<!-- Source: [[NXT-24128:AC]] "Once user selects configuration a pop-up window is presented to the user. This pop-up windows asks for data source and configuration option desired. When user click/press apply button then system re-directs the user to appropriate configuration area" --></p>
+
+<ol>
+  <li>Navigate to <strong>Item Management &gt; Configuration &gt; Item Configuration &gt; Custom Allergens</strong>.<!-- Source: [[NXT-24128:AC]] "Entry Point" --></li>
+  <li>On the result grid, open the slide-out card to create a new record.<!-- Source: [[NXT-24128:AC]] "When Slide Out Card is displayed" --></li>
+  <li>Enter a <strong>Custom Allergen Description</strong> (free-text, mandatory, no duplicates permitted).<!-- Source: [[NXT-24128:AC]] "Custom Allergen Description [Free text box]" --><!-- Source: [[NXT-24128:AC]] "Is a Mandatory field" --><!-- Source: [[NXT-24128:AC]] "Custom Allergen is Mandatory and no duplicates are allowed" --></li>
+  <li>Select a <strong>Data Source</strong> from the dropdown — only the Local data source is available; exactly one must be chosen.<!-- Source: [[NXT-24128:AC]] "Data Source [Dropdown box that list available data sources to the user] [Local]" --><!-- Source: [[NXT-24128:AC]] "Only one Data Source can be selected [Local]" --></li>
+  <li>Click <strong>Save</strong>. Validation runs; if the name already exists the system prompts for a different name.<!-- Source: [[NXT-24128:AC]] "Validation occurs" --><!-- Source: [[NXT-24128:AC]] "If Custom Allergen already exist warn the user with a message “Custom Allergen already in use, please use a different Custom Allergen name and allow the user to enter a different name”" --> On success the new allergen appears immediately in the result grid.<!-- Source: [[NXT-24128:AC]] "The newly added Custom Allergen is listed on the result grid" --></li>
+</ol>
+
+<h3>Key Rules at a Glance</h3>
+
+<table>
+  <thead>
+    <tr><th>Action</th><th>Constraint</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Edit description</td><td>User-created records only; system-provided allergens cannot be edited.<!-- Source: [[NXT-24128:AC]] "User should be able to edit Custom Allergen Description [Description Only]" --><!-- Source: [[NXT-24128:AC]] "Only for user created Custom Allergen (e.g CN cannot be edited or Deactivated)" --></td></tr>
+    <tr><td>Deactivate</td><td>Allowed only when no items, recipes, or menus reference the allergen; confirmation required.<!-- Source: [[NXT-24128:AC]] "User should be able to deactivate Custom Allergen only if there are no items/recipes/menus using it" --><!-- Source: [[NXT-24128:AC]] "User should be presented with a confirmation message “Are you sure you want to deactivate this Custom Allergen” is Yes proceed with deletion if no cancel process" --></td></tr>
+    <tr><td>Export</td><td>PDF export available; report includes description, data source, updated-by user, and system timestamp.<!-- Source: [[NXT-24128:AC]] "Export [PDF Format]" --><!-- Source: [[NXT-24128:AC]] "Updated by [User Name]" --><!-- Source: [[NXT-24128:AC]] "Generated on {System date/time UTC]" --></td></tr>
+    <tr><td>Data source</td><td>Local only.<!-- Source: [[NXT-24128:AC]] "Only can be added to user/district created data source (e.g. Local)" --></td></tr>
+  </tbody>
+</table>
+
+<p><strong>Tip:</strong> Closing the slide-out card with the <strong>X</strong> icon cancels all unsaved changes.<!-- Source: [[NXT-24128:AC]] "If User clicks on the X icon then the Slide Out Card is close and transactions are canceled" --></p>
+
+<h2>Workflow: Create a Direct Menu Item</h2>
+
+<p>The Menu Info tab becomes available only after the Units card has been saved. Begin there before attempting any of the steps below. <!-- Source: transcript MM:SS --></p>
+
+<h3>Required and Optional Fields</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Required?</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Menu Item Name</td><td>Yes</td><td></td></tr>
+    <tr><td>Button Name</td><td>Yes</td><td></td></tr>
+    <tr><td>Menu Item Category</td><td>Yes</td><td></td></tr>
+    <tr><td>Marketing Name &amp; Description</td><td>No</td><td></td></tr>
+    <tr><td>Spanish Button Name</td><td>No</td><td></td></tr>
+    <tr><td>Leftover Category</td><td>No</td><td></td></tr>
+    <tr><td>Tags</td><td>No</td><td></td></tr>
+    <tr><td>Preparation Site Item</td><td>No</td><td></td></tr>
+    <tr><td>POS Entree flag</td><td>No</td><td></td></tr>
+    <tr><td>Max Days</td><td>No</td><td></td></tr>
+  </tbody>
+</table>
+
+<h3>Step-by-Step</h3>
+
+<ol>
+  <li>Save the Units card to unlock the <strong>Menu Info</strong> tab. <!-- Source: transcript MM:SS --></li>
+  <li>Enter all three required fields: Menu Item Name, Button Name, and Menu Item Category.</li>
+  <li>Fill in any applicable optional fields for your site's needs.</li>
+  <li>Under <strong>Serving Exceptions</strong>, configure overrides by Meal Pattern and Serving Group as needed. <!-- Source: transcript MM:SS --></li>
+  <li>Open <strong>POS Pricing</strong> and set prices for each eligibility group (student and adult). Use the <strong>Set All Prices</strong> shortcut to populate multiple groups at once. <!-- Source: transcript MM:SS --></li>
+  <li>Toggle <strong>Allow Sale</strong> on or off to control whether the item is available for point-of-sale transactions.</li>
+  <li>Check <strong>Taxable</strong> if the item is subject to tax at the point of sale.</li>
+  <li>Save the record.</li>
+</ol>
+
+<div data-type="panel-info">
+  <p><strong>Common mistake:</strong> Attempting to access Menu Info before saving the Units card — the tab will not appear. <!-- Source: transcript MM:SS --></p>
+</div>
+
+<h2>Workflow: Configure HACCP and Recipe Steps</h2>
+
+<h3>Prerequisites</h3>
+<p>The Steps &amp; Ingredients tab activates only after a description, serving size, and number of servings have been saved on the summary card. <!-- Source: [[NXT-36071:DESC]] "Enable this tab once a Description, Serving Size and Number of Servings are provided and saved in the summary card" --> The Steps card is displayed on the left side of this tab. <!-- Source: [[NXT-36071:AC]] "Display a left aligned card for housing the Recipe steps" --></p>
+
+<h3>Step 1 — Select the HACCP Process</h3>
+<p>A HACCP Process section sits above or alongside the Steps card. <!-- Source: [[NXT-36583:DESC]] "Provide a small section on the recipe Steps & Ingredients tab above (or on, inside, next to, etc.) the Steps card" --> The three standard process options are No Cook, Same Day Service, and Complex Food. <!-- Source: [[NXT-36583:DESC]] "This will reflect the configured processes on the config page, but will just be No Cook, Same Day Service and Complex Food 98% of the time" --> This selection is the only required field in the section. <!-- Source: [[NXT-36583:DESC]] "This is the only required selection for this section" --> Use the independent Save and Cancel controls to commit the choice before continuing. <!-- Source: [[NXT-36583:DESC]] "Provide independent Save/Cancel" --></p>
+
+<h3>Step 2 — Add Steps and Directions</h3>
+<p>In Edit Steps mode, directions serve as the primary visual element of each step row. <!-- Source: [[NXT-36071:DESC]] "Directions will be the primary visual of the step" --> Step ingredients are available in an expandable sub-section, but only one step's ingredients may be expanded at a time. <!-- Source: [[NXT-36071:DESC]] "Allow the step ingredients to be expanded only for one Step at a time (a report will be given for all steps)" --></p>
+
+<h3>Step 3 — Insert Critical Control Points (CCPs)</h3>
+<p>An Add CCP action appears at the same level as the Add Step action inside Edit Steps mode. <!-- Source: [[NXT-36583:DESC]] "In the same Edit Recipe Steps mode, provide an ‘Add CCP’ button/action on the same level as the ‘Add Step’ button" --> The system validates the save against the control points associated with the selected process. <!-- Source: [[NXT-36583:DESC]] "Validate Saves against the added control points" --></p>
+
+<h3>Changing the Process After CCPs Exist</h3>
+<table>
+  <thead>
+    <tr><th>Situation</th><th>System behavior</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Switched process conflicts with existing CCPs</td>
+      <td>Warning prompt shown before any CCPs are cleared <!-- Source: [[NXT-36583:DESC]] "If the user has CCPs added to the Steps which are not associated with the Process selected, warn the user" --> <!-- Source: [[NXT-36583:DESC]] "“This will clear some of the existing Control Points. Are you sure to change the HACCP Process?”" --></td>
+    </tr>
+    <tr>
+      <td>Switched process is still compatible with existing CCPs</td>
+      <td>Those CCPs are retained automatically <!-- Source: [[NXT-36583:DESC]] "If the user switches Processes but the CCP is still associated, retain the existing CCP" --></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Ingredients Summary (View Mode)</h3>
+<p>A right-side Ingredients card aggregates every ingredient added across all steps, displaying the recipe-level total quantity. <!-- Source: [[NXT-36071:DESC]] "This will house all ingredients added to the recipe regardless of Step" --> <!-- Source: [[NXT-36071:DESC]] "The quantity will be the sum of the ingredient across the whole recipe (by default)" --> The quantity is scaled to higher units for the recipe total. <!-- Source: [[NXT-36071:DESC]] "Scale quantity to higher units for the purpose of recipe total" --></p>
+
+<h2>Key Fields &amp; Statuses</h2>
+
+<h3>Units Card</h3>
+<p>The Units card sits in the item creation header alongside the general info card, consolidating pack size and serving size configuration in one place.<!-- Source: [[NXT-35898:AC]] "Provide the new Units card in the item creation header which is the combination of the pack size and serving size sections" --> It becomes editable only after the general card is saved.<!-- Source: [[NXT-35898:DESC]] "This card should be editable once the general card is saved" --> Before the grid loads, a header bar presents two setup questions that control which fields and actions become available.<!-- Source: [[NXT-35898:AC]] "Provide Food item and Fluid item questions in the header bar of the card before enabling the grid" --><!-- Source: [[NXT-35898:AC]] "After questions, load the grid with Add Serving Size and Add Pack Size actions (based on question input)" --></p>
+<ul>
+  <li><strong>Food Item?</strong> — if No, serving sizes are disabled entirely.<!-- Source: [[NXT-35898:DESC]] "if No, disable Serving Sizes" --></li>
+  <li><strong>Fluid Item?</strong> (appears only when Food = Yes) — if Yes, the measurement column switches to volume-based units for servings.<!-- Source: [[NXT-35898:DESC]] "if Yes, switch to ‘Volume’ for Serving Sizes" --></li>
+</ul>
+
+<h3>Units Grid Columns</h3>
+<table>
+  <thead>
+    <tr><th>Column</th><th>Applies To</th><th>Key Behaviour</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Amount</td>
+      <td>Serving Sizes only</td>
+      <td>When set to 1, the serving becomes potentially inventory-eligible.<!-- Source: [[NXT-35898:DESC]] "if = 1, eligible for having sub-quantity and for possibly becoming a pack size (base unit)" --><!-- Source: [[NXT-35898:DESC]] "Amount - a field only applicable to Serving Sizes" --></td>
+    </tr>
+    <tr>
+      <td>Description</td>
+      <td>Both</td>
+      <td>Smart text field; matches against configured common measures for pack and serving units.<!-- Source: [[NXT-35898:DESC]] "Description - a smart text field used for both serving and pack size units" --></td>
+    </tr>
+    <tr>
+      <td>Sub-Qty</td>
+      <td>Pack Sizes (and linked servings)</td>
+      <td>Links pack units to each other or to a serving base unit; not enabled for the first pack size added.<!-- Source: [[NXT-35898:DESC]] "Sub-Qty - a field used to link pack size units, and in some rare cases, used to link a serving size to a pack size base unit" --><!-- Source: [[NXT-37110:DESC]] "Do not enable Sub-Qty for the first pack size being added" --></td>
+    </tr>
+    <tr>
+      <td>Weight / Volume</td>
+      <td>Both</td>
+      <td>Label shows "Weight" for non-fluid items and "Weight / Volume" for fluid items.<!-- Source: [[NXT-35898:DESC]] "Use ‘Weight’ header label if the item is not fluid" --><!-- Source: [[NXT-35898:DESC]] "Use ‘Weight / Volume’ header label if the item is fluid, because servings will be volume but packs will be weight" --></td>
+    </tr>
+    <tr>
+      <td>Cost / Value</td>
+      <td>Pack Sizes and inventory-eligible servings</td>
+      <td>Replaces the legacy Fair Market Value field; editable on all eligible units.<!-- Source: [[NXT-35898:DESC]] "Cost / Value - the replacement field for Fair Market Value" --><!-- Source: [[NXT-35898:DESC]] "this will now be editable on all eligible units (pack sizes and servings linked with sub-qty)" --></td>
+    </tr>
+    <tr>
+      <td>Identifiers</td>
+      <td>Both</td>
+      <td>Displays unit-level indicators relevant to understanding the overall Units card.<!-- Source: [[NXT-35898:DESC]] "Identifiers - a field to show unit level indicators or attributes important for understanding the overall units card" --></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Inventory Readiness Banners</h3>
+<p>Inventory Readiness operates as a persistent status rather than a sequential gate.<!-- Source: [[NXT-53530:AC]] "Remove the sequential logic of the inventory requirements" --><!-- Source: [[NXT-53530:AC]] "instead it should operate more like a status" --> A banner is always visible, with distinct messaging for every scenario.<!-- Source: [[NXT-53530:AC]] "Always display the inventory readiness banner" --><!-- Source: [[NXT-53530:AC]] "Provide very clear messaging for each banner version" --></p>
+<ul>
+  <li><strong>Inventory Ready</strong> — triggered when pack sizes are added and properly linked.<!-- Source: [[NXT-37110:DESC]] "Inventory flag is triggered if Pack Sizes are added" --></li>
+  <li><strong>Non-Inventory</strong> — shown when the item is ineligible or inventory is disabled.<!-- Source: [[NXT-53530:AC]] "there will be a status/banner for every scenario, including one for ‘Non-Inventory’ for Ineligible or Disabled" --></li>
+  <li><strong>Inventory Ineligible</strong> — results when pack units and servings exist but are not linked to each other.<!-- Source: [[NXT-37441:DESC]] "We will allow users to add pack units which are unlinked from servings, but these items will be Inventory Ineligible (Inventory Readiness)" --></li>
+</ul>
+<p>To resolve an Ineligible status, enter Sub-Qty on a serving row with Amount = 1, or enter Weight on the pack size base unit.<!-- Source: [[NXT-37441:DESC]] "if the Serving Size is potentially inventory-able (Amount = 1), enable the Sub-Qty for the Serving Size row" --><!-- Source: [[NXT-37441:AC]] "Emphasize Weight field for Pack Size base units when Sub-Qty is not used for linking" --></p>
+
+<h2>Reports &amp; Outputs</h2>
+
+<p>A fully configured item feeds several downstream surfaces. The sections below map each data grouping to the reports and screens it drives.</p>
+
+<h3>Inventory Info Tab — Vendor Contract Details</h3>
+<p>Once vendor contract data is attached to an item, the Inventory Info tab surfaces the active contract record inline. <!-- Source: transcript MM:SS --> Staff can review contract details without leaving the item record, and a direct shortcut navigates to the full Contract Items list for that vendor. <!-- Source: transcript MM:SS --></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field visible on Inventory Info tab</th>
+      <th>Where it originates</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Vendor name</td><td>Linked vendor contract</td></tr>
+    <tr><td>Vendor item number</td><td>Linked vendor contract</td></tr>
+    <tr><td>Lead time</td><td>Linked vendor contract</td></tr>
+    <tr><td>Min / max order quantities</td><td>Linked vendor contract</td></tr>
+    <tr><td>Current price</td><td>Linked vendor contract</td></tr>
+  </tbody>
+</table>
+
+<h3>Nutrient Data → Menu Planning Reports</h3>
+<p>Nutrient values entered on the item flow into menu planning and are aggregated in nutrient analysis reports. <!-- Source: transcript MM:SS --> This means incomplete nutrient setup on even one item can create gaps in a menu's nutritional totals.</p>
+
+<h3>Menu Item &amp; POS Pricing → Production and Display</h3>
+<p>Menu Item configuration and POS Pricing data flow to three downstream outputs: <!-- Source: transcript MM:SS --></p>
+
+<ul>
+  <li><strong>Production records</strong> — item details are pulled into production documentation.</li>
+  <li><strong>Menu Calendar Report</strong> — scheduled menu items appear with their configured attributes.</li>
+  <li><strong>POS touchscreen</strong> — pricing and item display information render at the point of sale.</li>
+</ul>
+
+<p>Because these outputs share the same source record, a correction made on the item propagates to all three without separate updates.</p>
+
+<h2>Exceptions & Troubleshooting</h2>
+
+<h3>Sub-Quantity Is Disabled on the First Pack Size</h3>
+<p>Sub-Qty is intentionally unavailable when adding the first pack size to an item. <!-- Source: [[NXT-37110:DESC]] "Do not enable Sub-Qty for the first pack size being added" --> It activates only when a second pack size is added — either as a child unit below or a parent unit above the existing pack size. <!-- Source: [[NXT-37110:DESC]] "Sub-Qty on the same row" --> <!-- Source: [[NXT-37110:DESC]] "if the current pack size being added is a second pack size, being added as a parent to (above) the existing pack size" --> Where Sub-Qty cannot be used, Weight serves as the alternative linking method. <!-- Source: [[NXT-37441:DESC]] "Emphasize Sub-Qty or Weight as required to ensure Pack Sizes and Servings are linked" --></p>
+
+<h3>Pack–Serving Linking and Inventory Readiness</h3>
+<p>Items whose pack sizes are not linked to serving sizes are flagged as Inventory Ineligible. <!-- Source: [[NXT-37441:DESC]] "We will allow users to add pack units which are unlinked from servings, but these items will be Inventory Ineligible (Inventory Readiness)" --> Linking requires either a Sub-Qty or Weight entry; both options satisfy the requirement before Inventory Readiness can be achieved. <!-- Source: [[NXT-37441:DESC]] "Require linking for Inventory readiness" --> The Inventory Readiness banner remains visible at all times and provides clear status messaging for every scenario, including a Non-Inventory state for items that are ineligible or disabled. <!-- Source: [[NXT-53530:AC]] "Always display the inventory readiness banner" --> <!-- Source: [[NXT-53530:AC]] "there will be a status/banner for every scenario, including one for ‘Non-Inventory’ for Ineligible or Disabled" --> <!-- Source: [[NXT-53530:AC]] "Provide very clear messaging for each banner version" --></p>
+
+<h3>Food Items: Configure Serving Sizes Before Pack Sizes</h3>
+<p>For food items, add serving sizes before building pack sizes. If a pack is added before servings exist, the system emphasizes capturing Weight on the lowest pack unit so that linking can complete once the serving is added later. <!-- Source: [[NXT-37441:DESC]] "If they indicated the item as Food and should be adding servings later, we should emphasize obtaining weight on the lowest unit" --></p>
+
+<h3>Quick-Reference Troubleshooting</h3>
+<table>
+  <thead>
+    <tr><th>Symptom</th><th>Likely Cause</th><th>Fix</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Sub-Qty field is greyed out</td>
+      <td>Only one pack size exists</td>
+      <td>Add a second pack size first <!-- Source: [[NXT-37110:DESC]] "Do not enable Sub-Qty for the first pack size being added" --></td>
+    </tr>
+    <tr>
+      <td>Item shows Inventory Ineligible</td>
+      <td>Pack and serving not linked</td>
+      <td>Enter Sub-Qty or Weight to establish the link <!-- Source: [[NXT-37441:DESC]] "Require linking for Inventory readiness" --> <!-- Source: [[NXT-37441:DESC]] "We will allow users to add pack units which are unlinked from servings, but these items will be Inventory Ineligible (Inventory Readiness)" --></td>
+    </tr>
+    <tr>
+      <td>Food item pack won't link to serving</td>
+      <td>Serving not yet configured</td>
+      <td>Add serving sizes before pack sizes <!-- Source: [[NXT-37441:DESC]] "If they indicated the item as Food and should be adding servings later, we should emphasize obtaining weight on the lowest unit" --></td>
+    </tr>
+    <tr>
+      <td>Lowest unit in a 3-tier pack not linking</td>
+      <td>Weight missing on base unit</td>
+      <td>Enter weight on the lowest pack unit <!-- Source: [[NXT-37441:DESC]] "If it’s the lowest unit in a 3-tier pack size" --></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Related Content</h2>
+
+<p>Item Management connects to several other modules. Review these guides when your work extends beyond creating and editing items.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Guide</th>
+      <th>Relevant when you need to…</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Inventory Module Guide</strong></td>
+      <td>Work with vendor contracts, manage receiving workflows, or run inventory counts tied to your item catalog</td>
+    </tr>
+    <tr>
+      <td><strong>Menu Planning Module Guide</strong></td>
+      <td>Attach items to recipes, build menu grids, or review nutrient analysis for food items</td>
+    </tr>
+    <tr>
+      <td><strong>POS Configuration Guide</strong></td>
+      <td>Set up button layouts for items on the point-of-sale screen or configure taxability settings</td>
+    </tr>
+    <tr>
+      <td><strong>SchoolCafé Support Site — Quick-Reference Guides</strong></td>
+      <td>Step-by-step reference cards for creating food items and non-food items directly in SchoolCafé</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Where to go next</h3>
+<ul>
+  <li>If you are setting up items for the first time, start with the <strong>Inventory Module Guide</strong> to align item records with your vendor and receiving workflows.</li>
+  <li>If items are already created and you need them on a menu, move to the <strong>Menu Planning Module Guide</strong>.</li>
+  <li>For front-of-house display and sales settings, see the <strong>POS Configuration Guide</strong>.</li>
+</ul>
+
+<h2>Sources</h2>
+<ul>
+  <li><code>NXT-24128</code> — IM - Custom Allergen Configuration</li>
+  <li><code>NXT-24910</code> — IM - Items Details Import - Business Rules Only</li>
+  <li><code>NXT-35898</code> — IM - Items - Units - Card & Add Serving</li>
+  <li><code>NXT-36071</code> — IM - Recipe Rework - Steps & Ingredients - View Steps</li>
+  <li><code>NXT-36583</code> — IM - Recipe Rework - Recipe Steps - HACCP Process (Step 0)</li>
+  <li><code>NXT-37110</code> — IM - Items - Units - Pack Sizes & Sub-Qty</li>
+  <li><code>NXT-37441</code> — IM - Items - Units - Link Servings to Pack Size</li>
+  <li><code>NXT-53530</code> — IM - Items - Units - Inventory Readiness revised</li>
+</ul>

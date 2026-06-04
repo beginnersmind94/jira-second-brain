@@ -1,0 +1,12 @@
+Loaded fixture: 4977 tickets + 888 epics (module 'Item Management', captured 2026-06-01T08:48:07)
+Step 1: generating long-form (full research, the long pole)…
+  long-form     521.7s  →  drafts/20260601-091452-item-management-long-form-c4779d.html  (74,055 chars) (full generation)
+Step 2: deriving micro-guide + tldr from the long-form (no Jira)…
+  micro-guide   307.5s  →  drafts/20260601-091452-item-management-micro-guide-7b2021.html  (23,960 chars) (derived from long-form)
+  tldr          149.8s  →  drafts/20260601-091452-item-management-tldr-54ece7.html  (13,782 chars) (derived from long-form)
+
+Total wall time: 829.3s (long-form 522s + derivations)
+
+View in the UI:  start the server if needed —
+    uvicorn app:app --host 127.0.0.1 --port 8000
+  then open http://127.0.0.1:8000 → Library tab.

@@ -1,0 +1,59 @@
+<h1>Item Management — TLDR</h1>
+<p><strong>Module:</strong> Item Management &nbsp;|&nbsp; <strong>Template:</strong> TLDR One-Pager &nbsp;|&nbsp; <strong>Source:</strong> REC-2026-0515-IM-001 (May 15, 2026)</p>
+
+<h2>What this module does</h2>
+<p>Item Management is the central catalog where district staff create and configure every product — food and non-food — that feeds Inventory, Menu Planning, Point of Sale, and Production Records.<!-- Source: transcript [00:00] --></p>
+
+<h2>Key features</h2>
+<table>
+  <thead>
+    <tr><th>Feature</th><th>What it does</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Non-Food Item creation</td><td>Creates supply items (cups, trays, gloves) with pack sizes and costing.<!-- Source: transcript [00:52] --></td></tr>
+    <tr><td>Food Item creation</td><td>Creates served-food items with full nutrient, allergen, and meal-pattern configuration.<!-- Source: transcript [00:52] --></td></tr>
+    <tr><td>Multi-tier Pack Sizes</td><td>Supports up to three pack tiers (e.g., Box → Sleeve → Cup) linked by Sub-Qty.<!-- Source: [[NXT-53528:AC]] "# of countable inventory units: options: 1, 2, 3, None/Decide Later" --></td></tr>
+    <tr><td>Serving Sizes</td><td>Defines the serving weight/volume used in recipes and menu planning (food items only).<!-- Source: [[NXT-35898:AC]] "Fluid Item? Y/N — if Yes, switch to 'Volume' for Serving Sizes" --></td></tr>
+    <tr><td>Serving-to-Pack Linking</td><td>Connects serving sizes to pack tiers via Sub-Qty to unlock Inventory readiness.<!-- Source: [[NXT-37441:AC]] "Trigger Inventory readiness based on proper pack-serving links" --></td></tr>
+    <tr><td>Costing</td><td>Enters cost for one pack tier; system auto-calculates all other tiers from Sub-Qty.<!-- Source: [[NXT-37568:AC]] "Provide an optional Costing step; Require FMV for Inventory readiness" --></td></tr>
+    <tr><td>Nutrient Info</td><td>Records label nutrients per serving; drives nutrient analysis in Menu Planning.<!-- Source: transcript [19:00] --></td></tr>
+    <tr><td>Allergen Info + Custom Allergens</td><td>Assigns standard and custom allergens with Contains / May Contain / Free From status.<!-- Source: transcript [22:20] --></td></tr>
+    <tr><td>Contribution Info</td><td>Sets meal-pattern credit (Meat/Meat Alt, Grains, Vegetables, Fruits, Fluid Milk).<!-- Source: transcript [21:52] --></td></tr>
+    <tr><td>Direct Menu Item (DMI)</td><td>Makes an item placeable on a menu without a recipe; enables POS Pricing tab.<!-- Source: transcript [24:30] --></td></tr>
+    <tr><td>POS Pricing</td><td>Configures per-eligibility-type prices (Free, Reduced, Paid, Second Meal) by site type.<!-- Source: transcript [30:55] --></td></tr>
+    <tr><td>Steps Card (HACCP)</td><td>Assigns HACCP process (No Cook, Same Day, Complex) and critical control points.<!-- Source: transcript [28:18] --></td></tr>
+  </tbody>
+</table>
+
+<h2>Who uses it</h2>
+<p>District Admins and Implementation Specialists create and configure items; Menu Planners and Nutritionists manage nutrient, allergen, and contribution data.<!-- Source: transcript [00:00] --></p>
+
+<h2>Common workflows</h2>
+<ul>
+  <li>Create a non-food supply item: Item Card → Units Card (select Non-Food) → add Pack Sizes → enter Costing<!-- Source: transcript [01:42] --></li>
+  <li>Create a food item: Item Card → Units Card (Food / Fluid?) → add Serving Sizes → add Pack Sizes → link servings to packs → Costing<!-- Source: transcript [12:25] --></li>
+  <li>Configure nutrients, allergens, and meal-pattern contributions on the food item's detail tabs<!-- Source: transcript [19:00] --></li>
+  <li>Create a custom allergen in <code>Item Management &gt; Configuration &gt; Item Configuration &gt; Custom Allergens</code> before applying it to any item<!-- Source: transcript [23:28] --></li>
+  <li>Enable <code>Show on POS</code> on the Menu Item card, then configure POS Pricing by eligibility type and site<!-- Source: transcript [27:22] --></li>
+</ul>
+
+<h2>Important gotchas</h2>
+<ul>
+  <li><strong>Base Unit locks after first Inventory transaction.</strong> Once an item appears in any count, receipt, or adjustment, <code>Base Unit</code> and Whole Numbers/Decimals are permanently locked — contact Cybersoft support to correct.<!-- Source: [[NXT-37111:DESC]] "Exception: this step/option is invalid once the item is in Inventory tables and Pack Size is locked" [auto-corrected AC->DESC, Tier-3 unless verified] --><!-- Source: transcript [37:35] --></li>
+  <li><strong>Save the Units Card before detail tabs activate.</strong> Nutrient Info, Menu Info, and Inventory Info tabs stay grayed out until the Units Card is saved.<!-- Source: transcript [14:12] --></li>
+  <li><strong>Custom allergens must exist before you can apply them.</strong> An allergen not created in Item Configuration first will produce an empty dropdown on the item's allergen card.<!-- Source: transcript [23:28] --></li>
+  <li><strong>Item Category, Storage Category, and Valuation Group are required when Inventory is enabled.</strong> Configure these in district settings before creating items to avoid retroactive data entry.<!-- Source: [[NXT-37111:DESC]] "Item Categorizations are only required if Inventory is enabled" [auto-corrected AC->DESC, Tier-3 unless verified] --><!-- Source: transcript [02:22] --></li>
+  <li><strong>DMI entry point discrepancy.</strong>
+    <blockquote class="discrepancy">
+      <em>Transcript [24:55]:</em> "Click CREATE MENU ITEM on the Units card banner." <em>NXT-20654 AC:</em> "Entry Point: Menu Item → Menu Items Landing Page → Add Button → Menu Item." Both paths may be valid; human editor should verify.<!-- Source: [[NXT-20654:AC]] "Entry Point: Menu Item → Menu Items Landing Page → Add Button → Menu Item" --><!-- Source: transcript [24:55] -->
+    </blockquote>
+  </li>
+</ul>
+
+<h2>Where to go next</h2>
+<ul>
+  <li>[[link: Inventory module guide]] — Ordering, receiving, and vendor contracts using items built here</li>
+  <li>[[link: Menu Planning module guide]] — DMIs and recipes on menus; nutrient analysis from Nutrient Info tab</li>
+  <li>[[link: POS module guide]] — Button names and pricing configured here display on the cashier screen</li>
+  <li>[[link: Recipes module guide]] — Food items as ingredients; Edible Yield Factor and Standard Recipe Directions apply here</li>
+</ul>

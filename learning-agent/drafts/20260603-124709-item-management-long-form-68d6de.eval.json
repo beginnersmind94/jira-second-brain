@@ -1,0 +1,29 @@
+{
+  "verdict": "pass",
+  "summary": "Deterministic grounding check: 140 citations verified verbatim against source; 0 tier violations, 0 non-verbatim, 0 invalid IDs.",
+  "checks": [
+    {
+      "name": "Citation tiers (no Description-as-AC)",
+      "status": "ok",
+      "detail": "tier_lie=0"
+    },
+    {
+      "name": "Verbatim citations",
+      "status": "ok",
+      "detail": "non-verbatim=0"
+    },
+    {
+      "name": "Valid citation IDs",
+      "status": "ok",
+      "detail": "invalid_cite_id=0"
+    },
+    {
+      "name": "Citations verified against source",
+      "status": "ok",
+      "detail": "140 exact-quote, correct-tier citations"
+    }
+  ],
+  "method": "deterministic-registry-validation",
+  "resource_id": "20260603-124709-item-management-long-form-68d6de",
+  "evaluated_at": "2026-06-03T12:52:14"
+}

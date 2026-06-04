@@ -1,0 +1,742 @@
+{
+  "stamp": "20260603T183555Z",
+  "module": "Item Management",
+  "transcript": "raw/transcripts/20260529-070600-item-management-2026-05-28-item-management-create-items-training.md",
+  "formats": [
+    "long-form",
+    "micro-guide",
+    "tldr"
+  ],
+  "trials": 2,
+  "per_format": {
+    "long-form": {
+      "trials": [
+        {
+          "trial": 1,
+          "fmt": "long-form",
+          "grade": {
+            "graders": [
+              {
+                "name": "G1_tier_lie",
+                "passed": true,
+                "score": 1.0,
+                "metric": "pass^k",
+                "detail": "tier_lie=0 (invariant: 0 by construction)"
+              },
+              {
+                "name": "G2_not_found",
+                "passed": true,
+                "score": 1.0,
+                "metric": "pass^k",
+                "detail": "quote_not_found=0 (invariant: 0 by construction)"
+              },
+              {
+                "name": "G3_invalid_id",
+                "passed": true,
+                "score": 1.0,
+                "metric": "pass^k",
+                "detail": "invalid_cite_id=0 leaked_in_html=False"
+              },
+              {
+                "name": "G4_density",
+                "passed": true,
+                "score": 1.0,
+                "metric": "pass@k",
+                "detail": "tokened=173 ok=173 ok_ratio=1.00 need>=11 (words=2678)"
+              },
+              {
+                "name": "G5_section_fit",
+                "passed": true,
+                "score": 1.0,
+                "metric": "pass^k",
+                "detail": "h2=13 need>=8 placeholder=False"
+              },
+              {
+                "name": "G6_length",
+                "passed": true,
+                "score": 1.0,
+                "metric": "pass^k",
+                "detail": "truncated=0 words=2678 ceiling=6000"
+              }
+            ],
+            "trial_passed": true,
+            "partial_credit": 1.0
+          },
+          "metrics": {
+            "words": 2678,
+            "plan_secs": 133.51600000000326,
+            "sec_secs": 117.625,
+            "total_secs": 251.1720000000205,
+            "integ": {
+              "total": 173,
+              "tokened": 173,
+              "ok": 173,
+              "tier_lie": 0,
+              "quote_not_found": 0,
+              "untokened_ticket": 0,
+              "transcript": 0,
+              "violations": []
+            },
+            "asm": {
+              "rendered": 173,
+              "invalid_cite_id": 0,
+              "transcript": 0,
+              "invalid_examples": []
+            },
+            "n_sections": 12,
+            "cost": {
+              "model": "claude-sonnet-4-6",
+              "cost_usd": 0.9621,
+              "input_tokens": 43,
+              "output_tokens": 28659,
+              "cache_read_tokens": 357856,
+              "cache_write_tokens": 113262,
+              "total_tokens": 499820
+            }
+          },
+          "html_file": "long-form-trial1.html"
+        },
+        {
+          "trial": 2,
+          "fmt": "long-form",
+          "grade": {
+            "graders": [
+              {
+                "name": "G1_tier_lie",
+                "passed": true,
+                "score": 1.0,
+                "metric": "pass^k",
+                "detail": "tier_lie=0 (invariant: 0 by construction)"
+              },
+              {
+                "name": "G2_not_found",
+                "passed": true,
+                "score": 1.0,
+                "metric": "pass^k",
+                "detail": "quote_not_found=0 (invariant: 0 by construction)"
+              },
+              {
+                "name": "G3_invalid_id",
+                "passed": true,
+                "score": 1.0,
+                "metric": "pass^k",
+                "detail": "invalid_cite_id=0 leaked_in_html=False"
+              },
+              {
+                "name": "G4_density",
+                "passed": true,
+                "score": 1.0,
+                "metric": "pass@k",
+                "detail": "tokened=168 ok=168 ok_ratio=1.00 need>=13 (words=3228)"
+              },
+              {
+                "name": "G5_section_fit",
+                "passed": true,
+                "score": 1.0,
+                "metric": "pass^k",
+                "detail": "h2=14 need>=8 placeholder=False"
+              },
+              {
+                "name": "G6_length",
+                "passed": true,
+                "score": 1.0,
+                "metric": "pass^k",
+                "detail": "truncated=0 words=3228 ceiling=6000"
+              }
+            ],
+            "trial_passed": true,
+            "partial_credit": 1.0
+          },
+          "metrics": {
+            "words": 3228,
+            "plan_secs": 113.90600000001723,
+            "sec_secs": 148.0,
+            "total_secs": 261.9220000000205,
+            "integ": {
+              "total": 176,
+              "tokened": 168,
+              "ok": 168,
+              "tier_lie": 0,
+              "quote_not_found": 0,
+              "untokened_ticket": 0,
+              "transcript": 8,
+              "violations": []
+            },
+            "asm": {
+              "rendered": 168,
+              "invalid_cite_id": 0,
+              "transcript": 8,
+              "invalid_examples": []
+            },
+            "n_sections": 13,
+            "cost": {
+              "model": "claude-sonnet-4-6",
+              "cost_usd": 1.0449,
+              "input_tokens": 46,
+              "output_tokens": 33719,
+              "cache_read_tokens": 360847,
+              "cache_write_tokens": 114872,
+              "total_tokens": 509484
+            }
+          },
+          "html_file": "long-form-trial2.html"
+        }
+      ],
+      "aggregate": {
+        "trials": 2,
+        "pass_at_k": true,
+        "pass_caret_k": true,
+        "pass_rate": 1.0,
+        "mean_partial_credit": 1.0,
+        "total_cost_usd": 2.007,
+        "mean_cost_usd": 1.0035,
+        "per_grader": {
+          "G1_tier_lie": {
+            "passed_trials": 2,
+            "trials": 2,
+            "mean_score": 1.0
+          },
+          "G2_not_found": {
+            "passed_trials": 2,
+            "trials": 2,
+            "mean_score": 1.0
+          },
+          "G3_invalid_id": {
+            "passed_trials": 2,
+            "trials": 2,
+            "mean_score": 1.0
+          },
+          "G4_density": {
+            "passed_trials": 2,
+            "trials": 2,
+            "mean_score": 1.0
+          },
+          "G5_section_fit": {
+            "passed_trials": 2,
+            "trials": 2,
+            "mean_score": 1.0
+          },
+          "G6_length": {
+            "passed_trials": 2,
+            "trials": 2,
+            "mean_score": 1.0
+          }
+        }
+      }
+    },
+    "micro-guide": {
+      "trials": [
+        {
+          "trial": 1,
+          "fmt": "micro-guide",
+          "grade": {
+            "graders": [
+              {
+                "name": "G1_tier_lie",
+                "passed": true,
+                "score": 1.0,
+                "metric": "pass^k",
+                "detail": "tier_lie=0 (invariant: 0 by construction)"
+              },
+              {
+                "name": "G2_not_found",
+                "passed": true,
+                "score": 1.0,
+                "metric": "pass^k",
+                "detail": "quote_not_found=0 (invariant: 0 by construction)"
+              },
+              {
+                "name": "G3_invalid_id",
+                "passed": true,
+                "score": 1.0,
+                "metric": "pass^k",
+                "detail": "invalid_cite_id=0 leaked_in_html=False"
+              },
+              {
+                "name": "G4_density",
+                "passed": true,
+                "score": 1.0,
+                "metric": "pass@k",
+                "detail": "tokened=49 ok=49 ok_ratio=1.00 need>=4 (words=972)"
+              },
+              {
+                "name": "G5_section_fit",
+                "passed": true,
+                "score": 1.0,
+                "metric": "pass^k",
+                "detail": "h2=10 need>=6 placeholder=False"
+              },
+              {
+                "name": "G6_length",
+                "passed": true,
+                "score": 1.0,
+                "metric": "pass^k",
+                "detail": "truncated=0 words=972 ceiling=1500"
+              }
+            ],
+            "trial_passed": true,
+            "partial_credit": 1.0
+          },
+          "metrics": {
+            "words": 972,
+            "plan_secs": 112.03200000000652,
+            "sec_secs": 84.96799999999348,
+            "total_secs": 197.0,
+            "integ": {
+              "total": 49,
+              "tokened": 49,
+              "ok": 49,
+              "tier_lie": 0,
+              "quote_not_found": 0,
+              "untokened_ticket": 0,
+              "transcript": 0,
+              "violations": []
+            },
+            "asm": {
+              "rendered": 49,
+              "invalid_cite_id": 0,
+              "transcript": 0,
+              "invalid_examples": []
+            },
+            "n_sections": 9,
+            "cost": {
+              "model": "claude-sonnet-4-6",
+              "cost_usd": 0.7266,
+              "input_tokens": 34,
+              "output_tokens": 19146,
+              "cache_read_tokens": 305589,
+              "cache_write_tokens": 92704,
+              "total_tokens": 417473
+            }
+          },
+          "html_file": "micro-guide-trial1.html"
+        },
+        {
+          "trial": 2,
+          "fmt": "micro-guide",
+          "grade": {
+            "graders": [
+              {
+                "name": "G1_tier_lie",
+                "passed": true,
+                "score": 1.0,
+                "metric": "pass^k",
+                "detail": "tier_lie=0 (invariant: 0 by construction)"
+              },
+              {
+                "name": "G2_not_found",
+                "passed": true,
+                "score": 1.0,
+                "metric": "pass^k",
+                "detail": "quote_not_found=0 (invariant: 0 by construction)"
+              },
+              {
+                "name": "G3_invalid_id",
+                "passed": true,
+                "score": 1.0,
+                "metric": "pass^k",
+                "detail": "invalid_cite_id=0 leaked_in_html=False"
+              },
+              {
+                "name": "G4_density",
+                "passed": true,
+                "score": 1.0,
+                "metric": "pass@k",
+                "detail": "tokened=46 ok=46 ok_ratio=1.00 need>=5 (words=1138)"
+              },
+              {
+                "name": "G5_section_fit",
+                "passed": true,
+                "score": 1.0,
+                "metric": "pass^k",
+                "detail": "h2=10 need>=6 placeholder=False"
+              },
+              {
+                "name": "G6_length",
+                "passed": true,
+                "score": 1.0,
+                "metric": "pass^k",
+                "detail": "truncated=0 words=1138 ceiling=1500"
+              }
+            ],
+            "trial_passed": true,
+            "partial_credit": 1.0
+          },
+          "metrics": {
+            "words": 1138,
+            "plan_secs": 103.23399999999674,
+            "sec_secs": 121.46900000001187,
+            "total_secs": 224.71900000001187,
+            "integ": {
+              "total": 46,
+              "tokened": 46,
+              "ok": 46,
+              "tier_lie": 0,
+              "quote_not_found": 0,
+              "untokened_ticket": 0,
+              "transcript": 0,
+              "violations": []
+            },
+            "asm": {
+              "rendered": 46,
+              "invalid_cite_id": 0,
+              "transcript": 0,
+              "invalid_examples": []
+            },
+            "n_sections": 9,
+            "cost": {
+              "model": "claude-sonnet-4-6",
+              "cost_usd": 0.7026,
+              "input_tokens": 34,
+              "output_tokens": 22401,
+              "cache_read_tokens": 309348,
+              "cache_write_tokens": 72978,
+              "total_tokens": 404761
+            }
+          },
+          "html_file": "micro-guide-trial2.html"
+        }
+      ],
+      "aggregate": {
+        "trials": 2,
+        "pass_at_k": true,
+        "pass_caret_k": true,
+        "pass_rate": 1.0,
+        "mean_partial_credit": 1.0,
+        "total_cost_usd": 1.4292,
+        "mean_cost_usd": 0.7146,
+        "per_grader": {
+          "G1_tier_lie": {
+            "passed_trials": 2,
+            "trials": 2,
+            "mean_score": 1.0
+          },
+          "G2_not_found": {
+            "passed_trials": 2,
+            "trials": 2,
+            "mean_score": 1.0
+          },
+          "G3_invalid_id": {
+            "passed_trials": 2,
+            "trials": 2,
+            "mean_score": 1.0
+          },
+          "G4_density": {
+            "passed_trials": 2,
+            "trials": 2,
+            "mean_score": 1.0
+          },
+          "G5_section_fit": {
+            "passed_trials": 2,
+            "trials": 2,
+            "mean_score": 1.0
+          },
+          "G6_length": {
+            "passed_trials": 2,
+            "trials": 2,
+            "mean_score": 1.0
+          }
+        }
+      }
+    },
+    "tldr": {
+      "trials": [
+        {
+          "trial": 1,
+          "fmt": "tldr",
+          "grade": {
+            "graders": [
+              {
+                "name": "G1_tier_lie",
+                "passed": true,
+                "score": 1.0,
+                "metric": "pass^k",
+                "detail": "tier_lie=0 (invariant: 0 by construction)"
+              },
+              {
+                "name": "G2_not_found",
+                "passed": true,
+                "score": 1.0,
+                "metric": "pass^k",
+                "detail": "quote_not_found=0 (invariant: 0 by construction)"
+              },
+              {
+                "name": "G3_invalid_id",
+                "passed": true,
+                "score": 1.0,
+                "metric": "pass^k",
+                "detail": "invalid_cite_id=0 leaked_in_html=False"
+              },
+              {
+                "name": "G4_density",
+                "passed": true,
+                "score": 1.0,
+                "metric": "pass@k",
+                "detail": "tokened=33 ok=33 ok_ratio=1.00 need>=4 (words=877)"
+              },
+              {
+                "name": "G5_section_fit",
+                "passed": true,
+                "score": 1.0,
+                "metric": "pass^k",
+                "detail": "h2=6 need>=5 placeholder=False"
+              },
+              {
+                "name": "G6_length",
+                "passed": false,
+                "score": 0.0,
+                "metric": "pass^k",
+                "detail": "truncated=0 words=877 ceiling=500"
+              }
+            ],
+            "trial_passed": false,
+            "partial_credit": 0.8333333333333334
+          },
+          "metrics": {
+            "words": 877,
+            "plan_secs": 97.375,
+            "sec_secs": 40.078000000008615,
+            "total_secs": 137.54699999999139,
+            "integ": {
+              "total": 33,
+              "tokened": 33,
+              "ok": 33,
+              "tier_lie": 0,
+              "quote_not_found": 0,
+              "untokened_ticket": 0,
+              "transcript": 0,
+              "violations": []
+            },
+            "asm": {
+              "rendered": 33,
+              "invalid_cite_id": 0,
+              "transcript": 0,
+              "invalid_examples": []
+            },
+            "n_sections": 5,
+            "cost": {
+              "model": "claude-sonnet-4-6",
+              "cost_usd": 0.4807,
+              "input_tokens": 21,
+              "output_tokens": 9737,
+              "cache_read_tokens": 193198,
+              "cache_write_tokens": 73754,
+              "total_tokens": 276710
+            }
+          },
+          "html_file": "tldr-trial1.html"
+        },
+        {
+          "trial": 2,
+          "fmt": "tldr",
+          "grade": {
+            "graders": [
+              {
+                "name": "G1_tier_lie",
+                "passed": true,
+                "score": 1.0,
+                "metric": "pass^k",
+                "detail": "tier_lie=0 (invariant: 0 by construction)"
+              },
+              {
+                "name": "G2_not_found",
+                "passed": true,
+                "score": 1.0,
+                "metric": "pass^k",
+                "detail": "quote_not_found=0 (invariant: 0 by construction)"
+              },
+              {
+                "name": "G3_invalid_id",
+                "passed": true,
+                "score": 1.0,
+                "metric": "pass^k",
+                "detail": "invalid_cite_id=0 leaked_in_html=False"
+              },
+              {
+                "name": "G4_density",
+                "passed": true,
+                "score": 1.0,
+                "metric": "pass@k",
+                "detail": "tokened=40 ok=40 ok_ratio=1.00 need>=4 (words=794)"
+              },
+              {
+                "name": "G5_section_fit",
+                "passed": true,
+                "score": 1.0,
+                "metric": "pass^k",
+                "detail": "h2=6 need>=5 placeholder=False"
+              },
+              {
+                "name": "G6_length",
+                "passed": false,
+                "score": 0.0,
+                "metric": "pass^k",
+                "detail": "truncated=0 words=794 ceiling=500"
+              }
+            ],
+            "trial_passed": false,
+            "partial_credit": 0.8333333333333334
+          },
+          "metrics": {
+            "words": 794,
+            "plan_secs": 81.82800000000861,
+            "sec_secs": 44.296999999991385,
+            "total_secs": 126.14000000001397,
+            "integ": {
+              "total": 40,
+              "tokened": 40,
+              "ok": 40,
+              "tier_lie": 0,
+              "quote_not_found": 0,
+              "untokened_ticket": 0,
+              "transcript": 0,
+              "violations": []
+            },
+            "asm": {
+              "rendered": 40,
+              "invalid_cite_id": 0,
+              "transcript": 0,
+              "invalid_examples": []
+            },
+            "n_sections": 5,
+            "cost": {
+              "model": "claude-sonnet-4-6",
+              "cost_usd": 0.5128,
+              "input_tokens": 22,
+              "output_tokens": 9612,
+              "cache_read_tokens": 246240,
+              "cache_write_tokens": 78595,
+              "total_tokens": 334469
+            }
+          },
+          "html_file": "tldr-trial2.html"
+        }
+      ],
+      "aggregate": {
+        "trials": 2,
+        "pass_at_k": false,
+        "pass_caret_k": false,
+        "pass_rate": 0.0,
+        "mean_partial_credit": 0.8333333333333334,
+        "total_cost_usd": 0.9935,
+        "mean_cost_usd": 0.4968,
+        "per_grader": {
+          "G1_tier_lie": {
+            "passed_trials": 2,
+            "trials": 2,
+            "mean_score": 1.0
+          },
+          "G2_not_found": {
+            "passed_trials": 2,
+            "trials": 2,
+            "mean_score": 1.0
+          },
+          "G3_invalid_id": {
+            "passed_trials": 2,
+            "trials": 2,
+            "mean_score": 1.0
+          },
+          "G4_density": {
+            "passed_trials": 2,
+            "trials": 2,
+            "mean_score": 1.0
+          },
+          "G5_section_fit": {
+            "passed_trials": 2,
+            "trials": 2,
+            "mean_score": 1.0
+          },
+          "G6_length": {
+            "passed_trials": 0,
+            "trials": 2,
+            "mean_score": 0.0
+          }
+        }
+      }
+    }
+  },
+  "total_cost_usd": 4.4297,
+  "regressions": [
+    {
+      "name": "REG-01 enforce relabels tier-lie",
+      "status": "PASS",
+      "detail": "NXT-1780: raw tier_lie=1 relabeled=1 fixed tier_lie=0"
+    },
+    {
+      "name": "REG-02 verbatim AC = ok",
+      "status": "PASS",
+      "detail": "NXT-1780: ok=1 tier_lie=0 not_found=0 tokened=1"
+    },
+    {
+      "name": "REG-03 paraphrase = not_found",
+      "status": "PASS",
+      "detail": "NXT-1780: not_found=1 ok=0"
+    },
+    {
+      "name": "REG-04 assemble valid + invalid id",
+      "status": "PASS",
+      "detail": "rendered=1 invalid_cite_id=1"
+    },
+    {
+      "name": "REG-05 enforce leaves correct untouched",
+      "status": "PASS",
+      "detail": "NXT-1780: relabeled=0 byte_identical=True"
+    },
+    {
+      "name": "REG-06 enforce no-fabricate not_found",
+      "status": "PASS",
+      "detail": "NXT-1780: relabeled=0 not_found_after=1"
+    },
+    {
+      "name": "REG-07 registry tier-binding",
+      "status": "PASS",
+      "detail": "36 spans checked, 0 mis-bound"
+    },
+    {
+      "name": "REG-08 format constants",
+      "status": "PASS",
+      "detail": "VALID_FORMATS=('long-form', 'micro-guide', 'tldr') TEMPLATES=('long-form', 'micro-guide', 'tldr')"
+    },
+    {
+      "name": "REG-09 format spec/budget keys",
+      "status": "PASS",
+      "detail": "spec={'long-form', 'micro-guide', 'tldr'} budget={'long-form', 'micro-guide', 'tldr'} (min_sections 5/6/8 inline in run_cell_d)"
+    },
+    {
+      "name": "REG-10 transcript counted separately",
+      "status": "PASS",
+      "detail": "transcript=1 tokened=0 tier_lie=0"
+    },
+    {
+      "name": "REG-11 assemble appends Sources",
+      "status": "PASS",
+      "detail": "sources_present=True issues=['NXT-1780']"
+    },
+    {
+      "name": "REG-12 empty field -> 0 spans",
+      "status": "PASS",
+      "detail": "NXT-3033: empty-AC produced AC span? False"
+    },
+    {
+      "name": "REG-13 _words excludes comments/tags",
+      "status": "PASS",
+      "detail": "_words=4 (expected 4: Title one two three)"
+    },
+    {
+      "name": "REG-14 assemble tolerates whitespace",
+      "status": "PASS",
+      "detail": "rendered=1 (whitespace marker)"
+    },
+    {
+      "name": "REG-15 empty _FIX -> no false ok",
+      "status": "PASS",
+      "detail": "ok_with_empty_FIX=0 (must be 0)"
+    }
+  ],
+  "regression_summary": {
+    "passed": 15,
+    "failed": 0,
+    "skipped": 0,
+    "total": 15
+  }
+}

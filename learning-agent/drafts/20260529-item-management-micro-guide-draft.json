@@ -1,0 +1,15 @@
+{
+  "id": "20260529-item-management-micro-guide",
+  "status": "draft",
+  "module": "Item Management",
+  "template": "micro-guide",
+  "transcript_id": "20260529-070600-item-management-2026-05-28-item-management-create-items-training",
+  "source": "live NXT Jira via Atlassian MCP",
+  "pipeline": "mapper->pm->sme->writer->reviewer (Tasks 1-5)",
+  "evaluator_verdict": "pass",
+  "evaluator_retries_used": 1,
+  "evaluator_route_final": "none",
+  "approx_word_count": 1198,
+  "created_at": "2026-05-29",
+  "human_review_required": true
+}

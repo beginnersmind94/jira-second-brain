@@ -1,0 +1,124 @@
+<h1>Item Management: Learning Guide</h1>
+
+<h2>What This Module Does</h2>
+<p>Item Management is where staff configure food and non-food items, classifying each as a food item and, if applicable, a fluid item — answers that control which unit types and measurement columns are available on the record.<!-- Source: [[NXT-35898:AC]] "Provide Food item and Fluid item questions in the header bar of the card before enabling the grid" --> Pack sizes and serving sizes are managed together in a single combined Units section, so that pack-to-serving conversion is handled in one place rather than across separate screens.<!-- Source: [[NXT-35898:DESC]] "Combine Pack Size and Serving Measures section into a single cohesive section so that the pack-to-serving conversion is not entirely dependent on weight." --> Adding pack sizes to an item triggers its inventory readiness flag, making correct item setup a prerequisite for downstream inventory use.<!-- Source: [[NXT-37110:DESC]] "Inventory flag is triggered if Pack Sizes are added" --></p>
+
+<h2>Key Features</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>What it does</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Item Card</td>
+      <td>Captures core item identity: description, category, storage category, valuation group, and brand/manufacturer/product code fields.</td>
+    </tr>
+    <tr>
+      <td>Units Card — Food/Fluid classification</td>
+      <td>A combined card for pack sizes and serving sizes. <!-- Source: [[NXT-35898:AC]] "Provide the new Units card in the item creation header which is the combination of the pack size and serving size sections" --> Initial prompts ask whether the item is a food item and, if so, whether it is a fluid item, which controls whether serving sizes use weight or volume. <!-- Source: [[NXT-35898:AC]] "Provide Food item and Fluid item questions in the header bar of the card before enabling the grid" --></td>
+    </tr>
+    <tr>
+      <td>Units Card — Pack sizes (up to 3 tiers)</td>
+      <td>Users can add multiple pack size rows. <!-- Source: [[NXT-37110:AC]] "Provide the ability to add pack size units in the combined Units grid" --> Sub-Qty links pack size tiers to each other and, in select cases, links a serving size to the base unit. <!-- Source: [[NXT-37110:AC]] "Bring attention to the appropriate Sub-Qty fields as required to link Pack Sizes" --></td>
+    </tr>
+    <tr>
+      <td>Units Card — Serving sizes (food items only)</td>
+      <td>Independent serving sizes can be added for food items. <!-- Source: [[NXT-35898:AC]] "Provide the ability to add and save independent serving sizes" --> Serving sizes are disabled when the item is marked non-food. <!-- Source: [[NXT-35898:DESC]] "if No, disable Serving Sizes" --></td>
+    </tr>
+    <tr>
+      <td>Base Unit selection &amp; Inventory Readiness</td>
+      <td>A guided finish step confirms which unit is the smallest inventory-able unit (Base Unit) and validates pack-to-serving links before saving. <!-- Source: [[NXT-37111:AC]] "Provide a step to confirm Inventory info, including the Base Unit" --> An Inventory Ready banner in edit mode surfaces corrective actions when pack sizes or links are incomplete. <!-- Source: [[NXT-37982:AC]] "Use the Inventory Ready banner icon to guide the user to specific corrective actions for maintaining the “link” between pack sizes and serving sizes" --></td>
+    </tr>
+    <tr>
+      <td>Whole Numbers vs. Decimals / Amount field</td>
+      <td>A serving size row with an Amount of 1 is eligible to become a base unit or carry a sub-quantity link; any other amount behaves as a standard serving size only. <!-- Source: [[NXT-35898:DESC]] "if = 1, eligible for having sub-quantity and for possibly becoming a pack size (base unit)" --></td>
+    </tr>
+    <tr>
+      <td>Nutrient Info tab</td>
+      <td>Nutrition fields mirror the item creation nutrition section; information is automatically populated where available. <!-- Source: [[NXT-25593:AC]] "Automatically populate nutrition information" --></td>
+    </tr>
+    <tr>
+      <td>Allergen Info</td>
+      <td>Allergen information (standard and custom, Contains/May Contain/Free From) is automatically populated and displayed. <!-- Source: [[NXT-25594:AC]] "Automatically populate Allergen information (similar as is done during item creation)" --></td>
+    </tr>
+    <tr>
+      <td>Contribution Info</td>
+      <td>Meal pattern contribution fields are available on both items and direct menu items, matching item creation contribution information. <!-- Source: [[NXT-20654:AC]] "Same fields as Item-Contribution information" --></td>
+    </tr>
+    <tr>
+      <td>Menu Info / Direct Menu Item</td>
+      <td>A menu item can be created directly, with fields for name, marketing name/description, category, serving size/measure, and optional recipe links. <!-- Source: [[NXT-20654:AC]] "Menu Item creation should consist of:" --></td>
+    </tr>
+    <tr>
+      <td>POS Pricing grid</td>
+      <td>Pricing is configured per eligible pack or serving unit, including student-by-site-type and adult pricing, with a taxable toggle. <!-- Source: [[NXT-37110:DESC]] "User can select the specific pack size (or inventory-able serving) unit on which to enter the pricing" --></td>
+    </tr>
+    <tr>
+      <td>Images &amp; Docs</td>
+      <td>An image can be selected or deleted on a menu item; location/file selection is provided and only one image can be loaded. <!-- Source: [[NXT-20654:AC]] "Location/File selection option should be provided.  Only 1 image can be loaded" --></td>
+    </tr>
+    <tr>
+      <td>Inventory Info tab</td>
+      <td>Once an item is added to Inventory, its pack size configuration is locked; the Base Unit confirmed during Units Card setup cannot be changed from this tab. <!-- Source: [[NXT-37111:DESC]] "*Exception: this step/option is invalid once the item is in Inventory tables and Pack Size is locked" --></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Common Workflows</h2>
+<ul>
+  <li><strong>Create a non-food item:</strong> Fill out the Item Card, then in the Units card select the non-food path — serving sizes are disabled. <!-- Source: [[NXT-35898:DESC]] "if No, disable Serving Sizes" --> Add up to three pack tiers, linking them via Sub-Qty. <!-- Source: [[NXT-37110:AC]] "Provide the ability to add pack size units in the combined Units grid" --> Add all packs before entering cost; enter cost on one unit and the system calculates the rest. <!-- Source: [[NXT-37110:DESC]] "Cost / Value - enabled at the end during finish tasks" --></li>
+  <li><strong>Create a food item:</strong> Fill out the Item Card, then answer the Food Item and Fluid Item prompts to configure the Units grid. <!-- Source: [[NXT-35898:AC]] "Provide Food item and Fluid item questions in the header bar of the card before enabling the grid" --> Add serving size first, then pack sizes; link servings to packs using Sub-Qty. <!-- Source: [[NXT-35898:DESC]] "Sub-Qty - a field used to link pack size units, and in some rare cases, used to link a serving size to a pack size base unit" --> Complete costing, then optionally confirm an inventory-able serving as the Base Unit. <!-- Source: [[NXT-37111:DESC]] "if serving size > convert the serving size into a pack size (it’s both) and define it as the Base Unit" --></li>
+  <li><strong>Complete nutrient and allergen info:</strong> Enter all required (asterisk) nutrient fields; use the Missing Value checkbox for any unknown values. Set standard allergens and any custom allergens on the item's Allergen card. <!-- Source: [[NXT-20654:AC]] "Same fields as Item Allergen Information" --></li>
+  <li><strong>Configure a Direct Menu Item:</strong> Open the Menu Info tab and create the menu item with name, category, and required fields. <!-- Source: [[NXT-20654:AC]] "Menu Item creation should consist of:" --> <!-- Source: [[NXT-20654:AC]] "Menu Item Name (Free Text Box)( #Mandatory)" --> <!-- Source: [[NXT-20654:AC]] "Menu Item Category (Drop Down)( #Mandatory)" --> Then set student and adult pricing in the POS Pricing tab.</li>
+  <li><strong>Add custom allergens:</strong> Navigate to Item Management &gt; Configuration &gt; Item Configuration &gt; Custom Allergens, create the allergen, then assign it on the item's Allergen card.</li>
+</ul>
+
+<h2>Gotchas</h2>
+<ul>
+  <li>Enter costs only after all pack sizes are configured — cost and value fields are enabled during finish tasks, not mid-setup. <!-- Source: [[NXT-37110:DESC]] "Cost / Value - enabled at the end during finish tasks" --></li>
+  <li>Pack size configuration is locked once the item appears in Inventory tables — confirm the Base Unit before first use or the option becomes unavailable. <!-- Source: [[NXT-37111:DESC]] "*Exception: this step/option is invalid once the item is in Inventory tables and Pack Size is locked" --></li>
+  <li>Item categorizations are only required when Inventory is enabled, but skipping them now means back-filling every item later. <!-- Source: [[NXT-37111:DESC]] "Item Categorizations are only required if Inventory is enabled" --></li>
+  <li>Sub-Qty is not enabled on the first pack size added; it only applies when a second pack size is introduced to establish the link. <!-- Source: [[NXT-37110:DESC]] "Do not enable Sub-Qty for the first pack size being added" --></li>
+</ul>
+
+<h2>Where To Go Next</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Module</th>
+      <th>Why you'll go there</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Inventory</strong></td>
+      <td>Ordering, receiving, and vendor contracts for items set up here.</td>
+    </tr>
+    <tr>
+      <td><strong>Menu Planning</strong></td>
+      <td>Menu grids and production records that draw on items configured here.</td>
+    </tr>
+    <tr>
+      <td><strong>Recipes</strong></td>
+      <td>Ingredient usage and sub-recipes; serving size defined here becomes the ingredient unit there.</td>
+    </tr>
+    <tr>
+      <td><strong>POS</strong></td>
+      <td>Cashier screen and reimbursable meal tracking driven by settings made on the menu item.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Sources</h2>
+<ul>
+  <li><code>NXT-20654</code> —  IM- Menu Item Creation (1)</li>
+  <li><code>NXT-25593</code> — IM - Create Menu Item (2 Nutrition Inf.)</li>
+  <li><code>NXT-25594</code> — IM - Create Menu Item (2 Allergen Inf.)</li>
+  <li><code>NXT-35898</code> — IM - Items - Units - Card & Add Serving</li>
+  <li><code>NXT-37110</code> — IM - Items - Units - Pack Sizes & Sub-Qty</li>
+  <li><code>NXT-37111</code> — IM - Items - Units - Save & Continue - Inventory Ready</li>
+  <li><code>NXT-37982</code> — IM - Items - Units - Edit/Update - Pack-Serving link help step</li>
+</ul>

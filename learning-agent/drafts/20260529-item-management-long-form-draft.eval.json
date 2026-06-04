@@ -1,0 +1,65 @@
+{
+  "template": "long-form",
+  "draft": "drafts/20260529-item-management-long-form-draft.html",
+  "verdict": "pass",
+  "measured_word_count": 5983,
+  "retry": 1,
+  "dimensions": {
+    "template_fit": {
+      "pass": true,
+      "notes": "All 10 required h2 sections present in correct order: Overview, Roles and Permissions, Prerequisites, Full Workflows, Key Fields and Statuses, Reports and Outputs, Exceptions, Troubleshooting, Related Content, Sources. Word count 5,983 is within the 6,000-word ceiling. Compression did not drop any of the 39 features (all 29 plan tickets present in draft), all 3 discrepancy callouts survive, all 9 cross-module references present as one-line + link placeholders.",
+      "issues": []
+    },
+    "plan_alignment": {
+      "pass": true,
+      "notes": "All 39 matched features accounted for across sections. All 3 excluded unmatched items (U6 allergen bulk import, U7 copy/clone, U8 data sharing) are logged in Sources with explicit exclusion reasons. All 9 cross-module references are one-line only in Related Content. Features marked full-depth all have step-by-step workflows. No feature was silently dropped or silently added during compression.",
+      "issues": []
+    },
+    "source_grounding": {
+      "pass": true,
+      "notes": "Every factual claim carries an inline Source comment. 29 tickets cited, each labeled AC [TIER 1]. 3 discrepancy callouts present with both presenter text and verbatim AC quoted. TO VERIFY markers appear on all Description-tier specifics (field labels, 250-char limit, 3-tier cap, file size, locking trigger, HACCP process names, button labels, etc.) \u2014 count ~22 TO VERIFY markers throughout draft. No claim is asserted as AC-grounded from Description-only text. No uncited factual assertions detected.",
+      "issues": []
+    }
+  },
+  "nxt_39594_fix_confirmed": true,
+  "citation_spotcheck": [
+    {
+      "comment": "NXT-37441 AC: 'Provide Sub-Qty on the Serving Size row in valid scenarios; Trigger Inventory readiness based on proper pack-serving links'",
+      "verbatim_in_cache": true,
+      "note": "Verbatim match confirmed. Used in sections 4.2 and 4.4 of draft. Correctly labeled AC. Live Jira confirms ticket is Done Done."
+    },
+    {
+      "comment": "NXT-40778 AC: 'Prompt users with a dedicated Merge button when they are attempting to create a unit which is likely intended to be a dual unit; Once the Merge button is clicked, show a special editable mode; if the serving has sub-qty, promote that sub-qty to the new base unit'",
+      "verbatim_in_cache": true,
+      "note": "Verbatim match confirmed. NXT-39594 Description text ('Show on POS toggle controls POS attributes') does NOT appear in any AC source comment \u2014 it is correctly absent from all inline citations. Live Jira confirms Done Done."
+    },
+    {
+      "comment": "NXT-58442 AC: 'Only display the Taxable option when the Adult tab is selected on POS Pricing (for both view and edit mode; note: POS does not consider tax for students)'",
+      "verbatim_in_cache": true,
+      "note": "Verbatim match confirmed in section 4.10. Separate AC bullet for DM Reimbursable Meal also correctly cited. Live Jira confirms Done Done."
+    },
+    {
+      "comment": "NXT-24128 AC: 'If duplicate: warn Custom Allergen already in use, please use a different Custom Allergen name'",
+      "verbatim_in_cache": true,
+      "note": "Verbatim match confirmed in section 4.6. Custom Allergen PDF export fields also correctly cited verbatim. Live Jira confirms Done Done."
+    },
+    {
+      "comment": "NXT-43239 AC: 'Automatically set nested nutrients to zero if the parent nutrient is set to 0 (e.g. if Total Fat is 0, Sat Fat and Trans Fat auto-zero; same for Carbohydrates \u2192 Fiber/Sugar)'",
+      "verbatim_in_cache": true,
+      "note": "Verbatim match confirmed in section 4.3 and Key Fields table. RN and RN Internal also correctly cited for Vitamin A/C optional change and 0% DV fix. Live Jira confirms Done Done."
+    },
+    {
+      "comment": "NXT-47249 AC: 'Remove Yield Factor from Ingredient Info card (moved to Units); Make Yield Factor configurable on each serving in the Units card'",
+      "verbatim_in_cache": true,
+      "note": "Verbatim match confirmed in section 4.4 discrepancy callout and Key Fields table. The D1 HIGH discrepancy is correctly surfaced with full presenter quote and AC quote side by side. Live Jira confirms Done Done."
+    },
+    {
+      "comment": "NXT-39594 AC: 'Create a Menu Item tab' \u2014 used for Menu Info tab existence ONLY",
+      "verbatim_in_cache": true,
+      "note": "SPECIFIC FIX CONFIRMED. Both inline Source comments on NXT-39594 in the draft use only 'Create a Menu Item tab'. The Show on POS toggle \u2192 POS pricing behavior is correctly re-cited to NXT-30155 AC: 'Enable the POS Info tab if the user specifies the item as a POS Item; Load the POS attributes and Pricing section under the POS tab' plus transcript [27:12]. The prior NXT-53316-class defect (Description text cited as AC) is not present in this draft."
+    }
+  ],
+  "route_to": "none",
+  "blocking_issues": [],
+  "summary": "PASS. Word count 5,983 (ceiling 6,000). All 10 template sections present in order. All 39 plan features covered. All 29 tickets cited at TIER 1 only. NXT-39594 citation defect from prior draft is corrected: Show-on-POS toggle behavior is now grounded in NXT-30155 AC, not NXT-39594 Description. Three discrepancy callouts (D1 Yield Factor, D2 Base Unit promotion terminology, D2 Vitamin A/C optional) preserved through compression. All Description-tier specifics carry TO VERIFY markers. No blocking issues. Draft is ready for human SME review and publish decision."
+}

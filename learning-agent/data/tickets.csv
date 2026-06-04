@@ -1,0 +1,623 @@
+Key,Summary,Release Notes,Acceptance Criteria,Priority,Module,Epic
+NXT-10101,Verification - Dashboard call-to-actions,,"CTA available for:
+
+* Days until Verification Begins
+* Days until Verification Ends
+
+CTAs only show on the dashboard when relevant.
+
+* Begins only shows until the Final Sample date + 1.
+* Ends only shows until the Verification End Date + 14.",,Eligibility,
+NXT-10244,Accounts - Student Info - Enable Transfer Funds option,,"After selecting a student account the user can select an account to transfer money to.
+
+That field (TransferTo) displays the user's name and ID.
+
+The user can enter an amount to transfer that is less than or equal to the source account balance, greater than 0.01.
+
+Appropriate error handling as described in the story description should exist.
+
+User can back out of a transaction by using Close/Cancel buttons.
+
+Potential Balance should display and change color based on value entered into amount field
+
+A transaction and session are created with these details:
+-The transaction date is the current date
+-The transaction type is Transfer Out for the source account
+-The transaction type is Transfer In for the receiving account
+-The comment is saved
+-Both accounts have a transaction entered
+-The transaction is added to the session
+
+The Transfer Funds button is added to the Quick Preview as well. This button should only show if the account is a Student.",,"Account Management, Eligibility",
+NXT-10364,Verification - Sampling - Generate Sample Backend,,"Background mechanism to automate sample creation created and working.
+System setting for time added, and used for sample creation.
+Future samples should be triggered at the appropriate date.
+Past samples should also work properly.
+
+If we're doing this with Rolling Verification in mind, then we need to be sure that we're not oversampling applications - the gathered app number would need to check for a date range starting at the previous sample date + 1, if one exists, up until the new sample date at the timestamp.",,Eligibility,
+NXT-10868,Verification - Sampling - Schedule sampling,,"Background mechanism to automate sample creation created and working.
+System setting for time added, and used for sample creation.
+Future samples should be triggered at the appropriate date.
+Past samples should also work properly.
+
+If we're doing this with Rolling Verification in mind, then we need to be sure that we're not oversampling applications - the gathered app number would need to check for a date range starting at the previous sample date + 1, if one exists, up until the new sample date at the timestamp.",,Eligibility,
+NXT-10880,Eligibility - Notifications - Household,,"This story is complete when a user can navigate to the Notifications page - Household tab, sees a set of filters that they can use to accurately locate one or more patrons, and then sees a grid with accurate results where they can view letters/labels for one or more patrons in the grid.",,Eligibility,
+NXT-10913,Eligibility - Notifications - Page,,"User can access the Notifications page if role permission is assigned
+User cannot access the Notification page if the role permission is not applied
+User can see 4 distinct tabs for notification types: Applications, Direct Certification, Carryover, and Outreach",,Eligibility,
+NXT-10914,Eligibility - Notifications - Direct Certification,,"User has a Direct Certification tab.
+User can perform a direct certification search.
+
+User can filter out students that have already been notified.
+User can specify a date range to filter the Approval Date.
+User has a grid with columns specified",,Eligibility,
+NXT-10944,Year Begin - Table Updates,,Users won't log into a system with any broken pages as a result of academic year dependencies.,,"Eligibility, Platform",
+NXT-10945,Year Begin - Student Eligibility Updates,,_(none)_,,"Eligibility, Platform",
+NXT-10947,Eligibility - Applications - Application Image (Digital),,"User has the option to view the Application Image for an online / manual application while viewing application information/details.
+Application Image loads in a preview window with information per the application submission.
+User can export the application image to PDF or send to print.
+- Any updates / changes to data should not update the actual image.",,Eligibility,
+NXT-10949,[SchoolcafeTesting] - Applications - Automatic Processing and Notifications,,"Application processing happens automatically dependent on the system setting
+
+Setting value: Do not auto process
+- no applications are automatically processed, they are left in New status
+
+Setting value: All Applications
+- all applications are automatically processed provided there are no hard stops
+
+Setting value: All students are identified
+- no pending students - all are linked to a student in the DB - then automatically validate the app
+
+Setting value: At least 1 student
+- if at least 1 student is linked to a student in the DB, automatically validate",,Eligibility,
+NXT-10955,Applications - Sessions - Sessions List,,"User has a page where sessions can be tracked.
+User can find sessions by academic year.
+User can search for sessions and see details per the requirements.
+User can click into sessions to see the summary.",,Eligibility,
+NXT-10967,[TaggedDashboard] - Dashboard (Insights) - Eligibility - Application Counts,,"User has an area that shows them the total # of FRE applications received for the current academic year.
+
+User can also see how many of those applications are active - at least 1 student is still gaining eligibility from it as of the current date.
+
+-User has an area where they can see how many paid students have not yet applied for free/reduced benefits.-",,Eligibility,
+NXT-10978,Routing Navigation - Eligibility,,_(none)_,,Eligibility,
+NXT-11022,Direct Certification - Automation - Household Extensions,,"System uses the settings appropriately to perform DC extensions after every DC match.
+System setting values updated from 2,3,4 to 2,3.
+Eligibility for the extended student is updated appropriately.
+The search for and execution of extensions happens once a day, automatically, if the setting is turned on.",,Eligibility,
+NXT-11024,Notifications - SchoolCafe - Automatically send scheduled Applicant Determination Results,,"* Verify that a new automated notifications toggle setting has been added to Eligibility → Notifications according to the specifications above 
+* Verify that the setting is disabled by default, and only functions when the automatic processing setting is also enabled
+* Verify this new setting also affects categorical apps that may be auto-processed when that other setting is enabled 
+* Verify that if there is an active Real Time scheduled notification for the Approval/Denial Notice
+** impacted apps, when an email address exist (and not otherwise), will cause the system to trigger an approval/denial notice to be emailed to the app’s contact person, the app to be taken to ‘Notified’ status, and a notification created in the Family Portal
+* Verify that the email is sent out at the timing/interval specified in the Notification Scheduling page
+* Verify that the system behaves as it currently does when the setting is disabled",,"Eligibility, Platform - Framework",
+NXT-11065,Notifications - Family Hub - Application Notification,,"If a notification is triggered for the application and the submission method is ""Online"", SchoolCafe applicant can see the application results (eligibility determination) notification letter.",,"Eligibility, Family Hub",
+NXT-11086,Eligibility - Applications - Pending Students - Actions,,"User can see a list of unidentified pending students
+User can see a list of potential match students
+User can see a list of identified students
+User can search for enrolled student record for association and link/match
+User can view/edit the details of pending student information to assist with better potential matching opportunities
+Multi-language, ADA compliant.",,Eligibility,
+NXT-11091,Eligibility - Applications List - Changes,,"User can see the Processed Date as a default column.
+User can see the entry method of applications in the list.",,Eligibility,
+NXT-11278,Eligibility - Application Processing - UI Adjustments,,"Application Processing has the updated look.
+Action panel is floating and on the top right of the screen. Buttons are moved.
+
+User has an option to refuse benefits on the application based on the system setting being set to yes.
+- Refused benefit applications are marked as Denied due to Refused Benefits
+
+User can see a count of any added comments.
+User can view comments in a side-anchored window.
+User can still add comments while processing.",,Eligibility,
+NXT-11651,Applications - Details - Forced Check-in,,"User can see if an app is checked out.
+User can see who has the app checked out (And when it was checked out, if possible)
+User can check the application back in so someone else can process it.",,Eligibility,
+NXT-11723,[AcctMgt] - Role Permissions - All pages in module,,"Permissions added for the ENTIRE MODULE, per page, per the attached confluence link. [https://primeroedgenext.atlassian.net/wiki/spaces/NEXT/pages/2274328577/Permissions|https://primeroedgenext.atlassian.net/wiki/spaces/NEXT/pages/2274328577/Permissions|smart-link]",,"Account Management, Eligibility",
+NXT-11761,Eligibility - Application Details - Pending / Additional Info,,"User can see the status of a Pending application.
+
+User can see the marked reasons for why that application is Pending.
+User can see the selected language of the application.",,Eligibility,
+NXT-11762,Eligibility - Application Processing - SSN / Signature Boxes,,"{quote}User can change the box for 'signature'
+User can enter / change an SSN or toggle the No SSN box.
+-User is aware that pending reasons exist for an application without clicking the Pending button.-{quote}",,Eligibility,
+NXT-11763,"Eligibility - DC File Search - Precedence, Effective Dates, Error Messaging",,"User is informed of any precedence issues that will result in no extension of eligibility.
+The file matching method takes DC precedence into account.
+The file matching method uses the effective date of the DC file to backdate eligibility.
+
+User receives feedback if they haven't entered anything into the search field.",,Eligibility,
+NXT-11764,Eligibility - Application Details - Loading Animation,,"User should be shown a loading screen when entering into Application Details, with no sections appearing until the page is fully ready for review.
+Existing bar loading animations replaced with spinning animations.",,Eligibility,
+NXT-12066,Account Management - Accounts - Update Filter Panel,,"Verify that the Accounts page follows the new layout above, with special attention paid to:
+
+* Filters collapsed by default
+* Search field within grid
+* Field Search button added
+* Columns & Views renamed (if full functionality is not already completed as part of [https://primeroedgenext.atlassian.net/browse/NXT-23302|https://primeroedgenext.atlassian.net/browse/NXT-23302|smart-link]
+* Clear Filters button resets user to their Default view (if the story above is completed already) or the default view of the page (if that story is not complete already)",,Eligibility,
+NXT-12288,[TaggedNotification] - Eligibility - Notifications - Direct Certification - Exclude previously notified at same eligibility,,User can filter out students who have already been notified at that same Eligibility level.,,Eligibility,
+NXT-12289,Direct Certification - File Details - Documents,,"User can see documents in the DC File Details
+User can remove existing documents.
+User can add additional documents.",,Eligibility,
+NXT-12394,Accounts - Account Details - Return Check (Multiple Students),,"The user can arrive from the 'More Actions' section of Student Info page
+
+The user sees the fields and data above, matching the mock-up
+
+Process:
+
+* The user is able to see all checks applied to the student account for the current academic year. User is able to select the check from the dropdown list.
+* After selection, if there are other related students who received money from the check, they are listed in a table with their individual details
+* Additionally, the return check information is listed: Total Check Amount, Previous Balance, Payment Amount Applied, Bonus Amount Applied, and Return Check Fee as they apply to the primary (selected) account
+* After selection, if multiple accounts are associated, the information box with populated information should appear.
+* The Return Check Fee is the sum of BKCHKFEE and ISDCHKFEE in system settings and is applied to the account that the return check action is performed
+* A comment must be entered
+* Transaction is entered to reverse the Payment Amount and Bonus on any accounts associated with the original payment. These are to be entered as negative CREDIT entries.
+* Transaction is entered to record the fees on the account that the return check action is performed if the Fees are not 0 transaction type is Check Return Fee. Fees should be entered as negative CREDIT entries. Note: Other students will not incur a fee (only balance adjustments).
+* The transaction is added to the session to reverse the check transaction type is Return Check. It should be entered as a negative CREDIT transaction.
+* The transaction date is the current date/time.
+* User can back out of the transaction by selecting 'Close' and/or 'Cancel' to return to Account Info. A prompt should warn the user before exiting to avoid accidental actions.
+* The Do not accept check flag is set to false for the account (we should require the user to make a decision to not accept by checking).",,"Account Management, Eligibility",
+NXT-12501,Eligibility - Common - Date and Date/Time Format Consistency,,"* Date only should appear as “MM/DD/YYYY” (ex - 03/10/2021)
+* Date only should appear as “MM/DD/YYYY hh:mmaa” (ex - 03/10/2021 3:14pm)
+* District timezone setting should be applied in all cases 
+Setting Codes to be used: DTTIMEZONE, DAYLGTSATE",,Eligibility,
+NXT-12532,Direct Certification - DC Precedence - DC Type 'Direct Certification',,‘Direct Certification’ isn’t visible on the DC Precedence page,,Eligibility,
+NXT-12558,"Dashboard - Module name, Ordering",,"‘Student Eligibility’ renamed to ‘Eligibility’
+
+Ordering changed to move the pilot modules to the front of the order.",,"Eligibility, Platform",
+NXT-13077,[TaggedNotification] - Eligibility - Notifications - Notify Actions (Component Integration),,"Email / Print columns removed.
+
+Selection checkbox row added as the first column with header serving as a select-all / de-select all option.
+
+Notify button added to all grids that ties in the drawer component created in [https://primeroedgenext.atlassian.net/browse/NXT-10916|https://primeroedgenext.atlassian.net/browse/NXT-10916|smart-link] .
+
+Notify button in Application Details updated to use the drawer component also, but with limited options.
+
+All sending functionality needs to be tested - sorting, email, print, household / single.",,Eligibility,
+NXT-13342,Direct Certification - Matching - Track exact points allocated at time of matching,,"User can open a historical scorecard and see the exact points given for a matching pass as of that date when the match was processed.
+
+Note added to the scorecard.",,Eligibility,
+NXT-13343,Direct Certification - File Details / Matched - Show Scorecard for matched students,,"* User can view the scorecard for an automatically matched student on the following pages:
+** Matched → Add the scorecard to the action overlay
+** File Details → Students section → Show the same overlay from Matched.",,Eligibility,
+NXT-13449,Acct Mgmt - Account Details - History - Track Adult/Allergen changes made through SIS - Testing Only,,"Verify that whenever an adult account is on a file that is imported, their account history page shows a record with any changes made to them based on that file.
+
+Verify that account allergens are added when an allergen import is complete, and that the account history shows those additions as well.",,"Account Management, Eligibility",
+NXT-14223,Direct Certification - Trigger Secondary Matching,,Manual updates to student information result in a check for potential / automatic DC matches.,,Eligibility,
+NXT-14423,Eligibility - Applications - Form households for students on processed applications,,"Verify that after processing an application with multiple students, the students are all merged into the same (new) household
+
+Verify that if the students were already in separate households, that a new household with all students in it at the time of processing is created
+
+Verify the households are combined in the above scenarios where student households may be impacted (Income Surveys are no included in the scope of this story)",,Eligibility,
+NXT-15015,"Acct.Mgmt - Outreach - Add Outreach Center page, migrate Household Letters tab into it",,"* Verify that a user can see the *Outreach* navigation menu item within Account Management
+** Verify that the nav-item, URL, page title, and breadcrumbs are as described above
+* Verify that the Household Letters tab is removed from Eligibility → Notifications and placed into the Outreach page as a tab
+* Verify that the Quick Broadcast and Campaign are added to the Outreach page as blank tabs",,"Account Management, Eligibility",
+NXT-15016,Acct.Mgmt - Outreach - Quick Broadcast tab - Create Campaign,,"Verify that the user can now choose between a Quick Broadcast and a Campaign
+
+Verify that when Campaign is selected, the user has scheduling options as described above
+
+Verify that a Campaign can be successfully created with these options
+
+Verify that a Campaign continues sending the message according to the Frequency (interval specified)
+
+Verify that this Campaign does so with a refreshed list, according to the same filters
+
+Verify the rest of the page details (footer, buttons, tabs) are updated accordingly
+
+Verify that campaign messages that get sent are also displayed in the History tab. 
+
+Verify that ‘Campaign Name’ column is added to the History tab as well.",,"Account Management, Eligibility",
+NXT-15017,"System - Templates - Add category for Outreach Letter template types, move existing letters",,"* Verify that a new module and corresponding letter type (Outreach Center) are added to the list in System → Templates
+* Verify that the Household Letter is moved into this category
+* Verify that the Outreach Letter type is created and added to this category
+** Verify that the Outreach Letter uses the same format as the General Letter
+* Verify that the same changes should be made in the System Notifications page as well",,"Account Management, Eligibility",
+NXT-15019,Acct.Mgmt - Outreach - Trigger outreach letter (One-Time/Quick Broadcast),,"Verify that the user can flawlessly trigger a quick broadcast, with the letter immediately being sent to the correct audience.",,"Account Management, Eligibility",
+NXT-15025,Verification - Details - Documents / Attachments,,"* Documents section added to the Verification App Details page.
+* Shows current documents tied to that application only.
+* New documents and comments can be added.
+* Documents can be removed.
+* Information on the document is shown:
+** Document name + extension, size.
+** Who uploaded it and when.
+** Any associated comments.
+* Documents should be sorted by timestamp, latest first.",,Eligibility,
+NXT-1505,"Eligibility - Reports - Add Roster tab & grid to allow user to view classic ""Eligibility Roster""",,"Verify that the Roster tab has been added to the Eligibility module as part of Eligibility → Reports
+
+Verify that the Roster tab has the set of filters shown above, with them operating as expected
+
+Verify that when the user hits Apply, a grid populates with the default columns shown in *bold* above
+
+Verify especially that the data is all based on the ‘As of’ filter date
+
+Verify that the user can also show/hide the columns shown in _italics_ above
+
+Verify that the user can field search through as many columns in the grid as possible
+
+Verify that the list can be exported to Excel
+
+Verify that the list has the naming convention defined above",,Eligibility,
+NXT-15056,Acct.Mgmt - Outreach - Quick Broadcast -Add page and filters,,"Verify that the Quick Broadcast contains a set of related filters as shown above
+
+Verify that within that list of filters, the user can select any active or inactive Outreach Center template
+
+Verify that there is a footer message showing the number of accounts who will receive the email
+
+Verify that when the Broadcast Message button is selected, the letter emailed out to the list, and the content on the page is reset.
+
+Verify that there is a shortcut button that allows the user to go and edit the template and then return to this page",,"Account Management, Eligibility",
+NXT-15058,Direct Certification - Potential Matches - Quick Action drawer,,"* Drawer available that shows high-level potential match information.
+** Information segmented into 3 primary categories.
+** -If a section results in 0 points, don’t show that section.-
+** Total points shown by primary category.
+*** Example: Personal Information 57
+** Total points shown as ‘Match Points’
+* Drawer has a link to the full scorecard analysis.
+* Drawer has Match and Mark as Reviewed actions like the scorecard does.
+** Comment required for matching.
+* Drawer shows student information:
+** Photo, full name, student id #, current eligibility + reason, current enrollment site.
+* *Unmatched renamed to Potential Matches*
+* Reviewed page updated similarly with the drawer available.
+** Statuses updated to be Matched and Not Matched.
+** Drawer / Scorecard allows the user to take the reverse action.
+*** If status = Matched, user can use action ‘Unmatch & Mark as Reviewed’
+*** If status = Reviewed, user can user action ‘Match’",,Eligibility,
+NXT-15136,Eligibility - Applications - Image for the Original Online Submission,,"* User can pull up an image containing the original app data.
+* User can still see the latest application data.
+* ‘Application Image’ button should by default show the latest image.
+** User can toggle between images and export appropriately.
+* Editing an application should not update the original application image.",,Eligibility,
+NXT-15309,Verification - Details - More Information Required,,"User can ask a household to submit additional information.
+
+User can enter a custom message that will integrate with the parent portal.
+
+Verification status should update appropriately - if we’re tracking that a ‘response’ has come in, then it should be updated.
+
+Documentation should be retained.
+
+Status should be updated.
+
+History updated with the action taken.",,Eligibility,
+NXT-15505,Verification - Automation - Mark applications as 'No Response' automatically at the end of verification,,"User can configure an option to automatically mark apps as no response at the end of verification.
+
+Process uses the Verification End Date setting to determine when to do this. Technically, they have all day on that final day to get a response in, hence the time included.
+
+Process performs the ‘No Response’ action on any apps that do not have a pending response filled in.",,Eligibility,
+NXT-15507,Verification - Tracking - Delete application from sample,,"User can delete an application and has the choice to add another application in its place.
+Delete option is only available for the current academic year.
+
+Only 5% of applications can be removed, to a minimum of 1 application. (The actual percentage will be controlled by the system setting MAXRMVSAMP.)
+
+Look at the total number of applications pulled, not just a single verification sample in the case of rolling verification.",,Eligibility,
+NXT-15508,Elig. - Role Permissions - Entire Module,,"Permissions added for the pages, per the attached confluence link. [https://primeroedgenext.atlassian.net/wiki/spaces/NEXT/pages/2274328577/Permissions|https://primeroedgenext.atlassian.net/wiki/spaces/NEXT/pages/2274328577/Permissions|smart-link]",,Eligibility,
+NXT-15618,Verification - Sampling - Actions - Edit Sites and Add Dates,,"User can edit the selected sites. Recalculation needs to happen when the sites are edited. See linked story 5266.
+
+User can add additional sample dates if they are operating under Rolling verification.
+
+If the system is actively calculating a sample for a district, the actions are blocked.",,Eligibility,
+NXT-15848,Accounts - Account Info - Make Payments for Multiple Students,,"For each of the Account Action payment options (Cash, Check, Card) verify that:
+
+* The user can add multiple other accounts to receive a share of the payment, if those other accounts are a part of the same household
+* The user can indicate the portion of the payment amount that would go toward each account added, with the total amount for all accounts being equal to the total payment amount
+* The usual payment validation cases (maximum amounts, no checks, etc.) still apply
+* If one or more individual students in the household have checks blocked, disable their Amount fields.
+* The user can save the payment and view a created transaction+receipt that applies the payment to each of the accounts listed
+* The specific functionality requested above is accessible in *both* the Quick Preview and the full Account Info page.",,"Account Management, Eligibility",
+NXT-15894,Verification - Family Portal Integration - Verification Response,,"Family Portal updated for users there to:
+
+* be notified of their verification selection.
+* can refuse to respond.
+* can respond and attach documents and comments.
+
+Response flows back down to the Eligibility module and is available under Verification Details.",,"Eligibility, Family Hub",
+NXT-15895,Verification - Sampling - Snapshot,,"Background mechanism to automate sample creation created and working.
+System setting for time added, and used for sample creation.
+Future samples should be triggered at the appropriate date.
+Past samples should also work properly.
+
+If we're doing this with Rolling Verification in mind, then we need to be sure that we're not oversampling applications - the gathered app number would need to check for a date range starting at the previous sample date + 1, if one exists, up until the new sample date at the timestamp.",,Eligibility,
+NXT-16113,"Verification - Sampling - Identifier for ""Final Sample""",,Final Sample is clearly notated on the page.,,Eligibility,
+NXT-16308,Verification - Tracking - App. Details - Milestones and History,,"Verification Details updated to show:
+
+* Historical milestone dates.
+* App. History
+
+Any notifications from Verification should also be available under Account Management > Accounts > Account Details > Notifications.",,Eligibility,
+NXT-16326,Verification - Tracking - Response workflow - Updating Application Info,,"Verification Response questionnaire added.
+All outcomes programmed and tracked appropriately.
+
+Eligibility for students on the application must be updated appropriately.",,Eligibility,
+NXT-16836,Income Surveys - Range Configuration,,"Verify that the Eligibility Guidelines page is updated to have the Income Survey tab with editable functionality as described above.
+
+Verify that the tab changes based on the system setting.",,Eligibility,
+NXT-16953,Applications - Block processing of applications that have gone through Verification,,The only action available for a Verified application is Notify.,,Eligibility,
+NXT-16954,Verification - History Tracking for Audit Trail,,"History of actions available on the Sampling page.
+
+History of actions available in-line on the Tracking pages.
+
+‘Application History’ renamed to ‘Notifications and Comments’ on the Verification Details page.",,Eligibility,
+NXT-16956,Eligibility - Verification - Add option to shift an app from Sampled to Cause or vice-versa,,"Add the following:
+
+* Selection basis visible with the selection date.
+* Add an option inside of Verification Details to let the user shift an app from Sampled → Cause.
+** Or from Cause → Sampled.
+* Confirmation prompt and a comment required. Add this information to the Comment history.
+* Sample gets recalculated after clicking Save.
+* Add the switch information to the History of the app in Verification.
+* Add role permissions for this button.
+* Back button moved and style changed.",,Eligibility,
+NXT-17805,Verification - Reports - Tracking Forms - Report,,"Tracking form available for view, print, export.",,Eligibility,
+NXT-17806,Verification - Reports - Inactive Applications,,Inactive app list available.,,Eligibility,
+NXT-17981,Verification - Reports - Tracking Forms - Print/Export from Grid,,User can print/export the tracking form via the grid actions.,,Eligibility,
+NXT-18403,Income Surveys - Add New Survey - Students Step,,"Verify that in the Income Survey page, when a user selects ‘Add New Survey’, the wizard page displays the Students step and stepper UI
+
+Verify that the field and drawer to find or add a student are available, but not necessarily functional
+
+Verify that the wizard shows the steps outlined above",,Eligibility,
+NXT-18405,Eligibility - Reports - Income Surveys-Economically Disadvantaged,,"* Verify that a new tab, *Income Surveys*, is added to the Reports page (but only displays based on their setting to show Yes/Mixed surveys)
+* Verify that when the tab is selected, the user can select the Site(s) and Date of the report, as well as generate it
+** Verify the default selection for ‘Site(s)’ is ‘ALL’ and the ‘Date’ is today’s date by default
+* Verify that when the user generates the report, the 'Economically Disadvantaged' report is displaying accurately based on their selections
+* Verify that the report is displaying the report option selections in the header and/or footer of the report",,Eligibility,
+NXT-18406,Eligibility - Reports - Income Surveys-Income Range Count,,"* Verify that the new Eligibility - Reports - Income Surveys tab has the _Income Range Count_ report option enabled
+* Verify that when the option is selected, the user can only select the Site(s). 'Date as of' should be disabled
+** Verify the default selection for ‘Site(s)’ is ‘ALL’
+* Verify that when the user generates the report, the 'Income Range Count' report is displaying accurately based on their selections
+* Verify that the report is displaying the report option selections in the header and/or footer of the report
+* Verify that the column data changes based on the income survey eligibility guidelines of the district",,Eligibility,
+NXT-18534,Income Surveys - Surveys - Add support for Student Benefits search,,"Verify that both a ‘Benefits’ filter has been added to the Income Surveys page with a default value of ‘All’
+
+Verify that both a ‘Benefits’ column and ‘Info Sharing’ column have been added to the Income Surveys column search
+
+Verify that these columns display any benefits tied to the survey record, and are hidden by default
+
+Verify that when a user applies these options, the grid only shows those surveys where those benefits were accepted or info sharing filter is set to the selected value (even if the columns are hidden).",,Eligibility,
+NXT-18546,Income Survey - View Survey Details,,"Verify that when the user goes to the Income Surveys grid, they can find individual surveys with Details icons
+
+Verify that when selecting a Details icon, the user is redirected to the Survey Details for that particular survey
+
+Verify that the Survey Details page displays individual sections with information corresponding to each step of the survey
+
+Verify that the page also shows overall survey number and other details, as well as a side-nav to jump to individual sections on the page
+
+Verify that all buttons/edit buttons/drop-downs are either shown and disabled OR hidden entirely
+
+Verify that the user can go back to the Survey grid-, with any previous filters saved-",,Eligibility,
+NXT-18547,Income Survey - Survey Details - Notify Household,,"Verify that a ‘Notify’ button is added to the Survey Details page
+
+Verify that when selected, the button opens the Notification drawer
+
+Verify that a user can print or email a ‘Survey Notice’ for the survey
+
+Verify that when the user prints or emails that notice, the print dialog opens and/or the email goes out.",,Eligibility,
+NXT-18605,Verification - History Tracking for backend actions,,"History of backend actions available on the Sampling page.
+
+History of backend actions available in-line on the Tracking pages.",,Eligibility,
+NXT-18989,Eligibility - Verification - Collection Report (FNS-742) - Add CEP/P2 Data,,Verify the Collection Worksheet has been updated to accurately display CEP/P2 data.,,Eligibility,
+NXT-19085,Income Surveys - Add New Survey - Students Step - Add/Find a Student,,"Verify that in the Income Survey page, when a user selects ‘Add New Survey’, the wizard page displays the Students step
+
+Verify that the Students step contains functions to Find or Add a student
+
+Verify those buttons function as outlined in the requirements above, through the ‘Add a Student’ function
+
+Verify the user can locate and/or add one or more students to the survey using this function
+
+Verify that the Students step of the survey then shows data for those students, if the user adds them
+
+Verify that any potential household members related to (valid) students in the grid are shown and can be linked
+
+Verify that the user can go back and edit (new) students or remove the students they’ve added as well
+
+Verify that the students that the user adds on this step are retained if the user proceeds to the next step and then goes back to this previous step, or vice-versa",,Eligibility,
+NXT-19086,Income Surveys - Add New Survey - Household Step,,"Verify that in the Income Survey page, when a user selects ‘Add New Survey’, the wizard page displays
+
+Verify that the user can proceed through the survey and access this step
+
+Verify that the step functions as outlined in the requirements above
+
+Verify that special assistance programs and case number formats are valid according to the district configuration
+
+Verify that household size is validated to be > # of students added to the survey
+
+Verify that income frequency list is based on the district’s eligibility guidelines
+
+Verify that total income amount ranges are based on the income frequency and then based on the district’s eligibility guidelines 
+
+Verify that the selections that the user makes on the step are retained if the user proceeds to the next step and then goes back to this previous step, or vice-versa",,Eligibility,
+NXT-19087,Income Surveys - Add New Survey - Details Step,,"Verify that in the Income Survey page, when a user selects ‘Add New Survey’, the wizard page displays
+
+Verify that the user can proceed through the survey and access this step, *IF* the district’s _Show Income Surveys Benefit_ setting value is set to ‘Yes’
+
+Verify that the step functions as outlined in the requirements above
+
+Verify that ethnicity can be indicated, and ‘Not Provided’ is the default selection
+
+Verify that racial identity can be indicated
+
+Verify that the list of optional benefits for the current academic year displays, as long as the other setting value is set to indicate showing of benefits
+
+Verify that this list is hidden or ‘Not Provided’ is shown, if there are no benefits for the current academic year
+
+Verify that information sharing preference can be indicated, and the box is unchecked by default
+
+Verify that if OTHRBENFT is set to ‘No’, we hide just the Race, Ethnicity, and Other Benefits sections (only showing the Info Sharing question)
+
+Verify that *IF* the district’s _Show Income Surveys Benefit_ setting value is set to ‘No’, we +*hide*+ this whole step, even from the stepper. 
+
+Verify that this step is skipped (forwards and backwards) in that case also.
+
+Verify that the selections that the user makes on the step are retained if the user proceeds to the next step and then goes back to this previous step, or vice-versa",,Eligibility,
+NXT-19088,Income Surveys - Add New Survey - Contact Info Step,,"Verify that in the Income Survey page, when a user selects ‘Add New Survey’, the wizard page displays
+
+Verify that the user can proceed through the survey and access this step
+
+Verify that the form within the survey contains the fields listed above
+
+Verify that *IF* the user enters a Work Phone Number, we validate it to make sure it has 10-digits and then automatically format the number to display in the (XXX) YYY-ZZZZ format.
+
+Verify that *IF* the user enters a Cell Phone Number, we validate it to make sure it has 10-digits and then automatically format the number to display in the (XXX) YYY-ZZZZ format.
+
+Verify that *IF* the user enters a ZIP Code, we validate it to make sure it has 5-digits.
+
+Verify that *IF* the user enters an Email Address, we validate it to make sure it is a valid email format.
+
+Verify that all fields should be *optional*, and that we should only validate the number fields above if the user enters data into them.
+
+Verify that the selections that the user makes on the step are retained if the user proceeds to the next step and then goes back to this previous step, or vice-versa",,Eligibility,
+NXT-19092,Income Surveys - Add New Survey - Review Step,,"Verify that in the Income Survey page, when a user selects ‘Add New Survey’, the wizard page displays
+
+Verify that the user can proceed through the survey and access this step
+
+Verify that the step is display as outlined in the mock-up above
+
+Verify that within each section, we display an edit pencil that will allow the user to go back to that particular step and make changes as needed.
+
+Verify that for the Comments step card, we just display the file name and type of any documents the user has uploaded. It does not need to be a clickable link.
+
+Verify that in addition to the normal Cancel and Back buttons, we display the following buttons at the bottom of the step:
+
+* Pending
+** Saves this as a pending survey and returns the user to the Income Surveys grid. 
+*** Success toaster: “Pending survey saved successfully.”
+* Submit
+** Saves this as a complete survey and takes the user to the confirmation/Summary step.",,Eligibility,
+NXT-19093,Income Surveys - Add New Survey - Comments Step,,"Verify that in the Income Survey page, when a user selects ‘Add New Survey’, the wizard page displays
+
+Verify that the user can proceed through the survey and access this step
+
+Verify that the step functions as outlined in the requirements above
+
+Verify that the user can associate a language with the survey, based on whatever languages are available in the district.
+
+Verify that the default value for this Languages field is English
+
+Verify that the user can select the date that they are accepting/accepted the survey
+
+Verify that the default value is today’s date, but that any date within the current academic year can be selected
+
+Verify that the user can upload one or more documents that will be attached to the survey, where normal rules apply
+
+Verify that the user can enter a 500-character comment that will be associated with the survey
+
+Verify that the Income Status for the survey displays when the district is using the _Income Range Type_ setting value of ‘USDA Income Range’. Verify that the Income Status is hidden otherwise
+
+Verify that according to the household income/special assistance program details entered by the user, we display the proper income status (Free/Reduced/Paid) based on the USDA guidelines
+
+Verify that the selections that the user makes on the step are retained if the user proceeds to the next step and then goes back to this previous step, or vice-versa",,Eligibility,
+NXT-19094,Income Surveys - Add New Survey - Summary,,"Verify that in the Income Survey page, when a user selects ‘Add New Survey’, the wizard page displays
+
+Verify that the user can proceed through the survey and access this step
+
+Verify that the step functions as outlined in the requirements above
+
+Verify that on the step we display a success toast message: _Survey \{\{surveyNumber}} was submitted successfully\!_
+
+Verify that (if possible) we display an image or summary of the steps from the Review page, of the completed survey that can be printed/exported to PDF
+
+Verify that the step displays 2 buttons:
+
+* Add another survey
+** Refresh/clear the survey selections
+** Return the user to the Students step
+* I’m done for now
+** Return the user to the main Income Surveys grid/page",,Eligibility,
+NXT-19154,Family Hub SC - Apply/Application Template - Add full support for Income Surveys,,"Verify that the Application Template page experience matches Classic SchoolCafé in how it treats districts that can accept Income Surveys
+
+* User can view Income Survey step
+* User can view Income Surveys in Review step
+* Messages can be edited on both of the above in any language
+
+Verify that the Apply page experience matches Classic SchoolCafé in how it treats districts that can accept Income Surveys
+
+* User can view Income Survey (‘Household’) step
+* User can view Income Surveys (‘Household’) in Review step
+* All of the above differs based on the setting values and languages selected",,Eligibility,
+NXT-19299,System - Management - Templates - Add 'Income Survey Notice' template,,"Verify that in System → Management → Templates, under Eligibility, we’ve added an *Income Survey Notice* template.
+
+Verify that we added default templates for any active languages in the district (though the template itself can be in English for each)
+
+Verify that the content of the notice matches the HTML provided",,Eligibility,
+NXT-19302,Eligibility - Applications - Add support for Student Benefits search,,"Verify that both a ‘Benefits’ filter has been added to the Applications page
+
+Verify that both a ‘Benefits’ column and ‘Info Sharing’ column have been added to the applications column search
+
+Verify that these columns display any benefits/info sharing preference tied to the application record, and are hidden by default
+
+Verify that when a user applies these options, the grid only shows those applications where those benefits were accepted or info sharing filter is set to the selected value (even if the columns are hidden).",,Eligibility,
+NXT-19970,Income Survey - Edit Survey Details,,"Verify that the Survey Details page displays individual sections with information corresponding to each step of the survey, each with a button to edit or add details
+
+Verify that the validation rules for each section match the corresponding section on the Add Survey wizard
+
+Verify that information is saved when data is either added or the user clicks the ‘Save’ button",,Eligibility,
+NXT-20177,Income Survey - Pending Surveys,,"Verify that when the user selects the ‘Pending’ tab of the Income Surveys page, we only display those surveys in ‘Pending’ status.",,Eligibility,
+NXT-20424,Eligibility - Dashboard - Integrate PNA Insights into existing Dashboard,,Verify PNA Insights inclusion into existing Eligibility Dashboard,,"Eligibility, Insights",
+NXT-20510,Income Survey - Edit Survey Details - Process/Make Pending/Delete/Restore Survey,,"Verify that when the user goes to the Income Surveys grid, they can find additional buttons to move the Survey forward or backward in status, plus a 4th button to restore a deleted survey.
+
+Verify button behavior for Process Survey
+
+Verify button behavior for Mark as Pending Survey
+
+Verify button behavior for Delete Survey
+
+Verify button behavior for Restore Survey",,Eligibility,
+NXT-20590,"Eligibility Notifications - Add Income Surveys tab, support bulk notifications",,"Verify that this tab should only display if the Show Income Surveys setting is to the ‘Yes’ or ‘Mixed’.
+
+Verify that an ‘Income Surveys’ tab is added to the Eligibility Notifications page
+
+Verify that the user can select a date range within the current academic year
+
+Verify that the user can elect to include or exclude previously notified surveys
+
+Verify that when the ‘Apply’ button is selected a grid appears, displaying all surveys based on the criteria above
+
+Verify that the grid shows the default columns listed above, including a ‘View’ column with a selectable icon 
+
+Verify that when selected, the ‘View’ button opens the Notification viewer for that individual survey
+
+Verify that a user can print or email a ‘Survey Notice’ for one, more, or all surveys within the grid
+
+Verify that when the user prints or emails out notices, the print dialog opens and/or the email goes out
+
+Verify that the survey data (and grid, if needed) for the related survey(s) is then updated at that point",,Eligibility,
+NXT-21188,Eligibility - Income Surveys - Add Income Survey Status History/Notifications History to Survey Details,,"Verify that the Survey Details page contains these two new sections
+
+Verify that the grids in these two sections function as described above (consult Applications page for similar examples, as the behavior is basically the same)",,Eligibility,
+NXT-21484,Income Surveys - Surveys grid - History (Changelog),,"Verify that the Survey page’s ‘All’ and ‘Pending Surveys’ tabs Details column includes a clickable History icon next to each survey, which redirects the user to the History page for that survey 
+
+Verify that all changes made to a survey’s information are viewable on this page, with the columns specified above.
+
+Verify that the page includes pagination",,Eligibility,
+NXT-21561,Eligibility - Reports - Convert ‘Eligibility Summary’ report to HTML,,"Verify that we have converted this report to HTML. 
+
+Verify that all existing options and functionality are otherwise unchanged.",,Eligibility,
+NXT-21563,Eligibility - Reports - Convert ‘By Application’ report to HTML,,"Verify that we have converted this report to HTML. 
+
+Verify that all existing options and functionality are otherwise unchanged.",,Eligibility,
+NXT-21564,Eligibility - Reports - Convert ‘By Direct Certification’ report to HTML,,"Verify that we have converted this report to HTML. 
+
+Verify that all existing options and functionality are otherwise unchanged.",,Eligibility,
+NXT-22047,Eligibility-Eligibility summary numbers do not match (QA Testing required),,TBD,,Eligibility,
+NXT-22845,Front Office Reports - Add Download Option + Move Report to Overlay,,"* Reports moved from embedded to overlays, per the mockup.
+* Download button exports the report to PDF.
+* Reset button added to each report, which when selected allows the user to reset all of their filter selections to the default.
+* The above should be applicable for both the Eligibility and Accountability reports (and *also* the Verification-Collection Worksheet/Application Processing reports).
+* Behavior/content of reports should be otherwise unchanged",,Eligibility,
+NXT-23302,Account Management - Accounts - Integrate 'Columns & Views',,"Verify the following:
+
+# Views, and Save As buttons are accessible
+# Integration of these buttons to allow the user to save their current view (whatever is selected in the filters/columns shown in the grid) with a custom name.
+# The user can select any default or custom view whenever reloading the page, with their selection then populating the filters/grid.
+# Saved views should have unique names",,"Account Management, Eligibility",
+NXT-23317,AcctMgt - Groups - Homerooms - Allow user to view and assign/remove tags,,"* Verify that a multi-select Tags field is added to the list of Homerooms filters, containing the active Tags for this specific district
+* Verify that a Tags column is added to the list of Homerooms filters 
+* Verify that this column shows a condensed view of the tags relating to each homeroom, with overflow showing as +X,X+1,X+2, etc. and the full list showing in a tooltip while hovering over it
+* Verify that the Edit Homeroom functionality opens as a drawer instead of a pop-up, and that it now contains a Tags field that the user can use to assign/remove tags from the homeroom
+* Verify that the other general UI/UX improvements have been made to the page:
+** Expansion panel
+** Reset/Apply
+** Grid edit icon ‘Edit’ → ‘Edit2’
+** Edit Homeroom buttons ‘Update’ and ‘Cancel' → X and 'Save’",,"Account Management, Eligibility",
+NXT-23799,Front Office Reports - Eligibility - Add button to export report to Excel,,"* All Eligibility reports (or as many as possible) have a new download button that exports the report to Excel.
+* Behavior/content of reports should be otherwise unchanged",,Eligibility,
+NXT-25253,Family Hub - School Menus - Verify end-to-end admin menu publishing to end-user display (Phase 1),,Verify that menus published from SchoolCafé are now displaying in the School Menus page of Family Hub.,,"Eligibility, Family Hub",

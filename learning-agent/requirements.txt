@@ -1,0 +1,29 @@
+# ─── Core runtime (Generator + Evaluator + tools) ───────────────────
+claude-agent-sdk>=0.2.0
+
+# Web server (FastAPI + SSE streaming)
+fastapi>=0.110.0
+uvicorn[standard]>=0.30.0
+sse-starlette>=2.0.0
+python-multipart>=0.0.9
+
+# HTTP client for live Jira REST (match_tickets / read_ticket / read_epic)
+httpx>=0.27.0
+
+# PDF parsing (read_pdf fallback) and transcript handling
+pymupdf>=1.24.0
+
+# Env loading
+python-dotenv>=1.0.0
+
+# YAML (build_stub_csv.py — legacy CSV stub builder)
+pyyaml>=6.0
+
+# ─── Legacy: original "first agent" LangGraph build ─────────────────
+# agent.py / tools.py / main.py were the pre-pivot Chapter-6-style build
+# used to compare frameworks. Not part of the current Producer pipeline.
+# Safe to remove if you don't need the side-by-side comparison.
+langchain>=0.3.0
+langchain-anthropic>=0.3.0
+langchain-community>=0.3.0
+langgraph>=0.2.0

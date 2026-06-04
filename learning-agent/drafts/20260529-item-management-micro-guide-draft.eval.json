@@ -1,0 +1,62 @@
+{
+  "template": "micro-guide",
+  "draft": "drafts/20260529-item-management-micro-guide-draft.html",
+  "verdict": "pass",
+  "measured_word_count": 1198,
+  "retry": 1,
+  "section_count": 7,
+  "workflow_count": 4,
+  "pitfalls_per_workflow_ok": true,
+  "dimensions": {
+    "template_fit": {
+      "pass": true,
+      "notes": "Exactly 7 h2 sections in required order (Purpose \u00b7 Who this is for \u00b7 Before you start \u00b7 Top workflows \u00b7 Common mistakes \u00b7 Related content \u00b7 Sources). 'Also in this module' is now an inline bullet within Related content, not a standalone h2. 4 workflows \u2264 5 hard constraint. One [!warning] Watch out pitfall per workflow \u2014 all 4 present, all sourced. Word count 1,198 is under 1,500 ceiling and within the 600\u20131,200 target band.",
+      "issues": [
+        "Non-blocking cosmetic defect: line 131 contains a malformed closing tag `<code>CREATE MENU ITEM<\\code>` (backslash instead of forward slash). Does not affect content correctness but will break rendering. Flag to Writer for correction before publish."
+      ]
+    },
+    "plan_alignment": {
+      "pass": true,
+      "notes": "All 4 planned workflows present (W1 non-food, W2 food+serving/pack, W3 Menu Info/POS, W4 allergens). Demoted features M1 (Images & Docs), M2 (Nutrient Details), M3 (Contribution Info), M5 (Inventory Info tab), M8 (editability locking) appear as one-line bullets in Related content. Omitted features O1\u2013O10 are absent. Edible Yield Factor (O5/D1) correctly omitted from workflow steps and correctly flagged in Common Mistakes as a location correction. NXT-37441 (highest-priority ticket) embedded in W2 as planned.",
+      "issues": [
+        "Non-blocking: GTIN/UPC (M6, NXT-37815, Medium priority) silently dropped \u2014 plan specified a one-line mention in Related content. At 1,198 words there was budget headroom (~300 words) for the one-liner. Not a hard fail given the plan's word-budget risk note permits selective omission; recommend Writer add the line before publish."
+      ]
+    },
+    "source_grounding": {
+      "pass": true,
+      "notes": "All factual claims carry inline <!-- Source: --> comments. 5 citation spot-checks performed against TIER-1 cache \u2014 all verbatim matches confirmed. No Description-tier quote is labeled AC anywhere in the draft. NXT-39594 is cited only for 'Create a Menu Item tab' (its actual AC text); Show-on-POS toggle behavior correctly attributed to NXT-30155 AC + transcript [27:12]. [TO VERIFY] markers present and correctly placed for Description-only field names and unconfirmed specifics. Presenter-attributed claims correctly framed as 'According to the training session' with no AC label. TO VERIFY count: 9 markers (field labels in W1/W2/W3, dialog text in W2 Merge step, three-tier cap in Common Mistakes, locking triggers in Related content).",
+      "issues": []
+    }
+  },
+  "nxt_39594_fix_confirmed": true,
+  "citation_spotcheck": [
+    {
+      "comment": "NXT-30037 AC: \"Allow user to skip Product Info attributes; If not skipping, require a value for all 3 dropdowns\"",
+      "verbatim_in_cache": true,
+      "note": "Exact match in tickets-cache.md NXT-30037 AC section"
+    },
+    {
+      "comment": "NXT-37441 AC: \"Provide Sub-Qty on the Serving Size row in valid scenarios; Trigger Inventory readiness based on proper pack-serving links\"",
+      "verbatim_in_cache": true,
+      "note": "Exact match in tickets-cache.md NXT-37441 AC section"
+    },
+    {
+      "comment": "NXT-41275 AC: \"Prioritize allergen forms in the following order: 'Contains' form, 'Processed....' form, 'May Contain' form, 'Free From'\"",
+      "verbatim_in_cache": true,
+      "note": "Exact match in tickets-cache.md NXT-41275 AC section"
+    },
+    {
+      "comment": "NXT-24128 AC: \"If Custom Allergen already exist warn the user with a message 'Custom Allergen already in use, please use a different Custom Allergen name'; The newly added Custom Allergen is listed on the result grid\"",
+      "verbatim_in_cache": true,
+      "note": "Exact match in tickets-cache.md NXT-24128 AC section"
+    },
+    {
+      "comment": "NXT-30155 AC: \"Enable the POS Info tab if the user specifies the item as a POS Item; Load the POS attributes and Pricing section under the POS tab\"",
+      "verbatim_in_cache": true,
+      "note": "V27 fix confirmed \u2014 toggle\u2192pricing behavior now correctly attributed to NXT-30155, not NXT-39594"
+    }
+  ],
+  "route_to": "none",
+  "blocking_issues": [],
+  "summary": "PASS. Retry 1 resolved both retry-0 failures: word count is 1,198 (under 1,500 ceiling), section count is exactly 7 with no extra h2, and the NXT-39594 V27 misclassification is corrected throughout. All 4 workflows, 4 pitfalls, and 5 citation spot-checks pass. Two non-blocking items for human editor before publish: (1) malformed closing tag on line 131 `<\\code>` should be `</code>`; (2) GTIN/UPC one-liner (M6, NXT-37815) was silently dropped \u2014 recommend adding to Related content given available word budget."
+}

@@ -1,0 +1,39 @@
+[D2:retry+template-aligned] fixture: 4977 tickets + 888 epics (module 'Item Management')
+Stage 1: planning (research with tools, emit section plan)…
+  plan: 13 sections, 8 tickets, 352 citable spans  (115s)
+Stage 2: writing sections in parallel (CITE-IDs only, no quote text)…
+
+=== CELL D TELEMETRY [D2:retry+template-aligned] ===
+plan 115s | sections 145s | total 260s | 13 sections | 3275 words | 46308 chars
+ #   secs att stop_reason    title
+ 1   40.2   1 end_turn       Overview
+ 2   24.8   1 end_turn       Roles & Permissions
+ 3   26.9   1 end_turn       Prerequisites
+ 4   35.3   1 end_turn       Workflow: Creating a Non-Food Item
+ 5   26.3   1 end_turn       Workflow: Creating a Food Item – Units & Costing
+ 6   30.5   1 end_turn       Workflow: Configuring Nutrient & Ingredient Inform
+ 7   35.0   1 end_turn       Workflow: Configuring Allergens
+ 8   54.2   1 end_turn       Workflow: Creating a Direct Menu Item & POS Pricin
+ 9   30.2   1 end_turn       Workflow: Configuring HACCP & Recipe Steps
+10   49.5   1 end_turn       Key Fields & Statuses
+11   24.5   1 end_turn       Reports & Outputs
+12   63.3   1 end_turn       Exceptions & Troubleshooting
+13   25.0   1 end_turn       Related Content
+
+assembly: rendered=158 invalid_cite_id=0 transcript=0
+validator on assembled: tier_lie=0 not_found=0 ok=158 tokened=158
+
+=== PASS CRITERIA [D2:retry+template-aligned] ===
+  [PASS] all sections present (>=8)
+  [PASS] no section errored (after retries)
+  [PASS] no section truncated (max_tokens)
+  [PASS] tier_lie == 0
+  [PASS] not_found == 0
+  [PASS] invalid_cite_id == 0
+
+=== EVAL (semantic backstop) [D2:retry+template-aligned] ===
+long-form: VERDICT=FAIL (wc=2610)
+  Long-form guide fails template fit: five mandatory sections are absent (Reports & Outputs, Exceptions, Troubleshooting, Related Content, Sources), the Key Fields & Statuses section is truncated mid-table, and transcript-vs-Jira discrepancies are silently absorbed rather than surfaced.
+  checks: Template fit=fail; Length budget=warn; Source grounding=warn; Citation spot-check=warn; Discrepancy handling=warn; Unverifiable specifics=warn
+
+View in the UI:  uvicorn app:app --host 127.0.0.1 --port 8000  → Library tab.

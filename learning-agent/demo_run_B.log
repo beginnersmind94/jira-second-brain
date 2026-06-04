@@ -1,0 +1,43 @@
+[A+metadata] fixture: 4977 tickets + 888 epics (module 'Item Management')
+Step 1: generating long-form (full research, the long pole)…
+Step 2: deriving micro-guide + tldr from the long-form (no Jira)…
+
+=== TELEMETRY [A+metadata] ===
+stage           secs   words    chars  out_tok   in_tok  cache_rd think_tok
+long-form      706.9    5051    48141    38030        8    223371      None
+micro-guide    304.7    1417    14491    18357        3     16529      None
+tldr            72.8     528     5595     4205        3     16529      None
+
+Total wall time: 1011.6s  (long-form 707s + derivations)
+
+=== CITATION INTEGRITY [A+metadata]  (tier_lie = Description-as-AC = cardinal sin) ===
+stage         cites  tokened    ok  tier_lie  not_found  untokened
+long-form       166       18    12         1          5          0
+    ⚠ NXT-36583:AC quote_not_found  “Add a small selection for Recipe HACCP Process / this will b”
+    ⚠ NXT-35898:AC quote_not_found  “Provide a button for adding a Serving Size unit / Provide th”
+    ⚠ NXT-30103:AC quote_not_found  “Load the Allergens section / Can create or enter allergen wi”
+    ⚠ NXT-30103:AC tier_lie->DESC  “Update the Allergen Feature to Disclaimer”
+micro-guide      68       15    10         1          4          0
+    ⚠ NXT-36583:AC quote_not_found  “Add a small selection for Recipe HACCP Process / this will b”
+    ⚠ NXT-35898:AC quote_not_found  “Provide a button for adding a Serving Size unit / Provide th”
+    ⚠ NXT-30103:AC tier_lie->DESC  “Update the Allergen Feature to Disclaimer”
+    ⚠ NXT-30103:AC quote_not_found  “Allow user to 'skip for now' if they do not want to enter th”
+tldr             29        6     4         0          2          0
+    ⚠ NXT-30103:AC quote_not_found  “Load the Allergens section / Can create or enter allergen wi”
+    ⚠ NXT-36583:AC quote_not_found  “Add a small selection for Recipe HACCP Process / this will b”
+
+=== EVAL (grounding bars) [A+metadata] ===
+
+long-form: VERDICT=FAIL  (wc=2050)
+  Draft is truncated mid-sentence in Section 4.2 Step 9; the long-form guide's required sections 5–10 (Key fields and statuses, Reports and outputs, Exceptions, Troubleshooting, Related content, Sources) are entirely absent, and the rendered word count falls below the 2500-word floor.
+  checks: Template fit=fail; Length budget=fail; Source grounding=warn; Citation spot-check=ok; Discrepancy handling=ok; Unverifiable specifics=ok
+
+micro-guide: VERDICT=FAIL  (wc=1390)
+  NXT-30103 cites Description-tier text as AC (hard fail); additionally several specific labels and the Cybersoft escalation claim lack [TO VERIFY] markers, and no discrepancy handling is evident in the draft.
+  checks: Template fit=ok; Length budget=ok; Source grounding=warn; Citation spot-check=fail; Discrepancy handling=warn; Unverifiable specifics=warn
+
+tldr: VERDICT=WARN  (wc=512)
+  Draft passes structure and verbatim citation checks for two of three sampled tickets, but marginally exceeds the 500-word TLDR ceiling (~512 words), the 'Who uses it' paragraph is entirely uncited, 'Family Hub' is misattributed to [00:00], and NXT-30103's AC quote fuses two separate bullet points into one string.
+  checks: Template fit=ok; Length budget=warn; Source grounding=warn; Citation spot-check=warn; Discrepancy handling=warn; Unverifiable specifics=warn
+
+View in the UI:  uvicorn app:app --host 127.0.0.1 --port 8000  → Library tab.

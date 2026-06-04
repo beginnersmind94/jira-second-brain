@@ -25,6 +25,7 @@ jira-brain/
 ├── stage2/                  # Ticket categorization workspace (sample / propose / curate / tag)
 ├── reports/                 # Per-module dry-runs and filter outputs for guide-update workflows
 ├── app/                     # Flask POC: drop a PDF, apply Jira edits, review inline, export PDF
+├── learning-agent/          # FastAPI POC: turn an SME transcript into a cited HTML learning resource
 ├── check_links.py           # Standalone wikilink validator
 ├── cleaned/                 # Cleaned Jira CSV + thresholds + data dictionary (gitignored)
 ├── cleaned_private/         # PII audit + district map (gitignored, never committed)
@@ -394,6 +395,56 @@ app/
 ```
 
 **Internal only.** Not deployed; runs locally for SME review sessions. Per-job scratch is keyed by job id and not committed.
+
+### `learning-agent/`
+A second POC, vendored as a subproject. FastAPI server that takes an SME training transcript (markdown), runs a Generator → Evaluator pipeline via Claude Agent SDK + custom MCP tools, and produces a structured HTML learning resource with verbatim citations to live Jira (NXT) tickets pulled from the Cybersoft Atlassian Cloud.
+
+```
+learning-agent/
+├── README.md                       # Runbook
+├── CLAUDE.md                       # Operating instructions / architecture spec
+├── eval-framework.md               # Evaluation framework
+├── .env.example                    # Auth + Jira + jira-brain path config
+├── .gitignore                      # .venv, __pycache__, .env, data/chroma_db, data/*.pdf
+├── requirements.txt
+├── app.py                          # FastAPI server (upload, generate, library, publish, evaluate)
+├── agent_sdk.py                    # Generator — Tasks 1-4 in one query()
+├── evaluator_sdk.py                # Evaluator — Task 5, separate query() call
+├── tools.py / tools_sdk.py         # MCP tools: parse_transcript, match_tickets, search_kb,
+│                                   #   read_ticket, read_epic, read_pdf
+├── smoke_test.py                   # End-to-end CLI test
+├── build_fixtures_from_csv.py      # Turn a raw Jira CSV into a curated fixture
+├── build_stub_csv.py               # Build the smaller curated tickets.csv
+├── pdf_export.py / pricing.py / prefetch_tickets.py
+├── demo*.py / demo*.html           # Demo runners + per-template demo outputs
+├── _discover_fields.py             # Inspection helpers (probing Jira fields, MCP options, etc.)
+├── templates/                      # Generator system-prompt templates
+│   ├── long-form.md                #   20-page comprehensive reference
+│   ├── micro-guide.md              #   3-page task-success guide
+│   └── tldr.md                     #   1-page at-a-glance summary
+├── static/index.html               # Single-page UI (Author + Library modes)
+├── data/
+│   ├── 25_26-roadmap-tickets.csv   # Raw Jira CSV (full export, 130K rows) — input for build_fixtures_from_csv.py
+│   ├── tickets.csv                 # Curated ticket fixture (623 rows) — used by stub mode
+│   ├── sample-*.md                 # Sample transcripts
+│   ├── demo/*.json                 # Per-module fixture data (eligibility, accountability, etc.)
+│   └── uploads/                    # User-uploaded transcripts (runtime; empty in repo)
+├── raw/transcripts/                # Saved SME transcripts (immutable once saved) + metadata/
+├── drafts/                         # Generated HTML drafts (with inline <!-- Source: --> comments) + .eval.json
+├── published/                      # Final HTML (source comments stripped) + metadata/ catalog entries
+├── eval/                           # Evaluation framework
+│   ├── EVAL-SPEC.md                # Spec
+│   ├── capability.py / graders.py / pipeline.py / regression.py
+│   └── runs/                       # Per-run eval artifacts
+├── docs/                           # ADRs, case studies, eval state snapshots
+├── logs/                           # Per-job JSONL traces (one per generation run)
+├── .claude/                        # Project-specific Claude agent memory + settings
+└── .codex/                         # Codex tooling config (test plan, agents, config.toml)
+```
+
+**Relationship to jira-brain:** This subproject's `search_kb` tool reads markdown from the parent jira-brain repo (`raw/guides/markdown/`, `wiki/concepts/`, `wiki/workflows/`). The `.env.example` defaults to `JIRA_BRAIN_PATH=../jira-brain` for the original sibling layout; when running from inside this monorepo, override that to `JIRA_BRAIN_PATH=..` (the parent of `learning-agent/`).
+
+**Authority:** learning-agent is authoritative for the generation pipeline (transcript → cited HTML). jira-brain remains authoritative for ticket data (`raw/tickets/`), guides (`raw/guides/`), and curated wiki content. The CLAUDE.md anti-hallucination rules apply equally here — the verbatim-citation pattern in learning-agent's templates is the same shape as the guide-edit citation rule in jira-brain.
 
 ### `cleaned/` and `cleaned_private/`
 Outputs from `scripts/clean_im_data.py` and PII auditing — both **gitignored**. They live on disk so the analyst can iterate, but they don't go to GitHub because the cleaned data still carries internal employee names (assignee/reporter/creator) and `cleaned_private/` carries district→label mappings.

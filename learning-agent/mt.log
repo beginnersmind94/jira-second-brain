@@ -1,0 +1,31 @@
+[JQL: project = NXT AND text ~ "income survey wizard students" AND "Module" = "Eligibility" ORDER BY priority DESC, updated DESC]
+
+NXT-23524 | [Done Done] [Enhancement] [P:Medium] [Module:Eligibility] [RN:-]
+  Eligibility - Applications/Income Surveys - Students Step - Improve 'Other Students' messaging
+  components: Eligibility
+  epic: NXT-23523 — Eligibility - General Enhancements (R5)
+  desc: Summary This was feedback from the Release 4 Deep Dive meeting: In Applications/Income Surveys → Students, when adding a student that has other potential studen…
+
+NXT-22751 | [Done Done] [Enhancement] [P:Medium] [Module:Eligibility] [RN:-]
+  Eligibility - Various - Part 2 - Use new Find/Add Student design from Income Surveys
+  components: Eligibility
+  epic: NXT-19209 — Eligibility - General Enhancements (R4)
+  desc: As a district admin, I would like to be able to easily find or add a student  wherever possible (such as adding them to a manual application) without having to …
+
+NXT-21325 | [Done Done] [Enhancement] [P:Medium] [Module:Eligibility] [RN:-]
+  Eligibility - Various - Use new Find/Add Student design from Income Surveys
+  components: Eligibility
+  epic: NXT-19209 — Eligibility - General Enhancements (R4)
+  desc: As a district admin, I would like to be able to easily find or add a student  wherever possible (such as adding them to a manual application) without having to …
+
+NXT-19086 | [Done Done] [Story] [P:Medium] [Module:Eligibility] [RN:-]
+  Income Surveys - Add New Survey - Household Step
+  components: Eligibility
+  epic: NXT-16828 — Eligibility - Income Surveys (R4-Phase 1)
+  desc: As a district admin, I would like the ability to quickly and easily add a manual income survey on behalf of a household, so that their income data is entered in…
+
+NXT-19093 | [Done Done] [Story] [P:Medium] [Module:Eligibility] [RN:-]
+  Income Surveys - Add New Survey - Comments Step
+  components: Eligibility
+  epic: NXT-16828 — Eligibility - Income Surveys (R4-Phase 1)
+  desc: As a district admin, I would like the ability to quickly and easily add a manual income survey on behalf of a household, so that their income data is entered in…

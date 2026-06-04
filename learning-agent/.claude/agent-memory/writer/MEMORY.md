@@ -1,0 +1,4 @@
+- [TLDR HTML density patterns](feedback_tldr_patterns.md) — CSS values for dense one-page layout; validated on Item Management 685-word TLDR
+- [TLDR compression rules](feedback_tldr_compression.md) — merge decisions and word economy for feature-rich modules; 39→25 rows without dropping features
+- [Micro-guide structural patterns](feedback_micro_guide_patterns.md) — inline sub-headers for two-phase workflows; "Also in this module" section for demoted features; [TO VERIFY] comment discipline; D1 Yield Factor warning rule
+- [Long-form guide patterns](longform_patterns.md) — section ordering follows presenter demo; discrepancy blockquote template; [TO VERIFY] inline placement; Sources section structure; validated on Item Management 2026-05-29

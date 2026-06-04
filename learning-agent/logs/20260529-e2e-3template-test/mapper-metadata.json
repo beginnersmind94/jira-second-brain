@@ -1,0 +1,32 @@
+{
+  "transcript_id": "20260529-070600-item-management-2026-05-28-item-management-create-items-training",
+  "module": "Item Management",
+  "presenter": "Sarah Chen (Implementation Specialist)",
+  "audience_roles": ["Nutrition Director", "Cafeteria Manager", "Onboarding staff"],
+  "mapped_at": "2026-05-29",
+  "mapper_run": "task1-single",
+  "counts": {"matched": 35, "unmatched": 13, "cross_module": 11},
+  "epics": [
+    "NXT-45562", "NXT-36067", "NXT-30027", "NXT-26823", "NXT-29833",
+    "NXT-40487", "NXT-40775", "NXT-51260", "NXT-13780", "NXT-37500"
+  ],
+  "stories": [
+    "NXT-37441", "NXT-37110", "NXT-35898", "NXT-33518", "NXT-37568",
+    "NXT-37109", "NXT-37111", "NXT-40778", "NXT-54229", "NXT-53530",
+    "NXT-37068", "NXT-37815", "NXT-41273", "NXT-43239", "NXT-47249",
+    "NXT-30100", "NXT-30102", "NXT-30103", "NXT-24128", "NXT-41275",
+    "NXT-37216", "NXT-39594", "NXT-39663", "NXT-40447", "NXT-36583",
+    "NXT-36742", "NXT-30155", "NXT-58442", "NXT-40479", "NXT-30036",
+    "NXT-30037", "NXT-53316"
+  ],
+  "tier_caution": {
+    "NXT-53316": "Description line 'As a district admin I want permissions for the Configuration page...' is TIER 3 — never cite as AC. Real AC is the permission-structure list.",
+    "NXT-30102": "Contribution Info field names come from Description (TIER 3) — mark [TO VERIFY].",
+    "NXT-47249": "Edible Yield Factor placement conflict vs transcript — mark [AMBIGUOUS]."
+  },
+  "priority_signals": {
+    "highest": ["NXT-37441"],
+    "high": ["NXT-37110", "NXT-35898", "NXT-37111", "NXT-40778", "NXT-54229", "NXT-53530", "NXT-43239", "NXT-39594", "NXT-36583", "NXT-36742", "NXT-30155", "NXT-58442"],
+    "external_facing_rn": ["NXT-41273", "NXT-43239", "NXT-47249"]
+  }
+}

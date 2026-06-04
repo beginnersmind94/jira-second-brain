@@ -1,0 +1,51 @@
+{
+  "template": "tldr",
+  "draft": "drafts/20260529-item-management-tldr-draft.html",
+  "verdict": "pass",
+  "measured_word_count": 687,
+  "retry": 2,
+  "feature_row_count": 25,
+  "fits_one_page": true,
+  "toverify_in_visible_text": 0,
+  "dimensions": {
+    "template_fit": {
+      "pass": true,
+      "notes": "687 visible words (within \u2264750 target). 25 feature rows in 2-column table with thead. 6 h2 sections in correct template order. No h3. 0 [TO VERIFY] in visible text (11 in HTML comments \u2014 acceptable at draft stage, stripped before publish). 5 gotchas. 4 Where to go next bullets (template cap is 2\u20134). 6 common workflow bullets (no template cap stated for this section). 1 description cell at 13 words (Row 21) vs \u226412-word budget \u2014 1 word over internal budget but under the \u226415 template spec maximum; non-blocking. All prior failure modes cleared.",
+      "issues": []
+    },
+    "plan_alignment": {
+      "pass": true,
+      "notes": "All 25 planned feature rows present. D1 Yield Factor discrepancy correctly surfaced in gotchas AND in row 13 description (Units card location used, not Ingredient Info). Ambiguous A1 (Family Hub allergen toggle) absent as directed. All 'omit' items (U10 allergen bulk import, U11 item copy, U12 data sharing, U13 sales tax, C9 inventory workaround, C10 PrimeroEdge comparisons) are absent from visible text. Plan had 7 common workflows; draft has 6 \u2014 HACCP workflow absent from bullets but HACCP is present as feature row 22; compression trade-off on one-pager is acceptable. Plan had 5 Where to go next bullets; template cap is 4; draft correctly trimmed to 4 (Family Hub dropped). No silent additions.",
+      "issues": [
+        "Row 21 (Menu Item Servings and Exceptions) description cell is 13 words vs \u226412-word internal budget \u2014 1 word over; non-blocking",
+        "Common workflows: plan listed 7, draft has 6 (HACCP workflow dropped); HACCP appears in Key Features table row 22 so feature is not omitted \u2014 non-blocking compression trade-off"
+      ]
+    },
+    "source_grounding": {
+      "pass": true,
+      "notes": "33 total <!-- Source: --> comments across all sections. Every feature row has a source comment. All 5 gotchas have source comments. [TO VERIFY] markers in comments correctly flag Description-tier claims not asserted in visible text. NXT-39594 citation correctly split: 'Create a Menu Item tab' cited as AC; toggle-to-pricing behavior cited as NXT-30155 AC \u2014 the exact defect pattern (NXT-53316) is NOT repeated. Spot-checks on NXT-37815 (GTIN digit range + barcode icon), NXT-58442 (Taxable Adults-only), and NXT-39594 (Menu Item tab AC only) all confirmed verbatim against tickets-cache. NXT-37216 AC explicitly names Fruits/MMA/Grains/Milk/Veg \u2014 plan flagged these as [TO VERIFY] citing only NXT-30102, but NXT-37216 AC confirms them; draft assertion is correct and does not need a [TO VERIFY] marker.",
+      "issues": []
+    }
+  },
+  "nxt_39594_fix_confirmed": true,
+  "citation_spotcheck": [
+    {
+      "comment": "NXT-37815 AC: 'Allow 8-14 digits in the GTIN field' + 'Display barcode identifier for units which have GTIN'",
+      "verbatim_in_cache": true,
+      "note": "Draft row 9 says '8\u201314 digit barcodes per pack size; barcode icon appears in Identifiers' \u2014 both claims verbatim from AC. Live Jira returns Description only (confirmed MCP limitation); AC verified against tickets-cache."
+    },
+    {
+      "comment": "NXT-58442 AC: 'Only display the Taxable option when the Adult tab is selected on POS Pricing'",
+      "verbatim_in_cache": true,
+      "note": "Draft row 23 says 'Taxable on Adults tab only' \u2014 direct compression of AC. Live Jira returned Description only; AC confirmed in tickets-cache. No Description contamination."
+    },
+    {
+      "comment": "NXT-39594 AC: 'Create a Menu Item tab' \u2014 toggle/pricing cited via NXT-30155 AC only",
+      "verbatim_in_cache": true,
+      "note": "Live Jira returned NXT-39594 Description confirming 'Show on POS toggle will control the presence of the POS attributes and Pricing table' IS Description-tier. Draft citation comment correctly labels this TIER 3 and routes toggle behavior to NXT-30155 AC. NXT-39594 fix confirmed \u2014 prior defect pattern not repeated."
+    }
+  ],
+  "route_to": "none",
+  "blocking_issues": [],
+  "summary": "PASS. Retry 2 clears all three prior failure modes: (1) 687 visible words within the \u2264750 one-page ceiling; (2) 24/25 description cells at \u226412 words, 1 cell at 13 words \u2014 no cell exceeds \u226415 template maximum; (3) 0 [TO VERIFY] markers in visible text. All 25 feature rows present. 5 gotchas including D1 discrepancy. NXT-39594 citation correctly split between AC and NXT-30155. 33 source comments, all spot-checked citations verified against tickets-cache. Two non-blocking plan deviations noted (HACCP workflow absent from bullets but present in feature table; Family Hub link dropped to meet 4-bullet template cap). Draft is ready for human review and status promotion to 'review'."
+}

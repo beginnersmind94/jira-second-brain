@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Item Management: Creating Items — Micro Guide</title>
+</head>
+<body>
+
+<!-- ============================================================
+     DRAFT — NOT FOR PUBLISH
+     Generated: 2026-05-29 (retry 1 of 3)
+     Template: Micro Guide (~3 pages)
+     Source transcript: raw/transcripts/20260529-070600-item-management-2026-05-28-item-management-create-items-training.md
+     Fact-check: logs/20260529-pipeline/factcheck.md
+     Discrepancy D1 (Edible Yield Factor): Ingredient Info card workflow OMITTED —
+       presenter described old location; NXT-47249 (Done Done) moved Yield Factor to the
+       Units card. Omitted from this micro guide pending product team confirmation of exact
+       UI steps. Flag for SME before long-form is written.
+     Discrepancy D2 (Merge language): "Merge" used throughout per NXT-40778 AC.
+       Presenter's "BASE UNIT chip" / "promote" language and specific dialog text are [TO VERIFY].
+     Discrepancy D3 (Images & Docs file types/size): 10-file limit cited from RN only.
+       5 MB limit and file type list are [TO VERIFY].
+     Ambiguous A1 (Family Hub toggle on Custom Allergen slide-out): omitted — not in NXT-24128 AC.
+     Citation correction V27: "Show on POS" toggle behavior is NXT-30155 AC + transcript [27:12],
+       not NXT-39594 AC. NXT-39594 AC is cited only for "Create a Menu Item tab".
+     [TO VERIFY] items preserved per anti-hallucination rule 4.
+     ============================================================ -->
+
+<h2>Purpose</h2>
+<p>
+  After reading this guide you can: create a non-food supply item; create a food item with a linked serving and pack; configure Menu Info and POS Pricing so the item appears on the register; and set up allergens including custom allergens.
+  <!-- Source: transcript [00:52] -->
+</p>
+
+<h2>Who this is for</h2>
+<p>
+  District Administrators and Nutrition Managers setting up items in SchoolCafé 2.0 for the
+  first time.
+  <!-- Source: transcript [00:00]–[00:52] — Brunswick County Schools onboarding cohort -->
+</p>
+
+<h2>Before you start</h2>
+<ul>
+  <li>
+    You need login credentials from the implementation team before you can access Item Management.
+    <!-- Source: transcript [00:28] -->
+  </li>
+  <li>
+    Gather item details: description, brand, manufacturer, product code, and pack-size structure.
+    <!-- Source: NXT-30036 AC: "Provide the identifying information fields (Description + global info)" -->
+  </li>
+  <li>
+    Know whether each item is food or non-food. Food items require serving sizes, nutrients, and allergen data.
+    <!-- Source: transcript [00:52]–[01:24] -->
+  </li>
+  <li>
+    For food items, have the nutrition label available.
+    <!-- Source: transcript [35:25]–[35:35] -->
+  </li>
+  <li>
+    For POS items, confirm your district's student and adult pricing before the POS Pricing step.
+    <!-- Source: transcript [29:55]–[30:15] -->
+  </li>
+</ul>
+
+<h2>Top workflows</h2>
+
+<h3>Workflow 1 — Create a non-food item</h3>
+<p>For supply items (cups, trays, napkins) tracked in Inventory but never served as food.</p>
+<!-- Source: transcript [00:52]–[01:24] -->
+<ol>
+  <li>
+    Go to <code>Item Management &gt; Items</code> and click <code>+NEW</code>.
+    <!-- Source: NXT-30036 AC: "Load the new initial item creation screen on click of +New" -->
+  </li>
+  <li>
+    Enter <code>Item Description</code> (required); optionally add Tags, Brand Name [TO VERIFY], Manufacturer [TO VERIFY], Product Code [TO VERIFY].
+    <!-- Source: NXT-30036 AC: "Require Description; Provide Tags field; Provide the identifying information fields (Description + global info)" -->
+  </li>
+  <li>
+    Select all three product dropdowns — <code>Item Category</code> [TO VERIFY], <code>Storage Category</code> [TO VERIFY], <code>Valuation Group</code> [TO VERIFY] — or skip (required later for Inventory).
+    <!-- Source: NXT-30037 AC: "Allow user to skip Product Info attributes; If not skipping, require a value for all 3 dropdowns" -->
+  </li>
+  <li>Click <code>SAVE</code>. Item is created and assigned an Item number.
+    <!-- Source: NXT-30036 AC: "Provide a Save button for continuing" -->
+  </li>
+  <li>On the Units card, select <code>NON-FOOD</code>.
+    <!-- Source: NXT-35898 AC: "Provide Food item and Fluid item questions in the header bar of the card before enabling the grid" -->
+  </li>
+  <li>Click <code>+PACK</code>; enter Description; for lower tiers add <code>Sub-Qty</code>. Weight optional for non-food [TO VERIFY].<!-- Source: NXT-37110 AC: "Provide the ability to add pack size units in the combined Units grid; Bring attention to the appropriate Sub-Qty fields as required to link Pack Sizes" --></li>
+  <li>Optional: enter cost for one unit; system scales all tiers.<!-- Source: NXT-37568 AC: "Provide an optional Costing step" --></li>
+  <li>Review Inventory Readiness banner; confirm Base Unit; set <code>Whole Numbers</code> vs. <code>Decimals</code>.<!-- Source: NXT-53530 AC: "Always display the inventory readiness banner"; NXT-37111 AC: "Provide a step to confirm Inventory info, including the Base Unit"; NXT-33518 AC: "Provide an option in the context of the new Units card to determine whether the Base Unit can be counted in decimals" --></li>
+</ol>
+
+<blockquote>
+  <p><strong>[!warning] Watch out:</strong> According to the training session, <code>Sub-Qty</code> must reflect the standard spec-sheet quantity, not a short-ship quantity. Handle short-ships at receiving in Inventory, not here.
+  <!-- Source: transcript [10:43]–[11:00] — presenter guidance; no AC source; S5 -->
+  </p>
+</blockquote>
+
+<h3>Workflow 2 — Create a food item with serving and pack linked for Inventory</h3>
+<p>For items you will serve and track in Inventory. Linking serving to pack unlocks Inventory eligibility.</p>
+<!-- Source: NXT-37441 AC: "Trigger Inventory readiness based on proper pack-serving links" -->
+<ol>
+  <li>Click <code>+NEW</code>, complete the Item card (same as Workflow 1, Steps 1–4).</li>
+  <li>On the Units card, select <code>FOOD</code>; answer Fluid Item question (<code>Fluid</code> = milliliters; <code>Non-Fluid</code> = grams).<!-- Source: NXT-35898 AC: "Provide Food item and Fluid item questions in the header bar of the card before enabling the grid; After questions, load the grid with Add Serving Size and Add Pack Size actions (based on question input)" --></li>
+  <li>Click <code>+SERVING</code>; enter Amount (<code>1</code> = inventory-eligible), Description, Weight.<!-- Source: NXT-35898 AC: "Provide a button for adding a Serving Size unit; Provide the ability to add and save independent serving sizes" --></li>
+  <li>Click <code>+PACK</code>; add Description and Sub-Qty for lower tiers.<!-- Source: NXT-37110 AC: "Provide the ability to add pack size units in the combined Units grid" --></li>
+  <li>On the serving row enter <code>Sub-Qty</code> — "How many [serving] are in [pack]?" This triggers Inventory eligibility.<!-- Source: NXT-37441 AC: "Provide Sub-Qty on the Serving Size row in valid scenarios; Trigger Inventory readiness based on proper pack-serving links" --></li>
+  <li>
+    If pack Description or weight matches the serving (dual-unit scenario), click the <code>Merge</code> button to confirm; serving Sub-Qty promotes to the new base unit. [TO VERIFY: exact dialog text not in NXT-40778 AC — use "Merge" per AC, not presenter's "BASE UNIT chip"/"promote"]
+    <!-- Source: NXT-40778 AC: "Prompt users with a dedicated 'Merge' button when they are attempting to create a unit which is likely intended to be a dual unit; Once the Merge button is clicked, show a special editable mode; if the serving has sub-qty, promote that sub-qty to the new base unit" -->
+  </li>
+  <li>
+    Review Inventory Readiness banner, confirm Base Unit, set Whole Numbers vs. Decimals.
+    <!-- Source: NXT-53530 AC: "Always display the inventory readiness banner"; NXT-37111 AC: "Provide a step to confirm Inventory info, including the Base Unit" -->
+  </li>
+</ol>
+
+<blockquote>
+  <p><strong>[!warning] Watch out:</strong> Both rows plus a <code>Sub-Qty</code> on the serving row are required for Inventory eligibility. Rows without the Sub-Qty link leave the item Inventory Ineligible.
+  <!-- Source: NXT-37441 AC: "Trigger Inventory readiness based on proper pack-serving links"; transcript [15:02]–[16:08] -->
+  </p>
+</blockquote>
+
+<h3>Workflow 3 — Set up Menu Info and POS Pricing</h3>
+<p>Make a food item available on the POS and in menu planning.</p>
+<!-- Source: NXT-39594 AC: "Create a Menu Item tab"; NXT-30155 AC: "Enable the POS Info tab if the user specifies the item as a POS Item" -->
+<ol>
+  <li>On the item card, navigate to the <code>Menu Info</code> tab.<!-- Source: NXT-39594 AC: "Create a Menu Item tab" --></li>
+  <li>Click <code>CREATE MENU ITEM</code> [TO VERIFY: exact label is Description-only].<!-- Source: transcript [24:55]–[25:18] --></li>
+  <li>Enter Menu Item Name [TO VERIFY], Button Name English [TO VERIFY], Menu Item Category [TO VERIFY]. All field names are Description-only.<!-- Source: NXT-30155 AC: "Enable the POS Info tab if the user specifies the item as a POS Item; Load the POS attributes and Pricing section under the POS tab" --></li>
+  <li>Toggle <code>Show on POS</code>. Enables the POS Info tab and loads POS attributes and Pricing.<!-- Source: NXT-30155 AC: "Enable the POS Info tab if the user specifies the item as a POS Item; Load the POS attributes and Pricing section under the POS tab" --><!-- Source: transcript [27:12] --></li>
+  <li>On <code>Students</code> tab: enter pricing by student type and site level.<!-- Source: NXT-30155 AC: "Separate pricing for Students and Adults with tabs" --></li>
+  <li>On <code>Adults</code> tab: enter adult pricing; check <code>Taxable</code> if applicable (Adults tab only).<!-- Source: NXT-58442 AC: "Only display the Taxable option when the Adult tab is selected on POS Pricing (for both view and edit mode; note: POS does not consider tax for students)" --></li>
+  <li>Click <code>SAVE</code>.</li>
+</ol>
+
+<blockquote>
+  <p><strong>[!warning] Watch out:</strong> The <code>Taxable</code> checkbox appears
+  <em>only</em> on the Adults pricing tab — it is not shown on the Students tab. POS does not
+  apply tax to student meals.
+  <!-- Source: NXT-58442 AC: "Only display the Taxable option when the Adult tab is selected on POS Pricing" -->
+  </p>
+</blockquote>
+
+<h3>Workflow 4 — Configure allergens (standard and custom)</h3>
+<p>Record allergens for a food item, including allergens not on the standard list.</p>
+<!-- Source: NXT-30103 AC: "Load the Allergens section; Can create or enter allergen without having nutrient/contribution information entered" -->
+
+<p><strong>Standard allergens:</strong></p>
+<ol>
+  <li>Navigate to <code>Allergen Info</code>. Allergens can be entered without Nutrient or Contribution data.
+    <!-- Source: NXT-30103 AC: "Can create or enter allergen without having nutrient/contribution information entered" -->
+  </li>
+  <li>Click <code>Edit</code>; select applicable allergen forms. Priority order: <em>Contains</em>, <em>Processed (Facility)</em>, <em>May Contain</em>, <em>Free From</em>.
+    <!-- Source: NXT-41275 AC: "Prioritize allergen forms in the following order: 'Contains' form, 'Processed....' form, 'May Contain' form, 'Free From'" -->
+  </li>
+  <li>Click <code>SAVE</code>. Only applicable allergens appear.
+    <!-- Source: NXT-41275 AC: "Remove the grid based approach in favor of a simple label statement for each applicable Allergen Form"; transcript [22:42]–[23:10] -->
+  </li>
+</ol>
+
+<p><strong>Custom allergens (when the allergen is not on the standard list):</strong></p>
+<ol start="4">
+  <li>Go to <code>Item Management &gt; Configuration &gt; Item Configuration</code>. Select <code>Custom Allergen</code>, choose <code>Local</code> data source, click <code>Apply</code>.
+    <!-- Source: NXT-24128 AC: "A Custom allergens option is added under IM configuration area; Once user selects configuration a pop-up window is presented; Only use Local data source" -->
+  </li>
+  <li>Click <code>+NEW</code>. Enter <code>Custom Allergen Description</code> (mandatory) and <code>Data Source: Local</code> (mandatory).
+    <!-- Source: NXT-24128 AC: "Custom Allergen Description [free text box] — Is a Mandatory field; Data Source [Dropdown, Local] — Is a Mandatory field" -->
+  </li>
+  <li>Click <code>SAVE</code>. Duplicate names are rejected with: <em>"Custom Allergen already in use, please use a different Custom Allergen name."</em>
+    <!-- Source: NXT-24128 AC: "If Custom Allergen already exist warn the user with a message 'Custom Allergen already in use, please use a different Custom Allergen name'; The newly added Custom Allergen is listed on the result grid" -->
+  </li>
+</ol>
+
+<blockquote>
+  <p><strong>[!warning] Watch out:</strong> The allergen card only shows allergens applicable to the item — it no longer lists all allergens with empty states. An absent allergen means not applicable, not missing or unknown.
+  <!-- Source: NXT-41275 AC: "Remove the grid based approach in favor of a simple label statement for each applicable Allergen Form"; transcript [22:42]–[23:10] -->
+  </p>
+</blockquote>
+
+<h2>Common mistakes</h2>
+<ul>
+  <li>
+    <strong>Skipping the serving-to-pack Sub-Qty link.</strong> Both rows must exist AND the
+    serving row must have a Sub-Qty. Without it the item is Inventory Ineligible.
+    <!-- Source: NXT-37441 AC: "Trigger Inventory readiness based on proper pack-serving links"; transcript [15:02]–[16:08] -->
+  </li>
+  <li>
+    <strong>Entering a short-ship quantity as Sub-Qty.</strong> According to the training
+    session, Sub-Qty must match the standard spec-sheet quantity, not an exception delivery.
+    <!-- Source: transcript [10:43]–[11:00] — presenter guidance; no AC source -->
+  </li>
+  <li>
+    <strong>Assuming a three-tier pack cap is a hard rule</strong> [TO VERIFY — stated by presenter at transcript [07:05]–[07:30]; not documented in NXT-37110 AC].
+    <!-- Source: transcript [07:05]–[07:30]; U2 in factcheck -->
+  </li>
+  <li>
+    <strong>Setting Yield Factor on the Ingredient Info card.</strong> Per NXT-47249 (Done Done), Yield Factor has moved to the Units card. Do not follow the presenter's Ingredient Info workflow — confirm with the product team.
+    <!-- Source: NXT-47249 AC: "Remove Yield Factor from Ingredient Info card (moved to Units)"; factcheck D1 HIGH severity -->
+  </li>
+  <li>
+    <strong>Looking for Taxable on the Students pricing tab.</strong> It appears only on the Adults tab — not the Students tab.
+    <!-- Source: NXT-58442 AC: "Only display the Taxable option when the Adult tab is selected on POS Pricing" -->
+  </li>
+</ul>
+
+<h2>Related content</h2>
+<ul>
+  <li>Serving sizes feed ingredient calculations in Recipes. [[link: Recipes module]]<!-- Source: transcript [13:25]–[13:52] — C3 --></li>
+  <li>Nutrient data drives nutrient analysis in Menu Planning. [[link: Menu Planning module]]<!-- Source: transcript [35:25]–[35:35] — C5 --></li>
+  <li>Marketing Name and Description display in Family Hub for parents. [[link: Family Hub module]]<!-- Source: transcript [26:15]–[26:48] — C6 --></li>
+  <li>Button Name and POS Entree flag control POS display and reimbursable meal tracking. [[link: POS module]]<!-- Source: transcript [25:28]–[27:12] — C7 --></li>
+  <li>Max Days and Leftover Category govern production record carryover. [[link: Production Records module]]<!-- Source: transcript [25:28]–[26:15] — C8 --></li>
+  <li>Inventory Info tab shows active vendor contracts (read-only) from the Inventory module. [[link: Inventory: Contract Items]]<!-- Source: transcript [32:05]–[32:40] — C2 --></li>
+  <li>Also in this module: <code>Images &amp; Documents</code> (up to 10 files, assign <code>Use As</code> type)<!-- Source: NXT-41273 RN: "Up to 10 files can be uploaded" -->; Nutrient Details (Vitamin A/C now optional)<!-- Source: NXT-43239 AC: "Vitamin A, Vitamin C...changed to optional" -->; Contribution Info (skip allowed)<!-- Source: NXT-30102 AC: "Allow user to 'skip for now'" -->; some unit settings lock after first Inventory transaction [TO VERIFY triggers]<!-- Source: NXT-54229 AC: "Long-term editing: changing sub-quantities" -->.</li>
+</ul>
+
+<h2>Sources</h2>
+<ul>
+  <li>NXT-30036 — Item card; Description required</li>
+  <li>NXT-30037 — Product Info dropdowns</li>
+  <li>NXT-35898 — Units card; Food/Non-Food; Fluid/Non-Fluid; serving + pack buttons</li>
+  <li>NXT-37110 — Pack sizes; Sub-Qty; Weight</li>
+  <li>NXT-37441 — Serving↔pack Sub-Qty link; Inventory eligibility <strong>(highest-priority)</strong></li>
+  <li>NXT-37568 — Costing (optional); FMV for Inventory readiness</li>
+  <li>NXT-37111 — Base Unit confirmation</li>
+  <li>NXT-33518 — Whole Numbers vs. Decimals</li>
+  <li>NXT-40778 — Merge prompt; dual-unit scenario (AC term: "Merge")</li>
+  <li>NXT-53530 — Inventory Readiness banner (always displayed)</li>
+  <li>NXT-41273 — Images &amp; Documents; 10-file limit (RN); Use As options</li>
+  <li>NXT-43239 — Nutrient Details; Vitamin A/C optional; nested auto-zero</li>
+  <li>NXT-30102 — Contribution Info; skip allowed</li>
+  <li>NXT-30103 — Allergen Info; independent of nutrients</li>
+  <li>NXT-41275 — Allergen form priority; label-based display</li>
+  <li>NXT-24128 — Custom Allergen config; slide-out fields; duplicate validation</li>
+  <li>NXT-39594 — Menu Item tab<!-- AC: "Create a Menu Item tab" only; V27 corrected --></li>
+  <li>NXT-30155 — POS Info tab; Show on POS → POS attributes + Pricing; Students/Adults tabs</li>
+  <li>NXT-58442 — Taxable: Adults tab only</li>
+  <li>NXT-54229 — Long-term editing restrictions after Inventory use</li>
+  <li>NXT-47249 — Yield Factor moved to Units card (D1 HIGH — Ingredient Info workflow omitted)</li>
+  <li>Transcript: 2026-05-28, Sarah Chen (Implementation Specialist). Timestamps inline. REC-2026-0515-IM-001.</li>
+</ul>
+
+</body>
+</html>

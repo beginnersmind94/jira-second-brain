@@ -1,0 +1,21 @@
+EPIC NXT-19209 | [Done Done] Eligibility - General Enhancements (R4)
+Module: Eligibility
+
+## Epic Description
+This epic will house any UI/UX enhancement needs that come up which, while not a part of the normal R4 requirements, can/should still be taken in within R4 when additional capacity becomes available.
+
+## Child stories (14)
+  NXT-19302 | [Done Done] [Story] [P:Medium] [RN:-] Eligibility - Applications - Add support for Student Benefits search
+  NXT-19828 | [Done Done] [Enhancement] [P:Medium] [RN:-] Eligibility - Forms - Applications - Replace vertical stepper with horizontal stepper
+  NXT-19876 | [Done Done] [Enhancement] [P:Medium] [RN:-] Eligibility - Matched - Include siblings in count, add Match Method column & filter
+  NXT-19956 | [Done Done] [Enhancement] [P:Medium] [RN:-] Eligibility - Income Surveys - Add Survey - Check if previous Survey or DC has been applied to students added
+  NXT-20207 | [Done Done] [Enhancement] [P:Medium] [RN:-] Eligibility- Income Eligibility Guidelines/Eligibility Reports - Rename pages
+  NXT-20622 | [Done Done] [Enhancement] [P:Medium] [RN:-] Income Survey - Add Survey - Comment/Review steps - Add Signature area
+  NXT-20766 | [Done Done] [Enhancement] [P:Medium] [RN:-] Eligibility - DC Matching - Update match threshold UI/UX in Configuration & Potential Matches pages
+  NXT-21325 | [Done Done] [Enhancement] [P:Medium] [RN:-] Eligibility - Various - Use new Find/Add Student design from Income Surveys
+  NXT-21330 | [Done Done] [Enhancement] [P:Medium] [RN:-] Eligibility - Dashboard/Insights - Add widgets for Income Surveys
+  NXT-21331 | [Done Done] [Enhancement] [P:Medium] [RN:-] Elgibility - Nav/Page UI - Rename/Re-order certain pages
+  NXT-22047 | [Done Done] [Story] [P:Medium] [RN:-] Eligibility-Eligibility summary numbers do not match (QA Testing required)
+  NXT-22751 | [Done Done] [Enhancement] [P:Medium] [RN:-] Eligibility - Various - Part 2 - Use new Find/Add Student design from Income Surveys
+  NXT-22842 | [Done Done] [Enhancement] [P:Medium] [RN:-] Eligibility - Reports - Eco. Disadvantaged Rpt. - Add special report views to include Application data
+  NXT-23806 | [Done Done] [Enhancement] [P:Medium] [RN:-] Eligibility - Reports - Eco. Disadvantaged Rpt. - change access to report

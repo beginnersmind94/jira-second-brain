@@ -1,0 +1,98 @@
+<h1>Item Management: Learning Guide</h1>
+
+<h2>What This Module Does</h2>
+<p>Item Management is the system of record for every food and non-food item in SchoolCafé. Configurations set here flow directly into Inventory (ordering and receiving), Menu Planning (recipes and nutrient analysis), and POS (pricing) — meaning errors at this stage cascade downstream across all three modules.</p>
+```
+
+> **⚠ No citations available.** No citation IDs were supplied for this section, so no `[CITE:]` markers can be appended. All claims above are drawn verbatim from the provided content brief. A human editor should verify each statement against Jira AC or a transcript timestamp before this section moves to `review` status.
+
+<h2>Key Features</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>What it does</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Item Card</td>
+      <td>Captures core item details; brand, manufacturer, and product code are optional but recommended. <!-- Source: [[NXT-37111:DESC]] "Global Info (Brand, Manufacturer, Product Code) is always optional, but ideally available" --></td>
+    </tr>
+    <tr>
+      <td>Units Card – Pack Sizes</td>
+      <td>A combined Units grid replaces separate pack and serving sections, supporting multiple pack size units linked via Sub-Qty to establish a Base Unit. <!-- Source: [[NXT-35898:DESC]] "Combine Pack Size and Serving Measures section into a single cohesive section so that the pack-to-serving conversion is not entirely dependent on weight." --> <!-- Source: [[NXT-37110:AC]] "Provide the ability to add pack size units in the combined Units grid" --> <!-- Source: [[NXT-37110:AC]] "Bring attention to the appropriate Sub-Qty fields as required to link Pack Sizes" --> <!-- Source: [[NXT-37111:AC]] "Provide a step to confirm Inventory info, including the Base Unit" --></td>
+    </tr>
+    <tr>
+      <td>Units Card – Serving Sizes</td>
+      <td>Food and Fluid item flags gate serving size entry; answering No to "Food Item?" disables serving sizes entirely, while answering Yes to "Fluid Item?" switches measures to volume. <!-- Source: [[NXT-35898:AC]] "Provide Food item and Fluid item questions in the header bar of the card before enabling the grid" --> <!-- Source: [[NXT-35898:DESC]] "if No, disable Serving Sizes" --> <!-- Source: [[NXT-35898:DESC]] "if Yes, switch to ‘Volume’ for Serving Sizes" --></td>
+    </tr>
+    <tr>
+      <td>Serving-to-Pack Linking</td>
+      <td>When a serving size Amount equals 1, Sub-Qty can link it to the pack size base unit, making it inventory-eligible (food items only). <!-- Source: [[NXT-37441:AC]] "Provide Sub-Qty on the Serving Size row in valid scenarios" --> <!-- Source: [[NXT-37441:DESC]] "if the Serving Size is potentially inventory-able (Amount = 1), enable the Sub-Qty for the Serving Size row" --> <!-- Source: [[NXT-37110:DESC]] "Sub-Qty is for pack sizes, except the one case where serving size is linked to the base unit" --></td>
+    </tr>
+    <tr>
+      <td>Cost / Value</td>
+      <td>Replaces Fair Market Value; editable on all eligible pack and linked serving units. <!-- Source: [[NXT-35898:DESC]] "Cost / Value - the replacement field for Fair Market Value" --> <!-- Source: [[NXT-35898:DESC]] "this will now be editable on all eligible units (pack sizes and servings linked with sub-qty)" --></td>
+    </tr>
+    <tr>
+      <td>Inventory Readiness</td>
+      <td>A persistent status banner guides users through pack size configuration requirements; every scenario — including non-inventory — displays a dedicated banner. <!-- Source: [[NXT-53530:AC]] "Always display the inventory readiness banner" --> <!-- Source: [[NXT-53530:AC]] "there will be a status/banner for every scenario, including one for ‘Non-Inventory’ for Ineligible or Disabled" --> <!-- Source: [[NXT-53530:AC]] "Provide very clear messaging for each banner version" --></td>
+    </tr>
+    <tr>
+      <td>Nutrient / Contribution / Allergen Info</td>
+      <td>The item record includes nutrition, contribution, and allergen information tabs. <!-- Source: [[NXT-20654:AC]] "Nutrition Information" --> <!-- Source: [[NXT-20654:AC]] "Contribution Information" --> <!-- Source: [[NXT-20654:AC]] "Allergen Information" --></td>
+    </tr>
+    <tr>
+      <td>Custom Allergen Configuration</td>
+      <td>Authorized users can create district-level custom allergens from the Item Management configuration area; duplicates are blocked and deactivation is restricted while the allergen is in use. <!-- Source: [[NXT-24128:AC]] "A Custom allergens option is added under IM configuration area" --> <!-- Source: [[NXT-24128:DESC]] "As an authorized Nutrition service user I need a way to create custom allergen  in order to help identify items with allergens" --> <!-- Source: [[NXT-24128:AC]] "User should be able to deactivate Custom Allergen only if there are no items/recipes/menus using it" --> <!-- Source: [[NXT-24128:AC]] "Custom Allergen is Mandatory and no duplicates are allowed" --></td>
+    </tr>
+    <tr>
+      <td>Direct Menu Item</td>
+      <td>A menu item can be created directly with a mandatory name and category, and linked to one or more recipes. <!-- Source: [[NXT-20654:AC]] "Menu Item Name (Free Text Box)( #Mandatory)" --> <!-- Source: [[NXT-20654:AC]] "Menu Item Category (Drop Down)( #Mandatory)" --> <!-- Source: [[NXT-20654:AC]] "Menu Item - Recipes (This section is not mandatory but if Menu Item recipe is added then fields with asterisk/mandatory  need to be populated)" --></td>
+    </tr>
+    <tr>
+      <td>Item Images</td>
+      <td>A single image can be uploaded per menu item via a file selection prompt. <!-- Source: [[NXT-20654:AC]] "Menu Item Image (area for Image)" --> <!-- Source: [[NXT-20654:AC]] "Location/File selection option should be provided.  Only 1 image can be loaded" --></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Common Workflows</h2>
+<ul>
+  <li><strong>Create a non-food item:</strong> Save the Item Card, then open the Units Card and answer the Food Item prompt with No (which disables serving sizes). <!-- Source: [[NXT-35898:DESC]] "if No, disable Serving Sizes" --> Add all required pack tiers using the Add Pack action <!-- Source: [[NXT-37110:AC]] "Provide the ability to add pack size units in the combined Units grid" -->, link tiers via Sub-Qty <!-- Source: [[NXT-37110:AC]] "Bring attention to the appropriate Sub-Qty fields as required to link Pack Sizes" -->, then resolve any Missing Costing prompt and verify the Inventory Ready flag. <!-- Source: [[NXT-37110:AC]] "Build concept of Inventory Readiness for item status and create item flow logic" --></li>
+  <li><strong>Create a food item:</strong> Save the Item Card, then on the Units Card answer Food Item → Yes and Fluid Item → Yes/No (Fluid switches serving size measure to Volume). <!-- Source: [[NXT-35898:AC]] "Provide Food item and Fluid item questions in the header bar of the card before enabling the grid" --> Add a serving size first <!-- Source: [[NXT-35898:AC]] "Provide a button for adding a Serving Size unit" -->, then add pack tiers; link serving to a pack via Sub-Qty <!-- Source: [[NXT-37441:AC]] "Provide Sub-Qty on the Serving Size row in valid scenarios" --> or pack weight. <!-- Source: [[NXT-37441:AC]] "Emphasize Weight field for Pack Size base units when Sub-Qty is not used for linking" --> Resolve Missing Costing and confirm Inventory Readiness <!-- Source: [[NXT-37111:AC]] "Provide questions/prompts to complete the overall required fields for saving the initial Units card and proceeding to item creation" --> <!-- Source: [[NXT-53530:AC]] "Always display the inventory readiness banner" -->; optionally promote the serving to Base Unit <!-- Source: [[NXT-37111:AC]] "Provide a step to confirm Inventory info, including the Base Unit" -->, then complete any remaining nutrition, allergen, contribution, and pricing tabs.</li>
+  <li><strong>Add a custom allergen:</strong> Navigate to Item Management › Configuration › Item Configuration › Custom Allergens and select NEW. <!-- Source: [[NXT-24128:AC]] "A Custom allergens option is added under IM configuration area" --> Enter a unique description and select the Local data source (both mandatory, no duplicates allowed) <!-- Source: [[NXT-24128:AC]] "Custom Allergen is Mandatory and no duplicates are allowed" -->, save to return to the result grid <!-- Source: [[NXT-24128:AC]] "The newly added Custom Allergen is listed on the result grid" -->, then assign the allergen on the item's Allergen Info card.</li>
+</ul>
+
+<h2>Gotchas</h2>
+<ul>
+  <li>Complete all pack size tiers before addressing the costing step — the system executes required checks before enabling the official save, and the costing prompt is a deliberate completion check, not an error. <!-- Source: [[NXT-37111:DESC]] "Execute required checks before enabling official Save" --><!-- Source: [[NXT-37111:DESC]] "2. Prompt for Costing -" --></li>
+  <li>Pack size configuration supports up to three countable inventory units; the system's inventory readiness logic is built around a maximum of three tiers. <!-- Source: [[NXT-53530:AC]] "including for placeholder units, when the “# of countable inventory units” selection is 1, 2 or 3" --><!-- Source: [[NXT-37111:DESC]] "If there are fewer than 3 pack sizes and no inventory-able serving sizes linked (using sub-qty)" --></li>
+  <li>Once an item enters Inventory tables, the Base Unit choice is locked and cannot be changed — configure it correctly before first use. <!-- Source: [[NXT-37111:DESC]] "*Exception: this step/option is invalid once the item is in Inventory tables and Pack Size is locked" --></li>
+  <li>For food items, servings and pack sizes must be linked (via Sub-Qty or weight) to achieve Inventory readiness; unlinked items will be marked Inventory Ineligible. <!-- Source: [[NXT-37441:AC]] "Provide Sub-Qty on the Serving Size row in valid scenarios" --><!-- Source: [[NXT-37441:AC]] "Trigger Inventory readiness based on proper pack-serving links" --><!-- Source: [[NXT-37441:DESC]] "We will allow users to add pack units which are unlinked from servings, but these items will be Inventory Ineligible (Inventory Readiness)" --></li>
+  <li>Item categorizations are only required when Inventory is enabled, but fill them in at item creation anyway to avoid rework later. <!-- Source: [[NXT-37111:DESC]] "Item Categorizations are only required if Inventory is enabled" --></li>
+  <li>Custom allergens must be pre-created in the Item Management configuration area before they appear as selectable options on an item — they cannot be added inline from the item card. <!-- Source: [[NXT-24128:AC]] "A Custom allergens option is added under IM configuration area" --><!-- Source: [[NXT-24128:AC]] "Only can be added to user/district created data source (e.g. Local)" --></li>
+</ul>
+
+<h2>Where To Go Next</h2>
+<ul>
+  <li><strong>Inventory module</strong> — vendor contracts, receiving, and order management; the Inventory Info tab links directly to Contract Items configured here.</li>
+  <li><strong>Menu Planning module</strong> — recipes, menu grids, and nutrient analysis draw on serving sizes and nutrient data set up in Item Management.</li>
+  <li><strong>POS module</strong> — student and adult pricing entered here flows to cashier touchscreens.</li>
+</ul>
+<p>Quick-reference guides for creating non-food items and food items are available on the SchoolCafé support site; links will be provided by your implementation team.</p>
+```
+
+> **Editor note:** No citations were available for this section. All cross-module relationships and support-site references above are drawn solely from the scope brief supplied at generation time — not from a verified transcript timestamp or ticket AC. Please confirm each pointer against a source before publishing, and supply [CITE:] markers once tickets or transcript timestamps are mapped.
+
+<h2>Sources</h2>
+<ul>
+  <li><code>NXT-20654</code> —  IM- Menu Item Creation (1)</li>
+  <li><code>NXT-24128</code> — IM - Custom Allergen Configuration</li>
+  <li><code>NXT-35898</code> — IM - Items - Units - Card & Add Serving</li>
+  <li><code>NXT-37110</code> — IM - Items - Units - Pack Sizes & Sub-Qty</li>
+  <li><code>NXT-37111</code> — IM - Items - Units - Save & Continue - Inventory Ready</li>
+  <li><code>NXT-37441</code> — IM - Items - Units - Link Servings to Pack Size</li>
+  <li><code>NXT-53530</code> — IM - Items - Units - Inventory Readiness revised</li>
+</ul>

@@ -1,0 +1,98 @@
+<h1>Item Management: Learning Guide</h1>
+
+<h2>What This Module Does</h2>
+<p>Item Management is the system of record for all food and non-food items. Data entered here flows directly into Inventory, Menu Planning, and POS — errors at this layer propagate downstream, so accuracy in this module is foundational to every dependent workflow.</p>
+```
+
+> **Editorial note:** No citation IDs or transcript timestamps were supplied for this section. All factual claims above are drawn verbatim from the scope brief provided by the content planner. Before this draft moves to `review`, a human editor should confirm each claim traces to a verifiable source (transcript timestamp or ticket AC) and insert the appropriate `[CITE:]` markers. Uncited claims must be cut or marked `[TO VERIFY]` per the Citation Contract.
+
+<h2>Key Features</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>What it does</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Food / Non-food classification</td>
+      <td>Item header prompts whether the item is a food item and, if so, whether it is a fluid item, controlling which unit fields are enabled.<!-- Source: [[NXT-35898:AC]] "Provide Food item and Fluid item questions in the header bar of the card before enabling the grid" --></td>
+    </tr>
+    <tr>
+      <td>Units card (pack size &amp; serving sizes)</td>
+      <td>A single combined card manages all pack size tiers and serving sizes in one place, supporting up to three unit tiers.<!-- Source: [[NXT-35898:AC]] "Provide the new Units card in the item creation header which is the combination of the pack size and serving size sections" --><!-- Source: [[NXT-30046:AC]] "Allow users to configure up to 3 units" --></td>
+    </tr>
+    <tr>
+      <td>Automatic cost &amp; weight scaling</td>
+      <td>Fair Market Value is entered only on the highest unit and calculated for lower tiers; weight is entered only on the lowest unit and calculated upward via sub-quantity.<!-- Source: [[NXT-30046:AC]] "Users only enter Fair Market Value on the highest unit; it is calculated for others" --><!-- Source: [[NXT-30046:AC]] "Users only enter Weight on the smallest unit; it is calculated for others" --></td>
+    </tr>
+    <tr>
+      <td>GTIN per unit</td>
+      <td>Each unit row accepts a GTIN, which must be unique across all items.<!-- Source: [[NXT-30046:DESC]] "GTIN - 14 digit numeric value (optional)" --><!-- Source: [[NXT-30046:DESC]] "GTIN should be unique for all items" --></td>
+    </tr>
+    <tr>
+      <td>Nutrient Details</td>
+      <td>Redesigned card with condensed layout, nested-nutrient auto-zero rules, and updated optional/required field logic.<!-- Source: [[NXT-43239:RN]] "The Nutrient Details card has been updated on all types within Item Management. The card has been redesigned to better utilize available space, and some functional enhancements have been made. Vitamin A and Vitamin C are now considered optional for nutrient entry, and leaving them blank will automatically enable the Is Missing option. Similarly, Moisture and Ash have been made optional and the Is Missing option has been removed, as these nutrients are generally not provided on labels. Data entry and error handling have also received some usability improvements." --></td>
+    </tr>
+    <tr>
+      <td>Allergen Info — standard</td>
+      <td>View mode displays only applicable allergens grouped by form (Contains, Processed, May Contain, Free From) with color-coded icons.<!-- Source: [[NXT-41275:AC]] "Remove the grid based approach in favor of a simple label statement for each applicable Allergen Form" --></td>
+    </tr>
+    <tr>
+      <td>Allergen Info — custom</td>
+      <td>District admins can create and manage custom allergens via the IM configuration area; custom allergens appear after standard allergens.<!-- Source: [[NXT-24128:AC]] "A Custom allergens option is added under IM configuration area" --><!-- Source: [[NXT-41275:AC]] "show custom allergens after standard allergens" --></td>
+    </tr>
+    <tr>
+      <td>Contribution Info</td>
+      <td>Contribution information is captured on items and carries through to menu items.<!-- Source: [[NXT-20654:AC]] "Contribution Information" --></td>
+    </tr>
+    <tr>
+      <td>Menu Info / Direct Menu Item</td>
+      <td>Items can be flagged and configured directly as menu items, including serving size, category, recipe links, and marketing fields.<!-- Source: [[NXT-20654:AC]] "Menu Item creation should consist of:" --></td>
+    </tr>
+    <tr>
+      <td>Images &amp; Documents</td>
+      <td>Replaces the previous images-only card; supports typed image roles (Ingredient, Inventory, Menu) and typed documents such as CN Labels and Buy American Exemption Letters.<!-- Source: [[NXT-41273:RN]] "All item types within the Item Management module have been updated with a new Images & Documents feature, which replaces the previous Images-only card. Images & Documents is the top right card on each details page, and clicking the expand icon will display a drawer panel with a file upload tool. Up to 10 files can be uploaded with any combination of supported file types. Once images and documents are uploaded, they can be assigned with 'Use As' options in the table section below the upload tool. For image files, these Use As options include Preferred Image options for each Ingredient, Inventory, and Menu uses. These Preferred Image flags will determine which image is selected as the primary image when using that item in various sub-type contexts, such as displaying the Preferred Inventory Image when using the Ordering function. For both image and document files, there are document labels that can be assigned for tracking purposes, such as CN Label, Product Formulation Statement, or Buy American Exemption Letter." --><!-- Source: [[NXT-41273:AC]] "Buy American Exemption Letter" --></td>
+    </tr>
+    <tr>
+      <td>Inventory Ready / Base Unit flag</td>
+      <td>A guided confirmation step establishes which unit is the smallest inventory-able unit and sets the Base Unit before the Units card is saved.<!-- Source: [[NXT-37111:AC]] "Provide a step to confirm Inventory info, including the Base Unit" --></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Common Workflows</h2>
+<ul>
+  <li><strong>Non-food item creation:</strong> Create the Item card → configure Units/pack sizes (up to three tiers, entering weight on the lowest unit and cost on the highest) <!-- Source: [[NXT-30046:AC]] "Allow pack size configuration to be saved as long as there is a description, weight and FMV (for one or multiple units)" --> <!-- Source: [[NXT-30046:AC]] "Users only enter Fair Market Value on the highest unit; it is calculated for others" --> <!-- Source: [[NXT-30046:AC]] "Users only enter Weight on the smallest unit; it is calculated for others" --> → confirm costing → add GTIN if applicable <!-- Source: [[NXT-30046:DESC]] "GTIN - 14 digit numeric value (optional)" --> → publish.</li>
+  <li><strong>Food item creation:</strong> Create the Item card → open the Units card and answer the Food Item / Fluid Item questions <!-- Source: [[NXT-35898:AC]] "Provide Food item and Fluid item questions in the header bar of the card before enabling the grid" --> → add serving sizes and pack sizes <!-- Source: [[NXT-35898:AC]] "After questions, load the grid with Add Serving Size and Add Pack Size actions (based on question input)" --> → link servings to packs via sub-quantity <!-- Source: [[NXT-35898:DESC]] "Sub-Qty - a field used to link pack size units, and in some rare cases, used to link a serving size to a pack size base unit" --> → confirm inventory readiness and base unit <!-- Source: [[NXT-37111:AC]] "Provide a step to confirm Inventory info, including the Base Unit" --> → complete costing <!-- Source: [[NXT-37111:DESC]] "2. Prompt for Costing -" --> → enter Nutrient Info → enter Allergen Info → complete Menu Info and POS Pricing.</li>
+  <li><strong>Create a custom allergen:</strong> Navigate to the Custom Allergens option in IM Configuration <!-- Source: [[NXT-24128:AC]] "A Custom allergens option is added under IM configuration area" --> → open the slide-out card, enter a unique description, select the Local data source, and save <!-- Source: [[NXT-24128:AC]] "Custom Allergen Description [Free text box]" --> <!-- Source: [[NXT-24128:AC]] "Data Source [Dropdown box that list available data sources to the user] [Local]" -->; the new allergen appears in the result grid immediately <!-- Source: [[NXT-24128:AC]] "The newly added Custom Allergen is listed on the result grid" -->.</li>
+  <li><strong>Add a Direct Menu Item with HACCP steps:</strong> Add a new Menu Item from the Menu Items landing page <!-- Source: [[NXT-20654:AC]] "Menu Item → Menu Items Landing Page → Add Button → Menu Item" --> → complete the required fields (name, category, serving size and measure) <!-- Source: [[NXT-20654:AC]] "Menu Item Name (Free Text Box)( #Mandatory)" --> <!-- Source: [[NXT-20654:AC]] "Menu Item Category (Drop Down)( #Mandatory)" --> <!-- Source: [[NXT-20654:AC]] "Serving Size (Box) ( #Mandatory )" --> → attach recipe links if needed <!-- Source: [[NXT-20654:AC]] "ADD NEW Menu Item - Recipe Link" --> → add HACCP steps and control points before saving.</li>
+</ul>
+
+<h2>Gotchas</h2>
+<ul>
+  <li>Item categorizations are only required if Inventory is enabled — but populate them before first use to avoid blocking an inventory workflow later. <!-- Source: [[NXT-37111:DESC]] "Item Categorizations are only required if Inventory is enabled" --></li>
+  <li>Pack size hierarchy is capped at 3 tiers. <!-- Source: [[NXT-30046:AC]] "Allow users to configure up to 3 units" --> Enter Fair Market Value on the highest unit only and Weight on the lowest unit only — the system calculates the rest. <!-- Source: [[NXT-30046:AC]] "Users only enter Fair Market Value on the highest unit; it is calculated for others" --> <!-- Source: [[NXT-30046:AC]] "Users only enter Weight on the smallest unit; it is calculated for others" --></li>
+  <li>Pack size configuration locks once the item enters Inventory tables — set the Base Unit correctly the first time. <!-- Source: [[NXT-37111:DESC]] "*Exception: this step/option is invalid once the item is in Inventory tables and Pack Size is locked" --></li>
+  <li>Custom allergens must be created in IM Configuration before they can be assigned to any item. <!-- Source: [[NXT-24128:AC]] "A Custom allergens option is added under IM configuration area" --></li>
+</ul>
+
+<h2>Where To Go Next</h2>
+<ul>
+  <li><strong>Inventory module</strong> — covers receiving, ordering, and vendor contract details.</li>
+  <li><strong>Menu Planning module</strong> — covers adding items to menus and recipes.</li>
+  <li><strong>SchoolCafé support site</strong> — quick-reference guides are available for non-food items and food items separately.</li>
+</ul>
+
+<h2>Sources</h2>
+<ul>
+  <li><code>NXT-20654</code> —  IM- Menu Item Creation (1)</li>
+  <li><code>NXT-24128</code> — IM - Custom Allergen Configuration</li>
+  <li><code>NXT-30046</code> — IM - Items - Create New Item - Product Info - Pack Size Config (Step 3)</li>
+  <li><code>NXT-35898</code> — IM - Items - Units - Card & Add Serving</li>
+  <li><code>NXT-37111</code> — IM - Items - Units - Save & Continue - Inventory Ready</li>
+  <li><code>NXT-41273</code> — IM - Items/Recipes/Menu Items - Images & Documents</li>
+  <li><code>NXT-41275</code> — IM - All Types - Nutrient Info - Allergens Card Redesign</li>
+  <li><code>NXT-43239</code> — IM - Items/Recipes/Menu Items - Nutrient Details updates</li>
+</ul>

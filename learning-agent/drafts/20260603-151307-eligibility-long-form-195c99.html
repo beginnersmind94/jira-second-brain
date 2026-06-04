@@ -1,0 +1,470 @@
+<h1>Eligibility: Learning Guide</h1>
+
+<h2>Overview</h2>
+
+<p>
+  The <strong>Eligibility</strong> module is the back-office system staff use to process Free and Reduced-price Eligibility (FRE) applications, income surveys, and annual verification cycles. [TO VERIFY: confirm exact module name and feature scope against Jira AC before publish]
+</p>
+
+<p>
+  It is <em>distinct</em> from the Family Hub portal, which is the parent-facing interface. Eligibility is the staff-side counterpart: reviewers work here, not in Family Hub.
+</p>
+
+<h3>Core responsibilities</h3>
+<ul>
+  <li>Receiving and adjudicating FRE applications [TO VERIFY]</li>
+  <li>Administering income surveys [TO VERIFY]</li>
+  <li>Running and recording annual verification [TO VERIFY]</li>
+  <li>Maintaining records required for USDA compliance [TO VERIFY]</li>
+</ul>
+
+<p>
+  Because eligibility status is a federally regulated determination, the module is designed to support audit trails and compliance reporting aligned with USDA program rules. [TO VERIFY: cite specific USDA rule references from AC when available]
+</p>
+
+<blockquote>
+  <strong>Note for editor:</strong> No Jira citation IDs were available at generation time. Every [TO VERIFY] marker above must be resolved against Jira AC before this section moves to <code>review</code> status. Do not publish with open markers.
+</blockquote>
+
+<h2>Roles & Permissions</h2>
+
+<p>Three roles interact with the Eligibility module. Each role has a defined scope of action; certain destructive or status-changing operations are restricted to the most senior role.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Role</th>
+      <th>Primary Responsibility</th>
+      <th>Elevated Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Eligibility Director</td>
+      <td>Oversees the full eligibility pipeline; reviews escalations and exception cases</td>
+      <td>Delete an application; mark an applicant as No Response [TO VERIFY]</td>
+    </tr>
+    <tr>
+      <td>Application Processor</td>
+      <td>Owns intake and initial data entry for incoming applications</td>
+      <td>None documented — cannot perform elevated actions [TO VERIFY]</td>
+    </tr>
+    <tr>
+      <td>Verification Officer</td>
+      <td>Reviews and validates supporting documentation submitted with applications</td>
+      <td>None documented — cannot perform elevated actions [TO VERIFY]</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Key permission boundary:</strong> Actions that permanently alter or close an application record — including deletion and the No Response designation — require the Eligibility Director role. Processors and Verification Officers performing routine intake and review work within a narrower permission set. [TO VERIFY — specific action boundaries need confirmation against Jira AC before publish.]</p>
+
+<div data-type="panel-warning">
+  <p><strong>Note for editor:</strong> No ticket citations were available for this section. All role-to-action mappings above are drawn from scope parameters only and must be verified against Acceptance Criteria before this draft is promoted to review.</p>
+</div>
+
+<h2>Prerequisites</h2>
+
+<p>Before beginning work in the Eligibility module each school year, one system setting must be reviewed and confirmed. Skipping this step can cause income surveys to be processed incorrectly before the season opens.</p>
+
+<h3>Auto-Process Income Surveys setting</h3>
+
+<p>A system setting governs whether online income surveys are automatically processed after submission. <!-- Source: [[NXT-70380:RN]] "A new system setting has been added, *_Auto-Process all Income Surveys_*, which will allow greater flexibility over if and when to automatically process a survey that has been submitted online." --> Confirm the value is appropriate for your district's workflow before applications go live.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Setting value</th>
+      <th>What happens to submitted surveys</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Yes</strong></td>
+      <td>All surveys are auto-processed regardless of student match status. <!-- Source: [[NXT-70380:DESC]] "*** When setting value is ‘_Yes’_, there is no change in functionality (continue the current functionality of processing all income surveys)" --></td>
+    </tr>
+    <tr>
+      <td><strong>No</strong></td>
+      <td>No surveys are auto-processed; all remain in a pending state. <!-- Source: [[NXT-70380:DESC]] "*** When set to ‘_No’_, do not auto-process any surveys (surveys will always have the status of ‘Pending’)" --></td>
+    </tr>
+    <tr>
+      <td><strong>Only if all students identified</strong> (default)</td>
+      <td>Only surveys where every listed student is matched are auto-processed. <!-- Source: [[NXT-70380:DESC]] "*** When set to ‘_Only if all students identified’_, only process income surveys where all students on income survey are matched/identified." --></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The default value is set to the most conservative option. <!-- Source: [[NXT-70380:DESC]] "*** Default Setting value: *Only if all students identified*" --> If your district changed this setting in a prior year, verify it is still correct before the new year begins. <!-- Source: [[NXT-70380:AC]] "Verify new setting has been added and each value functions as described above" --></p>
+
+<p>Note: manually entered income surveys are not affected by this setting — manual entry behavior remains unchanged regardless of which option is selected. <!-- Source: [[NXT-70380:AC]] "Verify manual entry behavior is unchanged" --></p>
+
+<h2>Workflow: Adding and Submitting an Application</h2>
+
+<p>Application entry follows a fixed seven-section wizard. Complete each section in order before moving to the next; the wizard does not allow skipping ahead.</p>
+
+<h3>The Seven-Section Wizard</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Section</th>
+      <th>Key actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td>Students</td><td>Identify the student(s) tied to this application</td></tr>
+    <tr><td>2</td><td>Benefits</td><td>Select the benefit type(s) being applied for</td></tr>
+    <tr><td>3</td><td>Household Members</td><td>Add all members; enter household size manually if auto-count is overridden</td></tr>
+    <tr><td>4</td><td>Contact Info</td><td>Verify or enter contact details for the household</td></tr>
+    <tr><td>5</td><td>Details</td><td>Provide case number (required) and any supplemental information</td></tr>
+    <tr><td>6</td><td>Review</td><td>Confirm all entries before submission; last chance to edit</td></tr>
+    <tr><td>7</td><td>Submit</td><td>Enter SSN and signature certification; set Received Date</td></tr>
+  </tbody>
+</table>
+
+<h3>Rules to Know Before You Start</h3>
+
+<ul>
+  <li><strong>Categorical status override:</strong> A confirmed categorical status can be manually overridden to unconfirmed (or vice versa). Use this only when documentation conflicts with the system-resolved status. [TO VERIFY — confirm exact field label and permission level required]</li>
+  <li><strong>Manual household size:</strong> If the system count does not reflect the actual household, enter the size directly in the Household Members section. [TO VERIFY — confirm whether this triggers a supervisor flag]</li>
+  <li><strong>Case number:</strong> Required. The wizard will not advance past the Details section without a valid case number.</li>
+</ul>
+
+<h3>Submit Section — What's Required</h3>
+
+<ul>
+  <li><strong>SSN</strong> — must be entered at submission; not collected in earlier sections.</li>
+  <li><strong>Signature certification</strong> — staff certify that the household member signed the application.</li>
+  <li><strong>Received Date</strong> — the date the physical or digital application was received. This field drives turnaround-time calculations, so accuracy is critical; backdating or leaving it blank affects compliance reporting. [TO VERIFY — confirm exact turnaround window tied to this field]</li>
+</ul>
+
+<p><em>Note: No Jira citation IDs were available for this section. All product-behavior claims above are drawn from the section scope and are marked [TO VERIFY] where specific field behavior could not be independently confirmed. A human editor should verify against current AC before publishing.</em></p>
+
+<h2>Workflow: Managing and Processing Applications</h2>
+
+<h3>The Applications Page</h3>
+<p>The Applications page organises work across three tabs <!-- Source: transcript 00:00 -->:</p>
+<ul>
+  <li><strong>ALL</strong> — every application regardless of state</li>
+  <li><strong>Pending Applications</strong> — submitted applications awaiting a decision</li>
+  <li><strong>Pending Students</strong> — applicants whose student status requires resolution before processing can continue</li>
+</ul>
+<p>Use the filter controls at the top of the page to narrow results before acting <!-- Source: transcript 00:00 -->.</p>
+
+<h3>Per-Application Actions</h3>
+<p>Each row exposes two icon actions — <strong>View</strong> (open the application record) and <strong>History</strong> (audit trail of prior activity) — plus a full action menu <!-- Source: transcript 00:00 -->:</p>
+
+<table>
+  <thead>
+    <tr><th>Action</th><th>Key behaviour</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Process Application</td><td>A comment is required before the decision can be saved <!-- Source: transcript 00:00 --></td></tr>
+    <tr><td>Notify</td><td>Sends a notice using a multilingual template; staff select the template language before sending <!-- Source: transcript 00:00 --></td></tr>
+    <tr><td>Refuse Benefits</td><td>Available under More Actions; formally denies the application <!-- Source: transcript 00:00 --></td></tr>
+    <tr><td>Delete</td><td>Also under More Actions; triggers a prior-eligibility rollback if eligibility was previously granted <!-- Source: transcript 00:00 --></td></tr>
+    <tr><td>Add to Verification</td><td>Routes the application into a verification workflow <!-- Source: transcript 00:00 --></td></tr>
+    <tr><td>Application Image</td><td>Displays the scanned or uploaded application document <!-- Source: transcript 00:00 --></td></tr>
+    <tr><td>Export</td><td>Downloads application data <!-- Source: transcript 00:00 --></td></tr>
+  </tbody>
+</table>
+
+<h3>Batch Processing Mode</h3>
+<p>Select multiple applications and choose <strong>Process</strong> to enter batch mode <!-- Source: transcript 00:00 -->. Navigate between records using <strong>Previous</strong> and <strong>Next</strong>. To stop mid-batch without losing completed decisions, use <strong>Process Application &amp; Quit</strong> <!-- Source: transcript 00:00 -->.</p>
+
+<h2>Workflow: Handling Pending Students</h2>
+
+<p>The Pending Students tab surfaces applications where a student record could not be automatically matched to a SIS account. Three matching scenarios are supported: system single-match, system multiple-match, and manual match.<!-- Source: [[NXT-66798:DESC]] "** System single matches." --><!-- Source: [[NXT-66798:DESC]] "** System multiple matches." --><!-- Source: [[NXT-66798:DESC]] "** Manual matches." --> In every scenario, the outcome is the same — the pending student is linked to an actual account record.<!-- Source: [[NXT-66798:DESC]] "* All scenarios link a Pending Student to an actual Account (personid)" --></p>
+
+<h3>Steps</h3>
+<ol>
+  <li><strong>Find Matches</strong> — Run the automated search from the tab. Contextual instruction text is provided on the tab, in the View window, and as a success message to orient you at each stage.<!-- Source: [[NXT-66798:AC]] "* User can see instruction text on the Pending Students tab, the View window, and a Success message when matching" --></li>
+  <li><strong>Review candidates</strong> — When multiple candidates are returned, a Match button appears for each one.<!-- Source: [[NXT-66798:RN]] "* *Match* buttons are available if multiple students are available to link against the Pending student." --> The Compare Details view shows each candidate's status (Active or Inactive)<!-- Source: [[NXT-66798:DESC]] "**** Show Active or Inactive" --> and their eligibility along with the qualifying basis.<!-- Source: [[NXT-66798:DESC]] "**** Show Free/Reduced/Paid and Basis" --><!-- Source: [[NXT-66798:RN]] "* Status and Eligibility have been added to the Match Details screen for improved clarity." --></li>
+  <li><strong>Select one candidate</strong> — Exactly one candidate must be selected to proceed.<!-- Source: [[NXT-66798:AC]] "** User must select 1 of the potential matches to proceed" --> A link is created at the point of selection.<!-- Source: [[NXT-66798:AC]] "* Links are created when a potential match is found" --> If you need to change your selection, you can remove the linked student and re-select.<!-- Source: [[NXT-66798:AC]] "* User can remove a linked student" --></li>
+  <li><strong>Process Matches</strong> — Click Process Matches to commit the selection. Application Details are not updated until this step is explicitly taken — searching or editing a match alone does not update the application.<!-- Source: [[NXT-66798:AC]] "* Application Details is only updated after Process Matches is executed" --><!-- Source: [[NXT-66798:DESC]] "** Application Details should *not* be updated as part of the search / manual matching." --><!-- Source: [[NXT-66798:RN]] "* Application Details are only updated after *Process Matches* is clicked." --> After processing, the student is linked to the application and their eligibility is updated accordingly.<!-- Source: [[NXT-66798:AC]] "** student is linked to the app" --><!-- Source: [[NXT-66798:AC]] "** student eligibility updated accordingly" --></li>
+</ol>
+
+<h3>Scenario reference</h3>
+<table>
+  <thead>
+    <tr><th>Scenario</th><th>What to watch for</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>System single-match</td><td>One candidate returned; review and proceed to Process Matches.<!-- Source: [[NXT-66798:DESC]] "** System single matches." --></td></tr>
+    <tr><td>System multiple-match</td><td>Match button appears per candidate; select exactly one before processing.<!-- Source: [[NXT-66798:AC]] "* User can complete Pending Student matches with multiple results" --><!-- Source: [[NXT-66798:RN]] "* *Match* buttons are available if multiple students are available to link against the Pending student." --></td></tr>
+    <tr><td>Manual match</td><td>Use manual search or Edit to locate and link the record when auto-match finds nothing.<!-- Source: [[NXT-66798:DESC]] "** Manual matches." --></td></tr>
+  </tbody>
+</table>
+
+<h2>Workflow: Adding and Processing Income Surveys</h2>
+
+<p>Income surveys for Special Provision Program districts are submitted online and then processed by the system. The key system behavior to understand before adding surveys is how auto-processing is controlled — this determines whether a submitted survey moves to a processed status automatically or waits in a pending queue.</p>
+
+<h3>Auto-Processing Behavior</h3>
+
+<p>A system setting governs whether submitted online income surveys are automatically processed. <!-- Source: [[NXT-70380:RN]] "A new system setting has been added, *_Auto-Process all Income Surveys_*, which will allow greater flexibility over if and when to automatically process a survey that has been submitted online." --> The setting offers three values:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Setting Value</th>
+      <th>What Happens to a Submitted Survey</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Yes</td>
+      <td>All online surveys are auto-processed (existing behavior preserved). <!-- Source: [[NXT-70380:DESC]] "*** When setting value is ‘_Yes’_, there is no change in functionality (continue the current functionality of processing all income surveys)" --></td>
+    </tr>
+    <tr>
+      <td>No</td>
+      <td>No surveys are auto-processed; all remain in Pending status. <!-- Source: [[NXT-70380:DESC]] "*** When set to ‘_No’_, do not auto-process any surveys (surveys will always have the status of ‘Pending’)" --></td>
+    </tr>
+    <tr>
+      <td>Only if all students identified</td>
+      <td>Surveys auto-process only when every student on the survey is matched and identified. <!-- Source: [[NXT-70380:DESC]] "*** When set to ‘_Only if all students identified’_, only process income surveys where all students on income survey are matched/identified." --></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The default value for new environments is <strong>Only if all students identified</strong>. <!-- Source: [[NXT-70380:DESC]] "*** Default Setting value: *Only if all students identified*" --> This default prevents surveys with unmatched students from being silently auto-processed. <!-- Source: [[NXT-70380:DESC]] "* Currently, surveys without identified students (students with missing required info like IDs) are still being auto-processed under certain conditions. Though the student does get marked as being pending." --></p>
+
+<h3>Manual Entry Is Unaffected</h3>
+
+<p>This setting applies to online survey submissions only. Manually entered income surveys follow their existing processing path regardless of the setting value. <!-- Source: [[NXT-70380:DESC]] "** Manual entry of income surveys is unchanged." --></p>
+
+<h3>Key Takeaway</h3>
+
+<ul>
+  <li>Check the auto-process setting <em>before</em> a survey intake period begins — a value of <strong>No</strong> means all surveys will require manual processing.</li>
+  <li>If surveys are stacking in Pending status unexpectedly, the setting value is the first place to check.</li>
+</ul>
+
+<h2>Workflow: Scheduling Verification Sampling</h2>
+
+<h3>Reading the Sampling Page</h3>
+<p>The Sampling page now surfaces two date columns that clarify exactly which snapshot your sample reflects. <!-- Source: [[NXT-68256:RN]] "* The Sampling page has some new columns. We will now show you the selected application and student count dates." --></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Column</th>
+      <th>What it represents</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Application Count Date</td>
+      <td>Equals the Final Sample Date entered during scheduling. <!-- Source: [[NXT-68256:DESC]] "** Application Count Date = Final Sample Date" --></td>
+    </tr>
+    <tr>
+      <td>Student Count Date</td>
+      <td>Equals the Verification Collection Date entered during scheduling. <!-- Source: [[NXT-68256:DESC]] "** Student Count Date = Collection Date" --></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>These are two distinct dates — do not treat them as interchangeable.</p>
+
+<h3>CEP Sites Inclusion</h3>
+<p>When the <strong>Include CEP Sites</strong> system setting is enabled, sample generation and application selection now fully incorporate special provision sites. <!-- Source: [[NXT-68256:AC]] "** Sample generation + app selection includes special provision sites" --> This corrects a gap where the setting existed but did not extend to the special provision cases. <!-- Source: [[NXT-68256:RN]] "* Include CEP Sites system setting, if enabled, will now include CEP sites for sample generation and application selection. This was added last year, but did not fully incorporate the special provision sites." --></p>
+
+<h3>Saving the Collection Report</h3>
+<p>The Verification Collection Report displays live data — numbers shift as eligibility is backdated, so a point-in-time copy matters. <!-- Source: [[NXT-68256:RN]] "* The Verification Collection Report can now be saved. This will store a copy of the report in our system for retrieval at any time. Numbers on the report can shift as eligibility is backdated, so be sure to save a copy!" --> Use the <strong>Save</strong> button to store a permanent copy. <!-- Source: [[NXT-68256:AC]] "** PDF button replaced with a Save button." --> <!-- Source: [[NXT-68256:AC]] "** Save Report feature added, stores a backup in blob" --></p>
+
+<p>Saved copies appear in a grid below the report. <!-- Source: [[NXT-68256:AC]] "** Grid added to show saved reports." --> Each row shows:</p>
+<ul>
+  <li><strong>Generation Date</strong> — when the copy was saved <!-- Source: [[NXT-68256:AC]] "*** Columns: Generation Date, User, Actions" --></li>
+  <li><strong>User</strong> — who saved it <!-- Source: [[NXT-68256:AC]] "*** Columns: Generation Date, User, Actions" --></li>
+  <li><strong>Actions</strong> — View (opens PDF preview) or Download <!-- Source: [[NXT-68256:AC]] "*** Actions: View, Download" --> <!-- Source: [[NXT-68256:AC]] "*** View should preview the PDF, Download will download it" --></li>
+</ul>
+
+<h2>Workflow: Managing Verification Tracking</h2>
+
+<h3>Sampling Page</h3>
+<p>The Sampling page now surfaces additional date context to help staff evaluate sample timing at a glance.<!-- Source: [[NXT-68256:AC]] "* New columns in Sampling page" --> The two new columns reflect:</p>
+<ul>
+  <li><strong>Application Count Date</strong> — the Final Sample Date.<!-- Source: [[NXT-68256:DESC]] "** Application Count Date = Final Sample Date" --></li>
+  <li><strong>Student Count Date</strong> — the Collection Date.<!-- Source: [[NXT-68256:DESC]] "** Student Count Date = Collection Date" --></li>
+</ul>
+
+<h3>Verification Collection Report</h3>
+<p>The report displays live data; backdating eligibility can shift the numbers over time.<!-- Source: [[NXT-68256:DESC]] "*** {noformat}This report shows live data. Backdating eligibility can adjust these numbers over time. To download a copy of the report, please click on Save. This will store a copy in the grid below. {noformat}" --> To capture a point-in-time snapshot, use the Save button (which replaced the former PDF button).<!-- Source: [[NXT-68256:AC]] "** PDF button replaced with a Save button." --> Saving stores a copy in the system for later retrieval.<!-- Source: [[NXT-68256:AC]] "** Save Report feature added, stores a backup in blob" --></p>
+
+<p>Saved copies appear in a grid below the report.<!-- Source: [[NXT-68256:AC]] "** Grid added to show saved reports." --></p>
+
+<table>
+  <thead>
+    <tr><th>Column</th><th>Action</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Generation Date</td><td rowspan="2">View (PDF preview) · Download<!-- Source: [[NXT-68256:AC]] "*** Actions: View, Download" --><!-- Source: [[NXT-68256:AC]] "*** View should preview the PDF, Download will download it" --></td></tr>
+    <tr><td>User<!-- Source: [[NXT-68256:AC]] "*** Columns: Generation Date, User, Actions" --></td></tr>
+  </tbody>
+</table>
+
+<h3>CEP Sites in Sample Generation</h3>
+<p>When the Include CEP Sites system setting is enabled, students from CEP sites are included in sample generation and application random-selection.<!-- Source: [[NXT-68256:DESC]] "** If the setting is on, we need to include the CEP Sites rather than exclude them for sample creation and application random-select." --> This also extends their inclusion into Sections 3 and 4 of the Collection Worksheet, which normally exclude these counts.<!-- Source: [[NXT-68256:DESC]] "** Update setting description: If enabled, this setting will include students from CEP Sites for Section 3 and 4 of the Collection Worksheet. Normally these counts are excluded from this section of the report. It will also include applications for students at CEP sites for sample creation and selection." --></p>
+
+<div data-type="panel-info">
+  <p><strong>Note:</strong> The CEP Sites fix was originally released in a prior season but did not fully incorporate special provision sites at that time.<!-- Source: [[NXT-68256:RN]] "* Include CEP Sites system setting, if enabled, will now include CEP sites for sample generation and application selection. This was added last year, but did not fully incorporate the special provision sites." --> Confirm the setting is enabled before generating your sample.<!-- Source: [[NXT-68256:AC]] "* Include CEP Sites setting updated" --></p>
+</div>
+
+<h2>Key Fields & Statuses</h2>
+
+<p>The Eligibility module surfaces specific fields across applications, student matching, and verification. Knowing each field's behavior prevents common processing errors.</p>
+
+<h3>Match Details: Status &amp; Eligibility</h3>
+<p>The Match Details screen displays two informational fields for every candidate student account. <!-- Source: [[NXT-66798:RN]] "* Status and Eligibility have been added to the Match Details screen for improved clarity." --></p>
+<ul>
+  <li><strong>Status</strong> — indicates whether the student account is Active or Inactive. <!-- Source: [[NXT-66798:DESC]] "**** Show Active or Inactive" --></li>
+  <li><strong>Eligibility</strong> — displays the current determination (Free / Reduced / Paid) together with its basis. <!-- Source: [[NXT-66798:DESC]] "**** Show Free/Reduced/Paid and Basis" --> A student with categorical eligibility through DC Medicaid, for example, displays as <em>Free (DC MEDICAID)</em>. <!-- Source: [[NXT-66798:DESC]] "***** Example: Free (DC MEDICAID)" --></li>
+</ul>
+
+<h3>Application Details: When the Field Updates</h3>
+<p>Application Details do <strong>not</strong> update during search or manual matching. <!-- Source: [[NXT-66798:AC]] "* Application Details is only updated after Process Matches is executed" --> The fields commit only after <strong>Process Matches</strong> is clicked. <!-- Source: [[NXT-66798:RN]] "* Application Details are only updated after *Process Matches* is clicked." --></p>
+
+<h3>Sampling Page Date Columns</h3>
+<p>Two date columns on the Sampling page clarify when counts were captured. <!-- Source: [[NXT-68256:RN]] "* The Sampling page has some new columns. We will now show you the selected application and student count dates." --></p>
+
+<table>
+  <thead>
+    <tr><th>Column</th><th>Corresponds to</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Application Count Date</td><td>Final Sample Date <!-- Source: [[NXT-68256:DESC]] "** Application Count Date = Final Sample Date" --></td></tr>
+    <tr><td>Student Count Date</td><td>Collection Date <!-- Source: [[NXT-68256:DESC]] "** Student Count Date = Collection Date" --></td></tr>
+  </tbody>
+</table>
+
+<h3>Verification Collection Report Fields</h3>
+<p>The report reflects live data; backdating eligibility can shift the numbers displayed over time. <!-- Source: [[NXT-68256:RN]] "* The Verification Collection Report can now be saved. This will store a copy of the report in our system for retrieval at any time. Numbers on the report can shift as eligibility is backdated, so be sure to save a copy!" --> Saving a copy stores a fixed snapshot for later retrieval. <!-- Source: [[NXT-68256:AC]] "** Save Report feature added, stores a backup in blob" --> Each saved record shows the generation date, the generating user, and options to view or download the PDF. <!-- Source: [[NXT-68256:AC]] "*** Columns: Generation Date, User, Actions" --> <!-- Source: [[NXT-68256:AC]] "*** Actions: View, Download" --></p>
+
+<h3>CEP Sites Inclusion Setting</h3>
+<p>When enabled, this setting includes students from CEP sites in both sample generation and application selection. <!-- Source: [[NXT-68256:AC]] "** Sample generation + app selection includes special provision sites" --></p>
+
+<h2>Reports &amp; Outputs</h2>
+
+<p>The Eligibility module produces several outputs used for audit, compliance, and verification tracking. Recent updates affect two key areas: the Verification Collection Report and the Sampling page.</p>
+
+<h3>Verification Collection Report</h3>
+
+<p>This report displays live data, which means figures can shift as eligibility is backdated after generation. <!-- Source: [[NXT-68256:RN]] "* The Verification Collection Report can now be saved. This will store a copy of the report in our system for retrieval at any time. Numbers on the report can shift as eligibility is backdated, so be sure to save a copy!" --> To guard against this drift, the previous PDF button has been replaced with a <strong>Save</strong> button. <!-- Source: [[NXT-68256:AC]] "** PDF button replaced with a Save button." --> Clicking Save stores a point-in-time copy of the report for later retrieval. <!-- Source: [[NXT-68256:AC]] "** Save Report feature added, stores a backup in blob" --></p>
+
+<p>A grid below the report lists all saved copies with the following columns: <!-- Source: [[NXT-68256:AC]] "*** Columns: Generation Date, User, Actions" --></p>
+
+<ul>
+  <li><strong>Generation Date</strong> — when the snapshot was created</li>
+  <li><strong>User</strong> — who generated it</li>
+  <li><strong>Actions</strong> — View or Download <!-- Source: [[NXT-68256:AC]] "*** Actions: View, Download" --></li>
+</ul>
+
+<p><strong>View</strong> opens a PDF preview in the browser; <strong>Download</strong> saves the file locally. <!-- Source: [[NXT-68256:AC]] "*** View should preview the PDF, Download will download it" --></p>
+
+<h3>Sampling Page — New Columns</h3>
+
+<p>The Sampling page now surfaces two additional date columns to reduce manual cross-referencing. <!-- Source: [[NXT-68256:RN]] "* The Sampling page has some new columns. We will now show you the selected application and student count dates." --></p>
+
+<table>
+  <thead>
+    <tr><th>Column</th><th>Mapped value</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Student Count Date</td><td>Collection Date <!-- Source: [[NXT-68256:DESC]] "** Student Count Date = Collection Date" --></td></tr>
+    <tr><td>Application Count Date</td><td>Final Sample Date <!-- Source: [[NXT-68256:DESC]] "** Application Count Date = Final Sample Date" --></td></tr>
+  </tbody>
+</table>
+
+<h3>CEP Sites Inclusion</h3>
+
+<p>When the <em>Include CEP Sites</em> system setting is enabled, sample generation and application selection now correctly incorporate special provision sites. <!-- Source: [[NXT-68256:AC]] "** Sample generation + app selection includes special provision sites" --> This corrects a gap where the setting existed but did not fully apply to those sites. <!-- Source: [[NXT-68256:RN]] "* Include CEP Sites system setting, if enabled, will now include CEP sites for sample generation and application selection. This was added last year, but did not fully incorporate the special provision sites." --></p>
+
+<h2>Exceptions & Troubleshooting</h2>
+
+<h3>Known Bugs</h3>
+
+<p>Three defects were called out during the training session. Check the table below before raising a new support ticket.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Issue</th>
+      <th>Ticket</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Verification Details page does not show the first notification date <!-- Source: [[NXT-72801:DESC]] "* The 1st notification date is missing in SchoolCafe." --> and the uploaded document is not accessible from that page. <!-- Source: [[NXT-72801:DESC]] "* The document isn't available in SchoolCafe." --></td>
+      <td>NXT-72801</td>
+      <td>In progress — do not rely on this page to confirm notification or document receipt until resolved.</td>
+    </tr>
+    <tr>
+      <td>Post-Verification section on the Verification Details page shows the wrong basis value. <!-- Source: [[NXT-72805:DESC]] "Eligibility - The basis (Income) info is wrong in the Post-Verification section on the verification details page." --> Cross-check the application record directly.</td>
+      <td>NXT-72805</td>
+      <td>On hold.</td>
+    </tr>
+    <tr>
+      <td>Verification Tracking Form was missing the selection method field <!-- Source: [[NXT-72806:DESC]] "* The info about the selection method is missing." --> and showed incorrect student and household member counts. <!-- Source: [[NXT-72806:DESC]] "* The number of students on the app and household members is wrong." --></td>
+      <td>NXT-72806</td>
+      <td>Fixed — regenerate the form after upgrading if you are on an older build.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Surveys Stuck in Pending</h3>
+
+<p>If online income surveys remain in a Pending status unexpectedly, the auto-process system setting controls this behavior. <!-- Source: [[NXT-70380:RN]] "A new system setting has been added, *_Auto-Process all Income Surveys_*, which will allow greater flexibility over if and when to automatically process a survey that has been submitted online." --> Three values are available. <!-- Source: [[NXT-70380:DESC]] "** Options: Yes/No/Only if all students identified" --> The default processes surveys only when every student on the survey has been identified. <!-- Source: [[NXT-70380:DESC]] "*** Default Setting value: *Only if all students identified*" --> Setting it to process none means surveys will always stay in Pending until manually actioned. <!-- Source: [[NXT-70380:DESC]] "*** When set to ‘_No’_, do not auto-process any surveys (surveys will always have the status of ‘Pending’)" --> Manual survey entry is not affected by this setting regardless of the value chosen. <!-- Source: [[NXT-70380:DESC]] "** Manual entry of income surveys is unchanged." --></p>
+
+<h3>Open Items</h3>
+
+<p>Several questions raised during the session — including combined case number handling, sample size overrides, and system-actor logging for auto follow-ups — could not be confirmed against available documentation. These are marked <strong>[TO VERIFY]</strong> and should be resolved with a subject-matter expert before the guide moves to published status.</p>
+
+<h2>Related Content</h2>
+
+<p>The Eligibility module connects to several adjacent areas. Use the resources below after completing this guide.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Resource</th>
+      <th>Why it matters to Eligibility staff</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Family Hub Training</strong></td>
+      <td>Covers the parent-facing online application portal. Applications submitted through Family Hub flow into the Eligibility queue, so staff benefit from understanding the intake side.</td>
+      <td>Scheduled separately</td>
+    </tr>
+    <tr>
+      <td><strong>Direct Certification Workflows</strong></td>
+      <td>Covers DC extensions and address-matching processes. A companion workflow to manual eligibility determination.</td>
+      <td>See DC module guide</td>
+    </tr>
+    <tr>
+      <td><strong>Eligibility Configuration</strong></td>
+      <td>Where administrators set income guideline thresholds, adverse action timing, and auto-processing behavior. Staff who only process applications may not need this, but leads and admins should review it.</td>
+      <td>Admin audience</td>
+    </tr>
+    <tr>
+      <td><strong>Student Management — SIS Imports</strong></td>
+      <td>Students must exist in the system before pending applications can be matched. Review SIS import workflows if your site sees frequent unmatched-student errors.</td>
+      <td>See Student Management guide</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Suggested reading order for new staff:</strong> Student Management → Eligibility (this guide) → Direct Certification → Family Hub.</p>
+
+<h2>Sources</h2>
+<ul>
+  <li><code>NXT-66798</code> — Elig - Apps - Pending Students with multiple matches</li>
+  <li><code>NXT-68256</code> — Elig - Verification - 2026 QoL Updates, Include CEP Setting Update</li>
+  <li><code>NXT-70380</code> — Elig./FH - Income Surveys - Add New Setting to stop auto-processing Surveys with Unidentified Students</li>
+  <li><code>NXT-72801</code> — Dilworth District Migration - Eligibility -  Notification date and Documents on verification details page</li>
+  <li><code>NXT-72805</code> — Dilworth District Migration - Eligibility -  Basis info is incorrect in Post-Verification section on verification details page</li>
+  <li><code>NXT-72806</code> — Dilworth District Migration - Eligibility -  Verification Tracking Form</li>
+</ul>

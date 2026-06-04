@@ -1,0 +1,725 @@
+{
+  "module": "Account Management",
+  "captured_at": "from-csv:Perseus Jira (5).csv",
+  "tickets": {
+    "NXT-63746": {
+      "key": "NXT-63746",
+      "summary": "FO - Year begin data generation using SQL job",
+      "status": "Done Done",
+      "issuetype": "Tech-Debt",
+      "priority": "Medium",
+      "components": [
+        "Account Management",
+        "Eligibility"
+      ],
+      "module": "Account Management",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Year begin data generation using SQL job",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-63804": {
+      "key": "NXT-63804",
+      "summary": "FO Modules - Need to use the activeDistrict.attributes.regionId property from local storage",
+      "status": "Done Done",
+      "issuetype": "Task",
+      "priority": "Medium",
+      "components": [
+        "Accountability",
+        "Account Management",
+        "Eligibility"
+      ],
+      "module": "Account Management",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Platform team made changes to read the regionId for the api calls from the local Storage. So they have removed the userRegion from the local Storage, so inplace of that we need to use the activeDistrict.attributes.regionId.\n\n\n\nWe need to update this everywhere in our modules.",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-65290": {
+      "key": "NXT-65290",
+      "summary": "Regression - In Items per page data is not displaying correctly",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Account Management"
+      ],
+      "module": "Account Management",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "In Account Management->Advance page\nIn items per page select 100 then 100 records are displaying click on account details again click on back button\nNavigate to advance page in items per page it is displaying as 10 instead of 100 but in grid 100 records are displaying\n\n\n!accnt.mp4|width=1440,height=860,alt=\"accnt.mp4\"!",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-65322": {
+      "key": "NXT-65322",
+      "summary": "UAT - The refund was processed through a check while reviewing transactions, instead of displaying as \"Refund check ,\" it is showing as \"Refund cash.\"",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Account Management"
+      ],
+      "module": "Account Management",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "The refund was processed through a check while reviewing transactions, instead of displaying as \"Refund check ,\" it is showing as \"Refund cash.\"\n\n!Check.mp4|width=1440,height=860,alt=\"Check.mp4\"!\n\n!image-20250808-095444.png|width=1598,height=884,alt=\"image-20250808-095444.png\"!",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-65549": {
+      "key": "NXT-65549",
+      "summary": "Regression - Acct Mgmt > PIN number field issues",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Account Management"
+      ],
+      "module": "Account Management",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Please verify these scenarios on Add Student, Add Adult, Edit Student and Edit Adult pages\n\n+Scenario 1:+\n\n# Set the PIN type setting = User Account ID\n!image-20250813-182844.png|width=652,height=186,alt=\"image-20250813-182844.png\"!\n# Add a new student page > Enter the ID number (Ex: 123) and press tab\n# PIN number filed (Ex: 123) is filled with ID Number, that is correct\n# Change the PIN number (Ex: 456)\n# Go back to ID number field and press tab\n# System changed the PIN number (EX: 123) back to ID number\n\n+Scenario 2:+ \n\n# PIN Number field > Try to remove the existing number\n# Place the cursor in PIN number field\n# Press the backspace button\n# Unable to delete the last character\n\n\n\nFD# [[#290613] Sage International Middleton Campus - Pins : Cybersoft PrimeroEdge|https://primeroedge.freshdesk.com/a/tickets/290613]",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-66038": {
+      "key": "NXT-66038",
+      "summary": "AcctMgt - Accounts - Excel export update for Barcode fields",
+      "status": "Done Done",
+      "issuetype": "Story",
+      "priority": "Medium",
+      "components": [
+        "Account Management"
+      ],
+      "module": "Account Management",
+      "rn_required": "External Only",
+      "rn_title": "Barcodes on the Account Management Excel Export",
+      "ac": "* Barcode columns export to excel with the ID surrounded in * symbols\n** Example: ID 12345 \u2192 *12345*\n* Nice to have: barcode font used for the data in those columns",
+      "rn": "The export off of the Accounts grid has been updated to have the Code 39 barcode font used by default for barcode columns.\n\n*Please note:* You need to have the Code 39 barcode font on your computer in order for these to show as a scannable barcode. They will otherwise show as follows: *12345678* \n\nYou may need to work with your IT team to install the font. A link to the font is available on the ID Cards page within the Account Management module.",
+      "rn_internal": "",
+      "desc": "Export the Accounts grid to Excel with the 3 barcode columns, they look like this:\n\n{noformat}'12345{noformat}\n\n*requirements*\n\n* Change the format to send the number surrounded by * symbols\n\n{noformat}*12345*{noformat}\n\n* Nice to have: code these to use font Code 39. May not be possible.",
+      "epic_key": "105530",
+      "epic_summary": "FO - Sustenance (2025-26)"
+    },
+    "NXT-66047": {
+      "key": "NXT-66047",
+      "summary": "Regression - Acct Mgmt - Student eligibility entry overlapping with other entry",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Account Management"
+      ],
+      "module": "Account Management",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Steps to reproduce:\n\n# Accounts page > Open a student who already blocked from dc matches\n# Account Info page > Eligibility Benefits section\n!image-20250828-195504.png|width=2077,height=423,alt=\"image-20250828-195504.png\"!\n# Uncheck the \u2018Block student from direct certification matches for the remainder of the school year.\u2019 check box and click Save button\n# New eligibility entry is added\n!image-20250828-195647.png|width=2091,height=414,alt=\"image-20250828-195647.png\"!\n# Check the \u2018Block student from direct certification matches for the remainder of the school year.\u2019 check box and click Save button\n# Now the dates are overlapping\n!image-20250828-195919.png|width=2092,height=504,alt=\"image-20250828-195919.png\"!",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-67094": {
+      "key": "NXT-67094",
+      "summary": "Regression - In Account Management->Notifications click on outreach error code is displaying",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Account Management"
+      ],
+      "module": "Account Management",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "In Account Management->Notifications click on outreach error code is displaying\n\n!image-20251007-105105.png|width=669,alt=\"image-20251007-105105.png\"!",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-67407": {
+      "key": "NXT-67407",
+      "summary": "Elig - Apps - Controls for Automatic Pending Apps",
+      "status": "Done Done",
+      "issuetype": "Story",
+      "priority": "Medium",
+      "components": [
+        "Account Management"
+      ],
+      "module": "Account Management",
+      "rn_required": "External Only",
+      "rn_title": "New Controls Added for Pending Applications",
+      "ac": "* New settings page added\n** Name: Form Settings\n** Location: Between Eligibility Descriptions and Optional Benefits\n* User can see all Automatic Pending Reasons for applications (View Permission)\n* User can control them (Edit Permission)\n* Role permission for updating these\n** Provide it to the usual roles: Director, Central Office, SchoolCafe Admin, Internal Roles\n** View and Edit",
+      "rn": "We have added the ability to control the scenarios that lead to an online application being parked as pending. You can toggle the variety of reasons on or off with the new Form Settings page.\n\nThis was requested by districts who wanted the ability to let certain scenarios passthru for automatic approval purposes.\n\nAll directors and central office staff should have access to the new page with this update. If you don\u2019t, check the Roles and Permissions page in the System module.",
+      "rn_internal": "",
+      "desc": "As Dana the Director I am using FRE Apps for all my CEP sites as my state requires us to still process apps. Right now, all apps at CEP sites are going into Pending, which means I have to manually process them.\n\n*requirements*\n\n* Add a Configuration page to allow the user to see all Automatic Pending Reasons for applications\n** Page name: Form Settings\n* User can turn off Automatic Pending Reasons\n* If a pending reason is turned off - proceed with the application as normal.\n* Manual Entry workflows will not be changed as part of this - only Online app submission.\n\n||*Description*||*Actions*||\n| |Toggle|\n| | |\n\nText string for the top of the page:\n\n{noformat}This page lets you control scenarios where an online application, with automatic processing, may be parked as pending. \n\nFor example, applications with students at CEP sites are typically moved to Pending as they are not usually processed. But if you turn that option off, they will be processed per usual and will not be in Pending Applications.{noformat}",
+      "epic_key": "105530",
+      "epic_summary": "FO - Sustenance (2025-26)"
+    },
+    "NXT-68136": {
+      "key": "NXT-68136",
+      "summary": "Regression -  In the Notifications section, under Outreach, clicking on \"Notify\" display is not displaying as expected.",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Account Management"
+      ],
+      "module": "Account Management",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "In Notifications->Outreach in site code select as ALL click on apply\nIn Grid data is displaying select 21 count from the list click on notify it is displaying as 21\nNow select one site click on apply in grid 2 results are displaying now click on select all two items selected\nClick on notify it is displaying as 23 instead of 2\n\n!Data.mp4|width=669,alt=\"Data.mp4\"!",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-68690": {
+      "key": "NXT-68690",
+      "summary": "Regression - In Account Management->Accounts->Advance page in Grid sorting is not working",
+      "status": "Rejected",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Account Management"
+      ],
+      "module": "Account Management",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "*Test Steps*\nClick on Account Management\nClick on Accounts->Advance page click on Apply\nIn Grid check filter controls .Verify filter controls\n\n*Expected Result*\nGrid data is displaying correctly but sorting filter controls are not working correctly\n\n*Actual Result*\nSorting filter controls not working correctly\n\n\n!SchoolCaf\u00e9 - Account Management - Google Chrome 2025-11-28 15-17-00.mp4|width=669,alt=\"SchoolCaf\u00e9 - Account Management - Google Chrome 2025-11-28 15-17-00.mp4\"!",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-68989": {
+      "key": "NXT-68989",
+      "summary": "Regression - Outreach - Recurring Notice > Grade and Eligibility selection issues",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Account Management"
+      ],
+      "module": "Account Management",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "+Scenario 1:+\n\n# Account Management - Notifications - Outreach\n# Click Scheduler button\n# Enter the data and save the configuration\n# \"gradeIds\" info is incorrect in payload (\"gradeIds\":[8094,8095,8096,8097,8098,8099,8100,8101,8102,8103,8104,8105,8106,8107,8108,8109,12477,12774])\n\nFor same scenario, system is sending an empty array (\"gradeIds\":[]) in payload when Apply or Notify All button is clicked.\n\n+Scenario 2:+\n\n# Account Management - Notifications - Outreach\n# Create a recurrence job with Patron Type = Adult\n# Recurring Notices tab > Try to edit the above created job\n# Edit recurrence page > change the Patron type = All\n# The behavior of Eligibility dropdown on edit page is not same as outreach tab\n\n+Scenario 3:+\n\n# Account Management - Notifications - Outreach\n# Click Apply button and then click Notify All\n# The email count is 143 on notify popup\n!image-20251212-174036.png|width=436,alt=\"image-20251212-174036.png\"!\n# Create a recurrent job with same criteria and verify the count\n!image-20251212-174334.png|width=894,alt=\"image-20251212-174334.png\"!\n\nConfiguration of recurrence job: \n\n{\"searchText\":\"\",\"sortFilters\":{\"sortColumn\":\"\",\"sortOrder\":0,\"pageNumber\":1,\"pageSize\":10},\"schoolIds\":[\"1C09275E-877F-48DB-AC32-99577EAC115F\",\"319B854E-013D-41C9-9E45-AE70BBC15E84\",\"E5672533-4856-4071-9A78-37602FFED755\",\"755BDDE6-65ED-478E-99B9-AE515F5A07C2\",\"84883523-82AD-40FD-81C9-9B503D9469D8\",\"0712D583-09EC-4009-BD1A-5105D7545DCB\",\"31B88429-2D04-4A63-9E7E-871FCD2C5A22\"],\"gradeIds\":[],\"patronType\":4,\"insightsSelectedValue\":0,\"status\":1,\"homeRoomsIds\":[],\"rostersIds\":[],\"priceTypeIds\":[3435,3436,3437,3438,3439,3440],\"month\":0,\"ages\":[],\"restrictionFilter\":0,\"firstName\":\"\",\"lastName\":\"\",\"accountId\":\"\",\"pin\":\"\",\"stateId\":\"\",\"phonenumber\":\"\",\"email\":\"\",\"addressLine1\":\"\",\"guardianFullName\":\"\",\"city\":\"\",\"birthDate\":\"\",\"belowValue\":0,\"aboveValue\":0,\"minValue\":0,\"maxValue\":0,\"isExcludeZeroValue\":false,\"isExcludeNoChargeValue\":false,\"cannotCharge\":2,\"columnFilters\":[],\"tagList\":[],\"templates\":[39329,53131,52802,53045],\"balanceCriteria\":{\"belowValue\":0,\"aboveValue\":0,\"all\":true,\"minValue\":0,\"maxValue\":0,\"isExcludeZeroValue\":true,\"isExcludeNoChargeValue\":false,\"selectBetween\":false,\"selectBelowValue\":false,\"selectAboveValue\":false},\"isHouseHoldType\":false}\n\nJob {{id: \"39515b87-7ee0-45ee-a72b-ccac14cb2c9d\"}}",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-69407": {
+      "key": "NXT-69407",
+      "summary": "QA- ADA- Account Management - Issues",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Account Management"
+      ],
+      "module": "Account Management",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Tested Account Management module found few issues added in doc once please check the attached doc\n\n[^Accnt Mngt ADA New issues (b2dd24ae-4197-45a9-b485-fa08e36641fe).docx]",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-69683": {
+      "key": "NXT-69683",
+      "summary": "Regression - Reminders/Outreach Notification > Inactive accounts are considered when household option is selected",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Account Management"
+      ],
+      "module": "Account Management",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "+Steps to reproduce:+\n\n# Account Management - Notifications - Outreach (or) reminders\n# Status filter = Active\n# Click Apply button and then click Notify All\n# For Individual letter format, the email count is 146 on notify popup\n!image-20260120-204850.png|width=533,alt=\"image-20260120-204850.png\"!\n# For Household letter format, the email count is 148 on notify popup\n!image-20260120-205000.png|width=460,alt=\"image-20260120-205000.png\"!\n# Inactive accounts are considered when household option is selected",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-69756": {
+      "key": "NXT-69756",
+      "summary": "Regression - Account Management - Notifications - Outreach page > Data is not loading in the grid",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Account Management"
+      ],
+      "module": "Account Management",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "|Environment: QA|\n|Release Number: 9.10.0|\n|Test Data: N/A|\n|District Info: Texas ISD|\n\n\u00a0\n\nSteps to reproduce:\n\n# Navigate Account Management module\n# Notifications page > click on Outreach tab\n# Showing the grid as below on Outreach tab\n!image-20260126-213739.png|width=1157,alt=\"image-20260126-213739.png\"!\n# Click on Reminders tab and then click on Outreach tab\n# Showing the grid as below on Outreach tab\n!image-20260126-213827.png|width=1157,alt=\"image-20260126-213827.png\"!\n# click on apply button\n# Data is not showed up in the grid\n!image-20260126-213915.png|width=1157,alt=\"image-20260126-213915.png\"!\n\nActual: Search results are not showed up in the grid\n\nExpected: Search results should be showed up in the grid",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-69759": {
+      "key": "NXT-69759",
+      "summary": "Regression - Account Management - Accounts- History logs are added to an adult account even if there is no change",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Account Management"
+      ],
+      "module": "Account Management",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "|Environment: QA|\n|Release Number: 9.10.0|\n|Test Data: Account ID - 3561002|\n|District Info: Texas ISD|\n\n\u00a0\n\nSteps to reproduce:\n\n# Navigate to Account Management module > Accounts page\n# Search for an adult account\n# click on account details action icon in the grid\n# Account info page is displayed\n# Click edit icon in summary section\n# Side drawer is opened\n# Don\u2019t do any changes,  just click on save button\n# Click History button on account info page\n# The following logs are added to the account\n!image-20260126-214806.png|width=1157,alt=\"image-20260126-214806.png\"!\n\nActual: history logs are added to an account even if there is no change\n\nExpected: History log should be added to an account only if there is a change",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-69775": {
+      "key": "NXT-69775",
+      "summary": "FO - Regression on existing district pages for Multi-Tenant",
+      "status": "Done Done",
+      "issuetype": "Task",
+      "priority": "Medium",
+      "components": [
+        "Accountability",
+        "Account Management",
+        "Eligibility",
+        "Financials"
+      ],
+      "module": "Account Management",
+      "rn_required": "Not Required",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "As Matt the Product Manager I want to be sure that existing district-level functionality remains intact and working as expected.\n\n* Setup a multi-tenant \u201cstate\u201d region with a handful of new districts under it.\n* Populate 3 new districts with FO data.\n* Confirm existing functionality works for all FO modules as:\n** a \u201cstate\u201d user visiting district regions\n** a \u201cdistrict\u201d user in their own region",
+      "epic_key": "105529",
+      "epic_summary": "FO - Multi-Tenant - Accountability"
+    },
+    "NXT-69778": {
+      "key": "NXT-69778",
+      "summary": "Regression - Account Management - Notifications - Outreach Recurrence Job > Generated letters count is incorrect",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Account Management"
+      ],
+      "module": "Account Management",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "|Environment: QA|\n|Release Number: 9.10.0|\n|Test Data: Recurrence Job ID - {{\"a25afc53-4602-44bc-835c-5a70559adb5e\"}}|\n|District Info: Texas ISD|\n\n\u00a0\n\nSteps to reproduce:\n\n# Navigate Account Management module\n# Notifications page > click on Outreach tab\n# Schedule a job with below criteria\n!image-20260127-201001.png|width=1201,alt=\"image-20260127-201001.png\"!\n# Job has run successfully\n# Verify the count of letters generated\n!image-20260127-201109.png|width=1132,alt=\"image-20260127-201109.png\"!\n\n\n\nActual Count: 17\n\nExpected Count: 3\n\n\n\nJob ID - {{\"a25afc53-4602-44bc-835c-5a70559adb5e\"}}\n\nconfiguration{{: \"{\\\"searchText\\\":\\\"\\\",\\\"sortFilters\\\":{\\\"sortColumn\\\":\\\"\\\",\\\"sortOrder\\\":0,\\\"pageNumber\\\":1,\\\"pageSize\\\":10},\\\"schoolIds\\\":[\\\"1C09275E-877F-48DB-AC32-99577EAC115F\\\",\\\"319B854E-013D-41C9-9E45-AE70BBC15E84\\\",\\\"E5672533-4856-4071-9A78-37602FFED755\\\",\\\"755BDDE6-65ED-478E-99B9-AE515F5A07C2\\\",\\\"84883523-82AD-40FD-81C9-9B503D9469D8\\\",\\\"0712D583-09EC-4009-BD1A-5105D7545DCB\\\",\\\"31B88429-2D04-4A63-9E7E-871FCD2C5A22\\\"],\\\"gradeIds\\\":[],\\\"patronType\\\":0,\\\"insightsSelectedValue\\\":0,\\\"status\\\":2,\\\"homeRoomsIds\\\":[],\\\"rostersIds\\\":[],\\\"priceTypeIds\\\":[3438],\\\"month\\\":3,\\\"ages\\\":[],\\\"restrictionFilter\\\":0,\\\"firstName\\\":\\\"\\\",\\\"lastName\\\":\\\"\\\",\\\"accountId\\\":\\\"\\\",\\\"pin\\\":\\\"\\\",\\\"stateId\\\":\\\"\\\",\\\"phonenumber\\\":\\\"\\\",\\\"email\\\":\\\"\\\",\\\"addressLine1\\\":\\\"\\\",\\\"guardianFullName\\\":\\\"\\\",\\\"city\\\":\\\"\\\",\\\"birthDate\\\":\\\"\\\",\\\"belowValue\\\":0,\\\"aboveValue\\\":0,\\\"minValue\\\":0,\\\"maxValue\\\":0,\\\"isExcludeZeroValue\\\":false,\\\"isExcludeNoChargeValue\\\":false,\\\"cannotCharge\\\":2,\\\"columnFilters\\\":[],\\\"tagList\\\":[],\\\"balanceCriteria\\\":{\\\"belowValue\\\":0,\\\"aboveValue\\\":0,\\\"minValue\\\":0,\\\"maxValue\\\":0,\\\"isExcludeZeroValue\\\":false,\\\"isExcludeNoChargeValue\\\":false,\\\"all\\\":true,\\\"selectBetween\\\":false,\\\"selectBelowValue\\\":false,\\\"selectAboveValue\\\":false},\\\"templates\\\":[39329,53131,52802,53045],\\\"isHouseHoldType\\\":false}\"}}\n\nname{{: \"OR Adult 012726\"}}",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-70265": {
+      "key": "NXT-70265",
+      "summary": "Acct Mgmt - ID Cards - Update the template html code to generate a bar code",
+      "status": "Done Done",
+      "issuetype": "Task",
+      "priority": "Medium",
+      "components": [
+        "Account Management"
+      ],
+      "module": "Account Management",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "[https://primeroedge.freshdesk.com/a/tickets/311711|https://primeroedge.freshdesk.com/a/tickets/311711|smart-link]",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-70278": {
+      "key": "NXT-70278",
+      "summary": "QA -  While adding a new adult in the contact info page, the selected state is not displaying in the dropdown field.",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Account Management"
+      ],
+      "module": "Account Management",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "*Test Steps:*\nClick on Account Management -> Accounts\nClick on +New & Add Adult. Verify result.\nEnter adult information and click on next.\nNavigate to contact info page and click on next.\nOn this page, click on state field & select one state. Verify result.\n\n*Actual Result:*\nAdd Adult page is displaying\nSelected state is not displaying in the dropdown field\n\n*Expected Result:*\nAdd Adult page should display\nSelected state should display in the dropdown field",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-70493": {
+      "key": "NXT-70493",
+      "summary": "QA- Account Management -> Add Student -> In Site dropdown data is not displaying",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Account Management"
+      ],
+      "module": "Account Management",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Login with state credentials from there district dropdown select Central Bucks school click on continue\nNavigate to Account Management while adding new student site is not displaying \nOnce please check the attached video\n\n!Stud.mp4|width=669,alt=\"Stud.mp4\"!",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-70752": {
+      "key": "NXT-70752",
+      "summary": "QA - ADA - Notifications->House hold letters In actions click on view accessibility error is displaying",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Account Management"
+      ],
+      "module": "Account Management",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Notifications->House hold letters In actions click on view please verify this scenario in Reminders,outreach,Recurring Notices",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-70770": {
+      "key": "NXT-70770",
+      "summary": "Regression - Acct Mgmt - Notifications - Reminders (or) Outreach Recurrence Job > Generated letters count is incorrect when household option is selected",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Account Management"
+      ],
+      "module": "Account Management",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "+Steps to reproduce:+\n\n# Navigate Account Management module\n# Notifications page > click on Reminders (or) Outreach tab\n# Schedule a job with Letter Format = Single option\n!image-20260303-162912.png|width=1227,alt=\"image-20260303-162912.png\"!\n# Schedule an another job with Letter Format = Household option\n!image-20260303-162923.png|width=1227,alt=\"image-20260303-162923.png\"!\n# For Individual letter format, the generated count is 149 \n# For Household letter format,  the generated count is 151\n# Letters count is incorrect when household option is selected",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-70954": {
+      "key": "NXT-70954",
+      "summary": "Regression - Acct Mgmt - ID Cards - ID card does not print according to the selected template",
+      "status": "In Progress",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Account Management"
+      ],
+      "module": "Account Management",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "|Environment: QA|\n|Release Number: 9.12.0|\n|Test Data: Account ID - XXXX|\n|District Info: Texas ISD|\n\n+Steps to reproduce:+\n\n*Scenario 1: Issue with Avery 6572 Label - 15 Per Page*\n\n# Navigate to Account Management module > ID Cards\n# Select Print Settings = Avery 6572 Label - 15 Per Page\n# Select Template Layout = Avery 6572 Label - 15 Per Page\n# Search for accounts\n# select only one account from search results grid\n# Click Print button\n# ID Card is generated via Documents Center\n# Download the generated document\n# ID card does not print according to the selected template\n!image-20260309-164738.png|width=1035,alt=\"image-20260309-164738.png\"!\n# select two accounts from search results grid\n# Click Print button\n# ID Card is generated via Documents Center\n# Download the generated document\n# ID card does not print according to the selected template\n!image-20260309-164814.png|width=1100,alt=\"image-20260309-164814.png\"!\n# select three accounts from search results grid\n# Click Print button\n# ID Card is generated via Documents Center\n# Download the generated document\n# ID card printed according to the selected template\n!image-20260309-164901.png|width=1108,alt=\"image-20260309-164901.png\"!\n\n*Scenario 2: Same issue with Avery 8460 Label - 30 Per Page also*",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-70993": {
+      "key": "NXT-70993",
+      "summary": "Regression - Account Management - Changed values are not retained in edit summary section for adult account",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Account Management"
+      ],
+      "module": "Account Management",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "|Environment: QA|\n|Release Number: 9.12.0|\n|Test Data: Account ID - 3561002|\n|District Info: Texas ISD|\n\n\u00a0\n\nSteps to reproduce:\n\n# Navigate to Account Management module > Accounts page\n# Search for an adult account\n# click on account details action icon in the grid\n# Account info page is displayed\n# Click edit icon in summary section\n# Side drawer is opened\n!image-20260310-195732.png|width=1198,alt=\"image-20260310-195732.png\"!\n# Change the data after the PIN field (For example change the site and meal pricing info)\n!image-20260310-195645.png|width=1227,alt=\"image-20260310-195645.png\"!\n# Change the data in PIN field now\n# Site and Meal Pricing fields do not retain changed values\n!image-20260310-195824.png|width=1075,alt=\"image-20260310-195824.png\"!\n\n\n\nExpected: Changed values should be retained",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-71195": {
+      "key": "NXT-71195",
+      "summary": "Regression - In Account Management->Clear Account balances -> In Results page Adult data is not displaying",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Account Management"
+      ],
+      "module": "Account Management",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "*Test Steps*\nClick on Account Management->Clear Account balances\nSelect Patron Type as Adult click on Next. Verify Result\n\n*Actual Result*\nNo adult records are displaying in results page\n\n*Expected Result*\nAdult records should display in results page because we are having adult data\n\nOnce please check the attached video\n\n!Accnt Mngt.mp4|width=669,alt=\"Accnt Mngt.mp4\"!",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-71671": {
+      "key": "NXT-71671",
+      "summary": "Regression - Account Management - Accounts- System did not post an audit log when the roster changed",
+      "status": "Release Merge",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Account Management"
+      ],
+      "module": "Account Management",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "|Environment: QA|\n|Release Number: 9.13.0|\n|Test Data: Account ID - 16071687|\n|District Info: Texas ISD|\n\n\u00a0\n\nSteps to reproduce:\n\n# Navigate to Account Management module > Accounts page\n# Search for an student account that already assigned to one roster\n# click on account details action icon in the grid\n# Account info page is displayed\n# Click edit icon in summary section\n# Side drawer is opened\n# already account is assigned to one roster (Ex: Roster 1)\n# just change to different roster (Ex: Roster 2)\n# just click on save button\n# Click History button on account info page\n# The following logs are added to the account\n\n!image-20260403-192041.png|width=1201,alt=\"image-20260403-192041.png\"!",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-72682": {
+      "key": "NXT-72682",
+      "summary": "Dilworth District Migration - Acct Mgmt - Notification history and generated time",
+      "status": "In Progress",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Account Management"
+      ],
+      "module": "Account Management",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Account ID = 73991\n\n* The time the notification was generated doesn't match\n\nAccount ID = 74141\n\n* There are duplicate notifications showing up\n* The notification for the Student ID Card is missing.\n\nAccount ID = 53281\n\n* The notification entries are different.",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-72683": {
+      "key": "NXT-72683",
+      "summary": "Dilworth District Migration - Acct Mgmt - Multiple observations on Account Info",
+      "status": "In Progress",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Account Management"
+      ],
+      "module": "Account Management",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Multiple observations on Account Info\n\nAccount ID = 73991\n\n* State ID information is missing - Scrubbed\n* Home Phone number information is missing - Scrubbed\n* Work Phone number information is missing - Scrubbed\n* Email information is missing - Scrubbed\n* The address information doesn't match - Scrubbed\n* The user name showed for the transaction doesn't match: It\u2019s matching with what\u2019s in DB\n* The history logs have duplicate entries: Fixed\n\n\nAccount ID = 3727\n\n* The history logs aren't matching up",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-72777": {
+      "key": "NXT-72777",
+      "summary": "Dilworth District Migration - Acct Mgmt - Inactive Student accounts count",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Account Management"
+      ],
+      "module": "Account Management",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "The number of inactive student accounts in the SE module (PE) doesn't match the number in the POS module (PE).\n\nh3. \n\n!image-20260511-201716.png|width=532,alt=\"image-20260511-201716.png\"!",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-72794": {
+      "key": "NXT-72794",
+      "summary": "Acct Mgmt - Accounts - Fix Weekly Checkbox Display/Export",
+      "status": "In Progress",
+      "issuetype": "Enhancement",
+      "priority": "Medium",
+      "components": [
+        "Account Management"
+      ],
+      "module": "Account Management",
+      "rn_required": "External Only",
+      "rn_title": "",
+      "ac": "Verify that the Export is now fixed (or new option added) to properly display Weekly Checkboxes.",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "As a district admin, I would like a functional replacement in SchoolCaf\u00e9 for the Classic POS Roster report, so that I can provide this to all of my teachers who frequently breakfast-in-the-classroom and need a sheet to properly record meals each day.\n\n*Summary*\n\nIn Acct Mgmt \u2192 Accounts, the _Weekly Checkbox_ column option does not properly display when exported to Excel. Let\u2019s either fix this, or otherwise add a PDF export for the grid to go with the Excel export.\n\n*Background*\n\nIn the absence of a true POS Roster report, we funnel users to the grid on this page and ask them to use the Weekly Checkbox column. However, it appears to not function correctly. The default view has all options smashed together.\n\n!image-20260512-152801.png|width=969,alt=\"image-20260512-152801.png\"!\n\nReducing the screen width to 50% shows them correctly (unless I remove columns), but this section still does not display in the Excel export or by printing the screen.\n\n!image-20260512-152910.png|width=968,alt=\"image-20260512-152910.png\"!\n\n!image-20260512-181133.png|width=966,alt=\"image-20260512-181133.png\"!",
+      "epic_key": "23715",
+      "epic_summary": "Acct.Mgmt/Elig./FH - Misc. 2026 Work Items"
+    },
+    "NXT-72800": {
+      "key": "NXT-72800",
+      "summary": "Acct Mgmt - Accounts - Student Details - Add Race options for Middle Eastern or North African (MENA) and South Asian",
+      "status": "Testing",
+      "issuetype": "Enhancement",
+      "priority": "Medium",
+      "components": [
+        "Account Management",
+        "Family Hub"
+      ],
+      "module": "Account Management",
+      "rn_required": "External Only",
+      "rn_title": "Middle Eastern or North African (MENA) and South Asian Racial Identities Now Supported",
+      "ac": "* Verify that in a student's Demographics tab, in the Race field, we've added 2 new options to the drop-down:\n** Middle Eastern or North African (MENA)\u00a0\n** South Asian\n\n* Verify that these get properly handled--if possible--in case of a student import file containing them\u00a0(This may be handled in a separate story and can be checked again at that point)",
+      "rn": "Two new options, _Middle Eastern or North African (MENA)_ and _South Asian,_ have been added as potential selections in the Racial Identity field of an account\u2019s details. These options will also be available within applications, in the family portal and as a potential field in person imports in the near future.",
+      "rn_internal": "",
+      "desc": "As a district admin, I would like to have my student information data to reflect the new state and federal updates regarding collection of Race and Ethnicity data, so that I may be in compliance.\n\n\n\n*Details*\n\n* In Account Management \u2192 Accounts -> Student Details -> Summary section, in the Race field, add 2 new options to the drop-down:\n** Middle Eastern or North African (MENA)\u00a0\n** South Asian\n* Display all options in alphabetical order\n\n!image-20260512-182908.png|width=1066,alt=\"image-20260512-182908.png\"!\n\n\n\n*Mockup*\n\nN/A",
+      "epic_key": "23715",
+      "epic_summary": "Acct.Mgmt/Elig./FH - Misc. 2026 Work Items"
+    },
+    "NXT-73317": {
+      "key": "NXT-73317",
+      "summary": "Acct Mgmt - Accounts - Details - Display Form Notifications in Correspondence section",
+      "status": "Story Refinement/Efforting",
+      "issuetype": "Story",
+      "priority": "Medium",
+      "components": [
+        "Account Management",
+        "Eligibility"
+      ],
+      "module": "Account Management",
+      "rn_required": "Not Required",
+      "rn_title": "",
+      "ac": "Verify that any notification letter printed in Other Forms is then saved and visible in the student(s)'s Correspondence section in their Account Details",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "As a Cybersoft Implementation team member or district admin, I would like to be able to add Summer EBT (as well as any other non-traditional form) applications at a district-level with minimal steps, so that I do not have to use an external system just for this purpose.\n\n*Summary*\n\n* When a Form application is notified, display the letter history in the related student(s)'s Correspondence section in their Account Details.\n\n*Details*\n\n* In Eligibility > Forms > Other Forms, when a user has notified a household for a Form application, do the following in Account Management > Accounts, in the Account Details page for each student on that application:\n** In their Correspondence section, display the summary details of the emailed/printed letter\n** Display a View icon to open the historical notification\n*** Verify that it opens the specific letter template for that form\n*** Allow the user to print the letter again if needed\n\n\n*Mockups*\n\nN/A",
+      "epic_key": "105528",
+      "epic_summary": "SC - Forms Framework"
+    }
+  },
+  "epics": {
+    "105530": {
+      "key": "105530",
+      "summary": "FO - Sustenance (2025-26)",
+      "status": "?",
+      "issuetype": "Epic",
+      "priority": "-",
+      "components": [],
+      "module": "Account Management",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "",
+      "epic_key": "-",
+      "epic_summary": "",
+      "children": [
+        "NXT-66038",
+        "NXT-67407"
+      ]
+    },
+    "105529": {
+      "key": "105529",
+      "summary": "FO - Multi-Tenant - Accountability",
+      "status": "?",
+      "issuetype": "Epic",
+      "priority": "-",
+      "components": [],
+      "module": "Account Management",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "",
+      "epic_key": "-",
+      "epic_summary": "",
+      "children": [
+        "NXT-69775"
+      ]
+    },
+    "23715": {
+      "key": "23715",
+      "summary": "Acct.Mgmt/Elig./FH - Misc. 2026 Work Items",
+      "status": "?",
+      "issuetype": "Epic",
+      "priority": "-",
+      "components": [],
+      "module": "Account Management",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "",
+      "epic_key": "-",
+      "epic_summary": "",
+      "children": [
+        "NXT-72794",
+        "NXT-72800"
+      ]
+    },
+    "105528": {
+      "key": "105528",
+      "summary": "SC - Forms Framework",
+      "status": "?",
+      "issuetype": "Epic",
+      "priority": "-",
+      "components": [],
+      "module": "Account Management",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "",
+      "epic_key": "-",
+      "epic_summary": "",
+      "children": [
+        "NXT-73317"
+      ]
+    }
+  }
+}
