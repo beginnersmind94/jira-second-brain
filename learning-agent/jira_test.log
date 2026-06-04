@@ -1,0 +1,21 @@
+[live Jira, JQL: project = NXT AND text ~ "income survey wizard" ORDER BY updated DESC]
+
+NXT-36048 | [Done Done] [Epic] Onboarding - Welcome Questionnaire - Sync data, Hide irrelevant steps
+  components: Platform - System
+  desc: As a Cybersoft or district admin, I would like for users to be able to cut out parts of onboarding that are not relevant to a particular district, so that they may complete their onboarding wizard mor…
+
+NXT-45406 | [Done Done] [Enhancement] Onboarding - Add Welcome Questionnaire Part 2
+  components: Platform - System
+  desc: As a Cybersoft or district admin, I would like for users to be able to cut out parts of onboarding that are not relevant to a particular district, so that they may complete their onboarding wizard mor…
+
+NXT-36007 | [Done Done] [Story] District Onboarding - Feature Selection - Allow Front Office onboarding
+  components: Platform - System
+  desc: As an Onboarding user, I need an intuitive wizard that allows me to go through the steps required to set up all SchoolCafé Front Office modules, so that my district can begin utilizing the Front Offic…
+
+NXT-23524 | [Done Done] [Enhancement] Eligibility - Applications/Income Surveys - Students Step - Improve 'Other Students' messaging
+  components: Eligibility
+  desc: Summary This was feedback from the Release 4 Deep Dive meeting: In Applications/Income Surveys → Students, when adding a student that has other potential students to add who are in the same household,…
+
+NXT-22751 | [Done Done] [Enhancement] Eligibility - Various - Part 2 - Use new Find/Add Student design from Income Surveys
+  components: Eligibility
+  desc: As a district admin, I would like to be able to easily find or add a student  wherever possible (such as adding them to a manual application) without having to figure out a somewhat confusing UI, so t…

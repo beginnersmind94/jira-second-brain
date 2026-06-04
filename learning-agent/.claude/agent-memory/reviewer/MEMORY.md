@@ -1,0 +1,5 @@
+- [Long-form Writer length failure pattern](feedback_long-form-length-failure.md) — Writer over-generates on long-form; first item-management draft was 9,426 words vs 6,000 ceiling; route to Task 4 with compress budget
+- [Jira AC field not accessible via MCP tools](project_jira-ac-spotcheck-limitation.md) — getJiraIssue and fetch return Description only; use tickets-cache.md as AC ground truth for spot-checks
+- [Sarah Chen transcript patterns](project_sarah-chen-transcript-patterns.md) — Presenter lags sprint releases (outdated UI locations), uses informal terminology, admits uncertainty on ~5 features per session
+- [Micro-guide retry pattern](feedback_micro-guide-retry-pattern.md) — Single-citation fix + word-count compress produces clean retry; GTIN/UPC one-liner (M6) silently dropped (non-blocking); watch for malformed HTML tags
+- [TLDR row-length failure pattern](feedback_tldr-row-length-failure.md) — TLDR Writer compresses [TO VERIFY] and fixes citations but fails to compress row sentences; retry 1 still 15/25 rows >15 words (avg 16.2); use ≤12 word description-cell budget; route Task 4 only

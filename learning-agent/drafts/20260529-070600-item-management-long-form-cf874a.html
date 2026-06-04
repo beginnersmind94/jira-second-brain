@@ -1,0 +1,917 @@
+<h1>Item Management: Creating Food and Non-Food Items — Complete Reference Guide</h1>
+
+<p><em>Module: Item Management · Platform: SchoolCafé 2.0 · Audience: District Administrators, Nutritionists, Menu Planners · Source: Training recording REC-2026-0515-IM-001, presented by Sarah Chen (Implementation Specialist), May 15, 2026 · Brunswick County Schools onboarding cohort</em></p>
+
+<h2>1. Overview</h2>
+
+<p>Item Management is the central item catalog for SchoolCafé 2.0. Every food and non-food item your district uses — from entrées and side dishes to paper trays and gloves — must be created and configured here before it can appear in Inventory, Menu Planning, Production, or Point of Sale. <!-- Source: transcript [00:00] --> Getting items right at initial setup is critical: errors in an item record propagate downstream into menus, inventory counts, purchasing, and nutrient analysis. <!-- Source: transcript [00:00]: "if you get it wrong, you're going to be chasing problems in Inventory, in your menus, in POS, everywhere" --></p>
+
+<p>There are two top-level item types: <strong>food items</strong> (anything served to students) and <strong>non-food items</strong> (supplies such as cups, trays, napkins, and gloves). <!-- Source: transcript [00:52] --> Food items are significantly more complex because they carry nutritional data, allergen information, meal-pattern contribution credits, menu configuration, and POS pricing in addition to the pack-size and costing information that both types share. <!-- Source: transcript [00:52] --></p>
+
+<p>The workflow for both item types begins with the same <strong>Item card</strong>, proceeds through the <strong>Units card</strong> (pack sizes, serving sizes, costing, inventory readiness), and — for food items — continues through the Nutrient Info, Menu Info, and POS Pricing tabs. Non-food items are simpler: they have only pack sizes, costing, optional GTIN barcodes, and optional images or documents. <!-- Source: transcript [34:08] --></p>
+
+<p>The outcome of item creation is a fully configured item record that the Inventory module can publish, that Menu Planning can include in menus and recipes, and that the Point of Sale can price and sell. Incomplete items can exist in the system with tab statuses of <code>Incomplete</code>, but will not be eligible for all downstream uses until all required sections are complete. <!-- Source: transcript [05:45] --></p>
+
+<h2>2. Roles and Permissions</h2>
+
+<p>The following roles interact with Item Management. Specific permission names are set in the district's permission configuration. <!-- Source: NXT-53316 AC: "As a district admin I want permissions for the Configuration page so I can control who can access and change IM configurations" --> <!-- Source: NXT-38086 desc: "Item Management View Items (+ Details) - Page" --></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Role</th>
+      <th>Typical actions in Item Management</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>District Administrator</strong></td>
+      <td>Create, edit, and manage all items (food and non-food); configure pack sizes, costing, and GTIN codes; manage Item Configuration (Custom Allergens, Menu Item Categories). <!-- Source: NXT-37110 AC: "Provide the ability to add pack size units in the combined Units grid" --> <!-- Source: NXT-53316 AC: "As a district admin I want permissions for the Configuration page" --></td>
+    </tr>
+    <tr>
+      <td><strong>Nutritionist / Menu Planner</strong></td>
+      <td>Enter and edit Nutrient Info, Contribution Info, and Allergen Info; create Direct Menu Items; configure HACCP steps and recipe directions. <!-- Source: NXT-36742 desc: "As a Nutritionist I want the HACCP options available on recipes so I can easily assign required control points" --> <!-- Source: NXT-39594 desc: "As a Menu Planner I want all Menu Item related information on a single tab for my direct menu items" --></td>
+    </tr>
+    <tr>
+      <td><strong>Read-only Staff</strong></td>
+      <td>View item details. Cannot create or edit items. <!-- Source: NXT-38086 desc: "Item Management View Items (+ Details) - Page" --></td>
+    </tr>
+    <tr>
+      <td><strong>Cybersoft Implementation Staff</strong></td>
+      <td>May assist with initial item data loads and configuration during onboarding. Does not replace district staff for ongoing item maintenance. <!-- Source: transcript [00:00] --></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>[TO VERIFY: Exact permission names and role assignments — these vary by district configuration. NXT-53316 defines the Configuration page permission; NXT-38086 covers view/edit item access.]</p>
+
+<h2>3. Prerequisites</h2>
+
+<ul>
+  <li><strong>Login credentials:</strong> All staff must have active SchoolCafé 2.0 accounts with Item Management access before starting item creation. <!-- Source: transcript [00:28] --></li>
+  <li><strong>Item Categories:</strong> Your district's item categories (e.g., Entrees, Non-Food Supplies) must be configured before items can be categorized. [TO VERIFY: where Item Categories are configured — the transcript does not specify the setup path]</li>
+  <li><strong>Storage Categories:</strong> Dry, Cooler, Freezer, and other storage options must be available in the system. [TO VERIFY: whether these are system defaults or district-configurable]</li>
+  <li><strong>Valuation Groups:</strong> Required fields for Inventory. Must be set up before items are created if your district uses the Inventory module. <!-- Source: transcript [02:22]: "these three are required if you're going to use Inventory" --></li>
+  <li><strong>Custom Allergens:</strong> Any allergen not in the standard list (e.g., Strawberry) must be created in Item Configuration <em>before</em> it can be assigned to an item. See <a href="#custom-allergens">Section 4.7</a>. <!-- Source: transcript [23:28] --></li>
+  <li><strong>HACCP Processes and Control Points:</strong> Must be configured in Item Management → Configuration before they can be selected on a Steps card. <!-- Source: NXT-36069 summary: "IM - Item Config - HACCP Configuration page - Processes" --> <!-- Source: NXT-36741 summary: "IM - Item Config - HACCP Configuration page - Control Points" --></li>
+  <li><strong>Downstream module readiness:</strong> Inventory, Menu Planning, and POS each have their own setup requirements, but none of those setups block item creation in Item Management. However, an item cannot be <em>used</em> in those modules until its Item Management record is complete and published. <!-- Source: transcript [00:00] --></li>
+</ul>
+
+<h2>4. Full Workflows</h2>
+
+<h3 id="create-non-food">4.1 Creating a Non-Food Item (Step-by-Step)</h3>
+
+<p>Non-food items cover any supply the district tracks in Inventory but does not serve as a food item: cups, trays, napkins, gloves, utensils, and similar supplies. <!-- Source: transcript [00:52]: "Non-food is your supplies — your dixie cups, your trays, your napkins, gloves, all of that" --></p>
+
+<p><em>Example used in training: Dixie Cup, 12 oz.</em> <!-- Source: transcript [03:10] --></p>
+
+<h4>Step 1: Open the new item form</h4>
+<ol>
+  <li>Navigate to <code>Item Management → Items</code>. The list of all items in your system is displayed. <!-- Source: transcript [01:24] --></li>
+  <li>Click the <code>+ NEW</code> button.</li>
+  <li>The <strong>Item card</strong> opens. This card is identical for food and non-food items. <!-- Source: transcript [01:42]: "The Item card. And this is the same whether you're doing food or non-food. It's universal." --></li>
+</ol>
+
+<h4>Step 2: Complete the Item card</h4>
+<ol>
+  <li>Enter the <strong>Item Description</strong> (required). Use a descriptive format that includes both item name and size, e.g., <code>Dixie Cup, 12 oz</code>. <!-- Source: transcript [02:01] --> [TO VERIFY: 250-character limit on Item Description — stated by presenter at [02:01] but not confirmed in any ticket AC]</li>
+  <li>Select <strong>Item Category</strong>. Required if using Inventory. Example: <code>Non-Food Supplies</code>. <!-- Source: transcript [02:22] --></li>
+  <li>Select <strong>Storage Category</strong>. Required if using Inventory. Example: <code>Dry</code>. <!-- Source: transcript [02:22] --></li>
+  <li>Select <strong>Valuation Group</strong>. Required if using Inventory. Example: <code>Non-Food</code>. <!-- Source: transcript [02:22]: "these three are required if you're going to use Inventory" --></li>
+  <li>Optionally enter <strong>Tags</strong>, <strong>Brand Name</strong>, <strong>Manufacturer</strong>, and <strong>Product Code</strong>. These optional fields are useful for filtering the item list later. Example: Brand = <code>Dixie</code>, Manufacturer = <code>Georgia-Pacific</code>, Product Code = <code>7342DX</code>. <!-- Source: transcript [02:50] --></li>
+  <li>Click <code>SAVE</code>. The page refreshes and the <strong>Units card</strong> appears. <!-- Source: transcript [03:38]: "And see how the page refreshes? Now the Units card pops up." --></li>
+</ol>
+
+<h4>Step 3: Select Non-Food on the Units card</h4>
+<ol>
+  <li>On the Units card, two buttons appear: <code>FOOD</code> and <code>NON-FOOD</code>. Click <code>NON-FOOD</code>. <!-- Source: transcript [04:15] --></li>
+  <li>Non-food items skip the Fluid/Non-Fluid question entirely — that question only applies to food items. <!-- Source: transcript [04:30] --></li>
+</ol>
+
+<h4>Step 4: Add pack size tiers</h4>
+
+<p>Pack sizes represent the purchasing and receiving hierarchy (e.g., Box → Sleeve → Cup). Add all tiers before addressing the costing alert. <!-- Source: transcript [05:18]: "the system tells you not to address that until you've added ALL your pack sizes" --></p>
+
+<ol>
+  <li>Click <code>+ PACK</code> to add the first (highest) pack size. Enter a <strong>Description</strong> (required), e.g., <code>Box</code>. Weight is optional for non-food items. <!-- Source: transcript [04:40] --> <!-- Source: NXT-37110 AC: "Emphasize Weight field for rare scenarios where required" --> Click the <strong>checkmark</strong> to save the row.</li>
+  <li>To add a lower level: click <code>+ PACK</code> again. The system asks: <strong>Higher or Lower?</strong> Select <code>LOWER</code> (this new pack size is smaller than — and contained by — the existing one). <!-- Source: transcript [06:12]: "It means, is this new pack size HIGHER than the existing one — like, is it a bigger unit — or LOWER — a smaller unit?" --> Enter Description (<code>Sleeve</code>) and <strong>Sub-Qty</strong> (how many of this unit are inside the unit above it — e.g., <code>20</code> sleeves per box). <!-- Source: transcript [06:38] --> Click the checkmark.</li>
+  <li>Repeat for a third tier if needed: click <code>+ PACK</code>, select <code>LOWER</code>, enter Description (<code>Cup</code>) and Sub-Qty (<code>25</code> cups per sleeve). Click the checkmark. <!-- Source: transcript [06:52] --></li>
+</ol>
+
+<blockquote>
+  <strong>Maximum three pack-size tiers:</strong> Once three tiers are configured, the <code>+ PACK</code> button is grayed out. <!-- Source: transcript [07:05]: "the system only allows a maximum of three tiers. You can't go deeper than that." --> [TO VERIFY: three-tier maximum — stated by presenter at [07:05]; NXT-37110 description references second and third pack sizes, implying the constraint, but does not state it in AC verbatim.]
+  <br><br>
+  If your operation has four natural levels (e.g., Pallet, Case, Carton, Each), configure the three most relevant for day-to-day operations and handle the highest level during Inventory receiving — entering inbound pallets as however many cases they contain. <!-- Source: transcript [36:48] -->
+</blockquote>
+
+<h4>Step 5: Review unit identifiers</h4>
+
+<p>After saving pack sizes, the <strong>Identifiers</strong> column shows colored badge icons: <!-- Source: transcript [07:30] --></p>
+<ul>
+  <li><code>P</code> — Pack Size identifier, shown on every pack-size row.</li>
+  <li><code>BU</code> — Base Unit, shown on the lowest-level pack size. The system automatically assigns the lowest tier as the Base Unit. Inventory counts are performed in Base Unit quantities. <!-- Source: transcript [07:30]: "The system automatically assigns the lowest level as the Base Unit. That's important because when you do inventory counts, you're counting in Base Units." --></li>
+</ul>
+
+<h4>Step 6: Enter costing</h4>
+
+<ol>
+  <li>A <strong>Missing Costing</strong> alert appears after pack sizes are saved. Click the alert, then click the <strong>Edit</strong> (pencil) icon. <!-- Source: transcript [07:52] --></li>
+  <li>Enter the cost for <strong>exactly one pack size</strong> — typically the unit you purchase (e.g., the Box). While you type in the chosen field, all other tier fields are disabled (grayed out). <!-- Source: transcript [08:08]: "you can only enter the cost for ONE unit" --> <!-- Source: NXT-37110 desc: "User can select the specific pack size (or inventory-able serving) unit on which to enter the pricing" --></li>
+  <li>Click <code>SAVE</code>. The system automatically calculates the cost for all other tiers by dividing through the Sub-Qty values. Example: Box = $80.00 → Sleeve = $4.00 (80 ÷ 20) → Cup = $0.16 (4.00 ÷ 25). <!-- Source: transcript [08:32] --></li>
+  <li>The Missing Costing alert is replaced by a <strong>Manage Costing</strong> button. Click this button at any time to update the price; all tiers recalculate on save. <!-- Source: transcript [08:52]: "once the costing is done, you'll see a Manage Costing button — it replaces the Missing Costing alert — and you can click that anytime to update the price" --></li>
+</ol>
+
+<h4>Step 7: Inventory Ready flag</h4>
+
+<p>After costing is complete, a green <strong>Inventory Ready</strong> flag appears and the <strong>Publish</strong> toggle is automatically enabled. The item is now eligible to be published to the Inventory module. <!-- Source: transcript [09:05] --></p>
+
+<h4>Step 8: GTIN/UPC barcodes (optional)</h4>
+
+<ol>
+  <li>Click the <code>GTIN/UPC</code> button on the Units card. Each pack-size row gains a barcode entry field. <!-- Source: transcript [09:18] --></li>
+  <li>Enter the GTIN code for each applicable pack size. Click <code>SAVE</code>.</li>
+  <li>Saved codes display as barcode icons in the Identifiers column. <!-- Source: transcript [09:18] --></li>
+</ol>
+
+<h4>Step 9: Whole Numbers vs. Decimals</h4>
+
+<p>The Inventory Ready banner indicates whether the item will be counted in <strong>Whole Numbers</strong> (default) or <strong>Decimals</strong>. For most non-food items, whole numbers is correct. <!-- Source: transcript [09:48]: "By default, it counts in whole numbers. But if you need decimals... you can click the WHOLE NUMBERS chip and switch to DECIMALS. Most of the time for non-food, whole numbers is fine." --> Click the <code>WHOLE NUMBERS</code> chip to toggle to Decimals when partial-unit counting is needed. <!-- Source: NXT-33518 AC: "Provide an option in the context of the new Units card to determine whether the Base Unit can be counted in decimals" --></p>
+
+<blockquote>
+  <strong>Lock point — configure before first Inventory transaction:</strong> The Base Unit and Whole Numbers / Decimals setting can be changed until the item has been used in an Inventory transaction (count, receipt, or adjustment). After first use, these settings lock. <!-- Source: transcript [37:35]: "once you've actually done an inventory count or a receipt or an adjustment with that item, the Base Unit and the Whole Numbers/Decimals setting get locked" --> [TO VERIFY: NXT-33518 AC notes "TBD when this option is locked" — exact lock trigger not confirmed in AC.]
+</blockquote>
+
+<h4>Step 10: Add images or documents (optional)</h4>
+<p>See <a href="#images-docs">Section 4.11 — Images &amp; Documents</a>. This card is identical for food and non-food items.</p>
+
+<p>The non-food item is now complete. <!-- Source: transcript [34:08]: "Non-food items: Item card, Units card with pack sizes only, Costing, GTIN/UPC, Whole Numbers vs Decimals, Images &amp; Docs. That's it. Simple." --></p>
+
+<hr>
+
+<h3 id="create-food">4.2 Creating a Food Item (Step-by-Step)</h3>
+
+<p>Food items require significantly more configuration than non-food items. In addition to pack-size and costing information, food items carry nutritional data, allergen information, meal-pattern contribution credits, and optional menu and POS setup. <!-- Source: transcript [34:20]: "Food items: All of that, PLUS serving sizes, the link between servings and packs, Nutrient Info... Menu Info... POS Pricing... HACCP and recipe steps." --></p>
+
+<p><em>Example used in training: Yoplait Strawberry Yogurt, 4 oz.</em> <!-- Source: transcript [12:12] --></p>
+
+<h4>Step 1: Complete the Item card</h4>
+<p>Follow the same process as for non-food items (Section 4.1, Steps 1–2). Example values: Description = <code>Yogurt, Strawberry, 4 oz</code>, Category = <code>Entrees</code>, Storage = <code>Cooler</code>, Valuation Group = <code>Non-Commodity</code>, Brand = <code>Yoplait</code>, Manufacturer = <code>GENERAL MILLS SALES INC</code>, Product Code = <code>208016</code>. Click <code>SAVE</code>. <!-- Source: transcript [12:25] --></p>
+
+<h4>Step 2: Select Food and choose Fluid type</h4>
+<ol>
+  <li>On the Units card, click <code>FOOD</code>. <!-- Source: transcript [04:15] --></li>
+  <li>An additional question appears — not present for non-food items: <strong>"Is this a Non-Fluid Item (Grams) or a Fluid Item (Milliliters)?"</strong> <!-- Source: transcript [13:05] --> <!-- Source: NXT-36067 epic desc: "Add a flag for Fluid Item which would apply to the entire item and entire section / This would trigger the use of the Volume instead of weight" --></li>
+  <li>Select <code>NON-FLUID</code> for items whose nutrition label reports weight in grams (most solid and semi-solid foods, including yogurt). Select <code>FLUID</code> for items reported in milliliters (juice, milk, other liquids). <!-- Source: transcript [13:05] --></li>
+</ol>
+
+<h4>Step 3: Add serving size(s)</h4>
+
+<p>Serving sizes are the basis for all ingredient usage in recipes and Menu Planning nutrient analysis. Pack sizes are the basis for all Inventory usage such as ordering and receiving. These two concepts are separate and must be linked. <!-- Source: transcript [13:25]: "serving sizes are the basis for all Ingredient usage, like in recipes and menu planning. Pack sizes are the basis for all Inventory usage, like ordering and receiving. Two different purposes." --></p>
+
+<blockquote>
+  <strong>Best practice — serving before pack:</strong> Add serving sizes before pack sizes. The pack-to-serving linking workflow is smoother when serving sizes already exist. <!-- Source: transcript [18:35]: "the guide recommends adding serving sizes first. It's not that it breaks if you don't, it's more that the workflow is smoother." -->
+</blockquote>
+
+<ol>
+  <li>Click <code>+ SERVING</code>.</li>
+  <li>Enter <strong>Amount</strong> (e.g., <code>1</code>), <strong>Description</strong> (e.g., <code>Each</code>), and <strong>Weight</strong> with unit (e.g., <code>4 Ounce</code>). <!-- Source: transcript [13:52] --> Click the checkmark to save the row.</li>
+  <li>The system automatically converts the weight to grams (e.g., 4 oz displays as 113.400 g on the Nutrient Info tab). <!-- Source: transcript [18:55] --></li>
+  <li>After saving, the <strong>Nutrient Info</strong>, <strong>Menu Info</strong>, and <strong>Inventory Info</strong> tabs appear at the bottom of the page but remain grayed out. They become editable only after the Units card is saved. <!-- Source: transcript [14:12]: "you can't edit them yet. You have to save the Units card first before those tabs become active." --></li>
+</ol>
+
+<h4>Step 4: Add pack sizes</h4>
+<p>Follow the same process as for non-food items (Section 4.1, Step 4). Food items can also have up to three pack-size tiers. <!-- Source: transcript [14:30] --> Example: Case → Carton (Sub-Qty: 3).</p>
+
+<h4>Step 5: Link serving sizes to pack sizes</h4>
+
+<p>For food items, the system requires a link between serving sizes and pack sizes for Inventory eligibility. Before linking, an <strong>Inventory Ready</strong> alert displays: <em>"Servings and Pack Units must be linked for Inventory Eligibility."</em> <!-- Source: transcript [15:22] --> <!-- Source: NXT-37441 AC: "Trigger Inventory readiness based on proper pack-serving links" --></p>
+
+<ol>
+  <li>Click the <strong>Inventory Ready</strong> alert, then the <strong>Edit</strong> icon.</li>
+  <li>Enter the <strong>Sub-Qty</strong> for the serving size row — how many individual servings are in the lowest pack-size unit. Example: 16 yogurts per Carton → Sub-Qty = <code>16</code>. <!-- Source: transcript [15:42] --> <!-- Source: NXT-37441 AC: "Provide Sub-Qty on the Serving Size row in valid scenarios" --></li>
+  <li>Click <code>SAVE</code>. The Inventory Ready linking alert disappears. Servings and packs are now linked.</li>
+</ol>
+
+<h4>Step 6: Complete costing</h4>
+<p>Same process as non-food (Section 4.1, Step 6). Enter cost for one unit; the system calculates the rest. <!-- Source: transcript [16:08] --> Example: Case = $45.02 → Carton = $15.01 → Each = $0.94.</p>
+
+<h4>Step 7: Confirm or promote the Base Unit</h4>
+
+<p>By default, the lowest pack-size tier is the Base Unit. For food items, the system offers an additional option: promote the serving size to become the Base Unit. This is useful when you count individual servings during Inventory (e.g., individual yogurt containers, not cartons). <!-- Source: transcript [16:48] --> <!-- Source: NXT-36067 epic desc: "Also allow serving sizes to be pack sizes as well, for base units only" --></p>
+
+<ol>
+  <li>Click the <strong>BASE UNIT</strong> chip in the Inventory Ready banner. The system shows the current Base Unit (lowest pack tier) and an option to promote the serving size. <!-- Source: transcript [17:05] --></li>
+  <li>Click the serving size row (e.g., <code>Each</code>) to select it as the new Base Unit. <!-- Source: transcript [17:22] --></li>
+  <li>Click <code>CONFIRM</code>. The serving size row now shows both identifiers: the serving identifier <em>and</em> the <code>BU</code> (Base Unit) badge — this is called a <strong>dual unit</strong>. <!-- Source: transcript [17:22]: "Now it says Confirm Each as Base Unit... boom — now it's a three-tier structure with Each at the bottom with BOTH the Serving AND Base Unit identifiers. That's a dual unit." --></li>
+</ol>
+
+<blockquote>
+  <strong>Food-item exclusive:</strong> The Base Unit promotion option is only available for food items, because non-food items do not have serving sizes. <!-- Source: transcript [38:05] -->
+</blockquote>
+
+<ol start="4">
+  <li>Choose Whole Numbers or Decimals for Inventory counting (same as non-food, Step 9).</li>
+  <li>Click <code>SAVE &amp; CLOSE</code>. The Units card is complete. The Nutrient Info, Menu Info, and Inventory Info tabs become active. <!-- Source: transcript [17:42] --></li>
+</ol>
+
+<hr>
+
+<h3 id="nutrient-info">4.3 Nutrient Info Tab</h3>
+
+<p>The Nutrient Info tab stores the item's nutritional data. This data drives nutrient analysis in Menu Planning. The tab can remain at <code>Incomplete</code> status — the item can still be used for Inventory — but it must be complete for accurate menu-planning nutrient analysis. <!-- Source: transcript [35:02]: "The Nutrient Info tab just stays at Incomplete status. It only matters when you're using the item in menu planning, because that's where the nutrient analysis happens." --></p>
+
+<h4>Entering Nutrient Details</h4>
+<ol>
+  <li>Click the <strong>Nutrient Info</strong> tab.</li>
+  <li>The serving size from the Units card is displayed at the top (e.g., <em>"Serving Size: 1 Each (113.400 g)"</em>). The gram value is the system's automatic conversion of the ounce weight entered during serving-size setup. <!-- Source: transcript [18:55] --></li>
+  <li>Click the <strong>three-dot menu</strong> (View More Options) on the Nutrient Details card, then <code>Edit</code>.</li>
+  <li>Enter nutrient values. Fields marked with an asterisk (<code>*</code>) are required to save the card. <!-- Source: transcript [19:12]: "The ones with the asterisk are required." --></li>
+  <li>If a nutrient is not listed on the product label, check the <strong>Missing Value</strong> checkbox next to that field — do not leave the field blank or enter zero. <!-- Source: transcript [19:40] --></li>
+  <li>Click <code>SAVE</code>.</li>
+</ol>
+
+<p>After saving, the system automatically calculates the <strong>Per 100 Gram</strong> column and the percentage Daily Values. You do not need to compute these manually. <!-- Source: transcript [20:25]: "the system calculated the Per 100 Gram column and the percentages automatically. You don't have to do that math." --> Nutrients marked as Missing Value display as <code>(M)</code> in the saved view. <!-- Source: transcript [20:25] --></p>
+
+<blockquote>
+  <strong>Why Missing Value matters — do not use zero as a substitute:</strong> Checking Missing Value marks the nutrient as intentionally unknown, which displays as "(M)" in nutrient analysis reports and signals that data is incomplete. Entering zero (or leaving a field blank) implies the item contains none of that nutrient, which will silently misrepresent the item's nutritional profile in menu analysis. <!-- Source: transcript [35:35]: "You're telling the system 'I don't know this value' instead of leaving it as zero, which would imply the item has zero of that nutrient." -->
+</blockquote>
+
+<hr>
+
+<h3 id="ingredient-info">4.4 Ingredient Info Card</h3>
+
+<p>The Ingredient Info card is within the Nutrient Info tab. Open it via the three-dot menu → Edit. <!-- Source: transcript [20:42] --></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Required?</th>
+      <th>Description</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Edible Yield Factor</strong></td>
+      <td>No</td>
+      <td>Percentage of the item that is edible (as-served vs. as-purchased).</td>
+      <td>Use 100% for items with no waste (e.g., yogurt). Use less than 100% for items with peel, bone, or husk (e.g., banana ≈ 85%). <!-- Source: transcript [20:42] --> <!-- Source: NXT-47249 summary: "IM - Items - Move Yield Factor to be serving specific" [RN:External/Internal] --></td>
+    </tr>
+    <tr>
+      <td><strong>Sub Ingredients</strong></td>
+      <td>No</td>
+      <td>Ingredient list for when this item is used as an ingredient in another recipe.</td>
+      <td>Optional. <!-- Source: transcript [21:00] --></td>
+    </tr>
+    <tr>
+      <td><strong>Standard Recipe Directions</strong></td>
+      <td>No</td>
+      <td>Preparation notes that appear on any multi-item recipe that uses this item as an ingredient.</td>
+      <td>Example: <em>"Thaw for 30 minutes before serving."</em> <!-- Source: transcript [21:00] --></td>
+    </tr>
+    <tr>
+      <td><strong>Locally Grown</strong></td>
+      <td>No</td>
+      <td>Checkbox for compliance tracking.</td>
+      <td><!-- Source: transcript [21:22] --></td>
+    </tr>
+    <tr>
+      <td><strong>Buy American</strong></td>
+      <td>No</td>
+      <td>Check to assert the item is domestically produced. Leave unchecked to enable the exemption letter upload.</td>
+      <td>Checking this box <em>removes</em> the option to upload an exemption letter, because checking it asserts domestic origin. If the item is not Buy American compliant, leave unchecked — an upload icon appears for the exemption letter. <!-- Source: transcript [21:22]: "If you check Buy American, you actually can't upload an exemption letter anymore because you're saying it IS domestic." --></td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
+<h3 id="contribution-info">4.5 Contribution Info Card</h3>
+
+<p>Contribution Info sets what meal-pattern credit the item contributes when served — the basis for USDA meal-pattern compliance tracking. <!-- Source: transcript [21:52] --></p>
+
+<ol>
+  <li>Click the three-dot menu on the <strong>Contribution Info</strong> card, then <code>Edit</code>. A configuration panel opens.</li>
+  <li>Set the meal-pattern contribution for the item. Example: Yoplait Strawberry Yogurt = <em>1 oz equivalent Meat/Meat Alternates</em>. <!-- Source: transcript [21:52] --></li>
+  <li>If the item credits multiple meal-pattern components (e.g., both Grain and Meat/Meat Alternates), fill in all applicable fields.</li>
+  <li>Click <code>SAVE</code>.</li>
+</ol>
+
+<hr>
+
+<h3 id="allergen-info">4.6 Allergen Info Card</h3>
+
+<p>Allergen Info records which allergens the item contains, may contain, or was processed near. <!-- Source: transcript [22:20] --></p>
+
+<blockquote>
+  <strong>Allergen Feature Disclaimer — read before entering data:</strong> SchoolCafé is a tool for recording allergen information; it is not a guarantee of accuracy. The district remains responsible for verifying all allergen information independently. <!-- Source: transcript [22:42]: "basically it's telling you that SchoolCafé is a tool, it's not a guarantee. The district is still responsible for verifying allergen information." -->
+</blockquote>
+
+<h4>Entering Standard Allergens</h4>
+<ol>
+  <li>On the Nutrient Info tab, open the Allergen Info card via the three-dot menu → Edit.</li>
+  <li>For each standard allergen, select the applicable status:</li>
+</ol>
+
+<table>
+  <thead>
+    <tr><th>Status</th><th>Meaning</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>Contains</strong></td><td>The item contains this allergen as an ingredient.</td></tr>
+    <tr><td><strong>Processed in a Facility That Also Processes</strong></td><td>The item is manufactured at a facility that also handles this allergen.</td></tr>
+    <tr><td><strong>May Contain</strong></td><td>Cross-contamination risk exists but is not confirmed by the manufacturer.</td></tr>
+    <tr><td><strong>Free From</strong></td><td>The item is verified free of this allergen.</td></tr>
+  </tbody>
+</table>
+<!-- Source: transcript [22:42] -->
+
+<p>Standard allergens available in the system: Cr
+ustacean Shellfish, Egg, Fish, Gluten, Milk, Peanuts, Sesame, Soy, Tree Nuts, Wheat. <!-- Source: transcript [23:10] --></p>
+
+<h4>Adding Custom Allergens to an Item</h4>
+<ol>
+  <li>Custom allergens must be created in Configuration before they can be assigned here. See <a href="#custom-allergens">Section 4.7</a>. <!-- Source: transcript [23:28] --></li>
+  <li>Click <code>+ ADD CUSTOM ALLERGEN</code> at the bottom of the Allergen panel.</li>
+  <li>Select the allergen from the dropdown (e.g., <code>Strawberry</code>), set the status (e.g., <code>Contains</code>), click <code>ADD</code>, then <code>SAVE</code>. <!-- Source: transcript [23:55] --></li>
+</ol>
+
+<hr>
+
+<h3 id="custom-allergens">4.7 Custom Allergen Configuration</h3>
+
+<p>Custom allergens that are not in the standard list must be created in Item Configuration before they can be applied to any item. <!-- Source: transcript [23:28]: "the custom allergen has to exist in the system first" --></p>
+
+<ol>
+  <li>Navigate to <code>Item Management → Configuration → Item Configuration</code>. <!-- Source: transcript [23:28] --> [TO VERIFY: exact menu label sequence — NXT-54702 (rejected bug) confirms the subpage is named <strong>Custom Allergens</strong>, not "Custom Allergen Configuration."]</li>
+  <li>Select <strong>Custom Allergens</strong> from the dropdown and click <code>APPLY</code>. <!-- Source: transcript [23:28] --></li>
+  <li>Click <code>+ NEW</code>. Enter the allergen name (e.g., <code>Strawberry</code>). <!-- Source: transcript [23:28] --></li>
+  <li>Toggle whether this allergen should display on <strong>Family Hub</strong> menus (the parent-facing portal). <!-- Source: transcript [23:28] --></li>
+  <li>Click <code>SAVE</code>. The allergen is now available in the custom allergen dropdown on every item's Allergen Info card. <!-- Source: transcript [23:55] --></li>
+</ol>
+
+<hr>
+
+<h3 id="menu-info">4.8 Menu Info — Creating a Direct Menu Item</h3>
+
+<p>The Menu Info tab is where a food item becomes a <strong>Direct Menu Item (DMI)</strong> — a single item that can be placed directly on a menu without being part of a multi-ingredient recipe. <!-- Source: transcript [24:30]: "A Direct Menu Item is a single item that can be placed directly on a menu without being part of a recipe." --> <!-- Source: NXT-44714 RN: "The Single Item Recipe tab is being removed from the Item Details page. The functions of single item recipes have been merged into the Menu Info tab to better align with the item sub-type concept." --></p>
+
+<p>When the tab is first opened, its status is <code>Disabled</code>. <!-- Source: transcript [24:55] --></p>
+
+<h4>Step 1: Create the Menu Item</h4>
+<ol>
+  <li>Click <code>CREATE MENU ITEM</code> on the Units card banner or from the Menu Info tab itself. <!-- Source: transcript [25:18] --></li>
+  <li>If only one serving size exists on the Units card, it is auto-selected as the Menu Item Serving Size. If multiple serving sizes exist, the system prompts you to choose one. <!-- Source: transcript [24:55] --></li>
+  <li>The Menu Item card opens. Fill in the fields below.</li>
+</ol>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Required?</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Menu Item Name</strong></td>
+      <td>Yes</td>
+      <td>Appears on menus, production records, and reports. Example: <code>Strawberry Yogurt</code>. <!-- Source: transcript [25:28] --></td>
+    </tr>
+    <tr>
+      <td><strong>Button Name (English)</strong></td>
+      <td>Yes</td>
+      <td>Label the cashier sees on the POS touchscreen. <!-- Source: transcript [25:28] --></td>
+    </tr>
+    <tr>
+      <td><strong>Menu Item Category</strong></td>
+      <td>Yes</td>
+      <td>Classifies the item on menus (e.g., Entree). <!-- Source: transcript [25:28] --></td>
+    </tr>
+    <tr>
+      <td><strong>Max Days</strong></td>
+      <td>No</td>
+      <td>How many days this item may appear on a production record as a carryover or unspecified leftover. Only applies when Leftover Category is set to Unspecified or Carryover. <!-- Source: transcript [26:15] --></td>
+    </tr>
+    <tr>
+      <td><strong>Marketing Name &amp; Description</strong></td>
+      <td>No</td>
+      <td>Consumer-facing name and description shown in Family Hub (parent portal). <!-- Source: transcript [26:48] --></td>
+    </tr>
+    <tr>
+      <td><strong>Button Name (Spanish)</strong></td>
+      <td>No</td>
+      <td>For bilingual POS displays. <!-- Source: transcript [26:48] --></td>
+    </tr>
+    <tr>
+      <td><strong>Meal Type</strong></td>
+      <td>No</td>
+      <td>Lunch, Breakfast, etc. Used for Menu Grid filtering. <!-- Source: transcript [26:48] --></td>
+    </tr>
+    <tr>
+      <td><strong>Leftover Category</strong></td>
+      <td>No</td>
+      <td><em>Return to Stock</em> (items return to Inventory) or <em>Discard</em> (items are discarded). Controls how leftover quantities are handled on production records. <!-- Source: transcript [26:48] --></td>
+    </tr>
+    <tr>
+      <td><strong>Tags</strong></td>
+      <td>No</td>
+      <td>Custom filtering tags. <!-- Source: transcript [26:48] --></td>
+    </tr>
+    <tr>
+      <td><strong>Preparation Site Item</strong></td>
+      <td>No (checkbox)</td>
+      <td>Check if this item is prepared at a central kitchen and shipped to serving sites. <!-- Source: transcript [26:48] --></td>
+    </tr>
+    <tr>
+      <td><strong>Show in Summary</strong></td>
+      <td>No (checkbox)</td>
+      <td>Filter that controls whether the item appears on the Menu Calendar Report. <!-- Source: transcript [26:48] --></td>
+    </tr>
+    <tr>
+      <td><strong>POS Entree</strong></td>
+      <td>No (checkbox)</td>
+      <td>Check if the item counts as a reimbursable meal entrée. Leave unchecked for a la carte items. <!-- Source: transcript [27:12] --></td>
+    </tr>
+    <tr>
+      <td><strong>Show on POS</strong></td>
+      <td>No (toggle)</td>
+      <td>When enabled, additional POS fields appear and the POS Pricing tab activates. <!-- Source: transcript [27:12] --> <!-- Source: NXT-39594 desc: "a 'Show on POS' toggle will control the presence of the POS attributes and Pricing table" --></td>
+    </tr>
+  </tbody>
+</table>
+
+<ol start="4">
+  <li>Click <code>SAVE</code>. The tab heading changes from <code>MENU INFO</code> to <code>MENU &amp; POS INFO</code>. <!-- Source: transcript [27:22] --></li>
+</ol>
+
+<h4>Step 2: Add or manage Menu Item Servings (optional)</h4>
+<p>To add additional serving sizes to the same menu item (e.g., a 4 oz and an 8 oz portion), enter the Units card edit mode and click <code>+ MENU SERVING</code>. The <code>MI</code> badge (Menu Item Serving indicator) appears on each qualifying serving-size row. <!-- Source: transcript [27:32] --></p>
+
+<h4>Step 3: Configure Serving Exceptions (optional)</h4>
+<p>Serving exceptions restrict a menu item's availability by Meal Pattern &amp; Serving Group — for example, blocking a 4 oz yogurt from High School menus. <!-- Source: transcript [27:55] --> <!-- Source: NXT-40448 summary: "IM - Menu Items - Servings - Serving Size Exceptions" --></p>
+<ol>
+  <li>In Units card edit mode, click <code>EXCEPTIONS</code>.</li>
+  <li>Assign a Meal Pattern &amp; Serving Group to the serving size, then click <code>NOT SERVED</code> and configure which groups cannot receive this item. <!-- Source: transcript [28:18] --></li>
+</ol>
+
+<hr>
+
+<h3 id="pos-pricing">4.9 POS Pricing Tab</h3>
+
+<p>The POS Pricing tab sets what students and adults pay for the item at the point of sale. It is only visible after the <code>Show on POS</code> toggle is enabled on the Menu Info tab. <!-- Source: transcript [30:15] --> <!-- Source: NXT-44876 summary: "IM - Items/Recipes - POS Pricing tab" --></p>
+
+<h4>Student Pricing</h4>
+<ol>
+  <li>Click the three-dot menu on the POS Pricing card, then <code>Edit</code>.</li>
+  <li>The pricing grid displays student eligibility types as rows and site types as columns (typically Elementary, Middle School, High School, Alternative). <!-- Source: transcript [30:15] --></li>
+</ol>
+
+<table>
+  <thead>
+    <tr>
+      <th>Eligibility Type</th>
+      <th>Typical Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Free</td><td>$0.00 for reimbursable meals. <!-- Source: transcript [30:15] --></td></tr>
+    <tr><td>Reduced</td><td>District-set (example: $0.40 lunch / $0.30 breakfast). <!-- Source: transcript [30:15] --></td></tr>
+    <tr><td>Paid</td><td>District-set. <!-- Source: transcript [30:15] --></td></tr>
+    <tr><td>Second Meal</td><td>District-set. <!-- Source: transcript [30:15] --></td></tr>
+  </tbody>
+</table>
+
+<ol start="3">
+  <li>To apply one price across all site types at once: enter the amount in the top field and click <code>SET ALL PRICES</code>. <!-- Source: transcript [30:55] --></li>
+  <li>The <strong>Allow Sale</strong> toggle enables automatically when a price is entered. To block sales to a specific eligibility group, manually turn its toggle off. <!-- Source: transcript [31:08] --></li>
+</ol>
+
+<h4>Adult Pricing</h4>
+<ol>
+  <li>Click the <strong>Adults</strong> tab within POS Pricing.</li>
+  <li>Set pricing for staff, visitor, and program adult categories. <!-- Source: transcript [31:08] --></li>
+  <li>Click <code>SAVE</code>.</li>
+</ol>
+
+<h4>Taxable Items</h4>
+<p>Check the <strong>Taxable</strong> checkbox at the top of the POS Pricing card if the item is subject to sales tax. <!-- Source: transcript [31:20] --> [TO VERIFY: How the sales tax rate is configured and applied — the presenter stated uncertainty about this behavior in SchoolCafé 2.0 at [31:20]. Consult your business office and Cybersoft support for rate configuration.]</p>
+
+<hr>
+
+<h3 id="haccp-steps">4.10 HACCP / Steps Card</h3>
+
+<p>The Steps card records HACCP process information, pre-preparation instructions, recipe directions, and critical control points for a Direct Menu Item. It is an optional feature that must be explicitly enabled — it is not present by default when a Menu Item is first created. <!-- Source: NXT-44714 AC: "Provide the Steps card as an optional feature of the direct menu item / can only be enabled once the Menu Item is created" --> <!-- Source: NXT-44714 RN: "The Single Item Recipe tab is being removed from the Item Details page. The functions of single item recipes have been merged into the Menu Info tab to better align with the item sub-type concept. In the updated design, users will simply first enable an item as a Menu Item, at which point the optional Recipe Steps card will become available." --></p>
+
+<h4>Step 1: Enable the Steps card</h4>
+<ol>
+  <li>On the <strong>Menu &amp; POS Info</strong> tab, locate the Steps card.</li>
+  <li>Click <code>ENABLE RECIPE</code>. <!-- Source: transcript [28:35] --> <!-- Source: NXT-44714 RN: "can be enabled by clicking the 'Enable Recipe' button on the Menu Info tab" --></li>
+  <li>Click the three-dot menu on the Steps card, then <code>Edit</code>. The first step that appears is <strong>Step 0</strong> — the HACCP configuration step. <!-- Source: transcript [28:35] --></li>
+</ol>
+
+<h4>Step 2: Configure Step 0 — HACCP Process</h4>
+<ol>
+  <li>Select the <strong>HACCP Process</strong> that applies: <!-- Source: transcript [28:58] --> <!-- Source: NXT-36742 desc: "e.g. if user selected 'No Cook' process, they will only see CCPs associated with No Cook (per the config page)" --></li>
+</ol>
+
+<table>
+  <thead>
+    <tr><th>Process</th><th>When to use</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>No Cook</strong></td><td>Item is served cold or at ambient temperature with no cooking step (e.g., yogurt, pre-packaged items). <!-- Source: transcript [28:58] --></td></tr>
+    <tr><td><strong>Same Day Service</strong></td><td>Item is cooked and served the same day. <!-- Source: transcript [28:58] --></td></tr>
+    <tr><td><strong>Complex Food</strong></td><td>Item requires extended preparation — cooled, reheated, or held over multiple days. <!-- Source: transcript [28:58] --></td></tr>
+  </tbody>
+</table>
+
+<ol start="2">
+  <li>Enter <strong>Pre-Preparation Instructions</strong> if needed (e.g., <em>"Remove from cooler 15 minutes before service."</em>). <!-- Source: transcript [28:58] --></li>
+  <li>Enter <strong>Prep Time</strong> and <strong>Cook Time</strong>. Both can be zero for No Cook items. <!-- Source: transcript [28:58] --></li>
+  <li>Click <code>SAVE</code>.</li>
+</ol>
+
+<h4>Step 3: Add recipe directions and control points</h4>
+<ol>
+  <li>Click <code>+ ADD</code> to insert a recipe direction step. Type the instruction text. <!-- Source: transcript [29:10] --></li>
+  <li>To add a HACCP Critical Control Point (CCP): click the dropdown arrow on <code>+ ADD</code> and select <strong>Control Point</strong>. <!-- Source: transcript [29:30] --> <!-- Source: NXT-36742 AC: "Allow CCPs to be added to the recipe like steps" --></li>
+  <li>Select a CCP from the list. Only CCPs configured for the selected HACCP Process are shown. The system pre-fills the <strong>Critical Limit</strong> and <strong>Corrective Action</strong> fields with your district's configured defaults; both are editable. <!-- Source: transcript [29:30] --> <!-- Source: NXT-36742 AC: "Allow added CCPs to be edited for Critical Limit and Corrective Action" --> [TO VERIFY: default Cold Hold critical limit — presenter mentioned "less than or equal to 42°F" at [29:42]; confirm against your district's HACCP configuration]</li>
+  <li>Click <code>SAVE</code>.</li>
+  <li>To reorder steps or control points, grab the <strong>drag handle</strong> (dot icon) on the left of any row and drag it to the desired position. Save after reordering. <!-- Source: transcript [29:42] --> <!-- Source: NXT-36358 AC: "add additional steps or reorder steps through drag and drop" --></li>
+</ol>
+
+<hr>
+
+<h3 id="images-docs">4.11 Images &amp; Documents</h3>
+
+<p>The Images &amp; Docs card is available on all item types — food and non-food — and works identically for both. <!-- Source: transcript [10:20] --></p>
+
+<ol>
+  <li>Click the <strong>expand icon</strong> on the Images &amp; Docs card to open the Manage Images &amp; Documents panel. <!-- Source: transcript [11:02] --></li>
+  <li>Drag and drop files onto the panel or click <code>SELECT FILES</code>. Supported formats: JPEG, PNG (images); PDF, Word documents, spreadsheets (documents). Maximum file size: 5 MB per file. <!-- Source: transcript [11:02] --> [TO VERIFY: 5 MB file size limit — stated by presenter at [11:02]; not confirmed in any ticket AC.]</li>
+  <li>After upload, select a purpose from the <strong>"Use as"</strong> dropdown. Example: <code>Preferred Inventory Image</code> — the image displayed when browsing items in Inventory. <!-- Source: transcript [11:28] --></li>
+  <li>Optionally enter a comment for the image or document.</li>
+  <li>Click <code>SAVE</code>. The thumbnail appears on the Item Details page. <!-- Source: transcript [11:45] --></li>
+</ol>
+
+<hr>
+
+<h3 id="inventory-info">4.12 Inventory Info Tab</h3>
+
+<p>The Inventory Info tab is a read-only view of active vendor contracts associated with this item. For a newly created item with no contract history, the tab is empty. <!-- Source: transcript [32:05] --></p>
+
+<p>Once the item is published to Inventory and added to a vendor contract (managed inside the Inventory module, not here), the following fields populate: <!-- Source: transcript [32:05] --></p>
+
+<ul>
+  <li>Vendor name</li>
+  <li>Vendor item number</li>
+  <li>Unit</li>
+  <li>Lead time</li>
+  <li>Minimum and maximum order quantities</li>
+  <li>Current price</li>
+</ul>
+
+<p>A <strong>shortcut icon</strong> on this tab navigates directly to the Contract Items page in the Inventory module. <!-- Source: transcript [32:40] --></p>
+
+<p>You can also edit the Units card and manage GTIN codes from this tab using the same process described in Sections 4.1 and 4.2. <!-- Source: transcript [32:50] --></p>
+
+<h2>5. Key Fields and Statuses</h2>
+
+<h3>5.1 Item Card Fields</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Required?</th>
+      <th>Description</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Item Description</code></td>
+      <td>Yes</td>
+      <td>The item's display name in the system.</td>
+      <td>Always editable. [TO VERIFY: 250-character limit — transcript [02:01]; not confirmed in AC.] <!-- Source: transcript [02:01] --></td>
+    </tr>
+    <tr>
+      <td><code>Item Category</code></td>
+      <td>Required for Inventory</td>
+      <td>Classifies the item (e.g., Entrees, Non-Food Supplies).</td>
+      <td>Options are district-configured. <!-- Source: transcript [02:22] --></td>
+    </tr>
+    <tr>
+      <td><code>Storage Category</code></td>
+      <td>Required for Inventory</td>
+      <td>Where the item is stored (Dry, Cooler, Freezer, etc.).</td>
+      <td><!-- Source: transcript [02:22] --></td>
+    </tr>
+    <tr>
+      <td><code>Valuation Group</code></td>
+      <td>Required for Inventory</td>
+      <td>Financial valuation classification for Inventory.</td>
+      <td><!-- Source: transcript [02:22]: "these three are required if you're going to use Inventory" --></td>
+    </tr>
+    <tr>
+      <td><code>Brand Name</code></td>
+      <td>No</td>
+      <td>Item brand (e.g., Yoplait, Dixie).</td>
+      <td>Useful for item list filtering. <!-- Source: transcript [02:50] --></td>
+    </tr>
+    <tr>
+      <td><code>Manufacturer</code></td>
+      <td>No</td>
+      <td>Manufacturer name.</td>
+      <td>Useful for filtering all items from a given manufacturer. <!-- Source: transcript [02:50] --></td>
+    </tr>
+    <tr>
+      <td><code>Product Code</code></td>
+      <td>No</td>
+      <td>Manufacturer's product code or SKU.</td>
+      <td><!-- Source: transcript [02:50] --></td>
+    </tr>
+    <tr>
+      <td><code>Tags</code></td>
+      <td>No</td>
+      <td>Free-form tags for custom filtering.</td>
+      <td><!-- Source: transcript [02:50] --></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>5.2 Units Card Concepts</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Concept</th>
+      <th>Applies to</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Food / Non-Food flag</strong></td>
+      <td>All items</td>
+      <td>Determines whether the item follows the food workflow (serving sizes, Nutrient Info, Menu Info) or the simpler non-food workflow (pack sizes only). <!-- Source: transcript [04:15] --></td>
+    </tr>
+    <tr>
+      <td><strong>Fluid / Non-Fluid flag</strong></td>
+      <td>Food items only</td>
+      <td>Determines the unit of weight measurement: grams (Non-Fluid) or milliliters (Fluid). <!-- Source: NXT-36067 epic desc: "Add a flag for Fluid Item which would apply to the entire item and entire section / This would trigger the use of the Volume instead of weight" --></td>
+    </tr>
+    <tr>
+      <td><strong>Pack Size</strong></td>
+      <td>All items</td>
+      <td>A purchasing or receiving unit. Up to three tiers. Basis for Inventory usage (ordering, receiving, counting). <!-- Source: transcript [13:25] --></td>
+    </tr>
+    <tr>
+      <td><strong>Serving Size</strong></td>
+      <td>Food items only</td>
+      <td>The amount served to a student. Basis for recipe ingredient usage and Menu Planning nutrient calculations. <!-- Source: transcript [13:25]: "serving sizes are the basis for all Ingredient usage, like in recipes and menu planning" --> <!-- Source: NXT-37441 AC: "Trigger Inventory readiness based on proper pack-serving links" --></td>
+    </tr>
+    <tr>
+      <td><strong>Sub-Qty</strong></td>
+      <td>All items (pack tiers); food items (serving-to-pack link)</td>
+      <td>The number of smaller units within a larger unit. Used to define pack-tier hierarchy and to link serving sizes to pack sizes. <!-- Source: NXT-37110 AC: "Bring attention to the appropriate Sub-Qty fields as required to link Pack Sizes" --></td>
+    </tr>
+    <tr>
+      <td><strong>Base Unit</strong></td>
+      <td>All items</td>
+      <td>The lowest-level unit used for Inventory counting. Defaults to the lowest pack-size tier. Can be promoted to the serving size for food items. <!-- Source: transcript [07:30] --></td>
+    </tr>
+    <tr>
+      <td><strong>Dual Unit</strong></td>
+      <td>Food items only</td>
+      <td>A serving size that has been promoted to also serve as the Base Unit. Shows both the serving identifier and the <code>BU</code> badge. <!-- Source: transcript [17:22] --></td>
+    </tr>
+    <tr>
+      <td><strong>GTIN/UPC</strong></td>
+      <td>All items</td>
+      <td>Barcode number per pack-size tier. Optional; recommended if barcode scanners are used for Inventory receiving. <!-- Source: transcript [09:18] --></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>5.3 Unit Identifier Badges</h3>
+
+<table>
+  <thead>
+    <tr><th>Badge</th><th>Meaning</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>P</code></td><td>Pack Size — shown on every pack-size row. <!-- Source: transcript [07:30] --></td></tr>
+    <tr><td><code>BU</code></td><td>Base Unit — the counting unit in Inventory. Shown on the lowest pack tier (or promoted serving size). <!-- Source: transcript [07:30] --></td></tr>
+    <tr><td><code>MI</code></td><td>Menu Item Serving — the serving size linked to the Direct Menu Item. <!-- Source: transcript [27:32] --></td></tr>
+    <tr><td>Barcode icon</td><td>A GTIN/UPC code has been entered for this pack-size row. <!-- Source: transcript [09:18] --></td></tr>
+  </tbody>
+</table>
+
+<h3>5.4 Item and Tab Statuses</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Status / Alert</th>
+      <th>Where shown</th>
+      <th>Meaning</th>
+      <th>How it clears</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Missing Costing</code> (alert)</td>
+      <td>Units card</td>
+      <td>No cost entered for any pack-size tier.</td>
+      <td>Enter cost for one tier and save. Alert is replaced by the Manage Costing button. <!-- Source: transcript [08:52] --></td>
+    </tr>
+    <tr>
+      <td><code>Inventory Ready</code> (green flag)</td>
+      <td>Units card</td>
+      <td>Item is eligible to be published to Inventory.</td>
+      <td>Set automatically when costing is complete (non-food) or when servings/packs are linked <em>and</em> costing is complete (food). <!-- Source: transcript [09:05] --></td>
+    </tr>
+    <tr>
+      <td><code>Incomplete</code></td>
+      <td>Tab level (Nutrient Info, Inventory Info, etc.)</td>
+      <td>That tab's required data has not been fully configured.</td>
+      <td>Resolves once all required fields in that tab are saved. <!-- Source: transcript [05:45] --></td>
+    </tr>
+    <tr>
+      <td><code>Disabled</code></td>
+      <td>Menu Info tab</td>
+      <td>No Direct Menu Item has been created for this food item yet.</td>
+      <td>Clicking CREATE MENU ITEM and saving activates the tab. <!-- Source: transcript [24:55] --></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>6. Reports and Outputs</h2>
+
+<p>Item Management is primarily a configuration module; dedicated reporting tools live in the downstream modules that consume item data. Key outputs flowing from item records include:</p>
+
+<ul>
+  <li><strong>Menu Calendar Report:</strong> Only items configured with <code>Show in Summary</code> checked on the Menu Info tab appear in this report. <!-- Source: transcript [26:48] --></li>
+  <li><strong>Nutrient Analysis (Menu Planning module):</strong> Items with complete Nutrient Info tabs contribute to nutrient analysis generated in Menu Planning. Items with Missing Value nutrients display <code>(M)</code> flags in those reports — indicating intentionally missing data, not a zero value. <!-- Source: transcript [35:35] --></li>
+  <li><strong>Family Hub allergen display:</strong> Custom allergens configured with the "show on Family Hub menus" toggle appear on the parent-facing menu view. <!-- Source: transcript [23:28] --></li>
+  <li><strong>Inventory module outputs:</strong> Published items flow into inventory counts, purchase orders, and receiving records in the Inventory module. The Inventory Info tab on the item record provides a read-only view of current contract pricing for reference. <!-- Source: transcript [32:05] --></li>
+  <li><strong>POS pricing:</strong> Prices configured on the POS Pricing tab are consumed directly by POS terminals for transaction processing. <!-- Source: transcript [30:15] --></li>
+</ul>
+
+<p>[TO VERIFY: Whether Item Management has a dedicated item-list export or item history report. NXT-26809 (IM - Item History, Nutrient Info tab) suggests per-item history exists; no details available from training session.]</p>
+
+<h2>7. Exceptions</h2>
+
+<h3>7.1 Maximum three pack-size tiers</h3>
+<p>The <code>+ PACK</code> button is grayed out once three pack-size tiers are configured. <!-- Source: transcript [07:05]: "the system only allows a maximum of three tiers. Box, Sleeve, Cup — that's three. You can't go deeper than that." --> [TO VERIFY: three-tier maximum — stated by presenter at [07:05]; not stated verbatim in NXT-37110 or NXT-37441 AC, though the description references second and third pack sizes implying the limit.]</p>
+<p><strong>Workaround:</strong> Use the three tiers most relevant to day-to-day operations (typically Case, Carton, Each). Handle any higher level (e.g., Pallet) at the time of Inventory receiving by entering the pallet as a multiple of cases. <!-- Source: transcript [36:48] --></p>
+
+<h3>7.2 Food items — servings and packs must be linked for Inventory eligibility</h3>
+<p>A food item with serving sizes and pack sizes that are not linked via Sub-Qty is <strong>Inventory Ineligible</strong>. The system allows the item to exist in this state but it cannot be published for Inventory use until linking is complete. <!-- Source: NXT-37441 AC: "We will allow users to add pack units which are unlinked from servings, but these items will be Inventory Ineligible (Inventory Readiness)" --></p>
+
+<h3>7.3 Base Unit and Decimals settings lock after first Inventory transaction</h3>
+<p>Once an item has been used in any Inventory transaction (count, receipt, or adjustment), the Base Unit designation and the Whole Numbers / Decimals setting are locked and cannot be changed through the normal UI. <!-- Source: transcript [37:35]: "once you've actually done an inventory count or a receipt or an adjustment with that item, the Base Unit and the Whole Numbers/Decimals setting get locked" --> Configure these correctly before publishing the item. [TO VERIFY: NXT-33518 AC notes "TBD when this option is locked" — exact trigger not confirmed in AC.]</p>
+
+<h3>7.4 Buy American checkbox and exemption letter are mutually exclusive</h3>
+<p>Checking the Buy American checkbox removes the exemption letter upload option. To attach an exemption letter, the Buy American checkbox must be unchecked. <!-- Source: transcript [21:22]: "If you check Buy American, you actually can't upload an exemption letter anymore because you're saying it IS domestic." --></p>
+
+<h3>7.5 Required nutrient fields block save on the Nutrient Details card — but not the item overall</h3>
+<p>The Nutrient Details card will not save if any asterisk-marked required fields are empty. However, this only blocks saving of that card — the item itself can still be used for Inventory purposes. The Nutrient Info tab will remain at <code>Incomplete</code> status. The item must have complete Nutrient Info before it can meaningfully contribute to Menu Planning nutrient analysis. <!-- Source: transcript [35:02] --></p>
+
+<h3>7.6 Sub-Qty reflects the standard pack specification, not actual shipment quantities</h3>
+<p>The Sub-Qty field must match the <em>standard</em> pack size as specified on the product spec sheet. Short-shipments or overages from vendors are handled as receiving discrepancies in the Inventory module — they do not require changing the item record. <!-- Source: transcript [10:28]: "The sub-quantity needs to be what the STANDARD pack size is. If your vendor is occasionally short-shipping, that's a receiving issue, not an item setup issue." --></p>
+
+<h3>7.7 Enable Recipe button only appears after a Direct Menu Item is created</h3>
+<p>The Steps card and the <code>ENABLE RECIPE</code> button are not available until a Menu Item has been created (i.e., <code>CREATE MENU ITEM</code> has been clicked and saved). <!-- Source: NXT-44714 AC: "Provide the Steps card as an optional feature of the direct menu item / can only be enabled once the Menu Item is created" --></p>
+
+<h2>8. Troubleshooting</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Symptom</th>
+      <th>Likely Cause</th>
+      <th>Fix</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Nutrient Info and Menu Info tabs are grayed out after adding a serving size.</td>
+      <td>The Units card has not been saved yet. Tabs become active only after a Units card save.</td>
+      <td>Save the Units card first, then navigate to those tabs. <!-- Source: transcript [14:12] --></td>
+    </tr>
+    <tr>
+      <td>Missing Costing alert persists after entering a price.</td>
+      <td>SAVE was not clicked after entering the cost, or pack sizes were added after the costing step.</td>
+      <td>Ensure all pack sizes are added first, then open Missing Costing → Edit → enter cost for one tier → SAVE. <!-- Source: transcript [05:18] --></td>
+    </tr>
+    <tr>
+      <td>Inventory Ready alert persists on a food item even after entering a serving size.</td>
+      <td>Serving sizes and pack sizes are not yet linked. The system requires an explicit Sub-Qty link.</td>
+      <td>Open the Inventory Ready alert → Edit → enter Sub-Qty on the serving size row (how many servings fit in the lowest pack unit) → SAVE. <!-- Source: transcript [15:22] --> <!-- Source: NXT-37441 AC: "Trigger Inventory readiness based on proper pack-serving links" --></td>
+    </tr>
+    <tr>
+      <td>Custom allergen does not appear in the Allergen Info dropdown.</td>
+      <td>The custom allergen was not created in Configuration before attempting to assign it to the item.</td>
+      <td>Navigate to Item Management → Configuration → Item Configuration → Custom Allergens → create the allergen → return to the item. <!-- Source: transcript [23:28] --></td>
+    </tr>
+    <tr>
+      <td>The Enable Recipe button and Steps card are not visible on the Menu Info tab.</td>
+      <td>The Direct Menu Item has not been created yet; the Steps card is only available after CREATE MENU ITEM is saved.</td>
+      <td>Click CREATE MENU ITEM, fill in all required fields, click SAVE — then the Enable Recipe button becomes available. <!-- Source: NXT-44714 AC: "can only be enabled once the Menu Item is created" --></td>
+    </tr>
+    <tr>
+      <td>Base Unit or Whole / Decimal setting cannot be changed.</td>
+      <td>The item has already been used in an Inventory transaction and the settings are locked.</td>
+      <td>Contact your system administrator. Changing locked settings after Inventory use requires data remediation steps. <!-- Source: transcript [37:35] --></td>
+    </tr>
+    <tr>
+      <td>Nutrient Details card will not save.</td>
+      <td>One or more required (asterisk-marked) nutrient fields are blank. A blank field is not valid — entering zero implies zero content, and leaving it empty blocks save.</td>
+      <td>Fill in all required fields. If a value is genuinely unknown or not on the label, check the Missing Value checkbox rather than leaving the field empty. <!-- Source: transcript [35:02] --></td>
+    </tr>
+    <tr>
+      <td>Cost amounts look wrong on lower pack tiers after entering the top-tier price.</td>
+      <td>The system divides the entered cost by each tier's Sub-Qty. If Sub-Qty values are wrong, the calculated costs will be wrong.</td>
+      <td>Verify Sub-Qty values for each pack tier, then re-enter the cost via Manage Costing. <!-- Source: transcript [08:32] --></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Open Questions from Training Session</h3>
+
+<p>The following questions were raised during the session and could not be definitively answered. Follow up with your Cybersoft implementation specialist or support team. <!-- Source: transcript [24:02], [33:00], [33:35] --></p>
+
+<ul>
+  <li><strong>Bulk allergen import:</strong> Whether allergens can be imported in bulk for large item catalogs. A Bulk Item Onboarding tool exists for creating large numbers of items (NXT-41229 epic), but the specific scope of allergen data import was not confirmed during training. <!-- Source: transcript [24:02]: "I believe there's an import feature, but I'm honestly not sure of the details on that" --> [TO VERIFY]</li>
+  <li><strong>Corporate catalog / pre-built item database:</strong> Whether items can be pulled from a Cybersoft-maintained or manufacturer-provided catalog rather than entered manually. Not confirmed. <!-- Source: transcript [33:35]: "I know there's a data sharing feature where you can get items from a corporate database. But I don't think that's the same as what you're asking." --> [TO VERIFY]</li>
+  <li><strong>Taxable item rate configuration:</strong> How the system calculates and applies sales tax once the Taxable checkbox is checked. <!-- Source: transcript [31:20]: "I'm not sure how the sales tax calculation works in 2.0" --> [TO VERIFY]</li>
+</ul>
+
+<blockquote class="discrepancy">
+  <strong>⚠ Discrepancy — Item Copy Feature</strong><br><br>
+  <strong>Transcript [33:00]:</strong> Presenter Sarah Chen stated: <em>"I don't think the copy feature is in 2.0 yet. I know it's been, like, talked about. But I could be wrong."</em><br><br>
+  <strong>Jira evidence:</strong> NXT-56820 (closed bug within the NXT-45562 Units Card Overhaul epic) references an <em>"API Error 500 … when user is clicking on Copy &amp; Save button from 'Copy Item' details page."</em> NXT-57314 similarly references copy-item behavior. Both tickets are closed, suggesting the Copy Item feature exists and was actively tested.<br><br>
+  <strong>Resolution needed:</strong> Verify with the Cybersoft product team whether Copy Item is available in the current production release. Do not instruct users to use a feature whose availability is unconfirmed.
+</blockquote>
+
+<h2>9. Related Content</h2>
+
+<ul>
+  <li><strong>Inventory:</strong> Items created in Item Management must be published to Inventory before they can be used in stock transactions. Vendor contracts, receiving workflows, and inventory counts are managed in the Inventory module. The Inventory Info tab on the item record provides a read-only bridge. [[Link: Inventory module guide]]</li>
+  <li><strong>Menu Planning:</strong> Food items with complete Nutrient Info and a configured Direct Menu Item can be placed on menus. Meal-pattern compliance analysis, recipe creation, and menu nutrient reporting are all managed in Menu Planning. [[Link: Menu Planning module guide]]</li>
+  <li><strong>Production:</strong> Production records draw on Menu Item configuration — especially Max Days, Leftover Category, and Preparation Site Item settings. [[Link: Production module guide]]</li>
+  <li><strong>Point of Sale (POS):</strong> POS pricing configured in Item Management flows to cashier terminals. Transaction processing, eligibility checking, and POS category management are in the POS module. [[Link: POS module guide]]</li>
+  <li><strong>Family Hub:</strong> Marketing Name, Description, and custom allergen visibility flags configured in Item Management appear in the parent-facing Family Hub portal. [[Link: Family Hub guide]]</li>
+  <li><strong>Item Onboarding (Bulk Import):</strong> Districts with large item catalogs can use the Bulk Item Onboarding tool to create many items at once rather than individually. <!-- Source: NXT-41229 summary: "IM - Bulk Item Onboarding - Ingredient Info" --> See the separate Item Onboarding guide for that workflow. [[Link: Item Onboarding guide]]</li>
+</ul>
+
+<h2>10. Sources</h2>
+
+<h3>Transcript</h3>
+<ul>
+  <li>Training recording <strong>REC-2026-0515-IM-001</strong> — "Item Management: Creating Food and Non-Food Items," presented by Sarah Chen (Implementation Specialist), May 15, 2026. Brunswick County Schools onboarding cohort, ~12 attendees. Duration: through break at [38:42]. File: <code>20260529-070600-item-management-2026-05-28-item-management-create-items-training.md</code>.</li>
+</ul>
+
+<h3>Jira Tickets (directly cited)</h3>
+<ul>
+  <li><strong>NXT-37110</strong> — IM - Items - Units - Pack Sizes &amp; Sub-Qty [Done Done, P:High, Epic: NXT-36067]</li>
+  <li><strong>NXT-37441</strong> — IM - Items - Units - Link Servings to Pack Size [Done Done, P:Highest, Epic: NXT-36067]</li>
+  <li><strong>NXT-37068</strong> — IM - Items - Units - Inventory Readiness [Done Done, P:High, Epic: NXT-36067]</li>
+  <li><strong>NXT-33518</strong> — IM/INV - Items - Units - Option for counting Base Unit in decimals [Done Done, P:Low, Epic: NXT-36067]</li>
+  <li><strong>NXT-39594</strong> — IM - Item Details - Menu &amp; POS Info - Create/Edit [Done Done, P:High, Epic: NXT-29833]</li>
+  <li><strong>NXT-44714</strong> — IM - Items - Merge SIR into Direct Menu Item [Done Done, P:High, RN:External/Internal, Epic: NXT-40775] — Release Notes Title: "Removal of Single Item Recipe tab"</li>
+  <li><strong>NXT-44876</strong> — IM - Items/Recipes - POS Pricing tab [Done Done, P:High, Epic: NXT-46235]</li>
+  <li><strong>NXT-36742</strong> — IM - Recipe Rework - Recipe Steps - HACCP - Add/Edit CCP [Done Done, P:High, Epic: NXT-26823]</li>
+  <li><strong>NXT-36358</strong> — IM - Recipe Rework - Steps &amp; Ingredients - Edit Recipe Steps [Done Done, P:High, Epic: NXT-26823]</li>
+  <li><strong>NXT-40448</strong> — IM - Menu Items - Servings - Serving Size Exceptions [Done Done, P:Medium, Epic: NXT-29833]</li>
+  <li><strong>NXT-53316</strong> — IM - Configuration - Roles &amp; Permissions [Done Done, P:Medium, Epic: NXT-38086]</li>
+  <li><strong>NXT-38086</strong> — Back Office - Permissions [Done Done, P:Medium] (components: Item Management, Menu Planning, Production)</li>
+  <li><strong>NXT-36069</strong> — IM - Item Config - HACCP Configuration page - Processes [Done Done, P:High, Epic: NXT-26823]</li>
+  <li><strong>NXT-36741</strong> — IM - Item Config - HACCP Configuration page - Control Points [Done Done, P:High, Epic: NXT-26823]</li>
+  <li><strong>NXT-47249</strong> — IM - Items - Move Yield Factor to be serving specific [Done Done, P:Medium, RN:External/Internal, Epic: NXT-45562]</li>
+  <li><strong>NXT-54702</strong> — Regression: subpage name "Custom Allergens" vs "Custom Allergen Configuration" [Rejected Bug] — confirms correct subpage label</li>
+  <li><strong>NXT-56820</strong> — Bug: API Error 500 on Copy &amp; Save from Copy Item page [Closed, Epic: NXT-45562] — referenced in discrepancy note on copy-item feature</li>
+  <li><strong>NXT-26809</strong> — IM - Item History (Nutrient Info tab) [Done Done, P:Low, Epic: NXT-36067] — referenced in Reports section</li>
+</ul>
+
+<h3>Epics (read for full surface area)</h3>
+<ul>
+  <li><strong>NXT-36067</strong> — IM - Item Units &amp; Sub-types (29 child stories)</li>
+  <li><strong>NXT-45562</strong> — IM - Units Card Overhaul (50 child stories)</li>
+  <li><strong>NXT-29833</strong> — IM - Menu &amp; POS Consolidation (22 child stories)</li>
+  <li><strong>NXT-26823</strong> — IM - Item Type Consolidation - Recipe Rework (30 child stories)</li>
+</ul>
+
+<h3>Intentional Omissions</h3>
+<ul>
+  <li><strong>Bulk Item Onboarding:</strong> Not covered in training session. Covered by NXT-41229 epic (IM - Bulk Item Onboarding). See separate Item Onboarding guide.</li>
+  <li><strong>Variety Menu Items:</strong> Not covered in training. See NXT-29833 epic child stories NXT-34511 and NXT-39643.</li>
+  <li><strong>POS-Only Items:</strong> Not covered in training. See NXT-29833 epic child stories NXT-39642 and NXT-39988.</li>
+  <li><strong>Recipe creation (multi-ingredient):</strong> Presenter noted at [37:00] that recipes and menu planning are a separate module and separate training session. Out of scope for this guide.</li>
+  <li><strong>Item History tab:</strong> Referenced in NXT-26809 but not demonstrated in training. Omitted pending separate coverage.</li>
+</ul>

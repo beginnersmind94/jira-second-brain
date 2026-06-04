@@ -1,0 +1,5 @@
+- [Yield Factor Placement Discrepancy](discrepancy-yield-factor-placement.md) — Presenter puts Yield Factor on Ingredient Info; NXT-47249 AC moved it to Units card. Recurring IM training issue.
+- [Custom Allergen Family Hub Toggle](unsupported-custom-allergen-family-hub-toggle.md) — "Show on Family Hub menus" toggle at custom allergen creation: not in NXT-24128 AC. Unsupported/ambiguous.
+- [Informal Names vs Official Labels](informal-names-vs-official-labels.md) — Presenter terminology map vs. AC/Jira language for Item Management (promote vs. Merge, etc.).
+- [Cross-Module Bleed: Item Management](cross-module-bleed-item-management.md) — Inventory, Recipes, Family Hub, POS, Production Records are the primary bleed targets in IM training.
+- [AC-Thin Tickets: Item Management](tier-caution-ac-thin-tickets-item-management.md) — Tickets where field-level specifics are Description-only; writer must use [TO VERIFY] for labels from these tickets.

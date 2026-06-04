@@ -1,0 +1,3 @@
+{"k": "system", "p": {"subtype": "planning"}}
+{"k": "tool_call", "p": {"name": "mcp__producer_tools__parse_transcript", "input": {"transcript_path": "C:\\Users\\rahul.mehta\\Downloads\\Financials-Documentation-KT\\learning-agent\\raw\\transcripts\\20260601-122832-item-management-20260529-070600-item-management-2026-05-28-item-.md"}}}
+{"k": "tool_call", "p": {"name": "mcp__producer_tools__match_tickets", "input": {"query": "create non-food item item card fields", "module": "Item Management"}}}

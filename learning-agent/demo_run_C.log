@@ -1,0 +1,45 @@
+[C:meta+enforce+medium] fixture: 4977 tickets + 888 epics (module 'Item Management')
+Step 1: generating long-form (full research, the long pole)…
+Step 2: deriving micro-guide + tldr from the long-form (no Jira)…
+
+=== TELEMETRY [C:meta+enforce+medium] ===
+stage           secs   words    chars  out_tok   in_tok  cache_rd think_tok
+long-form      412.3    4837    47499    22378        8    204150      None
+micro-guide    258.5    1599    16094    11682        3         0      None
+tldr            58.1     577     6306     2809        3         0      None
+
+Total wall time: 670.8s  (long-form 412s + derivations)
+
+=== CITATION INTEGRITY [C:meta+enforce+medium]  (tier_lie should be 0 after enforce) ===
+stage         cites  tokened    ok  tier_lie  not_found  autofix
+long-form       163       43    20         0         23        7
+    ⚠ NXT-37568:AC quote_not_found  “if the Valuation Group selected has a 'Standard Price' for V”
+    ⚠ NXT-53528:AC quote_not_found  “Food or Non-Food … If Non-Food is selected: disable row 2 an”
+    ⚠ NXT-53528:AC quote_not_found  “If Non-Food is selected: disable row 2 and 4”
+    ⚠ NXT-53528:AC quote_not_found  “# of countable inventory units: options: 1, 2, 3, None/Decid”
+micro-guide      63       18     7         0         11        0
+    ⚠ NXT-37568:AC quote_not_found  “if the Valuation Group selected has a 'Standard Price' for V”
+    ⚠ NXT-53528:AC quote_not_found  “If Non-Food is selected: disable row 2 and 4”
+    ⚠ NXT-53528:AC quote_not_found  “# of countable inventory units: options: 1, 2, 3, None/Decid”
+    ⚠ NXT-37568:AC quote_not_found  “Provide an optional Costing step; Require FMV for Inventory ”
+tldr             27        7     3         0          4        0
+    ⚠ NXT-53528:AC quote_not_found  “# of countable inventory units: options: 1, 2, 3, None/Decid”
+    ⚠ NXT-35898:AC quote_not_found  “Fluid Item? Y/N — if Yes, switch to 'Volume' for Serving Siz”
+    ⚠ NXT-37568:AC quote_not_found  “Provide an optional Costing step; Require FMV for Inventory ”
+    ⚠ NXT-20654:AC quote_not_found  “Entry Point: Menu Item → Menu Items Landing Page → Add Butto”
+
+=== EVAL (grounding bars) [C:meta+enforce+medium] ===
+
+long-form: VERDICT=FAIL  (wc=2900)
+  Draft fails on two hard counts: (1) truncated mid-sentence in §4.8 with five required long-form sections entirely absent; (2) Description-tier (Tier 3) text is misattributed as Acceptance Criteria in NXT-37568, NXT-37111, and NXT-35898 — a systemic citation tier violation across the most consequential workflow claims.
+  checks: Template fit=fail; Length budget=warn; Source grounding=warn; Citation spot-check=fail; Discrepancy handling=warn; Unverifiable specifics=warn
+
+micro-guide: VERDICT=FAIL  (wc=1560)
+  NXT-37568 is cited as AC but the quoted text lives exclusively in the ticket's Description (Tier 3); draft also estimates ~1,560 words against the 1,500-word hard ceiling.
+  checks: Template fit=ok; Length budget=warn; Source grounding=warn; Citation spot-check=fail; Discrepancy handling=ok; Unverifiable specifics=warn
+
+tldr: VERDICT=FAIL  (wc=571)
+  Draft fails the TLDR 500-word hard ceiling (~571 words rendered); source grounding and [TO VERIFY] handling carry additional warnings.
+  checks: Template fit=ok; Length budget=fail; Source grounding=warn; Citation spot-check=ok; Discrepancy handling=ok; Unverifiable specifics=warn
+
+View in the UI:  uvicorn app:app --host 127.0.0.1 --port 8000  → Library tab.

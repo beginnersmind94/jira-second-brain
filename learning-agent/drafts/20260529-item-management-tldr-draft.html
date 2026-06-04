@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Item Management — TLDR One-Pager</title>
+<style>
+  body { font-family: Arial, sans-serif; font-size: 11.5px; line-height: 1.35; margin: 0.6in 0.65in; color: #111; max-width: 7.2in; }
+  h1 { font-size: 15px; margin: 0 0 4px 0; border-bottom: 2px solid #333; padding-bottom: 3px; }
+  h2 { font-size: 12.5px; margin: 8px 0 3px 0; border-bottom: 1px solid #aaa; padding-bottom: 1px; text-transform: uppercase; letter-spacing: 0.03em; }
+  p { margin: 2px 0 4px 0; }
+  table { border-collapse: collapse; width: 100%; font-size: 11px; }
+  thead th { background: #e8e8e8; font-weight: bold; padding: 3px 6px; text-align: left; border: 1px solid #bbb; }
+  td { padding: 2px 6px; border: 1px solid #ccc; vertical-align: top; }
+  td:first-child { width: 34%; font-weight: 600; white-space: nowrap; }
+  td:last-child { width: 66%; }
+  ul { margin: 2px 0 4px 0; padding-left: 16px; }
+  li { margin-bottom: 1px; }
+  code { background: #f0f0f0; padding: 0 2px; font-size: 10.5px; border-radius: 2px; }
+  .meta { font-size: 10px; color: #555; margin: 0 0 5px 0; }
+</style>
+</head>
+<body>
+
+<h1>Item Management — TLDR One-Pager</h1>
+<p class="meta">Module: Item Management &nbsp;|&nbsp; Template: TLDR one-pager &nbsp;|&nbsp; Draft: 2026-05-29 &nbsp;|&nbsp; Source: 20260529-070600-item-management-create-items-training</p>
+
+<h2>What this module does</h2>
+<!-- Source: NXT-30036 AC: "Load the new initial item creation screen on click of +New"; NXT-35898 AC: "Provide Food item and Fluid item questions"; NXT-30155 AC: "Enable the POS Info tab"; transcript [00:00]–[00:52] -->
+<p>Item Management is where District Admins and Nutrition Managers create and maintain every food and non-food item — including pack sizes, nutrients, allergens, and menu configuration — before the item can be used in Inventory, Recipes, or POS.</p>
+
+<h2>Key features</h2>
+<table>
+  <thead>
+    <tr><th>Feature</th><th>What it does</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <!-- Source: NXT-30036 AC: "Load the new initial item creation screen on click of +New; Require Description; Provide Tags field" — field names Brand Name, Manufacturer, Product Code are Description-tier [TO VERIFY label accuracy before publish] -->
+      <td><code>Item card</code></td>
+      <td>Create items via <code>+NEW</code>; Item Description required; Tags optional.</td>
+    </tr>
+    <tr>
+      <!-- Source: NXT-30037 AC: "If not skipping, require a value for all 3 dropdowns" — field names Item Category, Storage Category, Valuation Group are Description-tier [TO VERIFY label accuracy before publish] -->
+      <td>Product Info attributes</td>
+      <td>Three required dropdowns unlock Inventory; skippable for POS-only items.</td>
+    </tr>
+    <tr>
+      <!-- Source: NXT-35898 AC: "Provide Food item and Fluid item questions in the header bar of the card before enabling the grid" -->
+      <td>Food / Fluid selection</td>
+      <td>Two header questions control available unit types and serving fields.</td>
+    </tr>
+    <tr>
+      <!-- Source: NXT-37110 AC: "Provide the ability to add pack size units in the combined Units grid; Bring attention to the appropriate Sub-Qty fields" — three-tier cap is Description-tier [TO VERIFY before publish] -->
+      <td>Pack sizes</td>
+      <td>Add multiple pack size tiers; Sub-Qty links tiers together.</td>
+    </tr>
+    <tr>
+      <!-- Source: NXT-37109 AC: "Populate the Identifiers column with various icons associated with different important flags which are assigned at a unit level"; NXT-37111 AC: "Provide a step to confirm Inventory info, including the Base Unit" — badge letter codes (P/BU/MI) are Description-tier [TO VERIFY before publish] -->
+      <td>Unit Identifiers and Base Unit</td>
+      <td>Identifiers column shows per-unit flags; lowest pack size auto-assigned as Base Unit.</td>
+    </tr>
+    <tr>
+      <!-- Source: NXT-37568 AC: "Provide an optional Costing step; Require FMV for Inventory readiness" — single-unit entry with auto-scale confirmed in Description-tier only -->
+      <td>Costing</td>
+      <td>Enter cost for one tier; system scales to all others; FMV required.</td>
+    </tr>
+    <tr>
+      <!-- Source: NXT-53530 AC: "Always display the inventory readiness banner (including for placeholder units; for all scenarios including 'Non-Inventory' for Ineligible or Disabled)" -->
+      <td>Inventory Readiness banner</td>
+      <td>Always-visible banner shows whether the item meets Inventory requirements.</td>
+    </tr>
+    <tr>
+      <!-- Source: NXT-33518 AC: "Provide an option in the context of the new Units card to determine whether the Base Unit can be counted in decimals; Update Inventory to consume the decimal flag" -->
+      <td>Whole Numbers / Decimals</td>
+      <td>Sets whether the Base Unit allows decimal counting in Inventory.</td>
+    </tr>
+    <tr>
+      <!-- Source: NXT-37815 AC: "Add an edit GTIN/UPC function to the Units card; Allow 8-14 digits in the GTIN field; Display barcode identifier for units which have GTIN" -->
+      <td>GTIN / UPC</td>
+      <td>Attach 8–14 digit barcodes per pack size; barcode icon appears in Identifiers.</td>
+    </tr>
+    <tr>
+      <!-- Source: NXT-35898 AC: "Provide a button for adding a Serving Size unit; Provide the ability to add and save independent serving sizes" -->
+      <td>Serving sizes (food items only)</td>
+      <td>Add serving sizes with Amount, Description, and Weight.</td>
+    </tr>
+    <tr>
+      <!-- Source: NXT-37441 AC: "Provide Sub-Qty on the Serving Size row in valid scenarios; Trigger Inventory readiness based on proper pack-serving links" -->
+      <td>Serving-to-pack link</td>
+      <td>Sub-Qty on the serving row connects it to a parent pack size.</td>
+    </tr>
+    <tr>
+      <!-- Source: NXT-40778 AC: "Prompt users with a dedicated 'Merge' button when they are attempting to create a unit which is likely intended to be a dual unit; if the serving has sub-qty, promote that sub-qty to new base unit" -->
+      <td>Merge / Base Unit promotion</td>
+      <td>Merge prompt combines a matching pack and serving into one dual-use unit.</td>
+    </tr>
+    <tr>
+      <!-- Source: NXT-47249 AC: "Make Yield Factor configurable on each serving in the Units card; Remove Yield Factor from Ingredient Info card (moved to Units)"; NXT-30100 AC: "Provide a 1/3 width card for the miscellaneous food item info" — Sub Ingredients, Standard Recipe Directions, Locally Grown, Buy American field names are Description-tier [TO VERIFY before publish] -->
+      <td>Yield Factor and Ingredient Info</td>
+      <td>Yield Factor per serving on Units card; Ingredient Info holds recipe text.</td>
+    </tr>
+    <tr>
+      <!-- Source: NXT-41273 AC: "Replace the edit mode of the Images card with a new Image & Document slideout; For images, provide a 'Use As' dropdown: Preferred Ingredient Image, Preferred Inventory Image, Menu Image; For documents: CN Label, Buy American Exemption Letter, Product Formulation Statements, Meal Credits"; RN: "Up to 10 files can be uploaded" — 5 MB per-file limit and file type enumeration are Description-tier [TO VERIFY before publish] -->
+      <td>Images &amp; Documents</td>
+      <td>Drag-and-drop drawer; up to 10 files; assign a Use As type each.</td>
+    </tr>
+    <tr>
+      <!-- Source: NXT-43239 AC: "Automatically set nested nutrients to zero if the parent nutrient is set to 0; Update business rules: Vitamin A, Vitamin C, Moisture, Ash changed to optional"; RN: "Vitamin A and Vitamin C are now considered optional; leaving them blank will automatically enable the Is Missing option" -->
+      <td>Nutrient Details</td>
+      <td>Enter required nutrients; Vitamins A and C optional; zero parent auto-zeros children.</td>
+    </tr>
+    <tr>
+      <!-- Source: NXT-30102 AC: "Load the Contributions section once the Serving Measures is successfully saved; Add/Edit Contributions in the slideout; Allow user to 'skip for now'"; NXT-37216 AC: "List each applicable component on a dedicated row within the card (sequence: Fruits, MMA, Grains, Milk, Veg)" -->
+      <td>Contribution Info</td>
+      <td>Records meal pattern credits (Fruits, MMA, Grains, Milk, Veg); skippable.</td>
+    </tr>
+    <tr>
+      <!-- Source: NXT-30103 AC: "Load the Allergens section; Can create or enter allergen without having nutrient/contribution information entered; Allow user to 'skip for now'"; NXT-41275 AC: "Prioritize allergen forms in the following order: 'Contains' form, 'Processed....' form, 'May Contain' form, 'Free From'" -->
+      <td>Allergen Info</td>
+      <td>Standard allergens in priority order: Contains, Processed, May Contain, Free From.</td>
+    </tr>
+    <tr>
+      <!-- Source: NXT-24128 AC: "A Custom allergens option is added under IM configuration area; Custom Allergen Description — Mandatory; Data Source — Mandatory; no duplicates allowed" -->
+      <td>Custom Allergen configuration</td>
+      <td>Create district-specific allergens at IM &gt; Configuration; duplicates blocked.</td>
+    </tr>
+    <tr>
+      <!-- Source: NXT-39594 AC: "Create a Menu Item tab" — Show on POS toggle controlling POS attributes and Pricing table is NXT-39594 Description (TIER 3); toggle-to-pricing behavior cited via NXT-30155 AC: "Enable the POS Info tab if the user specifies the item as a POS Item; Load the POS attributes and Pricing section" -->
+      <td>Menu Info tab / Direct Menu Item</td>
+      <td>Create a Menu Item on the record; Show on POS unlocks pricing.</td>
+    </tr>
+    <tr>
+      <!-- Source: NXT-30155 AC: "Enable the POS Info tab; Load the POS attributes and Pricing section; Maintain existing logic" — individual field names (Menu Item Name, Button Name, etc.) are Description-tier [TO VERIFY before publish] -->
+      <td>Menu Item fields</td>
+      <td>Fields configure Menu Item name, category, marketing details, and carryover rules.</td>
+    </tr>
+    <tr>
+      <!-- Source: NXT-40447 AC: "Within the MI Units edit mode, provide a '+Menu Serving' button"; NXT-54229 AC: "Menu Serving and Exceptions should be available once the item is a Menu Item" — exact exception UI steps are Description-tier [TO VERIFY before publish] -->
+      <td>Menu Item Servings and Exceptions</td>
+      <td>Add menu servings via <code>+Menu Serving</code>; mark exceptions per school or group.</td>
+    </tr>
+    <tr>
+      <!-- Source: NXT-36583 AC: "Add a small selection for Recipe HACCP Process (this will belong to the Steps process and tab)"; NXT-36742 AC: "Allow CCPs to be added to the recipe like steps; Allow added CCPs to be edited for Critical Limit and Corrective Action" — HACCP process names (No Cook / Same Day Service / Complex Food) are Description-tier [TO VERIFY before publish] -->
+      <td>Steps / HACCP and Control Points</td>
+      <td>Select a HACCP Process, add prep steps, and add Control Points.</td>
+    </tr>
+    <tr>
+      <!-- Source: NXT-30155 AC: "Separate pricing for Students and Adults with tabs; Provide the 'Set All Prices' option"; NXT-58442 AC: "Only display the Taxable option when the Adult tab is selected on POS Pricing" -->
+      <td>POS Pricing</td>
+      <td>Student and adult pricing in separate tabs; Taxable on Adults tab only.</td>
+    </tr>
+    <tr>
+      <!-- Source: NXT-40479 AC: "Display a read-only 'Inventory Item Active Contracts' card which has a preview of the Contract Items page details; Provide an icon to open Inventory in a new tab" — specific column names are Description-tier [TO VERIFY before publish] -->
+      <td>Inventory Info tab</td>
+      <td>Read-only active vendor contracts preview; icon opens Contract Items in new tab.</td>
+    </tr>
+    <tr>
+      <!-- Source: NXT-54229 AC: "Long-term editing: changing sub-quantities (including inventory-able servings and dual units)" — specific trigger events and locked field names are Description-tier [TO VERIFY before publish] -->
+      <td>Editability locking</td>
+      <td>Base Unit and Whole Numbers/Decimals lock once used in Inventory transactions.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Who uses it</h2>
+<!-- Source: transcript [00:52] -->
+<p>District Admins create and maintain all item records; Nutrition Managers complete nutrient, contribution, allergen, and menu details.</p>
+
+<h2>Common workflows</h2>
+<!-- Source: transcript [00:52]–[38:05]; verified claims V1–V37 in factcheck.md -->
+<ul>
+  <li>Create a non-food item — add Item Description, select Product Info dropdowns, add pack sizes, enter costing.</li>
+  <li>Create a food item — add pack sizes, add serving sizes, link serving to pack via Sub-Qty, confirm Base Unit.</li>
+  <li>Set up nutrients — open Nutrient Details, enter required nutrients, use Missing Value checkbox, save.</li>
+  <li>Configure allergens — record standard allergen forms; add custom allergens first via IM Configuration.</li>
+  <li>Make an item a Menu Item — open Menu Info tab, complete fields, enable Show on POS, configure pricing.</li>
+  <li>Attach documents — drag files onto Images &amp; Documents card, assign Use As type per file.</li>
+</ul>
+
+<h2>Important gotchas</h2>
+<ul>
+  <li>Add pack sizes <strong>before</strong> entering costing — system flags costs after all tiers exist.<!-- Source: transcript [05:18] — "the system tells you not to address that until you've added ALL your pack sizes" --></li>
+  <li>Serving must link to a pack via Sub-Qty — unlinked servings leave item Inventory Ineligible.<!-- Source: NXT-37441 AC: "Trigger Inventory readiness based on proper pack-serving links" --></li>
+  <li>Base Unit and Whole Numbers/Decimals lock after the first Inventory transaction and cannot be changed.<!-- Source: NXT-54229 AC: "Long-term editing: changing sub-quantities listed as restricted"; transcript [37:35]–[38:05] --></li>
+  <li>Custom allergens must be created in Configuration before they appear on item records.<!-- Source: NXT-24128 AC: "A Custom allergens option is added under IM configuration area" --></li>
+  <li>Discrepancy: presenter placed Yield Factor on Ingredient Info [20:42]; AC says Units card.<!-- Source: factcheck.md D1 HIGH; NXT-47249 AC: "Remove Yield Factor from Ingredient Info card (moved to Units)" --></li>
+</ul>
+
+<h2>Where to go next</h2>
+<ul>
+  <li>[[Inventory module]] — vendor contracts, receiving, and counts consume pack sizes and Base Unit configured here.</li>
+  <li>[[Recipes module]] — serving sizes and Ingredient Info feed ingredient calculations and Yield Factor.</li>
+  <li>[[Menu Planning module]] — nutrient data and Contribution Info drive menu nutrient analysis.</li>
+  <li>[[POS module]] — Button Name and POS Pricing configured in Menu Info flow to the POS touchscreen.</li>
+</ul>
+
+</body>
+</html>

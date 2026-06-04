@@ -1,0 +1,52 @@
+<h1>Item Management — TLDR</h1>
+
+<h2>What this module does</h2>
+<p>Item Management is the master catalog where District Administrators create and configure every food and non-food product — establishing pack sizes, nutrients, allergens, and pricing that Inventory, Menu Planning, and POS all depend on. <!-- Source: transcript [00:52] --> <!-- Source: transcript [00:00] --></p>
+
+<h2>Key features</h2>
+<table>
+  <thead><tr><th>Feature</th><th>What it does</th></tr></thead>
+  <tbody>
+    <tr><td>Food / Non-Food item type</td><td>Determines whether serving sizes, nutrients, and POS fields are available. <!-- Source: NXT-35898 AC: "Provide Food item and Fluid item questions in the header bar of the card before enabling the grid" --></td></tr>
+    <tr><td>Pack sizes (up to 3 tiers)</td><td>Defines ordered unit hierarchy (e.g., Case → Carton → Each) for Inventory receiving. <!-- Source: transcript [07:05] --> <!-- Source: NXT-37110 --></td></tr>
+    <tr><td>Serving sizes &amp; pack linking</td><td>Links serving sizes to packs via <code>Sub-Qty</code>; unlinked food items are Inventory Ineligible. <!-- Source: NXT-37441 AC: "We will allow users to add pack units which are unlinked from servings, but these items will be Inventory Ineligible" --></td></tr>
+    <tr><td>Base Unit designation</td><td>Marks the lowest countable inventory unit; can be promoted to the serving size for food items. <!-- Source: NXT-37111 --></td></tr>
+    <tr><td>Costing</td><td>Enter cost for one pack tier; system auto-calculates all other tiers from sub-quantities. <!-- Source: transcript [08:08] --> <!-- Source: NXT-37110 --></td></tr>
+    <tr><td>Nutrient Info</td><td>Captures label nutrients; <code>(M)</code> flag marks missing values as unknown rather than zero. <!-- Source: transcript [35:35] --></td></tr>
+    <tr><td>Allergen Info</td><td>Assigns standard or custom allergen status (Contains / May Contain / Free From) per item. <!-- Source: NXT-30103 --></td></tr>
+    <tr><td>Contribution Info</td><td>Records meal-pattern credits (Meat/Alternate, Grains, Vegetables, Fluid Milk). <!-- Source: transcript [21:52] --></td></tr>
+    <tr><td>Direct Menu Item (DMI)</td><td>Promotes a food item to a standalone menu entry visible on production records and POS. <!-- Source: NXT-30154 --> <!-- Source: transcript [24:30] --></td></tr>
+    <tr><td>POS Pricing</td><td>Sets per-eligibility-group prices (Free, Reduced, Paid) across site types for cashier screens. <!-- Source: transcript [29:55] --></td></tr>
+    <tr><td>HACCP Steps</td><td>Attaches process type (No Cook / Same Day / Complex) and prep directions to an item. <!-- Source: transcript [28:35] --></td></tr>
+    <tr><td>Custom Allergen configuration</td><td>Adds non-standard allergens to the district list via <code>Item Management &gt; Configuration &gt; Item Configuration</code>. <!-- Source: transcript [23:28] --></td></tr>
+  </tbody>
+</table>
+
+<h2>Who uses it</h2>
+<p>District Administrators create and publish items; Menu Planners (Nutritionists) manage nutrient, allergen, contribution, and Direct Menu Item settings. <!-- Source: NXT-30103 Description: "As a District Admin I want an allergens section..." --> <!-- Source: NXT-20609 Epic Description: "As a Menu Planning Manager, I would like to be able to have an area where I can take care of my menu item management" --></p>
+
+<h2>Common workflows</h2>
+<ul>
+  <li>Create a non-food supply item: Item card → select <strong>NON-FOOD</strong> → add pack sizes → enter costing. <!-- Source: transcript [01:24] --></li>
+  <li>Create a food item: Item card → select <strong>FOOD</strong> / fluid type → add serving size → add pack sizes → link via Sub-Qty → enter costing. <!-- Source: transcript [13:25] --></li>
+  <li>Configure nutrients, allergens, and meal-pattern contribution credits on the Nutrient Info tab. <!-- Source: transcript [19:12] --></li>
+  <li>Set up a Direct Menu Item with <code>Button Name</code>, <code>Menu Item Category</code>, and POS Pricing grid. <!-- Source: transcript [24:55] --></li>
+  <li>Add a custom allergen in Item Configuration, then assign it to items from the allergen panel. <!-- Source: transcript [23:28] --></li>
+</ul>
+
+<h2>Important gotchas</h2>
+<ul>
+  <li><strong>Add all pack sizes before entering costing.</strong> Adding a tier after costing is set causes the Missing Costing alert to persist. <!-- Source: transcript [05:18] --></li>
+  <li><strong>Base Unit and count mode lock after the first Inventory transaction.</strong> Configure both correctly before the item enters active Inventory use — they cannot be changed afterward. <!-- Source: NXT-37111 AC: "*Exception: this step/option is invalid once the item is in Inventory tables and Pack Size is locked" --> <!-- Source: transcript [37:35] --></li>
+  <li><strong>Unlinked food items are Inventory Ineligible.</strong> Serving sizes and pack sizes must be linked via Sub-Qty or the item cannot participate in full Inventory workflows. <!-- Source: NXT-37441 AC: "We will allow users to add pack units which are unlinked from servings, but these items will be Inventory Ineligible" --></li>
+  <li><strong>Maximum three pack-size tiers.</strong> The <strong>+ PACK</strong> button disables after tier three; handle higher-level units (e.g., pallets) at receiving time in Inventory. <!-- Source: transcript [07:05] --></li>
+  <li><strong>Custom allergens must be pre-configured before assignment.</strong> The item allergen dropdown only lists allergens already created in Item Configuration — the item panel cannot create new ones. <!-- Source: transcript [23:28] --></li>
+</ul>
+
+<h2>Where to go next</h2>
+<ul>
+  <li>[[Link: Inventory module guide]] — ordering, receiving, and stock management using published items.</li>
+  <li>[[Link: Menu Planning module guide]] — building menus and production records from configured food items.</li>
+  <li>[[Link: POS module guide]] — how Button Names and POS Pricing appear to cashiers.</li>
+  <li>[[Link: Family Hub guide]] — Marketing Names and custom allergen visibility in the parent portal.</li>
+</ul>

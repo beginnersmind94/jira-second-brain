@@ -1,0 +1,94 @@
+<h1>Item Management: Learning Guide</h1>
+
+<h2>What This Module Does</h2>
+<p>Item Management is the central configuration hub where all food and non-food items are created and fully built out — covering basic descriptions and pack sizes through nutrients, allergens, meal-pattern contributions, POS pricing, and HACCP steps — before those items become available in Inventory, Menu Planning, or POS.</p>
+
+<h2>Key Features</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>What it does</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Units Card</td>
+      <td>A single card combining pack size and serving size management. <!-- Source: [[NXT-35898:AC]] "Provide the new Units card in the item creation header which is the combination of the pack size and serving size sections" --> Food/Non-Food and Fluid/Non-Fluid flags in the header control which unit types and measure labels are enabled. <!-- Source: [[NXT-35898:AC]] "Provide Food item and Fluid item questions in the header bar of the card before enabling the grid" --></td>
+    </tr>
+    <tr>
+      <td>Pack Sizes</td>
+      <td>Users can add pack size units to the Units grid. <!-- Source: [[NXT-37110:AC]] "Provide the ability to add pack size units in the combined Units grid" --> Sub-Qty fields link pack sizes to each other; the system highlights required Sub-Qty fields automatically. <!-- Source: [[NXT-37110:AC]] "Bring attention to the appropriate Sub-Qty fields as required to link Pack Sizes" --></td>
+    </tr>
+    <tr>
+      <td>Serving Sizes</td>
+      <td>Independent serving sizes can be added for food items; serving sizes are disabled when the item is marked Non-Food. <!-- Source: [[NXT-35898:DESC]] "if No, disable Serving Sizes" --> A serving with an amount of 1 becomes eligible to link to a pack size as a base unit. <!-- Source: [[NXT-35898:DESC]] "if = 1, eligible for having sub-quantity and for possibly becoming a pack size (base unit)" --></td>
+    </tr>
+    <tr>
+      <td>Inventory Readiness &amp; Base Unit</td>
+      <td>The Inventory flag is triggered when pack sizes are added. <!-- Source: [[NXT-37110:AC]] "Build concept of Inventory Readiness for item status and create item flow logic" --> A completion step confirms the Base Unit before the Units card can be saved. <!-- Source: [[NXT-37111:AC]] "Provide a step to confirm Inventory info, including the Base Unit" --></td>
+    </tr>
+    <tr>
+      <td>Global Item Info</td>
+      <td>Brand, Manufacturer, and Product Code are optional fields available on all items. <!-- Source: [[NXT-37111:DESC]] "Global Info (Brand, Manufacturer, Product Code) is always optional, but ideally available" --></td>
+    </tr>
+    <tr>
+      <td>Nutrient Info</td>
+      <td>Nutrition information fields mirror those available on Menu Items. <!-- Source: [[NXT-20654:AC]] "Same fields as Item-Nutrition information" --></td>
+    </tr>
+    <tr>
+      <td>Allergen Info</td>
+      <td>Allergen information fields mirror those available on Menu Items. <!-- Source: [[NXT-20654:AC]] "Same fields as Item Allergen Information" --></td>
+    </tr>
+    <tr>
+      <td>Contribution Info</td>
+      <td>Contribution information fields mirror those available on Menu Items. <!-- Source: [[NXT-20654:AC]] "Same fields as Item-Contribution information" --></td>
+    </tr>
+    <tr>
+      <td>Menu Info &amp; Marketing Fields</td>
+      <td>Direct Menu Items support a Marketing Name and Marketing Description. <!-- Source: [[NXT-20654:AC]] "Marketing Name  (Free Text Box)" --> <!-- Source: [[NXT-20654:AC]] "Marketing Description  (Free Text Box)" --> Menu Item status controls eligibility for Menu Planning. <!-- Source: [[NXT-43158:RN]] "Menu Item Status - This determines whether the item is eligible to be added to a menu in Menu Planning. In the context of the Items page, this applies only to Direct Menu Items, which are items that are served without the inclusion of additional ingredients or complex recipe preparation." --></td>
+    </tr>
+    <tr>
+      <td>Images &amp; Docs</td>
+      <td>One image can be uploaded per item; location/file selection is provided and the field is not mandatory. <!-- Source: [[NXT-20654:AC]] "Location/File selection option should be provided.  Only 1 image can be loaded" --></td>
+    </tr>
+    <tr>
+      <td>Item &amp; Sub-Type Deactivation</td>
+      <td>A confirmation prompt is shown before deactivating; the system checks all sub-types and assigns Pending Deactivation status to any that cannot be made inactive immediately. <!-- Source: [[NXT-43158:AC]] "Provide a prompt on click of Deactivate button" --> <!-- Source: [[NXT-43158:AC]] "If any sub-types go into Pending Deactivation status, assign the Item with the same status" --></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Common Workflows</h2>
+<ul>
+  <li><strong>Create a non-food item:</strong> Fill the Item card, then select Non-Food in the Units card to disable serving sizes. <!-- Source: [[NXT-35898:AC]] "Provide Food item and Fluid item questions in the header bar of the card before enabling the grid" --> Add up to three pack tiers using Higher/Lower positioning and Sub-Qty to link them. <!-- Source: [[NXT-37110:AC]] "Provide the ability to add pack size units in the combined Units grid" --> Enter cost on one unit and let the system calculate the rest; optionally attach GTIN codes and images.</li>
+  <li><strong>Create a food item:</strong> Fill the Item card, then select Food and Non-Fluid or Fluid in the Units card. <!-- Source: [[NXT-35898:AC]] "Provide Food item and Fluid item questions in the header bar of the card before enabling the grid" --> Add serving size(s) first, then add pack tiers and link servings to packs via Sub-Qty — or promote a serving to the Base Unit. <!-- Source: [[NXT-37111:AC]] "Provide a step to confirm Inventory info, including the Base Unit" --> Complete costing, then fill Nutrient Info, Allergen Info, and Contribution Info, and enable Menu Item and POS Pricing. <!-- Source: [[NXT-20654:AC]] "Nutrition Information" --></li>
+  <li><strong>Add a custom allergen:</strong> Navigate to Item Management → Configuration → Item Configuration, select Custom Allergens, create the allergen, then return to the item's Allergen card to apply it.</li>
+</ul>
+
+<h2>Gotchas</h2>
+<ul>
+  <li>Item categorizations are only required if Inventory is enabled <!-- Source: [[NXT-37111:DESC]] "Item Categorizations are only required if Inventory is enabled" --> — configure them at item creation so you don't have to revisit the record once Inventory is activated.</li>
+  <li>The Base Unit can only be converted from a serving size while pack sizes remain unlocked; once the item enters Inventory tables, pack size and Base Unit are locked <!-- Source: [[NXT-37111:DESC]] "*Exception: this step/option is invalid once the item is in Inventory tables and Pack Size is locked" -->.</li>
+  <li>For food items, pack sizes must be linked to serving sizes for Inventory eligibility <!-- Source: [[NXT-37982:DESC]] "Pack Sizes not linked to serving - “Pack size units must be linked to servings for Inventory eligibility”" -->; when that link is missing, expand the Inventory Ready banner for the specific corrective action <!-- Source: [[NXT-37982:AC]] "Use the Inventory Ready banner icon to guide the user to specific corrective actions for maintaining the “link” between pack sizes and serving sizes" -->.</li>
+  <li>Cost and value fields are only enabled during finish tasks — after all pack sizes are added <!-- Source: [[NXT-37110:DESC]] "Cost / Value - enabled at the end during finish tasks" -->; you then select the specific pack size or inventory-able serving on which to enter pricing <!-- Source: [[NXT-37110:DESC]] "User can select the specific pack size (or inventory-able serving) unit on which to enter the pricing" -->.</li>
+  <li>Deactivating an item places it in Pending Deactivation if any sub-type cannot be made inactive immediately <!-- Source: [[NXT-43158:AC]] "If any sub-types go into Pending Deactivation status, assign the Item with the same status" -->; the item becomes fully inactive only once every sub-type is resolved <!-- Source: [[NXT-43158:AC]] "Once all sub-types are Inactive, make the main item inactive" --> — each must be removed from active recipes, menus, or open orders first <!-- Source: [[NXT-43158:RN]] "To make an Ingredient inactive, it must first be removed from any active recipes. If the item is present on any active recipes, it will be held in Pending Deactivation status. When using the Deactivate tool, the system will provide a link to list all recipes to which the ingredient is assigned, making it easier to begin replacing or removing the ingredient. Once the ingredient has been removed from all active recipes, the status will automatically become Inactive." -->.</li>
+</ul>
+
+<h2>Where To Go Next</h2>
+<ul>
+  <li><strong>Inventory</strong> — manage ordering, receiving, and vendor contracts for items built here.</li>
+  <li><strong>Menu Planning</strong> — place items and recipes on menus and swap items across menu cycles.</li>
+  <li><strong>POS</strong> — configure menu grids using items marked for POS.</li>
+  <li><strong>Recipes</strong> — use food items as ingredients and build multi-step recipes with HACCP tracking.</li>
+</ul>
+
+<h2>Sources</h2>
+<ul>
+  <li><code>NXT-20654</code> —  IM- Menu Item Creation (1)</li>
+  <li><code>NXT-35898</code> — IM - Items - Units - Card & Add Serving</li>
+  <li><code>NXT-37110</code> — IM - Items - Units - Pack Sizes & Sub-Qty</li>
+  <li><code>NXT-37111</code> — IM - Items - Units - Save & Continue - Inventory Ready</li>
+  <li><code>NXT-37982</code> — IM - Items - Units - Edit/Update - Pack-Serving link help step</li>
+  <li><code>NXT-43158</code> — IM - Items - Deactivate entire Item</li>
+</ul>

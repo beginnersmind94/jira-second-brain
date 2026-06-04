@@ -1,0 +1,44 @@
+{
+  "verdict": "fail",
+  "summary": "Draft is truncated mid-sentence and missing five required long-form sections; NXT-53316 citation mislabels a Description-tier quote as Acceptance Criteria.",
+  "word_count": 2200,
+  "checks": [
+    {
+      "name": "Template fit",
+      "status": "fail",
+      "detail": "Long-form template requires: Overview \u00b7 Roles and permissions \u00b7 Prerequisites \u00b7 Full workflows \u00b7 Key fields and statuses \u00b7 Reports and outputs \u00b7 Exceptions \u00b7 Troubleshooting \u00b7 Related content \u00b7 Sources. The submitted draft contains only sections 1\u20134 (partially) and ends mid-sentence inside a table cell in section 4.4 ('If the item is not Buy'). Five required sections are entirely absent: Key fields and statuses, Reports and outputs, Exceptions, Troubleshooting, Related content, and Sources. The draft is structurally incomplete as submitted."
+    },
+    {
+      "name": "Length budget",
+      "status": "fail",
+      "detail": "Estimated word count of visible rendered text is approximately 2,200 words, below the long-form floor of 2,500 words and well short of the 6,000-word ceiling. The shortfall is caused by the draft being truncated \u2014 the clean draft version cuts off at section 4.4 Ingredient Info, the raw draft version cuts off mid-step inside section 4.2 Step 5. Even if the draft were extended to a reasonable completion, the five missing required sections would need to be authored to reach minimum length."
+    },
+    {
+      "name": "Source grounding",
+      "status": "warn",
+      "detail": "Claims in sections 1\u20134.1 (transcript timestamps [00:00]\u2013[08:08]) are consistently cited inline. However, starting in section 4.2, the draft references transcript timestamps outside the excerpt provided for grading: [12:12], [13:05], [13:25], [13:52], [14:12], [14:30], [18:35], [18:55], [34:08], [34:20], [36:48], [37:35]. The recording is ~45 minutes long, so these may be valid citations from the full transcript, but the evaluator cannot confirm them from the provided excerpt. Three instances cite ticket Description fields (NXT-37110 desc, NXT-36067 epic desc) \u2014 these are correctly labeled as 'desc' not 'AC', which is honest. Overall citation density in the visible portion is high, so this is flagged warn rather than fail."
+    },
+    {
+      "name": "Citation spot-check",
+      "status": "fail",
+      "detail": "Three tickets checked: (1) NXT-37110 \u2014 both quoted AC strings ('Provide the ability to add pack size units in the combined Units grid' and 'Emphasize Weight field for rare scenarios where required') appear verbatim in the ticket's Acceptance Criteria. PASS. (2) NXT-33518 \u2014 quoted AC string ('Provide an option in the context of the new Units card to determine whether the Base Unit can be counted in decimals') appears verbatim in the ticket's Acceptance Criteria. PASS. (3) NXT-53316 \u2014 the draft comment reads: <!-- Source: NXT-53316 AC: \"As a district admin I want permissions for the Configuration page so I can control who can access and change IM configurations\" -->. This text does NOT appear in NXT-53316's Acceptance Criteria. The actual AC is a structured permission-assignment list ('Update permission structure for the Configuration page and sub-page options\u2026'). The quoted text appears only in the ticket's Description (Tier 3). Citing Tier 3 Description text as 'AC:' is a tier-attribution error that misrepresents verified AC coverage to any downstream editor relying on these comments. HARD FAIL.",
+      "checked": [
+        "NXT-37110",
+        "NXT-33518",
+        "NXT-53316"
+      ]
+    },
+    {
+      "name": "Discrepancy handling",
+      "status": "ok",
+      "detail": "The draft does not silently resolve transcript-vs-Jira gaps. Four discrepancies are surfaced explicitly: (1) 250-character Item Description limit, stated by presenter at [02:01] but not confirmed in any ticket AC, is flagged [TO VERIFY]. (2) Three-tier pack-size maximum, stated at [07:05], is flagged [TO VERIFY] with a note that NXT-37110 implies but does not state it verbatim. (3) The Base Unit / Decimals lock trigger from transcript [37:35] is flagged [TO VERIFY] with a note that NXT-33518 AC says 'TBD when this option is locked'. (4) Exact permission names and role assignments are flagged [TO VERIFY]. No silent picking between transcript and Jira observed in the visible sections."
+    },
+    {
+      "name": "Unverifiable specifics",
+      "status": "ok",
+      "detail": "All unconfirmed labels, limits, and configuration paths are marked [TO VERIFY] rather than stated as fact. Specific examples correctly marked: 250-character limit on Item Description; three-tier pack-size maximum; where Item Categories are configured; whether Storage Categories are system defaults or district-configurable; the lock trigger for Base Unit/Decimals. No invented menu paths, field labels, or error strings were detected in the visible portion of the draft."
+    }
+  ],
+  "resource_id": "20260529-070600-item-management-long-form-cf874a",
+  "evaluated_at": "2026-05-29T07:22:27"
+}

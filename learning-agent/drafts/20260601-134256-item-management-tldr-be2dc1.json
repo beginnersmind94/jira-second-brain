@@ -1,0 +1,13 @@
+{
+  "id": "20260601-134256-item-management-tldr-be2dc1",
+  "status": "draft",
+  "module": "Item Management",
+  "template": "tldr",
+  "transcript_id": "20260601-134016-item-management-demo",
+  "transcript_filename": "20260529-070600-item-management-2026-05-28-item-management-create-items-training.md",
+  "created_at": "2026-06-01T13:42:56",
+  "demo": true,
+  "run_label": "tldr:sectioned+registry",
+  "method": "sectioned+registry",
+  "gen_seconds": 160.1
+}

@@ -1,0 +1,30 @@
+{"k": "system", "p": {"subtype": "planning long-form"}}
+{"k": "tool_call", "p": {"name": "mcp__producer_tools__parse_transcript", "input": {"transcript_path": "C:\\Users\\rahul.mehta\\Downloads\\Financials-Documentation-KT\\learning-agent\\raw\\transcripts\\20260603-151307-eligibility-2026-05-22-eligibility-applications-verification.md"}}}
+{"k": "tool_call", "p": {"name": "mcp__producer_tools__match_tickets", "input": {"query": "eligibility application entry wizard students benefits household", "module": "Eligibility"}}}
+{"k": "tool_call", "p": {"name": "mcp__producer_tools__match_tickets", "input": {"query": "application processing pending determination free reduced paid", "module": "Eligibility"}}}
+{"k": "tool_call", "p": {"name": "mcp__producer_tools__match_tickets", "input": {"query": "income survey household income range special provision CEP", "module": "Eligibility"}}}
+{"k": "tool_call", "p": {"name": "mcp__producer_tools__match_tickets", "input": {"query": "verification sampling schedule USDA standard alternate error prone", "module": "Eligibility"}}}
+{"k": "tool_call", "p": {"name": "mcp__producer_tools__match_tickets", "input": {"query": "verification tracking notifications follow-up no response completed", "module": "Eligibility"}}}
+{"k": "tool_call", "p": {"name": "mcp__producer_tools__match_tickets", "input": {"query": "pending students unmatched SIS application Family Hub match", "module": "Eligibility"}}}
+{"k": "tool_call", "p": {"name": "mcp__producer_tools__read_epic", "input": {"epic_key": "105530"}}}
+{"k": "tool_call", "p": {"name": "mcp__producer_tools__read_epic", "input": {"epic_key": "119145"}}}
+{"k": "tool_call", "p": {"name": "mcp__producer_tools__read_ticket", "input": {"issue_key": "NXT-68256"}}}
+{"k": "tool_call", "p": {"name": "mcp__producer_tools__read_ticket", "input": {"issue_key": "NXT-66798"}}}
+{"k": "tool_call", "p": {"name": "mcp__producer_tools__read_ticket", "input": {"issue_key": "NXT-70380"}}}
+{"k": "tool_call", "p": {"name": "mcp__producer_tools__read_ticket", "input": {"issue_key": "NXT-72805"}}}
+{"k": "tool_call", "p": {"name": "mcp__producer_tools__read_ticket", "input": {"issue_key": "NXT-72806"}}}
+{"k": "tool_call", "p": {"name": "mcp__producer_tools__read_ticket", "input": {"issue_key": "NXT-72801"}}}
+{"k": "plan_done", "p": {"sections": 13, "spans": 111}}
+{"k": "section_done", "p": {"title": "Prerequisites", "stop_reason": "end_turn"}}
+{"k": "section_done", "p": {"title": "Overview", "stop_reason": "end_turn"}}
+{"k": "section_done", "p": {"title": "Roles & Permissions", "stop_reason": "end_turn"}}
+{"k": "section_done", "p": {"title": "Workflow: Adding and Submitting an Application", "stop_reason": "end_turn"}}
+{"k": "section_done", "p": {"title": "Workflow: Adding and Processing Income Surveys", "stop_reason": "end_turn"}}
+{"k": "section_done", "p": {"title": "Workflow: Managing and Processing Applications", "stop_reason": "end_turn"}}
+{"k": "section_done", "p": {"title": "Workflow: Scheduling Verification Sampling", "stop_reason": "end_turn"}}
+{"k": "section_done", "p": {"title": "Workflow: Managing Verification Tracking", "stop_reason": "end_turn"}}
+{"k": "section_done", "p": {"title": "Workflow: Handling Pending Students", "stop_reason": "end_turn"}}
+{"k": "section_done", "p": {"title": "Reports & Outputs", "stop_reason": "end_turn"}}
+{"k": "section_done", "p": {"title": "Key Fields & Statuses", "stop_reason": "end_turn"}}
+{"k": "section_done", "p": {"title": "Related Content", "stop_reason": "end_turn"}}
+{"k": "section_done", "p": {"title": "Exceptions & Troubleshooting", "stop_reason": "end_turn"}}

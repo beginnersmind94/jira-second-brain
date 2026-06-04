@@ -1,0 +1,38 @@
+INFO:     Started server process [12940]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8001 (Press CTRL+C to quit)
+[demo_app] 7 module fixtures available: ['Account Management', 'Accountability', 'Eligibility', 'Insights', 'Inventory', 'Item Management', 'Menu Planning']
+[demo_app] default 'Item Management': 529 tickets + 15 epics
+INFO:     127.0.0.1:57652 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57653 - "GET /api/evals HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57654 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57654 - "GET /api/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57754 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57754 - "GET /api/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57754 - "GET /api/evals HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57755 - "POST /transcripts?module=Eligibility HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57755 - "GET /generate?transcript_id=20260603-151307-eligibility-2026-05-22-eligibility-applications-verification&module=Eligibility&template=long-form HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58164 - "GET /resources/20260603-151307-eligibility-long-form-195c99?view=draft HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58165 - "GET /resources/20260603-151307-eligibility-long-form-195c99?view=clean HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58166 - "GET /resources/20260603-151307-eligibility-long-form-195c99/evaluate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58167 - "GET /api/evals HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58314 - "GET /resources HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58319 - "GET /api/evals HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58400 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58401 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58401 - "GET /api/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58724 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58725 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58726 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58729 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58729 - "GET /api/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58830 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58836 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58836 - "GET /api/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59023 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59023 - "GET /api/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59023 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59023 - "GET /api/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59059 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59059 - "GET /api/config HTTP/1.1" 200 OK

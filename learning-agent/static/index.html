@@ -1,0 +1,1875 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Learning Studio</title>
+  <style>
+    /* ───────────────────────── Design tokens ───────────────────────── */
+    :root {
+      /* Warm, paper-like palette (Anthropic editorial) */
+      --bg: #FAF9F5;
+      --bg-grad-top: #F4EFE4;
+      --surface: #F6F2E9;          /* writing surfaces (feed, preview, inputs) */
+      --panel: #F3EFE6;            /* card fill — slightly darker than page */
+      --panel2: #EFEADF;
+      --panel3: #E9E2D4;           /* nav track / chips */
+      --border: #E5E0D5;           /* hairline */
+      --border-strong: #DAD4C8;
+      --text: #141413;            /* primary ink */
+      --text-soft: #3B3A35;
+      --muted: #6B6860;           /* warm gray */
+      --muted-soft: #908C82;
+      --accent: #141413;          /* ink — primary actions, links, icons */
+      --accent-strong: #000000;
+      --accent-soft: #ECE4D5;     /* warm "active" tint */
+      --teal: #4F7C74;            /* muted secondary accent */
+      --green: #4F7A4E;           /* success, tuned warm */
+      --green-soft: #E7ECDB;
+      --green-text: #3C5A3C;
+      --amber: #9A6A18;           /* warning, tuned warm */
+      --amber-soft: #F3E7CD;
+      --amber-text: #6E4A12;
+      --clay: #B3543B;            /* terracotta — danger / sparing accent */
+      --red: #B3543B;
+      --red-soft: #F0DDD2;
+      --red-text: #8E3E2A;
+      --purple: #6b5bd6;
+      --radius: 16px;
+      --radius-sm: 10px;
+      --radius-pill: 999px;
+      --shadow-sm: none;          /* depth from tonal contrast + hairlines, not shadows */
+      --shadow: none;
+      --shadow-lg: 0 18px 44px rgba(20, 18, 15, 0.10);
+      --ring: 0 0 0 3px rgba(20, 18, 15, 0.16);
+      --font: ui-sans-serif, system-ui, "Inter", -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+      --serif: Georgia, "Times New Roman", "Iowan Old Style", serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font);
+      font-size: 14px;
+      color: var(--text);
+      background:
+        radial-gradient(1100px 420px at 82% -140px, rgba(179, 84, 59, 0.06), transparent 60%),
+        linear-gradient(180deg, var(--bg-grad-top) 0, rgba(244,239,228,0) 340px),
+        var(--bg);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    ::selection { background: rgba(20, 18, 15, 0.14); }
+
+    /* Scrollbars */
+    .activity::-webkit-scrollbar,
+    .preview::-webkit-scrollbar,
+    .lib-grid::-webkit-scrollbar,
+    .eval-panel::-webkit-scrollbar { width: 10px; height: 10px; }
+    .activity::-webkit-scrollbar-thumb,
+    .preview::-webkit-scrollbar-thumb,
+    .lib-grid::-webkit-scrollbar-thumb,
+    .eval-panel::-webkit-scrollbar-thumb { background: #D4CDBE; border-radius: 999px; border: 2px solid transparent; background-clip: content-box; }
+    .activity::-webkit-scrollbar-thumb:hover,
+    .preview::-webkit-scrollbar-thumb:hover { background: #C2BAA8; background-clip: content-box; }
+
+    /* ───────────────────────── Header ───────────────────────── */
+    header.top {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      min-height: 64px;
+      padding: 12px 30px;
+      background: rgba(250, 249, 245, 0.88);
+      backdrop-filter: saturate(120%) blur(12px);
+      -webkit-backdrop-filter: saturate(120%) blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    header.top h1 {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0;
+      font-size: 16.5px;
+      font-weight: 750;
+      letter-spacing: -0.015em;
+      color: var(--text);
+    }
+    header.top h1::before {
+      content: "";
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: linear-gradient(140deg, var(--clay) 0 48%, var(--teal) 48% 100%);
+      flex: none;
+    }
+    nav {
+      display: flex;
+      gap: 3px;
+      padding: 4px;
+      background: var(--panel3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+    }
+    nav button {
+      min-width: 92px;
+      padding: 8px 16px;
+      border: 1px solid transparent;
+      border-radius: 7px;
+      background: transparent;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 650;
+      cursor: pointer;
+      transition: color .15s ease, background .15s ease, box-shadow .15s ease;
+    }
+    nav button:hover { color: var(--text); }
+    nav button.active {
+      background: var(--bg);
+      color: var(--text);
+      border-color: var(--border);
+      box-shadow: 0 1px 2px rgba(20, 18, 15, 0.08);
+    }
+    .meta {
+      margin-left: auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 13px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-pill);
+      background: var(--surface);
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .meta::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 0 3px rgba(79, 122, 78, 0.18);
+    }
+
+    .view { display: none; }
+    .view.active { display: block; animation: fade-in .28s ease; }
+    @keyframes fade-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+    /* ───────────────────────── Layout ───────────────────────── */
+    .author,
+    .library {
+      display: grid;
+      gap: 20px;
+      padding: 24px 30px 32px;
+    }
+    /* top-align columns so the form panel hugs its content (no tall empty column) */
+    .author {
+      grid-template-columns: minmax(290px, 372px) minmax(0, 1fr);
+      align-items: start;
+    }
+    .library {
+      grid-template-columns: minmax(240px, 300px) minmax(0, 1fr);
+      align-items: start;
+      min-height: calc(100vh - 66px);
+    }
+    .right {
+      display: grid;
+      grid-template-rows: auto auto;   /* each panel hugs its own content */
+      align-content: start;
+      gap: 20px;
+      min-height: 0;
+    }
+
+    .panel {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .panel-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 50px;
+      padding: 14px 18px;
+      background: var(--panel2);
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .panel-body { padding: 20px; }
+    .panel-body.scroll { overflow-y: auto; flex: 1; }
+
+    /* ───────────────────────── Form controls ───────────────────────── */
+    .field { margin-bottom: 18px; }
+    .field:last-child { margin-bottom: 0; }
+    .field label {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .field select,
+    .field input[type="text"] {
+      width: 100%;
+      min-height: 44px;
+      padding: 10px 12px;
+      background: #FCFBF7;
+      color: var(--text);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 14px;
+      outline: none;
+      transition: border-color .15s ease, box-shadow .15s ease;
+    }
+    .field select {
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236B6860' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 13px center;
+      padding-right: 36px;
+    }
+    .field select:focus,
+    .field input[type="text"]:focus {
+      border-color: var(--text);
+      box-shadow: var(--ring);
+    }
+    .drop {
+      display: grid;
+      place-items: center;
+      align-content: center;
+      gap: 7px;
+      min-height: 148px;
+      padding: 20px;
+      text-align: center;
+      background: #FCFBF7;
+      border: 1.5px dashed var(--border-strong);
+      border-radius: var(--radius-sm);
+      color: var(--muted);
+      font-family: var(--serif);
+      font-size: 13px;
+      cursor: pointer;
+      transition: border-color .16s ease, background .16s ease, transform .16s ease;
+    }
+    .drop:hover,
+    .drop.hover {
+      border-color: var(--text);
+      background: var(--surface);
+      transform: translateY(-1px);
+    }
+    .drop:focus-visible { outline: none; border-color: var(--text); box-shadow: var(--ring); }
+    .drop .big {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0;
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 15px;
+      font-weight: 700;
+    }
+    .drop .big::before {
+      content: "";
+      width: 18px;
+      height: 18px;
+      background: center / contain no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23141413' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4'/%3E%3Cpolyline points='17 8 12 3 7 8'/%3E%3Cline x1='12' y1='3' x2='12' y2='15'/%3E%3C/svg%3E");
+    }
+    .drop p { margin: 0; }
+    .chosen {
+      margin-top: 10px;
+      padding: 9px 12px;
+      background: var(--green-soft);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--green-text);
+      font-family: var(--mono);
+      font-size: 12px;
+      word-break: break-all;
+    }
+
+    /* ───────────────────────── Buttons ───────────────────────── */
+    button.primary,
+    button.secondary {
+      min-height: 40px;
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 13.5px;
+      cursor: pointer;
+      transition: background .15s ease, border-color .15s ease, color .15s ease, transform .12s ease, box-shadow .15s ease;
+    }
+    button.primary {
+      width: 100%;
+      padding: 12px 18px;
+      border: 0;
+      background: var(--text);
+      color: #FAF9F5;
+      letter-spacing: 0.01em;
+    }
+    button.primary:hover:not(:disabled) { background: var(--accent-strong); transform: translateY(-1px); }
+    button.primary:active:not(:disabled) { transform: translateY(0); }
+    button.primary:disabled {
+      background: var(--panel3);
+      color: var(--muted-soft);
+      cursor: not-allowed;
+    }
+    button.secondary {
+      padding: 7px 14px;
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border-strong);
+    }
+    button.secondary:hover:not(:disabled) { border-color: var(--text); background: var(--surface); }
+    button.secondary:disabled { background: transparent; color: var(--muted-soft); border-color: var(--border); cursor: not-allowed; }
+    button.secondary.pdf-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--teal);
+      border-color: var(--border-strong);
+    }
+    button.secondary.pdf-btn:hover:not(:disabled) { border-color: var(--teal); color: var(--teal); background: var(--surface); }
+    button.secondary.pdf-btn::before {
+      content: "";
+      width: 14px;
+      height: 14px;
+      background: center / contain no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%234F7C74' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4'/%3E%3Cpolyline points='7 10 12 15 17 10'/%3E%3Cline x1='12' y1='15' x2='12' y2='3'/%3E%3C/svg%3E");
+    }
+    button.secondary.pdf-btn:disabled::before { opacity: .4; }
+    /* link-style action arrow affordance */
+    button.secondary.link-action { border: 0; background: transparent; padding: 7px 4px; color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
+    button.secondary.link-action::after { content: " →"; text-decoration: none; }
+
+    /* ───────────────────────── Activity panel ───────────────────────── */
+    .activity {
+      flex: 1 1 auto;
+      max-height: 440px;          /* feed grows with content, then scrolls — no dead space */
+      overflow-y: auto;
+      padding: 10px 20px;
+      background: #FCFBF7;
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .step {
+      position: relative;
+      display: flex;
+      align-items: flex-start;
+      gap: 11px;
+      padding: 9px 4px;
+      border-bottom: 1px solid var(--border);
+      animation: step-in .22s ease;
+    }
+    @keyframes step-in { from { opacity: 0; transform: translateX(-4px); } to { opacity: 1; transform: none; } }
+    .step:last-child { border-bottom: 0; }
+    /* timeline rail connecting the circular step icons */
+    .step:not(.error):not(:last-child)::after {
+      content: "";
+      position: absolute;
+      left: 15px;
+      top: 30px;
+      bottom: -1px;
+      width: 2px;
+      background: var(--border-strong);
+    }
+    .step .icon {
+      position: relative;
+      z-index: 1;
+      flex: none;
+      width: 24px;
+      height: 24px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1;
+      box-shadow: 0 0 0 3px #FCFBF7;   /* mask the rail behind each icon */
+    }
+    .step .label { color: var(--text); font-weight: 650; font-size: 13px; }
+    .step .arg {
+      display: inline-block;
+      margin-left: 8px;
+      padding: 2px 8px;
+      background: var(--panel3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-pill);
+      color: var(--text-soft);
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      vertical-align: middle;
+    }
+    .step .detail {
+      margin-top: 2px;
+      margin-left: 35px;
+      color: var(--muted);
+      font-family: var(--serif);
+      font-size: 12.5px;
+      line-height: 1.45;
+    }
+    .step.with-detail { flex-wrap: wrap; }
+    .step.with-detail .detail { flex-basis: 100%; }
+    .step.text .icon { background: rgba(79,124,116,0.16); color: var(--teal); }
+    .step.text .label { color: var(--teal); }
+    /* in-progress shimmer for the streaming "Writing draft…" step (last text step while running) */
+    .status-bar.running ~ * .step.text:last-child .label,
+    body .activity .step.text:last-child .label { }
+    .step.live .icon { animation: pulse 1.1s ease-in-out infinite; }
+    .step.error {
+      background: var(--red-soft);
+      border-radius: var(--radius-sm);
+      border-bottom-color: transparent;
+      padding: 11px 12px;
+      margin: 4px 0;
+    }
+    .step.error .icon { background: rgba(207, 51, 73, 0.14); color: var(--red); }
+    .step.error .label { color: var(--red-text); font-weight: 650; }
+
+    /* Debug / trace events (hidden unless body.debug) */
+    .debug-ev {
+      display: none;
+      margin: 6px 0;
+      padding: 9px 11px;
+      background: #f6f8fc;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 11px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    body.debug .debug-ev { display: block; }
+    body.debug .step { opacity: 0.75; }
+
+    body.errors-only .step:not(.error) { display: none; }
+
+    /* Task pills */
+    #task-pills { display: flex; gap: 5px; margin-left: auto; }
+    .task-pill {
+      padding: 4px 10px;
+      background: var(--panel3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-pill);
+      color: var(--muted);
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+      transition: background .18s ease, color .18s ease, border-color .18s ease;
+    }
+    .task-pill.active {
+      background: var(--accent-soft);
+      color: var(--text);
+      border-color: var(--border-strong);
+      box-shadow: 0 0 0 3px rgba(20, 18, 15, 0.06);
+    }
+    .task-pill.done { background: var(--green-soft); color: var(--green-text); border-color: var(--border); }
+
+    .error-badge {
+      padding: 4px 11px;
+      background: var(--red-soft);
+      color: var(--red-text);
+      border: 1px solid #f1c0c8;
+      border-radius: var(--radius-pill);
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .15s ease;
+    }
+    .error-badge:hover { background: #fbd6dc; }
+
+    /* Comic mode neutralized to match the polished look */
+    .activity.comic {
+      background: #fff;
+      color: var(--text);
+      font-family: var(--font);
+      letter-spacing: 0;
+      font-size: 13px;
+    }
+    .activity.comic .step { background: transparent; border: 0; border-bottom: 1px solid var(--border); border-radius: 0; box-shadow: none; padding: 11px 4px; margin: 0; }
+    .activity.comic .step.error { background: var(--red-soft); border-bottom-color: transparent; border-radius: var(--radius-sm); padding: 11px 12px; }
+    .activity.comic .step .icon { background: var(--accent-soft); color: var(--accent); font-size: 11px; border: 0; }
+    .activity.comic .step .label { color: var(--text); font-weight: 600; text-transform: none; letter-spacing: 0; }
+    .activity.comic .step .arg { background: var(--panel3); border: 1px solid var(--border); color: var(--text-soft); font-family: var(--mono); font-size: 11px; border-radius: var(--radius-pill); padding: 2px 8px; }
+    .activity.comic .step .detail { font-family: var(--serif); font-size: 12px; color: var(--muted); margin-left: 36px; }
+    .activity.comic .step.text .icon { background: rgba(79,124,116,0.16); color: var(--teal); }
+    .activity.comic .step.text .label { color: var(--teal); }
+    .activity.comic .step.text { background: transparent; border-color: var(--border); }
+    .panel-header.comic-active .task-pill { font-family: inherit; font-size: 11px; letter-spacing: 0; }
+    .sfx-burst { display: none !important; }
+
+    /* Progress bar */
+    .progress-strip { height: 5px; background: var(--panel3); overflow: hidden; }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--clay), var(--teal));
+      transition: width 0.4s ease-out;
+    }
+
+    .status-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      background: var(--panel2);
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .status-bar::before {
+      content: "";
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--muted-soft);
+      flex: none;
+    }
+    .status-bar.running { color: var(--text); }
+    .status-bar.running::before { background: var(--accent); animation: pulse 1.1s ease-in-out infinite; }
+    .status-bar.done { color: var(--green-text); }
+    .status-bar.done::before { background: var(--green); }
+    .status-bar.err { color: var(--red-text); }
+    .status-bar.err::before { background: var(--red); }
+    @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: .45; transform: scale(1.4); } }
+
+    /* ───────────────────────── Verdict + eval ───────────────────────── */
+    .verdict-badge {
+      padding: 4px 11px;
+      border-radius: var(--radius-pill);
+      border: 1px solid;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .verdict-badge.running { background: var(--accent-soft); color: var(--text); border-color: var(--border-strong); }
+    .verdict-badge.pass  { background: var(--green-soft); color: var(--green-text); border-color: var(--border); }
+    .verdict-badge.warn  { background: var(--amber-soft); color: var(--amber-text); border-color: var(--border); }
+    .verdict-badge.fail  { background: var(--red-soft); color: var(--red-text); border-color: var(--border); }
+    .verdict-badge.error { background: var(--panel3); color: var(--muted); border-color: var(--border-strong); }
+
+    .eval-panel {
+      max-height: 240px;
+      overflow-y: auto;
+      padding: 15px 18px;
+      background: var(--panel2);
+      border-top: 1px solid var(--border);
+    }
+    .eval-header { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; }
+    .eval-title { color: var(--text); font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+    .eval-summary { color: var(--text-soft); font-family: var(--serif); font-size: 13px; }
+    .eval-checks { list-style: none; margin: 0; padding: 0; display: grid; gap: 3px; }
+    .eval-checks li {
+      display: grid;
+      grid-template-columns: 24px minmax(120px, 180px) 1fr;
+      align-items: baseline;
+      gap: 10px;
+      padding: 7px 0;
+      font-size: 12.5px;
+      border-bottom: 1px solid var(--border);
+    }
+    .eval-checks li:last-child { border-bottom: 0; }
+    .eval-checks .check-mark { font-size: 10px; font-weight: 800; letter-spacing: 0.03em; }
+    .eval-checks .ok   .check-mark { color: var(--green); }
+    .eval-checks .warn .check-mark { color: var(--amber); }
+    .eval-checks .fail .check-mark { color: var(--red); }
+    .eval-checks .check-name { color: var(--text); font-weight: 650; }
+    .eval-checks .check-detail { color: var(--muted); font-family: var(--serif); }
+
+    /* ───────────────────────── Preview / rendered guide ───────────────────────── */
+    .preview-wrap { display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+    .preview-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 52px;
+      padding: 9px 16px;
+      background: var(--panel2);
+      border-bottom: 1px solid var(--border);
+    }
+    .preview-toolbar .id {
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 12px;
+    }
+    .preview {
+      flex: 1;
+      overflow-y: auto;
+      padding: 34px 44px;
+      background: #FCFBF7;
+      color: var(--text-soft);
+      font-family: var(--serif);
+      font-size: 15.5px;
+      line-height: 1.7;
+    }
+    .preview > * { max-width: 72ch; }
+    .preview > table, .preview > .empty { max-width: none; }
+    .preview h1, .preview h2, .preview h3 { font-family: var(--font); }
+    .preview h1 { color: var(--text); font-size: 28px; line-height: 1.18; margin: 0 0 18px; font-weight: 750; letter-spacing: -0.02em; }
+    .preview h2 {
+      color: var(--text);
+      font-size: 21px;
+      font-weight: 700;
+      margin: 32px 0 13px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+      letter-spacing: -0.012em;
+    }
+    .preview h3 { color: var(--text); font-size: 16.5px; font-weight: 700; margin: 22px 0 8px; }
+    .preview p { margin: 0 0 13px; }
+    .preview a { color: var(--text); text-decoration: underline; text-underline-offset: 2px; text-decoration-color: var(--border-strong); }
+    .preview a:hover { text-decoration-color: var(--text); }
+    .preview ul, .preview ol { padding-left: 24px; margin: 0 0 13px; }
+    .preview li { margin: 5px 0; }
+    .preview li::marker { color: var(--clay); }
+    .preview blockquote {
+      margin: 16px 0;
+      padding: 12px 16px;
+      background: rgba(79,124,116,0.08);
+      border-left: 4px solid var(--teal);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      color: var(--text-soft);
+    }
+    .preview blockquote p:last-child { margin-bottom: 0; }
+    .preview table {
+      width: 100%;
+      margin: 16px 0;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      border-collapse: separate;
+      border-spacing: 0;
+      overflow: hidden;
+      font-family: var(--font);
+      font-size: 13.5px;
+    }
+    .preview th, .preview td {
+      padding: 10px 13px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid var(--border);
+    }
+    .preview th { background: var(--panel2); color: var(--text); font-weight: 700; }
+    .preview tr:last-child td { border-bottom: 0; }
+    .preview tbody tr:nth-child(even) td { background: var(--surface); }
+    .preview code {
+      padding: 2px 6px;
+      background: var(--panel3);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-family: var(--mono);
+      font-size: 0.84em;
+    }
+    .preview pre { background: #232220; color: #F1EEE6; padding: 14px 16px; border-radius: var(--radius-sm); overflow-x: auto; }
+    .preview pre code { background: none; border: 0; color: inherit; padding: 0; }
+    .preview hr { border: 0; border-top: 1px solid var(--border); margin: 26px 0; }
+    .preview .empty {
+      display: grid;
+      place-items: center;
+      max-width: none;
+      min-height: 220px;
+      padding: 40px;
+      color: var(--muted);
+      font-family: var(--serif);
+      font-size: 14px;
+      text-align: center;
+      background: var(--surface);
+      border: 1px dashed var(--border-strong);
+      border-radius: var(--radius);
+    }
+    /* Defensive: hide any source comments that get rendered as text */
+    .preview *::before, .preview *::after { content: none; }
+
+    /* ───────────────────────── Library ───────────────────────── */
+    .lib-filters { display: flex; flex-direction: column; }
+    .lib-filters .panel-header { margin: 0; }
+    .lib-filters .field { margin: 0 0 18px; }
+    .lib-detail { display: flex; flex-direction: column; min-height: 0; }
+    .lib-split {
+      display: grid;
+      grid-template-columns: minmax(260px, 340px) minmax(0, 1fr);
+      min-height: 0;
+      flex: 1;
+    }
+    .lib-grid {
+      overflow-y: auto;
+      padding: 14px;
+      background: var(--panel2);
+      border-right: 1px solid var(--border);
+    }
+    .lib-card {
+      margin-bottom: 11px;
+      padding: 15px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: border-color .15s ease, transform .12s ease, background .15s ease;
+    }
+    .lib-card:hover { border-color: var(--border-strong); background: #FBF8F1; transform: translateY(-1px); }
+    .lib-card.selected { border-color: var(--text); box-shadow: 0 0 0 1px var(--text); background: #FBF8F1; }
+    .lib-card .title { margin: 0 0 9px; color: var(--text); font-size: 14px; font-weight: 700; line-height: 1.35; }
+    .lib-card .row {
+      display: flex; align-items: center; flex-wrap: wrap; gap: 8px;
+      margin-top: 9px; padding-top: 9px; border-top: 1px solid var(--border);
+      color: var(--muted); font-size: 11px;
+    }
+    .lib-card .row span:last-child { margin-left: auto; font-family: var(--mono); }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 9px;
+      border-radius: var(--radius-pill);
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+    .badge.draft { background: var(--amber-soft); color: var(--amber-text); }
+    .badge.pending { background: var(--amber-soft); color: var(--amber-text); border: 1px solid var(--border); }
+    .secondary.danger { color: var(--clay); border-color: var(--border-strong); }
+    .secondary.danger:hover:not(:disabled) { background: var(--red-soft); border-color: var(--clay); }
+    .secondary.accent { background: var(--text); color: #FAF9F5; border-color: var(--text); }
+    .secondary.accent:hover:not(:disabled) { background: var(--accent-strong); color: #FAF9F5; }
+    .secondary.accent:disabled { background: transparent; color: var(--muted-soft); border-color: var(--border); }
+    .score-hero {
+      display: flex; align-items: center; gap: 22px; padding: 22px 24px; border-radius: var(--radius);
+      background: linear-gradient(135deg, #F1ECE0, #E9E2D4); border: 1px solid var(--border); margin-bottom: 18px;
+    }
+    .score-dial {
+      width: 96px; height: 96px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      flex-direction: column; color: #FAF9F5; font-weight: 800; flex: none;
+    }
+    .score-dial .num { font-size: 27px; line-height: 1; }
+    .score-dial .grade { font-size: 11px; opacity: .92; margin-top: 3px; letter-spacing: 0.04em; text-transform: uppercase; }
+    .score-card { border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 16px; margin-bottom: 10px; background: var(--panel); }
+    .score-card .top { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; }
+    .score-card .lbl { font-weight: 700; color: var(--text); font-size: 14px; }
+    .score-card .plain { color: var(--muted); font-family: var(--serif); font-size: 13px; line-height: 1.5; }
+    .badge.published { background: var(--green-soft); color: var(--green-text); }
+    .badge.eval-pass { background: var(--green-soft); color: var(--green-text); }
+    .badge.eval-warn { background: var(--amber-soft); color: var(--amber-text); }
+    .badge.eval-fail,
+    .badge.eval-error { background: var(--red-soft); color: var(--red-text); }
+    .badge.eval-missing { background: var(--panel3); color: var(--muted); }
+
+    /* ───────────────────────── Hide dev-only controls ───────────────────────── */
+    #debug-toggle, #log-link { display: none !important; }
+
+    /* Accessible focus ring tuned for the warm palette */
+    a:focus-visible, button:focus-visible, select:focus-visible,
+    input:focus-visible, .lib-card:focus-visible, .drop:focus-visible, nav button:focus-visible {
+      outline: 2px solid var(--text);
+      outline-offset: 2px;
+      border-radius: 6px;
+    }
+    /* empty-state icon (inline svg, since .preview ::before is suppressed) */
+    .empty svg { width: 30px; height: 30px; stroke: var(--muted-soft); opacity: .8; margin: 0 auto 12px; display: block; }
+    .empty .hint { color: var(--muted); font-family: var(--serif); font-size: 14px; }
+
+    /* ───────────────────────── How it works ───────────────────────── */
+    .howto { max-width: 940px; margin: 0 auto; padding: 30px; }
+    .howto-title { font: 750 30px/1.14 var(--font); letter-spacing: -0.022em; color: var(--text); margin: 0 0 14px; }
+    .howto .lead { font-family: var(--serif); font-size: 18px; line-height: 1.6; color: var(--text-soft); margin: 0 0 26px; max-width: 70ch; }
+    .dfd-wrap { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px 22px 10px; }
+    .dfd { width: 100%; height: auto; display: block; }
+    .dfd .node { fill: var(--surface); stroke: var(--border-strong); stroke-width: 1.2; }
+    .dfd .node.pipe { fill: var(--accent-soft); }
+    .dfd .node.eval { fill: #ECEFE1; stroke: #BFC9A8; }
+    .dfd .node.lib  { fill: var(--panel3); }
+    .dfd .ntitle { fill: var(--text); font: 700 13px var(--font); }
+    .dfd .nsub { fill: var(--muted); font: 400 10.5px var(--font); }
+    .dfd .nnum { fill: var(--text); }
+    .dfd .nnum-t { fill: #FAF9F5; font: 800 11px var(--font); }
+    .dfd .edge { fill: none; stroke: #908C82; stroke-width: 1.5; }
+    .dfd .edge.pass { stroke: #4F7A4E; stroke-width: 1.8; }
+    .dfd .edge.fail { stroke: #B3543B; stroke-width: 1.8; stroke-dasharray: 6 4; }
+    .dfd .elabel { fill: var(--muted); font: 600 10.5px var(--font); }
+    .dfd .elabel.pass { fill: #3C5A3C; }
+    .dfd .elabel.fail { fill: #8E3E2A; }
+    .dfd .anno { fill: var(--muted); font: italic 10.5px var(--serif); }
+    .dfd-caption { font-family: var(--serif); font-style: italic; color: var(--muted); font-size: 14px; margin: 16px 2px 4px; max-width: 74ch; }
+    .stage-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 26px; }
+    .stage-card { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px; }
+    .stage-card .sk { display: inline-flex; align-items: center; gap: 7px; margin: 0 0 7px; font: 700 11px var(--font); letter-spacing: 0.05em; text-transform: uppercase; color: var(--text); }
+    .stage-card .sk b { display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; background: var(--text); color: #FAF9F5; font-size: 10px; }
+    .stage-card p { margin: 0; font-family: var(--serif); font-size: 13.5px; line-height: 1.5; color: var(--muted); }
+    .legend { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 22px; padding-top: 16px; border-top: 1px solid var(--border); }
+    .legend span { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); }
+    .legend i { width: 22px; border-top: 2px solid #908C82; display: inline-block; }
+    .legend i.pass { border-color: #4F7A4E; }
+    .legend i.fail { border-top-style: dashed; border-color: #B3543B; }
+    .legend i.box { width: 16px; height: 12px; border: 1px solid var(--border-strong); border-radius: 3px; background: var(--accent-soft); }
+
+    /* ───────────────────────── Responsive ───────────────────────── */
+    @media (max-width: 1040px) {
+      .author, .library { grid-template-columns: 1fr; }
+      .right { grid-template-rows: auto auto; }
+      .lib-split { grid-template-columns: 1fr; }
+      .lib-grid { border-right: 0; border-bottom: 1px solid var(--border); max-height: 320px; }
+    }
+    @media (max-width: 720px) {
+      header.top { flex-wrap: wrap; gap: 12px; min-height: 0; padding: 12px 18px; }
+      .meta { order: 3; margin-left: 0; }
+      .author, .library { padding: 18px; gap: 16px; }
+      .preview { padding: 24px 20px; }
+      #task-pills { flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="top">
+  <h1>Learning Studio</h1>
+  <nav>
+    <button id="tab-author" class="active" onclick="showView('author')">Create</button>
+    <button id="tab-library" onclick="showView('library')">Library</button>
+    <button id="tab-evals" onclick="showView('evals')">Evals</button>
+    <button id="tab-howitworks" onclick="showView('howitworks')">How it works</button>
+  </nav>
+  <div class="meta">Customer Education</div>
+</header>
+
+<!-- ═══════════════════════════════════ AUTHOR ═══════════════════════════════════ -->
+<section id="view-author" class="view active">
+  <div class="author">
+    <div class="panel">
+      <div class="panel-header">Create a resource</div>
+      <div class="panel-body">
+        <div class="field">
+          <label id="transcript-label" for="file">Training transcript</label>
+          <div id="drop" class="drop" role="button" tabindex="0" aria-labelledby="transcript-label" aria-describedby="drop-help">
+            <p class="big">Upload transcript</p>
+            <p id="drop-help">Markdown or plain text</p>
+            <input id="file" type="file" accept=".md,.txt" hidden />
+          </div>
+          <div id="chosen" class="chosen" style="display:none;"></div>
+        </div>
+        <div class="field">
+          <label for="module">Product module</label>
+          <select id="module"><option value="">Select a module</option></select>
+        </div>
+        <div class="field">
+          <label for="template">Resource format</label>
+          <select id="template"><option value="">Select a format</option></select>
+        </div>
+        <button id="run" class="primary" disabled>Create draft</button>
+      </div>
+    </div>
+
+    <div class="right">
+      <div class="panel">
+        <div class="panel-header" style="display:flex; align-items:center; gap:12px;">
+          <span>Production status</span>
+          <div id="task-pills" style="display:flex; gap:4px; margin-left:auto;">
+            <span class="task-pill" data-task="map">1 Map</span>
+            <span class="task-pill" data-task="plan">2 Plan</span>
+            <span class="task-pill" data-task="verify">3 Verify</span>
+            <span class="task-pill" data-task="generate">4 Draft</span>
+          </div>
+          <button id="errors-toggle" class="error-badge" style="display:none;">Errors: <span id="error-count">0</span></button>
+          <a id="log-link" class="secondary" style="padding:3px 8px; font-size:10px; text-decoration:none; display:none;" target="_blank">Run details</a>
+          <button id="debug-toggle" class="secondary" style="padding:3px 8px; font-size:10px;">Trace</button>
+        </div>
+        <div id="activity" class="activity" aria-live="polite">
+          <div style="color:var(--muted); text-align:center; padding-top:40px; font-size:13px;">Choose a transcript, module, and format to create a draft.</div>
+        </div>
+        <div class="progress-strip"><div id="progress-fill" class="progress-fill"></div></div>
+        <div id="status" class="status-bar" aria-live="polite">idle</div>
+      </div>
+
+      <div class="panel preview-wrap">
+        <div class="panel-header">Review draft</div>
+        <div class="preview-toolbar">
+          <span id="resid" class="id">no draft yet</span>
+          <span id="verdict-badge" class="verdict-badge" style="display:none;"></span>
+          <button id="download-pdf" class="secondary pdf-btn" disabled>Download PDF</button>
+          <button id="view-toggle" class="secondary" disabled>Show raw (with sources)</button>
+          <button id="publish" class="secondary accent" disabled>Release (Pending SME Review)</button>
+        </div>
+        <div id="preview" class="preview"><div class="empty">The generated resource will appear here.</div></div>
+        <div id="eval-panel" class="eval-panel" style="display:none;">
+          <div class="eval-header">
+            <span class="eval-title">Quality checks</span>
+            <span id="eval-summary" class="eval-summary"></span>
+          </div>
+          <ul id="eval-checks" class="eval-checks"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ LIBRARY ═══════════════════════════════════ -->
+<section id="view-library" class="view">
+  <div class="library">
+    <div class="panel lib-filters">
+      <div class="panel-header">Filter library</div>
+      <div class="panel-body">
+      <div class="field">
+        <label for="lib-search">Search</label>
+        <input id="lib-search" type="text" placeholder="module, format, status, id…" autocomplete="off" />
+      </div>
+      <div class="field">
+        <label for="lib-module">Module</label>
+        <select id="lib-module"><option value="">All</option></select>
+      </div>
+      <div class="field">
+        <label for="lib-template">Template</label>
+        <select id="lib-template"><option value="">All</option></select>
+      </div>
+      <div class="field">
+        <label for="lib-status">Status</label>
+        <select id="lib-status">
+          <option value="">All</option>
+          <option value="draft">Draft</option>
+          <option value="published">Published</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="lib-sort">Sort by</label>
+        <select id="lib-sort">
+          <option value="created_desc">Newest first</option>
+          <option value="created_asc">Oldest first</option>
+          <option value="module">Module A–Z</option>
+          <option value="template">Format</option>
+          <option value="status">Status</option>
+        </select>
+      </div>
+      <button class="secondary" style="width:100%;" onclick="loadLibrary()">Refresh</button>
+      </div>
+    </div>
+
+    <div class="panel lib-detail">
+      <div class="panel-header"><span id="lib-count">0</span> resources</div>
+      <div class="lib-split">
+        <div id="lib-grid" class="lib-grid"></div>
+        <div class="preview-wrap">
+          <div class="preview-toolbar">
+            <span id="lib-resid" class="id">pick a resource</span>
+            <button id="lib-download-pdf" class="secondary pdf-btn" disabled>Download PDF</button>
+            <button id="lib-publish" class="secondary accent" disabled>Release (Pending SME Review)</button>
+            <button id="lib-delete" class="secondary danger" disabled>Delete</button>
+          </div>
+          <div id="lib-preview" class="preview"><div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg><div class="hint">Select a guide from the list to preview it here.</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="view-evals" class="view">
+  <div class="panel" style="max-width:1140px;margin:0 auto;">
+    <div class="panel-header">
+      <span>Quality &amp; Trust</span>
+      <button class="secondary" style="float:right;margin-top:-4px;" onclick="loadEvals()">Refresh</button>
+    </div>
+    <div class="panel-body" id="evals-body">
+      <div class="empty">Loading evals…</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ HOW IT WORKS ═══════════════════════════════════ -->
+<section id="view-howitworks" class="view">
+  <div class="howto">
+    <h1 class="howto-title">How Learning Studio works</h1>
+    <p class="lead">Every guide begins with a real training transcript. Learning Studio researches the matching
+      Jira tickets, runs a four-stage pipeline to write the guide, and then refuses to ship anything until an
+      automated grounding check confirms each claim traces back to a genuine source.</p>
+
+    <div class="dfd-wrap">
+      <svg class="dfd" viewBox="0 0 960 540" role="img" aria-labelledby="dfd-title dfd-desc">
+        <title id="dfd-title">Learning Studio data-flow</title>
+        <desc id="dfd-desc">A training transcript loads into a four-stage pipeline (Map, Plan, Verify, Draft). A
+          grounding cluster (Jira search, load epics, read tickets) feeds verbatim citations into Verify and Draft.
+          The draft is scored by the grounding evaluator; passing drafts publish to the Library, failing drafts loop
+          back to Draft for a re-write.</desc>
+        <defs>
+          <marker id="ah" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#908C82"/></marker>
+          <marker id="ah-pass" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#4F7A4E"/></marker>
+          <marker id="ah-fail" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#B3543B"/></marker>
+        </defs>
+
+        <!-- grounding cluster (top) -->
+        <rect class="node" x="150" y="50" width="130" height="42" rx="10"/>
+        <text class="ntitle" x="215" y="76" text-anchor="middle">Jira search</text>
+        <rect class="node" x="340" y="50" width="130" height="42" rx="10"/>
+        <text class="ntitle" x="405" y="76" text-anchor="middle">Load epics</text>
+        <rect class="node" x="530" y="50" width="130" height="42" rx="10"/>
+        <text class="ntitle" x="595" y="76" text-anchor="middle">Read tickets</text>
+        <path class="edge" d="M280,71 H336" marker-end="url(#ah)"/>
+        <text class="elabel" x="308" y="64" text-anchor="middle">epics → child stories</text>
+        <path class="edge" d="M470,71 H526" marker-end="url(#ah)"/>
+        <text class="elabel" x="498" y="64" text-anchor="middle">5 tickets / query</text>
+        <path class="edge" d="M593,92 L578,221" marker-end="url(#ah)"/>
+        <text class="anno" x="602" y="150" text-anchor="start">grounds claims · AC citations</text>
+
+        <!-- main pipeline (middle) -->
+        <rect class="node" x="20" y="223" width="160" height="54" rx="11"/>
+        <text class="ntitle" x="100" y="246" text-anchor="middle">Training transcript</text>
+        <text class="nsub" x="100" y="262" text-anchor="middle">.md upload</text>
+
+        <g><rect class="node pipe" x="215" y="225" width="120" height="50" rx="11"/>
+          <circle class="nnum" cx="237" cy="250" r="9"/><text class="nnum-t" x="237" y="254" text-anchor="middle">1</text>
+          <text class="ntitle" x="252" y="254" text-anchor="start">Map</text></g>
+        <g><rect class="node pipe" x="365" y="225" width="120" height="50" rx="11"/>
+          <circle class="nnum" cx="387" cy="250" r="9"/><text class="nnum-t" x="387" y="254" text-anchor="middle">2</text>
+          <text class="ntitle" x="402" y="254" text-anchor="start">Plan</text></g>
+        <g><rect class="node pipe" x="515" y="225" width="120" height="50" rx="11"/>
+          <circle class="nnum" cx="537" cy="250" r="9"/><text class="nnum-t" x="537" y="254" text-anchor="middle">3</text>
+          <text class="ntitle" x="552" y="254" text-anchor="start">Verify</text></g>
+        <g><rect class="node pipe" x="665" y="225" width="120" height="50" rx="11"/>
+          <circle class="nnum" cx="687" cy="250" r="9"/><text class="nnum-t" x="687" y="254" text-anchor="middle">4</text>
+          <text class="ntitle" x="702" y="254" text-anchor="start">Draft</text></g>
+
+        <path class="edge" d="M180,250 H213" marker-end="url(#ah)"/><text class="elabel" x="196" y="243" text-anchor="middle">loads</text>
+        <path class="edge" d="M335,250 H363" marker-end="url(#ah)"/><text class="elabel" x="349" y="243" text-anchor="middle">plans</text>
+        <path class="edge" d="M485,250 H513" marker-end="url(#ah)"/><text class="elabel" x="499" y="243" text-anchor="middle">verifies</text>
+        <path class="edge" d="M635,250 H663" marker-end="url(#ah)"/><text class="elabel" x="649" y="243" text-anchor="middle">writes</text>
+
+        <!-- eval + library (bottom) -->
+        <rect class="node eval" x="470" y="414" width="210" height="84" rx="12"/>
+        <text class="ntitle" x="575" y="440" text-anchor="middle">Eval · Grounding Trust</text>
+        <text class="nsub" x="575" y="457" text-anchor="middle">Trust Score — grade A</text>
+        <text class="nsub" x="575" y="472" text-anchor="middle">every claim traced to a source</text>
+        <text class="nsub" x="575" y="487" text-anchor="middle">cost per guide</text>
+
+        <rect class="node lib" x="715" y="430" width="120" height="52" rx="11"/>
+        <text class="ntitle" x="775" y="460" text-anchor="middle">Library</text>
+
+        <!-- scored by (Draft → Eval) -->
+        <path class="edge" d="M722,277 C742,350 705,400 642,413" marker-end="url(#ah)"/>
+        <text class="elabel" x="724" y="352" text-anchor="start">scored by</text>
+        <!-- pass → Library -->
+        <path class="edge pass" d="M680,452 H712" marker-end="url(#ah-pass)"/>
+        <text class="elabel pass" x="696" y="445" text-anchor="middle">pass → publishes</text>
+        <!-- fails → re-draft (loop) -->
+        <path class="edge fail" d="M520,414 C496,348 560,312 688,276" marker-end="url(#ah-fail)"/>
+        <text class="elabel fail" x="486" y="352" text-anchor="start">fails eval → re-draft</text>
+      </svg>
+      <p class="dfd-caption">Every guide flows from a training transcript through grounded research and a
+        four-stage pipeline, then must pass automated grounding checks before reaching the Library.</p>
+    </div>
+
+    <div class="stage-grid">
+      <div class="stage-card"><div class="sk"><b>1</b> Map</div><p>Parses the uploaded transcript and matches each feature to the right Jira tickets for the selected module.</p></div>
+      <div class="stage-card"><div class="sk"><b>2</b> Plan</div><p>Chooses which workflows to cover and how deep — mining stories, bugs, tasks and epics for the right material.</p></div>
+      <div class="stage-card"><div class="sk"><b>3</b> Verify</div><p>Pulls Acceptance Criteria and Release Notes to confirm every claim against its true source and trust tier.</p></div>
+      <div class="stage-card"><div class="sk"><b>4</b> Draft</div><p>Writes the guide and cites each claim by source ID — exact quotes are inserted from the registry, never typed by the model.</p></div>
+      <div class="stage-card"><div class="sk">Grounding</div><p>Jira search → load epics → read tickets supplies the verbatim, correctly-tiered evidence the pipeline cites.</p></div>
+      <div class="stage-card"><div class="sk">Eval gate</div><p>Automated grounding checks score the draft; only provably-grounded guides reach the Library, marked Pending SME Review.</p></div>
+    </div>
+
+    <div class="legend">
+      <span><i></i> data flow</span>
+      <span><i class="pass"></i> passes grounding → Library</span>
+      <span><i class="fail"></i> fails eval → re-draft</span>
+      <span><i class="box"></i> pipeline stage</span>
+    </div>
+  </div>
+</section>
+
+<script>
+// ─── State ─────────────────────────────────────────────────────────
+let chosenFile = null;
+let currentTranscriptId = null;
+let currentResourceId = null;
+let currentDraftRaw = null;   // HTML with <!-- Source: --> comments
+let currentDraftClean = null; // HTML with comments stripped
+let showRaw = false;
+let evtSource = null;
+let libSelectedId = null;
+
+// ─── Tabs ──────────────────────────────────────────────────────────
+function showView(name) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('view-' + name).classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+  if (name === 'library') loadLibrary();
+  if (name === 'evals') loadEvals();
+}
+
+// ─── Evals dashboard ───────────────────────────────────────────────
+function _pill(text, good) {
+  const bg = good ? '#E7ECDB' : '#F0DDD2', fg = good ? '#3C5A3C' : '#8E3E2A';
+  return `<span style="display:inline-block;padding:3px 10px;border-radius:999px;font-size:10.5px;font-weight:700;letter-spacing:0.03em;text-transform:uppercase;background:${bg};color:${fg};">${text}</span>`;
+}
+function _gradeColor(overall) {
+  if (overall >= 95) return '#4F7A4E';   // sage green
+  if (overall >= 85) return '#9A6A18';   // amber
+  if (overall >= 70) return '#B3543B';   // terracotta
+  return '#8E3E2A';                       // deep terracotta
+}
+async function loadEvals() {
+  const el = document.getElementById('evals-body');
+  if (!el) return;
+  try {
+    const d = await fetch('/api/evals').then(r => r.json());
+    const r = d.regression || {};
+    const regGood = !r.error && r.failed === 0;
+    let html = '';
+
+    // ── The Score — one number a layman gets ──
+    const sc = d.score || {};
+    if (sc.overall != null) {
+      const color = _gradeColor(sc.overall);
+      html += `<div class="score-hero">
+        <div class="score-dial" style="background:${color};">
+          <div class="num">${sc.overall}</div><div class="grade">grade ${sc.grade}</div>
+        </div>
+        <div>
+          <div style="font-size:18px;font-weight:800;color:var(--text);letter-spacing:-0.01em;">${sc.headline || 'Trust Score'}</div>
+          <div style="color:var(--muted);font-family:var(--serif);font-size:14px;margin-top:5px;max-width:62ch;">${sc.one_liner || ''}</div>
+        </div>
+      </div>`;
+      (sc.components || []).forEach(c => {
+        html += `<div class="score-card">
+          <div class="top"><span class="lbl">${c.label}</span>${_pill(c.value, c.ok)}</div>
+          <div class="plain">${c.plain || ''}</div>
+        </div>`;
+      });
+    }
+
+    // ── Detail (plain-English, business-reader friendly) ──
+    html += '<h3 style="margin:22px 0 12px;border-top:1px solid var(--border);padding-top:16px;">Guides produced</h3>';
+    const g = d.generations || [];
+    if (!g.length) {
+      html += '<div class="empty">No guides generated yet — create one from the Create tab.</div>';
+    } else {
+      const NUM = { 'Sources cited': 1, 'Cost': 1 };  // right-align numeric columns
+      html += '<table style="width:100%;border-collapse:collapse;font-size:13px;"><thead><tr>' +
+        ['When', 'Format', 'Sources cited', 'Result', 'Cost'].map(h =>
+          `<th style="text-align:${NUM[h] ? 'right' : 'left'};padding:8px 10px;border-bottom:1px solid var(--border-strong);color:var(--muted);font-weight:700;font-size:10.5px;letter-spacing:0.05em;text-transform:uppercase;">${h}</th>`).join('') +
+        '</tr></thead><tbody>';
+      g.slice(0, 25).forEach(x => {
+        const issues = (x.tier_lie || 0) + (x.not_found || 0) + (x.invalid_cite_id || 0);
+        const result = x.grounded ? _pill('Verified', true) : _pill(`Needs attention (${issues})`, false);
+        const cells = [
+          { v: (x.created_at || '').slice(0, 16).replace('T', ' '), num: false },
+          { v: x.template || '?', num: false },
+          { v: (x.verified != null ? x.verified : '–'), num: true },
+          { v: result, num: false },
+          { v: x.cost_usd != null ? '$' + Number(x.cost_usd).toFixed(2) : '–', num: true },
+        ];
+        html += '<tr style="transition:background .12s;" onmouseover="this.style.background=\'var(--surface)\'" onmouseout="this.style.background=\'\'">' +
+          cells.map(c => `<td style="padding:8px 10px;border-bottom:1px solid var(--border);text-align:${c.num ? 'right' : 'left'};${c.num ? 'font-variant-numeric:tabular-nums;color:var(--text-soft);' : ''}">${c.v}</td>`).join('') + '</tr>';
+      });
+      html += '</tbody></table>';
+      html += `<p style="color:var(--muted);font-family:var(--serif);font-size:12.5px;margin-top:9px;">"Verified" means every claim in that guide traces to a real source at the correct trust level. "Sources cited" is how many source references the guide contains.</p>`;
+    }
+
+    // Only surface the safeguard detail if something needs attention — otherwise keep it clean.
+    if (r.checks && r.failed > 0) {
+      html += '<h3 style="margin:22px 0 8px;">Safeguards needing attention</h3>';
+      html += '<div style="display:flex;flex-wrap:wrap;gap:6px;">' +
+        r.checks.filter(c => c.status === 'fail').map(c => _pill(c.name.replace(/^REG-\d+ /, ''), false)).join('') + '</div>';
+    }
+
+    // Reliability runs (repeated-run consistency), in plain terms.
+    const runs = d.suite_runs || [];
+    if (runs.length) {
+      html += '<h3 style="margin:22px 0 8px;">Reliability checks <span style="font-weight:400;color:var(--muted);font-family:var(--serif);font-size:12.5px;">— same guide generated several times to confirm consistent quality</span></h3>';
+      runs.forEach(run => {
+        const runCost = run.total_cost_usd != null ? ' · ' + '$' + Number(run.total_cost_usd).toFixed(2) : '';
+        const when = (run.stamp || '').replace('T', ' ').replace('Z', '');
+        html += `<div style="margin-bottom:10px;font-size:13px;"><strong>${run.module || ''}</strong> · ${run.trials ?? '?'} runs each${runCost}<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:5px;">`;
+        const pf = run.per_format || {};
+        Object.keys(pf).forEach(fmt => {
+          const agg = (pf[fmt] && pf[fmt].aggregate) ? pf[fmt].aggregate : (pf[fmt] || {});
+          const passK = (agg.pass_caret_k ?? agg['pass^k'] ?? agg.pass_at_k);
+          const good = passK === 1 || passK === true;
+          html += _pill(`${fmt}: ${good ? 'consistent' : 'inconsistent'}`, good);
+        });
+        html += '</div></div>';
+      });
+    }
+    el.innerHTML = html;
+  } catch (e) {
+    el.innerHTML = `<div class="empty">Could not load evals: ${e.message}</div>`;
+  }
+}
+
+// ─── Bootstrap config ──────────────────────────────────────────────
+async function loadConfig() {
+  const r = await fetch('/api/config');
+  const cfg = await r.json();
+  for (const sid of ['module', 'lib-module']) {
+    const sel = document.getElementById(sid);
+    cfg.modules.forEach(m => {
+      const o = document.createElement('option');
+      o.value = m; o.textContent = m;
+      sel.appendChild(o);
+    });
+  }
+  for (const sid of ['template', 'lib-template']) {
+    const sel = document.getElementById(sid);
+    cfg.templates.forEach(t => {
+      const o = document.createElement('option');
+      o.value = t; o.textContent = t;
+      sel.appendChild(o);
+    });
+  }
+}
+loadConfig();
+
+// ─── File drop ─────────────────────────────────────────────────────
+const drop = document.getElementById('drop');
+const fileInput = document.getElementById('file');
+const chosen = document.getElementById('chosen');
+const moduleSel = document.getElementById('module');
+const templateSel = document.getElementById('template');
+const runBtn = document.getElementById('run');
+
+drop.addEventListener('click', () => fileInput.click());
+drop.addEventListener('keydown', e => {
+  if (e.key === 'Enter' || e.key === ' ') {
+    e.preventDefault();
+    fileInput.click();
+  }
+});
+['dragenter','dragover'].forEach(ev =>
+  drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('hover'); }));
+['dragleave','drop'].forEach(ev =>
+  drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove('hover'); }));
+drop.addEventListener('drop', e => {
+  const f = e.dataTransfer.files[0];
+  if (f) pickFile(f);
+});
+fileInput.addEventListener('change', e => {
+  if (e.target.files[0]) pickFile(e.target.files[0]);
+});
+
+function pickFile(f) {
+  if (!/\.(md|txt)$/i.test(f.name)) {
+    alert('Please pick a .md or .txt');
+    return;
+  }
+  chosenFile = f;
+  chosen.textContent = `${f.name} | ${(f.size/1024).toFixed(1)} KB`;
+  chosen.style.display = '';
+  checkReady();
+}
+
+function checkReady() {
+  runBtn.disabled = !(chosenFile && moduleSel.value && templateSel.value);
+}
+moduleSel.addEventListener('change', checkReady);
+templateSel.addEventListener('change', checkReady);
+
+// ─── Run ───────────────────────────────────────────────────────────
+runBtn.addEventListener('click', async () => {
+  runBtn.disabled = true;
+  document.getElementById('activity').innerHTML = '';
+  document.getElementById('activity').classList.remove('comic');
+  document.querySelectorAll('.comic-active').forEach(el => el.classList.remove('comic-active'));
+  document.getElementById('preview').innerHTML = '<div class="empty">Creating draft...</div>';
+  document.getElementById('resid').textContent = 'awaiting...';
+  document.getElementById('publish').disabled = true;
+  document.getElementById('view-toggle').disabled = true;
+  document.getElementById('download-pdf').disabled = true;
+  document.getElementById('verdict-badge').style.display = 'none';
+  document.getElementById('eval-panel').style.display = 'none';
+  currentDraftRaw = null;
+  currentDraftClean = null;
+  resetTasks();
+  setProgress(5);
+  setStatus('uploading transcript...', 'running');
+
+  // Upload
+  const form = new FormData();
+  form.append('file', chosenFile);
+  let uploaded;
+  try {
+    const url = '/transcripts?module=' + encodeURIComponent(moduleSel.value);
+    const r = await fetch(url, { method: 'POST', body: form });
+    if (!r.ok) throw new Error(await r.text());
+    uploaded = await r.json();
+    currentTranscriptId = uploaded.id;
+  } catch (e) {
+    setStatus('upload failed: ' + e.message, 'err');
+    runBtn.disabled = false;
+    return;
+  }
+
+  setStatus('creating draft...', 'running');
+  const qs = new URLSearchParams({
+    transcript_id: uploaded.id,
+    module: moduleSel.value,
+    template: templateSel.value,
+  });
+  evtSource = new EventSource('/generate?' + qs.toString());
+
+  setTask('map');
+  evtSource.addEventListener('start', e => addDebug('start', JSON.parse(e.data)));
+  evtSource.addEventListener('system', e => addDebug('system', JSON.parse(e.data)));
+  evtSource.addEventListener('thinking', e => addDebug('thinking', JSON.parse(e.data)));
+  evtSource.addEventListener('tool_call', e => handleToolCall(JSON.parse(e.data)));
+  evtSource.addEventListener('tool_result', e => handleToolResult(JSON.parse(e.data)));
+  evtSource.addEventListener('text', e => handleText(JSON.parse(e.data)));
+  evtSource.addEventListener('result', e => addDebug('result', JSON.parse(e.data)));
+  evtSource.addEventListener('done', e => {
+    const d = JSON.parse(e.data);
+    currentResourceId = d.resource_id;
+    document.getElementById('resid').textContent = d.resource_id;
+    document.getElementById('download-pdf').disabled = false;
+    document.getElementById('log-link').href = `/logs/${d.resource_id}?format=raw`;
+    // Publish stays DISABLED until the Evaluator returns pass or warn.
+    document.getElementById('publish').disabled = true;
+    document.getElementById('publish').title = 'Waiting for Evaluator verdict...';
+    document.getElementById('view-toggle').disabled = false;
+    loadDraft(d.resource_id);
+    completeTask('generate');
+    setProgress(100);
+    setStatus(d.cost_usd != null ? `draft ready · $${Number(d.cost_usd).toFixed(4)}` : 'draft ready', 'done');
+    evtSource.close();
+    runBtn.disabled = false;
+    // Auto-trigger the evaluator (Task 5)
+    runEvaluator(d.resource_id);
+    // Refresh the evals dashboard so each generation shows up live.
+    loadEvals();
+  });
+  evtSource.addEventListener('error', e => {
+    let msg = 'stream error';
+    try { msg = JSON.parse(e.data).message || msg; } catch {}
+    addStep('error', '!', 'Stream error', msg);
+    bumpErrorCount();
+    setStatus('error: ' + msg, 'err');
+    evtSource.close();
+    runBtn.disabled = false;
+  });
+});
+
+// ─── Evaluator (Task 5) ────────────────────────────────────────────────
+let evalSource = null;
+function setVerdictBadge(state, summary) {
+  const badge = document.getElementById('verdict-badge');
+  badge.style.display = '';
+  badge.className = 'verdict-badge ' + state;
+  badge.textContent = state === 'running' ? 'Evaluating...' :
+                       state === 'pass' ? 'PASS' :
+                       state === 'warn' ? 'WARN' :
+                       state === 'fail' ? 'FAIL' : 'ERROR';
+  badge.title = summary || '';
+}
+
+function renderEvalChecks(data) {
+  const panel = document.getElementById('eval-panel');
+  const checksUl = document.getElementById('eval-checks');
+  const summary = document.getElementById('eval-summary');
+  panel.style.display = '';
+  summary.textContent = data.summary || '';
+  checksUl.innerHTML = '';
+  (data.checks || []).forEach(c => {
+    const li = document.createElement('li');
+    li.className = c.status || 'ok';
+    const mark = c.status === 'ok' ? 'OK' : c.status === 'warn' ? 'WARN' : 'FAIL';
+    let detail = c.detail || '';
+    if (c.checked && c.checked.length) detail += ' [' + c.checked.join(', ') + ']';
+    li.innerHTML = `
+      <span class="check-mark">${mark}</span>
+      <span class="check-name">${escapeHtml(c.name || '?')}</span>
+      <span class="check-detail">${escapeHtml(detail)}</span>
+    `;
+    checksUl.appendChild(li);
+  });
+}
+
+function runEvaluator(rid) {
+  setVerdictBadge('running');
+  if (evalSource) { try { evalSource.close(); } catch {} }
+  evalSource = new EventSource(`/resources/${rid}/evaluate`);
+  evalSource.addEventListener('eval_start', () => {});
+  evalSource.addEventListener('eval_tool_call', e => {
+    // Optional: log to debug stream
+    addDebug('eval_tool_call', JSON.parse(e.data));
+  });
+  evalSource.addEventListener('eval_tool_result', e => {
+    addDebug('eval_tool_result', JSON.parse(e.data));
+  });
+  evalSource.addEventListener('eval_done', e => {
+    const d = JSON.parse(e.data);
+    setVerdictBadge(d.verdict || 'error', d.summary || '');
+    renderEvalChecks(d);
+    evalSource.close();
+    // Hard-gate publish on verdict
+    const publishBtn = document.getElementById('publish');
+    if (d.verdict === 'pass' || d.verdict === 'warn') {
+      publishBtn.disabled = false;
+      publishBtn.title = 'Grounding gate passed — release for use, marked Pending Review by SME.';
+    } else {
+      publishBtn.disabled = true;
+      publishBtn.title = 'Grounding gate FAILED — cannot release until grounding is clean. See checks below.';
+    }
+  });
+  evalSource.addEventListener('eval_error', e => {
+    let msg = 'evaluator error';
+    try { msg = JSON.parse(e.data).message || msg; } catch {}
+    setVerdictBadge('error', msg);
+    renderEvalChecks({ summary: msg, checks: [] });
+    addStep('error', '!', 'Evaluator failed', msg);
+    bumpErrorCount();
+    evalSource.close();
+    // Without an evaluator verdict, publish stays disabled.
+    document.getElementById('publish').disabled = true;
+    document.getElementById('publish').title = 'Evaluator failed - cannot publish without a verdict.';
+  });
+}
+
+async function loadDraft(rid) {
+  const [raw, clean] = await Promise.all([
+    fetch(`/resources/${rid}?view=draft`).then(r => r.json()),
+    fetch(`/resources/${rid}?view=clean`).then(r => r.json()),
+  ]);
+  currentDraftRaw = raw.html;
+  currentDraftClean = clean.html;
+  document.getElementById('preview').innerHTML = currentDraftClean || '<div class="empty">empty draft</div>';
+}
+
+document.getElementById('view-toggle').addEventListener('click', () => {
+  showRaw = !showRaw;
+  document.getElementById('view-toggle').textContent = showRaw ? 'Show clean (publish view)' : 'Show raw (with sources)';
+  document.getElementById('preview').innerHTML = showRaw ? currentDraftRaw : currentDraftClean;
+});
+
+document.getElementById('publish').addEventListener('click', async () => {
+  if (!currentResourceId) return;
+  if (!confirm('Release this guide for use? It becomes available in the Library and for download, '
+    + 'marked "Pending Review by SME" until a subject-matter expert approves it.')) return;
+  const r = await fetch(`/resources/${currentResourceId}/publish_pending`, { method: 'POST' });
+  if (!r.ok) {
+    let detail = await r.text();
+    try {
+      const j = JSON.parse(detail);
+      detail = (j.detail && typeof j.detail === 'object') ? j.detail.message : (j.detail || detail);
+    } catch {}
+    alert('Release blocked:\n\n' + detail);
+    return;
+  }
+  const btn = document.getElementById('publish');
+  btn.textContent = '✓ Released — Pending SME Review';
+  btn.disabled = true;
+  setStatus('released — Pending Review by SME', 'done');
+});
+
+// ─── Activity log (friendly, production-style rendering) ───────────
+const activity = document.getElementById('activity');
+
+// Map tool names to task pill they belong to
+const TOOL_TASK = {
+  parse_transcript: 'map',
+  match_tickets: 'map',
+  read_epic: 'map',
+  read_ticket: 'verify',
+  search_kb: 'verify',
+  read_pdf: 'map',
+};
+
+// Friendly labels and icons per tool
+const TOOL_RENDERS = {
+  parse_transcript: { icon: 'T', label: 'Reading transcript', arg: i => fileName(i.transcript_path) },
+  match_tickets:    { icon: 'J', label: 'Searching Jira',     arg: i => `"${i.query}"` + (i.module ? ` | ${i.module}` : '') },
+  read_epic:        { icon: 'E', label: 'Loading epic',       arg: i => i.epic_key },
+  read_ticket:      { icon: 'A', label: 'Reading ticket',     arg: i => i.issue_key },
+  search_kb:        { icon: 'K', label: 'Searching guides',   arg: i => `"${i.query}"` },
+  read_pdf:         { icon: 'P', label: 'Reading PDF',        arg: i => fileName(i.file_path) },
+};
+
+// Tool result summarizers: extract a 1-line preview from the formatted text result
+const RESULT_SUMMARIZERS = {
+  parse_transcript: text => `Transcript loaded | ${text.length.toLocaleString()} chars`,
+  match_tickets:    text => {
+    const m = text.match(/JQL:[^\]]+\]/);
+    const ticketLines = text.split('\n').filter(l => /^NXT-\d+/.test(l));
+    if (text.includes('No tickets matched')) return 'No tickets matched';
+    if (ticketLines.length === 0) return 'No tickets returned';
+    const keys = ticketLines.slice(0, 3).map(l => l.split(' ')[0]).join(', ');
+    return `${ticketLines.length} ticket${ticketLines.length === 1 ? '' : 's'}: ${keys}${ticketLines.length > 3 ? '...' : ''}`;
+  },
+  read_epic: text => {
+    const epicLine = text.split('\n')[0] || '';
+    const m = text.match(/Child stories \((\d+)\)/);
+    return `${epicLine.replace(/^EPIC /, '')} | ${m ? m[1] + ' child stories' : ''}`;
+  },
+  read_ticket: text => {
+    const first = text.split('\n')[0] || '';
+    const hasAC = !text.includes('## Acceptance Criteria\n(empty');
+    return `${first} | AC: ${hasAC ? 'yes' : 'empty'}`;
+  },
+  search_kb: text => {
+    const m = text.match(/(\d+) files? matched/);
+    return m ? `${m[1]} files matched` : 'No KB matches';
+  },
+  read_pdf: text => `PDF read | ${text.length.toLocaleString()} chars`,
+};
+
+function fileName(p) {
+  if (!p) return '';
+  return String(p).split(/[\\\/]/).pop();
+}
+
+function stripMcpPrefix(name) {
+  // MCP names: mcp__<server>__<tool>. Server name can contain underscores
+  // (e.g. "producer_tools"), so we can't use [^_]+. Split on `__` and take
+  // the LAST segment, which is always the tool name.
+  const parts = String(name || '').split('__');
+  return parts.length >= 3 ? parts[parts.length - 1] : (parts[0] || name);
+}
+
+// Track latest tool call so we can pair it with the next tool_result
+let pendingToolCalls = {}; // id to toolName
+
+function handleToolCall(d) {
+  // Suppress SDK plumbing
+  if (d.name === 'ToolSearch') { addDebug('tool_call', d); return; }
+
+  const cleanName = stripMcpPrefix(d.name);
+  pendingToolCalls[d.id] = cleanName;
+
+  const render = TOOL_RENDERS[cleanName];
+  if (!render) {
+    addStep('tool', 'i', `${cleanName}(${JSON.stringify(d.input).slice(0, 80)})`);
+    return;
+  }
+  const prevTask = currentTask;
+  setTask(TOOL_TASK[cleanName] || null);
+  if (prevTask !== currentTask) burstSfx(taskSfxWord(currentTask));
+  bumpProgress(6);
+  const arg = render.arg ? render.arg(d.input || {}) : '';
+  addStep('tool', render.icon, render.label, arg);
+}
+
+function handleToolResult(d) {
+  const toolName = pendingToolCalls[d.tool_use_id];
+  delete pendingToolCalls[d.tool_use_id];
+  if (!toolName) {
+    // Orphaned (e.g., ToolSearch) — debug only
+    addDebug('tool_result', d);
+    return;
+  }
+  const summarize = RESULT_SUMMARIZERS[toolName];
+  const text = d.text || '';
+  const summary = summarize ? summarize(text) : (text.split('\n')[0] || '').slice(0, 120);
+  if (text.startsWith('ERROR:')) {
+    addStep('error', '!', `${toolName} failed`, summary || text.slice(0, 200));
+    bumpErrorCount();
+    return;
+  }
+  appendDetailToLastStep(`Next: ${summary}`);
+}
+
+let textStarted = false;
+let accumulatedText = '';
+function handleText(d) {
+  accumulatedText += (d.text || '');
+  if (textStarted) { bumpProgress(1); return; }
+  // Only flip to "Writing draft" once the text looks like the final HTML, not
+  // intermediate model preamble.
+  const looksFinal =
+    /<(h[1-6]|p|table|ul|ol|section|article|div)\b/i.test(accumulatedText) ||
+    accumulatedText.length > 400;
+  if (!looksFinal) return;
+  textStarted = true;
+  completeTask('verify');
+  setTask('generate');
+  addStep('text', 'D', 'Writing draft...');
+  setProgress(80);
+}
+
+function addStep(cls, icon, label, arg) {
+  const div = document.createElement('div');
+  div.className = 'step ' + cls;
+  const argHtml = arg ? `<span class="arg">${escapeHtml(arg)}</span>` : '';
+  div.innerHTML = `
+    <span class="icon">${icon}</span>
+    <span class="label">${escapeHtml(label)} ${argHtml}</span>
+  `;
+  activity.appendChild(div);
+  activity.scrollTop = activity.scrollHeight;
+}
+
+function appendDetailToLastStep(text) {
+  const steps = activity.querySelectorAll('.step');
+  const last = steps[steps.length - 1];
+  if (!last) return;
+  last.classList.add('with-detail');
+  const detail = document.createElement('div');
+  detail.className = 'detail';
+  detail.textContent = text;
+  last.appendChild(detail);
+  activity.scrollTop = activity.scrollHeight;
+}
+
+function addDebug(kind, payload) {
+  const div = document.createElement('div');
+  div.className = 'debug-ev';
+  div.textContent = `[${kind}] ` + JSON.stringify(payload, null, 2);
+  activity.appendChild(div);
+  if (document.body.classList.contains('debug')) {
+    activity.scrollTop = activity.scrollHeight;
+  }
+}
+
+// Task pill controls
+let currentTask = null;
+function setTask(name) {
+  if (!name) return;
+  currentTask = name;
+  const pills = document.querySelectorAll('.task-pill');
+  let hitName = false;
+  pills.forEach(p => {
+    const t = p.dataset.task;
+    p.classList.remove('active');
+    if (t === name) { p.classList.add('active'); hitName = true; }
+    else if (!hitName) { p.classList.add('done'); }
+    else { p.classList.remove('done'); }
+  });
+}
+function completeTask(name) {
+  const pill = document.querySelector(`.task-pill[data-task="${name}"]`);
+  if (pill) { pill.classList.remove('active'); pill.classList.add('done'); }
+}
+function resetTasks() {
+  document.querySelectorAll('.task-pill').forEach(p => p.classList.remove('active', 'done'));
+  textStarted = false;
+  accumulatedText = '';
+  pendingToolCalls = {};
+  currentTask = null;
+  errorCount = 0;
+  document.getElementById('errors-toggle').style.display = 'none';
+  document.getElementById('error-count').textContent = '0';
+  document.getElementById('log-link').style.display = 'none';
+  document.body.classList.remove('errors-only');
+}
+
+// ─── Error surfacing ────────────────────────────────────────────────
+let errorCount = 0;
+function bumpErrorCount() {
+  errorCount += 1;
+  document.getElementById('error-count').textContent = errorCount;
+  document.getElementById('errors-toggle').style.display = '';
+}
+document.getElementById('errors-toggle').addEventListener('click', () => {
+  document.body.classList.toggle('errors-only');
+});
+
+// ─── Progress bar ──────────────────────────────────────────────────
+let progressPct = 0;
+function setProgress(pct) {
+  progressPct = Math.max(0, Math.min(100, pct));
+  document.getElementById('progress-fill').style.width = progressPct + '%';
+}
+function bumpProgress(delta) { setProgress(progressPct + delta); }
+
+// ─── Sound effect bursts (EC Comics) ───────────────────────────────
+const SFX_WORDS = ['BAM!', 'POW!', 'ZAP!', 'BOOM!', 'ZOWIE!', 'KAPOW!', 'WHAM!', 'ZOUNDS!', 'BLAM!'];
+const TASK_SFX = { map: 'SEARCH!', plan: 'THINK!', verify: 'CHECK!', generate: 'KAPOW!' };
+function taskSfxWord(task) { return TASK_SFX[task] || randomSfx(); }
+function randomSfx() { return SFX_WORDS[Math.floor(Math.random() * SFX_WORDS.length)]; }
+
+function burstSfx(word) {
+  const host = document.getElementById('activity');
+  if (!host || !host.classList.contains('comic')) return;
+  const el = document.createElement('div');
+  el.className = 'sfx-burst';
+  el.textContent = word;
+  // Position randomly within the activity panel, away from edges
+  const rect = host.getBoundingClientRect();
+  const top = 40 + Math.random() * Math.max(40, rect.height - 200);
+  const left = 30 + Math.random() * Math.max(40, rect.width - 240);
+  el.style.top = top + 'px';
+  el.style.left = left + 'px';
+  el.style.transform = `rotate(${(Math.random() * 24 - 12).toFixed(1)}deg)`;
+  host.appendChild(el);
+  setTimeout(() => el.remove(), 1200);
+}
+
+document.getElementById('debug-toggle').addEventListener('click', () => {
+  document.body.classList.toggle('debug');
+});
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function setStatus(text, cls) {
+  const s = document.getElementById('status');
+  s.textContent = text;
+  s.className = 'status-bar ' + (cls || '');
+}
+
+// ─── Library ───────────────────────────────────────────────────────
+async function loadLibrary() {
+  const qs = new URLSearchParams();
+  const m = document.getElementById('lib-module').value;
+  const t = document.getElementById('lib-template').value;
+  const s = document.getElementById('lib-status').value;
+  if (m) qs.set('module', m);
+  if (t) qs.set('template', t);
+  if (s) qs.set('status', s);
+  const resp = await fetch('/resources?' + qs.toString());
+  let list = await resp.json();
+  // client-side free-text search
+  const q = (document.getElementById('lib-search').value || '').toLowerCase().trim();
+  if (q) list = list.filter(x =>
+    `${x.module || ''} ${x.template || ''} ${x.status || ''} ${x.id || ''}`.toLowerCase().includes(q));
+  // client-side sort
+  const sort = document.getElementById('lib-sort').value;
+  const cmp = {
+    created_desc: (a, b) => (b.created_at || '').localeCompare(a.created_at || ''),
+    created_asc: (a, b) => (a.created_at || '').localeCompare(b.created_at || ''),
+    module: (a, b) => (a.module || '').localeCompare(b.module || '') || (b.created_at || '').localeCompare(a.created_at || ''),
+    template: (a, b) => (a.template || '').localeCompare(b.template || '') || (b.created_at || '').localeCompare(a.created_at || ''),
+    status: (a, b) => (a.status || '').localeCompare(b.status || '') || (b.created_at || '').localeCompare(a.created_at || ''),
+  }[sort] || (() => 0);
+  list.sort(cmp);
+  document.getElementById('lib-count').textContent = list.length;
+  const grid = document.getElementById('lib-grid');
+  grid.innerHTML = '';
+  if (!list.length) {
+    grid.innerHTML = '<div style="padding:24px; text-align:center; color:var(--muted); font-size:13px;">No matching resources.</div>';
+    return;
+  }
+  list.forEach(r => {
+    const card = document.createElement('div');
+    card.className = 'lib-card';
+    card.dataset.id = r.id;
+    const verdict = normalizedVerdict(r.evaluator_verdict);
+    const evalLabel = r.status === 'published'
+      ? 'published'
+      : verdict ? `eval ${verdict}` : 'needs evaluation';
+    const verdictClass = ['pass', 'warn', 'fail', 'error'].includes(verdict) ? verdict : 'error';
+    const evalClass = r.status === 'published'
+      ? 'published'
+      : verdict ? `eval-${verdictClass}` : 'eval-missing';
+    card.innerHTML = `
+      <p class="title">${r.module || '?'} | ${r.template || '?'}</p>
+      <div class="row">
+        <span class="badge ${r.status === 'pending_sme_review' ? 'pending' : r.status}">${r.status === 'pending_sme_review' ? 'Pending SME Review' : r.status}</span>
+        <span class="badge ${evalClass}">${evalLabel}</span>
+        <span>${(r.created_at || '').slice(0, 16).replace('T', ' ')}</span>
+      </div>
+    `;
+    card.addEventListener('click', () => selectLibResource(r));
+    grid.appendChild(card);
+  });
+}
+
+['lib-module', 'lib-template', 'lib-status', 'lib-sort'].forEach(id => {
+  document.getElementById(id).addEventListener('change', loadLibrary);
+});
+document.getElementById('lib-search').addEventListener('input', loadLibrary);
+
+function normalizedVerdict(value) {
+  return String(value || '').trim().toLowerCase();
+}
+
+function canPublishResource(resource) {
+  const verdict = normalizedVerdict(resource.evaluator_verdict);
+  return resource.status === 'draft' && (verdict === 'pass' || verdict === 'warn');
+}
+
+async function publishErrorMessage(resp) {
+  let detail = await resp.text();
+  try {
+    const j = JSON.parse(detail);
+    if (j.detail && typeof j.detail === 'object') {
+      detail = `${j.detail.message}\n\n${j.detail.hint || ''}`;
+    } else if (j.detail) {
+      detail = j.detail;
+    }
+  } catch {}
+  return detail;
+}
+
+async function selectLibResource(r) {
+  libSelectedId = r.id;
+  document.querySelectorAll('.lib-card').forEach(c => c.classList.toggle('selected', c.dataset.id === r.id));
+  document.getElementById('lib-resid').textContent = r.id;
+  document.getElementById('lib-download-pdf').disabled = false;
+  const detail = await fetch(`/resources/${r.id}?view=clean`).then(x => x.json());
+  document.getElementById('lib-preview').innerHTML = detail.html || '<div class="empty">empty</div>';
+  const delBtn = document.getElementById('lib-delete');
+  delBtn.disabled = false;
+  delBtn.onclick = async () => {
+    if (!confirm(`Delete this guide (${r.id})?\nRemoves the guide, its metadata, and its eval. This cannot be undone.`)) return;
+    const resp = await fetch(`/resources/${r.id}`, { method: 'DELETE' });
+    if (!resp.ok) { alert('Delete failed:\n\n' + await resp.text()); return; }
+    document.getElementById('lib-preview').innerHTML = '<div class="empty">Deleted.</div>';
+    document.getElementById('lib-resid').textContent = 'pick a resource';
+    document.getElementById('lib-download-pdf').disabled = true;
+    document.getElementById('lib-publish').disabled = true;
+    delBtn.disabled = true;
+    libSelectedId = null;
+    loadLibrary();
+  };
+  const pubBtn = document.getElementById('lib-publish');
+  const released = r.status === 'pending_sme_review' || r.status === 'published';
+  pubBtn.textContent = released ? '✓ Pending SME Review' : 'Release (Pending SME Review)';
+  pubBtn.disabled = released;
+  pubBtn.title = released
+    ? 'Released for use — pending review by an SME.'
+    : 'Release for use, marked Pending Review by SME. Grounding is verified server-side before release.';
+  pubBtn.onclick = async () => {
+    if (released) return;
+    if (!confirm('Release this guide for use, marked "Pending Review by SME"?')) return;
+    const resp = await fetch(`/resources/${r.id}/publish_pending`, { method: 'POST' });
+    if (!resp.ok) { alert('Release blocked:\n\n' + await publishErrorMessage(resp)); return; }
+    loadLibrary();
+  };
+}
+
+// ─── Download PDF (Author + Library) ────────────────────────────────
+// GET /resources/<id>/pdf returns the resource's clean HTML rendered to a PDF
+// (Content-Disposition: attachment). A normal browser navigation triggers the
+// download without disturbing the SPA state.
+function downloadResourcePdf(rid) {
+  if (!rid) return;
+  window.open(`/resources/${encodeURIComponent(rid)}/pdf`, '_blank');
+}
+document.getElementById('download-pdf').addEventListener('click', () => {
+  downloadResourcePdf(currentResourceId);
+});
+document.getElementById('lib-download-pdf').addEventListener('click', () => {
+  downloadResourcePdf(libSelectedId);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,2622 @@
+{
+  "module": "Eligibility",
+  "captured_at": "from-csv:Perseus Jira (5).csv",
+  "tickets": {
+    "NXT-63753": {
+      "key": "NXT-63753",
+      "summary": "FH - FRE Apps - SSN question for Students at CEP Sites",
+      "status": "Done Done",
+      "issuetype": "Story",
+      "priority": "Highest",
+      "components": [
+        "Eligibility",
+        "Family Hub"
+      ],
+      "module": "Eligibility",
+      "rn_required": "External Only",
+      "rn_title": "SSN Entry for Online Combo Forms at CEP Sites",
+      "ac": "* System Setting adjusted\n* If setting set to Partial:\n** Verify: FRE Apps with all students at CEP Sites do not see the Last-4 SSN / No SSN question.\n** Verify: FRE Image App available to the applicant does not show the Last-4 SSN / No SSN question.\n** Verify: Eligibility module shows \u2018No SSN or Not Applicable\u2019",
+      "rn": "We have made a small update to allow for a unique scenario that some customers, primarily those in Colorado, are beginning to run into. The scenario is aimed at the submission of \u201cCombo Forms\u201d that serve as both an FRE Application and an Income Survey used for additional funds.\n\nFor this scenario, Income Surveys are turned off, and FRE Applications are being exclusively used to serve as a Combo Form. As a reminder, Income Surveys are managed by a separate setting (*Enable Income Surveys* - Code: ADDINCSUR). If set to No, then an FRE Application will be used for all online submissions.\n\nThe new functionality introduced here is for a scenario where *all students on an application are at a CEP site*. For this scenario the applicant does not need to respond to a question about their Last-4 / No SSN.\n\nTo achieve this, we have added a new option to the previously introduced setting: *FRE Applications - Applicant SSN Question Required* (Code: FRENOSSN).\n\nSet this to \u2018Partial\u2019 if you want applicants with all students at a CEP school to not see or respond to the Last-4 SSN question.",
+      "rn_internal": "",
+      "desc": "*requirements*\n\n* Update System Setting (FRENOSSN)\n** Dropdown: On, Off (Default), Partial\n** Description: Controls whether the applicant must answer / submit last-4 SSN as part of an online FRE application. Set this to Yes if this is mandatory for your state, or No to remove the question from the household application workflow. Set to Partial to remove the question if all students are at CEP schools.\n* Add in a check for FRE Applications via Family Hub:\n** All students on the FRE app are at CEP Sites\n** Do not show / require the applicant to answer the Last-4 SSN / No SSN.\n* Eligibility module:\n** Text tied to No SSN should reflect as the alternate \u2018No SSN or Not Applicable\u2019 string.",
+      "epic_key": "90929",
+      "epic_summary": "FO - 25Q1Q2 - Requests/Issues"
+    },
+    "NXT-63909": {
+      "key": "NXT-63909",
+      "summary": "Regression - Family Hub - Online app submission is failing if the student has DC extension benefits",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility",
+        "Family Hub"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Family Hub - Online app submission is failing if the student has DC extension benefits\n\nTest Data in QA (Texas ISD): App # 1300\n\n!image-20250710-183531.png|width=1964,height=559,alt=\"image-20250710-183531.png\"!\n\nTest Data in Production (Adams 12): App# 8462",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-63912": {
+      "key": "NXT-63912",
+      "summary": "Regression - Family Hub District Admin - Spanish Template > All districts are showing the same changes if any one of the districts have updated it",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility",
+        "Family Hub"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Family Hub District Admin - Application Template:\n\nUpdated the message for Spanish language in Texas ISD district. The same updated Spanish message showing for all districts\n\nFD# [[#287919] SC Implementation - All Districts- Spanish Application Templates References Adams 12 : Cybersoft PrimeroEdge|https://primeroedge.freshdesk.com/a/tickets/287919]",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-63935": {
+      "key": "NXT-63935",
+      "summary": "Production Environment - Smoke Testing / Tickets - Sprint 9.1",
+      "status": "Done Done",
+      "issuetype": "Task",
+      "priority": "Medium",
+      "components": [
+        "Accountability",
+        "Account Management",
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-63936": {
+      "key": "NXT-63936",
+      "summary": "Testing in Migration Environment - 9.0 Release",
+      "status": "Done Done",
+      "issuetype": "Task",
+      "priority": "Medium",
+      "components": [
+        "Accountability",
+        "Account Management",
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-63980": {
+      "key": "NXT-63980",
+      "summary": "Elig - Reports - Application Counts - Page / Report Updates",
+      "status": "Done Done",
+      "issuetype": "Story",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "External Only",
+      "rn_title": "Report Updates for the Eligibility Module",
+      "ac": "* Selected dropdowns are converted into multi-select\n* Date selector swapped out\n* Reports accept parameters and display accordingly\n** Report Criteria also updated accordingly",
+      "rn": "Following our updates to the Accountability module, we have updated the following reports:\n\n* Application Counts\n* CEP Identified Students\n* Direct Certification Counts\n* Economically Disadvantaged %\n* Eligibility Summary\n* Surveys\n\nAll reports have had their dropdowns expanded to multi-select where appropriate, and the date selector has also been updated.",
+      "rn_internal": "",
+      "desc": "As Dana the Director I want finer control over selections on the Application Counts report so that I\u2019m not having to run the report multiple times. This will be an efficiency driver.\n\n!image-20250714-193743.png|width=834,height=266,alt=\"image-20250714-193743.png\"!\n\n\n\n*requirements*\n\n* Update dropdowns to be multi-select\n** Site Code / Site Name\n* Swap the date selector out for the new picker component\n* Reports updated to take and display the parameters accordingly",
+      "epic_key": "95069",
+      "epic_summary": "FO - Report Updates"
+    },
+    "NXT-63981": {
+      "key": "NXT-63981",
+      "summary": "Elig - Reports - CEP Identified Students - Page / Report Updates",
+      "status": "Done Done",
+      "issuetype": "Story",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "Not Required",
+      "rn_title": "",
+      "ac": "* Selected dropdowns are converted into multi-select\n* Date selector swapped out\n* Reports accept parameters and display accordingly\n** Report Criteria also updated accordingly",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "As Dana the Director I want finer control over selections on the CEP Identified Students report so that I\u2019m not having to run the report multiple times. This will be an efficiency driver.\n\n!image-20250714-194036.png|width=848,height=290,alt=\"image-20250714-194036.png\"!\n\n\n\n*requirements*\n\n* Update dropdowns to be multi-select\n** Site Code / Site Name\n* Swap the date selector out for the new picker component\n* Reports updated to take and display the parameters accordingly",
+      "epic_key": "95069",
+      "epic_summary": "FO - Report Updates"
+    },
+    "NXT-63982": {
+      "key": "NXT-63982",
+      "summary": "Elig - Reports - Direct Certification Counts - Page / Report Updates",
+      "status": "Done Done",
+      "issuetype": "Story",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "Not Required",
+      "rn_title": "",
+      "ac": "* Selected dropdowns are converted into multi-select\n* Date selector swapped out\n* Reports accept parameters and display accordingly\n** Report Criteria also updated accordingly",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "As Dana the Director I want finer control over selections on the Direct Certification Counts report so that I\u2019m not having to run the report multiple times. This will be an efficiency driver.\n\n!image-20250714-194139.png|width=827,height=269,alt=\"image-20250714-194139.png\"!\n\n\n\n*requirements*\n\n* Update dropdowns to be multi-select\n** Site Code / Site Name\n* Swap the date selector out for the new picker component\n* Reports updated to take and display the parameters accordingly",
+      "epic_key": "95069",
+      "epic_summary": "FO - Report Updates"
+    },
+    "NXT-63983": {
+      "key": "NXT-63983",
+      "summary": "Elig - Reports - Eco Dis % - Page / Report Updates",
+      "status": "Done Done",
+      "issuetype": "Story",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "Not Required",
+      "rn_title": "",
+      "ac": "* Selected dropdowns are converted into multi-select\n* -Date selector swapped out-\n* Reports accept parameters and display accordingly\n** Report Criteria also updated accordingly",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "As Dana the Director I want finer control over selections on the Eco Dis % report so that I\u2019m not having to run the report multiple times. This will be an efficiency driver.\n\n!image-20250714-194222.png|width=826,height=231,alt=\"image-20250714-194222.png\"!\n\n\n\n*requirements*\n\n* Update dropdowns to be multi-select\n** Site Code / Site Name\n* -Swap the date selector out for the new picker component-\n* Reports updated to take and display the parameters accordingly",
+      "epic_key": "95069",
+      "epic_summary": "FO - Report Updates"
+    },
+    "NXT-63984": {
+      "key": "NXT-63984",
+      "summary": "Elig - Reports - Eligibility Summary - Page / Report Updates",
+      "status": "Done Done",
+      "issuetype": "Story",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "Not Required",
+      "rn_title": "",
+      "ac": "* Selected dropdowns are converted into multi-select\n* Date selector swapped out\n* Reports accept parameters and display accordingly\n** Report Criteria also updated accordingly",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "As Dana the Director I want finer control over selections on the Summary report so that I\u2019m not having to run the report multiple times. This will be an efficiency driver.\n\n!image-20250714-194326.png|width=830,height=273,alt=\"image-20250714-194326.png\"!\n\n\n\n*requirements*\n\n* Update dropdowns to be multi-select\n** Site Code / Site Name\n* Swap the date selector out for the new picker component\n* Reports updated to take and display the parameters accordingly",
+      "epic_key": "95069",
+      "epic_summary": "FO - Report Updates"
+    },
+    "NXT-63985": {
+      "key": "NXT-63985",
+      "summary": "Elig - Reports - Income Survey - Page / Report Updates",
+      "status": "Done Done",
+      "issuetype": "Story",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "Not Required",
+      "rn_title": "",
+      "ac": "* Selected dropdowns are converted into multi-select\n* -Date selector swapped out-\n* Reports accept parameters and display accordingly\n** Report Criteria also updated accordingly",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "As Dana the Director I want finer control over selections on the Income Survey report so that I\u2019m not having to run the report multiple times. This will be an efficiency driver.\n\n!image-20250714-194402.png|width=834,height=252,alt=\"image-20250714-194402.png\"!\n\n\n\n*requirements*\n\n* Update dropdowns to be multi-select\n** Site Code / Site Name\n* -Swap the date selector out for the new picker component-\n* Reports updated to take and display the parameters accordingly",
+      "epic_key": "95069",
+      "epic_summary": "FO - Report Updates"
+    },
+    "NXT-64139": {
+      "key": "NXT-64139",
+      "summary": "Regression - Eligibility - Alignment issue on sampling page",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Alignment issue on sampling page\n\n!image-20250715-195843.png|width=1776,height=744,alt=\"image-20250715-195843.png\"!",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-64334": {
+      "key": "NXT-64334",
+      "summary": "Regression - Account balance is setting to zero in family hub database after the application process",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility",
+        "Family Hub"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Account balance is setting to zero in family hub database after the application process\n\nFD# [https://primeroedge.freshdesk.com/a/tickets/288387|https://primeroedge.freshdesk.com/a/tickets/288387|smart-link] \n\n[https://primeroedge.freshdesk.com/a/tickets/287964|https://primeroedge.freshdesk.com/a/tickets/287964|smart-link]",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-64608": {
+      "key": "NXT-64608",
+      "summary": "Regression - CEP Site info is incorrect in student condition API",
+      "status": "Rejected",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "* CEP programs are configured as below\n\n!image-20250723-204417.png|width=1557,height=257,alt=\"image-20250723-204417.png\"!\n\n* \u2018Russell Blvd Elem' site has added to the CEP program\n!image-20250723-204540.png|width=1816,height=541,alt=\"image-20250723-204540.png\"!\n* Eligibility module > Applications\n* Add a new application wizard > Add a student from \u2018Russell Blvd Elem' site\n* CEP Site info is incorrect in student condition API ([https://perseusapimmigration.azure-api.net/eligibility/v1.0/api/Student/Condition/InfoNew|https://perseusapimmigration.azure-api.net/eligibility/v1.0/api/Student/Condition/InfoNew])\n!image-20250723-204749.png|width=879,height=492,alt=\"image-20250723-204749.png\"!\n*",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-64611": {
+      "key": "NXT-64611",
+      "summary": "Regression - Application Details > showing an error page when refuse benefits option is selected",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "High",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "* Eligibility module > Applications page\n* Open an application \n* Application Details page > Expand the More Actions and then select the \u2018Refuse Benefits\u2019 option\n* Showing an error page\n\n!image-20250723-212546.png|width=1576,height=246,alt=\"image-20250723-212546.png\"!",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-64631": {
+      "key": "NXT-64631",
+      "summary": "Regression - Elig - Optional Benefits > Allow Delete functionality is not working as expected",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Eligibility module - Optional Benefits benefits page\n\n+Scenario 1:+ \n\n* Add an optional benefit to student on account info page\n* Optional Benefits page > Delete button is enabled even the benefit is linked to a student\n\n!image-20250724-165557.png|width=1876,height=543,alt=\"image-20250724-165557.png\"!\n\n+Scenario 2:+\n\n* Add an optional benefit to student via income survey\n* Optional Benefits page > Delete button is enabled even the benefit is linked to a student\n\n\n\n+Scenario 3:+\n\n* Add an optional benefit to student via application or income survey\n* Removed the optional benefit from the application or income survey\n* Unbale to delete the optional benefit even after it has been removed from the application or income survey\n\n[https://apim-perseuseedge.azure-api.net/eligibility/v1.0/api/Benefit/34|https://apim-perseuseedge.azure-api.net/eligibility/v1.0/api/Benefit/34]\n\n!image-20250724-170157.png|width=1891,height=729,alt=\"image-20250724-170157.png\"!\n\n!image-20250724-170213.png|width=687,height=258,alt=\"image-20250724-170213.png\"!",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-64663": {
+      "key": "NXT-64663",
+      "summary": "Elig - Default setting for SSN Required update",
+      "status": "Done Done",
+      "issuetype": "Enhancement",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "Not Required",
+      "rn_title": "",
+      "ac": "default setting for FRENOSSN to be On",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "*requirements*\n\nUpdate the default setting for FRENOSSN to be On",
+      "epic_key": "90929",
+      "epic_summary": "FO - 25Q1Q2 - Requests/Issues"
+    },
+    "NXT-64779": {
+      "key": "NXT-64779",
+      "summary": "Regression - Eligibility > Application details API is throwing an error",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "# Family Hub: Submit an online application with two pending students (One of them is a foster student)\n!image-20250728-201111.png|width=682,height=558,alt=\"image-20250728-201111.png\"!\n# SchoolCafe > Eligibility - Applications page > View the above submitted application\n# Application Details API is throwing an object reference not set error\n\n\n\nIt\u2019s throwing an error due to the null value in AdditionalTextJSONData column\n\n!image-20250728-201225.png|width=920,height=294,alt=\"image-20250728-201225.png\"!\n\n\n\n+Test Data in QA:+\n\n[https://apim-perseuseedge.azure-api.net/eligibility/v1.0/api/Application/Details/1332|https://apim-perseuseedge.azure-api.net/eligibility/v1.0/api/Application/Details/1332]\n\nRegion ID: 1607\n\n!image-20250728-201045.png|width=656,height=209,alt=\"image-20250728-201045.png\"!\n\n+Test Data in Migration:+\n\n[https://perseusapimmigration.azure-api.net/eligibility/v1.0/api/Application/Details/6056|https://perseusapimmigration.azure-api.net/eligibility/v1.0/api/Application/Details/6056]\nRegion id = 1496",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-64852": {
+      "key": "NXT-64852",
+      "summary": "Merge -  In Copy Departments/Benefits Select an Copy from academic year as 2024-2025 and Copy to academic year as 2026-2027 click on save 400 Error code is displaying",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Click on Copy Departments/Benefits\nSelect an Copy from academic year as 2024-2025 and Copy to academic year as 2026-2027 click on save\nPop up message is displaying click on yes\n400 Error code is displaying\n\n!image-20250730-070929.png|width=1598,height=827,alt=\"image-20250730-070929.png\"!",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-64989": {
+      "key": "NXT-64989",
+      "summary": "Testing in Migration Environment - 9.3 Release",
+      "status": "Done Done",
+      "issuetype": "Task",
+      "priority": "Medium",
+      "components": [
+        "Accountability",
+        "Account Management",
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-64990": {
+      "key": "NXT-64990",
+      "summary": "Production Environment - Smoke Testing / Tickets - Sprint 9.2",
+      "status": "Done Done",
+      "issuetype": "Task",
+      "priority": "Medium",
+      "components": [
+        "Accountability",
+        "Account Management",
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-65115": {
+      "key": "NXT-65115",
+      "summary": "Regression - Edit Template - Unable to add a space",
+      "status": "In Progress",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "FD # [[#290389] Southwest ISD / Unable to edit letter template : Cybersoft PrimeroEdge|https://primeroedge.freshdesk.com/a/tickets/290389]\n\nthe issue is that the ProseMirror editor (Kendo Editor) creates empty\u00a0{{<p>}}\u00a0tags when the user presses Enter for empty lines, but the processing functions are not consistently handling this case.",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-65150": {
+      "key": "NXT-65150",
+      "summary": "Regression ->In Eligibility->while click on Notification error code is displaying",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "In Eligibility->while click on Notification error code is displaying\n\n!SchoolCaf\u00e9 - Accountability - Google Chrome 2025-08-06 12-20-03.mp4|width=1920,height=1020,alt=\"SchoolCaf\u00e9 - Accountability - Google Chrome 2025-08-06 12-20-03.mp4\"!",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-65406": {
+      "key": "NXT-65406",
+      "summary": "Regression - Eligibility Import - System is adding the duplicate eligibility entries if the import file have the duplicates",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Currently system is adding the duplicate eligibility entries if the import file have the duplicates\n\nSystem should not be added the duplicate eligibility entries even if the import file have it\n\nProduction:  Mexico School District 59 (Account ID: 978319)\n\n!image-20250811-160615.png|width=1971,height=602,alt=\"image-20250811-160615.png\"!\n\n!image-20250811-160641.png|width=1649,height=936,alt=\"image-20250811-160641.png\"!",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-65552": {
+      "key": "NXT-65552",
+      "summary": "QA - Reports - Eligibility Summary - Page",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Eligibility Reports\n\n* Eligibility Summary Report\n* Click Generate button \n* Report is generated \n* Click Back button \n* Click Direct Certification Counts button \n* Report is generated before clicking the generate button",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-65579": {
+      "key": "NXT-65579",
+      "summary": "RabbitMQ - Queue Monitoring Job",
+      "status": "Done Done",
+      "issuetype": "Tech-Debt",
+      "priority": "Medium",
+      "components": [
+        "Accountability",
+        "Account Management",
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-65680": {
+      "key": "NXT-65680",
+      "summary": "QA - Elig - Income Survey Report -Issues",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Region ID: 7\n\n+Scenario 1:+\n\nGenerated the report for specific site > Selected site(s) info is incorrect on report header\n\n!image-20250820-170213.png|width=991,height=513,alt=\"image-20250820-170213.png\"!\n\n\n\n+Scenario 2:+\n\nShowing the no results found message on report even the survey is available. \n\n!image-20250820-170329.png|width=1743,height=670,alt=\"image-20250820-170329.png\"!\n\n!image-20250820-170359.png|width=877,height=192,alt=\"image-20250820-170359.png\"!",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-65732": {
+      "key": "NXT-65732",
+      "summary": "Regression - Eligibility - DC Job has errored but the status of the file is not updated to 'Failed' on DC files page",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility",
+        "Platform - Data Exchange"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Eligibility - DC Job has errored but the status of the file is not updated to 'Failed' on DC files page.\n\nThis happens some times",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-65749": {
+      "key": "NXT-65749",
+      "summary": "Merge - For Site Code / Site Name multi select is not displaying",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Site Code / Site Name dropdowns to be multi-select but here multiselect is not displaying\nAnd date selector also not displaying as new picker\n\n\n!SchoolCaf\u00e9 - Eligibility - Google Chrome 2025-08-21 14-55-06.mp4|width=1440,height=860,alt=\"SchoolCaf\u00e9 - Eligibility - Google Chrome 2025-08-21 14-55-06.mp4\"!",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-65751": {
+      "key": "NXT-65751",
+      "summary": "Deployment - In Reports site is displaying as null",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "In Site Code Select single site click on generate\nIn Reports site is displaying as null\n\n\n!image-20250821-100524.png|width=1597,height=879,alt=\"image-20250821-100524.png\"!",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-65769": {
+      "key": "NXT-65769",
+      "summary": "Testing in Migration Environment - 9.4 Release",
+      "status": "Done Done",
+      "issuetype": "Task",
+      "priority": "Medium",
+      "components": [
+        "Accountability",
+        "Account Management",
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-65775": {
+      "key": "NXT-65775",
+      "summary": "Testing in Migration Environment - 9.5 Release",
+      "status": "Done Done",
+      "issuetype": "Task",
+      "priority": "Medium",
+      "components": [
+        "Accountability",
+        "Account Management",
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-65781": {
+      "key": "NXT-65781",
+      "summary": "Testing in Migration Environment - 9.6 Release",
+      "status": "Done Done",
+      "issuetype": "Task",
+      "priority": "Medium",
+      "components": [
+        "Accountability",
+        "Account Management",
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-65787": {
+      "key": "NXT-65787",
+      "summary": "Testing in Migration Environment - 9.11 Release",
+      "status": "Done Done",
+      "issuetype": "Task",
+      "priority": "Medium",
+      "components": [
+        "Accountability",
+        "Account Management",
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-65793": {
+      "key": "NXT-65793",
+      "summary": "Testing in Migration Environment - 9.7 and 9.8 Release",
+      "status": "Done Done",
+      "issuetype": "Task",
+      "priority": "Medium",
+      "components": [
+        "Accountability",
+        "Account Management",
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-65800": {
+      "key": "NXT-65800",
+      "summary": "Testing in Migration Environment - 9.9 Release",
+      "status": "Done Done",
+      "issuetype": "Task",
+      "priority": "Medium",
+      "components": [
+        "Accountability",
+        "Account Management",
+        "Eligibility",
+        "Family Hub",
+        "Financials"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-65808": {
+      "key": "NXT-65808",
+      "summary": "Testing in Migration Environment - 9.10 Release",
+      "status": "Done Done",
+      "issuetype": "Task",
+      "priority": "Medium",
+      "components": [
+        "Accountability",
+        "Account Management",
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-65840": {
+      "key": "NXT-65840",
+      "summary": "FO Background Jobs - Family Hub Database Data Sync Job",
+      "status": "Done Done",
+      "issuetype": "Tech-Debt",
+      "priority": "Medium",
+      "components": [
+        "Eligibility",
+        "Family Hub"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Add a new job to sync data (persons, site and site types) from eligibility db to family hub db",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-65865": {
+      "key": "NXT-65865",
+      "summary": "Regression - Online App submission - Duplicate application and Possible duplicate information pending reason issues",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Processing an online application:\n\n* Criteria of Duplicate application is ' Another application with the same data has been submitted.'\n\n+*Issue 1*+: currently this case is not working as expected (Test Data in UAT, Application number: 464, Application Id: 739, Online App Id: 2017. I don\u2019t see any other application with same data)\n\n+*Issue 2*+: Additional information of duplicate application (app link to open up that application in a new tab) is not shown in pending reasons\n\n\n\n!image-20250822-190815.png|width=1435,height=97,alt=\"image-20250822-190815.png\"!\n\n* Criteria of Possible duplicate information is \u2018Same student name or ID entered multiple times\u2019\n\n+*Issue 3:*+ it looks this case is not working as expected (Test Data in UAT, Application number: 458, Application Id: 733, Online App Id: 2008. Student name or id is not entered multiple times)\n\n!image-20250822-191740.png|width=1434,height=482,alt=\"image-20250822-191740.png\"!",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-65893": {
+      "key": "NXT-65893",
+      "summary": "Regression - Elig - Income Survey Report - Counts are incorrect on report when the \u2018Income Range Type\u2019 setting = District Income Range",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Income Survey Report - Counts are incorrect on report when the \u2018Income Range Type\u2019 setting = District Income Range\n\nRegion ID: 33\n\nThere is only one survey with household size =2 but there are 2 surveys with household size=2 on the report\n\n!image-20250825-163754.png|width=50%,alt=\"image-20250825-163754.png\"!",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-65948": {
+      "key": "NXT-65948",
+      "summary": "9.2 Release Stories - Release Merge/Testing",
+      "status": "Done Done",
+      "issuetype": "Task",
+      "priority": "Medium",
+      "components": [
+        "Accountability",
+        "Account Management",
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-65988": {
+      "key": "NXT-65988",
+      "summary": "Regression - Eligibility - Pending Students - Unable to match student if more than one student found for pending student",
+      "status": "Duplicate",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Applications - Pending Students tab:\n\nTest Data in QA (Texas ISD)\n\n!image-20250826-170119.png|width=1791,height=774,alt=\"image-20250826-170119.png\"!\n\nIssue 1: Are we considering the inactive students while looking for matched students (Ex: 16072293 is an inactive account)\n\nIssue 2: Unable to match student if more than one student found for pending student",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-66616": {
+      "key": "NXT-66616",
+      "summary": "Eligibility Summary Report - performance improvements",
+      "status": "Done Done",
+      "issuetype": "Task",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Eligibility Summary Report - performance improvements",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-66730": {
+      "key": "NXT-66730",
+      "summary": "Eligibility - Application should be listed in the grid even if the data is missing in application student table",
+      "status": "Done Done",
+      "issuetype": "Tech-Debt",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Eligibility - Applications page:\n\nApplication should be listed in the grid even if the data is missing in application student table",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-66798": {
+      "key": "NXT-66798",
+      "summary": "Elig - Apps - Pending Students with multiple matches",
+      "status": "Done Done",
+      "issuetype": "Story",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "External Only",
+      "rn_title": "Update for Pending Students on FRE Forms",
+      "ac": "* User can complete Pending Student matches in all scenarios\n* User can complete Pending Student matches with multiple results\n** User must select 1 of the potential matches to proceed\n* User can see instruction text on the Pending Students tab, the View window, and a Success message when matching\n* Links are created when a potential match is found\n* User can remove a linked student\n* Application Details is only updated after Process Matches is executed\n* User can see Status and Eligibility in the Match Details screen \n* Once Matches are processed:\n** student is linked to the app\n** student eligibility updated accordingly",
+      "rn": "We have made some updates to how pending students are shown and selected for FRE Application forms.\n\n* *Match* buttons are available if multiple students are available to link against the Pending student.\n* Application Details are only updated after *Process Matches* is clicked.\n* Status and Eligibility have been added to the Match Details screen for improved clarity.",
+      "rn_internal": "",
+      "desc": "!image-20250923-190330.png|width=466,alt=\"image-20250923-190330.png\"!\n\n*requirements*\n\n* User should be able to select 1 of the matches and complete the student matching.\n* User should be able to see if one of the potential accounts is Active/Inactive\n** Add the following lines for Student Details:\n*** Status\n**** Show Active or Inactive\n*** Eligibility\n**** Show Free/Reduced/Paid and Basis\n***** Example: Free (DC MEDICAID)\n\n----\n\nSCOPE CREEP 10/9/25\n\n* Workflow changes for the following scenarios:\n** System single matches.\n** System multiple matches.\n** Manual matches.\n* All scenarios link a Pending Student to an actual Account (personid)\n** We need to track the link.\n** Application Details should *not* be updated as part of the search / manual matching.\n* User needs to click Process Matches: \n** to have the Application Details update.\n** Existing workflow continues from here - student receives benefits, etc.\n* Unmatch / Match button available if more than 1 potential pending student is found / added.\n* Add the following strings:\n** On the page itself:\n*** You can see pending students from applications on this page. The *Find Matches* button will attempt to locate students to match them against. You can find, edit, and review matches under the Actions column. Find matches first, and then use the select checkboxes and the *Process Matches* button to extend eligibility.\n*** !image-20251009-204246.png|width=852,alt=\"image-20251009-204246.png\"!\n** On the View Match window:\n*** You are viewing the submitted information from the Form and details from at least 1 potential student. If multiple students are shown, select one with the *Match* button to proceed.\n*** !image-20251009-204852.png|width=678,alt=\"image-20251009-204852.png\"!\n\n** Success message after the user selects a match, either from the View window or via a Manual Search: \n*** Pending Student match has been added. Select the checkboxes and use *Process Matches* to continue.",
+      "epic_key": "105530",
+      "epic_summary": "FO - Sustenance (2025-26)"
+    },
+    "NXT-66821": {
+      "key": "NXT-66821",
+      "summary": "Elig - DC - Extensions - Extending a different DC Type to the same student, blocking inactive Source students",
+      "status": "Done Done",
+      "issuetype": "Story",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "External Only",
+      "rn_title": "Small Changes to Direct Certification Extensions",
+      "ac": "* User can perform a DC Extension repeatedly between the same students. (scenario A)\n** Manual Match should be possible in this scenario, but the user is advised accordingly.\n* Inactive students are not used as a source of DC Extension + data clean-up. (scenario B)",
+      "rn": "We have made a couple small changes to how direct certification extensions are handled.\n\n# Inactive students will no longer be shown as available source students in the Search & Review tab to extend benefits from.\n# The same students can be repeatedly matched via the Manual Match option as long as the new Direct Cert. type is higher on the precedence order.",
+      "rn_internal": "",
+      "desc": "[https://primeroedge.freshdesk.com/a/tickets/295727|https://primeroedge.freshdesk.com/a/tickets/295727] - trying to extend SNAP after having previously extended Medicaid\n\n[https://primeroedge.freshdesk.com/a/tickets/296439|https://primeroedge.freshdesk.com/a/tickets/296439] - same scenario \n\n[https://primeroedge.freshdesk.com/a/tickets/314274|https://primeroedge.freshdesk.com/a/tickets/314274] - scenario B below\n\n*requirements*\n\nScenario A:\n\n* User can perform a DC Extension between two students repeatedly:\n** Only if the DC Type has changed.\n*** Example: Student A (DC Medicaid), Student B (Paid)\n*** Extension from A \u2192 B (DC Medicaid)\n*** Student A updates to DC SNAP\n*** Extension from A \u2192 B (DC SNAP)\n* User can perform a Manual Match repeatedly along the same lines\n* -User is shown warning text if the two students have been previously matched but is not blocked like they are currently.-\n** -Warning text: This extension has happened previously and can be seen under Reviewed. You can match them again if required.-\n\n\n\n!image-20250923-204326.png|width=465,alt=\"image-20250923-204326.png\"!\n\n----\n\n[https://primeroedge.freshdesk.com/a/tickets/314274|https://primeroedge.freshdesk.com/a/tickets/314274]\n\nScenario B\n\n* DC Extension is created for a student who is active (Student A \u2192 Student B)\n* Potential Extension is not reviewed \n* Student A goes Inactive\n* Potential Extensions continue to be created because the student was active with DC benefits at one point\n\n*requirements*\n\n* Check DC Extensions for Inactive Source Students (the one with benefits) and delete/block any potential extensions from being created on them.\n** User can then use Manual to do an extension on them if required.\n\n\n\n*Discussion Notes* {{2026-04-10}} with Hussain and Harsha.\n\n* Scope on this is to be limited to Manual Match only for Scenario A.\n* Scope on Scenario B is for only inactive students.",
+      "epic_key": "105530",
+      "epic_summary": "FO - Sustenance (2025-26)"
+    },
+    "NXT-66857": {
+      "key": "NXT-66857",
+      "summary": "Regression - Optional benefits are not added to the account when application/survey is submitted online",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Account Management",
+        "Eligibility",
+        "Family Hub"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Optional benefits are not added to the account when application/survey is submitted online\n\nNote: we need fix the data in \u2018PatronOtherBenefit\u2019 table for existing applications/surveys\n\n!image-20250925-014209.png|width=1160,alt=\"image-20250925-014209.png\"!",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-66933": {
+      "key": "NXT-66933",
+      "summary": "Regression - Eligibility - Applications - Process Wizard > Automatic Notifications",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "* Eligibility - Applications\n* Click Process button\n* Show the below page\n!image-20250930-192619.png|width=645,alt=\"image-20250930-192619.png\"!\n* Click \u2018Process Application & Quit\u2019 and \u2018Process Application\u2019 button\n* Verify that system is generating the notification automatically when the application has an email and \u2018AUTONOTIFY\u2019 setting is set to Yes",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-66986": {
+      "key": "NXT-66986",
+      "summary": "Regression - Eligibility - System is adding the duplicate eligibility entries via 'Update Student Eligibility' job",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Steps to reproduce:\n\n# Site > Carryover Eligibility end date is set to \u201809/29/2025\u2019\n# Student > End date of current eligibility is set to \u201809/29/2025\u2019 with free eligibility (Test Data in QA: 5465471 - Monroe district)\n!image-20251003-143643.png|width=836,alt=\"image-20251003-143643.png\"!\n# System is adding the duplicate entries via \u2018Update Student Eligibility\u2019 job\n\n!image-20251003-143833.png|width=1329,alt=\"image-20251003-143833.png\"!",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-67642": {
+      "key": "NXT-67642",
+      "summary": "Regression -  The count in the grid data does not match the items per page count.",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "In Eligibility->Applications->All items per page set as 5 but count in grid is displaying as 10\n\n!Item Per Page.mp4|width=669,alt=\"Item Per Page.mp4\"!",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-67671": {
+      "key": "NXT-67671",
+      "summary": "Regression - Optional benefits are not added to an account when proceed a pending student",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Steps to reproduce:\n\n# Applications > Submit an application with a pending student and optional benefits.\n# Applications - Pending Students tab > Process a pending student\n# Student > Eligibility has been extended but the optional benefits are not added to the account",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-67750": {
+      "key": "NXT-67750",
+      "summary": "9.5 Release Stories - Release Testing",
+      "status": "Done Done",
+      "issuetype": "Task",
+      "priority": "Medium",
+      "components": [
+        "Accountability",
+        "Account Management",
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-68256": {
+      "key": "NXT-68256",
+      "summary": "Elig - Verification - 2026 QoL Updates, Include CEP Setting Update",
+      "status": "Done Done",
+      "issuetype": "Story",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "External Only",
+      "rn_title": "Updates for Verification",
+      "ac": "* New columns in Sampling page\n* Collection Report\n** PDF button replaced with a Save button.\n** Save Report feature added, stores a backup in blob\n** Grid added to show saved reports.\n*** Columns: Generation Date, User, Actions \n*** Actions: View, Download\n*** View should preview the PDF, Download will download it\n* Include CEP Sites setting updated\n** Sample generation + app selection includes special provision sites",
+      "rn": "In preparation for the next verification season, we have rolled out some updates.\n\n* The Verification Collection Report can now be saved. This will store a copy of the report in our system for retrieval at any time. Numbers on the report can shift as eligibility is backdated, so be sure to save a copy!\n* The Sampling page has some new columns. We will now show you the selected application and student count dates.\n* Include CEP Sites system setting, if enabled, will now include CEP sites for sample generation and application selection. This was added last year, but did not fully incorporate the special provision sites.",
+      "rn_internal": "",
+      "desc": "Tickets:\n\n* [https://primeroedge.freshdesk.com/a/tickets/298990|https://primeroedge.freshdesk.com/a/tickets/298990] \u2192 CEP Apps not getting included\n\n*requirements*\n\n* Sampling Page\n** Add columns to show the Student Count Date and the Application Count Date\n** Application Count Date = Final Sample Date\n** Student Count Date = Collection Date\n* Verification Collection Report\n** User can save the collection report for retrieval later\n*** Save the report to PDF and store it\n*** User can view the PDF, and see who generated it + when\n** PDF button adjusted into a Save button\n** Show a grid of saved copies\n*** Columns: Generation Date, User, Actions\n*** Actions: View, Download\n** Instructional text added to the page: \n*** {noformat}This report shows live data. Backdating eligibility can adjust these numbers over time. To download a copy of the report, please click on Save. This will store a copy in the grid below. {noformat}\n* Include CEP Sites / Apps in sample creation + random-select\n** If the setting is on, we need to include the CEP Sites rather than exclude them for sample creation and application random-select.\n** Update setting description: If enabled, this setting will include students from CEP Sites for Section 3 and 4 of the Collection Worksheet. Normally these counts are excluded from this section of the report. It will also include applications for students at CEP sites for sample creation and selection.",
+      "epic_key": "105530",
+      "epic_summary": "FO - Sustenance (2025-26)"
+    },
+    "NXT-69410": {
+      "key": "NXT-69410",
+      "summary": "Updating UAT Environment for the Latest Eligibility UI components",
+      "status": "Done Done",
+      "issuetype": "Task",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-69982": {
+      "key": "NXT-69982",
+      "summary": "Eligibility - Forms Framework - Add/update necessary operations, and permissions",
+      "status": "Done Done",
+      "issuetype": "Story",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "Not Required",
+      "rn_title": "",
+      "ac": "Verify these foundational items have been added to SchoolCafe to allow development of the full framework",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "As a Cybersoft Implementation team member, I would like to be able to set up Summer EBT (as well as any other non-traditional form) at a district-level with minimal steps, so that I do not have to use an external system just for this purpose.\n\n*Summary*\n\n* Update Forms\u00a0category and pages, etc. to create a foundation for a 'Forms' framework\n* Grant Forms permissions to some district-level users and enable the operation by default for districts with a Student Eligibility license\n\n*Details*\n\n* Add new page operation for viewing and managing other (non-App/Survey) forms within a district.\u00a0\n** Create a new \u2018Other Forms\u2019 permission and automatically assign them to \u2018SchoolCaf\u00e9 Administrator\u2019 and \u2018Director-\u2018level users, or any role that already has either Applications or Surveys permissions.\n*** Create new page permissions. They can match those of the other pages in the Forms category\n** Create new *_Other Forms_* operation/page. Automatically set operation to a number other than -1 at the district level (or however we make pages visible in the SC resource catalog).\n*** This will be similar to the \u2018Manage Forms\u2019 page in PrimeroEdge in a separate story.\n*** {color:#6554c0}*(NICE-TO-HAVE in this story)*{color} Within this new page, display a basic table with a layout similar to the one we show in that page (UI only--backend/API to be in a separate story). \n**** Look and feel can mimic our current Applications and Surveys pages:\n!image-20260209-215717.png|width=987,alt=\"image-20260209-215717.png\"!\n**** Circled columns can likely be removed, since we will adopt the same \u2018Pending Application\u2019 and \u2018Pending Students\u2019 layout (again, API work in another story).\n!image-20260209-215446.png|width=987,alt=\"image-20260209-215446.png\"!\n\n\n** This new operation can be placed between Surveys and Processing:\n!image-20260204-032016.png|width=310,alt=\"image-20260204-032016.png\"!\n* Make small changes to the Form Settings page.\n** Change the operation and page title to *_Form Configuration_*\n** This page will house some of the data in the Forms & Benefits page in PrimeroEdge (just the top Forms section data) in a separate story.",
+      "epic_key": "105528",
+      "epic_summary": "SC - Forms Framework"
+    },
+    "NXT-70092": {
+      "key": "NXT-70092",
+      "summary": "Eligibility - Forms Framework - Form Configuration - Add ability to add/update Forms (UI)",
+      "status": "Done Done",
+      "issuetype": "Story",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "Not Required",
+      "rn_title": "",
+      "ac": "Verify these foundational items have been added to SchoolCafe to allow development of the full framework",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "As a Cybersoft Implementation team member, I would like to be able to set up Summer EBT (as well as any other non-traditional form) at a district-level with minimal steps, so that I do not have to use an external system just for this purpose.\n\n*Summary*\n\n* Update page layout of _Form Configuration_ page to accommodate the ability to manage new and existing forms, as well as image templates\n\n*Details*\n\n* In _Form Configuration,_ do the following:\n** Add new tabs for inserting and updating Forms, as well as Form Image Templates, as defined by the user\n*** Divide the page into 3 tabs:\n**** *Forms* (default tab)\n***** Sub-title/help text:  This section lets you add or remove non-school meal forms. The School Meal Application and Income Survey (where applicable) can also be modified here in a limited capacity.\n***** {color:#6554c0}*(NICE-TO-HAVE in this story)*{color} Beneath, display a basic table with a layout similar to the one we show in the \u2018Forms\u2019 section^1^ of the PrimeroEdge Forms & Benefits page (UI only--backend/API to be in a separate story) \n**** *Form Image Templates*\n***** Sub-title/help text:  This section lets you manage custom image templates that accompany non-school meal forms (the 'Application Image'). To update the Default School Meal Application and Income Survey, please contact Customer Care.\n***** {color:#6554c0}*(NICE-TO-HAVE in this story)* {color}Beneath, display a table similar to the one we show in the PrimeroEdge Form Image Templates page with Templates^2^ and Reference Image^3^ (backend/API to be in a separate story) \n**** *Auto-Processing Rules* (formerly the existing content on the page, will be moved to its own tab)\n***** Sub-title/help text:  This section lets you control scenarios where an online application, with automatic processing, may be parked as pending. For example, applications with students at CEP sites are typically moved to Pending as they are not usually processed. But if you turn that option off, they will be processed per usual and will not be in Pending Applications.\n** Any user who has page-level access to Form Configuration (formerly \u2018Form Settings\u2019), gets the same level of access for all 3 tabs.\n\n\n*Mockup*\n\n{panel:bgColor=#deebff}\n(*Note* that I have combined all of the content into one page, but the final mockup should have this content divided into 3 separate page tabs rather than being visible all at once)\n{panel}\n\n!image-20260209-213421.png|width=1399,alt=\"image-20260209-213421.png\"!\n\n\n\n*Concept Images (from PrimeroEdge):*\n\n*  Reference^1^\n\n!image-20260209-210810.png|width=1182,alt=\"image-20260209-210810.png\"!\n\n*  Reference^2^\n\n!image-20260209-211907.png|width=1188,alt=\"image-20260209-211907.png\"!\n\n*  Reference^3^\n\n!image-20260209-214006.png|width=1188,alt=\"image-20260209-214006.png\"!",
+      "epic_key": "105528",
+      "epic_summary": "SC - Forms Framework"
+    },
+    "NXT-70267": {
+      "key": "NXT-70267",
+      "summary": "Updating the UAT and Migration Environments for the Latest Eligibility UI components",
+      "status": "Done Done",
+      "issuetype": "Task",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Updating the UAT and Migration Environments for the Latest Eligibility UI components",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-70380": {
+      "key": "NXT-70380",
+      "summary": "Elig./FH - Income Surveys - Add New Setting to stop auto-processing Surveys with Unidentified Students",
+      "status": "Done Done",
+      "issuetype": "Enhancement",
+      "priority": "Medium",
+      "components": [
+        "Eligibility",
+        "Family Hub"
+      ],
+      "module": "Eligibility",
+      "rn_required": "External Only",
+      "rn_title": "Customize when to Automatically Process Income Surveys",
+      "ac": "Verify new setting has been added and each value functions as described above\n\nVerify manual entry behavior is unchanged",
+      "rn": "A new system setting has been added, *_Auto-Process all Income Surveys_*, which will allow greater flexibility over if and when to automatically process a survey that has been submitted online.",
+      "rn_internal": "",
+      "desc": "{panel:bgColor=#deebff}\nCarrying forward work completed as part of [https://dev.azure.com/Cybersoft-Technologies-Inc/PrimeroEdge%20Classic/_workitems/edit/99540/|https://dev.azure.com/Cybersoft-Technologies-Inc/PrimeroEdge%20Classic/_workitems/edit/99540/] \n{panel}\n\n\n\nTicket: [https://primeroedge.freshdesk.com/a/tickets/267487|https://primeroedge.freshdesk.com/a/tickets/267487] \n\n*Summary:*\n\n* Currently, surveys without identified students (students with missing required info like IDs) are still being auto-processed under certain conditions. Though the student does get marked as being pending.\n\n*Details:*\n\n* Add a new setting to correct this.\n** Setting Name: *_Auto-Process all Online Income Surveys_* \n** Description: This setting determines when a manually-entered income survey can be automatically processed by the system.\n** Options: Yes/No/Only if all students identified\n*** Default Setting value: *Only if all students identified*\n*** When setting value is \u2018_Yes\u2019_, there is no change in functionality (continue the current functionality of processing all income surveys)\n*** When set to \u2018_No\u2019_, do not auto-process any surveys (surveys will always have the status of \u2018Pending\u2019)\n*** When set to \u2018_Only if all students identified\u2019_, only process income surveys where all students on income survey are matched/identified.\n** Manual entry of income surveys is unchanged.\n\n*Mockup:*\n\nN/A",
+      "epic_key": "119145",
+      "epic_summary": "Family Portal - Misc. Enhancements 2026H1"
+    },
+    "NXT-70440": {
+      "key": "NXT-70440",
+      "summary": "Eligibility - Other Forms - Display submitted Form Applications in Grid",
+      "status": "Done Done",
+      "issuetype": "Story",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "Not Required",
+      "rn_title": "",
+      "ac": "Verify the back-end work in the Other Forms page has been completed to support form applications displaying properly in the ALL and Pending tab grids.",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "As a Cybersoft Implementation team member or district admin, I would like to be able to set up Summer EBT (as well as any other non-traditional form) at a district-level with minimal steps, so that I do not have to use an external system just for this purpose.\n\n*Summary*\n\n* Integrate grid-level changes to the Other Forms page, for both ALL and Pending tabs\n\n*Details*\n\n* In Eligibility > Forms > Other Forms when the user loads the page, display all submitted Form Applications in the grid by doing the following:\n** Pending form applications alone should also show in a \u2018Pending\u2019 tab.\n** Please have the page switch to using the \u2018Income Surveys\u2019 list of columns instead of the \u2018Applications\u2019 list of columns (sorry!). Except, keep \u2018Form Application #\u2019 as there is no need for \u2018Survey #\u2019.\n** Also, add a few new columns:\n*** *Form Name* \u2013 the form to which this application belongs. Corresponds to \u2018Form Select\u2019 filter option.\n**** Side-note: Please rename \u2018Form Select\u2019 to \u2018Select Form\u2019 or \u2018Form Name\u2019\n*** *Result* \u2013 Will show \u2018Qualified\u2019 or \u2018Unqualified\u2019 but can be blank for now.\n*** *Household Income* \u2013 Same as in Applications page (place it below Household Income Range in the columns list)\n*** *Frequency* \u2013 Corresponds to the select income frequency (if applicable) selected on the application\n** Default columns on ALL tab:\n*** Form Application #\n*** Form Name\n*** Entry Method\n*** Status\n*** Received Date\n*** Result\n*** Household Size\n*** Household Income Range\n*** Household Income\n*** Frequency\n** Default columns on Pending tab:\n*** Form Application #\n*** Form Name\n*** Entry Method\n*** Received Date\n*** Student Name(s)\n*** Reason\n** Grid results should now work in tandem with the filters above them\n* Can be handled in a separate story:\n** Application Details page, with its edits. We can work on this when we integrate \u2018Qualified\u2019/\u2019Unqualified\u2019\n** History \u2013 Can be worked on with Application Details.\n** Delete \u2013 Can be worked on with Application Details.\n** \u00a0\u2018Excel\u2019 button \u2013 Can be skipped for now if it is additional effort as we need to make some changes to it anyway.\n\n*Mockup*\n\nN/A",
+      "epic_key": "105528",
+      "epic_summary": "SC - Forms Framework"
+    },
+    "NXT-70450": {
+      "key": "NXT-70450",
+      "summary": "Eligibility - Forms - Form Configuration - Forms Tab - Add New Form to grid",
+      "status": "Done Done",
+      "issuetype": "Story",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "Not Required",
+      "rn_title": "",
+      "ac": "Verify this particular work in the Form Configuration page has been completed to support full functionality of this tab",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "As a Cybersoft Implementation team member, I would like to be able to set up Summer EBT (as well as any other non-traditional form) at a district-level with minimal steps, so that I do not have to use an external system just for this purpose.\n\n*Summary*\n\n* Integrate back-end changes to the Forms Configuration page\u2019s Forms tab.\n\n*Details*\n\n* In _Eligibility > Settings > Forms Configuration_, do the following:\n** In the _Forms_ tab, add the back-end for the \u2018Add New Form Application\u2019 drawer.\n*** {color:#403294}*Name* {color}(accepts any character up to 50, if we need a limit) \n*** {color:#403294}*Description* {color}(accepts any character up to 50, if we need a limit)\n*** {color:#403294}*Other Benefit*{color}\n**** Display a drop-down that includes the list of active benefits. Next to the benefit, display the current academic year. i.e. *Bus Fees (2025-2026)*\n**** Please verify that the Other Benefits page disables the delete icon if any benefit is in use by an active form or an inactive form with applications already submitted.\n*** {color:#403294}*Form Image Template*{color}\n**** Display active form image templates created as part of [https://primeroedgenext.atlassian.net/browse/NXT-70451|https://primeroedgenext.atlassian.net/browse/NXT-70451|smart-link]. \n**** Keep \u2018Default\u2019 as the default field value.\n*** {color:#403294}*Start Date*{color}\n**** Automatically populate today\u2019s date. This field is required and not currently in use, but may become so in the future.\n*** {color:#403294}*End Date*{color}\n**** This field can default as blank. It is optional and not currently in use, but may become so in the future (to set/treat a form as inactive).\n*** {color:#403294}*Site(s) associated*{color}\n**** Display all active sites for the district. Multi-select field.\n*** {color:#403294}*Form requires verification*{color}\n**** If the user selects \u2018Yes\u2019, display a second-level of options (toggle, drop-down, radio button, etc. any is fine): *Standard* or *Rolling*\n**** We will implement the verification dates and types later.\n*** {color:#403294}*Income collection method*{color} (just save the selection for now)\n**** *Additional questions added after March 10th/11th meetings, added to this story by DEV request:*\n***** IF Income collection method selection = \u2018Individual\u2019, display a new, nested question:\n***** {color:#403294}*Accept child income*{color} (Yes/No - corresponding to child income setting. Can display that setting\u2019s current Yes or No value by default, but allow the user to ignore it for the selected form application type)\n*** {color:#403294}*Form requires last 4 digits of SSN*{color} (just save the selection for now)\n*** {color:#403294}*Form requires electronic signature*{color} (just save the selection for now) \n*** {color:#403294}*This form must have its own notification letters*{color} (just save the selection for now) \n*** *Additional questions added after March 10th/11th meetings, added to this story by DEV request:*\n**** {color:#403294}*Display privacy act / disclaimer*{color} (Yes/No - corresponding to the Disclaimer setting. Can display that setting\u2019s current Yes or No value by default, but allow the user to ignore it for the selected form application type)\n**** IF district is in Alaska (AK), display a new question:\n**** {color:#403294}*Accept PFD*{color} (Yes/No - corresponding to the PFD setting. Can display that setting\u2019s current Yes or No value by default, but allow the user to ignore it for the selected form application type)\n*** {color:#403294}*Form is enabled*{color}\n**** Displays whether the forms in the grid or Enabled/Active or Disabled/Active\n** When the user clicks the Save button in this drawer, save it and add it to the list. It should now be referenceable in other pages as needed.\n\n{panel:bgColor=#deebff}\n* Form-to-Template is a 1:1 relationship. A form can only be associated with one template.\u00a0\n** However, a template can be associated with multiple forms (i.e. Default).\n{panel}\n\n\n\n*Mockup*\n\nN/A",
+      "epic_key": "105528",
+      "epic_summary": "SC - Forms Framework"
+    },
+    "NXT-70451": {
+      "key": "NXT-70451",
+      "summary": "Eligibility - Forms - Form Configuration - Form Image Templates Tab - Add new image templates",
+      "status": "Done Done",
+      "issuetype": "Story",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "Not Required",
+      "rn_title": "",
+      "ac": "Verify this particular work in the Form Configuration page has been completed to support full functionality of this tab",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "As a Cybersoft Implementation team member, I would like to be able to set up Summer EBT (as well as any other non-traditional form) at a district-level with minimal steps, so that I do not have to use an external system just for this purpose.\n\n*Summary*\n\n* Integrate additional back-end changes to the Forms Configuration page\u2019s Form Image Templates tab, allowing a user to view and add a form application image.\n\n*Details*\n\n* In _Eligibility > Settings > Forms Configuration_, do the following:\n** In the *Form Image Templates* tab, add a Default form image template and the means to edit it as well as \u2018Save As\u2019 for the purpose of making multiple form application images.\n*** Display a form image selection, where only \u2018Default\u2019 will be available in the beginning.\n*** Based on the form selected, display the form\u2019s image within the page and allow the user to edit the HTML directly.\n**** The title can be \u2018{formName} Form Image\u2019 i.e. *Summer EBT Form Image*\n**** Any text should be editable. Users will need to be careful not to touch field data.\n*** Add a \u2018Save As\u2019 button which will be enabled to anyone. Users cannot overwrite the Default template.\n*** When the user clicks the \u2018Save As\u2019 button in this drawer, prompt them to rename it, save it and add it to the grid. It should now be referenceable in other pages as needed. Grid behavior is in a separate story.\n**** Just FYI: In the future, it should accommodate changes made when we get to the processing part (for both \u2018Latest\u2019 and \u2018Original\u2019 versions of an app)\n!image-20260224-184809.png|width=488,alt=\"image-20260224-184809.png\"!\n\n\n*Mockups*\n\n!image-20260224-190317.png|width=699,alt=\"image-20260224-190317.png\"!\n\nReference image from Classic:\n\n!image-20260224-201200.png|width=856,alt=\"image-20260224-201200.png\"!",
+      "epic_key": "105528",
+      "epic_summary": "SC - Forms Framework"
+    },
+    "NXT-70452": {
+      "key": "NXT-70452",
+      "summary": "Eligibility - Forms - Form Configuration - Form Image Templates Tab - Template Grid",
+      "status": "Done Done",
+      "issuetype": "Story",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "Not Required",
+      "rn_title": "",
+      "ac": "Verify this particular work in the Form Configuration page has been completed to support full functionality of this tab",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "As a Cybersoft Implementation team member, I would like to be able to set up Summer EBT (as well as any other non-traditional form) at a district-level with minimal steps, so that I do not have to use an external system just for this purpose.\n\n*Summary*\n\n* Integrate additional back-end changes to the Forms Configuration page\u2019s Form Image Templates tab, including the Action(s) column.\n* Combine the Template and Reference Image tab\u2019s into one, including the table.\n\n*Details*\n\n* In _Eligibility > Settings > Forms Configuration_, do the following:\n** In the *Form Image Templates* tab, combine the grid for the Template and Reference Image sub-tabs, since we can probably tie everything together in a single grid.\n** Remove the \u2018Subject\u2019 column. We\u2019ll handle any additional functionality in the \u2018Action(s)' column\n** Display a \u2018Default\u2019 record in the grid, which will correspond to the default form application image. These fields should be searchable and sortable.\n*** Template Name: *S**tandard Image Template* \n*** Form(s) Associated: This can be empty for now. We will tie this image to new forms in other stories.\n*** Status: Active\n**** Add column filters. \n*** Type: Standard or Custom\n*** Action(s): Display the following buttons:\n**** Edit Pencil - Opens a drawer that allows the user to change the name-, forms associated,- and active/inactive status.\n**** View - Opens the form image HTML editor in [https://primeroedgenext.atlassian.net/browse/NXT-70451|https://primeroedgenext.atlassian.net/browse/NXT-70451|smart-link].\n**** History - Allows the user to view all related changes to this template. We don\u2019t necessarily need to track history of what fields were changed in the image, but we should at least show whether someone updated the image.\n**** \n\n*Mockups*\n\n!image-20260224-191223.png|width=1282,height=233,alt=\"image-20260224-191223.png\"!\n\nReference image from Classic:\n\n!image-20260224-195806.png|width=1218,height=624,alt=\"image-20260224-195806.png\"!",
+      "epic_key": "105528",
+      "epic_summary": "SC - Forms Framework"
+    },
+    "NXT-70453": {
+      "key": "NXT-70453",
+      "summary": "Eligibility - Configuration - FRE Application Image - New page to modify FRE image",
+      "status": "Done Done",
+      "issuetype": "Story",
+      "priority": "Medium",
+      "components": [
+        "Eligibility",
+        "Family Hub"
+      ],
+      "module": "Eligibility",
+      "rn_required": "Not Required",
+      "rn_title": "",
+      "ac": "Verify that certain users can now update the standard FRE application image",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "As a Cybersoft admin, I would like to be able to modify the HTML image template for my FRE apps, so that I may make them more closely aligned to my SchoolCaf\u00e9 (and paper) application.\n\n*Summary*\n\n* Add a new page to allow Cybersoft users to update the\u00a0_Default_ application image template for the current FRE Application.\n* When opening this image template, enable the 'Save' button for Cybersoft admins so that they can save changes on the district's behalf, upon (documented) request.\n\n*Details*\n\n* In Eligibility > Settings, add a new page: *_Application Image_*\n** Page can be displayed at the bottom of the category\n** By default, permissions for this page can be assigned to Cybersoft admins only\n** Page should have a subtitle with a warning prompt:\u00a0\n*** *Warning:* Please make sure that +any+\u00a0changes to this image are in compliance with the rules and regulations for the state to which this district belongs, and be advised that updates made to this image will immediately impact ALL applications, +past and present+.\n*** \n* Within the page, beneath that warning\n** display the default FRE image which corresponds to all current FRE apps (not form apps):\n** enable a '_Save'_ (and 'Cancel')\u00a0button, so that any changes they make on the page will be permanently saved in the Default image for that district. (Default inheritance can be from -10 region)\n** Default name can be \u2018Standard Application Image\u2019\n\n*Mockup*\n\nN/A",
+      "epic_key": "105528",
+      "epic_summary": "SC - Forms Framework"
+    },
+    "NXT-70518": {
+      "key": "NXT-70518",
+      "summary": "Testing in Migration Environment - 9.12 Release",
+      "status": "Done Done",
+      "issuetype": "Task",
+      "priority": "Medium",
+      "components": [
+        "Accountability",
+        "Account Management",
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-70524": {
+      "key": "NXT-70524",
+      "summary": "Testing in Migration Environment - 9.13 Release",
+      "status": "Done Done",
+      "issuetype": "Task",
+      "priority": "Medium",
+      "components": [
+        "Accountability",
+        "Account Management",
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-70932": {
+      "key": "NXT-70932",
+      "summary": "QA - ADA - Eligibility Module Issues",
+      "status": "In Progress",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Added all issues in below attachment once please check\n\n[^Elig ADA Retesting issues.docx]",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-71124": {
+      "key": "NXT-71124",
+      "summary": "Eligibility - Configuration - FRE Application Image - Display Revelant Application Images in ELIG/FH",
+      "status": "In Progress",
+      "issuetype": "Story",
+      "priority": "Medium",
+      "components": [
+        "Eligibility",
+        "Family Hub"
+      ],
+      "module": "Eligibility",
+      "rn_required": "External Only",
+      "rn_title": "",
+      "ac": "Verify that certain users can now update the standard FRE application image and have those changes reflected throughout our products where applicable",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "As a Cybersoft admin, I would like to be able to modify the HTML image template for my FRE apps, so that I may make them more closely aligned to my SchoolCaf\u00e9 (and paper) application.\n\n*Summary*\n\n* This is the \u2018Part 2\u2019 story of displaying an updated/customized FRE app image\n* When users open an FRE application or view it in the Family Hub, display the Default image, with any changes made to it by a Cybersoft user\u00a0\n\n*Details*\n\n* When users pull up an Application (not a form) anywhere in Eligibility, display it according to the Default image and whatever changes have been made by the Cybersoft admin.\n* Some places to check include:\n** Application Details - Application Image\n** Family Hub (Parent or Guest) - Submit step of Apply page\n** Family Hub (Parent) - Eligibility Info page \u2018View\u2019 button\n* Additional note:\n** If FRENOSSN\u00a0is set to 'Off', then do not show field content in the 2 SSN related sections of the image. They can be blank or just contain whatever plain text the user enters there.\n*** If it is set to \u2018Partial\u2019, then it should behave (show or hide SSN content) dynamically based on any CEP students on the app.\n** Be careful to accommodate the other existing eligibility settings as discussed.\n** Also, when applicants in the Family Hub see this image (such as on the submission step of the Apply for Benefits page or Manage Applications page), the changes made to this image should be reflected in what those users see\u00a0there as well.\n\n\n\n*Mockup*\n\nN/A",
+      "epic_key": "105528",
+      "epic_summary": "SC - Forms Framework"
+    },
+    "NXT-71226": {
+      "key": "NXT-71226",
+      "summary": "Eligibility - Other Forms - (Part 1) Complete 'Add New Form Application' button functionality",
+      "status": "Done Done",
+      "issuetype": "Story",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "Not Required",
+      "rn_title": "",
+      "ac": "Verify that the \u2018Add New Form Application\u2019 button is now functional, allowing the user to select their form of choice and then fill out (but not submit) an application according to that form\u2019s configuration.",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "As a Cybersoft Implementation team member or district admin, I would like to be able to add Summer EBT (as well as any other non-traditional form) applications at a district-level with minimal steps, so that I do not have to use an external system just for this purpose.\n\n*Summary*\n\n* Allow users to add a form application for any active form type \n** *Story 1 (Application button/page UI, API): Effort - 8*\n** Story 2 (Submit/Pending and Application Image): Effort - 8\n\n*Details*\n\n* In Eligibility > Forms > Other Forms, enable the \u2018Add New Form Application\u2019 button to open a stepper which mimics the Add New Survey page for current Income Surveys.\n** This new entry page can be titled: *Add New Form Application*.\n**  It would be great if somewhere on the page, or even on each step, if we can show the name of the specific form name to which this application belongs.\n* This button will need to allow users to select +one+ active form type (i.e. Summer EBT form, Income Survey, \u2018Form ABC\u2019, etc.).\n** Design is negotiable; i.e. currently this button opens a drawer. If we include the active forms in that drawer and have the user pick one which then takes them to the \u2018Add New Form Application\u2019 page for that form type, that is one solution.\n* Within the \u2018Form Application Entry\u2019 page, have the stepper contain all of the steps of the existing application, with the exception of those functions which are tied to that form\u2019s configuration. These steps will change based on the options selected:\n* Income collection method\n** Choice:\u00a0*Individual / Household / None*\n** Behavior: In the Household step of the application, we should display the related income collection fields\u00a0according to what was chosen above\n*** Individual: display the Household step with the individual household members having their own income (similar to current FRE app)\n**** Only in this scenario, we will collect PFD\n*** Household: display the Household step with a single total household income field (similar to current Income Survey)\n*** None: hide the income fields entirely. Only Total Household Members/Household Size should remain.\n* Contact Info Step\n** Require First and Last Name fields only\n* Form requires last 4 digits of SSN\n** Choice:\u00a0*Yes/No/Partial*\n** Behavior: In the Comments step of the application, show or hide all text and fields for asking about/collecting SSN.\u00a0If \u2018Yes\u2019, display a \u2018Last 4 digits of SSN\u2019 checkbox and field beneath the signature line (copy design from the FRE application stepper). \n\n\n!image-20260318-034951.png|width=671,alt=\"image-20260318-034951.png\"!\n\n!image-20260318-035018.png|width=719,alt=\"image-20260318-035018.png\"!\n\n\n\n* \u2026\n** Display it on the Summary step as well.\n** Treat \u2018Partial\u2019 SSN the same as \u2018Yes\u2019\n* Form requires electronic signature\n** Choice:\u00a0*Yes/No*\n** Behavior: In the Submit step of the application, show or hide signature field/selection.\u00a0\n* Allow the user to submit the application as complete or mark it as \u2018Pending\u2019, as well as the same \u2018I\u2019m Done\u2019 or \u2018Submit Another Form Application\u2019 options. We can display submitted forms in the next story, and \u2018Qualified\u2019/\u2019Unqualified\u2019 results in a separate story as well.\n** Add \u2018Pending Reasons\u2019 (same as Applications) as well, plus the related logic. i.e. household size needs to match or otherwise users cannot submit.\n* Additionally, at the end of the application, display the associated form application image with its associated print/export buttons.\n\n\n\nReference screens\n\n!image-20260318-035134.png|width=719,alt=\"image-20260318-035134.png\"!\n\n!image-20260318-035200.png|width=719,alt=\"image-20260318-035200.png\"!",
+      "epic_key": "105528",
+      "epic_summary": "SC - Forms Framework"
+    },
+    "NXT-71246": {
+      "key": "NXT-71246",
+      "summary": "Eligibility - Other Forms - (Part 2) Complete 'Add New Form Application' button functionality - Submit/Pending & App. Image",
+      "status": "In Progress",
+      "issuetype": "Story",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "Not Required",
+      "rn_title": "",
+      "ac": "Verify that the \u2018Add New Form Application\u2019 button is now functional, allowing the user to select their form of choice and then fill out and submit an application according to that form\u2019s configuration. \n\nVerify that the correct form application image is shown in Eligibility",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "As a Cybersoft Implementation team member or district admin, I would like to be able to add Summer EBT (as well as any other non-traditional form) applications at a district-level with minimal steps, so that I do not have to use an external system just for this purpose.\n\n*Summary*\n\n* Allow users to add a form application for any active form type \n** Story 1 (Application button/page UI, API): Effort - 8\n** *Story 2 (Submit/Pending and Application Image): Effort - 8*\n\n*Details*\n\n* In Eligibility > Forms > Other Forms, enable the \u2018Add New Form Application\u2019 button to open a stepper which mimics the Add New Survey page for current Income Surveys.\n** This new entry page can be titled: *Add New Form Application*.\n**  It would be great if somewhere on the page, or even on each step, if we can show the name of the specific form name to which this application belongs.\n* This button will need to allow users to select +one+ active form type (i.e. Summer EBT form, Income Survey, \u2018Form ABC\u2019, etc.).\n** Design is negotiable; i.e. currently this button opens a drawer. If we include the active forms in that drawer and have the user pick one which then takes them to the \u2018Add New Form Application\u2019 page for that form type, that is one solution.\n* Within the \u2018Form Application Entry\u2019 page, have the stepper contain all of the steps of the existing application, with the exception of those functions which are tied to that form\u2019s configuration. These steps will change based on the options selected:\n* Income collection method\n** Choice:\u00a0*Individual / Household / None*\n** Behavior: In the Household step of the application, we should display the related income collection fields\u00a0according to what was chosen above\n*** Individual: display the Household step with the individual household members having their own income (similar to current FRE app)\n**** Only in this scenario, we will collect PFD\n*** Household: display the Household step with a single total household income field (similar to current Income Survey)\n*** None: hide the income fields entirely. Only Total Household Members/Household Size should remain.\n* Contact Info Step\n** Require First and Last Name fields only\n* Form requires last 4 digits of SSN\n** Choice:\u00a0*Yes/No/Partial*\n** Behavior: In the Comments step of the application, show or hide all text and fields for asking about/collecting SSN.\u00a0If \u2018Yes\u2019, display a \u2018Last 4 digits of SSN\u2019 checkbox and field beneath the signature line (copy design from the FRE application stepper). \n\n!image-20260318-034951 (85b923c3-95ca-4e39-9d84-6a861cb75fc7).png|width=671,alt=\"image-20260318-034951.png\"!\n\n!image-20260318-035018 (936d751b-4600-4064-9652-e505ee7c895a).png|width=719,alt=\"image-20260318-035018.png\"!\n\n\n\n* \u2026\n** Display it on the Summary step as well.\n** Treat \u2018Partial\u2019 SSN the same as \u2018Yes\u2019\n* Form requires electronic signature\n** Choice:\u00a0*Yes/No*\n** Behavior: In the Submit step of the application, show or hide signature field/selection.\u00a0\n* Allow the user to submit the application as complete or mark it as \u2018Pending\u2019, as well as the same \u2018I\u2019m Done\u2019 or \u2018Submit Another Form Application\u2019 options. We can display submitted forms in the next story, and \u2018Qualified\u2019/\u2019Unqualified\u2019 results in a separate story as well.\n** Add \u2018Pending Reasons\u2019 (same as Applications) as well, plus the related logic. i.e. household size needs to match or otherwise users cannot submit.\n* Additionally, at the end of the application, display the associated form application image with its associated print/export buttons.\n\n\n\nReference screens\n\n!image-20260318-035134 (39572949-432c-4856-9754-f63db2fd7a10).png|width=719,alt=\"image-20260318-035134.png\"!\n\n!image-20260318-035200 (89e21f20-912a-47af-86ec-a10ad1cef1b8).png|width=719,alt=\"image-20260318-035200.png\"!",
+      "epic_key": "105528",
+      "epic_summary": "SC - Forms Framework"
+    },
+    "NXT-71248": {
+      "key": "NXT-71248",
+      "summary": "QA - Standard Form Image issues / Form Image Templates grid",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "# Insert hyperlink action does not work\n# Insert Image action is not working as expected\n!image-20260319-185252.png|width=501,alt=\"image-20260319-185252.png\"!\n# Alignment buttons are not working as expected\n# Indent buttons are not working as expected\n# Unable to insert table fields\n# It looks like the inserted field is incorrect\n!image-20260319-201252.png|width=881,alt=\"image-20260319-201252.png\"!\n# Currently, User can\u2019t change the name of the custom template\n# Form Image Templates grid - Enter data in Template Name column filter > results are filtered in the grid, but the items count is incorrect\n!image-20260319-192809.png|width=1227,alt=\"image-20260319-192809.png\"!\n# Application Image page - Information message > please add an underline as per requirements\n!image-20260319-205459.png|width=1227,alt=\"image-20260319-205459.png\"!\n# If possible, create one dropdown for fields instead of two\n!image-20260403-182938.png|width=433,alt=\"image-20260403-182938.png\"!\n# Form Image Template > Click edit for \u2018Standard Form Image\u2019 > click preview icon on edit template page > throwing an error\n!image-20260403-183312.png|width=543,alt=\"image-20260403-183312.png\"!\n# Image sometimes does not fully display on preview or print page\n!image-20260403-183357.png|width=833,alt=\"image-20260403-183357.png\"!\n#",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-71660": {
+      "key": "NXT-71660",
+      "summary": "QA -  Form Configuration - Forms Tab - Add/Edit a form - Issues",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "# In the Edit Form page, the income collection method option is selected to \u2018Individual\u2019 instead of \u2018None\u2019.\n# !image-20260402-181429.png|width=1227,alt=\"image-20260402-181429.png\"!\nAdd Form page - Update the question number When state is not Alaska \n!image-20260402-181614.png|width=681,alt=\"image-20260402-181614.png\"!\n#  Add Form page - Update order and question number When state is Alaska \n!image-20260402-181715.png|width=626,alt=\"image-20260402-181715.png\"!\n# Edit Form page - \u2018Other Benefit\u2019 and \u2018Site(s)\u2019 filters\n## Items remain selected when 'X' is clicked\n!image-20260406-210948.png|width=578,alt=\"image-20260406-210948.png\"!\n## Cannot uncheck when only one option is selected\n!image-20260406-211040.png|width=484,alt=\"image-20260406-211040.png\"!\n#",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-71670": {
+      "key": "NXT-71670",
+      "summary": "Regression - The border line does not display on the application image in Firefox",
+      "status": "New",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "The border line does not display on the application image in Firefox.\n\n!image-20260403-183935.png|width=714,alt=\"image-20260403-183935.png\"!",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-71694": {
+      "key": "NXT-71694",
+      "summary": "Elig - DC - Split Street Address for DC Matching",
+      "status": "Done Done",
+      "issuetype": "Story",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "External Only",
+      "rn_title": "Address field split for Direct Certification Matching",
+      "ac": "* Street Address split\n* DC Matching algorithm updated\n* DC Scorecard updated\n* Prior Scorecards not impacted\n* User can adjust points from the DC Match Configuration page",
+      "rn": "We have made an update to how the full street address is handled for direct certification matching. Previously, it was comparing the full street address - now, it is split into the individual fields. Street Address, City, State, and Zip. This will help gain a few more points in scenarios where 1 wrong part of the address was blocking point allocation. \n\nFor example, take the address *742 Evergreen Terrace, Springfield, MO.* This entire address had to match between the Student Data and the Direct Cert file for points to be awarded.\n\nBut if we had *742 Evergreen Terrace, Shelbyville, MO*. instead, we\u2019ll see points awarded for Street Address and State. \n\nWe\u2019re hopeful this will assist with more automatic matches in the upcoming school year!",
+      "rn_internal": "",
+      "desc": "As Dana the Director I want to better control how Street Address is matching on the DC Scorecard to catch scenarios where points are not allocated due to City/Town being different in some parts.\n\n!image-20260406-171548.png|width=1024,alt=\"image-20260406-171548.png\"!\n\n*requirements*\n\n* Split Street Address (20 pts) up into:\n** Street Address (14 pts)\n** City (2 pt)\n** State (2 pt) \n** Zip Code (2 pt)\n* Update DC Matching to make use of the individual fields and the new default points\n* Update the DC Scorecard to show the individual fields\n* User should be able to see prior DC Scorecards with no issue - if we matched on the \u201cfull\u201d Street Address and gave 20 pts, show that",
+      "epic_key": "105530",
+      "epic_summary": "FO - Sustenance (2025-26)"
+    },
+    "NXT-71823": {
+      "key": "NXT-71823",
+      "summary": "Eligibility - Configuration - FRE Application Image - Add Date Range to bind an image to a subset of Apps",
+      "status": "Done Done",
+      "issuetype": "Story",
+      "priority": "Medium",
+      "components": [
+        "Eligibility",
+        "Family Hub"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "Verify that a user can associate any FRE app image with a date range\n\nVerify that if there is only the Standard Template, we will always use that. Whenever a new image is created, it will automatically use that. Past templates cannot be edited. When 2 custom templates are created, the previous one will be inactive and not display in the grid.\n\nVerify that date ranges for images cannot overlap with each other (will be set in back end)\n\nVerify that History is maintained for date range changes\n\nVerify that the page description/note at the top of the page has been updated\n\nVerify that when a application is opened, we check to see if its Received Date is within a particular range and then display the specific application image\n\nVerify that this is the case in both SchoolCaf\u00e9 and the Family Hub\n\nVerify that the standard FRE application image now only applies to new applications (+*if*+ Status column is maintained). Otherwise, verify that Status column is removed",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "As a Cybersoft admin, I would like to be able to modify the HTML image template for my FRE apps and have it be for a certain time period, so that I may make them more closely aligned to my SchoolCaf\u00e9 (and paper) application.\n\n*Summary*\n\nInstead of only displaying one FRE image for all applications past and present, add a \u2018Date Range\u2019 column which controls when a specific image will be the one which is visible to users in both SchoolCaf\u00e9 and the Family Hub. Make sure dates do not overlap. This will be a cleaner solution to help prevent potential audit issues.\n\n*Details*\n\n* In _Eligibility > Settings > Application Image_: \n** add a new column to allow users to designate a date range for an application image template for the current FRE Application. \n*** When a user opens an FRE application in either SchoolCaf\u00e9 or the Family Hub, open the image that corresponds to that date (allowing older apps to display an older app image)\n*** This field will now be required (we will set it in the background)\n*** We should update the History to capture date range changes as well\n** remove the current \u2018Status\u2019 column, since display will be by data range now. \n** update the page note at the top *from*:\n*** _Please make sure that_ +_any_+ _changes to this image are in compliance with the rules and regulations for the state to which this district belongs, and be advised that updates made to this image will immediately impact ALL applications,_ +_past and present_+_._\n\n***to:*\n\n*** _Please make sure that_ +_any_+ _changes to application images are in compliance with the rules and regulations for the state to which this district belongs, and be advised that updates made to this image will take immediate effect._\n\n* When opening an application, open the correct application image based on the provided date range (application\u2019s Received Date).\n* Automatically handle marking an existing application image as \u2018closed\u2019 when a new one is edited.\n\n*Mockup*\n\n!image-20260420-190021.png|width=1083,alt=\"image-20260420-190021.png\"!",
+      "epic_key": "105528",
+      "epic_summary": "SC - Forms Framework"
+    },
+    "NXT-72039": {
+      "key": "NXT-72039",
+      "summary": "QA - Eligibility / Family Hub - Application Image Issues",
+      "status": "In Progress",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "# Application Details > More Actions - Application Image > Select \u2018ORIGINAL\u2019 button > Showing the image with the latest info instead of the original one\n# Family Hub -displaying the second page as below when the \u2018DSPPVDCL' setting is off. This problem isn\u2019t happening in SchoolCafe.\n!image-20260415-190544.png|width=285,alt=\"image-20260415-190544.png\"!\n# MI field > The information is different between SchoolCafe and Family Hub.\n!image-20260415-191002.png|width=441,alt=\"image-20260415-191002.png\"!\n# When FRENOSSN\u00a0is set to 'Off', then do not show field content in the 2 SSN related sections.\n## Family Hub - Hide the PFD sections when PFD setting is set of \u2018Off\u2019\n## SchoolCafe -  Don\u2019t show field content in the 2 SSN related sections.\n!image-20260415-191525.png|width=404,alt=\"image-20260415-191525.png\"!\n# If feasible, please display an empty row within the household member section when no records are present.\n!image-20260415-191715.png|width=715,alt=\"image-20260415-191715.png\"!\n#  Family Hub - Take out the border line around the household size and SSN info. \n!image-20260415-193822.png|width=427,alt=\"image-20260415-193822.png\"!\n# SchoolCafe - The PFD counts aren't showing up.\n!image-20260415-200757.png|width=297,alt=\"image-20260415-200757.png\"!\n# Updated a custom image:\n##  SchoolCafe > submit a manual application > showing the image as below on summary page\n!image-20260415-205127.png|width=379,alt=\"image-20260415-205127.png\"!\n## SchoolCafe> Application Details page > application image\n!image-20260415-205405.png|width=289,alt=\"image-20260415-205405.png\"!\n## Family Hub > Showing the image as below on summary page\n!image-20260415-205738.png|width=346,alt=\"image-20260415-205738.png\"!\n## The child income setting (USECHLDINC) is turned off, but this section still shows up in the custom image above.\n## Data doesn't show up as expected when you add two table fields to the same column.\n!image-20260416-162927.png|width=257,alt=\"image-20260416-162927.png\"!\n# The image shows just one race, even though the app actually has more than one.",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-72103": {
+      "key": "NXT-72103",
+      "summary": "QA - Other Forms - 'Add New Form Application' workflow issues",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "# Students step > The system is still keeping the \u2018other students in this household\u2019 info from the last session.\n!image-20260416-200657.png|width=547,alt=\"image-20260416-200657.png\"!\n# The page freezes if you go back from the 'Submit' step to the previous one and then try to return to the submit step\n# If the \u2018Income Collection Method\u2019 is set to \u2018Household\u2019 or \u2018None\u2019, show the warning below on the \u2018Household\u2019 and \u2018Review\u2019 steps whenever the count is less than the total number of students. If the \u2018Income Collection Method\u2019 is set to \u2018Individual\u2019, show the warning below on the \u2018Household\u2019 and \u2018Review\u2019 steps whenever the count is greater than the total number of household members.\n!image-20260416-202603.png|width=810,alt=\"image-20260416-202603.png\"!\n# The Total Income info isn't right. Also, please update the way the amount is formatted.\n!image-20260416-204256.png|width=703,alt=\"image-20260416-204256.png\"!\n# Make the first letter uppercase in the words \u2018assistance\u2019, 'identity' and 'benefits'.\n!image-20260416-205513.png|width=330,alt=\"image-20260416-205513.png\"!\n!image-20260416-210147.png|width=237,alt=\"image-20260416-210147.png\"!\n# Hide the highlighted line below if there\u2019s no data.\n!image-20260416-210625.png|width=588,alt=\"image-20260416-210625.png\"!\n# When the SSN setting is set to \u2018Partial\u2019, the SSN question shouldn\u2019t be required if all students are at CEP Sites. Right now, it\u2019s working the other way around.\n# User can submit a form with a pending reason if their case number isn\u2019t in the right format. Right now, they can\u2019t move on to the next step if the case number is wrong.\n!image-20260417-193139.png|width=252,alt=\"image-20260417-193139.png\"!\n# The income info on the review step should match what\u2019s shown on the household members step.\n!image-20260424-182947.png|width=363,alt=\"image-20260424-182947.png\"!\n# The PFD amount isn't included in the total income.\n!image-20260424-183035.png|width=419,alt=\"image-20260424-183035.png\"!\n# I'm getting the below error for all the fields\n!image-20260424-184618.png|width=426,alt=\"image-20260424-184618.png\"!\n# Received Date is invalid or blank, i think we can disable the \u2018Submit\u2019 button\n!image-20260424-185359.png|width=353,alt=\"image-20260424-185359.png\"!\n# Change the word from 'above' to 'below' in the message\n!image-20260424-202930.png|width=591,alt=\"image-20260424-202930.png\"!\n# The warning message doesn't go away after you check the signature box.\n!image-20260424-203416.png|width=267,alt=\"image-20260424-203416.png\"!\n# The household size info updating correctly the first time when you navigated to household members step. It doesn\u2019t refresh if you go back and add more students.\n!image-20260428-185523.png|width=257,alt=\"image-20260428-185523.png\"!",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-72106": {
+      "key": "NXT-72106",
+      "summary": "SC - MT/Central - SE - DC File Management and History",
+      "status": "New",
+      "issuetype": "New Feature",
+      "priority": "Medium",
+      "components": [],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Implement central-level functionality to manage Direct Certification (DC) files, including listing file history and status, storage, and organization for statewide administration.\n\nState-Level customers need the ability to view and manage their DC files. This story covers the main functionality of that new feature set.\n\nStandard Grid page with filters.\n\n\n!image-20260417-035418.png|width=1110,alt=\"image-20260417-035418.png\"!\n\n\n{color:#4c9aff}*Filters*{color}\n-Approval Type (upload type chosen)\n-Date selector, From/To, Default \u201cTo\u201d to Todays date and from as Null - Does not affect initial page load (return entire current academic year)\n-File Number Search(alpha numeric)\n-Status ({color:#403294}Processing{color}, {color:#36b37e}Processed{color}, {color:#ff991f}Canceled{color}, {color:#00b8d9}Simulated{color}, Retired, {color:#ff5630}Undone{color}, {color:#ff991f}Finished W/ Errors{color})\n-Academic Year (Default to current)\n\n{color:#ff991f}*Main grid*{color}\n\nFile number, Approval Type, Status, Upload Date, Effective Date, User, Matched Students\n\n{color:#006644}*Slide out Feature*{color}\n\n\n!image-20260417-040549.png|width=1110,alt=\"image-20260417-040549.png\"!\n\n{color:#4c9aff}When File number is clicked{color}\nShow styling on the main grid to indicate the last clicked File Number Row Dot + Row border color (shown in mock up)\nDisplay slide out with new grid and file details (mockup above)\n\n{color:#36b37e}Slide out Grid:{color}\nDistrict/SFA name, Approval # (district level {color:#4c9aff}*and clickable*{color}), Total Changes.\nOn expansion of District/SFA:\n-Display Reason and breakout: \u201cChanged from \u201c [Paid, Reduced, Free DC]\n-When approval # within the grid is clicked \u2192 Open in new tab DC page at the respective district.\n\n\n!image-20260417-040851.png|width=493,alt=\"image-20260417-040851.png\"!\n\n\n{color:#36b37e}Additional Details:{color}\nApproval Type, File Status, Effective Date, User Name.\nTotal Records on File, matched Students count, SNAP, Non-Snap.\nFootnote: \u201cOnly active students are considered, based on configured DC precedence.\u201d\n\n~~~~Future functionality: Possibly recycle existing DC Pie Chart/Graph. ^^ All above fields will be consumed/reorganized.",
+      "epic_key": "132283",
+      "epic_summary": "SC - Multi-Tenant (FO) - Direct Certification (Central View)"
+    },
+    "NXT-72107": {
+      "key": "NXT-72107",
+      "summary": "SC - MT/Central - SE - DC Data Processing and Distribution to Districts",
+      "status": "New",
+      "issuetype": "New Feature",
+      "priority": "Medium",
+      "components": [],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Breakout and order of presenting\n\nFile Upload and UI\nPreview\nFile Processing\nGrid\n\nDevelop processes to segment and distribute DC data from central uploads to individual districts, ensuring each district receives only their relevant data. Includes logic for handling large files and mapping to districts.\n\nWhen a file is uploaded DC matching takes place just as it does if it was done at a district level.\nMatches flow down to each district.\n{color:#36b37e}Track{color} warnings if a single record is matched in multiple districts.\n{color:#36b37e}Track {color}Match Rate (Matched, Not-Matched, Multi Matches)\n\n{color:#00b8d9}*Allow Simulation/pretest mode (default).*{color}\n\n* When simulation/pretest mode is chosen:\n--Return results like a normal upload but results are not applied to any district.\n--Give the user one final step/button in the main grid to either process or retire results.\n---On the main grid this simply displays a {color:#4c9aff}Simulated{color} status and a \u201cPending\u201d file number for each respective district.\n--If another file is processed afterwards, last simulation mode results are *Retired*. *Retired* = cannot applied/must reupload.\nAbility to display simple progress for a processing file that auto updates when user is on the page completed records/found records to percentage. Put it in the slide out.\n* ^^^ This functionality will also be valuable for District level (future story)\n\n{color:#6554c0}Allow {color}{color:#ff991f}cancelation{color}{color:#6554c0} of a file.{color}\n\n{color:#6554c0}Allow an {color}{color:#ff5630}Undo{color}{color:#6554c0} on latest file. If district uploads their own File (homeless) the system can still undo the State level DC file only. (State File #30 District is on File #31, only undo #30){color}\n\n{color:#ff5630}Error handling, (For the slide out details OR direct link to data exchange){color}\nIf a student is not found after initial simulation.?? Are we archiving the data how does this work now??\nOther Error handling which can then be dealt with afterwards.\nIf Upload fails with an exception.\n\nFile Statuses:\n{color:#403294}Processing{color}, {color:#36b37e}Processed{color}, {color:#ff991f}Canceled{color}, {color:#00b8d9}Simulated{color}, Retired, {color:#ff5630}Undone{color}, {color:#ff991f}Failed{color}",
+      "epic_key": "132283",
+      "epic_summary": "SC - Multi-Tenant (FO) - Direct Certification (Central View)"
+    },
+    "NXT-72108": {
+      "key": "NXT-72108",
+      "summary": "SC - MT/Central - DC Stats and Reporting Dashboard",
+      "status": "New",
+      "issuetype": "New Feature",
+      "priority": "Medium",
+      "components": [],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Create a dashboard to visualize DC statistics per file, including data breakdowns, district matching stats, and data visualizations for central and district users.\n\nImplement functionality to monitor district usage of Direct Certification features, including tracking access, downloads, SIS uploads, and generating FNS834 reports. Provide KPIs and insights for central administrators.",
+      "epic_key": "132283",
+      "epic_summary": "SC - Multi-Tenant (FO) - Direct Certification (Central View)"
+    },
+    "NXT-72109": {
+      "key": "NXT-72109",
+      "summary": "SC - MT/Central - New Configuration for DC Jobs",
+      "status": "New",
+      "issuetype": "New Feature",
+      "priority": "Medium",
+      "components": [],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Develop settings and configuration interfaces for DC file mapping, matching scoring and other relevant parameters at the central and district levels.\n\nCounty Code management.\n\n!image-20260417-190223.png|width=406,alt=\"image-20260417-190223.png\"!\n\n \n\n\n\n!image-20260417-045521.png|width=990,alt=\"image-20260417-045521.png\"!\n\nNew Additions to both District level and Central/MT level DC configurations for the DC jobs/ Matching Algorithm.\n- District Code\n- District Name\n- County Code",
+      "epic_key": "132283",
+      "epic_summary": "SC - Multi-Tenant (FO) - Direct Certification (Central View)"
+    },
+    "NXT-72110": {
+      "key": "NXT-72110",
+      "summary": "SC - MT/Central - Feature Enablement and District Program Configuration",
+      "status": "New",
+      "issuetype": "New Feature",
+      "priority": "Medium",
+      "components": [],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Develop tools to manage feature enablement at the district and site level, including listing districts and schools, setting/viewing provisions and programs, and distinguishing between districts using full suite products versus others.\n\nDevelop logic and interfaces to manage licensing and access for Direct Certification features, ensuring districts only have access to DC programs they are licensed for and enabling/disabling access as needed per academic year.\n\n\n\n!image-20260417-054351.png|width=1110,alt=\"image-20260417-054351.png\"!\n\n\n\n*New page:* {color:#6554c0}\u201dDistrict/SFA data controls\u201d {color}- place with a main grid that control State level DC matching thresholds and an additional grid that lists out each District within the State and allows management of district setting configuration.\n\n{color:#36b37e}*Main grid:*{color}\n- Same as District level page.\n\n{color:#4c9aff}*Secondary Grid*{color} {color:#4c9aff}*Columns:*{color}\n{color:#008da6}District Name{color}\n\n{color:#008da6}DC Enabled (Toggle){color}\n- Controls whether district is included for DC processing. On/Off\n-- When on (default): district is included in DC file processing\n-- When off: district is not included in DC file processing\n\n{color:#008da6}Local Matching Thresholds (Toggle){color}\n- Controls whether district uses state set or District level DC matching Thresholds.\n-- When on: DC matching can only update records with District level thresholds\n-- When off (default): DC matching goes by State level thresholds.\n\n{color:#008da6}Local Withdrawal Threshold (Toggle){color}\n- Controls whether Student uploads use a State set withdrawal threshold or District setting level threshold.\n-- When on: Student upload uses district level threshold\n-- When off (default): Student upload uses State set withdrawal threshold\n\nNice to have columns:\nDistrict Overall CEP status: Low(<50%), High (>50%), None, 100%\nDistrict Size: Raw Student Count\nDistrict ECO Dis: Eco-Dis Percentage",
+      "epic_key": "132283",
+      "epic_summary": "SC - Multi-Tenant (FO) - Direct Certification (Central View)"
+    },
+    "NXT-72112": {
+      "key": "NXT-72112",
+      "summary": "SC - MT/Central - New State DC upload",
+      "status": "New",
+      "issuetype": "Story",
+      "priority": "Medium",
+      "components": [],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "User is able to configure the DC upload, Upload a file, and start processing the file.\nUser is able to select a mode. ({color:#4c9aff}\u201c{color}{color:#ff991f}Live{color}{color:#4c9aff}\u201d{color} and {color:#4c9aff}\u201c{color}{color:#006644}Test (Simulated with No Changes){color}{color:#4c9aff}\u201d{color})",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "We mostly will be recycling the existing DC upload UI with a few modification.\n\n\n\n!image-20260417-060459.png|width=1110,alt=\"image-20260417-060459.png\"!\n\n\n\nWhen a user clicks New File on the main DC management, start new DC upload wizard.",
+      "epic_key": "132283",
+      "epic_summary": "SC - Multi-Tenant (FO) - Direct Certification (Central View)"
+    },
+    "NXT-72113": {
+      "key": "NXT-72113",
+      "summary": "SC - MT/Central - State Student File upload",
+      "status": "New",
+      "issuetype": "Story",
+      "priority": "Medium",
+      "components": [],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "SIS Student Upload (Central, populate districts)\nnew page available in Central/State Realm to upload a student file.\nWhen a file is uploaded student data is propagated down to each respective SFA/District\nUser can choose upload behavior\n-{color:#0747a6}Standard{color}\n-- Updates, Inserts, and withdraws\n-{color:#4c9aff}Additive Only{color}\n--If Id exists: ignore/skip the record\n--If Id does not exist: insert\n--{color:#ff991f}No Withdrawals{color}\n-{color:#4c9aff}Upsert{color}\n--If Id exists: update\n--If Id does not exist: insert\n--{color:#ff991f}No withdrawals{color}\n\nStandard follows withdraw threshold setting.\nUpload can be canceled\n\nUpload can be undone within 48 hours\n-- Track all the changes that were done, what do we do with DC matching that may have happened since then, move them to a \u201cdeleted/DE\u201d status\n\nUpload status can be tracked in ~real-time (whatever is feasible).\n\nShow history in the Data Exchange page.",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Story for the feature for the ability to upload and process State Student file.\n\nIntroduction of new upload modes which our competitors and standalone SIS systems already have: Additive and Upsert logic.\n\nJob\nProcessing\nResults\nVerifying the student data - Testing show a prompt that this is a state level import.",
+      "epic_key": "132283",
+      "epic_summary": "SC - Multi-Tenant (FO) - Direct Certification (Central View)"
+    },
+    "NXT-72139": {
+      "key": "NXT-72139",
+      "summary": "Eligibility - Other Forms - Add 'Decline Benefits' step/function to 'Add New Form Application' Stepper",
+      "status": "Done Done",
+      "issuetype": "Story",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "Not Required",
+      "rn_title": "",
+      "ac": "Verify that the \u2018Add New Form Application\u2019 stepper allows users to \u2018Decline Benefits\u2019 on behalf of a household, as well as reverse this decision later on, if they have a specific setting enabled\n\nVerify that when this option is selected on an application, the SSN requirement is skipped\n\nVerify that when Special Assistance Programs/Categorical options are selected, the SSN requirement is skipped in that case as well\n\nVerify that new Form Configuration question is added\n\nVerify (once everything else is done) that the Family Hub checks the new form-based setting rather than the global Refuse Benefits setting",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "As a Cybersoft Implementation team member or district admin, I would like to be able to add Summer EBT (as well as any other non-traditional form) applications at a district-level with minimal steps, so that I do not have to use an external system just for this purpose.\n\n*Summary*\n\n* Allow users to indicate that a household has Declined/Refused Benefits for a Form application (the same way they can for FRE apps), and make that setting-based and reversible\n\n*Details*\n\n* In Eligibility > Forms > Other Forms > \u2018Add New Form Application\u2019 stepper, on the Household Step, add an option for *Decline Benefits*:\n\n!image-20260420-192032.png|width=1059,alt=\"image-20260420-192032.png\"!\n* When this option is selected and the user clicks \u2018Next\u2019, they can skip SSN. Because just like with the FRE application, we can display this field at the top of the remaining steps until they get to the end and have to provide the Signature Confirmation (if required for that form).\n** Let\u2019s do the same when Special Assistance Program is selected (same behavior as FRE applications as well).\n!image-20260420-192243.png|width=512,alt=\"image-20260420-192243.png\"!\n* We should only display the 'Decline Benefits' option if the a setting is enabled for the form. We can add this setting to Form Configuration as part of the list of questions. \n** Question text: \u2018Form\u2019s benefits can be declined or refused\u2019\n** Values: YES / NO\n** Default value: YES\n\n* The result for such applications can be \u2018Not Qualified\u2019. +*If*+ we have introduced reasons by the time we take this story up, then the reason would be \u2018Refused Benefits\u2019.\n\n\n\n*Reference screens*\n\n!image-20260420-191805.png|width=1083,alt=\"image-20260420-191805.png\"!",
+      "epic_key": "105528",
+      "epic_summary": "SC - Forms Framework"
+    },
+    "NXT-72140": {
+      "key": "NXT-72140",
+      "summary": "Eligibility - Settings - Income Guidelines - Eligibility Guidelines - Update new Eligibility Guidelines for 2026-27 (OBSOLETE?)",
+      "status": "New",
+      "issuetype": "Story",
+      "priority": "Medium",
+      "components": [
+        "Eligibility",
+        "Family Hub"
+      ],
+      "module": "Eligibility",
+      "rn_required": "Not Required",
+      "rn_title": "",
+      "ac": "Verify new guidelines can be downloaded/viewed/reflected within the Eligibility module",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "*Summary*\n\n* Run a script to insert new Eligibility guidelines for all districts that allows them to get the guidelines.\u00a0\n* Ref Ticket:\u00a0[+https://primeroedge.freshdesk.com/helpdesk/tickets/316868+|https://primeroedge.freshdesk.com/helpdesk/tickets/316868]\n\n\n\n*Details*\n\n# Run a script to insert the new guidelines for 2026-27 according to the federal reference here:\u00a0[+https://www.govinfo.gov/content/pkg/FR-2026-04-09/pdf/2026-06842.pdf+|https://www.govinfo.gov/content/pkg/FR-2026-04-09/pdf/2026-06842.pdf]\n# Location:\n\n!image-20260420-195408.png|width=1059,alt=\"image-20260420-195408.png\"!\n\n\n\n*Mockup*\n\n!https://dev.azure.com/Cybersoft-Technologies-Inc/0d08063f-212a-4277-87f0-199e49d410e9/_apis/wit/attachments/f9d4f5b6-99b5-459e-a5e9-31243faff319?fileName=image.png|width=804,alt=\"Image\"!",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-72161": {
+      "key": "NXT-72161",
+      "summary": "Eligibility - Other Forms - Edit Form Application Details - Edit, Process, Pending",
+      "status": "In Progress",
+      "issuetype": "Story",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "Not Required",
+      "rn_title": "",
+      "ac": "Verify that Other Forms now allows users to edit a Form application (the same way they can for FRE apps), -as well as view the relevant application image.-\n\nVerify that all relevant fields can edited and updated\n\n-Verify that relevant application image is shown-\n\nVerify that details are saved and updates visible in the grid",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "As a Cybersoft Implementation team member or district admin, I would like to be able to add Summer EBT (as well as any other non-traditional form) applications at a district-level with minimal steps, so that I do not have to use an external system just for this purpose.\n\n*Summary*\n\n* Allow users to edit a Form application (the same way they can for FRE apps), as well as view the relevant application image.\n* Part 1 can cover the following:\n** View application details\n** Edit\n** Process Application\n** More Actions:\n*** Mark as Pending \n\n*Details*\n\n* In Eligibility > Forms > Other Forms, when a user views form applications in the grid, enable the details button to allow them to view the full details of that form app.\n* Some sections, like Notifications and Application Status History, can be added but don\u2019t necessarily need functionality complete in Part 1.\n* Allow the user to view, edit, and update all available fields of the selected form application.\n* -Allow the user to view the appropriate application image for the selected form application.-\n* -We should also allow users to view Form applications where it is indicated that the applicant is declining benefits should have that as something that can be edited in the Form Application Details page.-\n\n!image-20260420-192717.png|width=1059,alt=\"image-20260420-192717.png\"!\n\n\n*Mockups*\n\n* N/A",
+      "epic_key": "105528",
+      "epic_summary": "SC - Forms Framework"
+    },
+    "NXT-72359": {
+      "key": "NXT-72359",
+      "summary": "Elig - DC Extensions > Search API should not be called before the Sync API completes",
+      "status": "Done Done",
+      "issuetype": "Task",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Elig - DC Extensions > Search API should not be called before the Sync API completes",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-72487": {
+      "key": "NXT-72487",
+      "summary": "Testing in Migration Environment - 9.14 Release",
+      "status": "Done Done",
+      "issuetype": "Task",
+      "priority": "Medium",
+      "components": [
+        "Accountability",
+        "Account Management",
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-72493": {
+      "key": "NXT-72493",
+      "summary": "Testing in Migration Environment - 9.15 Release",
+      "status": "New",
+      "issuetype": "Task",
+      "priority": "Medium",
+      "components": [
+        "Accountability",
+        "Account Management",
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-72647": {
+      "key": "NXT-72647",
+      "summary": "9.14 Release Stories - Release Testing",
+      "status": "Done Done",
+      "issuetype": "Task",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-72668": {
+      "key": "NXT-72668",
+      "summary": "Eligiblity - Update the setting description (Auto-Process all Online Income Surveys)",
+      "status": "Done Done",
+      "issuetype": "Task",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Update the setting description to 'This setting determines when a submitted income survey can be automatically processed by the system.'\n\n\n\n* Setting Name: *_Auto-Process all Online Income Surveys (_*[https://primeroedgenext.atlassian.net/browse/NXT-70380|https://primeroedgenext.atlassian.net/browse/NXT-70380|smart-link] )",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-72669": {
+      "key": "NXT-72669",
+      "summary": "Elig - DC Extensions > Page loader should be showed until the Sync API completes",
+      "status": "Done Done",
+      "issuetype": "Task",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Elig - DC Extensions > Page loader should be showed until the Sync API completes",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-72684": {
+      "key": "NXT-72684",
+      "summary": "Dilworth District Migration - Eligibility - Case type info is blank on application details page",
+      "status": "New",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "App# 146\n\n* !image-20260508-202122.png|width=633,alt=\"image-20260508-202122.png\"!",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-72686": {
+      "key": "NXT-72686",
+      "summary": "Dilworth District Migration - Eligibility -  SSN and signature info are not matching on application details page",
+      "status": "On Hold",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "App # 118\n\nThe SSN and signature info don't match up.\n\n!image-20260508-204421.png|width=1147,alt=\"image-20260508-204421.png\"!",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-72687": {
+      "key": "NXT-72687",
+      "summary": "Dilworth District Migration - Eligibility -  Notification date on verification details page",
+      "status": "In Progress",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "App # 118: Notification Date\n\n\n\n!image-20260508-210445.png|width=1251,alt=\"image-20260508-210445.png\"!",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-72801": {
+      "key": "NXT-72801",
+      "summary": "Dilworth District Migration - Eligibility -  Notification date and Documents on verification details page",
+      "status": "In Progress",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "App#138 - Verification Details page:\n\n* The 1st notification date is missing in SchoolCafe.\n* The document isn't available in SchoolCafe.\n\n!image-20260512-184241.png|width=1173,alt=\"image-20260512-184241.png\"!",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-72802": {
+      "key": "NXT-72802",
+      "summary": "Forms - Manage Forms/Letter Templates - Create & add support for a new default Letter Type for all new forms (If configured)",
+      "status": "In Progress",
+      "issuetype": "Enhancement",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "Not Required",
+      "rn_title": "",
+      "ac": "This story is complete when a user can:\u00a0\n\n* create a new form that is configured to have its own notification letters, then see the new letter type added for that form in (if possible) multiple languages\u00a0\n* add/process an application using that form type and see a 'Notify' button at the top of the application detail pop-up\n* click that button and have the Active template filled out with details related to that applicant's information\n* print and email the notification has needed\n* see a record of that printed/emailed notification has been saved\n* (may need to be spun off) be able to view that notification in SchoolCaf\u00e9 when adding that student to a parent's account",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "*Summary*\n\nWhen the user adds a form that is configured to have its own letter templates, add a new letter template type: {{Form}} Application Notification, and have it be sent when a user clicks the button to Notify an applicant after Validation of the form.\n\n*Details*\n\n* When a user creates a new Form type in Forms Configuration, automatically create a new letter type in the default languages (at least English and Spanish): {{Form}} Application Notices.\n** Related screen:\n** NOTE:\u00a0One of the questions when creating a new Form is if it will have its own notification letters. I think it would be good to create them every time anyway and just hide them unless and until the user indicates a 'Yes' to this question.\n** For the Template Name, get the form description from the form itself. Ex. \"*CybersoftForm Application Notice*\" or \"*PrimeroForm Application Notice*\". The district can update these via 'Save As' later if needed.\n\n!image-20260512-193545.png|width=1035,alt=\"image-20260512-193545.png\"!\n\n\n** For the content, these letter templates can be a copy of our existing Summer EBT letter template, the \"Program Application Notice\" except for the name of the template itself. If we don\u2019t have this type in the DB, use this one: [^DefaultApprovalLetterENG.html] \n** In the Templates page:\n*** Do not allow \u2018Save As\u2019\n*** Do not allow user to make a letter inactive\n**** If the user disables the Form OR says \u2018No\u2019 to the notification letter question, make the template inactive that way\n** {color:#6554c0}*Daimien will add Table/Letter fields before taking up the story.*{color}\n\n\n{color:#6554c0}*This will be in a separate story:*{color}\n\n* When a user opens a form application's details, add a 'Notify' button.\u00a0\n** Only display/enable this button if the form is configured to have its own notification letters.\n** When clicked, open the *Active*\u00a0'{{Form}} Application Notice' template for that form with the details filled in based on the selected application.\n** Allow the user to print the email or email it to the email address on file if one has been provided (follow the same behavior as the FRE applications)\n* When a letter has been printed/emailed, add a historical records in the forms' Letter History as well.\n** We will want to verify this displays on the students' record so that it is visible in the Notification History within SchoolCaf\u00e9 as well. (May be in a separate story)\n\n* *This story is complete when a user can:*\u00a0\n** create a new form that is configured to have its own notification letters, then see the new letter type added for that form in (if possible) multiple languages\u00a0\n** add/process an application using that form type and see a 'Notify' button in the application details\n*** click that button and have the Active template filled out with details related to that applicant's information\n*** print and email the notification has needed\n** see a record of that printed/emailed notification has been saved\n\n* *Will likely be in a separate story:*\n** User will eventually be able to view that notification in SchoolCaf\u00e9 family hub when adding that student to a parent's account\n** Disabling editing of Form Configuration fields after at least one application has been submitted using that Form type. Otherwise there could be a scenario where an application could not be notified.\n*** At that time, we can also add a tooltip to show why certain details on the Form can no longer be edited.\n\n\n\n+*Reference Image from Classic (same concept)*+\n\n!image-20260512-193732.png|width=1083,alt=\"image-20260512-193732.png\"!\n\n\n*Mockup*\n\nN/A",
+      "epic_key": "105528",
+      "epic_summary": "SC - Forms Framework"
+    },
+    "NXT-72803": {
+      "key": "NXT-72803",
+      "summary": "Dilworth District Migration - Eligibility -  Verification Type info is incorrect",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "App # 107\n\nVerification Type info is incorrect\n\n!image-20260512-185437.png|width=811,alt=\"image-20260512-185437.png\"!",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-72804": {
+      "key": "NXT-72804",
+      "summary": "Dilworth District Migration - Eligibility -  Verification Status info is incorrect",
+      "status": "Fixed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "App # 70 \n\nEligibility -  Verification Status info is incorrect\n\n!image-20260512-185610.png|width=920,alt=\"image-20260512-185610.png\"!",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-72805": {
+      "key": "NXT-72805",
+      "summary": "Dilworth District Migration - Eligibility -  Basis info is incorrect in Post-Verification section on verification details page",
+      "status": "On Hold",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "App # 77\n\nEligibility - The basis (Income) info is wrong in the Post-Verification section on the verification details page.\n\n!image-20260512-190618.png|width=573,alt=\"image-20260512-190618.png\"!",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-72806": {
+      "key": "NXT-72806",
+      "summary": "Dilworth District Migration - Eligibility -  Verification Tracking Form",
+      "status": "Fixed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "App # 118\n\nVerification Tracking Form:\n\n* The info about the selection method is missing.\n* The number of students on the app and household members is wrong.\n\n!image-20260512-191829.png|width=923,alt=\"image-20260512-191829.png\"!",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-72809": {
+      "key": "NXT-72809",
+      "summary": "Dilworth District Migration - Eligibility -  Verification Collection Report",
+      "status": "Fixed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Eligibility -  Verification Collection Report\n\nAcademic Year = 2024-2025\n\n* The counts don't match in section 5-8.\n\n!image-20260512-193342.png|width=1251,alt=\"image-20260512-193342.png\"!\n\nAcademic Year = 2023-2024\n\n* The site counts don't match in section 1-1\n* The counts don't match in section 5-8.\n\n!image-20260512-193526.png|width=1251,alt=\"image-20260512-193526.png\"!",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-72812": {
+      "key": "NXT-72812",
+      "summary": "Dilworth District Migration - Eligibility -  DC Score Card - SSN Info is missing",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Eligibility -  DC Score Card - SSN Info is missing \n\n!image-20260512-195344.png|width=1251,alt=\"image-20260512-195344.png\"!",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-72814": {
+      "key": "NXT-72814",
+      "summary": "Dilworth District Migration - Eligibility - The total number of DC files doesn't match for previous year",
+      "status": "Closed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "The total number of DC files doesn't match for previous year\n\nAcademic Year (2024-2025): Files 1016, 1017, 1015, and 1013 are in SchoolCafe but not in PE\n\nAcademic Year (2023-2024): \n\n!image-20260512-200808.png|width=994,alt=\"image-20260512-200808.png\"!",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-72816": {
+      "key": "NXT-72816",
+      "summary": "Dilworth District Migration - Eligibility - DC Extension Reviewed - The unmatch button is disabled, even though it doesn\u2019t need to be for this case.",
+      "status": "In Progress",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "DC Extensions - Reviewed Tab > Search for Account ID # 73400 > Click button in Action(s) column > side-drawer will be opened >  The unmatch button is disabled, even though it doesn\u2019t need to be for this case.\n\n!image-20260512-202747.png|width=1251,alt=\"image-20260512-202747.png\"!",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-72937": {
+      "key": "NXT-72937",
+      "summary": "Dilworth District Migration - Eligibility -  Student details aren't showing up on the application details page",
+      "status": "New",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "App # 188:\n\nStudent details aren't showing up on the application details page.\n\n!image-20260515-154402.png|width=1251,alt=\"image-20260515-154402.png\"!",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-72938": {
+      "key": "NXT-72938",
+      "summary": "Dilworth District Migration - Eligibility -  The total counts for free eligibility on the economically disadvantaged report aren't right.",
+      "status": "In Progress",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "The total counts for free eligibility on the economically disadvantaged report aren't right.\n\n!image-20260515-154957.png|width=1251,alt=\"image-20260515-154957.png\"!",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-72939": {
+      "key": "NXT-72939",
+      "summary": "Dilworth District Migration - Eligibility -  DC Files - The total record count is showing up as zero for manual entry records.",
+      "status": "Fixed",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Eligibility -  DC Files: # 1126\n\nThe total record count is showing up as zero for manual entry records.\n\n!image-20260515-183711.png|width=1251,alt=\"image-20260515-183711.png\"!",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-72993": {
+      "key": "NXT-72993",
+      "summary": "Regression - DC Matched page - showing the duplicates in the grid",
+      "status": "Deployed to QA",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "DC Matched page - showing the duplicates in the grid\n\n!image-20260520-145408.png|width=1181,alt=\"image-20260520-145408.png\"!",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-73287": {
+      "key": "NXT-73287",
+      "summary": "Eligibility - Other Forms - Edit Form App. Details - Delete",
+      "status": "Ready for Development",
+      "issuetype": "Story",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "Not Required",
+      "rn_title": "",
+      "ac": "Verify that Other Forms now allows users to edit a Form application and perform this selected action",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "As a Cybersoft Implementation team member or district admin, I would like to be able to add Summer EBT (as well as any other non-traditional form) applications at a district-level with minimal steps, so that I do not have to use an external system just for this purpose.\n\n*Summary*\n\n* Allow users to delete a Form application (the same way they can for FRE apps).\n\n*Details*\n\n* In Eligibility > Forms > Other Forms, when a user views the full details of a form app:\n** Allow the user to delete the selected form application.\n*** Rollback of status should be handled after deletion\n** The button will only be available if the app status is not \u2018Verified\u2019 (Verification will be handled in future stories)\n\n\nReference image from FRE:\n\n!image-20260601-020802.png|width=224,alt=\"image-20260601-020802.png\"!\n\n!image-20260601-134519.png|width=346,alt=\"image-20260601-134519.png\"!\n\n\n\n!image-20260601-134436.png|width=359,alt=\"image-20260601-134436.png\"!\n\n\n\n*Mockups*\n\n* N/A",
+      "epic_key": "105528",
+      "epic_summary": "SC - Forms Framework"
+    },
+    "NXT-73288": {
+      "key": "NXT-73288",
+      "summary": "Eligibility - Other Forms - Edit Form App. Details - Application Image, Export",
+      "status": "Ready for Development",
+      "issuetype": "Story",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "Not Required",
+      "rn_title": "",
+      "ac": "Verify that Other Forms now allows users to edit a Form application and perform this selected action",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "As a Cybersoft Implementation team member or district admin, I would like to be able to add Summer EBT (as well as any other non-traditional form) applications at a district-level with minimal steps, so that I do not have to use an external system just for this purpose.\n\n*Summary*\n\n* Allow users to view a Form application\u2019s HTML/PDF image (the same way they can for FRE apps).\n\n*Details*\n\n* In Eligibility > Forms > Other Forms, when a user views the full details of a form app:\n** Allow the user to view the application image for the selected form application.\n*** Verify that it is the correct image template based on Form Configuration\n** Also, allow the user to export the application image with its details.\n\n\n\nReference images from FRE:\n\n!image-20260601-020828.png|width=224,alt=\"image-20260601-020828.png\"!\n\n!image-20260601-021107.png|width=719,alt=\"image-20260601-021107.png\"!\n\n\n\n*Mockups*\n\n* N/A",
+      "epic_key": "105528",
+      "epic_summary": "SC - Forms Framework"
+    },
+    "NXT-73289": {
+      "key": "NXT-73289",
+      "summary": "Eligibility - Other Forms - Edit Form App. Details - Notify",
+      "status": "Ready for Development",
+      "issuetype": "Story",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "Not Required",
+      "rn_title": "",
+      "ac": "Verify that Other Forms now allows users to edit a Form application and perform this selected action",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "As a Cybersoft Implementation team member or district admin, I would like to be able to add Summer EBT (as well as any other non-traditional form) applications at a district-level with minimal steps, so that I do not have to use an external system just for this purpose.\n\n*Summary*\n\n* Allow users to Notify a Form application\u2019s household when the app has been processed (the same way they can for FRE apps), if applicable.\n\n*Details*\n\n* In Eligibility > Forms > Other Forms, when a user views the full details of a form app:\n** Allow the user to Notify the household for the selected application\n*** Display the same controls as for FRE as much as possible\n*** Verify that this button only exists if the form is designated to have its own letter\n*** Verify that it is the correct letter template being populated and sent to the household\n\n\nReference images from FRE:\n\n!image-20260601-021442.png|width=229,alt=\"image-20260601-021442.png\"!\n\n!image-20260601-021510.png|width=336,alt=\"image-20260601-021510.png\"!\n\n\n\n*Mockups*\n\n* N/A",
+      "epic_key": "105528",
+      "epic_summary": "SC - Forms Framework"
+    },
+    "NXT-73290": {
+      "key": "NXT-73290",
+      "summary": "Eligibility - Other Forms - Edit Form App. Details - Refuse Benefits",
+      "status": "New",
+      "issuetype": "Story",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "Not Required",
+      "rn_title": "",
+      "ac": "Verify that Other Forms now allows users to edit a Form application and perform this selected action",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "As a Cybersoft Implementation team member or district admin, I would like to be able to add Summer EBT (as well as any other non-traditional form) applications at a district-level with minimal steps, so that I do not have to use an external system just for this purpose.\n\n*Summary*\n\n* Allow users to refuse benefits for a Form application (the same way they can for FRE apps).\n\n*Details*\n\n* In Eligibility > Forms > Other Forms, when a user views the full details of a form app:\n** Allow the user to refuse benefits for the selected form application if it has been Processed.\n*** Verify this action is only possible if the form is designated to allow users to decline benefits\n** The form application\u2019s status should go to \u2018Not Qualified\u2019.\n\n\nReference image from FRE:\n\n!image-20260601-020802.png|width=224,alt=\"image-20260601-020802.png\"!\n\n\n\n*Mockups*\n\n* N/A",
+      "epic_key": "-",
+      "epic_summary": ""
+    },
+    "NXT-73314": {
+      "key": "NXT-73314",
+      "summary": "Eligibility - Other Forms - History Drawer",
+      "status": "Story Refinement/Efforting",
+      "issuetype": "Story",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "Not Required",
+      "rn_title": "",
+      "ac": "Verify that Other Forms now allows users to view history for a Form application",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "As a Cybersoft Implementation team member or district admin, I would like to be able to add Summer EBT (as well as any other non-traditional form) applications at a district-level with minimal steps, so that I do not have to use an external system just for this purpose.\n\n*Summary*\n\n* Allow users to view the History of changes related to a Form application.\n\n*Details*\n\n* In Eligibility > Forms > Other Forms, when a user scrolls to the Actions column:\n** For each Form application, display a *History* icon.\n*** When clicked, open a History drawer using the same control as for apps/surveys (same layout and behavior)\n*** Display the changed values related to the application such as status changes and edits\n\n\nReference image from FRE:\n\n!image-20260602-031643.png|width=719,alt=\"image-20260602-031643.png\"!\n\n\n\n*Mockups*\n\n* N/A",
+      "epic_key": "105528",
+      "epic_summary": "SC - Forms Framework"
+    },
+    "NXT-73315": {
+      "key": "NXT-73315",
+      "summary": "Eligibility - Configuration - Form Configuration - Forms History Drawer",
+      "status": "Story Refinement/Efforting",
+      "issuetype": "Story",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "Not Required",
+      "rn_title": "",
+      "ac": "Verify that Other Forms now allows users to view history for a Form",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "As a Cybersoft Implementation team member or district admin, I would like to be able to add Summer EBT (as well as any other non-traditional form) applications at a district-level with minimal steps, so that I do not have to use an external system just for this purpose.\n\n*Summary*\n\n* Allow users to view the History of changes related to a Form\u2019s configuration itself.\n\n*Details*\n\n* In Eligibility > Configuration > Form Configuration, when a user opens the Forms tab:\n** For each Form, display a *History* icon.\n*** When clicked, open a History drawer using the same control as for elsewhere (same layout and behavior)\n*** Display the changed values related to the Form such as basic info/additional setting changes and edits\n\nReference image from Program Configuration:\n\n!image-20260602-032222.png|width=719,alt=\"image-20260602-032222.png\"!\n\n\n\n*Mockups*\n\n* N/A",
+      "epic_key": "105528",
+      "epic_summary": "SC - Forms Framework"
+    },
+    "NXT-73316": {
+      "key": "NXT-73316",
+      "summary": "Eligibility - Configuration - Form Configuration - Prevent certain Form config changes",
+      "status": "Story Refinement/Efforting",
+      "issuetype": "Story",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "Not Required",
+      "rn_title": "",
+      "ac": "Verify that a form's configuration can only be _fully_ edited if no applications have been submitted for that form type\n\nVerify that when at least one application has already been submitted for that form, then only certain fields can be edited (as described above)\n\nVerify that a note displays at the top of the drawer explaining why fields cannot be modified in this case (and only display the note in this case)",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "As a Cybersoft Implementation team member or district admin, I would like to be able to add Summer EBT (as well as any other non-traditional form) applications at a district-level with minimal steps, so that I do not have to use an external system just for this purpose.\n\n*Summary*\n\n* Do not allow users to make changes related to a Form\u2019s configuration after at least one application has been submitted for that form, except for certain fields.\n\n*Details*\n\n* In Eligibility > Configuration > Form Configuration, when a user opens the Forms tab:\n** For each Form, when clicking the Edit pencil, check whether there has been at least one application submitted for the form.\n*** If no applications have been submitted for the form, there is no change in behavior (all fields remain editable)\n*** If at least one application has been submitted for the form, do the following:\n**** Disable all fields except:\n***** Description\n***** End Date\n***** \u2018Form is enabled\u2019 setting/question \n**** Add a note to the top of the drawer: _Some fields can no longer be edited because at least one application has been submitted for this form type. For bigger changes, you can disable this form and create a new one instead._\n\n\n*Mockups*\n\n* !image-20260602-032929.png|width=695,alt=\"image-20260602-032929.png\"!",
+      "epic_key": "105528",
+      "epic_summary": "SC - Forms Framework"
+    }
+  },
+  "epics": {
+    "NXT-64782": {
+      "key": "NXT-64782",
+      "summary": "FO - Workspace Insights (FO KPIs) (SY2526)",
+      "status": "Done Done",
+      "issuetype": "Epic",
+      "priority": "High",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Epic to track the items listed on the Discovery board:\u00a0[https://primeroedgenext.atlassian.net/browse/CDR2526-15|https://primeroedgenext.atlassian.net/browse/CDR2526-15|smart-link] \n\nPE Items - [https://dev.azure.com/Cybersoft-Technologies-Inc/PrimeroEdge%20Classic/_workitems/edit/109333|https://dev.azure.com/Cybersoft-Technologies-Inc/PrimeroEdge%20Classic/_workitems/edit/109333|smart-link] \n\n* MPLH\n* Paid Not Applied (PNA)\n* Eligible Not Participating (ENP)\n\n----\n\nStored Procs have to be\u00a0*FAST -*\u00a0we need to discuss rollup tables for this data.\n\nAttached a rough example of how we may want to return data.\n\nTeam is to deliver stored procs to return the following information.\n\n# Meals per labor hour (MPLH)\n## Parameters: Date Range, Sites\n## Return: Number of hours (by labor category or by FT/PT calcs), total number of labor hours, number of meals, meal equivalent conversions, total number of meal equivalents,\u00a0target meals per labor hour,\u00a0meals per labor hour.\n### Per site, per date.\n# Paid not applied (PNA)\n## Parameters: Date Range, Sites\n## Return: Number of students with Eligibility: Paid (Default), Total number of active students\n### per each date, per site\n# Eligible not participating (ENP)\n## Parameters: Date Range, Sites, PriceType/Eligibility, MealTypes\n## Return: Number of students with Eligibility: Free, Reduced) that have not had a Reimbursable Meal, Number of active students at the site\n### per date, per site, per meal type, per price type\n\nSP will be used by the Platform/Insights team for an API on the Insights Workspace.",
+      "epic_key": "-",
+      "epic_summary": "",
+      "children": []
+    },
+    "NXT-64786": {
+      "key": "NXT-64786",
+      "summary": "SC - Forms Framework",
+      "status": "In Progress",
+      "issuetype": "Epic",
+      "priority": "High",
+      "components": [
+        "Eligibility",
+        "Family Hub"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Link to Classic version of this epic: [https://dev.azure.com/Cybersoft-Technologies-Inc/PrimeroEdge%20Classic/_workitems/edit/106889|https://dev.azure.com/Cybersoft-Technologies-Inc/PrimeroEdge%20Classic/_workitems/edit/106889|smart-link]",
+      "epic_key": "-",
+      "epic_summary": "",
+      "children": []
+    },
+    "NXT-64787": {
+      "key": "NXT-64787",
+      "summary": "FO - Multi-Tenant - Accountability",
+      "status": "New",
+      "issuetype": "Epic",
+      "priority": "High",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "More detail here.",
+      "epic_key": "-",
+      "epic_summary": "",
+      "children": []
+    },
+    "NXT-64788": {
+      "key": "NXT-64788",
+      "summary": "FO - Sustenance (2025-26)",
+      "status": "In Progress",
+      "issuetype": "Epic",
+      "priority": "High",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Labor & Attendance\u00a0\n\nStart: 2025Q3\nDelivery: 2025Q3 (phase 1), 2025Q4 (phase 2), 2026Q1 (phase 3)\nPriority: Medium\u00a0\n\n* Create simplified/manual input for daily labor and attendance (P1)\u00a0\n* Provide option for setting up \u201caverage\u201d labor hours per school so they can set a baseline and capture the MPLH type KPIs (P1)\u00a0\n* Provide basic reporting needed by districts (P1)\u00a0\n* Integrate data with Insights KPIs for PE/SC (P2)\u00a0\n* End of Day page integration for ease of use to customers (P2)\u00a0\n* Labor and time integration where possible with district systems (API and/or File) (P3)",
+      "epic_key": "-",
+      "epic_summary": "",
+      "children": []
+    },
+    "NXT-64790": {
+      "key": "NXT-64790",
+      "summary": "PE - FO Sustenance (2025-26)",
+      "status": "In Progress",
+      "issuetype": "Epic",
+      "priority": "High",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Tracker item for the PE side so it shows up in the roadmap goals project.",
+      "epic_key": "-",
+      "epic_summary": "",
+      "children": []
+    },
+    "NXT-64792": {
+      "key": "NXT-64792",
+      "summary": "PE - Forms Framework",
+      "status": "Done Done",
+      "issuetype": "Epic",
+      "priority": "High",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Tracker item for the PE side of this roadmap item so it can show up on the new discovery board.",
+      "epic_key": "-",
+      "epic_summary": "",
+      "children": []
+    },
+    "NXT-69973": {
+      "key": "NXT-69973",
+      "summary": "Delete Me",
+      "status": "New",
+      "issuetype": "Epic",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "",
+      "epic_key": "-",
+      "epic_summary": "",
+      "children": []
+    },
+    "NXT-70916": {
+      "key": "NXT-70916",
+      "summary": "SC - Multi-Tenant (FO) - Direct Certification (Central View)",
+      "status": "New",
+      "issuetype": "Epic",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Build out central-level and district-level features and functions for administering statewide direct certification. \n\n+*Central Features and Functions:*+\n\n* DC file management with list of files per DC program type\n* DC data processing and distribution (process and segment data to each region from larger file)\n* View DC stats/report per file (breakdown with data visuals and list of district matching stats in the table)\n* Monitor district usage (how many times accessed, downloaded matches, and uploaded SIS if applicable) and FNS834 report\u00a0- possible KPI for Insights\n* Use cases: \n** Basic \u2013 Ability to just upload a DC file, distribute raw data per district, provide access to download raw information (not common but possible). Each district responsible for uploading into their systems.\u00a0\n** Standard - Ability to just upload a DC file, perform matching (assumes SIS is available), upload SIS state or district-level), provide tools for potential and unmatched, distribute matched\u00a0data per district, provide access to download matched and/or unmatched information (most common).\u00a0\n** Advanced - Same as standard but we detect that the district is using SchoolCafe eligibility and these processes are automated and directly update the local districts information. These would then do their normal work of notifications as well.\u00a0\n* Settings, configuration, matching scoring, DC file configuration/mapping, SIS file configuration/mapping\u00a0\n* Integration for statewide SIS uploads and/or API integration\u00a0\n* KPIs\n** Expand the Eco Dis KPI to include eligibility programs/categories (DC, Apps, etc by status of F, R, P)\u00a0\n** Show DC matching requirements (at least 3 times per year)\n* Feature enablement\n** List of Districts and their schools with basic configuration\n** Set/view provisions, programs operating, etc. \n** Be able to separate those districts who are using the district \u201cfull suite\u201d products vs those who are not\n** Gives flexibility outside of just the licenses.\n* Licensing and access based on program use\n** Remove access from DC if the district is not using those programs.\n** Option with the district and site program configuration to enable to include/exclude a district for the current academic year.",
+      "epic_key": "-",
+      "epic_summary": "",
+      "children": []
+    },
+    "NXT-70917": {
+      "key": "NXT-70917",
+      "summary": "SC - Multi-Tenant (FO) - Verification (District View)",
+      "status": "New",
+      "issuetype": "Epic",
+      "priority": "Medium",
+      "components": [],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "",
+      "epic_key": "-",
+      "epic_summary": "",
+      "children": []
+    },
+    "NXT-70918": {
+      "key": "NXT-70918",
+      "summary": "SC - Multi-Tenant (FO) - Direct Certification (District View)",
+      "status": "New",
+      "issuetype": "Epic",
+      "priority": "Medium",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Build out central-level and district-level features and functions for administering statewide direct certification. \n\n+*District Features and Functions:*+\n\n* Use cases:\n** Basic \u2013 Ability to just upload a DC file, distribute raw data per district, provide access to download raw information (not common but possible). Each district responsible for uploading into their systems.\u00a0\n** Standard - Ability to just upload a DC file, perform matching (assumes SIS is available), upload SIS state or district-level), provide tools for potential and unmatched, distribute matched\u00a0data per district, provide access to download matched and/or unmatched information (most common).\u00a0\n** Advanced - Same as standard but we detect that the district is using SchoolCafe eligibility and these processes are automated and directly update the local districts information. These would then do their normal work of notifications as well.\u00a0\n* District only views and experience\n** DC Files (View what was imported by central)\n*** View DC matching summary and consolidated raw, matched, and/or unmatched data for exporting\n*** View DC files uploaded by the state with total matches and ability to download raw data, matched data, and/or unmatched data\n*** View DC file matching detail stats/report\n*** View DC raw file data for those not performing matches but want access to their data (need a way to indicate that files were downloaded and matched in the local system)\n** DC Extract (View/export as a district)\n*** Common file format for exporting raw, matched, and/or unmatched DC data\n** Student Files (View/upload as a district)\n*** Upload SIS files for matching (if statewide files not in use) with preset format\n*** View SIS file upload history with matches triggered\n** DC compliance\n*** View my compliance stats\n*** View my FNS834 report\u00a0\n** Matched (setting enabled - standard/advanced)\n** Potential Matched (setting enabled - standard/advanced)\n** Extensions (setting enabled - standard/advanced)\n** Unmatched (setting enabled - basic/standard/advanced)\n** File Search (setting enabled - standard/advanced)\n** Notifications (setting enable - standard/advanced)",
+      "epic_key": "-",
+      "epic_summary": "",
+      "children": []
+    },
+    "NXT-72104": {
+      "key": "NXT-72104",
+      "summary": "PE - Forms Framework - Phase 2 (Cleanup, QOL, Verification)",
+      "status": "In Progress",
+      "issuetype": "Epic",
+      "priority": "High",
+      "components": [
+        "Eligibility"
+      ],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "Tracker item for the PE side of this roadmap item so it can show up on the new discovery board.",
+      "epic_key": "-",
+      "epic_summary": "",
+      "children": []
+    },
+    "90929": {
+      "key": "90929",
+      "summary": "FO - 25Q1Q2 - Requests/Issues",
+      "status": "?",
+      "issuetype": "Epic",
+      "priority": "-",
+      "components": [],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "",
+      "epic_key": "-",
+      "epic_summary": "",
+      "children": [
+        "NXT-63753",
+        "NXT-64663"
+      ]
+    },
+    "95069": {
+      "key": "95069",
+      "summary": "FO - Report Updates",
+      "status": "?",
+      "issuetype": "Epic",
+      "priority": "-",
+      "components": [],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "",
+      "epic_key": "-",
+      "epic_summary": "",
+      "children": [
+        "NXT-63980",
+        "NXT-63981",
+        "NXT-63982",
+        "NXT-63983",
+        "NXT-63984",
+        "NXT-63985"
+      ]
+    },
+    "105530": {
+      "key": "105530",
+      "summary": "FO - Sustenance (2025-26)",
+      "status": "?",
+      "issuetype": "Epic",
+      "priority": "-",
+      "components": [],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "",
+      "epic_key": "-",
+      "epic_summary": "",
+      "children": [
+        "NXT-66798",
+        "NXT-66821",
+        "NXT-68256",
+        "NXT-71694"
+      ]
+    },
+    "105528": {
+      "key": "105528",
+      "summary": "SC - Forms Framework",
+      "status": "?",
+      "issuetype": "Epic",
+      "priority": "-",
+      "components": [],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "",
+      "epic_key": "-",
+      "epic_summary": "",
+      "children": [
+        "NXT-69982",
+        "NXT-70092",
+        "NXT-70440",
+        "NXT-70450",
+        "NXT-70451",
+        "NXT-70452",
+        "NXT-70453",
+        "NXT-71124",
+        "NXT-71226",
+        "NXT-71246",
+        "NXT-71823",
+        "NXT-72139",
+        "NXT-72161",
+        "NXT-72802",
+        "NXT-73287",
+        "NXT-73288",
+        "NXT-73289",
+        "NXT-73314",
+        "NXT-73315",
+        "NXT-73316"
+      ]
+    },
+    "119145": {
+      "key": "119145",
+      "summary": "Family Portal - Misc. Enhancements 2026H1",
+      "status": "?",
+      "issuetype": "Epic",
+      "priority": "-",
+      "components": [],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "",
+      "epic_key": "-",
+      "epic_summary": "",
+      "children": [
+        "NXT-70380"
+      ]
+    },
+    "132283": {
+      "key": "132283",
+      "summary": "SC - Multi-Tenant (FO) - Direct Certification (Central View)",
+      "status": "?",
+      "issuetype": "Epic",
+      "priority": "-",
+      "components": [],
+      "module": "Eligibility",
+      "rn_required": "-",
+      "rn_title": "",
+      "ac": "",
+      "rn": "",
+      "rn_internal": "",
+      "desc": "",
+      "epic_key": "-",
+      "epic_summary": "",
+      "children": [
+        "NXT-72106",
+        "NXT-72107",
+        "NXT-72108",
+        "NXT-72109",
+        "NXT-72110",
+        "NXT-72112",
+        "NXT-72113"
+      ]
+    }
+  }
+}

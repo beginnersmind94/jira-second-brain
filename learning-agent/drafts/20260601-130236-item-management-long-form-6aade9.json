@@ -1,0 +1,13 @@
+{
+  "id": "20260601-130236-item-management-long-form-6aade9",
+  "status": "draft",
+  "module": "Item Management",
+  "template": "long-form",
+  "transcript_id": "20260601-125816-item-management-demo",
+  "transcript_filename": "20260529-070600-item-management-2026-05-28-item-management-create-items-training.md",
+  "created_at": "2026-06-01T13:02:36",
+  "demo": true,
+  "run_label": "D2:retry+template-aligned",
+  "method": "sectioned+registry",
+  "gen_seconds": 259.8
+}

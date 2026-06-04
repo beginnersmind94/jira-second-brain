@@ -1,0 +1,94 @@
+{
+  "transcript_id": "20260529-070600-item-management-2026-05-28-item-management-create-items-training",
+  "module": "Item Management",
+  "presenter": "Sarah Chen",
+  "audience_roles": ["District Admin", "Nutrition Manager", "Food Service Director"],
+  "mapped_at": "2026-05-29",
+  "source": "live NXT Jira via Atlassian MCP",
+  "counts": {
+    "matched": 39,
+    "unmatched": 8,
+    "cross_module": 9
+  },
+  "epics": [
+    "NXT-30027",
+    "NXT-36067",
+    "NXT-45562",
+    "NXT-26823",
+    "NXT-29833",
+    "NXT-40487",
+    "NXT-37500",
+    "NXT-51260",
+    "NXT-13780",
+    "NXT-40775"
+  ],
+  "stories": [
+    "NXT-30036",
+    "NXT-30037",
+    "NXT-35898",
+    "NXT-37110",
+    "NXT-37111",
+    "NXT-37441",
+    "NXT-37568",
+    "NXT-37109",
+    "NXT-33518",
+    "NXT-37815",
+    "NXT-40778",
+    "NXT-53530",
+    "NXT-41273",
+    "NXT-43239",
+    "NXT-30100",
+    "NXT-47249",
+    "NXT-30102",
+    "NXT-37216",
+    "NXT-30103",
+    "NXT-41275",
+    "NXT-24128",
+    "NXT-39594",
+    "NXT-30155",
+    "NXT-40447",
+    "NXT-54229",
+    "NXT-36583",
+    "NXT-36742",
+    "NXT-40479",
+    "NXT-58442"
+  ],
+  "tier_caution": {
+    "NXT-33518": "Module field in Jira = 'Inventory' not 'Item Management'; however ticket is a child of epic NXT-36067 (IM - Item Units & Sub-types) and AC directly describes the Units card decimal/whole-number option. Usable but note the module mismatch.",
+    "NXT-30036": "AC confirms Description required and Tags/global info fields; 250-char limit appears in Description only, not AC.",
+    "NXT-30037": "AC confirms 3 dropdowns required but does not enumerate field names. Product field names from Description.",
+    "NXT-37110": "Three-tier maximum hard cap not in AC. Description discusses multi-tier structure but no explicit 3-tier ceiling in AC text.",
+    "NXT-37568": "Costing auto-scaling calculation (divide-down formula) in Description only. AC only confirms 'optional Costing step' and FMV requirement.",
+    "NXT-30100": "AC is minimal (2 bullets). Edible Yield Factor, Sub Ingredients, Standard Recipe Directions, Buy American / Locally Grown fields in Description only. CRITICAL: NXT-47249 AC explicitly states Yield Factor was MOVED from Ingredient Info to Units card — presenter described it on Ingredient Info, which is outdated behavior.",
+    "NXT-30102": "AC does not list specific meal pattern components (Meat/Meat Alt, Grains, Veg, etc.). Field names from Description only.",
+    "NXT-39594": "AC is brief (3 bullets); 'Disabled status' before menu item configured, tab rename behavior from Description/mockups.",
+    "NXT-30155": "AC confirms structural elements (tabs, Set All Prices) but does not enumerate individual Menu Item fields. Field-level detail from Description.",
+    "NXT-54229": "Inventory locking rule (Base Unit / Decimals locked after first Inventory transaction) is concept-confirmed in NXT-54229 but explicit locking language is in Description of NXT-37111 and NXT-54229, not AC.",
+    "NXT-36583": "Pre-Prep Instructions, Prep Time, Cook Time, and HACCP process names (No Cook / Same Day Service / Complex Food) are in Description only. AC only confirms HACCP Process selection exists.",
+    "NXT-41273": "5 MB max file size and specific file types (JPEG, PNG, PDF, Word, spreadsheets) stated by presenter — not in AC or RN text. RN says 'up to 10 files' but no size limit stated."
+  },
+  "priority_signals": {
+    "highest": [
+      "NXT-37441"
+    ],
+    "high": [
+      "NXT-30036",
+      "NXT-30155",
+      "NXT-35898",
+      "NXT-37111",
+      "NXT-36583",
+      "NXT-36742",
+      "NXT-39594",
+      "NXT-40778",
+      "NXT-43239",
+      "NXT-53530",
+      "NXT-54229",
+      "NXT-37216",
+      "NXT-58442"
+    ],
+    "external_facing_rn": [
+      "NXT-41273",
+      "NXT-43239"
+    ]
+  }
+}

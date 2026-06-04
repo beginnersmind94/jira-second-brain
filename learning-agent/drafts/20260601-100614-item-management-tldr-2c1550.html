@@ -1,0 +1,52 @@
+<h1>Item Management — TLDR</h1>
+
+<h2>What this module does</h2>
+<p>Item Management is where all food and non-food items are created and maintained in SchoolCafé 2.0; every downstream module — Inventory, Menu Planning, POS, and Family Hub — draws its data from here. <!-- Source: transcript [00:00] --></p>
+
+<h2>Key features</h2>
+<table>
+<thead><tr><th>Feature</th><th>What it does</th></tr></thead>
+<tbody>
+<tr><td><code>Item card</code></td><td>Captures item name, category, storage category, and valuation group. <!-- Source: transcript [02:22] --></td></tr>
+<tr><td>Food / Non-Food type selection</td><td>Set on the Units card; Non-Food skips serving sizes and the fluid question. <!-- Source: [[NXT-35898:AC]] "Provide Food item and Fluid item questions in the header bar of the card before enabling the grid" --></td></tr>
+<tr><td>Fluid / Non-Fluid selection</td><td>Food items only; determines whether weight is recorded in grams or milliliters. <!-- Source: transcript [13:25] --></td></tr>
+<tr><td>Pack sizes (up to 3 tiers)</td><td>Defines purchasing and storage hierarchy for Inventory counts and ordering. <!-- Source: transcript [07:05] --></td></tr>
+<tr><td>Costing</td><td>Enter price for one unit; system calculates all other tiers through the Sub-Qty hierarchy. <!-- Source: transcript [08:32] --></td></tr>
+<tr><td>Serving sizes (food only)</td><td>Units of measure used for recipe ingredients and menu planning; added before pack sizes. <!-- Source: transcript [13:52] --></td></tr>
+<tr><td>Serving-to-pack linking (food only)</td><td>Links serving size to lowest pack unit via Sub-Qty to achieve Inventory eligibility. <!-- Source: [[NXT-37441:AC]] "Trigger Inventory readiness based on proper pack-serving links" --></td></tr>
+<tr><td>Base Unit + counting mode</td><td>Sets the unit used for inventory counts and toggles Whole Numbers vs. Decimals. <!-- Source: [[NXT-37111:AC]] "Provide a step to confirm Inventory info, including the Base Unit" --></td></tr>
+<tr><td>Nutrient Info tab (food only)</td><td>Records required nutrients; Missing Value checkbox flags absent data without implying zero. <!-- Source: transcript [19:12] --></td></tr>
+<tr><td>Allergen Info card (food only)</td><td>Assigns Contains / May Contain / Free From status; supports custom allergens. <!-- Source: [[NXT-30103:AC]] "Load the Allergens section / Can create or enter allergen without having nutrient/contribution information entered" --></td></tr>
+<tr><td>Direct Menu Item (Menu Info tab)</td><td>Turns a single item into a schedulable menu entry with POS button name and pricing. <!-- Source: transcript [24:30] --></td></tr>
+<tr><td>Steps card (HACCP)</td><td>Assigns HACCP process and critical control points for food-safety compliance. <!-- Source: [[NXT-36583:AC]] "Add a small selection for Recipe HACCP Process / this will belong to the Steps process and tab" --></td></tr>
+</tbody>
+</table>
+
+<h2>Who uses it</h2>
+<p>District Admins, Menu Planners, and Nutritionists create and maintain items; Item Management Super Users manage module configuration and publish items to Inventory.</p>
+
+<h2>Common workflows</h2>
+<ul>
+<li>Create a non-food supply item: Item card → Units card → Pack sizes → Costing → optional GTIN. <!-- Source: transcript [11:55] --></li>
+<li>Create a food item: Item card → Units card → Serving sizes → Pack sizes → Link servings → Costing → Base Unit. <!-- Source: transcript [34:20] --></li>
+<li>Enter nutrient and allergen data for a food item. <!-- Source: transcript [18:55] --></li>
+<li>Configure a Direct Menu Item and enable POS display with pricing. <!-- Source: transcript [25:18] --></li>
+<li>Assign HACCP process and critical control points on the Steps card. <!-- Source: transcript [28:35] --></li>
+</ul>
+
+<h2>Important gotchas</h2>
+<ul>
+<li>Add <em>all</em> pack sizes before entering costing — adding a pack after costing forces full re-entry of all prices. <!-- Source: transcript [05:18] --></li>
+<li>Base Unit and Whole Numbers/Decimals setting lock permanently after the item's first Inventory transaction; incorrect settings require Cybersoft support to fix. <!-- Source: transcript [37:35] --> <!-- Source: transcript [38:05] --></li>
+<li>Food items display a persistent "Servings and Pack Units must be linked" alert until Sub-Qty is entered on the serving size row. <!-- Source: [[NXT-37441:AC]] "Trigger Inventory readiness based on proper pack-serving links" --> <!-- Source: transcript [15:42] --></li>
+<li>Custom allergens must be created in <strong>Item Management → Configuration → Item Configuration → Custom Allergens</strong> before they appear in the dropdown on any item. <!-- Source: transcript [23:28] --></li>
+<li>For nutrients absent from an item's label, use the <strong>Missing Value</strong> checkbox — blank implies unknown; zero implies the item contains none. <!-- Source: transcript [19:12] --></li>
+</ul>
+
+<h2>Where to go next</h2>
+<ul>
+<li>[[Link placeholder: Inventory module guide]] — vendor contracts, receiving, and counts reference items built here. <!-- Source: transcript [32:05] --></li>
+<li>[[Link placeholder: Menu Planning module guide]] — nutrient analysis and production records depend on complete item setup. <!-- Source: transcript [37:00] --></li>
+<li>[[Link placeholder: POS module guide]] — button names and pricing flow from the Menu Info and POS Pricing tabs. <!-- Source: transcript [25:28] --></li>
+<li>[[Link placeholder: Recipes guide]] — food items serve as ingredients; yield factor and sub-ingredients flow through to recipe-level calculations. <!-- Source: transcript [21:00] --></li>
+</ul>

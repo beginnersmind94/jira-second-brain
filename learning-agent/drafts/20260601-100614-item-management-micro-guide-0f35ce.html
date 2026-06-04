@@ -1,0 +1,110 @@
+<h1>Item Management: Creating Food and Non-Food Items — Micro Guide</h1>
+
+<p><em>Module:</em> Item Management &nbsp;|&nbsp; <em>Template:</em> Micro guide &nbsp;|&nbsp; <em>Source recording:</em> REC-2026-0515-IM-001 (May 15, 2026) &nbsp;|&nbsp; <em>Presenter:</em> Sarah Chen, Implementation Specialist</p>
+
+<h2>Purpose</h2>
+<p>After reading this, you can create and configure food and non-food items in SchoolCafé 2.0 so they are ready for Inventory, Menu Planning, and POS. <!-- Source: transcript [00:00] --> You will complete the Item card, set up pack sizes and costing, enter nutrient and allergen data for food items, and create a Direct Menu Item with POS pricing.</p>
+
+<h2>Who This Is For</h2>
+<p>District administrators and menu planners creating or maintaining items in SchoolCafé 2.0. Nutritionists responsible for nutrient, allergen, and meal pattern contribution data will also use Workflow 3.</p>
+
+<h2>Before You Start</h2>
+<ul>
+  <li>Your account has Item Management module permissions and the district environment is provisioned in SchoolCafé 2.0. <!-- Source: transcript [00:28] --></li>
+  <li>Item categories, storage categories, and valuation groups already exist in the system — required for Inventory-enabled districts. <!-- Source: transcript [02:22] --> <!-- Source: [[NXT-37111:AC]] "Provide questions/prompts to complete the overall required fields for saving the initial Units card and proceeding to item creation" --></li>
+  <li>Any non-standard allergen created first at <strong>Item Management → Configuration → Item Configuration → Custom Allergens</strong>. <!-- Source: transcript [23:28] --></li>
+  <li>HACCP processes configured in Item Management Configuration if you will use the Steps card. <!-- Source: [[NXT-36583:AC]] "Add a small selection for Recipe HACCP Process / this will belong to the Steps process and tab" --></li>
+</ul>
+
+<h2>Top Workflows</h2>
+
+<h3>1. Create a Non-Food Item</h3>
+<p>Configure a supply item (cups, trays, napkins) for Inventory tracking. <!-- Source: transcript [00:52] --></p>
+<ol>
+  <li>Go to <strong>Item Management → Items</strong> → click <strong>+ NEW</strong>. <!-- Source: transcript [01:24] --></li>
+  <li>On the Item card, enter <code>Item Description</code> (required), <code>Item Category</code>, <code>Storage Category</code>, and <code>Valuation Group</code>. <!-- Source: transcript [02:22] --> Optionally add <code>Brand Name</code>, <code>Manufacturer</code>, and <code>Product Code</code> to improve search filtering. <!-- Source: transcript [02:50] --> Click <strong>SAVE</strong>.</li>
+  <li>On the Units card, click <strong>NON-FOOD</strong>. <!-- Source: [[NXT-35898:AC]] "Provide Food item and Fluid item questions in the header bar of the card before enabling the grid" --> This disables serving size entry. <!-- Source: transcript [04:30] --></li>
+  <li>Click <strong>+ PACK</strong> to add the highest-level unit (e.g., <code>Box</code>). Click the checkmark. For sub-levels, click <strong>+ PACK → LOWER</strong> and enter a description and <code>Sub-Qty</code> (units per parent). <!-- Source: [[NXT-37110:AC]] "Bring attention to the appropriate Sub-Qty fields as required to link Pack Sizes" --> Maximum three tiers. <!-- Source: transcript [07:05] --></li>
+  <li>Click the <strong>Missing Costing</strong> alert → pencil icon. Enter the price for <em>one</em> purchased unit only; the system calculates all other tiers. <!-- Source: transcript [08:08] --> Click <strong>SAVE</strong>.</li>
+  <li>Click the <strong>Inventory Ready</strong> flag to confirm the Base Unit and set counting mode (Whole Numbers or Decimals). <!-- Source: transcript [09:48] --> <!-- Source: [[NXT-37111:AC]] "Provide a step to confirm Inventory info, including the Base Unit" --></li>
+</ol>
+
+<blockquote>
+  <p><strong>⚠ Watch out:</strong> Add <em>all</em> pack sizes before entering costing. Adding a pack size afterward requires re-entering all prices. <!-- Source: transcript [05:18] --></p>
+</blockquote>
+
+<h3>2. Set Up a Food Item's Units Card</h3>
+<p>Select food type, add serving sizes, link them to pack sizes, and confirm costing and Base Unit. <!-- Source: transcript [13:52] --></p>
+<ol>
+  <li>Complete the Item card with food-appropriate categories (e.g., <code>Item Category: Entrees</code>, <code>Storage Category: Cooler</code>). Click <strong>SAVE</strong>. <!-- Source: transcript [12:25] --></li>
+  <li>On the Units card, click <strong>FOOD</strong>. <!-- Source: [[NXT-35898:AC]] "Provide Food item and Fluid item questions in the header bar of the card before enabling the grid" --> Select <strong>NON-FLUID</strong> (grams) or <strong>FLUID</strong> (milliliters). <!-- Source: transcript [13:25] --></li>
+  <li>Click <strong>+ SERVING</strong>. Enter amount, description, and weight (e.g., <code>1 Each, 4 oz</code>). <!-- Source: transcript [13:52] --> Click the checkmark. <!-- Source: [[NXT-35898:AC]] "Provide a button for adding a Serving Size unit / Provide the ability to add and save independent serving sizes" --></li>
+  <li>Add pack sizes using <strong>+ PACK</strong> (same process as non-food). <!-- Source: transcript [14:30] --></li>
+  <li>Click the <strong>Inventory Ready</strong> alert → Edit. On the serving size row, enter <code>Sub-Qty</code> — the number of servings per lowest pack unit. <!-- Source: [[NXT-37441:AC]] "Provide Sub-Qty on the Serving Size row in valid scenarios" --> <!-- Source: transcript [15:42] --> Click <strong>SAVE</strong>. This linking step is required only for food items. <!-- Source: [[NXT-37441:AC]] "Trigger Inventory readiness based on proper pack-serving links" --></li>
+  <li>Resolve Missing Costing: enter price for one purchased unit; system divides down through all tiers. <!-- Source: transcript [16:08] --></li>
+  <li>Click the <strong>BASE UNIT chip</strong> on the Inventory Ready flag. Optionally promote the serving size to Base Unit to count individual servings in Inventory. <!-- Source: transcript [17:22] --> <!-- Source: [[NXT-37111:AC]] "Provide a step to confirm Inventory info, including the Base Unit" --> Choose Whole Numbers or Decimals → <strong>CONTINUE → SAVE &amp; CLOSE</strong>.</li>
+</ol>
+
+<blockquote>
+  <p><strong>⚠ Watch out:</strong> The Nutrient Info and Menu Info tabs remain grayed out until the Units card is saved. Save the card before navigating to either tab. <!-- Source: transcript [14:12] --></p>
+</blockquote>
+
+<h3>3. Enter Nutrition and Allergen Data</h3>
+<p>Complete required nutrient fields and allergen statuses so the item contributes correctly to menu analysis. <!-- Source: transcript [35:02] --></p>
+<ol>
+  <li>Click the <strong>NUTRIENT INFO</strong> tab → three-dot menu on the Nutrient Details card → <strong>Edit</strong>.</li>
+  <li>Complete all asterisk-marked fields. For nutrients absent from the product label, check <strong>Missing Value</strong> — do not leave the field blank and do not enter zero. <!-- Source: transcript [19:12] --> Click <strong>SAVE</strong>. The system populates the Per 100g column and Daily Value percentages automatically. <!-- Source: transcript [20:25] --></li>
+  <li>On the Contribution Info card → three-dot menu → <strong>Edit</strong>. Enter meal component credits (e.g., <code>1 oz eq Meat/Meat Alternates</code>). Click <strong>SAVE</strong>. <!-- Source: transcript [21:52] --></li>
+  <li>On the Allergen Info card → three-dot menu → <strong>Edit</strong>. Read the disclaimer — the district remains responsible for verifying allergen information. <!-- Source: transcript [22:42] --> <!-- Source: [[NXT-30103:AC]] "Update the Allergen Feature to Disclaimer" --></li>
+  <li>For each allergen, select <strong>Contains</strong>, <strong>May Contain</strong>, <strong>Processed in a Facility That Also Processes It</strong>, or <strong>Free From</strong>. <!-- Source: transcript [23:10] --> To add a custom allergen, click <strong>+ ADD CUSTOM ALLERGEN</strong>, select from the dropdown (must exist in Configuration first — see Prerequisites), choose a status, click <strong>ADD → SAVE</strong>. <!-- Source: transcript [23:28] --> <!-- Source: [[NXT-30103:AC]] "Can create or enter allergen without having nutrient/contribution information entered" --> Use <strong>Skip for now</strong> if data is not yet available. <!-- Source: [[NXT-30103:AC]] "Allow user to 'skip for now' if they do not want to enter the information at the time" --></li>
+</ol>
+
+<blockquote>
+  <p><strong>⚠ Watch out:</strong> A blank nutrient field is not the same as checking Missing Value. Blanks block the save; Missing Value marks the nutrient as <strong>(M)</strong> in analysis outputs so auditors know data is incomplete rather than zero. <!-- Source: transcript [19:12] --> <!-- Source: transcript [36:05] --></p>
+</blockquote>
+
+<h3>4. Create a Direct Menu Item and Set POS Pricing</h3>
+<p>Configure an item served as-is (not in a recipe) for menus, the POS terminal, and Family Hub. <!-- Source: transcript [24:30] --></p>
+<ol>
+  <li>Click the <strong>MENU INFO</strong> tab. Status shows <em>Disabled</em> — this is normal before configuration. <!-- Source: transcript [24:55] --></li>
+  <li>Click <strong>CREATE MENU ITEM</strong> on the Units card banner. <!-- Source: transcript [25:18] --></li>
+  <li>Enter required fields: <code>Menu Item Name</code>, <code>Button Name (English)</code>, and <code>Menu Item Category</code>. <!-- Source: transcript [25:28] --></li>
+  <li>Enter optional fields as applicable: <code>Marketing Name &amp; Description</code> (displayed in Family Hub), <code>Button Name (Spanish)</code>, <code>Meal Type</code>, <code>Leftover Category</code>, and <code>POS Entree</code> (check if item counts toward a reimbursable meal; leave unchecked for à la carte). <!-- Source: transcript [26:15] --> <!-- Source: transcript [26:48] --></li>
+  <li>Toggle <strong>Show on POS</strong> on — the <strong>POS PRICING</strong> tab appears. <!-- Source: transcript [27:12] --> Click <strong>SAVE</strong>. The tab label changes to <em>MENU &amp; POS INFO</em> — this is expected. <!-- Source: transcript [27:22] --></li>
+  <li>Click the <strong>POS PRICING</strong> tab → three-dot menu → <strong>Edit</strong>. Enter prices by eligibility row (Free, Reduced, Paid, Second Meal) and site type column, or use <strong>SET ALL PRICES</strong> to apply one price across an entire row. <!-- Source: transcript [30:15] --> Click <strong>SAVE</strong>.</li>
+</ol>
+
+<blockquote>
+  <p><strong>⚠ Watch out:</strong> The POS PRICING tab does not appear until <strong>Show on POS</strong> is toggled on and the Menu Item card is saved. Enable the toggle first, then navigate to that tab. <!-- Source: transcript [27:12] --></p>
+</blockquote>
+
+<p><em>Not covered here — HACCP configuration (Steps card):</em> Click <strong>ENABLE RECIPE</strong> on the Steps card and complete Step 0 to assign a HACCP process (<code>No Cook</code>, <code>Same Day Service</code>, or <code>Complex Food</code>). <!-- Source: [[NXT-36583:AC]] "Add a small selection for Recipe HACCP Process / this will belong to the Steps process and tab" --> <!-- Source: transcript [28:35] --> See the long-form guide for full step-by-step instructions.</p>
+
+<h2>Common Mistakes</h2>
+<ul>
+  <li><strong>Adding a pack size after costing is entered</strong> — always complete all pack sizes first, then add costing. A pack size added afterward will carry no cost and requires re-entering all prices via Manage Costing. <!-- Source: transcript [05:18] --></li>
+  <li><strong>Skipping the serving-to-pack link for food items</strong> — food items require a Sub-Qty on the serving size row; the Inventory Ready linking alert will not clear until this is done. <!-- Source: [[NXT-37441:AC]] "Trigger Inventory readiness based on proper pack-serving links" --> <!-- Source: transcript [15:42] --></li>
+  <li><strong>Leaving a nutrient field blank instead of checking Missing Value</strong> — blanks block the save and misrepresent data as zero in analysis outputs; Missing Value correctly flags the nutrient as (M). <!-- Source: transcript [19:12] --></li>
+  <li><strong>Not confirming Base Unit before first Inventory use</strong> — Base Unit and counting mode lock permanently after the first Inventory transaction (count, receipt, or adjustment). Set them correctly before beginning any inventory operations. <!-- Source: transcript [37:35] --> If a correction is needed after that point, contact Cybersoft support — it is not a self-service fix. <!-- Source: transcript [38:05] --></li>
+  <li><strong>Custom allergen not appearing in the dropdown</strong> — a non-standard allergen must be created in Item Management Configuration before it is selectable on an item's Allergen card. <!-- Source: transcript [23:28] --></li>
+</ul>
+
+<h2>Related Content</h2>
+<ul>
+  <li><strong>Inventory</strong> — vendor contract setup, receiving, and count sheets use item pack sizes, costing, and Base Unit settings. <!-- Source: transcript [32:05] --> [[Link placeholder: Inventory module guide]]</li>
+  <li><strong>Menu Planning</strong> — nutrient analysis and production records draw on nutrient, contribution, and allergen data entered here. <!-- Source: transcript [37:00] --> [[Link placeholder: Menu Planning module guide]]</li>
+  <li><strong>POS</strong> — Button Name, POS Entree flag, and pricing from Item Management drive the cashier terminal. <!-- Source: transcript [25:28] --> [[Link placeholder: POS module guide]]</li>
+  <li><strong>Family Hub</strong> — Marketing Name and Description from the Menu Item card appear on the parent-facing portal. <!-- Source: transcript [26:15] --> [[Link placeholder: Family Hub guide]]</li>
+  <li><strong>Recipes</strong> — food items are used as recipe ingredients; Edible Yield Factor, Sub Ingredients, and contribution data flow to recipe nutrient calculations. <!-- Source: transcript [21:00] --> [[Link placeholder: Recipes guide]]</li>
+</ul>
+
+<h2>Sources</h2>
+<ul>
+  <li>Transcript: REC-2026-0515-IM-001 (May 15, 2026), Sarah Chen, Implementation Specialist</li>
+  <li>NXT-35898 — IM - Items - Units - Card &amp; Add Serving (AC)</li>
+  <li>NXT-37110 — IM - Items - Units - Pack Sizes &amp; Sub-Qty (AC)</li>
+  <li>NXT-37111 — IM - Items - Units - Save &amp; Continue - Inventory Ready (AC)</li>
+  <li>NXT-37441 — IM - Items - Units - Link Servings to Pack Size (AC)</li>
+  <li>NXT-36583 — IM - Recipe Rework - Recipe Steps - HACCP Process (Step 0) (AC)</li>
+  <li>NXT-30103 — IM - Items - Create New Item - Food Item - Allergens (AC)</li>
+</ul>

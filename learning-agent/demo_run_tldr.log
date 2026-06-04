@@ -1,0 +1,31 @@
+[tldr:sectioned+registry] fixture: 4977 tickets + 888 epics (module 'Item Management') | format: tldr
+Stage 1: planning tldr (research with tools, emit section plan)…
+  plan: 5 sections, 8 tickets, 278 citable spans  (112s)
+Stage 2: writing sections in parallel (CITE-IDs only, no quote text)…
+
+=== CELL D TELEMETRY [tldr:sectioned+registry] ===
+plan 112s | sections 49s | total 160s | 5 sections | 738 words | 9774 chars
+ #   secs att stop_reason    title
+ 1   25.0   1 end_turn       What This Module Does
+ 2   48.6   1 end_turn       Key Features
+ 3   15.7   1 end_turn       Common Workflows
+ 4   40.3   1 end_turn       Gotchas
+ 5   19.7   1 end_turn       Where To Go Next
+
+assembly: rendered=32 invalid_cite_id=0 transcript=0
+validator on assembled: tier_lie=0 not_found=0 ok=32 tokened=32
+
+=== PASS CRITERIA [tldr:sectioned+registry] ===
+  [PASS] all sections present (>=5)
+  [PASS] no section errored (after retries)
+  [PASS] no section truncated (max_tokens)
+  [PASS] tier_lie == 0
+  [PASS] not_found == 0
+  [PASS] invalid_cite_id == 0
+
+=== EVAL (semantic backstop) [tldr:sectioned+registry] ===
+long-form: VERDICT=FAIL (wc=725)
+  Three hard failures: TLDR word count ~725 vs 500-word ceiling; 'Who uses it' section missing; two invented specifics (custom allergen menu path, GTIN codes) inserted without source citations or [TO VERIFY] markers.
+  checks: Template fit=fail; Length budget=fail; Source grounding=warn; Citation spot-check=ok; Discrepancy handling=warn; Unverifiable specifics=fail
+
+View in the UI:  uvicorn app:app --host 127.0.0.1 --port 8000  → Library tab.

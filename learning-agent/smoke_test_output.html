@@ -1,0 +1,209 @@
+I'll run all four tasks in order. Starting with Task 1 — parsing the transcript first.
+Transcript parsed. I can see 7-step Income Survey wizard with multiple distinct workflows. Now firing all `match_tickets` calls in parallel:
+Good — two key epics identified: `NXT-16828` and `NXT-19209`. Pulling both in parallel:
+Full epic surface area captured. Now Task 3 — verifying key behavioral claims. Firing 6 `read_ticket` calls in parallel:
+All 6 tickets verified. Now completing Tasks 2, 3, and 4.
+
+**Task 2 — Plan:**
+- 4 workflows (under the 5 max): (1) Launch wizard + add students, (2) Household step, (3) Review & submit, (4) Manage surveys from grid
+- Details/Contact/Comments are brief mentions inside Workflow 2 — Rachel called them "straightforward" [08:15]
+- Summary step folded into Workflow 3
+- One discrepancy to flag: transcript [06:50] says income ranges change by household size; NXT-19086 AC says they change by frequency
+
+**Task 3 — Verification summary:**
+- ✅ 7 steps, 10 search results, sibling suggestions, First/Last required, mutually exclusive response types, Review buttons, Summary buttons, grid actions — all confirmed
+- ✅ Comment required for all 4 grid actions (AC: "Without a comment, they should not be able to…") — Rachel did NOT mention this; include it
+- ⚠️ DISCREPANCY: Income range trigger — transcript says household size; AC says frequency
+- ⚠️ PDF on Summary — AC marked it "(if possible)/(negotiable)" — include with caveat
+
+---
+
+<h1>Income Surveys: Add &amp; Manage Survey Records</h1>
+<!-- Source: transcript [00:30] -->
+
+<h2>Purpose</h2>
+<p>After reading this guide, you can open the Add New Survey wizard in SchoolCafe, attach students, choose the correct household response type, submit or save a survey as pending, and manage submitted surveys from the Income Surveys grid — without re-watching the recording.</p>
+<!-- Source: transcript [00:30] — Rachel: "today we're going to walk through Income Surveys in SchoolCafe" -->
+
+<h2>Who this is for</h2>
+<p>District onboarding staff and eligibility processors who enter income surveys on behalf of households in districts enrolled in a Special Provision Program (CEP or Provision 2).</p>
+<!-- Source: transcript [00:30] — Rachel: "Districts in CEP or Provision 2 don't need to collect applications, but they DO need to demonstrate household income data to the state. That's where Income Surveys come in." -->
+
+<h2>Before you start</h2>
+<ul>
+  <li>Your district must be enrolled in a Special Provision Program (CEP or Provision 2). Income Surveys are not a substitute for standard free-and-reduced applications in non-provision districts.
+  <!-- Source: transcript [00:30] --></li>
+  <li>Income Eligibility Guidelines and Survey Ranges must be configured in System settings — income frequency and range options in the wizard are drawn directly from those tables.
+  <!-- Source: NXT-19086 AC: "Get the income frequencies that correspond to the specific Eligibility Guidelines set up in Survey Ranges" --></li>
+  <li>Case number formats must be set up at <code>System &gt; Configuration &gt; Settings &gt; Internal-Eligibility-Applications</code> before you process Special Assistance households.
+  <!-- Source: NXT-19086 AC: "We should validate it according to the district's 'case number format' settings (System > Configuration > Settings > Internal-Eligibility-Applications)" --></li>
+  <li>Student records do not need to exist in advance — you can create new pending student records during the wizard.
+  <!-- Source: NXT-19085 AC: "Verify the user can locate and/or add one or more students to the survey using this function" --></li>
+  <li>You need eligibility processor access to the <strong>Eligibility &gt; Income Surveys</strong> section in SchoolCafe.
+  <!-- Source: transcript [01:45] — Rachel: "Go to Eligibility, then click 'Income Surveys' in the left nav." --></li>
+</ul>
+
+<h2>Top workflows</h2>
+
+<h3>1. Launch the wizard and add students</h3>
+<p>Open a new survey and attach every student in the household.</p>
+<ol>
+  <li>Navigate to <strong>Eligibility &gt; Income Surveys</strong> in the left nav.
+  <!-- Source: transcript [01:45] — Rachel: "Go to Eligibility, then click 'Income Surveys' in the left nav." --></li>
+  <li>Click <strong>NEW</strong> (top right). The Add New Survey wizard opens on the <strong>Students</strong> step. A progress bar shows all seven steps: Students → Household → Details → Contact Info → Comments → Review → Summary.
+  <!-- Source: transcript [02:30] — Rachel: "the wizard has…seven steps…Students, then go to Household, Details, Contact Info, Comments, Review, and finally a Summary page. You can always click back to a previous step if you need to." --></li>
+  <li>Type a first name, last name, or student ID (combinations work). Select the student from the <strong>10</strong> most relevant matches displayed.
+  <!-- Source: NXT-19085 AC: "Display the 10 most related student records and allow the user to add student(s) to the survey" -->
+  <!-- Source: transcript [03:15] — Rachel: "you search by first name, last name, or student ID — combinations work too." --></li>
+  <li>If the system detects other potential household members for the student you added, it will offer to link them. Add applicable siblings.
+  <!-- Source: NXT-19085 AC: "we should continue offering to link the student to other students who are potential household members if they exist" -->
+  <!-- Source: transcript [03:15] — Rachel: "the system will actually look at the rest of their household and suggest siblings to add." --></li>
+  <li>If a student is not in the system, click <strong>Add New Student</strong>, enter at minimum <code>First Name</code> and <code>Last Name</code> (required), and click <strong>Add</strong>. The student is saved in <em>Pending</em> status with an edit pencil (to correct details) and a trash icon (to remove).
+  <!-- Source: NXT-18403 Description: "First Name (required)…Last Name (required)" -->
+  <!-- Source: NXT-19085 AC: "Pending students should display an 'edit' pencil…There should be a trash bin icon which the user can use to remove a student." -->
+  <!-- Source: transcript [04:00] — Rachel: "the student goes into a PENDING status until the survey is submitted" --></li>
+  <li>Click <strong>Next</strong> to proceed to the Household step.</li>
+</ol>
+<blockquote>
+  <strong>⚠️ Watch out:</strong> Income Surveys do <em>not</em> require a categorical question or income question on individual students. These fields are handled at the household level — do not look for them here.
+  <!-- Source: transcript [05:20] — Rachel: "No, you don't need to enter the categorical question or the income question on individual students like you would with a regular application. That's all handled at the household level for surveys." -->
+</blockquote>
+
+<h3>2. Complete the Household step</h3>
+<p>Declare how the household qualifies — this is the most consequential step in the wizard.</p>
+<ol>
+  <li>Select <em>one</em> of two mutually exclusive <strong>Response Types</strong> (no default is selected; you cannot advance without choosing one).
+  <!-- Source: NXT-19086 AC: "Add two survey Response Types (Unselected by default. One option must be selected to proceed)" --></li>
+  <li><strong>Special Assistance</strong> path: choose the program (e.g., SNAP, TANF, foster care) from the <code>Case Type</code> dropdown, then enter the <code>Case Number</code> in your district's required format.
+  <!-- Source: transcript [06:00] — Rachel: "Special Assistance is when the household qualifies through some other program — SNAP, TANF, foster care. You'll select a Case Type from the dropdown and enter a Case Number in the format the state requires." -->
+  <!-- Source: NXT-19086 AC: "Require the user to enter in their Case #. We should validate it according to the district's 'case number format' settings" --></li>
+  <li><strong>Income</strong> path: enter <code>Household Size</code>, pick a <code>Frequency</code> from the dropdown (options come from your district's eligibility guidelines), then select an <code>Income Range</code>.
+  <!-- Source: transcript [06:50] — Rachel: "You enter Household Size, pick a Frequency from the dropdown…and then select an Income Range." -->
+  <!-- Source: NXT-19086 AC: "Get the income frequencies that correspond to the specific Eligibility Guidelines set up in Survey Ranges" --></li>
+  <li>Continue through Steps 3–5 (<strong>Details</strong>, <strong>Contact Info</strong>, <strong>Comments</strong>) entering phone, email, address, and any notes from the paper form.
+  <!-- Source: transcript [08:15] — Rachel: "Details and Contact Info are pretty straightforward — phone, email, address. Comments is for anything the household wrote on the paper form that doesn't fit a standard field." --></li>
+</ol>
+
+<blockquote>
+  <strong>⚠️ Watch out:</strong> Choosing the wrong response type invalidates the entire survey. If the household has SNAP, TANF, or foster care, you <em>must</em> select Special Assistance — not Income. Picking Income for a SNAP household means the survey must be deleted and re-entered from scratch.
+  <!-- Source: transcript [07:30] — Rachel: "A really common mistake here: people pick the wrong response type. If the household has SNAP, you must use Special Assistance. If you pick Income and they're actually a SNAP family, the survey is invalid and you'll have to redo it." -->
+</blockquote>
+
+<blockquote class="discrepancy">
+  <strong>⚠️ Discrepancy — what drives Income Range options:</strong><br>
+  <strong>Transcript [06:50]:</strong> Rachel said <em>"The income range options change based on the household size you entered."</em><br>
+  <strong>NXT-19086 AC:</strong> <em>"Based on the selected Frequency, get the income ranges that correspond to the specific Eligibility Guidelines set up in Survey Ranges."</em><br>
+  Per the acceptance criteria, income ranges cascade from the <strong>Frequency</strong> selection, not household size. Household Size is only validated to ensure it is not smaller than the number of students added. A human editor should confirm which behavior reflects the current production build.
+</blockquote>
+
+<h3>3. Review and submit (or save as pending)</h3>
+<p>Verify all entries and finalize — or save as a draft for a colleague to review.</p>
+<ol>
+  <li>On the <strong>Review</strong> step, read through every section. Click the edit pencil inside any section to jump back to that step and correct it.
+  <!-- Source: NXT-19092 AC: "Within each section, display an edit pencil that will allow the user to go back to that particular step and make changes as needed." --></li>
+  <li>Choose your action at the bottom:
+    <ul>
+      <li><strong>Submit</strong> — finalizes the survey and advances to the Summary step.
+      <!-- Source: NXT-19092 AC: "Submit — Saves this as a complete survey and takes the user to the confirmation/Summary step." --></li>
+      <li><strong>Mark as Pending</strong> — saves a draft and returns you to the grid with a success message.
+      <!-- Source: NXT-19092 AC: "Pending — Saves this as a pending survey and returns the user to the Income Surveys grid. Success toaster: 'Pending survey saved successfully.'" --></li>
+    </ul>
+  </li>
+  <li>After submitting, the <strong>Summary</strong> step shows a confirmation and an option to print or export to PDF [TO VERIFY — AC marked this feature as "(if possible)/(negotiable)"]. Use <strong>Add Another Survey</strong> to start fresh, or <strong>I'm Done for Now</strong> to return to the grid.
+  <!-- Source: NXT-19094 AC: "Display 2 buttons: Add another survey…I'm done for now — Return the user to the main Income Surveys grid/page" -->
+  <!-- Source: NXT-19094 AC: "If possible, display an image or summary of the steps from the Review page, of the completed survey that can be printed/exported to PDF" -->
+  <!-- Source: transcript [10:00] — Rachel: "There's a PDF download button so you can print the survey for your records, and an 'Add Another Survey' button to keep going." --></li>
+</ol>
+<blockquote>
+  <strong>⚠️ Watch out:</strong> If you are unsure about the response type, click <strong>Mark as Pending</strong> — do not submit. Once submitted, you must use grid-level actions (Workflow 4) to revert the survey, and each action requires a written comment.
+  <!-- Source: transcript [09:00] — Rachel: "Marking as pending is great when you're not sure about the response type." -->
+</blockquote>
+
+<h3>4. Manage submitted surveys from the grid</h3>
+<p>Reprocess, revert, delete, or restore a survey after it has been submitted.</p>
+<ol>
+  <li>From the <strong>Income Surveys</strong> grid, find the survey and click <strong>Details</strong>.
+  <!-- Source: transcript [11:00] — Rachel: "you can edit a submitted survey by going back to the grid and clicking Details on it." --></li>
+  <li>Select the action you need:
+    <ul>
+      <li><strong>Process</strong> — marks the survey as processed (available unless the survey is in Deleted status).</li>
+      <li><strong>Make Pending</strong> — reverts to Pending (available for Pending, Notified, or Processed surveys).</li>
+      <li><strong>Delete</strong> — removes the survey (available for Processed, Notified, or Pending surveys).</li>
+      <li><strong>Restore</strong> — reinstates a Deleted survey back to Pending status.</li>
+    </ul>
+    <!-- Source: NXT-20510 AC: "Verify button behavior for Process Survey / Mark as Pending Survey / Delete Survey / Restore Survey" -->
+    <!-- Source: transcript [11:00] — Rachel: "There's a Process / Make Pending / Delete / Restore set of actions there if you need to fix something post-submit." --></li>
+  <li>In the prompt that appears, enter a comment explaining the change. <strong>The action will not execute without a comment.</strong>
+  <!-- Source: NXT-20510 AC: "When selected, prompt the user to enter a comment. Without a comment, they should not be able to mark the survey as processed." --></li>
+</ol>
+<blockquote>
+  <strong>⚠️ Watch out:</strong> All four grid actions (Process, Make Pending, Delete, Restore) are gated behind a mandatory comment. There is no bypass — have your reason for the change written before clicking the action button.
+  <!-- Source: NXT-20510 AC: "Without a comment, they should not be able to…" -->
+</blockquote>
+
+<h2>Common mistakes</h2>
+<ul>
+  <li><strong>Wrong response type for SNAP/TANF/foster-care households.</strong> These must use Special Assistance. Selecting Income for a SNAP household invalidates the survey entirely.
+  <!-- Source: transcript [07:30] --></li>
+  <li><strong>Looking for per-student income or categorical fields.</strong> Income Surveys collect income data at the household level — there are no such fields on the Students step.
+  <!-- Source: transcript [05:20] --></li>
+  <li><strong>Submitting when uncertain.</strong> Once submitted, reverting requires a grid action plus a mandatory comment. Use Mark as Pending on the Review step whenever you are unsure.
+  <!-- Source: transcript [09:00] --></li>
+  <li><strong>Missing household siblings.</strong> When you add the first student, check the system's sibling suggestions. Skipping linked household members means those students need separate surveys later.
+  <!-- Source: NXT-19085 AC: "offering to link the student to other students who are potential household members if they exist" -->
+  <!-- Source: transcript [03:15] --></li>
+  <li><strong>No comment ready for grid actions.</strong> Process, Make Pending, Delete, and Restore all require a comment before executing. Prepare your rationale before clicking.
+  <!-- Source: NXT-20510 AC: "Without a comment, they should not be able to…" --></li>
+</ul>
+
+<h2>Related content</h2>
+<ul>
+  <li>Income Eligibility Guidelines and Survey Range configuration — [[System Configuration guide]]</li>
+  <li>Special Provision Program enrollment (CEP / Provision 2) overview — [[Eligibility Overview guide]]</li>
+  <li>Eligibility Notifications (referenced at end of training) — [[Eligibility Notifications guide]]
+  <!-- Source: transcript [12:00] — Rachel: "Any questions before we move on to Eligibility Notifications?" --></li>
+</ul>
+
+<h2>Sources</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Source</th>
+      <th>Used for</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Training transcript — Rachel, 2026-05-15 [00:30–12:00]</td>
+      <td>Workflow narrative, pitfall callouts, Q&amp;A notes</td>
+    </tr>
+    <tr>
+      <td><strong>NXT-16828</strong> (epic) — Eligibility - Income Surveys (R4-Phase 1)</td>
+      <td>Full feature surface area and sibling story inventory</td>
+    </tr>
+    <tr>
+      <td><strong>NXT-18403</strong> — Students Step</td>
+      <td>Add New Student required fields (First Name, Last Name)</td>
+    </tr>
+    <tr>
+      <td><strong>NXT-19085</strong> — Students Step: Add/Find a Student</td>
+      <td>10-result search behavior, sibling linking, pending-student edit/trash icons</td>
+    </tr>
+    <tr>
+      <td><strong>NXT-19086</strong> — Household Step</td>
+      <td>Mutually exclusive response types, case number validation, frequency/range behavior; source of income-range discrepancy</td>
+    </tr>
+    <tr>
+      <td><strong>NXT-19092</strong> — Review Step</td>
+      <td>Submit vs. Mark as Pending button behavior and success toaster text</td>
+    </tr>
+    <tr>
+      <td><strong>NXT-19094</strong> — Summary Step</td>
+      <td>PDF/print export (conditional), Add Another Survey and I'm Done for Now buttons</td>
+    </tr>
+    <tr>
+      <td><strong>NXT-20510</strong> — Process / Make Pending / Delete / Restore</td>
+      <td>Post-submit grid action behaviors, mandatory comment requirement</td>
+    </tr>
+  </tbody>
+</table>

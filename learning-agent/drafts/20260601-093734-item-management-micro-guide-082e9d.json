@@ -1,0 +1,20 @@
+{
+  "id": "20260601-093734-item-management-micro-guide-082e9d",
+  "status": "draft",
+  "module": "Item Management",
+  "template": "micro-guide",
+  "transcript_id": "20260601-093734-item-management-demo",
+  "transcript_filename": "20260529-070600-item-management-2026-05-28-item-management-create-items-training.md",
+  "created_at": "2026-06-01T09:49:39",
+  "demo": true,
+  "run_label": "A:bound-only",
+  "gen_seconds": 142.1,
+  "usage": {
+    "input_tokens": 3,
+    "output_tokens": 9079,
+    "cache_read_input_tokens": 16529,
+    "cache_creation_input_tokens": 17982,
+    "thinking_tokens": null
+  },
+  "derived_from": "long-form"
+}

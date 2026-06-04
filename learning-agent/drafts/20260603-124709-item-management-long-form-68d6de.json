@@ -1,0 +1,21 @@
+{
+  "id": "20260603-124709-item-management-long-form-68d6de",
+  "status": "pending_sme_review",
+  "module": "Item Management",
+  "template": "long-form",
+  "transcript_id": "20260603-124709-item-management-2026-05-28-item-management-create-items-training",
+  "transcript_filename": null,
+  "created_at": "2026-06-03T12:52:14",
+  "demo": true,
+  "method": "sectioned+registry",
+  "citation_integrity": {
+    "verified": 140,
+    "tier_lie": 0,
+    "not_found": 0,
+    "invalid_cite_id": 0
+  },
+  "status_label": "Pending Review by SME",
+  "available": true,
+  "sme_approved": false,
+  "released_at": "2026-06-03T14:35:35"
+}

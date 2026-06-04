@@ -1,0 +1,60 @@
+NXT-19085 | [Done Done] [Story] Income Surveys - Add New Survey - Students Step - Add/Find a Student
+components: Eligibility
+
+## Description
+As a district admin, I would like the ability to quickly and easily add one or more students to a manual income survey on behalf of a household, so that their income data is entered into our system for reference at any time.
+Summary
+Add the ‘Add a Student’ pop-up to the Student step that allows users to find or add students to a new survey.
+Requirements
+Continued from . 
+
+Finding a student
+Using the search field, allow a user to type a student’s details (combinations of first, last, ID) 
+
+Display the 10 most related student records and allow the user to add student(s) to the survey 
+
+No categorical question needed
+
+No income question needed
+
+
+
+Adding a student
+Using the drawer, implement the same ‘Add a Student’ functionality as is used within the Forms > Applications > Add Application wizard. 
+
+When the user enters at least the First Name and Last Name and clicks ‘Add’, add the student to the survey.
+
+No categorical question needed
+
+No income question needed
+
+
+
+Display the list of added students in a grid
+We don’t need to warn if the student is DC, etc. like with the application
+
+However, we should continue offering to link the student to other students who are potential household members (see concept image #3) if they exist.
+
+Pending students should display an ‘edit’ pencil that opens an ‘Edit Student’ drawer (not pictured in mock-up), which the user can use to edit that students details. This is for pending students only.
+
+There should be a trash bin icon which the user can use to remove a student.
+
+
+
+This story is complete when a user can use the search field or ‘add’ drawer to search for an existing student or add a new one, and then be able to add the student to their survey successfully, also being given the option to link potential household member students if they exist. Finally, they should also be able to go back and edit pending student details as well as remove students from their survey.
+
+
+Mock-up
+Students step
+
+Concept images:
+
+## Acceptance Criteria
+Verify that in the Income Survey page, when a user selects ‘Add New Survey’, the wizard page displays the Students step
+Verify that the Students step contains functions to Find or Add a student
+Verify those buttons function as outlined in the requirements above, through the ‘Add a Student’ function
+Verify the user can locate and/or add one or more students to the survey using this function
+Verify that the Students step of the survey then shows data for those students, if the user adds them
+Verify that any potential household members related to (valid) students in the grid are shown and can be linked
+Verify that the user can go back and edit (new) students or remove the students they’ve added as well
+Verify that the students that the user adds on this step are retained if the user proceeds to the next step and then goes back to this previous step, or vice-versa

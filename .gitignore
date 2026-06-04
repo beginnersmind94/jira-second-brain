@@ -30,4 +30,6 @@ app/jobs/
 Thumbs.db
 *.swp
 .vscode/
+__pycache__/
+~$*
 

@@ -1,0 +1,34 @@
+{"k": "system", "p": {"subtype": "planning long-form"}}
+{"k": "tool_call", "p": {"name": "mcp__producer_tools__parse_transcript", "input": {"transcript_path": "C:\\Users\\rahul.mehta\\Downloads\\Financials-Documentation-KT\\learning-agent\\raw\\transcripts\\20260603-124709-item-management-2026-05-28-item-management-create-items-training.md"}}}
+{"k": "tool_call", "p": {"name": "mcp__producer_tools__match_tickets", "input": {"query": "create non-food item pack sizes costing", "module": "Item Management"}}}
+{"k": "tool_call", "p": {"name": "mcp__producer_tools__match_tickets", "input": {"query": "create food item serving size nutrient info", "module": "Item Management"}}}
+{"k": "tool_call", "p": {"name": "mcp__producer_tools__match_tickets", "input": {"query": "allergen info custom allergen configuration", "module": "Item Management"}}}
+{"k": "tool_call", "p": {"name": "mcp__producer_tools__match_tickets", "input": {"query": "direct menu item POS pricing", "module": "Item Management"}}}
+{"k": "tool_call", "p": {"name": "mcp__producer_tools__match_tickets", "input": {"query": "HACCP recipe steps control points", "module": "Item Management"}}}
+{"k": "tool_call", "p": {"name": "mcp__producer_tools__match_tickets", "input": {"query": "inventory ready base unit publish item", "module": "Item Management"}}}
+{"k": "tool_call", "p": {"name": "mcp__producer_tools__read_epic", "input": {"epic_key": "NXT-45562"}}}
+{"k": "tool_call", "p": {"name": "mcp__producer_tools__read_epic", "input": {"epic_key": "NXT-36067"}}}
+{"k": "tool_call", "p": {"name": "mcp__producer_tools__read_epic", "input": {"epic_key": "NXT-26823"}}}
+{"k": "tool_call", "p": {"name": "mcp__producer_tools__read_epic", "input": {"epic_key": "NXT-20609"}}}
+{"k": "tool_call", "p": {"name": "mcp__producer_tools__read_ticket", "input": {"issue_key": "NXT-35898"}}}
+{"k": "tool_call", "p": {"name": "mcp__producer_tools__read_ticket", "input": {"issue_key": "NXT-24128"}}}
+{"k": "tool_call", "p": {"name": "mcp__producer_tools__read_ticket", "input": {"issue_key": "NXT-36583"}}}
+{"k": "tool_call", "p": {"name": "mcp__producer_tools__read_ticket", "input": {"issue_key": "NXT-36071"}}}
+{"k": "tool_call", "p": {"name": "mcp__producer_tools__read_ticket", "input": {"issue_key": "NXT-37441"}}}
+{"k": "tool_call", "p": {"name": "mcp__producer_tools__read_ticket", "input": {"issue_key": "NXT-37110"}}}
+{"k": "tool_call", "p": {"name": "mcp__producer_tools__read_ticket", "input": {"issue_key": "NXT-53530"}}}
+{"k": "tool_call", "p": {"name": "mcp__producer_tools__read_ticket", "input": {"issue_key": "NXT-24910"}}}
+{"k": "plan_done", "p": {"sections": 13, "spans": 358}}
+{"k": "section_done", "p": {"title": "Prerequisites", "stop_reason": "end_turn"}}
+{"k": "section_done", "p": {"title": "Roles & Permissions", "stop_reason": "end_turn"}}
+{"k": "section_done", "p": {"title": "Overview", "stop_reason": "end_turn"}}
+{"k": "section_done", "p": {"title": "Workflow: Create a Non-Food Item", "stop_reason": "end_turn"}}
+{"k": "section_done", "p": {"title": "Workflow: Create a Food Item", "stop_reason": "end_turn"}}
+{"k": "section_done", "p": {"title": "Workflow: Configure Allergen Information", "stop_reason": "end_turn"}}
+{"k": "section_done", "p": {"title": "Workflow: Create a Direct Menu Item", "stop_reason": "end_turn"}}
+{"k": "section_done", "p": {"title": "Workflow: Configure Nutrient & Ingredient Information", "stop_reason": "end_turn"}}
+{"k": "section_done", "p": {"title": "Workflow: Configure HACCP and Recipe Steps", "stop_reason": "end_turn"}}
+{"k": "section_done", "p": {"title": "Reports & Outputs", "stop_reason": "end_turn"}}
+{"k": "section_done", "p": {"title": "Key Fields & Statuses", "stop_reason": "end_turn"}}
+{"k": "section_done", "p": {"title": "Related Content", "stop_reason": "end_turn"}}
+{"k": "section_done", "p": {"title": "Exceptions & Troubleshooting", "stop_reason": "end_turn"}}
