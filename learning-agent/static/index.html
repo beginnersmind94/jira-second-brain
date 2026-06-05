@@ -5,45 +5,64 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Learning Studio</title>
   <style>
-    /* ───────────────────────── Design tokens ───────────────────────── */
+    /* ════════════════════════════════════════════════════════════════════
+       LEARNING STUDIO — CANONICAL DESIGN SYSTEM
+       ════════════════════════════════════════════════════════════════════ */
     :root {
-      /* Warm, paper-like palette (Anthropic editorial) */
-      --bg: #FAF9F5;
-      --bg-grad-top: #F4EFE4;
-      --surface: #F6F2E9;          /* writing surfaces (feed, preview, inputs) */
-      --panel: #F3EFE6;            /* card fill — slightly darker than page */
-      --panel2: #EFEADF;
-      --panel3: #E9E2D4;           /* nav track / chips */
-      --border: #E5E0D5;           /* hairline */
-      --border-strong: #DAD4C8;
-      --text: #141413;            /* primary ink */
-      --text-soft: #3B3A35;
-      --muted: #6B6860;           /* warm gray */
-      --muted-soft: #908C82;
-      --accent: #141413;          /* ink — primary actions, links, icons */
-      --accent-strong: #000000;
-      --accent-soft: #ECE4D5;     /* warm "active" tint */
-      --teal: #4F7C74;            /* muted secondary accent */
-      --green: #4F7A4E;           /* success, tuned warm */
-      --green-soft: #E7ECDB;
-      --green-text: #3C5A3C;
-      --amber: #9A6A18;           /* warning, tuned warm */
-      --amber-soft: #F3E7CD;
-      --amber-text: #6E4A12;
-      --clay: #B3543B;            /* terracotta — danger / sparing accent */
-      --red: #B3543B;
-      --red-soft: #F0DDD2;
-      --red-text: #8E3E2A;
-      --purple: #6b5bd6;
-      --radius: 16px;
-      --radius-sm: 10px;
-      --radius-pill: 999px;
-      --shadow-sm: none;          /* depth from tonal contrast + hairlines, not shadows */
-      --shadow: none;
-      --shadow-lg: 0 18px 44px rgba(20, 18, 15, 0.10);
-      --ring: 0 0 0 3px rgba(20, 18, 15, 0.16);
-      --font: ui-sans-serif, system-ui, "Inter", -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+      /* ── 5-STEP WARM VALUE SCALE (deepest page → near-white card → input) ── */
+      --bg:            #EBE4D6;   /* PAGE — pushed deeper so cards float */
+      --bg-grad-top:   #E4DBC9;   /* deeper wash at top of page */
+      --surface:       #FBF8F1;   /* writing surfaces: feed, preview body, inputs, textareas */
+      --panel:         #FFFFFF;   /* CARD FILL — near-white, clearly above the page */
+      --panel2:        #F6F1E7;   /* card sub-headers / inset bands / stepper wrap */
+      --panel3:        #ECE5D7;   /* nav track / chips / progress track / skeleton base */
+      --border:        #E3DCCC;   /* hairline on near-white */
+      --border-strong: #D6CDB9;   /* input borders, dashed dropzone base */
+
+      /* ── INK ── */
+      --text:          #1C1814;   /* primary ink (warm near-black) */
+      --text-soft:     #423B33;   /* preview body, eval table header text */
+      --muted:         #6B6258;   /* warm gray — AA on white (~4.9:1); avoid on --bg */
+      --muted-soft:    #948A7C;   /* DECORATIVE ONLY (dots, icon strokes) — never body text */
+      --muted-aa:      #5E5B53;   /* AA-safe helper/.hint text (~5.3:1 on --surface) */
+      --label:         #524A3F;   /* field-label ink — darker than --muted, ~7.4:1 on white */
+
+      /* ── ACCENT: TERRACOTTA is the single action color ── */
+      --accent:        #B3543B;   /* primary actions, active nav, progress, focus, in-progress */
+      --accent-hover:  #9D4732;
+      --accent-press:  #8A3D2B;
+      --accent-soft:   #F3E2D9;   /* terracotta tint: active chips, step icons, active node halo */
+      --accent-ink:    #FBF8F1;   /* text/glyphs on terracotta */
+      --clay:          #B3543B;   /* legacy alias == --accent (kept so old refs re-skin) */
+      --accent-strong: #8A3D2B;   /* legacy alias (was #000) → press */
+
+      /* ── GREEN: success / verified ONLY ── */
+      --green:         #4F7A4E;
+      --green-soft:    #E4EBD7;
+      --green-text:    #3A5639;
+
+      /* ── Status roles ── */
+      --teal:          #4F7C74;   /* PDF link + blockquote accent + "writing" text state only */
+      --amber:         #9A6A18;  --amber-soft:#F3E7CD;  --amber-text:#6E4A12;
+      --red:           #B3543B;  --red-soft:#F2E1D8;    --red-text:#8E3E2A;  /* destructive == quiet terracotta */
+      --purple:        #6b5bd6;
+
+      /* ── ONE radius family ── */
+      --radius:        12px;   /* cards, panels, inputs, buttons */
+      --radius-sm:     8px;    /* chips, badges, small insets */
+      --radius-pill:   999px;
+
+      /* ── DEPTH: real soft shadows (restored) ── */
+      --shadow-sm:   0 1px 2px rgba(28,24,20,0.05);
+      --shadow:      0 2px 4px rgba(28,24,20,0.04), 0 12px 24px rgba(28,24,20,0.06);
+      --shadow-lift: 0 4px 8px rgba(28,24,20,0.06), 0 18px 38px rgba(28,24,20,0.10);
+      --shadow-lg:   0 18px 44px rgba(28,24,20,0.12);
+
+      /* ── Focus ring (terracotta) — single canonical alpha 0.32 ── */
+      --ring:        0 0 0 3px rgba(179,84,59,0.32);
+
+      --font:  ui-sans-serif, system-ui, "Inter", -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --mono:  ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
       --serif: Georgia, "Times New Roman", "Iowan Old Style", serif;
     }
 
@@ -56,8 +75,9 @@
       font-size: 14px;
       color: var(--text);
       background:
-        radial-gradient(1100px 420px at 82% -140px, rgba(179, 84, 59, 0.06), transparent 60%),
-        linear-gradient(180deg, var(--bg-grad-top) 0, rgba(244,239,228,0) 340px),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E"),
+        radial-gradient(1100px 420px at 82% -140px, rgba(179,84,59,0.07), transparent 60%),
+        linear-gradient(180deg, var(--bg-grad-top) 0, rgba(228,219,201,0) 360px),
         var(--bg);
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
@@ -94,20 +114,28 @@
     header.top h1 {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 13px;
       margin: 0;
-      font-size: 16.5px;
-      font-weight: 750;
-      letter-spacing: -0.015em;
-      color: var(--text);
     }
-    header.top h1::before {
-      content: "";
-      width: 28px;
-      height: 28px;
-      border-radius: 8px;
-      background: linear-gradient(140deg, var(--clay) 0 48%, var(--teal) 48% 100%);
+    .brand-logo {
+      height: 30px;
+      width: auto;
+      display: block;
       flex: none;
+    }
+    .brand-divider {
+      width: 1px;
+      height: 24px;
+      background: var(--border-strong);
+      flex: none;
+    }
+    .brand-product {
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 650;
+      letter-spacing: 0.01em;
+      color: var(--muted-aa);
+      white-space: nowrap;
     }
     nav {
       display: flex;
@@ -132,10 +160,10 @@
     }
     nav button:hover { color: var(--text); }
     nav button.active {
-      background: var(--bg);
-      color: var(--text);
-      border-color: var(--border);
-      box-shadow: 0 1px 2px rgba(20, 18, 15, 0.08);
+      background: var(--accent-soft);
+      color: var(--accent);
+      border-color: transparent;
+      box-shadow: var(--shadow-sm);
     }
     .meta {
       margin-left: auto;
@@ -151,7 +179,11 @@
       font-weight: 700;
       letter-spacing: 0.04em;
       text-transform: uppercase;
+      font-family: var(--font);
+      cursor: pointer;
+      transition: border-color .16s, color .16s, background .16s;
     }
+    .meta:hover { border-color: var(--accent); color: var(--accent-ink, var(--accent)); background: var(--accent-soft); }
     .meta::before {
       content: "";
       width: 7px;
@@ -199,6 +231,7 @@
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       overflow: hidden;
+      transition: box-shadow .18s ease, transform .18s ease;
     }
     .panel-header {
       display: flex;
@@ -208,10 +241,10 @@
       padding: 14px 18px;
       background: var(--panel2);
       border-bottom: 1px solid var(--border);
-      color: var(--text);
-      font-size: 12px;
+      color: var(--muted);
+      font-size: 11px;
       font-weight: 700;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.07em;
       text-transform: uppercase;
     }
     .panel-body { padding: 20px; }
@@ -223,10 +256,10 @@
     .field label {
       display: block;
       margin-bottom: 7px;
-      color: var(--muted);
+      color: var(--label);
       font-size: 11px;
       font-weight: 700;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
     }
     .field select,
@@ -234,12 +267,26 @@
       width: 100%;
       min-height: 44px;
       padding: 10px 12px;
-      background: #FCFBF7;
+      background: var(--surface);
       color: var(--text);
       border: 1px solid var(--border-strong);
       border-radius: var(--radius-sm);
       font-family: inherit;
       font-size: 14px;
+      outline: none;
+      transition: border-color .15s ease, box-shadow .15s ease;
+    }
+    /* Shared textarea rule so #run-directive and all textareas match inputs */
+    .field textarea {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px 12px;
+      font: 400 14px/1.5 var(--font);
+      color: var(--text);
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+      resize: vertical;
       outline: none;
       transition: border-color .15s ease, box-shadow .15s ease;
     }
@@ -252,9 +299,14 @@
       padding-right: 36px;
     }
     .field select:focus,
-    .field input[type="text"]:focus {
-      border-color: var(--text);
+    .field input[type="text"]:focus,
+    .field textarea:focus-visible,
+    #mode-describe textarea:focus-visible,
+    #mode-transcript textarea:focus-visible,
+    .edit-bar input:focus {
+      border-color: var(--accent);
       box-shadow: var(--ring);
+      outline: none;
     }
     .drop {
       display: grid;
@@ -264,22 +316,25 @@
       min-height: 148px;
       padding: 20px;
       text-align: center;
-      background: #FCFBF7;
-      border: 1.5px dashed var(--border-strong);
+      background: var(--surface);
+      border: 1.5px dashed rgba(179,84,59,0.45);
       border-radius: var(--radius-sm);
       color: var(--muted);
       font-family: var(--serif);
       font-size: 13px;
       cursor: pointer;
-      transition: border-color .16s ease, background .16s ease, transform .16s ease;
+      transition: border-color .16s ease, background .16s ease, transform .16s ease, box-shadow .16s ease;
     }
     .drop:hover,
     .drop.hover {
-      border-color: var(--text);
-      background: var(--surface);
-      transform: translateY(-1px);
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      transform: translateY(-2px);
     }
-    .drop:focus-visible { outline: none; border-color: var(--text); box-shadow: var(--ring); }
+    .drop:hover .big::before { transform: translateY(-2px); transition: transform .16s ease; }
+    .drop.dragging { border-color: var(--accent); border-style: solid; background: #F6E9E1; box-shadow: var(--ring); }
+    .drop.dragging .big { color: var(--accent); }
+    .drop:focus-visible { outline: none; border-color: var(--accent); box-shadow: var(--ring); }
     .drop .big {
       display: flex;
       align-items: center;
@@ -309,48 +364,46 @@
       word-break: break-all;
     }
 
-    /* ───────────────────────── Buttons ───────────────────────── */
-    button.primary,
-    button.secondary {
-      min-height: 40px;
-      border-radius: var(--radius-sm);
-      font-family: inherit;
-      font-weight: 700;
-      font-size: 13.5px;
-      cursor: pointer;
-      transition: background .15s ease, border-color .15s ease, color .15s ease, transform .12s ease, box-shadow .15s ease;
-    }
+    /* ───────────────────────── Buttons: three tiers ───────────────────────── */
     button.primary {
       width: 100%;
+      min-height: 40px;
       padding: 12px 18px;
       border: 0;
-      background: var(--text);
-      color: #FAF9F5;
+      border-radius: var(--radius-sm);
+      background: var(--accent);
+      color: var(--accent-ink);
+      font: 700 13.5px/1 var(--font);
       letter-spacing: 0.01em;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      transition: background .15s ease, transform .12s ease, box-shadow .15s ease;
     }
-    button.primary:hover:not(:disabled) { background: var(--accent-strong); transform: translateY(-1px); }
-    button.primary:active:not(:disabled) { transform: translateY(0); }
-    button.primary:disabled {
-      background: var(--panel3);
-      color: var(--muted-soft);
-      cursor: not-allowed;
-    }
+    button.primary:hover:not(:disabled) { background: var(--accent-hover); transform: translateY(-1px); box-shadow: var(--shadow); }
+    button.primary:active:not(:disabled) { background: var(--accent-press); transform: translateY(0); }
+    button.primary:disabled { background: var(--panel3); color: #6F6B62; box-shadow: none; cursor: not-allowed; }
+
     button.secondary {
+      min-height: 40px;
       padding: 7px 14px;
-      background: transparent;
-      color: var(--text);
+      border-radius: var(--radius-sm);
+      background: var(--panel);
+      color: var(--text-soft);
       border: 1px solid var(--border-strong);
+      font: 650 13.5px/1 var(--font);
+      cursor: pointer;
+      transition: border-color .15s ease, background .15s ease, color .15s ease;
     }
-    button.secondary:hover:not(:disabled) { border-color: var(--text); background: var(--surface); }
-    button.secondary:disabled { background: transparent; color: var(--muted-soft); border-color: var(--border); cursor: not-allowed; }
+    button.secondary:hover:not(:disabled) { border-color: var(--muted); background: var(--surface); color: var(--text); }
+    button.secondary:disabled { color: #6F6B62; border-color: var(--border); background: transparent; cursor: not-allowed; }
     button.secondary.pdf-btn {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      color: var(--teal);
+      color: var(--text-soft);
       border-color: var(--border-strong);
     }
-    button.secondary.pdf-btn:hover:not(:disabled) { border-color: var(--teal); color: var(--teal); background: var(--surface); }
+    button.secondary.pdf-btn:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); background: var(--surface); }
     button.secondary.pdf-btn::before {
       content: "";
       width: 14px;
@@ -368,7 +421,7 @@
       max-height: 440px;          /* feed grows with content, then scrolls — no dead space */
       overflow-y: auto;
       padding: 10px 20px;
-      background: #FCFBF7;
+      background: var(--surface);
       color: var(--text);
       font-family: var(--font);
       font-size: 13px;
@@ -409,7 +462,7 @@
       font-size: 11px;
       font-weight: 700;
       line-height: 1;
-      box-shadow: 0 0 0 3px #FCFBF7;   /* mask the rail behind each icon */
+      box-shadow: 0 0 0 3px var(--surface);   /* mask the rail behind each icon */
     }
     .step .label { color: var(--text); font-weight: 650; font-size: 13px; }
     .step .arg {
@@ -436,7 +489,7 @@
     .step.with-detail { flex-wrap: wrap; }
     .step.with-detail .detail { flex-basis: 100%; }
     .step.text .icon { background: rgba(79,124,116,0.16); color: var(--teal); }
-    .step.text .label { color: var(--teal); }
+    .step.text .label { color: var(--text); }
     /* in-progress shimmer for the streaming "Writing draft…" step (last text step while running) */
     .status-bar.running ~ * .step.text:last-child .label,
     body .activity .step.text:last-child .label { }
@@ -471,27 +524,9 @@
 
     body.errors-only .step:not(.error) { display: none; }
 
-    /* Task pills */
-    #task-pills { display: flex; gap: 5px; margin-left: auto; }
-    .task-pill {
-      padding: 4px 10px;
-      background: var(--panel3);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-pill);
-      color: var(--muted);
-      font-size: 10.5px;
-      font-weight: 700;
-      letter-spacing: 0.03em;
-      white-space: nowrap;
-      transition: background .18s ease, color .18s ease, border-color .18s ease;
-    }
-    .task-pill.active {
-      background: var(--accent-soft);
-      color: var(--text);
-      border-color: var(--border-strong);
-      box-shadow: 0 0 0 3px rgba(20, 18, 15, 0.06);
-    }
-    .task-pill.done { background: var(--green-soft); color: var(--green-text); border-color: var(--border); }
+    /* Legacy header task-pill styling removed — Production Status is now the
+       animated stepper (see .stepper / .stepper .task-pill in the canonical
+       design system block). The #task-pills element is now an <ol class=stepper>. */
 
     .error-badge {
       padding: 4px 11px;
@@ -522,7 +557,7 @@
     .activity.comic .step .arg { background: var(--panel3); border: 1px solid var(--border); color: var(--text-soft); font-family: var(--mono); font-size: 11px; border-radius: var(--radius-pill); padding: 2px 8px; }
     .activity.comic .step .detail { font-family: var(--serif); font-size: 12px; color: var(--muted); margin-left: 36px; }
     .activity.comic .step.text .icon { background: rgba(79,124,116,0.16); color: var(--teal); }
-    .activity.comic .step.text .label { color: var(--teal); }
+    .activity.comic .step.text .label { color: var(--text); }
     .activity.comic .step.text { background: transparent; border-color: var(--border); }
     .panel-header.comic-active .task-pill { font-family: inherit; font-size: 11px; letter-spacing: 0; }
     .sfx-burst { display: none !important; }
@@ -532,7 +567,7 @@
     .progress-fill {
       height: 100%;
       width: 0%;
-      background: linear-gradient(90deg, var(--clay), var(--teal));
+      background: var(--accent);
       transition: width 0.4s ease-out;
     }
 
@@ -632,7 +667,7 @@
       flex: 1;
       overflow-y: auto;
       padding: 34px 44px;
-      background: #FCFBF7;
+      background: var(--surface);
       color: var(--text-soft);
       font-family: var(--serif);
       font-size: 15.5px;
@@ -734,16 +769,30 @@
       border-right: 1px solid var(--border);
     }
     .lib-card {
+      position: relative;
       margin-bottom: 11px;
-      padding: 15px;
-      background: var(--surface);
+      padding: 15px 15px 15px 18px;
+      background: var(--panel);
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
+      box-shadow: var(--shadow-sm);
       cursor: pointer;
-      transition: border-color .15s ease, transform .12s ease, background .15s ease;
+      transition: box-shadow .16s ease, transform .14s ease, border-color .16s ease;
     }
-    .lib-card:hover { border-color: var(--border-strong); background: #FBF8F1; transform: translateY(-1px); }
-    .lib-card.selected { border-color: var(--text); box-shadow: 0 0 0 1px var(--text); background: #FBF8F1; }
+    .lib-card::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+      border-radius: var(--radius-sm) 0 0 var(--radius-sm); background: var(--border-strong);
+    }
+    .lib-card[data-state=approved]::before { background: var(--green); }
+    .lib-card[data-state=await]::before    { background: var(--amber); }
+    .lib-card[data-state=fail]::before     { background: var(--accent); }
+    .lib-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lift); border-color: var(--border-strong); }
+    .lib-card.selected { border-color: var(--accent); box-shadow: var(--shadow-lift), inset 0 0 0 1px var(--accent); }
+    .lib-card .lib-src {
+      margin: 0 0 4px; font: 500 11px/1.3 var(--mono); color: var(--muted);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .lib-card .lib-type-ico { width: 14px; height: 14px; vertical-align: -2px; margin-right: 5px; stroke: var(--muted); }
     .lib-card .title { margin: 0 0 9px; color: var(--text); font-size: 14px; font-weight: 700; line-height: 1.35; }
     .lib-card .row {
       display: flex; align-items: center; flex-wrap: wrap; gap: 8px;
@@ -763,11 +812,92 @@
     }
     .badge.draft { background: var(--amber-soft); color: var(--amber-text); }
     .badge.pending { background: var(--amber-soft); color: var(--amber-text); border: 1px solid var(--border); }
-    .secondary.danger { color: var(--clay); border-color: var(--border-strong); }
-    .secondary.danger:hover:not(:disabled) { background: var(--red-soft); border-color: var(--clay); }
-    .secondary.accent { background: var(--text); color: #FAF9F5; border-color: var(--text); }
-    .secondary.accent:hover:not(:disabled) { background: var(--accent-strong); color: #FAF9F5; }
-    .secondary.accent:disabled { background: transparent; color: var(--muted-soft); border-color: var(--border); }
+    .badge.approved { background: var(--green-soft); color: var(--green-text); border: 1px solid var(--border); }
+
+    /* Visible source-citation chips (the "Show sources" view) */
+    .preview .cite-chip {
+      display: inline; font-family: var(--mono); font-size: 10px; font-weight: 600;
+      background: var(--accent-soft); color: var(--text); border: 1px solid var(--border-strong);
+      border-radius: 6px; padding: 1px 5px; margin: 0 2px; vertical-align: 1px;
+      cursor: help; white-space: nowrap; text-decoration: none;
+    }
+    .preview .cite-chip:hover { background: var(--teal); color: #FAF9F5; border-color: var(--teal); }
+
+    /* ───────────────────────── Describe-what-you-need mode ───────────────────────── */
+    .seg { display:flex; gap:4px; background:var(--panel2); border:1px solid var(--border); border-radius:var(--radius-pill); padding:3px; margin-bottom:16px; }
+    .seg button { flex:1; border:0; background:transparent; padding:7px 10px; font-size:12.5px; font-family:var(--font); color:var(--muted); border-radius:var(--radius-pill); cursor:pointer; }
+    .seg button.active { background:var(--surface); color:var(--text); font-weight:650; box-shadow:0 1px 2px rgba(0,0,0,.05); }
+    #mode-describe textarea, #mode-transcript textarea { width:100%; box-sizing:border-box; padding:9px 11px; font-family:var(--font); font-size:13px; color:var(--text); background:var(--surface); border:1px solid var(--border-strong); border-radius:var(--radius-sm); resize:vertical; }
+    #mode-describe textarea:focus-visible, #mode-transcript textarea:focus-visible { outline:2px solid var(--accent); outline-offset:1px; }
+    .intent-convo { margin-top:14px; display:flex; flex-direction:column; gap:8px; }
+    .intent-convo .bubble { padding:9px 12px; border-radius:10px; font-size:13px; line-height:1.5; }
+    .intent-convo .bubble.user { background:var(--accent-soft); color:var(--text); align-self:flex-end; max-width:90%; }
+    .intent-convo .bubble.bot { background:var(--panel2); color:var(--text-soft); border:1px solid var(--border); font-family:var(--serif); }
+    .intent-convo .bubble.bot.warn { background:var(--amber-soft); color:var(--amber-text); border-color:var(--border); }
+    .scope-card { margin-top:14px; border:1px solid var(--border-strong); border-radius:var(--radius-sm); background:var(--surface); overflow:hidden; }
+    .scope-card .sc-head { padding:11px 14px; background:var(--panel2); border-bottom:1px solid var(--border); }
+    .scope-card .sc-title { font-weight:700; color:var(--text); font-size:13px; }
+    .scope-card .sc-meta { font-size:11.5px; color:var(--muted); margin-top:3px; }
+    .scope-card .sc-body { padding:6px 14px; max-height:280px; overflow-y:auto; }
+    .scope-card .sc-sec { padding:8px 0; border-bottom:1px solid var(--border); }
+    .scope-card .sc-sec:last-child { border-bottom:0; }
+    .scope-card .sc-sec .t { font-weight:650; color:var(--text); font-size:12.5px; }
+    .scope-card .sc-sec .sd { font-size:11.5px; color:var(--muted); margin-top:2px; }
+    .scope-card .sc-sec .k { font-family:var(--mono); font-size:11px; color:var(--clay); margin-top:3px; }
+    .scope-card .sc-actions { display:flex; gap:8px; padding:12px 14px; border-top:1px solid var(--border); background:var(--panel2); }
+    .scope-card .sc-actions button { flex:0 0 auto; }
+
+    /* ───────────────────────── Review: AI-assisted edit bar ───────────────────────── */
+    .edit-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: var(--panel2);
+      border-bottom: 1px solid var(--border);
+    }
+    .edit-bar input {
+      flex: 1;
+      min-width: 0;
+      padding: 8px 11px;
+      font-family: var(--font);
+      font-size: 13px;
+      color: var(--text);
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+    }
+    .edit-bar input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+    .edit-bar button { white-space: nowrap; }
+    .edit-result {
+      padding: 11px 16px;
+      background: var(--panel2);
+      border-bottom: 1px solid var(--border);
+      font-size: 12.5px;
+      color: var(--text-soft);
+    }
+    .edit-result .er-head { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+    .edit-result .er-tag {
+      font-size: 10px; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase;
+      padding: 2px 8px; border-radius: var(--radius-pill); border: 1px solid var(--border);
+    }
+    .edit-result .er-tag.stylistic { background: var(--green-soft); color: var(--green-text); }
+    .edit-result .er-tag.substantive { background: var(--amber-soft); color: var(--amber-text); }
+    .edit-result .er-tag.refused,
+    .edit-result .er-tag.broke { background: var(--red-soft); color: var(--red-text); }
+    .edit-result .er-reason { color: var(--text-soft); font-family: var(--serif); }
+    .edit-result .er-meta { color: var(--muted); margin-top: 4px; font-size: 11.5px; }
+    .edit-result ul { margin: 5px 0 0; padding-left: 18px; }
+    .edit-result li { margin: 2px 0; color: var(--muted); }
+    /* Success-path CTA (Approve→Library): ghost terracotta, won't fight .primary */
+    button.secondary.accent { background: transparent; color: var(--accent); border-color: var(--accent); }
+    button.secondary.accent:hover:not(:disabled) { background: var(--accent-soft); color: var(--accent-press); }
+    button.secondary.accent:disabled { color: #6F6B62; border-color: var(--border); background: transparent; }
+    /* TIER 3 destructive — quiet, recedes beside Download */
+    button.secondary.danger { color: var(--red-text); border-color: transparent; background: transparent; font-weight: 600; }
+    button.secondary.danger:hover:not(:disabled) { background: var(--red-soft); border-color: var(--red); color: var(--red-text); }
+    button.secondary.danger.ghost { color: var(--muted); padding: 7px 10px; margin-left: 6px; border-color: transparent; }
+    button.secondary.danger.ghost:hover:not(:disabled) { background: var(--red-soft); color: var(--red-text); border-color: transparent; }
     .score-hero {
       display: flex; align-items: center; gap: 22px; padding: 22px 24px; border-radius: var(--radius);
       background: linear-gradient(135deg, #F1ECE0, #E9E2D4); border: 1px solid var(--border); margin-bottom: 18px;
@@ -792,10 +922,12 @@
     /* ───────────────────────── Hide dev-only controls ───────────────────────── */
     #debug-toggle, #log-link { display: none !important; }
 
-    /* Accessible focus ring tuned for the warm palette */
+    /* Accessible focus ring — terracotta everywhere (single accent) */
     a:focus-visible, button:focus-visible, select:focus-visible,
-    input:focus-visible, .lib-card:focus-visible, .drop:focus-visible, nav button:focus-visible {
-      outline: 2px solid var(--text);
+    input:focus-visible, textarea:focus-visible,
+    .lib-card:focus-visible, .drop:focus-visible, nav button:focus-visible,
+    .task-pill:focus-visible, .cite-chip:focus-visible, tr[data-rid]:focus-visible {
+      outline: 2px solid var(--accent);
       outline-offset: 2px;
       border-radius: 6px;
     }
@@ -838,92 +970,532 @@
     .legend i.box { width: 16px; height: 12px; border: 1px solid var(--border-strong); border-radius: 3px; background: var(--accent-soft); }
 
     /* ───────────────────────── Responsive ───────────────────────── */
+    .table-scroll { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
     @media (max-width: 1040px) {
       .author, .library { grid-template-columns: 1fr; }
       .right { grid-template-rows: auto auto; }
       .lib-split { grid-template-columns: 1fr; }
-      .lib-grid { border-right: 0; border-bottom: 1px solid var(--border); max-height: 320px; }
+      .lib-grid { border-right: 0; border-bottom: 1px solid var(--border); max-height: 46vh; }
+      .library { min-height: 0; }
     }
     @media (max-width: 720px) {
-      header.top { flex-wrap: wrap; gap: 12px; min-height: 0; padding: 12px 18px; }
+      header.top { flex-wrap: wrap; gap: 12px; min-height: 0; padding: 12px 16px; }
+      header.top nav { order: 4; width: 100%; overflow-x: auto; flex-wrap: nowrap; }
+      nav button { min-width: 0; flex: 1 0 auto; }
       .meta { order: 3; margin-left: 0; }
-      .author, .library { padding: 18px; gap: 16px; }
-      .preview { padding: 24px 20px; }
-      #task-pills { flex-wrap: wrap; }
+      .author, .library { padding: 16px; gap: 16px; }
+      .preview { padding: 22px 18px; font-size: 15px; }
+      .lib-grid { max-height: none; }
+      .panel-body { padding: 16px; }
     }
+    @media (max-width: 480px) {
+      .stepper .node { width: 24px; height: 24px; font-size: 11px; }
+      .stepper .node-cap { font-size: 10px; }
+      .stepper .task-pill::before { top: 12px; }
+    }
+
+    /* ───────────────────────── Reduced motion ───────────────────────── */
+    @media (prefers-reduced-motion: reduce) {
+      .skeleton::after, .spinner, .step.live .icon,
+      .status-line.running::before, .meta::before,
+      .stepper .task-pill.active .node::after { animation: none !important; opacity: .4; }
+      .view.active, .step { animation: none !important; }
+      .score-ring .arc { transition: none; }
+      * { scroll-behavior: auto; }
+    }
+
+    /* ════════════════ REUSABLE UTILITY CLASSES (used by slices B/C/D markup/JS) ════════════════ */
+
+    /* Typography helpers */
+    .field .hint, .hint { color: var(--muted-aa); font: 400 12.5px/1.6 var(--font); }
+
+    /* ── PRODUCTION STATUS — ANIMATED STEPPER (hero) ── */
+    .stepper-wrap { padding: 16px 18px 14px; background: var(--panel2); border-bottom: 1px solid var(--border); }
+    .stepper { list-style: none; margin: 0 0 14px; padding: 0; display: flex; }
+    .stepper .task-pill {
+      position: relative; flex: 1; display: flex; flex-direction: column; align-items: center; gap: 7px;
+      background: none; border: 0; border-radius: 0; box-shadow: none; color: var(--muted); white-space: normal;
+    }
+    .stepper .task-pill::before {
+      content: ""; position: absolute; top: 14px; left: -50%; width: 100%; height: 2px;
+      background: var(--border-strong); z-index: 0; transition: background .2s ease;
+    }
+    .stepper .task-pill:first-child::before { display: none; }
+    .stepper .node {
+      position: relative; z-index: 1; width: 28px; height: 28px; border-radius: 50%;
+      display: inline-grid; place-items: center; background: var(--surface);
+      border: 2px solid var(--border-strong); color: var(--muted);
+      font-size: 12px; font-weight: 800; line-height: 1;
+      transition: background .2s ease, border-color .2s ease, color .2s ease, box-shadow .2s ease, transform .15s ease;
+    }
+    .stepper .node-num { transition: opacity .15s ease; }
+    .stepper .node-check {
+      position: absolute; opacity: 0; width: 13px; height: 13px;
+      background: center/contain no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23FBF8F1' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+    }
+    .stepper .node-cap { font-size: 11px; font-weight: 700; letter-spacing: .03em; text-transform: uppercase; color: var(--muted); transition: color .2s ease; }
+    .stepper .task-pill.active .node { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); box-shadow: 0 0 0 4px rgba(179,84,59,0.18); }
+    .stepper .task-pill.active .node::after { content: ""; position: absolute; inset: -6px; border-radius: 50%; border: 2px solid var(--accent); opacity: .5; animation: ring-pulse 1.4s ease-out infinite; }
+    .stepper .task-pill.active .node-cap { color: var(--text); }
+    .stepper .task-pill.active::before { background: var(--accent); }
+    .stepper .task-pill.done .node { background: var(--green); border-color: var(--green); color: var(--accent-ink); box-shadow: none; }
+    .stepper .task-pill.done .node .node-num { opacity: 0; }
+    .stepper .task-pill.done .node .node-check { opacity: 1; }
+    .stepper .task-pill.done .node-cap { color: var(--green-text); }
+    .stepper .task-pill.done::before { background: var(--green); }
+    @keyframes ring-pulse { 0% { transform: scale(.85); opacity: .55; } 70% { transform: scale(1.25); opacity: 0; } 100% { transform: scale(1.25); opacity: 0; } }
+
+    /* Live status line (replaces heavy .status-bar) */
+    .status-line { display: flex; align-items: center; gap: 8px; margin-top: 10px; color: var(--muted); font-size: 12.5px; font-weight: 600; min-height: 18px; }
+    .status-line::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--muted-soft); flex: none; }
+    .status-line.running { color: var(--text); }
+    .status-line.running::before { background: var(--accent); animation: pulse 1.1s ease-in-out infinite; }
+    .status-line.done { color: var(--green-text); }
+    .status-line.done::before { background: var(--green); }
+    .status-line.err { color: var(--red-text); }
+    .status-line.err::before { background: var(--red); }
+
+    /* CREATE — flow ordinals + required-field hint */
+    .panel-header .step-ord { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font-size: 11px; font-weight: 800; margin-right: 6px; flex: none; }
+    .run-needs { margin: 0 0 10px; font-size: 12px; color: var(--muted-aa); }
+    .run-needs.ready { color: var(--green-text); }
+
+    /* "WHY THIS MATTERS" disclosure */
+    details.why summary { list-style: none; cursor: pointer; color: var(--muted-aa); font-size: 12.5px; line-height: 1.5; }
+    details.why summary::-webkit-details-marker { display: none; }
+    .why-more { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+    .why-body { margin-top: 8px; padding-left: 12px; border-left: 2px solid var(--border-strong); }
+    .why-body p { margin: 0 0 8px; color: var(--muted-aa); font-size: 12.5px; line-height: 1.55; }
+
+    /* GUIDED EMPTY STATES */
+    .empty-guided, .act-empty { display: grid; place-items: center; gap: 8px; text-align: center; padding: 38px 24px; color: var(--muted-aa); }
+    .act-empty svg { width: 26px; height: 26px; stroke: var(--muted-soft); margin-bottom: 6px; }
+    .eg-title, .ae-title { margin: 0; font: 700 15px/1.2 var(--font); color: var(--text); }
+    .eg-sub, .ae-sub { margin: 0; max-width: 46ch; font-family: var(--serif); font-size: 13.5px; line-height: 1.5; color: var(--muted-aa); }
+
+    /* EVALS — animated radial trust ring + conclusion */
+    .score-ring { position: relative; width: 104px; height: 104px; flex: none; }
+    .score-ring svg { transform: rotate(-90deg); width: 104px; height: 104px; }
+    .score-ring circle { fill: none; stroke-width: 9; }
+    .score-ring .trk { stroke: var(--panel3); }
+    .score-ring .arc { stroke: var(--accent); stroke-linecap: round; stroke-dasharray: 327; stroke-dashoffset: 327; transition: stroke-dashoffset 1s cubic-bezier(.2,.7,.2,1); }
+    .ring-num { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text); }
+    .ring-num .num { font-size: 27px; font-weight: 800; line-height: 1; }
+    .ring-num .grade { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin-top: 3px; }
+    .score-conclude { margin-top: 10px; font-size: 13px; color: var(--text-soft); }
+
+    /* SKELETON / SHIMMER / SPINNER / ASYNC-ERROR */
+    .skeleton { position: relative; background: var(--panel3); border-radius: var(--radius-sm); overflow: hidden; }
+    .skeleton::after { content: ""; position: absolute; inset: 0; transform: translateX(-100%); background: linear-gradient(90deg, transparent 0, rgba(255,255,255,0.55) 50%, transparent 100%); animation: shimmer 1.25s ease-in-out infinite; }
+    @keyframes shimmer { 100% { transform: translateX(100%); } }
+    .sk-hero { height: 96px; margin-bottom: 18px; }
+    .sk-card { height: 64px; margin-bottom: 11px; border: 1px solid var(--border); }
+    .sk-row  { height: 38px; margin: 4px 0; }
+    .sk-bar  { height: 14px; margin: 8px 0; }
+    .score-ring.sk { background: var(--panel3); border-radius: 50%; }
+    .spinner { display: inline-block; width: 15px; height: 15px; vertical-align: -2px; border: 2px solid rgba(179,84,59,0.25); border-top-color: var(--accent); border-radius: 50%; animation: spin .7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .async-error { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 36px 24px; text-align: center; background: var(--red-soft); border: 1px solid var(--border); border-radius: var(--radius); color: var(--red-text); font-family: var(--serif); font-size: 14px; }
+    .async-error .ae-title { font-family: var(--font); font-weight: 700; font-size: 14px; }
+
+    /* ══ Content library — design tokens (8pt spacing + modular type scale) ══ */
+    :root {
+      --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 24px; --sp-6: 32px; --sp-8: 48px;
+      --cfs-hero: 28px; --cfs-title: 17px; --cfs-body: 13.5px; --cfs-meta: 11.5px; --cfs-micro: 10.5px;
+      /* asset-type accents — muted, warm-palette-compatible; ALWAYS paired with icon+text, never color alone */
+      --type-video: #BE6A33; --type-pdf: #A4502F; --type-web: #4F7C74; --type-ppt: #AC842B; --type-youtube: #BE6A33;
+    }
+
+    /* ── Hero: leads with the trust + scale story ── */
+    .icn-hero { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between;
+                gap: var(--sp-6); padding: var(--sp-6) 30px var(--sp-5); border-bottom: 1px solid var(--border); }
+    .icn-eyebrow { font-family: var(--font); font-size: var(--cfs-micro); font-weight: 700; letter-spacing: .12em;
+                   text-transform: uppercase; color: var(--accent); margin: 0 0 var(--sp-2); }
+    .icn-hero-main { max-width: 600px; }
+    .icn-hero-title { font-family: var(--serif); font-size: var(--cfs-hero); font-weight: 600; line-height: 1.15;
+                      letter-spacing: -.01em; color: var(--text); margin: 0 0 var(--sp-3); }
+    .icn-hero-sub { font-size: var(--cfs-body); line-height: 1.6; color: var(--text-soft); margin: 0; }
+    .icn-hero-stats { display: flex; flex-wrap: wrap; gap: var(--sp-6); }
+    .icn-stat { display: flex; flex-direction: column; }
+    .icn-stat .num { font-family: var(--serif); font-size: 26px; font-weight: 650; color: var(--text); line-height: 1; }
+    .icn-stat .lbl { font-size: var(--cfs-micro); font-weight: 600; letter-spacing: .05em; text-transform: uppercase;
+                     color: var(--muted-aa); margin-top: var(--sp-1); }
+    .icn-stat-trust .num { color: var(--green-text); }
+
+    /* ── Catalog grid (reflows 1 / 2 / 3+ columns) ── */
+    .icn-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(255px, 1fr)); gap: var(--sp-4); }
+    .icn-card { display: flex; flex-direction: column; background: #FFFFFF; border: 1px solid var(--border);
+                border-radius: var(--radius); box-shadow: var(--shadow-sm); overflow: hidden;
+                transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease; }
+    .icn-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lift); border-color: var(--border-strong); }
+    /* 3px top band, colored by asset type (one of the two type signals; text label is the other) */
+    .icn-card::before { content: ""; display: block; height: 3px; background: var(--t, var(--border)); }
+    .icn-card[data-type="video"]   { --t: var(--type-video); }
+    .icn-card[data-type="pdf"]     { --t: var(--type-pdf); }
+    .icn-card[data-type="web"]     { --t: var(--type-web); }
+    .icn-card[data-type="ppt"]     { --t: var(--type-ppt); }
+    .icn-card[data-type="youtube"] { --t: var(--type-youtube); }
+    .icn-thumb { position: relative; height: 104px; background: var(--panel3); display: flex; align-items: center;
+                 justify-content: center; border-bottom: 1px solid var(--border); overflow: hidden; }
+    .icn-thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; background: #FFF; }
+    .icn-glyph { display: inline-flex; }
+    .icn-thumb .icn-glyph { color: var(--muted); opacity: .5; }
+    .icn-thumb .icn-glyph svg { width: 28px; height: 28px; }
+    .icn-body { display: flex; flex-direction: column; gap: var(--sp-2); padding: var(--sp-4); flex: 1; }
+    /* glanceable type cue: colored icon + label */
+    .icn-type { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font); font-size: var(--cfs-micro);
+                font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--t, var(--muted-aa)); }
+    .icn-type svg { width: 14px; height: 14px; }
+    /* the TITLE is the hero of the card */
+    .icn-title { font-family: var(--serif); font-size: var(--cfs-title); font-weight: 650; line-height: 1.3; color: var(--text); margin: 0; }
+    .icn-chips { display: flex; flex-wrap: wrap; gap: var(--sp-1); }
+    .icn-chip { font-size: var(--cfs-micro); font-weight: 600; padding: 2px 8px; border-radius: var(--radius-sm); background: var(--panel3); color: var(--muted-aa); }
+    .icn-bottom { margin-top: auto; display: flex; flex-direction: column; gap: var(--sp-2); padding-top: var(--sp-2); }
+    .icn-meta { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-2); }
+    /* capability badges — one consistent, restrained pill system */
+    .icn-badge { display: inline-flex; align-items: center; gap: 4px; font-size: var(--cfs-micro); font-weight: 700;
+                 letter-spacing: .02em; padding: 3px 9px; border-radius: 999px; }
+    .icn-badge.download { background: var(--green-soft); color: var(--green-text); }   /* positive affordance */
+    .icn-badge.link     { background: var(--panel3); color: var(--muted-aa); }
+    .icn-badge.embed    { background: rgba(79,124,116,0.14); color: #3C5F58; }
+    .icn-info { background: none; border: 0; cursor: help; font-size: var(--cfs-micro); font-weight: 600; color: var(--muted); padding: 2px 4px; border-radius: var(--radius-sm); }
+    .icn-info:hover { color: var(--accent); }
+    /* actions: title is the hero → open is a QUIET ghost text link, quiz is the one soft accent */
+    .icn-actions { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
+    .icn-open { display: inline-flex; align-items: center; gap: 5px; font-family: var(--font); font-size: var(--cfs-body);
+                font-weight: 650; color: var(--accent); text-decoration: none; padding: 4px 0; border-radius: 4px; }
+    .icn-open:hover { text-decoration: underline; }
+    .icn-quiz { display: inline-flex; align-items: center; gap: 5px; cursor: pointer; margin-left: auto; border: 0;
+                font-family: var(--font); font-size: var(--cfs-meta); font-weight: 650; color: var(--accent-ink, var(--accent));
+                background: var(--accent-soft); padding: 5px 11px; border-radius: var(--radius-sm); transition: background .16s, color .16s; }
+    .icn-quiz:hover { background: var(--accent); color: #FFF; }
+    /* suggested course paths */
+    .icn-paths { margin-top: var(--sp-5); padding-top: var(--sp-4); border-top: 1px solid var(--border); }
+    .icn-paths h4 { font-family: var(--font); font-size: var(--cfs-micro); font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); margin: 0 0 var(--sp-3); }
+    .icn-path { border: 1px solid var(--border); border-radius: var(--radius-sm); padding: var(--sp-3); margin-bottom: var(--sp-2); background: var(--surface); }
+    .icn-path .ip-title { font-family: var(--serif); font-size: var(--cfs-meta); font-weight: 650; color: var(--text); }
+    .icn-path .ip-meta { font-size: var(--cfs-micro); color: var(--muted-aa); margin-top: 3px; line-height: 1.45; }
+    /* responsive: filter rail collapses into a "Filters" control on narrow screens */
+    .icn-filters > summary { display: none; }
+    @media (max-width: 760px) {
+      .icn-hero { padding: var(--sp-5) 16px; gap: var(--sp-4); }
+      .icn-hero-stats { gap: var(--sp-5); }
+      .icn-filters > summary { display: block; cursor: pointer; list-style: none; font-family: var(--font);
+            font-size: var(--cfs-meta); font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+            color: var(--text); padding: var(--sp-2) 0; }
+      .icn-filters > summary::-webkit-details-marker { display: none; }
+      .icn-filters:not([open]) .icn-filters-body { display: none; }
+    }
+
+    /* ── Course-path detail view (DataCamp-style track page, our palette) ── */
+    .path-detail { padding-bottom: var(--sp-8); }
+    .path-back { margin: var(--sp-4) 30px 0; background: none; border: 0; cursor: pointer; color: var(--accent);
+                 font-family: var(--font); font-weight: 650; font-size: var(--cfs-body); padding: 4px 0; }
+    .path-back:hover { text-decoration: underline; }
+    /* bold dark-warm hero (borrowed structure; our espresso/terracotta palette) */
+    .path-hero { margin: var(--sp-3) 30px var(--sp-5); padding: var(--sp-6); border-radius: var(--radius);
+                 background: linear-gradient(135deg, #2A2018 0%, #3B2C20 100%); color: #F3ECE0; box-shadow: var(--shadow-lift); }
+    .path-eyebrow { font-family: var(--font); font-size: var(--cfs-micro); font-weight: 700; letter-spacing: .12em;
+                    text-transform: uppercase; color: #E7B79A; margin: 0 0 var(--sp-2); }
+    .path-title { font-family: var(--serif); font-size: 32px; font-weight: 600; line-height: 1.1; color: #FFF; margin: 0 0 var(--sp-3); }
+    .path-desc { font-size: var(--cfs-body); line-height: 1.6; color: #D9CDBC; margin: 0 0 var(--sp-4); max-width: 640px; }
+    .path-stats { display: flex; flex-wrap: wrap; gap: var(--sp-5); font-size: var(--cfs-body); color: #D9CDBC; margin-bottom: var(--sp-5); }
+    .path-stats b { color: #FFF; font-family: var(--serif); font-size: 18px; font-weight: 650; margin-right: 4px; }
+    .path-cta-btn { display: inline-flex; align-items: center; gap: 6px; background: var(--accent); color: #FFF; text-decoration: none;
+                    font-family: var(--font); font-weight: 700; font-size: var(--cfs-body); padding: 11px 22px; border-radius: var(--radius-sm); }
+    .path-cta-btn:hover { background: var(--accent-hover, var(--accent)); }
+    .path-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(220px, 280px); gap: var(--sp-5); margin: 0 30px; align-items: start; }
+    .path-modules { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--sp-3); }
+    .path-mod { display: flex; gap: var(--sp-4); background: #FFF; border: 1px solid var(--border); border-left: 3px solid var(--t, var(--border-strong));
+                border-radius: var(--radius); padding: var(--sp-4); transition: box-shadow .16s ease; }
+    .path-mod:hover { box-shadow: var(--shadow-sm); }
+    .path-mod[data-type="video"]   { --t: var(--type-video); }
+    .path-mod[data-type="pdf"]     { --t: var(--type-pdf); }
+    .path-mod[data-type="web"]     { --t: var(--type-web); }
+    .path-mod[data-type="ppt"]     { --t: var(--type-ppt); }
+    .path-mod[data-type="youtube"] { --t: var(--type-youtube); }
+    .path-num { flex: none; width: 30px; height: 30px; border-radius: 50%; background: var(--panel3); color: var(--text-soft);
+                display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-weight: 700; font-size: 15px; }
+    .path-mod-main { flex: 1; display: flex; flex-direction: column; gap: var(--sp-2); min-width: 0; }
+    .path-mod-title { font-family: var(--serif); font-size: var(--cfs-title); font-weight: 650; color: var(--text); line-height: 1.3; }
+    .path-mod-actions { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
+    .path-empty { color: var(--muted); font-style: italic; padding: var(--sp-4); }
+    .path-aside { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: var(--sp-4); position: sticky; top: 80px; }
+    .path-aside h4 { font-family: var(--font); font-size: var(--cfs-micro); font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); margin: 0 0 var(--sp-2); }
+    .path-aside-note { font-size: var(--cfs-meta); color: var(--text-soft); line-height: 1.55; margin: 0 0 var(--sp-3); }
+    .path-srcs { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--sp-1); }
+    .path-srcs li { font-size: var(--cfs-meta); color: var(--muted-aa); padding: 6px 10px; background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius-sm); }
+    .icn-path { cursor: pointer; transition: border-color .16s ease, box-shadow .16s ease; }
+    .icn-path:hover { border-color: var(--accent); box-shadow: var(--shadow-sm); }
+    @media (max-width: 760px) {
+      .path-hero, .path-layout, .path-back { margin-left: 16px; margin-right: 16px; }
+      .path-layout { grid-template-columns: 1fr; }
+      .path-title { font-size: 26px; }
+    }
+
+    /* ── Header right: district switcher + user (demo shell) ── */
+    .top-right { margin-left: auto; display: flex; align-items: center; gap: var(--sp-3); }
+    .isd-switch { position: relative; }
+    .isd-btn { display: inline-flex; align-items: center; gap: 7px; background: var(--surface); border: 1px solid var(--border);
+               border-radius: var(--radius-pill); padding: 6px 13px; cursor: pointer; font-family: var(--font); font-size: 12px; font-weight: 650; color: var(--text); }
+    .isd-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .isd-menu { position: absolute; right: 0; top: calc(100% + 6px); background: var(--panel); border: 1px solid var(--border);
+                border-radius: var(--radius); box-shadow: var(--shadow-lift); min-width: 230px; padding: 6px; z-index: 40; }
+    .isd-menu[hidden] { display: none; }
+    .isd-opt { display: flex; justify-content: space-between; gap: 10px; width: 100%; text-align: left; background: none; border: 0;
+               padding: 8px 10px; border-radius: var(--radius-sm); cursor: pointer; font: inherit; font-size: 12.5px; color: var(--text); }
+    .isd-opt:hover { background: var(--accent-soft); }
+    .isd-opt.active { color: var(--accent); font-weight: 700; }
+    .isd-opt .n { color: var(--muted); font-size: 11px; }
+    .user-ava { width: 30px; height: 30px; border-radius: 50%; background: var(--accent); color: #FFF; display: inline-flex;
+                align-items: center; justify-content: center; font-family: var(--font); font-weight: 700; font-size: 11.5px; }
+
+    /* ── Simulated sign-in ── */
+    .login-modal { position: fixed; inset: 0; z-index: 80; display: flex; align-items: center; justify-content: center;
+                   background: linear-gradient(135deg, #2A2018, #3B2C20); }
+    .login-modal[hidden] { display: none; }
+    .login-card { width: 100%; max-width: 360px; background: var(--panel); border-radius: var(--radius); padding: var(--sp-6); box-shadow: var(--shadow-lift); }
+    .login-brand { display: flex; flex-direction: column; gap: 2px; margin-bottom: var(--sp-5); }
+    .login-brand .brand-product { font-family: var(--serif); font-size: 20px; font-weight: 650; color: var(--text); }
+    .login-sc { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+    .login-card h2 { font-family: var(--serif); font-size: 17px; margin: 0 0 var(--sp-4); color: var(--text); }
+    .login-card label { display: block; font-size: var(--cfs-micro); font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--label); margin: var(--sp-3) 0 5px; }
+    .login-card input { width: 100%; box-sizing: border-box; padding: 9px 12px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); font: inherit; font-size: 13px; background: var(--surface); }
+    .login-btn { width: 100%; margin-top: var(--sp-4); padding: 11px; background: var(--accent); color: #FFF; border: 0; border-radius: var(--radius-sm); font-family: var(--font); font-weight: 700; font-size: 14px; cursor: pointer; }
+    .login-btn:hover { background: var(--accent-hover, var(--accent)); }
+    .login-demo { font-size: 11px; color: var(--muted); text-align: center; margin: var(--sp-3) 0 0; }
+
+    /* ── Roster (demo) ── */
+    .roster-wrap { padding: var(--sp-5) 30px var(--sp-8); max-width: 1100px; margin: 0 auto; }
+    .roster-head { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--sp-4); margin-bottom: var(--sp-5); flex-wrap: wrap; }
+    .roster-title { font-family: var(--serif); font-size: var(--cfs-hero); font-weight: 600; margin: 0; color: var(--text); }
+    .roster-sub { font-size: var(--cfs-body); color: var(--muted-aa); margin: var(--sp-1) 0 0; }
+    .roster-tools { display: flex; align-items: center; gap: var(--sp-3); }
+    .demo-tag { font-size: var(--cfs-micro); font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--muted-aa); background: var(--panel3); padding: 3px 9px; border-radius: 999px; }
+    #roster-search { padding: 8px 12px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); font: inherit; font-size: 13px; background: var(--panel); min-width: 200px; }
+    .roster-cards { display: flex; flex-wrap: wrap; gap: var(--sp-3); margin-bottom: var(--sp-5); }
+    .roster-stat { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: var(--sp-3) var(--sp-5); box-shadow: var(--shadow-sm); }
+    .roster-stat .n { font-family: var(--serif); font-size: 22px; font-weight: 650; color: var(--text); }
+    .roster-stat .l { font-size: var(--cfs-micro); font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--muted-aa); margin-top: 2px; }
+    .roster-table-wrap { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); }
+    .roster-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .roster-table th { text-align: left; font-family: var(--font); font-size: var(--cfs-micro); font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); padding: 11px 16px; border-bottom: 1px solid var(--border); background: var(--surface); }
+    .roster-table td { padding: 11px 16px; border-bottom: 1px solid var(--border); color: var(--text-soft); }
+    .roster-table tr:last-child td { border-bottom: 0; }
+    .roster-table tbody tr:hover td { background: var(--surface); }
+    .r-name { font-weight: 650; color: var(--text); }
+    .r-email { font-size: 11px; color: var(--muted); }
+    .r-prog { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
+    .r-bar { width: 70px; height: 6px; border-radius: 999px; background: var(--panel3); overflow: hidden; }
+    .r-bar > span { display: block; height: 100%; background: var(--accent); }
+    .r-status { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 999px; }
+    .r-status.done { background: var(--green-soft); color: var(--green-text); }
+    .r-status.prog { background: var(--accent-soft); color: var(--accent-ink, var(--accent)); }
+    .r-status.none { background: var(--panel3); color: var(--muted-aa); }
+    @media (max-width: 760px) { .roster-wrap { padding: var(--sp-4) 16px; } .roster-table-wrap { overflow-x: auto; } .top-right .meta { display: none; } }
+
+    /* ── Quiz overlay ── */
+    .quiz-modal { position: fixed; inset: 0; z-index: 60; display: flex; align-items: flex-start; justify-content: center; padding: 40px 16px; background: rgba(28,24,20,0.46); backdrop-filter: blur(3px); overflow-y: auto; }
+    .quiz-modal[hidden] { display: none; }
+    .quiz-sheet { width: 100%; max-width: 680px; background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-lg, var(--shadow-lift)); overflow: hidden; animation: quizUp .18s ease; }
+    @keyframes quizUp { from { transform: translateY(8px); opacity: 0; } to { transform: none; opacity: 1; } }
+    .quiz-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 18px 22px; border-bottom: 1px solid var(--border); background: var(--surface); }
+    .quiz-kicker { font-family: var(--font); font-size: 10.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+    .quiz-head h3 { margin: 3px 0 0; font-family: var(--serif); font-size: 19px; font-weight: 650; color: var(--text); }
+    .quiz-close { background: none; border: 0; font-size: 17px; color: var(--muted); cursor: pointer; padding: 4px 6px; border-radius: var(--radius-sm); }
+    .quiz-close:hover { background: var(--panel3); color: var(--text); }
+    .quiz-body { padding: 18px 22px; max-height: 64vh; overflow-y: auto; }
+    .quiz-q { padding: 14px 0; border-bottom: 1px solid var(--border); }
+    .quiz-q:last-child { border-bottom: 0; }
+    .quiz-q .stem { font-family: var(--serif); font-size: 14.5px; font-weight: 600; color: var(--text); margin-bottom: 10px; }
+    .quiz-q .stem .qn { color: var(--accent); font-weight: 700; margin-right: 6px; }
+    .quiz-opt { display: block; width: 100%; text-align: left; box-sizing: border-box; padding: 9px 12px; margin: 6px 0; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); background: var(--panel); color: var(--text-soft); font: inherit; font-size: 13px; cursor: pointer; transition: border-color .12s, background .12s; }
+    .quiz-opt:hover:not(:disabled) { border-color: var(--accent); }
+    .quiz-opt.correct { border-color: var(--green); background: var(--green-soft); color: var(--green-text); font-weight: 600; }
+    .quiz-opt.wrong { border-color: var(--red, #B3543B); background: var(--red-soft); color: var(--red-text); }
+    .quiz-opt:disabled { cursor: default; }
+    .quiz-src { margin-top: 9px; padding: 9px 12px; background: var(--surface); border-left: 3px solid var(--green); border-radius: var(--radius-sm); font-size: 12px; color: var(--muted-aa); line-height: 1.5; }
+    .quiz-src .sq { font-family: var(--serif); font-style: italic; color: var(--text-soft); }
+    .quiz-src .attr { display: block; margin-top: 5px; font-family: var(--mono, monospace); font-size: 10.5px; color: var(--muted); }
+    .quiz-src a { color: var(--accent); }
+    .quiz-foot { padding: 13px 22px; border-top: 1px solid var(--border); font-size: 11.5px; color: var(--muted); display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+    /* ── Study-set authoring (Create) + flashcards ── */
+    .ss-actions { display: flex; gap: var(--sp-3); flex-wrap: wrap; margin-top: var(--sp-2); }
+    .flash-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: var(--sp-3); }
+    .flash-card { background: var(--surface); border: 1px solid var(--border-strong); border-radius: var(--radius);
+                  padding: var(--sp-4); min-height: 122px; cursor: pointer; display: flex; flex-direction: column;
+                  justify-content: center; text-align: center; transition: border-color .16s, box-shadow .16s; }
+    .flash-card:hover { border-color: var(--accent); box-shadow: var(--shadow-sm); }
+    .flash-front { font-family: var(--serif); font-size: 15px; font-weight: 650; color: var(--text); }
+    .flash-front .flash-hint { display: block; font-family: var(--font); font-size: 9.5px; font-weight: 600;
+                               letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-top: 9px; }
+    .flash-back { display: none; font-size: 13px; color: var(--text-soft); line-height: 1.5; text-align: left; width: 100%; }
+    .flash-card.flipped .flash-front { display: none; }
+    .flash-card.flipped .flash-back { display: block; }
+    .flash-back .quiz-src { margin-top: 9px; }
+    /* view-mode toggle (Trainer / Customer) */
+    .view-toggle { display: inline-flex; background: var(--panel3); border: 1px solid var(--border); border-radius: var(--radius-pill); padding: 2px; }
+    .view-toggle button { border: 0; background: none; cursor: pointer; font-family: var(--font); font-size: 11.5px; font-weight: 650;
+                          color: var(--muted-aa); padding: 5px 12px; border-radius: var(--radius-pill); }
+    .view-toggle button.active { background: var(--panel); color: var(--accent); box-shadow: var(--shadow-sm); }
   </style>
 </head>
 <body>
 
 <header class="top">
-  <h1>Learning Studio</h1>
+  <h1 class="brand">
+    <img class="brand-logo" src="data:image/png;base64,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" alt="SchoolCafé — A Cybersoft Solution" />
+    <span class="brand-divider" aria-hidden="true"></span>
+    <span class="brand-product">Learning Studio</span>
+  </h1>
   <nav>
     <button id="tab-author" class="active" onclick="showView('author')">Create</button>
     <button id="tab-library" onclick="showView('library')">Library</button>
-    <button id="tab-evals" onclick="showView('evals')">Evals</button>
+    <button id="tab-content" onclick="showView('content')">Content</button>
+    <button id="tab-evals" onclick="showView('evals')">Quality</button>
+    <button id="tab-roster" onclick="showView('roster')">Roster</button>
     <button id="tab-howitworks" onclick="showView('howitworks')">How it works</button>
   </nav>
-  <div class="meta">Customer Education</div>
+  <div class="top-right">
+    <div class="view-toggle" id="view-toggle" role="tablist" title="Switch between the internal trainer workspace and the customer-facing view">
+      <button class="active" onclick="setViewMode('trainer')" id="vm-trainer">Trainer</button>
+      <button onclick="setViewMode('customer')" id="vm-customer">Customer</button>
+    </div>
+    <button class="meta" onclick="showView('evals')" title="Every claim in every generated guide is traced to a verifiable source. Click to see the Quality dashboard.">Every claim cited</button>
+    <div class="isd-switch">
+      <button class="isd-btn" id="isd-btn" onclick="toggleISDMenu()" aria-haspopup="true">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h.01M9 13h.01M9 17h.01M15 9h.01M15 13h.01M15 17h.01"/></svg>
+        <span id="isd-name">Select district</span>
+        <span aria-hidden="true">▾</span>
+      </button>
+      <div class="isd-menu" id="isd-menu" hidden></div>
+    </div>
+    <span class="user-ava" id="user-ava" title="Demo admin">DA</span>
+  </div>
 </header>
 
 <!-- ═══════════════════════════════════ AUTHOR ═══════════════════════════════════ -->
 <section id="view-author" class="view active">
   <div class="author">
     <div class="panel">
-      <div class="panel-header">Create a resource</div>
+      <div class="panel-header"><span class="step-ord">1</span><span>Create a resource</span></div>
       <div class="panel-body">
-        <div class="field">
-          <label id="transcript-label" for="file">Training transcript</label>
-          <div id="drop" class="drop" role="button" tabindex="0" aria-labelledby="transcript-label" aria-describedby="drop-help">
-            <p class="big">Upload transcript</p>
-            <p id="drop-help">Markdown or plain text</p>
-            <input id="file" type="file" accept=".md,.txt" hidden />
+        <div class="seg" id="create-mode" role="tablist">
+          <button type="button" data-cmode="transcript" class="active">Upload transcript</button>
+          <button type="button" data-cmode="describe">Describe what you need</button>
+          <button type="button" data-cmode="studyset" id="cmode-studyset">Study set</button>
+        </div>
+
+        <div id="mode-transcript">
+          <div class="field">
+            <label id="transcript-label" for="file">Training transcript</label>
+            <div id="drop" class="drop" role="button" tabindex="0" aria-labelledby="transcript-label" aria-describedby="drop-help">
+              <p class="big">Upload transcript</p>
+              <p id="drop-help">Markdown or plain text</p>
+              <input id="file" type="file" accept=".md,.txt" hidden />
+            </div>
+            <div id="chosen" class="chosen" style="display:none;"></div>
           </div>
-          <div id="chosen" class="chosen" style="display:none;"></div>
+          <div class="field">
+            <label for="module">Product module</label>
+            <select id="module"><option value="">Select a module</option></select>
+          </div>
+          <div class="field">
+            <label for="template">Resource format</label>
+            <select id="template"><option value="">Select a format</option></select>
+          </div>
+          <div class="field">
+            <label for="source">Where claims come from</label>
+            <select id="source">
+              <option value="jira" selected>Verified Jira tickets — behavior we can prove</option>
+              <option value="transcript">The transcript only — the presenter's exact words</option>
+            </select>
+            <details class="why" style="margin-top:8px;">
+              <summary>Each claim is quoted from its source, never invented. <span class="why-more">Why this matters</span></summary>
+              <div class="why-body">
+                <p>With <strong>Verified Jira tickets</strong>, every statement is backed by an approved ticket and cited at its trust level — agreed acceptance criteria first, then release notes, then the original description. That's the strongest evidence we can offer.</p>
+                <p>Choose <strong>the transcript only</strong> when you want the guide to follow the presenter's own words verbatim — useful for the navigation and steps tickets don't record, or for a module that has no ticket on file yet.</p>
+              </div>
+            </details>
+          </div>
+          <div class="field">
+            <label for="run-directive">Anything to keep in mind? <span style="text-transform:none;letter-spacing:0;font-weight:400;color:var(--muted)">(optional)</span></label>
+            <textarea id="run-directive" rows="2" placeholder="e.g. focus only on inventory distribution · for Houston ISD, keep it relatable"></textarea>
+            <p class="hint" style="margin-top:6px;">Shapes focus, audience &amp; tone — never the facts. Every claim still traces to a source.</p>
+          </div>
+          <p id="run-needs" class="hint run-needs"></p>
+          <button id="run" class="primary" disabled>Create draft</button>
         </div>
-        <div class="field">
-          <label for="module">Product module</label>
-          <select id="module"><option value="">Select a module</option></select>
+
+        <div id="mode-describe" style="display:none;">
+          <div class="field">
+            <label for="intent-input">Describe the guide you need</label>
+            <textarea id="intent-input" rows="3" placeholder="e.g. a quick one-pager on income survey auto-processing in Eligibility"></textarea>
+            <p class="hint" style="margin-top:6px;">No transcript needed — name the module &amp; topic. I'll search the tickets, propose a scope, and you confirm before anything is written. (⌘/Ctrl+Enter to send)</p>
+          </div>
+          <button id="intent-go" class="primary">Find the scope</button>
+          <div id="intent-convo" class="intent-convo" aria-live="polite"></div>
+          <div id="scope-card" class="scope-card" style="display:none;"></div>
         </div>
-        <div class="field">
-          <label for="template">Resource format</label>
-          <select id="template"><option value="">Select a format</option></select>
+
+        <div id="mode-studyset" style="display:none;">
+          <div class="field">
+            <label for="ss-topic">Topic</label>
+            <select id="ss-topic"><option value="">Select a topic</option></select>
+            <p class="hint" style="margin-top:6px;">Build a quiz or flashcards from the ICN library on this topic. We draft the questions; every answer is backed by a verbatim source quote and anything we can't verify is dropped.</p>
+          </div>
+          <div class="ss-actions">
+            <button id="ss-quiz" class="primary" disabled>Generate quiz</button>
+            <button id="ss-flash" class="secondary accent" disabled>Generate flashcards</button>
+          </div>
+          <p id="ss-status" class="hint" style="margin-top:10px;"></p>
         </div>
-        <button id="run" class="primary" disabled>Create draft</button>
       </div>
     </div>
 
     <div class="right">
       <div class="panel">
         <div class="panel-header" style="display:flex; align-items:center; gap:12px;">
-          <span>Production status</span>
-          <div id="task-pills" style="display:flex; gap:4px; margin-left:auto;">
-            <span class="task-pill" data-task="map">1 Map</span>
-            <span class="task-pill" data-task="plan">2 Plan</span>
-            <span class="task-pill" data-task="verify">3 Verify</span>
-            <span class="task-pill" data-task="generate">4 Draft</span>
-          </div>
-          <button id="errors-toggle" class="error-badge" style="display:none;">Errors: <span id="error-count">0</span></button>
+          <span class="step-ord">2</span><span style="margin-right:auto;">Building your guide</span>
+          <button id="errors-toggle" class="error-badge" style="display:none; margin-left:auto;">Errors: <span id="error-count">0</span></button>
           <a id="log-link" class="secondary" style="padding:3px 8px; font-size:10px; text-decoration:none; display:none;" target="_blank">Run details</a>
           <button id="debug-toggle" class="secondary" style="padding:3px 8px; font-size:10px;">Trace</button>
         </div>
-        <div id="activity" class="activity" aria-live="polite">
-          <div style="color:var(--muted); text-align:center; padding-top:40px; font-size:13px;">Choose a transcript, module, and format to create a draft.</div>
+        <div class="stepper-wrap">
+          <ol id="task-pills" class="stepper">
+            <li class="task-pill" data-task="map"><span class="node"><span class="node-num">1</span><span class="node-check"></span></span><span class="node-cap">Map</span></li>
+            <li class="task-pill" data-task="plan"><span class="node"><span class="node-num">2</span><span class="node-check"></span></span><span class="node-cap">Plan</span></li>
+            <li class="task-pill" data-task="verify"><span class="node"><span class="node-num">3</span><span class="node-check"></span></span><span class="node-cap">Verify</span></li>
+            <li class="task-pill" data-task="generate"><span class="node"><span class="node-num">4</span><span class="node-check"></span></span><span class="node-cap">Draft</span></li>
+          </ol>
+          <div class="progress-strip"><div id="progress-fill" class="progress-fill"></div></div>
+          <div id="status" class="status-line" aria-live="polite">Ready when you are.</div>
         </div>
-        <div class="progress-strip"><div id="progress-fill" class="progress-fill"></div></div>
-        <div id="status" class="status-bar" aria-live="polite">idle</div>
+        <div id="activity" class="activity" aria-live="polite">
+          <div class="act-empty">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 13h6"/><path d="M9 17h4"/></svg>
+            <p class="ae-title">Nothing building yet</p>
+            <p class="ae-sub">Once you add a transcript, module and format, you'll watch each step here as your guide is researched, written and checked.</p>
+          </div>
+        </div>
       </div>
 
       <div class="panel preview-wrap">
-        <div class="panel-header">Review draft</div>
+        <div class="panel-header"><span class="step-ord">3</span><span>Your draft</span></div>
         <div class="preview-toolbar">
           <span id="resid" class="id">no draft yet</span>
           <span id="verdict-badge" class="verdict-badge" style="display:none;"></span>
           <button id="download-pdf" class="secondary pdf-btn" disabled>Download PDF</button>
-          <button id="view-toggle" class="secondary" disabled>Show raw (with sources)</button>
-          <button id="publish" class="secondary accent" disabled>Release (Pending SME Review)</button>
+          <button id="view-toggle" class="secondary" disabled>Show sources</button>
+          <button id="publish" class="secondary accent" disabled>Approve &amp; publish</button>
         </div>
-        <div id="preview" class="preview"><div class="empty">The generated resource will appear here.</div></div>
+        <div id="edit-bar" class="edit-bar" style="display:none;">
+          <input id="edit-instruction" type="text" autocomplete="off"
+                 placeholder="Request a change — e.g. &ldquo;shorten the intro&rdquo;, &ldquo;make step 3 clearer&rdquo;&hellip;" />
+          <button id="edit-run" class="secondary" disabled>Request edits</button>
+        </div>
+        <div id="edit-result" class="edit-result" style="display:none;"></div>
+        <div id="preview" class="preview"><div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><div class="hint">Your finished guide appears here — with every claim traced to a real, verifiable source you can check yourself.</div></div></div>
         <div id="eval-panel" class="eval-panel" style="display:none;">
           <div class="eval-header">
             <span class="eval-title">Quality checks</span>
@@ -957,9 +1529,9 @@
       <div class="field">
         <label for="lib-status">Status</label>
         <select id="lib-status">
+          <option value="library" selected>In Library (approved)</option>
+          <option value="awaiting">Awaiting review</option>
           <option value="">All</option>
-          <option value="draft">Draft</option>
-          <option value="published">Published</option>
         </select>
       </div>
       <div class="field">
@@ -984,9 +1556,15 @@
           <div class="preview-toolbar">
             <span id="lib-resid" class="id">pick a resource</span>
             <button id="lib-download-pdf" class="secondary pdf-btn" disabled>Download PDF</button>
-            <button id="lib-publish" class="secondary accent" disabled>Release (Pending SME Review)</button>
-            <button id="lib-delete" class="secondary danger" disabled>Delete</button>
+            <button id="lib-publish" class="secondary accent" disabled>Approve &amp; publish</button>
+            <button id="lib-delete" class="secondary danger ghost" disabled>Delete</button>
           </div>
+          <div id="lib-edit-bar" class="edit-bar" style="display:none;">
+            <input id="lib-edit-instruction" type="text" autocomplete="off"
+                   placeholder="Request a change — e.g. &ldquo;shorten the intro&rdquo;, &ldquo;make step 3 clearer&rdquo;&hellip;" />
+            <button id="lib-edit-run" class="secondary">Request edits</button>
+          </div>
+          <div id="lib-edit-result" class="edit-result" style="display:none;"></div>
           <div id="lib-preview" class="preview"><div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg><div class="hint">Select a guide from the list to preview it here.</div></div></div>
         </div>
       </div>
@@ -994,33 +1572,144 @@
   </div>
 </section>
 
+<section id="view-content" class="view">
+  <header class="icn-hero">
+    <div class="icn-hero-main">
+      <p class="icn-eyebrow">Training library · ICN / USDA</p>
+      <h1 class="icn-hero-title">Sourced, role-ready training for your nutrition team</h1>
+      <p class="icn-hero-sub">A curated library of externally-authored training from the Institute of Child Nutrition, USDA, and partners — food safety, handwashing, thermometer use, menu planning, and more. Every asset is cited and attributed; nothing here is AI-generated.</p>
+    </div>
+    <div class="icn-hero-stats">
+      <div class="icn-stat"><span class="num" id="icn-stat-total">—</span><span class="lbl">assets</span></div>
+      <div class="icn-stat"><span class="num" id="icn-stat-roles">—</span><span class="lbl">roles</span></div>
+      <div class="icn-stat"><span class="num" id="icn-stat-dl">—</span><span class="lbl">downloadable</span></div>
+      <div class="icn-stat"><span class="num" id="icn-stat-quiz">—</span><span class="lbl">quizzable</span></div>
+      <div class="icn-stat icn-stat-trust"><span class="num">100%</span><span class="lbl">cited &amp; attributed</span></div>
+    </div>
+  </header>
+  <div class="library">
+    <details class="panel lib-filters icn-filters" open>
+      <summary>Filters &amp; paths</summary>
+      <div class="icn-filters-body">
+        <div class="panel-header"><span>Refine</span></div>
+        <div class="field">
+          <label for="icn-role">Role</label>
+          <select id="icn-role"><option value="">All roles</option></select>
+        </div>
+        <div class="field">
+          <label for="icn-topic">Topic</label>
+          <select id="icn-topic"><option value="">All topics</option></select>
+        </div>
+        <div class="field">
+          <label for="icn-search">Search</label>
+          <input id="icn-search" type="text" placeholder="title, topic, source…" autocomplete="off" />
+        </div>
+        <div class="field">
+          <label for="icn-sort">Sort by</label>
+          <select id="icn-sort">
+            <option value="title">Title A–Z</option>
+            <option value="type">Type</option>
+            <option value="license">Available first</option>
+            <option value="quiz">Quizzable first</option>
+          </select>
+        </div>
+        <div id="icn-paths" class="icn-paths"></div>
+      </div>
+    </details>
+    <div class="panel" style="min-width:0;">
+      <div class="panel-header"><span id="icn-count">Content library</span></div>
+      <div id="icn-grid" class="icn-grid"></div>
+    </div>
+  </div>
+  <div id="path-detail" class="path-detail" hidden></div>
+</section>
+
+<div id="quiz-modal" class="quiz-modal" hidden>
+  <div class="quiz-sheet" role="dialog" aria-modal="true" aria-labelledby="quiz-title">
+    <div class="quiz-head">
+      <div>
+        <div class="quiz-kicker">Auto-generated quiz</div>
+        <h3 id="quiz-title">Quiz</h3>
+      </div>
+      <button class="quiz-close" onclick="closeQuiz()" aria-label="Close">✕</button>
+    </div>
+    <div id="quiz-body" class="quiz-body"></div>
+    <div id="quiz-foot" class="quiz-foot"></div>
+  </div>
+</div>
+
 <section id="view-evals" class="view">
   <div class="panel" style="max-width:1140px;margin:0 auto;">
     <div class="panel-header">
       <span>Quality &amp; Trust</span>
       <button class="secondary" style="float:right;margin-top:-4px;" onclick="loadEvals()">Refresh</button>
     </div>
-    <div class="panel-body" id="evals-body">
-      <div class="empty">Loading evals…</div>
+    <div class="panel-body" id="evals-body" aria-busy="true">
+      <div class="sk-hero skeleton"></div>
+      <div class="sk-card skeleton"></div>
+      <div class="sk-card skeleton"></div>
+      <div class="sk-card skeleton"></div>
+      <div class="sk-row skeleton"></div>
+      <div class="sk-row skeleton"></div>
+      <div class="sk-row skeleton"></div>
+      <div class="sk-row skeleton"></div>
     </div>
   </div>
 </section>
+
+<!-- ═══════════════════════════════════ ROSTER (demo) ═══════════════════════════════════ -->
+<section id="view-roster" class="view">
+  <div class="roster-wrap">
+    <div class="roster-head">
+      <div>
+        <h1 class="roster-title" id="roster-title">Learners</h1>
+        <p class="roster-sub" id="roster-sub">—</p>
+      </div>
+      <div class="roster-tools">
+        <span class="demo-tag">Demo data</span>
+        <input id="roster-search" type="text" placeholder="search name or role…" autocomplete="off" />
+      </div>
+    </div>
+    <div class="roster-cards" id="roster-stats"></div>
+    <div class="roster-table-wrap">
+      <table class="roster-table">
+        <thead><tr><th>Learner</th><th>Role</th><th>Assigned training</th><th>Progress</th><th>Status</th><th>Last active</th></tr></thead>
+        <tbody id="roster-body"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- Simulated sign-in (demo only) -->
+<div id="login-modal" class="login-modal" hidden>
+  <div class="login-card">
+    <div class="login-brand"><span class="brand-product">Learning Studio</span><span class="login-sc">A SchoolCafé solution</span></div>
+    <h2>Sign in</h2>
+    <label>Work email</label>
+    <input id="login-email" type="email" value="admin@houstonisd.org" />
+    <label>Password</label>
+    <input id="login-pw" type="password" value="demodemo" />
+    <button class="login-btn" onclick="doLogin()">Sign in</button>
+    <p class="login-demo">Demo environment — any credentials work. No real accounts.</p>
+  </div>
+</div>
 
 <!-- ═══════════════════════════════════ HOW IT WORKS ═══════════════════════════════════ -->
 <section id="view-howitworks" class="view">
   <div class="howto">
     <h1 class="howto-title">How Learning Studio works</h1>
-    <p class="lead">Every guide begins with a real training transcript. Learning Studio researches the matching
-      Jira tickets, runs a four-stage pipeline to write the guide, and then refuses to ship anything until an
-      automated grounding check confirms each claim traces back to a genuine source.</p>
+    <p class="lead">Every guide starts from a real training session. Learning Studio reads the transcript, looks up
+      the matching records your team has already approved, writes the guide, and then refuses to hand it over until
+      it has checked that every single claim traces back to a real source — quoted, not invented.</p>
 
     <div class="dfd-wrap">
       <svg class="dfd" viewBox="0 0 960 540" role="img" aria-labelledby="dfd-title dfd-desc">
         <title id="dfd-title">Learning Studio data-flow</title>
         <desc id="dfd-desc">A training transcript loads into a four-stage pipeline (Map, Plan, Verify, Draft). A
-          grounding cluster (Jira search, load epics, read tickets) feeds verbatim citations into Verify and Draft.
-          The draft is scored by the grounding evaluator; passing drafts publish to the Library, failing drafts loop
-          back to Draft for a re-write.</desc>
+          research cluster (Jira search, load epics, read tickets) feeds verbatim citations into Verify and Draft.
+          The draft then goes through a source check; guides where every claim is sourced go to a human reviewer who
+          approves them into the Library (or requests AI-assisted edits), while a guide that needs a rewrite loops
+          back to Draft.</desc>
         <defs>
           <marker id="ah" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#908C82"/></marker>
           <marker id="ah-pass" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#4F7A4E"/></marker>
@@ -1037,9 +1726,8 @@
         <path class="edge" d="M280,71 H336" marker-end="url(#ah)"/>
         <text class="elabel" x="308" y="64" text-anchor="middle">epics → child stories</text>
         <path class="edge" d="M470,71 H526" marker-end="url(#ah)"/>
-        <text class="elabel" x="498" y="64" text-anchor="middle">5 tickets / query</text>
         <path class="edge" d="M593,92 L578,221" marker-end="url(#ah)"/>
-        <text class="anno" x="602" y="150" text-anchor="start">grounds claims · AC citations</text>
+        <text class="anno" x="602" y="150" text-anchor="start">supplies the source quotes</text>
 
         <!-- main pipeline (middle) -->
         <rect class="node" x="20" y="223" width="160" height="54" rx="11"/>
@@ -1066,41 +1754,41 @@
 
         <!-- eval + library (bottom) -->
         <rect class="node eval" x="470" y="414" width="210" height="84" rx="12"/>
-        <text class="ntitle" x="575" y="440" text-anchor="middle">Eval · Grounding Trust</text>
+        <text class="ntitle" x="575" y="440" text-anchor="middle">Source check</text>
         <text class="nsub" x="575" y="457" text-anchor="middle">Trust Score — grade A</text>
         <text class="nsub" x="575" y="472" text-anchor="middle">every claim traced to a source</text>
-        <text class="nsub" x="575" y="487" text-anchor="middle">cost per guide</text>
 
-        <rect class="node lib" x="715" y="430" width="120" height="52" rx="11"/>
-        <text class="ntitle" x="775" y="460" text-anchor="middle">Library</text>
+        <rect class="node lib" x="715" y="424" width="120" height="64" rx="11"/>
+        <text class="ntitle" x="775" y="450" text-anchor="middle">Library</text>
+        <text class="nsub" x="775" y="468" text-anchor="middle">human-approved</text>
 
         <!-- scored by (Draft → Eval) -->
         <path class="edge" d="M722,277 C742,350 705,400 642,413" marker-end="url(#ah)"/>
-        <text class="elabel" x="724" y="352" text-anchor="start">scored by</text>
-        <!-- pass → Library -->
-        <path class="edge pass" d="M680,452 H712" marker-end="url(#ah-pass)"/>
-        <text class="elabel pass" x="696" y="445" text-anchor="middle">pass → publishes</text>
+        <text class="elabel" x="724" y="352" text-anchor="start">checked by</text>
+        <!-- pass → human review → Library -->
+        <path class="edge pass" d="M680,456 H712" marker-end="url(#ah-pass)"/>
+        <text class="elabel pass" x="696" y="449" text-anchor="middle">verified → review → approve</text>
         <!-- fails → re-draft (loop) -->
         <path class="edge fail" d="M520,414 C496,348 560,312 688,276" marker-end="url(#ah-fail)"/>
-        <text class="elabel fail" x="486" y="352" text-anchor="start">fails eval → re-draft</text>
+        <text class="elabel fail" x="486" y="352" text-anchor="start">needs a rewrite</text>
       </svg>
-      <p class="dfd-caption">Every guide flows from a training transcript through grounded research and a
-        four-stage pipeline, then must pass automated grounding checks before reaching the Library.</p>
+      <p class="dfd-caption">Every guide flows from a training transcript through researched, cited writing and a
+        four-stage pipeline, then must pass an automated source check. A human reviewer reads it — requesting
+        AI-assisted edits if needed — and approves it before it enters the Library.</p>
     </div>
 
     <div class="stage-grid">
-      <div class="stage-card"><div class="sk"><b>1</b> Map</div><p>Parses the uploaded transcript and matches each feature to the right Jira tickets for the selected module.</p></div>
-      <div class="stage-card"><div class="sk"><b>2</b> Plan</div><p>Chooses which workflows to cover and how deep — mining stories, bugs, tasks and epics for the right material.</p></div>
-      <div class="stage-card"><div class="sk"><b>3</b> Verify</div><p>Pulls Acceptance Criteria and Release Notes to confirm every claim against its true source and trust tier.</p></div>
-      <div class="stage-card"><div class="sk"><b>4</b> Draft</div><p>Writes the guide and cites each claim by source ID — exact quotes are inserted from the registry, never typed by the model.</p></div>
-      <div class="stage-card"><div class="sk">Grounding</div><p>Jira search → load epics → read tickets supplies the verbatim, correctly-tiered evidence the pipeline cites.</p></div>
-      <div class="stage-card"><div class="sk">Eval gate</div><p>Automated grounding checks score the draft; only provably-grounded guides reach the Library, marked Pending SME Review.</p></div>
+      <div class="stage-card"><div class="sk"><b>1</b> Find the right material</div><p>Reads your transcript and pulls up the records your team has already approved for that module — so the guide is built on what you actually shipped, not guesswork.</p></div>
+      <div class="stage-card"><div class="sk"><b>2</b> Decide what to cover</div><p>Works out which tasks and workflows the guide should explain, and how much depth each one needs.</p></div>
+      <div class="stage-card"><div class="sk"><b>3</b> Confirm every fact</div><p>Matches each statement back to its source and notes how strong that evidence is — agreed criteria first, then release notes, then the original description.</p></div>
+      <div class="stage-card"><div class="sk"><b>4</b> Write the guide</div><p>Writes it in plain language and attaches the exact source quote to every claim — quotes are lifted straight from the source, never written by the model.</p></div>
+      <div class="stage-card"><div class="sk">Verified, then reviewed</div><p>An automatic source check confirms every claim traces to a real source. Only then can a person read it, request AI-assisted edits if needed, and approve it into the Library.</p></div>
     </div>
 
     <div class="legend">
       <span><i></i> data flow</span>
-      <span><i class="pass"></i> passes grounding → Library</span>
-      <span><i class="fail"></i> fails eval → re-draft</span>
+      <span><i class="pass"></i> sources verified → review → Library</span>
+      <span><i class="fail"></i> needs a rewrite</span>
       <span><i class="box"></i> pipeline stage</span>
     </div>
   </div>
@@ -1118,13 +1806,43 @@ let evtSource = null;
 let libSelectedId = null;
 
 // ─── Tabs ──────────────────────────────────────────────────────────
+// ─── Two views (internal Trainer vs. Customer) + external-learning feature flag ───
+let _viewMode = 'trainer', _extLearning = true;
+function setViewMode(m) {
+  _viewMode = m;
+  const t = document.getElementById('vm-trainer'), c = document.getElementById('vm-customer');
+  if (t) t.classList.toggle('active', m === 'trainer');
+  if (c) c.classList.toggle('active', m === 'customer');
+  applyViewMode();
+}
+function applyViewMode() {
+  const show = (id, on) => { const el = document.getElementById(id); if (el) el.hidden = !on; };
+  // authoring/ops tabs are internal-only; Content & Roster are the external-learning layer (flag-gated)
+  show('tab-author', _viewMode === 'trainer');
+  show('tab-evals', _viewMode === 'trainer');
+  show('tab-content', _extLearning);
+  show('tab-roster', _extLearning);
+  show('cmode-studyset', _extLearning && _viewMode === 'trainer');
+  // district switcher: trainers can switch ISDs; a customer is locked to their own
+  const sw = document.querySelector('.isd-switch');
+  if (sw) sw.style.display = _extLearning ? '' : 'none';
+  const isdBtn = document.getElementById('isd-btn');
+  if (isdBtn) { isdBtn.style.pointerEvents = _viewMode === 'customer' ? 'none' : ''; isdBtn.style.opacity = _viewMode === 'customer' ? '.6' : ''; }
+  const ava = document.getElementById('user-ava'); if (ava) ava.textContent = _viewMode === 'customer' ? 'DC' : 'DA';
+  // if the active tab just got hidden, fall back to a visible view
+  const active = document.querySelector('.view.active');
+  if (active) { const tab = document.getElementById('tab-' + active.id.replace('view-', '')); if (tab && tab.hidden) showView(_extLearning ? 'content' : 'library'); }
+}
+
 function showView(name) {
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
   document.getElementById('view-' + name).classList.add('active');
   document.getElementById('tab-' + name).classList.add('active');
   if (name === 'library') loadLibrary();
+  if (name === 'content') loadContent();
   if (name === 'evals') loadEvals();
+  if (name === 'roster') loadRoster();
 }
 
 // ─── Evals dashboard ───────────────────────────────────────────────
@@ -1132,17 +1850,22 @@ function _pill(text, good) {
   const bg = good ? '#E7ECDB' : '#F0DDD2', fg = good ? '#3C5A3C' : '#8E3E2A';
   return `<span style="display:inline-block;padding:3px 10px;border-radius:999px;font-size:10.5px;font-weight:700;letter-spacing:0.03em;text-transform:uppercase;background:${bg};color:${fg};">${text}</span>`;
 }
-function _gradeColor(overall) {
-  if (overall >= 95) return '#4F7A4E';   // sage green
-  if (overall >= 85) return '#9A6A18';   // amber
-  if (overall >= 70) return '#B3543B';   // terracotta
-  return '#8E3E2A';                       // deep terracotta
+function _evalsSkeleton() {
+  return '<div class="sk-hero skeleton"></div>'
+    + '<div class="sk-card skeleton"></div>'.repeat(3)
+    + '<div class="sk-row skeleton"></div>'.repeat(4);
 }
 async function loadEvals() {
   const el = document.getElementById('evals-body');
   if (!el) return;
+  // First paint: skeleton (replaces any prior content / static loading markup).
+  el.setAttribute('aria-busy', 'true');
+  el.innerHTML = _evalsSkeleton();
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 12000);
   try {
-    const d = await fetch('/api/evals').then(r => r.json());
+    const d = await fetch('/api/evals', { signal: ctrl.signal }).then(r => r.json());
+    clearTimeout(timer);
     const r = d.regression || {};
     const regGood = !r.error && r.failed === 0;
     let html = '';
@@ -1150,17 +1873,24 @@ async function loadEvals() {
     // ── The Score — one number a layman gets ──
     const sc = d.score || {};
     if (sc.overall != null) {
-      const color = _gradeColor(sc.overall);
+      // Animated radial trust ring. Terracotta is the default arc; green is reserved
+      // for A-grade (>=95) only — fixes the old "green at 89" mislabel.
       html += `<div class="score-hero">
-        <div class="score-dial" style="background:${color};">
-          <div class="num">${sc.overall}</div><div class="grade">grade ${sc.grade}</div>
+        <div class="score-ring">
+          <svg viewBox="0 0 104 104" aria-hidden="true">
+            <circle class="trk" cx="52" cy="52" r="44"></circle>
+            <circle class="arc" cx="52" cy="52" r="44"></circle>
+          </svg>
+          <div class="ring-num"><span class="num">${sc.overall}</span><span class="grade">grade ${sc.grade}</span></div>
         </div>
         <div>
           <div style="font-size:18px;font-weight:800;color:var(--text);letter-spacing:-0.01em;">${sc.headline || 'Trust Score'}</div>
           <div style="color:var(--muted);font-family:var(--serif);font-size:14px;margin-top:5px;max-width:62ch;">${sc.one_liner || ''}</div>
+          <div class="score-conclude">${_scoreConclusion(sc.overall)}</div>
         </div>
       </div>`;
-      (sc.components || []).forEach(c => {
+      // Defense-in-depth: never render a cost component even if the payload still carries one.
+      (sc.components || []).filter(c => !/cost/i.test(c.label || '')).forEach(c => {
         html += `<div class="score-card">
           <div class="top"><span class="lbl">${c.label}</span>${_pill(c.value, c.ok)}</div>
           <div class="plain">${c.plain || ''}</div>
@@ -1174,9 +1904,9 @@ async function loadEvals() {
     if (!g.length) {
       html += '<div class="empty">No guides generated yet — create one from the Create tab.</div>';
     } else {
-      const NUM = { 'Sources cited': 1, 'Cost': 1 };  // right-align numeric columns
-      html += '<table style="width:100%;border-collapse:collapse;font-size:13px;"><thead><tr>' +
-        ['When', 'Format', 'Sources cited', 'Result', 'Cost'].map(h =>
+      const NUM = { 'Sources cited': 1 };  // right-align numeric columns
+      html += '<div class="table-scroll"><table style="width:100%;border-collapse:collapse;font-size:13px;"><thead><tr>' +
+        ['When', 'Format', 'Sources cited', 'Result'].map(h =>
           `<th style="text-align:${NUM[h] ? 'right' : 'left'};padding:8px 10px;border-bottom:1px solid var(--border-strong);color:var(--muted);font-weight:700;font-size:10.5px;letter-spacing:0.05em;text-transform:uppercase;">${h}</th>`).join('') +
         '</tr></thead><tbody>';
       g.slice(0, 25).forEach(x => {
@@ -1187,13 +1917,12 @@ async function loadEvals() {
           { v: x.template || '?', num: false },
           { v: (x.verified != null ? x.verified : '–'), num: true },
           { v: result, num: false },
-          { v: x.cost_usd != null ? '$' + Number(x.cost_usd).toFixed(2) : '–', num: true },
         ];
-        html += '<tr style="transition:background .12s;" onmouseover="this.style.background=\'var(--surface)\'" onmouseout="this.style.background=\'\'">' +
+        html += `<tr data-rid="${x.id}" title="Click to see what passed / failed" style="cursor:pointer;transition:background .12s;" onclick="toggleEvalDetail('${x.id}', this)" onmouseover="this.style.background='var(--surface)'" onmouseout="this.style.background=''">` +
           cells.map(c => `<td style="padding:8px 10px;border-bottom:1px solid var(--border);text-align:${c.num ? 'right' : 'left'};${c.num ? 'font-variant-numeric:tabular-nums;color:var(--text-soft);' : ''}">${c.v}</td>`).join('') + '</tr>';
       });
-      html += '</tbody></table>';
-      html += `<p style="color:var(--muted);font-family:var(--serif);font-size:12.5px;margin-top:9px;">"Verified" means every claim in that guide traces to a real source at the correct trust level. "Sources cited" is how many source references the guide contains.</p>`;
+      html += '</tbody></table></div>';
+      html += `<p style="color:var(--muted);font-family:var(--serif);font-size:12.5px;margin-top:9px;">"Verified" means every claim in that guide traces to a real source at the correct trust level. "Sources cited" is how many source references the guide contains. <strong>Click any guide</strong> to see exactly which checks passed or failed.</p>`;
     }
 
     // Only surface the safeguard detail if something needs attention — otherwise keep it clean.
@@ -1208,7 +1937,7 @@ async function loadEvals() {
     if (runs.length) {
       html += '<h3 style="margin:22px 0 8px;">Reliability checks <span style="font-weight:400;color:var(--muted);font-family:var(--serif);font-size:12.5px;">— same guide generated several times to confirm consistent quality</span></h3>';
       runs.forEach(run => {
-        const runCost = run.total_cost_usd != null ? ' · ' + '$' + Number(run.total_cost_usd).toFixed(2) : '';
+        const runCost = '';  // cost intentionally not shown to customers
         const when = (run.stamp || '').replace('T', ' ').replace('Z', '');
         html += `<div style="margin-bottom:10px;font-size:13px;"><strong>${run.module || ''}</strong> · ${run.trials ?? '?'} runs each${runCost}<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:5px;">`;
         const pf = run.per_format || {};
@@ -1222,15 +1951,89 @@ async function loadEvals() {
       });
     }
     el.innerHTML = html;
+    el.removeAttribute('aria-busy');
+    // Animate the trust ring after the markup is in the DOM.
+    if (sc.overall != null) {
+      const arc = el.querySelector('.score-ring .arc');
+      if (arc) {
+        requestAnimationFrame(() => {
+          arc.style.strokeDashoffset = String(327 * (1 - sc.overall / 100));
+          if (sc.overall >= 95) arc.style.stroke = 'var(--green)';
+        });
+      }
+    }
   } catch (e) {
-    el.innerHTML = `<div class="empty">Could not load evals: ${e.message}</div>`;
+    clearTimeout(timer);
+    el.removeAttribute('aria-busy');
+    const msg = (e && e.name === 'AbortError')
+      ? 'This took longer than expected. Check your connection and try again.'
+      : `Could not load quality data: ${escapeHtml(String((e && e.message) || e))}`;
+    el.innerHTML = `<div class="async-error"><p class="ae-title">Couldn't load quality data</p><p>${msg}</p><button class="secondary accent" onclick="loadEvals()">Try again</button></div>`;
   }
+}
+
+// Tiered "what this means" conclusion under the trust ring.
+function _scoreConclusion(overall) {
+  if (overall == null) return '';
+  if (overall >= 95) return '<strong>What this means:</strong> these guides are ready to share — every claim is traced to a real source at the correct trust level.';
+  if (overall >= 85) return '<strong>What this means:</strong> grounding is strong. A small number of items are worth a quick human glance before publishing.';
+  if (overall >= 70) return '<strong>What this means:</strong> usable, but several claims still need a reviewer to confirm their sources before these go out.';
+  return '<strong>What this means:</strong> not ready yet — enough claims are missing solid sources that these guides need rework before sharing.';
+}
+
+// Drill into one guide's grounding result — what passed / what failed.
+async function toggleEvalDetail(rid, rowEl) {
+  const existing = rowEl.nextElementSibling;
+  if (existing && existing.classList.contains('eval-detail-row')) { existing.remove(); return; }
+  const tr = document.createElement('tr');
+  tr.className = 'eval-detail-row';
+  tr.innerHTML = `<td colspan="4" style="padding:0 10px 12px;"><div style="background:var(--panel2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;"><span class="spinner"></span> Loading grounding detail…</div></td>`;
+  rowEl.insertAdjacentElement('afterend', tr);
+  const box = tr.querySelector('div');
+  let e;
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 10000);
+  try {
+    const resp = await fetch(`/resources/${rid}/evaluation`, { signal: ctrl.signal });
+    clearTimeout(timer);
+    if (resp.status === 404) { box.innerHTML = '<span style="color:var(--muted);font-size:12.5px;">No detailed source check on file for this guide yet.</span>'; return; }
+    e = await resp.json();
+  } catch (err) {
+    clearTimeout(timer);
+    const m = (err && err.name === 'AbortError') ? 'request timed out — try again.' : escapeHtml(String((err && err.message) || err));
+    box.innerHTML = `<span style="color:var(--red-text);font-size:12.5px;">Couldn't load detail: ${m}</span>`; return;
+  }
+
+  const v = (e.verdict || 'pass').toLowerCase();
+  let h = `<div style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-bottom:8px;">${escapeHtml(rid)}</div>`;
+  h += `<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;"><span class="verdict-badge ${v}">${v.toUpperCase()}</span><span style="font-family:var(--serif);font-size:13px;color:var(--text-soft);">${escapeHtml(e.summary || '')}</span></div>`;
+  // checks
+  (e.checks || []).forEach(c => {
+    const ok = (c.status || 'ok') === 'ok';
+    const mark = ok ? 'OK' : (c.status || 'fail').toUpperCase();
+    const col = ok ? 'var(--green)' : 'var(--red)';
+    h += `<div style="display:grid;grid-template-columns:34px 1fr;gap:8px;padding:4px 0;font-size:12.5px;border-top:1px solid var(--border);"><span style="font-weight:800;font-size:10px;color:${col};">${mark}</span><span><strong>${escapeHtml(c.name || '')}</strong> <span style="color:var(--muted);">${escapeHtml(c.detail || '')}</span></span></div>`;
+  });
+  // violations (the "what went wrong" specifics)
+  const vio = e.violations || [];
+  if (vio.length) {
+    h += `<div style="margin-top:10px;font-size:11px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:var(--red-text);">Offending citations</div>`;
+    vio.forEach(x => {
+      h += `<div style="font-size:12px;padding:5px 0;border-top:1px solid var(--border);"><span style="font-family:var(--mono);color:var(--clay);">${escapeHtml(x.ticket || '?')} · ${escapeHtml(x.tier || '')}</span> — ${escapeHtml(x.issue || '')}${x.quote ? `: <span style="font-family:var(--serif);color:var(--text-soft);">“${escapeHtml(x.quote)}”</span>` : ''}</div>`;
+    });
+  } else if (v === 'pass') {
+    h += `<div style="margin-top:8px;font-size:12.5px;color:var(--green-text);font-family:var(--serif);">No issues — every citation verified verbatim at the correct tier.</div>`;
+  }
+  box.innerHTML = h;
 }
 
 // ─── Bootstrap config ──────────────────────────────────────────────
 async function loadConfig() {
   const r = await fetch('/api/config');
   const cfg = await r.json();
+  _extLearning = cfg.external_learning !== false;
+  applyViewMode();
+  window._extraModules = cfg.extra_modules || [];
   for (const sid of ['module', 'lib-module']) {
     const sel = document.getElementById(sid);
     cfg.modules.forEach(m => {
@@ -1247,6 +2050,29 @@ async function loadConfig() {
       sel.appendChild(o);
     });
   }
+  syncModuleOptions();  // reflect the current source's module choices
+}
+
+// Transcript-only mode needs no fixture, so it offers extra label-only modules
+// (e.g. Financials). Add/remove them on the module dropdown as the source toggles.
+function syncModuleOptions() {
+  const sourceEl = document.getElementById('source');
+  const sel = document.getElementById('module');
+  if (!sourceEl || !sel) return;
+  const transcript = sourceEl.value === 'transcript';
+  const extras = window._extraModules || [];
+  extras.forEach(m => {
+    const existing = Array.from(sel.options).find(o => o.value === m);
+    if (transcript && !existing) {
+      const o = document.createElement('option');
+      o.value = m; o.textContent = m + ' (no fixture — transcript only)';
+      o.dataset.extra = '1';
+      sel.appendChild(o);
+    } else if (!transcript && existing && existing.dataset.extra === '1') {
+      if (sel.value === m) sel.value = '';
+      existing.remove();
+    }
+  });
 }
 loadConfig();
 
@@ -1266,9 +2092,9 @@ drop.addEventListener('keydown', e => {
   }
 });
 ['dragenter','dragover'].forEach(ev =>
-  drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('hover'); }));
+  drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('hover'); drop.classList.add('dragging'); }));
 ['dragleave','drop'].forEach(ev =>
-  drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove('hover'); }));
+  drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove('hover'); drop.classList.remove('dragging'); }));
 drop.addEventListener('drop', e => {
   const f = e.dataTransfer.files[0];
   if (f) pickFile(f);
@@ -1289,10 +2115,28 @@ function pickFile(f) {
 }
 
 function checkReady() {
-  runBtn.disabled = !(chosenFile && moduleSel.value && templateSel.value);
+  const ready = !!(chosenFile && moduleSel.value && templateSel.value);
+  runBtn.disabled = !ready;
+  const needsEl = document.getElementById('run-needs');
+  if (needsEl) {
+    if (ready) {
+      needsEl.textContent = 'Ready to create your draft.';
+      needsEl.classList.add('ready');
+    } else {
+      const missing = [];
+      if (!chosenFile) missing.push('a transcript');
+      if (!moduleSel.value) missing.push('a module');
+      if (!templateSel.value) missing.push('a format');
+      needsEl.textContent = 'Add ' + missing.join(', ') + ' to continue.';
+      needsEl.classList.remove('ready');
+    }
+  }
 }
 moduleSel.addEventListener('change', checkReady);
 templateSel.addEventListener('change', checkReady);
+const sourceSelEl = document.getElementById('source');
+if (sourceSelEl) sourceSelEl.addEventListener('change', () => { syncModuleOptions(); checkReady(); });
+checkReady();
 
 // ─── Run ───────────────────────────────────────────────────────────
 runBtn.addEventListener('click', async () => {
@@ -1307,6 +2151,9 @@ runBtn.addEventListener('click', async () => {
   document.getElementById('download-pdf').disabled = true;
   document.getElementById('verdict-badge').style.display = 'none';
   document.getElementById('eval-panel').style.display = 'none';
+  document.getElementById('edit-bar').style.display = 'none';
+  document.getElementById('edit-result').style.display = 'none';
+  resetApproveBtn();
   currentDraftRaw = null;
   currentDraftClean = null;
   resetTasks();
@@ -1335,46 +2182,211 @@ runBtn.addEventListener('click', async () => {
     module: moduleSel.value,
     template: templateSel.value,
   });
+  const directiveEl = document.getElementById('run-directive');
+  const directive = directiveEl ? (directiveEl.value || '').trim() : '';
+  if (directive) qs.set('directive', directive);
+  const sourceEl = document.getElementById('source');
+  const source = sourceEl ? sourceEl.value : 'jira';
+  if (source && source !== 'jira') qs.set('source', source);
   evtSource = new EventSource('/generate?' + qs.toString());
 
   setTask('map');
   evtSource.addEventListener('start', e => addDebug('start', JSON.parse(e.data)));
   evtSource.addEventListener('system', e => addDebug('system', JSON.parse(e.data)));
-  evtSource.addEventListener('thinking', e => addDebug('thinking', JSON.parse(e.data)));
+  evtSource.addEventListener('thinking', e => {
+    addDebug('thinking', JSON.parse(e.data));
+    if (!planned) { planned = true; setTask('plan'); }   // model reasoning = planning step
+  });
   evtSource.addEventListener('tool_call', e => handleToolCall(JSON.parse(e.data)));
   evtSource.addEventListener('tool_result', e => handleToolResult(JSON.parse(e.data)));
   evtSource.addEventListener('text', e => handleText(JSON.parse(e.data)));
   evtSource.addEventListener('result', e => addDebug('result', JSON.parse(e.data)));
   evtSource.addEventListener('done', e => {
-    const d = JSON.parse(e.data);
-    currentResourceId = d.resource_id;
-    document.getElementById('resid').textContent = d.resource_id;
-    document.getElementById('download-pdf').disabled = false;
-    document.getElementById('log-link').href = `/logs/${d.resource_id}?format=raw`;
-    // Publish stays DISABLED until the Evaluator returns pass or warn.
-    document.getElementById('publish').disabled = true;
-    document.getElementById('publish').title = 'Waiting for Evaluator verdict...';
-    document.getElementById('view-toggle').disabled = false;
-    loadDraft(d.resource_id);
-    completeTask('generate');
-    setProgress(100);
-    setStatus(d.cost_usd != null ? `draft ready · $${Number(d.cost_usd).toFixed(4)}` : 'draft ready', 'done');
+    onDraftReady(JSON.parse(e.data));
     evtSource.close();
     runBtn.disabled = false;
-    // Auto-trigger the evaluator (Task 5)
-    runEvaluator(d.resource_id);
-    // Refresh the evals dashboard so each generation shows up live.
-    loadEvals();
   });
   evtSource.addEventListener('error', e => {
     let msg = 'stream error';
     try { msg = JSON.parse(e.data).message || msg; } catch {}
     addStep('error', '!', 'Stream error', msg);
     bumpErrorCount();
+    // Stop the pulsing ring without greening any node (the run did not finish).
+    document.querySelectorAll('.task-pill').forEach(p => p.classList.remove('active'));
     setStatus('error: ' + msg, 'err');
     evtSource.close();
     runBtn.disabled = false;
   });
+});
+
+// Shared: a freshly-generated draft is ready — wire the review pane (used by BOTH
+// the transcript path and the "describe what you need" scope path).
+function onDraftReady(d) {
+  currentResourceId = d.resource_id;
+  document.getElementById('resid').textContent = d.resource_id;
+  document.getElementById('download-pdf').disabled = false;
+  document.getElementById('log-link').href = `/logs/${d.resource_id}?format=raw`;
+  document.getElementById('publish').disabled = true;               // until grounding passes
+  document.getElementById('publish').title = 'Waiting for the source check to finish...';
+  document.getElementById('view-toggle').disabled = false;
+  document.getElementById('edit-bar').style.display = '';
+  document.getElementById('edit-run').disabled = false;
+  document.getElementById('edit-result').style.display = 'none';
+  resetApproveBtn();
+  loadDraft(d.resource_id);
+  completeTask('generate');
+  setProgress(100);
+  setStatus(d.cost_usd != null ? `draft ready · $${Number(d.cost_usd).toFixed(4)}` : 'draft ready', 'done');
+  runEvaluator(d.resource_id);   // deterministic grounding gate
+  loadEvals();
+}
+
+// ─── "Describe what you need" mode (intent-and-scope agent) ──────────────
+(function () {
+  const seg = document.getElementById('create-mode');
+  if (!seg) return;
+  seg.addEventListener('click', e => {
+    const b = e.target.closest('button[data-cmode]'); if (!b) return;
+    seg.querySelectorAll('button').forEach(x => x.classList.toggle('active', x === b));
+    document.getElementById('mode-transcript').style.display = b.dataset.cmode === 'transcript' ? '' : 'none';
+    document.getElementById('mode-describe').style.display = b.dataset.cmode === 'describe' ? '' : 'none';
+    document.getElementById('mode-studyset').style.display = b.dataset.cmode === 'studyset' ? '' : 'none';
+    if (b.dataset.cmode === 'studyset') initStudySet();
+  });
+})();
+
+let intentHistory = [];   // [{role, text}] for multi-turn clarification
+function intentBubble(role, text, cls) {
+  const c = document.getElementById('intent-convo');
+  const d = document.createElement('div');
+  d.className = 'bubble ' + (role === 'user' ? 'user' : 'bot') + (cls ? ' ' + cls : '');
+  d.textContent = text;
+  c.appendChild(d); c.scrollTop = c.scrollHeight;
+}
+function intentHistoryText() {
+  return intentHistory.map(m => (m.role === 'user' ? 'User: ' : 'Assistant: ') + m.text).join('\n');
+}
+
+async function resolveIntent() {
+  const input = document.getElementById('intent-input');
+  const goBtn = document.getElementById('intent-go');
+  const text = (input.value || '').trim();
+  if (!text) { input.focus(); return; }
+  document.getElementById('scope-card').style.display = 'none';
+  intentBubble('user', text);
+  const prior = intentHistoryText();
+  intentHistory.push({ role: 'user', text });
+  input.value = '';
+  goBtn.disabled = true; goBtn.textContent = 'Thinking…';
+  let r;
+  try {
+    const resp = await fetch('/intent/resolve', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ request: text, history: prior }),
+    });
+    if (!resp.ok) throw new Error(await resp.text());
+    r = await resp.json();
+  } catch (e) {
+    intentBubble('assistant', 'Error: ' + (e.message || e), 'warn');
+    goBtn.disabled = false; goBtn.textContent = 'Find the scope'; return;
+  }
+  goBtn.disabled = false; goBtn.textContent = 'Find the scope';
+
+  if (r.stage === 'clarify') {
+    intentHistory.push({ role: 'assistant', text: r.question });
+    intentBubble('assistant', r.question);
+  } else if (r.stage === 'refused') {
+    intentBubble('assistant', r.reason + (r.available_modules ? '  · Available: ' + r.available_modules.join(', ') : ''), 'warn');
+  } else if (r.stage === 'unsupported') {
+    intentBubble('assistant', '[' + r.module + '] ' + r.note, 'warn');
+  } else if (r.stage === 'scope') {
+    intentBubble('assistant', `Proposed a ${r.scope.format} ${r.scope.module} guide — ${r.scope.sections.length} sections sourced from ${[...new Set(r.scope.sections.flatMap(s => s.ticket_keys || []))].length} tickets. Review & confirm below.`);
+    renderScopeCard(r.scope, r.cost_usd);
+  }
+}
+
+function renderScopeCard(scope, cost) {
+  const card = document.getElementById('scope-card');
+  const keys = [...new Set(scope.sections.flatMap(s => s.ticket_keys || []))];
+  const secs = scope.sections.map(s => `
+    <div class="sc-sec">
+      <div class="t">${escapeHtml(s.title)}</div>
+      ${s.scope ? `<div class="sd">${escapeHtml(s.scope)}</div>` : ''}
+      <div class="k">${(s.ticket_keys || []).map(escapeHtml).join(' · ') || '—'}</div>
+    </div>`).join('');
+  card.innerHTML = `
+    <div class="sc-head">
+      <div class="sc-title">${escapeHtml(scope.module)} · ${escapeHtml(scope.format)}${scope.assumed_format ? ' (assumed)' : ''}</div>
+      <div class="sc-meta">${escapeHtml(scope.topic || '')} · ${scope.sections.length} sections · ${keys.length} tickets${cost != null ? ' · $' + Number(cost).toFixed(4) : ''}</div>
+    </div>
+    <div class="sc-body">${secs}</div>
+    <div class="sc-actions">
+      <button class="primary" id="scope-confirm">Confirm &amp; generate</button>
+      <button class="secondary" id="scope-refine">Keep refining</button>
+    </div>`;
+  card.style.display = '';
+  document.getElementById('scope-confirm').onclick = () => confirmScope(scope);
+  document.getElementById('scope-refine').onclick = () => {
+    card.style.display = 'none'; document.getElementById('intent-input').focus();
+  };
+}
+
+// Consume an SSE stream delivered over POST (EventSource is GET-only).
+async function streamPost(url, body, onEvent) {
+  const resp = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  if (!resp.ok || !resp.body) throw new Error(await resp.text().catch(() => resp.statusText));
+  const reader = resp.body.getReader(); const dec = new TextDecoder(); let buf = '';
+  for (;;) {
+    const { value, done } = await reader.read(); if (done) break;
+    buf += dec.decode(value, { stream: true }).replace(/\r/g, '');
+    let i;
+    while ((i = buf.indexOf('\n\n')) >= 0) {
+      const chunk = buf.slice(0, i); buf = buf.slice(i + 2);
+      let ev = 'message', data = '';
+      for (const line of chunk.split('\n')) {
+        if (line.startsWith('event:')) ev = line.slice(6).trim();
+        else if (line.startsWith('data:')) data += line.slice(5).trim();
+      }
+      if (data) { try { onEvent(ev, JSON.parse(data)); } catch {} }
+    }
+  }
+}
+
+function activityLine(text) {
+  const a = document.getElementById('activity');
+  const d = document.createElement('div');
+  d.style.cssText = 'font-size:12.5px;color:var(--text-soft);padding:2px 0;white-space:pre-wrap;';
+  d.textContent = text;
+  a.appendChild(d); a.scrollTop = a.scrollHeight;
+}
+
+async function confirmScope(scope) {
+  document.getElementById('scope-card').style.display = 'none';
+  document.getElementById('activity').innerHTML = '';
+  document.getElementById('preview').innerHTML = '<div class="empty">Generating from your confirmed scope…</div>';
+  document.getElementById('resid').textContent = 'awaiting...';
+  ['publish', 'view-toggle', 'download-pdf'].forEach(id => document.getElementById(id).disabled = true);
+  document.getElementById('verdict-badge').style.display = 'none';
+  document.getElementById('eval-panel').style.display = 'none';
+  document.getElementById('edit-bar').style.display = 'none';
+  document.getElementById('edit-result').style.display = 'none';
+  resetApproveBtn(); resetTasks(); setProgress(15);
+  setStatus('generating from scope…', 'running');
+  intentBubble('assistant', 'Generating — watch the draft build on the right.');
+  try {
+    await streamPost('/intent/confirm', { scope }, (ev, d) => {
+      if (ev === 'text') activityLine((d.text || '').replace(/\n+$/, ''));
+      else if (ev === 'done') onDraftReady(d);
+      else if (ev === 'error') { setStatus('error: ' + (d.message || 'generation failed'), 'err'); activityLine('Error: ' + (d.message || '')); }
+    });
+  } catch (e) {
+    setStatus('confirm failed: ' + (e.message || e), 'err'); activityLine('Error: ' + (e.message || e));
+  }
+}
+
+document.getElementById('intent-go') && document.getElementById('intent-go').addEventListener('click', resolveIntent);
+document.getElementById('intent-input') && document.getElementById('intent-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); resolveIntent(); }
 });
 
 // ─── Evaluator (Task 5) ────────────────────────────────────────────────
@@ -1383,11 +2395,16 @@ function setVerdictBadge(state, summary) {
   const badge = document.getElementById('verdict-badge');
   badge.style.display = '';
   badge.className = 'verdict-badge ' + state;
-  badge.textContent = state === 'running' ? 'Evaluating...' :
-                       state === 'pass' ? 'PASS' :
-                       state === 'warn' ? 'WARN' :
-                       state === 'fail' ? 'FAIL' : 'ERROR';
-  badge.title = summary || '';
+  badge.textContent = state === 'running' ? 'Checking sources...' :
+                       state === 'pass' ? 'Sources verified' :
+                       state === 'warn' ? 'Check sources' :
+                       state === 'fail' ? 'Sources failed' : 'Check error';
+  const tip = state === 'running' ? 'Checking that every claim traces to a real source.' :
+              state === 'pass' ? 'Every claim in this guide traces to a real source at the correct trust level.' :
+              state === 'warn' ? 'Most claims are sourced, but a few need a second look before publishing.' :
+              state === 'fail' ? 'One or more claims could not be traced to a source. Cannot publish until this is clean.' :
+              'The source check could not finish. Try again before publishing.';
+  badge.title = summary || tip;
 }
 
 function renderEvalChecks(data) {
@@ -1429,14 +2446,15 @@ function runEvaluator(rid) {
     setVerdictBadge(d.verdict || 'error', d.summary || '');
     renderEvalChecks(d);
     evalSource.close();
-    // Hard-gate publish on verdict
+    // Hard-gate approval on the grounding verdict.
     const publishBtn = document.getElementById('publish');
     if (d.verdict === 'pass' || d.verdict === 'warn') {
+      resetApproveBtn();
       publishBtn.disabled = false;
-      publishBtn.title = 'Grounding gate passed — release for use, marked Pending Review by SME.';
+      publishBtn.title = 'Source check passed — review the draft, then approve to add it to the Library.';
     } else {
       publishBtn.disabled = true;
-      publishBtn.title = 'Grounding gate FAILED — cannot release until grounding is clean. See checks below.';
+      publishBtn.title = 'Source check FAILED — cannot approve until every claim is sourced. See checks below.';
     }
   });
   evalSource.addEventListener('eval_error', e => {
@@ -1444,12 +2462,12 @@ function runEvaluator(rid) {
     try { msg = JSON.parse(e.data).message || msg; } catch {}
     setVerdictBadge('error', msg);
     renderEvalChecks({ summary: msg, checks: [] });
-    addStep('error', '!', 'Evaluator failed', msg);
+    addStep('error', '!', 'Source check failed', msg);
     bumpErrorCount();
     evalSource.close();
     // Without an evaluator verdict, publish stays disabled.
     document.getElementById('publish').disabled = true;
-    document.getElementById('publish').title = 'Evaluator failed - cannot publish without a verdict.';
+    document.getElementById('publish').title = 'The source check could not finish — cannot publish without a result.';
   });
 }
 
@@ -1463,30 +2481,153 @@ async function loadDraft(rid) {
   document.getElementById('preview').innerHTML = currentDraftClean || '<div class="empty">empty draft</div>';
 }
 
+// Render the (invisible) <!-- Source: [[NXT:TIER]] "quote" --> comments as VISIBLE
+// inline citation chips, so "Show sources" actually shows the provenance. Hover a
+// chip to see the verbatim quote it traces to. This is the "prove every claim is
+// sourced" view — the whole trust story made visible.
+function citeChipsHtml(raw) {
+  if (!raw) return '';
+  let n = 0;
+  const out = raw.replace(/<!--\s*Source:\s*([\s\S]*?)-->/g, (m, body) => {
+    n++;
+    const tok = body.match(/\[\[(NXT-\d+):(AC|RN|RNINT|DESC)\]\]/);
+    const q = body.match(/["“]([^"”]{4,})["”]/);
+    const isTx = /transcript/i.test(body);
+    const key = tok ? tok[1] : (isTx ? 'transcript' : 'source');
+    const tier = tok ? tok[2] : '';
+    const quote = q ? q[1] : body.trim();
+    const label = key + (tier ? ' · ' + tier : '');
+    const title = (tier ? tier + ': ' : '') + quote;
+    return `<span class="cite-chip" title="${escAttr(title)}">${escapeHtml(label)}</span>`;
+  });
+  return n ? out : '<div class="empty">No source citations in this draft.</div>';
+}
+function escAttr(s) {
+  return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
 document.getElementById('view-toggle').addEventListener('click', () => {
   showRaw = !showRaw;
-  document.getElementById('view-toggle').textContent = showRaw ? 'Show clean (publish view)' : 'Show raw (with sources)';
-  document.getElementById('preview').innerHTML = showRaw ? currentDraftRaw : currentDraftClean;
+  document.getElementById('view-toggle').textContent = showRaw ? 'Hide sources' : 'Show sources';
+  document.getElementById('preview').innerHTML = showRaw ? citeChipsHtml(currentDraftRaw) : (currentDraftClean || '<div class="empty">empty draft</div>');
 });
 
+function resetApproveBtn() {
+  const btn = document.getElementById('publish');
+  btn.innerHTML = 'Approve &amp; publish';
+  btn.disabled = true;
+}
+
+// Approve — the human gate INTO the Library.
 document.getElementById('publish').addEventListener('click', async () => {
   if (!currentResourceId) return;
-  if (!confirm('Release this guide for use? It becomes available in the Library and for download, '
-    + 'marked "Pending Review by SME" until a subject-matter expert approves it.')) return;
-  const r = await fetch(`/resources/${currentResourceId}/publish_pending`, { method: 'POST' });
+  if (!confirm('Approve this guide and add it to the Library?\n\n'
+    + 'Sources have been auto-verified. Approving is your sign-off that the content is correct.')) return;
+  const r = await fetch(`/resources/${currentResourceId}/approve`, { method: 'POST' });
   if (!r.ok) {
     let detail = await r.text();
     try {
       const j = JSON.parse(detail);
       detail = (j.detail && typeof j.detail === 'object') ? j.detail.message : (j.detail || detail);
     } catch {}
-    alert('Release blocked:\n\n' + detail);
+    alert('Approval blocked:\n\n' + detail);
     return;
   }
   const btn = document.getElementById('publish');
-  btn.textContent = '✓ Released — Pending SME Review';
+  btn.textContent = '✓ Approved · in Library';
   btn.disabled = true;
-  setStatus('released — Pending Review by SME', 'done');
+  document.getElementById('edit-run').disabled = true;
+  setStatus('approved — added to Library', 'done');
+  loadEvals();
+});
+
+// ─── AI-assisted edits (the review loop) ───────────────────────────────
+async function runRevision() {
+  if (!currentResourceId) return;
+  const input = document.getElementById('edit-instruction');
+  const instruction = (input.value || '').trim();
+  if (!instruction) { input.focus(); return; }
+  const runEditBtn = document.getElementById('edit-run');
+  const result = document.getElementById('edit-result');
+  runEditBtn.disabled = true;
+  runEditBtn.textContent = 'Revising…';
+  result.style.display = '';
+  result.innerHTML = '<div class="er-head"><span class="er-reason">Asking the editor to revise the draft…</span></div>';
+
+  let data;
+  try {
+    const r = await fetch(`/resources/${currentResourceId}/revise`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ instruction }),
+    });
+    if (!r.ok) throw new Error(await r.text());
+    data = await r.json();
+  } catch (e) {
+    result.innerHTML = `<div class="er-head"><span class="er-tag broke">Error</span></div>`
+      + `<div class="er-reason">${escapeHtml(String(e.message || e))}</div>`;
+    runEditBtn.disabled = false;
+    runEditBtn.textContent = 'Request edits';
+    return;
+  }
+
+  renderEditResult(data);
+  runEditBtn.disabled = false;
+  runEditBtn.textContent = 'Request edits';
+
+  if (data.refused || !data.changed) return;
+
+  // Refreshed content + re-open review: update preview, re-run the grounding
+  // check (which re-gates Approve), and require a fresh approval.
+  currentDraftRaw = data.raw_html;
+  currentDraftClean = data.html;
+  document.getElementById('preview').innerHTML = (showRaw ? currentDraftRaw : currentDraftClean) || '<div class="empty">empty draft</div>';
+  input.value = '';
+  resetApproveBtn();
+  runEvaluator(currentResourceId);
+}
+
+function renderEditResult(data, elId = 'edit-result') {
+  const result = document.getElementById(elId);
+  result.style.display = '';
+  if (data.refused) {
+    const hints = {
+      no_source: 'Declined to avoid inventing an uncited fact — rephrase, or resolve it against Jira.',
+      out_of_scope: 'This editor makes targeted, citation-preserving edits. Whole-document changes like translation are a separate action, not an inline edit.',
+    };
+    const hint = hints[data.refusal_kind] || '';
+    result.innerHTML = `<div class="er-head"><span class="er-tag refused">Edit declined</span></div>`
+      + `<div class="er-reason">${escapeHtml(data.refusal_reason || 'The editor declined this change.')}</div>`
+      + (hint ? `<div class="er-meta">${hint}</div>` : '');
+    return;
+  }
+  if (!data.changed) {
+    result.innerHTML = `<div class="er-head"><span class="er-tag stylistic">No change</span></div>`
+      + `<div class="er-reason">${escapeHtml(data.notes || 'No edits were applied.')}</div>`
+      + (data.skipped && data.skipped.length
+          ? `<div class="er-meta">${data.skipped.length} proposed edit(s) couldn't be anchored.</div>` : '');
+    return;
+  }
+  const cls = (data.triage && data.triage.classification) || 'substantive';
+  const groundingBroke = data.verdict !== 'pass';
+  const tagHtml = groundingBroke
+    ? `<span class="er-tag broke">Sources broke</span>`
+    : `<span class="er-tag ${cls}">${cls === 'stylistic' ? 'Stylistic' : 'Substantive'}</span>`;
+  const reason = groundingBroke
+    ? 'This edit altered a citation — a claim is no longer sourced. Approval is blocked until it is clean (revise again or regenerate).'
+    : (cls === 'stylistic'
+        ? 'Wording/format only — no factual claim changed. Safe to approve.'
+        : 'A factual claim may have changed — re-checked against source; give it a closer read before approving.');
+  let html = `<div class="er-head">${tagHtml}<span class="er-reason">${escapeHtml((data.triage && data.triage.reason) || reason)}</span></div>`;
+  html += `<div class="er-meta">${data.applied.length} edit(s) applied`
+    + (data.skipped.length ? ` · ${data.skipped.length} skipped (couldn't anchor)` : '')
+    + (data.cost_usd != null ? ` · $${Number(data.cost_usd).toFixed(4)}` : '') + '</div>';
+  if (!groundingBroke) html += `<div class="er-meta">${escapeHtml(reason)}</div>`;
+  result.innerHTML = html;
+}
+
+document.getElementById('edit-run').addEventListener('click', runRevision);
+document.getElementById('edit-instruction').addEventListener('keydown', e => {
+  if (e.key === 'Enter') { e.preventDefault(); runRevision(); }
 });
 
 // ─── Activity log (friendly, production-style rendering) ───────────
@@ -1569,6 +2710,12 @@ function handleToolCall(d) {
     return;
   }
   const prevTask = currentTask;
+  // Fallback when no 'thinking' event drove the PLAN node: the first ticket/guide
+  // read after mapping implies a plan was formed. Mark plan before advancing.
+  if (!planned && currentTask === 'map' && (cleanName === 'read_ticket' || cleanName === 'search_kb')) {
+    planned = true;
+    setTask('plan');
+  }
   setTask(TOOL_TASK[cleanName] || null);
   if (prevTask !== currentTask) burstSfx(taskSfxWord(currentTask));
   bumpProgress(6);
@@ -1648,9 +2795,13 @@ function addDebug(kind, payload) {
 }
 
 // Task pill controls
+const TASK_ORDER = ['map', 'plan', 'verify', 'generate'];
 let currentTask = null;
+let planned = false;
 function setTask(name) {
   if (!name) return;
+  // Monotonic guard: a late map-tagged tool must not drag the stepper backward.
+  if (currentTask && TASK_ORDER.indexOf(name) < TASK_ORDER.indexOf(currentTask)) return;
   currentTask = name;
   const pills = document.querySelectorAll('.task-pill');
   let hitName = false;
@@ -1672,11 +2823,14 @@ function resetTasks() {
   accumulatedText = '';
   pendingToolCalls = {};
   currentTask = null;
+  planned = false;
   errorCount = 0;
   document.getElementById('errors-toggle').style.display = 'none';
   document.getElementById('error-count').textContent = '0';
   document.getElementById('log-link').style.display = 'none';
   document.body.classList.remove('errors-only');
+  setProgress(0);
+  setStatus('Ready when you are.', '');
 }
 
 // ─── Error surfacing ────────────────────────────────────────────────
@@ -1732,20 +2886,424 @@ function escapeHtml(s) {
 function setStatus(text, cls) {
   const s = document.getElementById('status');
   s.textContent = text;
-  s.className = 'status-bar ' + (cls || '');
+  s.className = 'status-line ' + (cls || '');
 }
 
 // ─── Library ───────────────────────────────────────────────────────
+// A resource is "in the Library" only once a human has approved it. Until then
+// it lives in the "Awaiting review" view, where it can be reviewed/edited/approved.
+function inLibrary(r) {
+  return r.approved === true || r.status === 'approved' || r.status === 'published';
+}
+
+function statusBadge(r) {
+  if (inLibrary(r)) return { cls: 'approved', label: 'Approved', tip: 'A human reviewer approved this guide into the Library.' };
+  if (r.status === 'pending_sme_review') return { cls: 'pending', label: 'Pending SME Review', tip: 'Sent to a subject-matter expert for review.' };
+  return { cls: 'draft', label: 'Awaiting review', tip: 'Drafted and source-checked, waiting for a human to review and approve it.' };
+}
+
+// Content-type icon keyed off the resource's template. Inline SVG only (single-file rule).
+function libTypeIcon(template) {
+  const t = String(template || '').toLowerCase();
+  let path;
+  if (/faq|q&a|question/.test(t)) {
+    // help-circle
+    path = '<circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12" y2="17"/>';
+  } else if (/tldr|summary|brief|one-?pager/.test(t)) {
+    // zap (quick summary)
+    path = '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>';
+  } else if (/long-?form|guide|deep|full/.test(t)) {
+    // book-open
+    path = '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>';
+  } else if (/checklist|steps|how-?to|procedure/.test(t)) {
+    // list-checks
+    path = '<path d="M3 6l2 2 3-3"/><path d="M3 14l2 2 3-3"/><line x1="12" y1="6" x2="21" y2="6"/><line x1="12" y1="13" x2="21" y2="13"/><line x1="12" y1="20" x2="21" y2="20"/>';
+  } else {
+    // file-text (generic)
+    path = '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/>';
+  }
+  return `<svg class="lib-type-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${path}</svg>`;
+}
+
+// Honest source line for a Library card. transcript_filename can be null on demo paths,
+// so the ternary must fall through to the method/source hints, then to "Jira tickets".
+function libSourceLine(r) {
+  if (r.transcript_filename) return 'from transcript: ' + escapeHtml(r.transcript_filename);
+  if (r.source === 'intent-scope' || r.method === 'scope+registry') return 'from a description';
+  if (r.source === 'transcript-only') return 'from transcript';
+  return 'from Jira tickets';
+}
+
+// ─── ICN Content catalog ───────────────────────────────────────────
+let _icnData = null;
+const ICN_GLYPH = {
+  Video: '<path d="M9 8l6 4-6 4V8z"/><rect x="3" y="4" width="18" height="16" rx="2"/>',
+  PDF: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>',
+  PPTX: '<rect x="3" y="3" width="18" height="14" rx="2"/><line x1="12" y1="17" x2="12" y2="21"/>',
+  Webpage: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18z"/>',
+};
+function _icnGlyph(t) {
+  const p = ICN_GLYPH[t] || ICN_GLYPH.PDF;
+  return `<span class="icn-glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${p}</svg></span>`;
+}
+function _icnLic(p) {
+  if (p === 'download_allowed') return {cls:'download', label:'Downloadable'};
+  if (p === 'embed_only')      return {cls:'embed',    label:'Embed only'};
+  return {cls:'link', label:'Link only'};
+}
+// Honest, consistent CTA: everything opens the source off-site (↗); no "Play"
+// (there is no in-page player), and the noun matches what actually opens.
+function _icnActionLabel(c) {
+  const t = (c.asset_type || '').toLowerCase();
+  if (t.includes('pdf')) return 'Open PDF ↗';
+  if (t.includes('pptx') || t.includes('slide') || t.includes('presentation')) return 'Open slides ↗';
+  return 'Open on ICN ↗';
+}
+// Normalize asset_type to one of the glanceable type keys (drives icon + color).
+function _icnTypeKey(t) {
+  t = (t || '').toLowerCase();
+  if (t.includes('youtube')) return 'youtube';
+  if (t.includes('video')) return 'video';
+  if (t.includes('pdf')) return 'pdf';
+  if (t.includes('ppt') || t.includes('slide') || t.includes('present')) return 'ppt';
+  return 'web';
+}
+function _icnCard(c) {
+  const lic = _icnLic(c.license_posture);
+  const href = (c.license_posture === 'embed_only' ? c.embed_url : c.source_url) || c.source_url || '#';
+  const typeKey = _icnTypeKey(c.asset_type);
+  // Real preview when we have one; the glyph sits BEHIND the <img> and the img removes
+  // itself on error to reveal it (no attribute-quote nesting → no markup leak).
+  const thumb = c.has_thumb
+    ? `<div class="icn-thumb">${_icnGlyph(c.asset_type)}<img loading="lazy" src="/icn/thumb/${encodeURIComponent(c.asset_id)}" alt="" onerror="this.remove()"></div>`
+    : '';
+  const chips = (c.topics || []).slice(0, 3).map(t => `<span class="icn-chip">${escapeHtml(t)}</span>`).join('');
+  // Open is a QUIET ghost link (title is the hero); quiz is the one soft accent affordance.
+  const openBtn = href && href !== '#'
+    ? `<a class="icn-open" href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer">${escapeHtml(_icnActionLabel(c))}</a>`
+    : '';
+  const quizBtn = c.has_quiz
+    ? `<button class="icn-quiz" data-aid="${escapeHtml(c.asset_id)}" onclick="genQuiz(this.dataset.aid)">✎ Generate quiz</button>`
+    : '';
+  return `<article class="icn-card" data-type="${escapeHtml(typeKey)}">${thumb}<div class="icn-body">
+      <div class="icn-type">${_icnGlyph(c.asset_type)}<span>${escapeHtml(c.asset_type || 'Resource')}</span></div>
+      <h3 class="icn-title">${escapeHtml(c.title||'Untitled')}</h3>
+      <div class="icn-chips">${chips}</div>
+      <div class="icn-bottom">
+        <div class="icn-meta">
+          <span class="icn-badge ${lic.cls}">${escapeHtml(lic.label)}</span>
+          <button class="icn-info" type="button" title="${escapeHtml(c.attribution||'')}" aria-label="Source information">ⓘ Source</button>
+        </div>
+        <div class="icn-actions">${openBtn}${quizBtn}</div>
+      </div>
+    </div></article>`;
+}
+function renderICN() {
+  const grid = document.getElementById('icn-grid'); if (!grid || !_icnData) return;
+  const role = document.getElementById('icn-role').value;
+  const topic = document.getElementById('icn-topic').value;
+  const q = (document.getElementById('icn-search').value || '').trim().toLowerCase();
+  const sort = (document.getElementById('icn-sort') || {}).value || 'title';
+  const cards = _icnData.cards.filter(c =>
+    (!role || (c.roles||[]).includes(role)) &&
+    (!topic || (c.topics||[]).includes(topic)) &&
+    (!q || (c.title+' '+(c.topics||[]).join(' ')+' '+(c.source_label||'')).toLowerCase().includes(q)));
+  const licRank = {download_allowed:0, embed_only:1, link_only:2};
+  cards.sort((a, b) => {
+    if (sort === 'type') return (a.asset_type||'').localeCompare(b.asset_type||'') || (a.title||'').localeCompare(b.title||'');
+    if (sort === 'license') return (licRank[a.license_posture]??9) - (licRank[b.license_posture]??9) || (a.title||'').localeCompare(b.title||'');
+    if (sort === 'quiz') return (b.has_quiz?1:0) - (a.has_quiz?1:0) || (a.title||'').localeCompare(b.title||'');
+    return (a.title||'').localeCompare(b.title||'');
+  });
+  document.getElementById('icn-count').textContent =
+    `${cards.length} of ${_icnData.total} assets`;
+  grid.innerHTML = cards.length
+    ? cards.map(_icnCard).join('')
+    : `<div class="preview" style="grid-column:1/-1;"><div class="empty"><div class="hint">No ICN content matches this filter yet. As new packs are imported, role- and topic-matched material will appear here.</div></div></div>`;
+}
+async function loadContent() {
+  const grid = document.getElementById('icn-grid'); if (!grid) return;
+  if (_icnData) { renderICN(); return; }
+  grid.innerHTML = '<div class="icn-card skeleton" style="height:230px;"></div>'.repeat(6);
+  let ctrl = new AbortController(); const to = setTimeout(()=>ctrl.abort(), 12000);
+  try {
+    const r = await fetch('/api/icn', {signal: ctrl.signal}); clearTimeout(to);
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    _icnData = await r.json();
+  } catch (e) {
+    clearTimeout(to);
+    grid.innerHTML = `<div class="async-error" style="grid-column:1/-1;"><p class="ae-title">Couldn't load the content library</p><p>${e.name==='AbortError'?'Timed out.':escapeHtml(e.message)}</p><button class="secondary accent" onclick="_icnData=null;loadContent()">Try again</button></div>`;
+    return;
+  }
+  // hero stats — surface the scale + trust + capability story live
+  const setNum = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
+  setNum('icn-stat-total', _icnData.total);
+  setNum('icn-stat-roles', (_icnData.roles || []).length);
+  setNum('icn-stat-dl', (_icnData.counts || {}).download_allowed || 0);
+  setNum('icn-stat-quiz', _icnData.cards.filter(c => c.has_quiz).length);
+  // populate facets once
+  const rs = document.getElementById('icn-role'), ts = document.getElementById('icn-topic');
+  if (rs.options.length <= 1) _icnData.roles.forEach(x => rs.add(new Option(x, x)));
+  if (ts.options.length <= 1) _icnData.topics.forEach(x => ts.add(new Option(x, x)));
+  // learning paths
+  const pe = document.getElementById('icn-paths');
+  if (pe) pe.innerHTML = '<h4>Suggested course paths</h4>' + (_icnData.paths||[]).map((p, i) =>
+    `<div class="icn-path" role="button" tabindex="0" onclick="openPath(${i})" onkeydown="if(event.key==='Enter')openPath(${i})">
+      <div class="ip-title">${escapeHtml(p.title||'')}</div>
+      <div class="ip-meta">${escapeHtml(p.description||'')}<br>${(p.modules||[]).length} module${(p.modules||[]).length===1?'':'s'} · view path →</div></div>`).join('');
+  ['icn-role','icn-topic','icn-sort'].forEach(id => document.getElementById(id).addEventListener('change', renderICN));
+  document.getElementById('icn-search').addEventListener('input', renderICN);
+  renderICN();
+}
+
+// ─── Course-path detail view ────────────────────────────────────────
+function openPath(i) {
+  const p = (_icnData && _icnData.paths || [])[i]; if (!p) return;
+  const mods = p.modules || [];
+  const quizzable = mods.filter(m => m.has_quiz).length;
+  const first = mods.find(m => m.source_url);
+  const rows = mods.map((m, idx) => {
+    const tk = _icnTypeKey(m.asset_type), lic = _icnLic(m.license_posture);
+    const open = m.source_url
+      ? `<a class="icn-open" href="${escapeHtml(m.source_url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(_icnActionLabel(m))}</a>` : '';
+    const quiz = m.has_quiz
+      ? `<button class="icn-quiz" data-aid="${escapeHtml(m.asset_id)}" onclick="genQuiz(this.dataset.aid)">✎ Check your knowledge</button>` : '';
+    return `<li class="path-mod" data-type="${tk}">
+        <span class="path-num">${idx + 1}</span>
+        <div class="path-mod-main">
+          <div class="icn-type">${_icnGlyph(m.asset_type)}<span>${escapeHtml(m.asset_type || 'Resource')}</span></div>
+          <div class="path-mod-title">${escapeHtml(m.title || 'Untitled')}</div>
+          <div class="path-mod-actions"><span class="icn-badge ${lic.cls}">${escapeHtml(lic.label)}</span>${open}${quiz}</div>
+        </div></li>`;
+  }).join('');
+  const srcs = [...new Set(mods.map(m => m.source_label).filter(Boolean))];
+  const cta = first
+    ? `<a class="path-cta-btn" href="${escapeHtml(first.source_url)}" target="_blank" rel="noopener noreferrer">Start path ↗</a>` : '';
+  document.getElementById('path-detail').innerHTML = `
+    <button class="path-back" onclick="closePath()">← All content</button>
+    <header class="path-hero">
+      <p class="path-eyebrow">Course path${p.role ? ' · ' + escapeHtml(p.role) : ''}</p>
+      <h1 class="path-title">${escapeHtml(p.title || '')}</h1>
+      <p class="path-desc">${escapeHtml(p.description || '')}</p>
+      <div class="path-stats"><span><b>${mods.length}</b>modules</span><span><b>${quizzable}</b>quizzable</span><span>✓ every claim cited</span></div>
+      ${cta}
+    </header>
+    <div class="path-layout">
+      <ol class="path-modules">${rows || '<li class="path-empty">No modules mapped to this path yet.</li>'}</ol>
+      <aside class="path-aside">
+        <h4>Sources &amp; attribution</h4>
+        <p class="path-aside-note">Every module is externally authored and cited at its source — nothing in this path is AI-generated.</p>
+        <ul class="path-srcs">${(srcs.length ? srcs : ['Institute of Child Nutrition / USDA']).map(s => `<li>${escapeHtml(s)}</li>`).join('')}</ul>
+      </aside>
+    </div>`;
+  const hero = document.querySelector('#view-content .icn-hero');
+  const lib = document.querySelector('#view-content .library');
+  if (hero) hero.style.display = 'none';
+  if (lib) lib.style.display = 'none';
+  document.getElementById('path-detail').hidden = false;
+  window.scrollTo(0, 0);
+}
+function closePath() {
+  document.getElementById('path-detail').hidden = true;
+  const hero = document.querySelector('#view-content .icn-hero');
+  const lib = document.querySelector('#view-content .library');
+  if (hero) hero.style.display = '';
+  if (lib) lib.style.display = '';
+}
+
+// ─── Roster (simulated multi-tenant demo) ───────────────────────────
+let _rosterData = null, _curISD = '';
+async function loadRoster(isd) {
+  isd = isd || _curISD || '';
+  try {
+    const r = await fetch('/api/roster' + (isd ? ('?isd=' + encodeURIComponent(isd)) : ''));
+    _rosterData = await r.json();
+  } catch (e) { return; }
+  _curISD = _rosterData.selected;
+  const nm = document.getElementById('isd-name'); if (nm) nm.textContent = _rosterData.selected_name;
+  const menu = document.getElementById('isd-menu');
+  if (menu) menu.innerHTML = _rosterData.districts.map(x =>
+    `<button class="isd-opt ${x.id === _rosterData.selected ? 'active' : ''}" onclick="selectISD('${x.id}')">${escapeHtml(x.name)} <span class="n">${x.learners}</span></button>`).join('');
+  if (!loadRoster._wired) {
+    const s = document.getElementById('roster-search'); if (s) s.addEventListener('input', renderRoster);
+    loadRoster._wired = true;
+  }
+  renderRoster();
+}
+function renderRoster() {
+  const d = _rosterData; if (!d) return;
+  const q = ((document.getElementById('roster-search') || {}).value || '').toLowerCase();
+  const rows = d.roster.filter(l => !q || (l.name + ' ' + l.role).toLowerCase().includes(q));
+  const done = d.roster.filter(l => l.status === 'Completed').length;
+  const prog = d.roster.filter(l => l.status === 'In progress').length;
+  const avg = Math.round(d.roster.reduce((a, l) => a + l.progress, 0) / (d.roster.length || 1));
+  const t = document.getElementById('roster-title'); if (t) t.textContent = d.selected_name + ' · Learners';
+  const sub = document.getElementById('roster-sub'); if (sub) sub.textContent = `${d.roster.length} learners · ${done} completed · ${prog} in progress`;
+  const stats = document.getElementById('roster-stats');
+  if (stats) stats.innerHTML = [['Learners', d.roster.length], ['Completed', done], ['Avg. progress', avg + '%'], ['Districts', d.districts.length]]
+    .map(([l, n]) => `<div class="roster-stat"><div class="n">${n}</div><div class="l">${escapeHtml(l)}</div></div>`).join('');
+  const cls = s => s === 'Completed' ? 'done' : (s === 'In progress' ? 'prog' : 'none');
+  const body = document.getElementById('roster-body');
+  if (body) body.innerHTML = rows.map(l => `<tr>
+      <td><div class="r-name">${escapeHtml(l.name)}</div><div class="r-email">${escapeHtml(l.email)}</div></td>
+      <td>${escapeHtml(l.role)}</td>
+      <td>${escapeHtml(l.assigned)}</td>
+      <td><span class="r-prog"><span class="r-bar"><span style="width:${l.progress}%"></span></span>${l.progress}%</span></td>
+      <td><span class="r-status ${cls(l.status)}">${escapeHtml(l.status)}</span></td>
+      <td>${escapeHtml(l.last_active)}</td></tr>`).join('')
+    || '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:24px;">No learners match.</td></tr>';
+}
+function toggleISDMenu() { const m = document.getElementById('isd-menu'); if (m) m.hidden = !m.hidden; }
+function selectISD(id) { const m = document.getElementById('isd-menu'); if (m) m.hidden = true; loadRoster(id); }
+function doLogin() { const m = document.getElementById('login-modal'); if (m) m.hidden = true; try { sessionStorage.setItem('ls_demo_login', '1'); } catch (e) {} loadRoster(); }
+document.addEventListener('click', e => {
+  const sw = document.querySelector('.isd-switch');
+  if (sw && !sw.contains(e.target)) { const m = document.getElementById('isd-menu'); if (m) m.hidden = true; }
+});
+// init: simulated sign-in on first visit (per session) + prime the district switcher
+(function () {
+  try { if (!sessionStorage.getItem('ls_demo_login')) { const m = document.getElementById('login-modal'); if (m) m.hidden = false; } } catch (e) {}
+  loadRoster();
+})();
+
+// ─── Grounded quiz from ICN content ─────────────────────────────────
+function closeQuiz() { const m = document.getElementById('quiz-modal'); if (m) m.hidden = true; }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeQuiz(); });
+function _quizQuestion(q, i) {
+  const opts = q.options.map((o, oi) =>
+    `<button class="quiz-opt" data-qi="${i}" data-oi="${oi}" onclick="answerQuiz(${i},${oi})">${escapeHtml(o)}</button>`).join('');
+  const pg = q.page ? ` · p.${q.page}` : (q.slide ? ` · slide ${q.slide}` : '');
+  const link = q.source_url ? ` <a href="${escapeHtml(q.source_url)}" target="_blank" rel="noopener noreferrer">View source${escapeHtml(pg)} ↗</a>` : '';
+  return `<div class="quiz-q" id="quiz-q-${i}">
+    <div class="stem"><span class="qn">${i+1}.</span>${escapeHtml(q.q)}</div>
+    <div class="opts">${opts}</div>
+    <div class="quiz-src" id="quiz-src-${i}" hidden>
+      <span class="sq">“${escapeHtml(q.source_quote)}”</span>${q.explanation?'<br>'+escapeHtml(q.explanation):''}
+      <span class="attr">Source: Institute of Child Nutrition / USDA.${link}</span>
+    </div></div>`;
+}
+let _quizState = null;
+function answerQuiz(qi, oi) {
+  const q = _quizState.questions[qi];
+  document.querySelectorAll(`.quiz-opt[data-qi="${qi}"]`).forEach(b => {
+    const o = +b.dataset.oi; b.disabled = true;
+    if (o === q.answer) b.classList.add('correct');
+    else if (o === oi) b.classList.add('wrong');
+  });
+  const src = document.getElementById('quiz-src-' + qi); if (src) src.hidden = false;
+}
+async function genQuiz(assetId) {
+  const card = (_icnData && _icnData.cards.find(c => c.asset_id === assetId)) || {};
+  const m = document.getElementById('quiz-modal'), body = document.getElementById('quiz-body'),
+        foot = document.getElementById('quiz-foot'), title = document.getElementById('quiz-title');
+  m.hidden = false;
+  title.textContent = card.title || 'Quiz';
+  body.innerHTML = '<div style="text-align:center;padding:40px 0;color:var(--muted);"><span class="spinner"></span> Writing questions and verifying each against the source…</div>';
+  foot.innerHTML = '';
+  try {
+    const r = await fetch('/api/icn/quiz', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ asset_id: assetId }) });
+    if (!r.ok) { let msg = 'HTTP ' + r.status; try { const j = await r.json(); msg = (j.detail && j.detail.message) || j.detail || msg; } catch {} throw new Error(msg); }
+    const data = await r.json();
+    _quizState = data;
+    if (!data.questions.length) { body.innerHTML = `<div class="async-error"><p class="ae-title">No verifiable questions</p><p>Every draft question failed source verification, so none were kept.</p></div>`; return; }
+    body.innerHTML = data.questions.map(_quizQuestion).join('');
+    foot.innerHTML = `<span>✓ ${data.kept} question${data.kept===1?'':'s'}, each verified verbatim against the source${data.dropped?` · ${data.dropped} unverifiable dropped`:''}</span><span>${escapeHtml(data.attribution||'')}</span>`;
+  } catch (e) {
+    body.innerHTML = `<div class="async-error"><p class="ae-title">Couldn't generate the quiz</p><p>${escapeHtml(e.message)}</p></div>`;
+  }
+}
+
+// ─── Create → Study set (author quizzes / flashcards from ICN + LLM, by topic) ───
+async function initStudySet() {
+  const sel = document.getElementById('ss-topic'); if (!sel || sel._init) return;
+  try {
+    if (!_icnData) { const r = await fetch('/api/icn'); _icnData = await r.json(); }
+  } catch (e) { return; }
+  (_icnData.quiz_topics || []).forEach(t => sel.add(new Option(t, t)));
+  sel._init = true;
+  const toggle = () => { const on = !!sel.value;
+    document.getElementById('ss-quiz').disabled = !on;
+    document.getElementById('ss-flash').disabled = !on; };
+  sel.addEventListener('change', toggle); toggle();
+  document.getElementById('ss-quiz').addEventListener('click', () => runStudyQuiz(sel.value));
+  document.getElementById('ss-flash').addEventListener('click', () => runFlashcards(sel.value));
+}
+function _ssBusy(label) {
+  const m = document.getElementById('quiz-modal'), body = document.getElementById('quiz-body'),
+        foot = document.getElementById('quiz-foot'), title = document.getElementById('quiz-title');
+  m.hidden = false; title.textContent = label;
+  body.innerHTML = '<div style="text-align:center;padding:40px 0;color:var(--muted);"><span class="spinner"></span> Drafting and verifying each item against the source…</div>';
+  foot.innerHTML = '';
+  return { body, foot };
+}
+async function runStudyQuiz(topic) {
+  if (!topic) return;
+  const { body, foot } = _ssBusy(topic + ' — Quiz');
+  try {
+    const r = await fetch('/api/icn/quiz', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ topic }) });
+    if (!r.ok) { let msg = 'HTTP ' + r.status; try { const j = await r.json(); msg = (j.detail && j.detail.message) || j.detail || msg; } catch {} throw new Error(msg); }
+    const data = await r.json(); _quizState = data;
+    if (!data.questions.length) { body.innerHTML = '<div class="async-error"><p class="ae-title">No verifiable questions</p><p>Every draft failed source verification, so none were kept.</p></div>'; return; }
+    body.innerHTML = data.questions.map(_quizQuestion).join('');
+    foot.innerHTML = `<span>✓ ${data.kept} question${data.kept===1?'':'s'}, each verified verbatim against the source${data.dropped?` · ${data.dropped} dropped`:''}</span><span>${escapeHtml(data.attribution||'')}</span>`;
+  } catch (e) { body.innerHTML = `<div class="async-error"><p class="ae-title">Couldn't generate the quiz</p><p>${escapeHtml(e.message)}</p></div>`; }
+}
+async function runFlashcards(topic) {
+  if (!topic) return;
+  const { body, foot } = _ssBusy(topic + ' — Flashcards');
+  try {
+    const r = await fetch('/api/icn/flashcards', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ topic }) });
+    if (!r.ok) { let msg = 'HTTP ' + r.status; try { const j = await r.json(); msg = (j.detail && j.detail.message) || j.detail || msg; } catch {} throw new Error(msg); }
+    const data = await r.json();
+    if (!data.cards.length) { body.innerHTML = '<div class="async-error"><p class="ae-title">No verifiable cards</p><p>Every draft failed source verification.</p></div>'; return; }
+    body.innerHTML = '<div class="flash-grid">' + data.cards.map(c => {
+      const pg = c.page ? ', p.' + c.page : (c.slide ? ', slide ' + c.slide : '');
+      const link = c.source_url ? ` · <a href="${escapeHtml(c.source_url)}" target="_blank" rel="noopener noreferrer">view ↗</a>` : '';
+      return `<div class="flash-card" onclick="this.classList.toggle('flipped')">
+          <div class="flash-front">${escapeHtml(c.front)}<span class="flash-hint">tap to flip</span></div>
+          <div class="flash-back">${escapeHtml(c.back)}
+            <div class="quiz-src"><span class="sq">“${escapeHtml(c.source_quote)}”</span><span class="attr">Source: ICN / USDA${escapeHtml(pg)}${link}</span></div>
+          </div></div>`;
+    }).join('') + '</div>';
+    foot.innerHTML = `<span>✓ ${data.kept} card${data.kept===1?'':'s'}, each verified verbatim against the source${data.dropped?` · ${data.dropped} dropped`:''}</span><span>${escapeHtml(data.attribution||'')}</span>`;
+  } catch (e) { body.innerHTML = `<div class="async-error"><p class="ae-title">Couldn't generate flashcards</p><p>${escapeHtml(e.message)}</p></div>`; }
+}
+
 async function loadLibrary() {
+  const grid = document.getElementById('lib-grid');
+  // Skeleton first paint while we fetch.
+  if (grid) {
+    grid.setAttribute('aria-busy', 'true');
+    grid.innerHTML = '<div class="skeleton sk-card"></div>'.repeat(4);
+  }
   const qs = new URLSearchParams();
   const m = document.getElementById('lib-module').value;
   const t = document.getElementById('lib-template').value;
-  const s = document.getElementById('lib-status').value;
+  const view = document.getElementById('lib-status').value;  // 'library' | 'awaiting' | ''
   if (m) qs.set('module', m);
   if (t) qs.set('template', t);
-  if (s) qs.set('status', s);
-  const resp = await fetch('/resources?' + qs.toString());
-  let list = await resp.json();
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 12000);
+  let list;
+  try {
+    const resp = await fetch('/resources?' + qs.toString(), { signal: ctrl.signal });
+    clearTimeout(timer);
+    list = await resp.json();
+  } catch (e) {
+    clearTimeout(timer);
+    if (grid) {
+      grid.removeAttribute('aria-busy');
+      const msg = (e && e.name === 'AbortError')
+        ? 'This took longer than expected. Check your connection and try again.'
+        : escapeHtml(String((e && e.message) || e));
+      grid.innerHTML = `<div class="async-error"><p class="ae-title">Couldn't load the library</p><p>${msg}</p><button class="secondary accent" onclick="loadLibrary()">Try again</button></div>`;
+    }
+    return;
+  }
+  if (grid) grid.removeAttribute('aria-busy');
+  // The Library proper shows only approved resources; the gate is human approval.
+  if (view === 'library') list = list.filter(inLibrary);
+  else if (view === 'awaiting') list = list.filter(r => !inLibrary(r));
   // client-side free-text search
   const q = (document.getElementById('lib-search').value || '').toLowerCase().trim();
   if (q) list = list.filter(x =>
@@ -1761,7 +3319,6 @@ async function loadLibrary() {
   }[sort] || (() => 0);
   list.sort(cmp);
   document.getElementById('lib-count').textContent = list.length;
-  const grid = document.getElementById('lib-grid');
   grid.innerHTML = '';
   if (!list.length) {
     grid.innerHTML = '<div style="padding:24px; text-align:center; color:var(--muted); font-size:13px;">No matching resources.</div>';
@@ -1772,18 +3329,26 @@ async function loadLibrary() {
     card.className = 'lib-card';
     card.dataset.id = r.id;
     const verdict = normalizedVerdict(r.evaluator_verdict);
-    const evalLabel = r.status === 'published'
-      ? 'published'
-      : verdict ? `eval ${verdict}` : 'needs evaluation';
+    // Status accent bar (colors from slice-A CSS): approved (green) / fail (terracotta) / awaiting (amber).
+    card.dataset.state = inLibrary(r) ? 'approved' : (verdict === 'fail' ? 'fail' : 'await');
+    const evalLabel = inLibrary(r)
+      ? 'sources verified'
+      : verdict ? (verdict === 'pass' ? 'sources verified' : verdict === 'warn' ? 'check sources' : verdict === 'fail' ? 'sources failed' : 'check error') : 'not checked yet';
+    const evalTitle = inLibrary(r)
+      ? 'Approved — every claim traces to a real source.'
+      : verdict ? (verdict === 'pass' ? 'Every claim traces to a real source.' : verdict === 'warn' ? 'A few claims need a second look before publishing.' : verdict === 'fail' ? 'One or more claims could not be traced to a source.' : 'The source check could not finish.') : 'This draft has not been source-checked yet.';
     const verdictClass = ['pass', 'warn', 'fail', 'error'].includes(verdict) ? verdict : 'error';
-    const evalClass = r.status === 'published'
-      ? 'published'
+    const evalClass = inLibrary(r)
+      ? 'eval-pass'
       : verdict ? `eval-${verdictClass}` : 'eval-missing';
+    const sb = statusBadge(r);
+    const srcLine = libSourceLine(r);
     card.innerHTML = `
-      <p class="title">${r.module || '?'} | ${r.template || '?'}</p>
+      <p class="title">${libTypeIcon(r.template)}${r.module || '?'} | ${r.template || '?'}</p>
+      <p class="lib-src">↳ ${srcLine}</p>
       <div class="row">
-        <span class="badge ${r.status === 'pending_sme_review' ? 'pending' : r.status}">${r.status === 'pending_sme_review' ? 'Pending SME Review' : r.status}</span>
-        <span class="badge ${evalClass}">${evalLabel}</span>
+        <span class="badge ${sb.cls}" title="${escAttr(sb.tip)}">${sb.label}</span>
+        <span class="badge ${evalClass}" title="${escAttr(evalTitle)}">${evalLabel}</span>
         <span>${(r.created_at || '').slice(0, 16).replace('T', ' ')}</span>
       </div>
     `;
@@ -1826,6 +3391,8 @@ async function selectLibResource(r) {
   document.getElementById('lib-download-pdf').disabled = false;
   const detail = await fetch(`/resources/${r.id}?view=clean`).then(x => x.json());
   document.getElementById('lib-preview').innerHTML = detail.html || '<div class="empty">empty</div>';
+
+  const isApproved = inLibrary(r);
   const delBtn = document.getElementById('lib-delete');
   delBtn.disabled = false;
   delBtn.onclick = async () => {
@@ -1836,25 +3403,79 @@ async function selectLibResource(r) {
     document.getElementById('lib-resid').textContent = 'pick a resource';
     document.getElementById('lib-download-pdf').disabled = true;
     document.getElementById('lib-publish').disabled = true;
+    document.getElementById('lib-edit-bar').style.display = 'none';
+    document.getElementById('lib-edit-result').style.display = 'none';
     delBtn.disabled = true;
     libSelectedId = null;
     loadLibrary();
   };
+
+  // Edit bar — only for resources still awaiting review (not yet approved).
+  const editBar = document.getElementById('lib-edit-bar');
+  const editResult = document.getElementById('lib-edit-result');
+  editResult.style.display = 'none';
+  editBar.style.display = isApproved ? 'none' : '';
+  document.getElementById('lib-edit-instruction').value = '';
+
+  // Approve — the human gate INTO the Library.
   const pubBtn = document.getElementById('lib-publish');
-  const released = r.status === 'pending_sme_review' || r.status === 'published';
-  pubBtn.textContent = released ? '✓ Pending SME Review' : 'Release (Pending SME Review)';
-  pubBtn.disabled = released;
-  pubBtn.title = released
-    ? 'Released for use — pending review by an SME.'
-    : 'Release for use, marked Pending Review by SME. Grounding is verified server-side before release.';
+  pubBtn.innerHTML = isApproved ? '✓ In Library' : 'Approve &amp; publish';
+  pubBtn.disabled = isApproved;
+  pubBtn.title = isApproved
+    ? 'Approved and available in the Library.'
+    : 'Approve this guide and add it to the Library. Sources are verified server-side before approval.';
   pubBtn.onclick = async () => {
-    if (released) return;
-    if (!confirm('Release this guide for use, marked "Pending Review by SME"?')) return;
-    const resp = await fetch(`/resources/${r.id}/publish_pending`, { method: 'POST' });
-    if (!resp.ok) { alert('Release blocked:\n\n' + await publishErrorMessage(resp)); return; }
+    if (inLibrary(r)) return;
+    if (!confirm('Approve this guide and add it to the Library?\n\nSources have been auto-verified. Approving is your sign-off that the content is correct.')) return;
+    const resp = await fetch(`/resources/${r.id}/approve`, { method: 'POST' });
+    if (!resp.ok) { alert('Approval blocked:\n\n' + await publishErrorMessage(resp)); return; }
     loadLibrary();
+    loadEvals();
   };
 }
+
+// AI-assisted edit from the Library review queue.
+async function runLibRevision() {
+  const rid = libSelectedId;
+  if (!rid) return;
+  const input = document.getElementById('lib-edit-instruction');
+  const instruction = (input.value || '').trim();
+  if (!instruction) { input.focus(); return; }
+  const btn = document.getElementById('lib-edit-run');
+  const result = document.getElementById('lib-edit-result');
+  btn.disabled = true; btn.textContent = 'Revising…';
+  result.style.display = '';
+  result.innerHTML = '<div class="er-head"><span class="er-reason">Asking the editor to revise the draft…</span></div>';
+
+  let data;
+  try {
+    const r = await fetch(`/resources/${rid}/revise`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ instruction }),
+    });
+    if (!r.ok) throw new Error(await r.text());
+    data = await r.json();
+  } catch (e) {
+    result.innerHTML = `<div class="er-head"><span class="er-tag broke">Error</span></div>`
+      + `<div class="er-reason">${escapeHtml(String(e.message || e))}</div>`;
+    btn.disabled = false; btn.textContent = 'Request edits';
+    return;
+  }
+
+  renderEditResult(data, 'lib-edit-result');
+  btn.disabled = false; btn.textContent = 'Request edits';
+  if (data.refused || !data.changed) return;
+
+  document.getElementById('lib-preview').innerHTML = data.html || '<div class="empty">empty</div>';
+  input.value = '';
+  loadLibrary();  // refresh badges/verdict; doc remains awaiting review until approved
+}
+
+document.getElementById('lib-edit-run').addEventListener('click', runLibRevision);
+document.getElementById('lib-edit-instruction').addEventListener('keydown', e => {
+  if (e.key === 'Enter') { e.preventDefault(); runLibRevision(); }
+});
 
 // ─── Download PDF (Author + Library) ────────────────────────────────
 // GET /resources/<id>/pdf returns the resource's clean HTML rendered to a PDF
@@ -1870,6 +3491,10 @@ document.getElementById('download-pdf').addEventListener('click', () => {
 document.getElementById('lib-download-pdf').addEventListener('click', () => {
   downloadResourcePdf(libSelectedId);
 });
+
+// First paint: stepper idle + status line shows "Ready when you are."
+setProgress(0);
+setStatus('Ready when you are.', '');
 </script>
 </body>
 </html>

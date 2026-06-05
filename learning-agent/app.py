@@ -24,6 +24,23 @@ from pathlib import Path
 
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
+# Self-heal: the Claude Agent SDK spawns the `claude` CLI from PATH. When this server
+# is launched from a shell whose PATH lacks the CLI dir (common when an agent/tool
+# relaunches it rather than your terminal), spawning fails with FileNotFoundError even
+# though the binary exists. Ensure the CLI dir is on PATH at import — no-op if already
+# resolvable. (Windows: ~/.local/bin and the Claude Desktop claude-code install.)
+import os as _os, shutil as _shutil
+if not (_shutil.which("claude") or _shutil.which("claude.exe")):
+    import glob as _glob
+    _cands = [_os.path.expanduser(r"~\.local\bin"), _os.path.expanduser("~/.local/bin")]
+    _appdata = _os.environ.get("APPDATA")
+    if _appdata:
+        _cands += sorted(_glob.glob(_os.path.join(_appdata, "Claude", "claude-code", "*")), reverse=True)
+    for _d in _cands:
+        if _os.path.isfile(_os.path.join(_d, "claude.exe")) or _os.path.isfile(_os.path.join(_d, "claude")):
+            _os.environ["PATH"] = _d + _os.pathsep + _os.environ.get("PATH", "")
+            break
+
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Query, UploadFile
 from fastapi.responses import FileResponse, HTMLResponse, JSONResponse

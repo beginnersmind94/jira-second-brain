@@ -201,6 +201,31 @@ def reg_15_empty_fix_no_false_ok():
     return ok, f"ok_with_empty_FIX={v['ok']} (must be 0)"
 
 
+def reg_16_referenced_parents_resolve():
+    """Every ticket's parent-epic reference resolves via _resolve_issue — including
+    the agent-normalized `NXT-<id>` form. Regression for the bare-internal-id vs
+    `NXT-` key mismatch that made read_epic emit 'epic not found'."""
+    tickets = demo._FIX.get("tickets", {})
+    if not tickets:
+        return None, "no fixture loaded"
+    refs, bad = 0, []
+    for t in tickets.values():
+        ek = (t.get("epic_key") or "").strip()
+        if not ek or ek == "-":
+            continue
+        refs += 1
+        # the agent normalizes a bare internal id to the project-key form before calling read_epic:
+        probe = ("NXT-" + ek) if ek.lstrip("-").isdigit() else ek
+        _k, rec, _kind = demo._resolve_issue(probe)
+        if rec is None:
+            bad.append(probe)
+    if refs == 0:
+        return None, "fixture has no parent refs"
+    if bad:
+        return False, f"{len(bad)} unresolvable parent refs, e.g. {bad[:3]}"
+    return True, f"{refs} parent refs resolve (NXT-/bare canonicalized)"
+
+
 CHECKS = [
     ("REG-01 enforce relabels tier-lie", reg_01_enforce_relabels_tier_lie),
     ("REG-02 verbatim AC = ok", reg_02_verbatim_ac_is_ok),
@@ -217,6 +242,7 @@ CHECKS = [
     ("REG-13 _words excludes comments/tags", reg_13_words_excludes_comments_and_tags),
     ("REG-14 assemble tolerates whitespace", reg_14_assemble_tolerates_whitespace_marker),
     ("REG-15 empty _FIX -> no false ok", reg_15_empty_fix_no_false_ok),
+    ("REG-16 parent epic refs resolve", reg_16_referenced_parents_resolve),
 ]
 
 

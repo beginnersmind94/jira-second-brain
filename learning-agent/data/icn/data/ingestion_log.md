@@ -1,0 +1,329 @@
+- 2026-06-05 11:03:25 - Starting discovery from seed_sources.json.
+- 2026-06-05 11:03:25 - Skipped asset discovery for icn-copy-use-policy (https://theicn.org/icn-copy-and-use-policy/).
+- 2026-06-05 11:03:26 - Discovered 11 assets from icn-food-safety-in-schools (11 table, 0 anchor/webpage).
+- 2026-06-05 11:03:26 - Discovered 11 assets from icn-food-safety-basics (11 table, 0 anchor/webpage).
+- 2026-06-05 11:03:26 - Discovered 15 assets from icn-food-safety-videos (15 table, 0 anchor/webpage).
+- 2026-06-05 11:03:26 - Discovered 42 assets from icn-school-nutrition-programs (0 table, 42 anchor/webpage).
+- 2026-06-05 11:03:26 - Skipped asset discovery for msde-training-technical-assistance (https://marylandpublicschools.org/programs/SchoolandCommunityNutrition/pages/tta.aspx).
+- 2026-06-05 11:03:27 - Discovery complete. Manifest has 67 assets; 32 download_allowed; 1 video_youtube.
+- 2026-06-05 11:03:34 - Starting download_allowed_assets.py.
+- 2026-06-05 11:03:47 - Downloaded icn-food-safety-videos-a-flash-of-food-safety-1-eng to assets/videos/A-Flash-of-Food-Safety_1_eng.mp4 (150198844 bytes).
+- 2026-06-05 11:04:02 - Downloaded icn-food-safety-videos-a-flash-of-food-safety-2-eng to assets/videos/A-Flash-of-Food-Safety_2_eng.mp4 (118258956 bytes).
+- 2026-06-05 11:04:20 - Downloaded icn-food-safety-videos-a-flash-of-food-safety-3-eng to assets/videos/A-Flash-of-Food-Safety_3_eng.mp4 (140533793 bytes).
+- 2026-06-05 11:04:30 - Downloaded icn-food-safety-videos-a-flash-of-food-safety-4-eng to assets/videos/A-Flash-of-Food-Safety_4_eng.mp4 (112549101 bytes).
+- 2026-06-05 11:04:47 - Downloaded icn-food-safety-videos-a-flash-of-food-safety-5-eng to assets/videos/A-Flash-of-Food-Safety_5_eng.mp4 (156993307 bytes).
+- 2026-06-05 11:04:47 - Skipped license_posture=link_only.
+- 2026-06-05 11:04:47 - Skipped license_posture=link_only.
+- 2026-06-05 11:04:54 - Downloaded icn-food-safety-videos-child-care-employee-health-and-personal-hygiene-video-mini-series-part-1-reporting-illness to assets/videos/Child-Care-Employee-Health-and-Personal-Hygiene-Video-Mini-Series-Part-1-Reporting-Illness.mp4 (44442834 bytes).
+- 2026-06-05 11:04:59 - Downloaded icn-food-safety-videos-child-care-employee-health-and-personal-hygiene-video-mini-series-part-2-handling-illness to assets/videos/Child-Care-Employee-Health-and-Personal-Hygiene-Video-Mini-Series-Part-2-Handling-Illness.mp4 (30262629 bytes).
+- 2026-06-05 11:05:04 - Downloaded icn-food-safety-videos-child-care-employee-health-and-personal-hygiene-video-mini-series-part-3-preventing-illnes to assets/videos/Child-Care-Employee-Health-and-Personal-Hygiene-Video-Mini-Series-Part-3-Preventing-Illness.mp4 (23266781 bytes).
+- 2026-06-05 11:05:16 - Downloaded icn-food-safety-videos-cool-it-methods-for-cooling-food-safely to assets/videos/Cool-It-Methods-for-Cooling-Food-Safely.mp4 (83674377 bytes).
+- 2026-06-05 11:05:16 - Skipped license_posture=link_only.
+- 2026-06-05 11:05:16 - Skipped license_posture=link_only.
+- 2026-06-05 11:05:16 - Skipped license_posture=link_only.
+- 2026-06-05 11:05:16 - Skipped license_posture=link_only.
+- 2026-06-05 11:05:16 - Skipped license_posture=link_only.
+- 2026-06-05 11:05:16 - Skipped license_posture=link_only.
+- 2026-06-05 11:05:16 - Skipped license_posture=link_only.
+- 2026-06-05 11:05:16 - Skipped license_posture=link_only.
+- 2026-06-05 11:05:16 - Skipped license_posture=link_only.
+- 2026-06-05 11:05:16 - Skipped license_posture=link_only.
+- 2026-06-05 11:05:16 - Skipped license_posture=link_only.
+- 2026-06-05 11:05:16 - Skipped license_posture=link_only.
+- 2026-06-05 11:05:16 - Skipped license_posture=link_only.
+- 2026-06-05 11:05:18 - Downloaded icn-food-safety-basics-food-safety-basics-instructor-s-manual to assets/documents/Food-Safety-Basics-Instructor39s-Manual.pdf (2601485 bytes).
+- 2026-06-05 11:05:20 - Downloaded icn-food-safety-basics-food-safety-basics-participant-s-workbook to assets/documents/Food-Safety-Basics-Participant39s-Workbook.pdf (2340330 bytes).
+- 2026-06-05 11:05:21 - Downloaded icn-food-safety-basics-food-safety-basics-post-assessment to assets/documents/Food-Safety-Basics-Post-Assessment.pdf (31015 bytes).
+- 2026-06-05 11:05:22 - Downloaded icn-food-safety-basics-food-safety-basics-pre-assessment to assets/documents/Food-Safety-Basics-Pre-Assessment.pdf (31016 bytes).
+- 2026-06-05 11:05:24 - Downloaded icn-food-safety-basics-food-safety-basics-pre-post-assessment-answers to assets/documents/Food-Safety-Basics-Pre-Post-Assessment-Answers.pdf (35136 bytes).
+- 2026-06-05 11:06:21 - Downloaded icn-food-safety-basics-food-safety-basics-presentation to assets/presentations/food-safety-basics-presentation.pptx (496164053 bytes).
+- 2026-06-05 11:06:21 - Skipped license_posture=link_only.
+- 2026-06-05 11:06:21 - Skipped license_posture=link_only.
+- 2026-06-05 11:06:21 - Skipped license_posture=link_only.
+- 2026-06-05 11:06:21 - Skipped license_posture=link_only.
+- 2026-06-05 11:06:21 - Skipped license_posture=link_only.
+- 2026-06-05 11:06:21 - Skipped license_posture=link_only.
+- 2026-06-05 11:06:21 - Skipped license_posture=link_only.
+- 2026-06-05 11:06:21 - Skipped license_posture=link_only.
+- 2026-06-05 11:06:21 - Skipped license_posture=link_only.
+- 2026-06-05 11:06:21 - Skipped license_posture=link_only.
+- 2026-06-05 11:06:40 - Downloaded icn-food-safety-in-schools-food-safety-in-schools-training-presentation to assets/presentations/Food-Safety-in-Schools-Training-Presentation.pptx (223270894 bytes).
+- 2026-06-05 11:06:40 - Skipped license_posture=link_only.
+- 2026-06-05 11:06:45 - Downloaded icn-food-safety-basics-icn-handwashing-short to assets/videos/ICN-Handwashing-Short.mp4 (39991393 bytes).
+- 2026-06-05 11:06:47 - Downloaded icn-food-safety-in-schools-instructor-s-manual to assets/documents/Instructor39s-Manual.pdf (2009474 bytes).
+- 2026-06-05 11:06:47 - Skipped license_posture=link_only.
+- 2026-06-05 11:06:54 - Downloaded icn-food-safety-videos-managing-food-allergies-in-child-care-centers to assets/videos/Managing-Food-Allergies-in-Child-Care-Centers.mp4 (59886842 bytes).
+- 2026-06-05 11:06:57 - Downloaded icn-food-safety-in-schools-participant-s-workbook to assets/documents/Participant39s-Workbook.pdf (2781358 bytes).
+- 2026-06-05 11:06:57 - Skipped license_posture=link_only.
+- 2026-06-05 11:06:59 - Downloaded icn-food-safety-in-schools-post-assessment to assets/documents/Post-Assessment.pdf (64613 bytes).
+- 2026-06-05 11:07:01 - Downloaded icn-food-safety-in-schools-pre-assessment to assets/documents/Pre-Assessment.pdf (64643 bytes).
+- 2026-06-05 11:07:02 - Downloaded icn-food-safety-in-schools-pre-post-assessment-answer-key to assets/documents/PrePost-Assessment-Answer-Key.pdf (70874 bytes).
+- 2026-06-05 11:07:06 - Downloaded icn-food-safety-basics-school-employee-health-and-personal-hygiene-video-mini-series-part-1-reporting-illness to assets/videos/School-Employee-Health-and-Personal-Hygiene-Video-Mini-Series-Part-1-Reporting-Illness.mp4 (19170724 bytes).
+- 2026-06-05 11:07:10 - Downloaded icn-food-safety-basics-school-employee-health-and-personal-hygiene-video-mini-series-part-2-handling-illness to assets/videos/School-Employee-Health-and-Personal-Hygiene-Video-Mini-Series-Part-2-Handling-Illness.mp4 (25298252 bytes).
+- 2026-06-05 11:07:13 - Downloaded icn-food-safety-basics-school-employee-health-and-personal-hygiene-video-mini-series-part-3-preventing-illness to assets/videos/School-Employee-Health-and-Personal-Hygiene-Video-Mini-Series-Part-3-Preventing-Illness.mp4 (16956298 bytes).
+- 2026-06-05 11:07:13 - Skipped license_posture=link_only.
+- 2026-06-05 11:07:13 - Skipped license_posture=link_only.
+- 2026-06-05 11:07:13 - Skipped license_posture=link_only.
+- 2026-06-05 11:07:17 - Downloaded icn-food-safety-videos-using-thermometers-360p to assets/videos/Using-Thermometers-360p.mp4 (23058271 bytes).
+- 2026-06-05 11:07:17 - Skipped license_posture=link_only.
+- 2026-06-05 11:07:17 - Skipped license_posture=link_only.
+- 2026-06-05 11:07:20 - Downloaded icn-food-safety-in-schools-video-clip-calibrating-thermometers to assets/videos/Video-Clip-Calibrating-Thermometers.mp4 (13890673 bytes).
+- 2026-06-05 11:07:26 - Downloaded icn-food-safety-in-schools-video-clip-cooling-food to assets/videos/Video-Clip-Cooling-Food.mp4 (50818188 bytes).
+- 2026-06-05 11:07:28 - Downloaded icn-food-safety-in-schools-video-clip-process-approach-overview to assets/videos/Video-Clip-Process-Approach-Overview.mp4 (2153296 bytes).
+- 2026-06-05 11:07:33 - Downloaded icn-food-safety-in-schools-video-clip-using-thermometers to assets/videos/Video-Clip-Using-Thermometers.mp4 (35113006 bytes).
+- 2026-06-05 11:07:38 - Downloaded icn-food-safety-in-schools-video-clip-wash-your-hands-educating-the-school-community to assets/videos/Video-Clip-Wash-Your-Hands-Educating-the-School-Community.mp4 (27253598 bytes).
+- 2026-06-05 11:07:38 - Skipped license_posture=link_only.
+- 2026-06-05 11:07:38 - Skipped YouTube asset by policy.
+- 2026-06-05 11:07:38 - Download step complete. Downloaded=32; skipped=35; errors=0.
+- 2026-06-05 11:07:45 - Starting extract_presentation_text.py.
+- 2026-06-05 11:07:45 - Extracted presentation text for icn-food-safety-basics-food-safety-basics-presentation to extracted/text/icn-food-safety-basics-food-safety-basics-presentation.md.
+- 2026-06-05 11:07:45 - Extracted presentation text for icn-food-safety-in-schools-food-safety-in-schools-training-presentation to extracted/text/icn-food-safety-in-schools-food-safety-in-schools-training-presentation.md.
+- 2026-06-05 11:07:46 - Presentation extraction complete. Extracted=2; skipped=65; errors=0.
+- 2026-06-05 11:07:48 - Extracted document text for icn-food-safety-basics-food-safety-basics-instructor-s-manual to extracted/text/icn-food-safety-basics-food-safety-basics-instructor-s-manual.md.
+- 2026-06-05 11:07:49 - Extracted document text for icn-food-safety-basics-food-safety-basics-participant-s-workbook to extracted/text/icn-food-safety-basics-food-safety-basics-participant-s-workbook.md.
+- 2026-06-05 11:07:49 - Extracted document text for icn-food-safety-basics-food-safety-basics-post-assessment to extracted/text/icn-food-safety-basics-food-safety-basics-post-assessment.md.
+- 2026-06-05 11:07:49 - Extracted document text for icn-food-safety-basics-food-safety-basics-pre-assessment to extracted/text/icn-food-safety-basics-food-safety-basics-pre-assessment.md.
+- 2026-06-05 11:07:49 - Extracted document text for icn-food-safety-basics-food-safety-basics-pre-post-assessment-answers to extracted/text/icn-food-safety-basics-food-safety-basics-pre-post-assessment-answers.md.
+- 2026-06-05 11:07:51 - Extracted document text for icn-food-safety-in-schools-instructor-s-manual to extracted/text/icn-food-safety-in-schools-instructor-s-manual.md.
+- 2026-06-05 11:07:54 - Extracted document text for icn-food-safety-in-schools-participant-s-workbook to extracted/text/icn-food-safety-in-schools-participant-s-workbook.md.
+- 2026-06-05 11:07:54 - Extracted document text for icn-food-safety-in-schools-post-assessment to extracted/text/icn-food-safety-in-schools-post-assessment.md.
+- 2026-06-05 11:07:54 - Extracted document text for icn-food-safety-in-schools-pre-assessment to extracted/text/icn-food-safety-in-schools-pre-assessment.md.
+- 2026-06-05 11:07:54 - Extracted document text for icn-food-safety-in-schools-pre-post-assessment-answer-key to extracted/text/icn-food-safety-in-schools-pre-post-assessment-answer-key.md.
+- 2026-06-05 11:07:55 - Document extraction complete. Extracted=10; skipped=57; errors=0.
+- 2026-06-05 11:08:02 - Starting extract_presentation_text.py.
+- 2026-06-05 11:08:02 - Extracted presentation text for icn-food-safety-basics-food-safety-basics-presentation to extracted/text/icn-food-safety-basics-food-safety-basics-presentation.md.
+- 2026-06-05 11:08:02 - Extracted presentation text for icn-food-safety-in-schools-food-safety-in-schools-training-presentation to extracted/text/icn-food-safety-in-schools-food-safety-in-schools-training-presentation.md.
+- 2026-06-05 11:08:02 - Presentation extraction complete. Extracted=2; skipped=65; errors=0.
+- 2026-06-05 11:08:07 - Starting make_pdf_previews.py.
+- 2026-06-05 11:08:08 - Generated 3 PDF previews for icn-food-safety-basics-food-safety-basics-instructor-s-manual.
+- 2026-06-05 11:08:08 - Generated 3 PDF previews for icn-food-safety-basics-food-safety-basics-participant-s-workbook.
+- 2026-06-05 11:08:08 - Generated 2 PDF previews for icn-food-safety-basics-food-safety-basics-post-assessment.
+- 2026-06-05 11:08:08 - Generated 2 PDF previews for icn-food-safety-basics-food-safety-basics-pre-assessment.
+- 2026-06-05 11:08:08 - Generated 2 PDF previews for icn-food-safety-basics-food-safety-basics-pre-post-assessment-answers.
+- 2026-06-05 11:08:09 - Generated 3 PDF previews for icn-food-safety-in-schools-instructor-s-manual.
+- 2026-06-05 11:08:09 - Generated 3 PDF previews for icn-food-safety-in-schools-participant-s-workbook.
+- 2026-06-05 11:08:09 - Generated 3 PDF previews for icn-food-safety-in-schools-post-assessment.
+- 2026-06-05 11:08:10 - Generated 3 PDF previews for icn-food-safety-in-schools-pre-assessment.
+- 2026-06-05 11:08:10 - Generated 3 PDF previews for icn-food-safety-in-schools-pre-post-assessment-answer-key.
+- 2026-06-05 11:08:10 - PDF preview generation complete. Generated=10; skipped=57; errors=0.
+- 2026-06-05 11:08:16 - Whisper is not installed; skipped local video transcription. Install an open-source whisper package to enable transcripts.
+- 2026-06-05 11:08:16 - Chunking complete. Wrote 723 chunks to chunks/chunks.jsonl.
+- 2026-06-05 11:08:16 - Role-topic matrix complete. Wrote 1250 rows.
+- 2026-06-05 11:08:17 - Mockup content JSON, course idea map, and content inventory report generated.
+- 2026-06-05 11:08:17 - Validation complete. Errors=0; warnings=1.
+- 2026-06-05 11:09:13 - Role-topic matrix complete. Wrote 891 rows.
+- 2026-06-05 11:09:14 - Chunking complete. Wrote 723 chunks to chunks/chunks.jsonl.
+- 2026-06-05 11:09:14 - Mockup content JSON, course idea map, and content inventory report generated.
+- 2026-06-05 11:09:14 - Validation complete. Errors=0; warnings=1.
+- 2026-06-05 11:09:32 - Role-topic matrix complete. Wrote 237 rows.
+- 2026-06-05 11:09:33 - Chunking complete. Wrote 723 chunks to chunks/chunks.jsonl.
+- 2026-06-05 11:09:33 - Mockup content JSON, course idea map, and content inventory report generated.
+- 2026-06-05 11:09:33 - Validation complete. Errors=0; warnings=1.
+- 2026-06-05 11:10:04 - Starting discovery from seed_sources.json.
+- 2026-06-05 11:10:04 - Skipped asset discovery for icn-copy-use-policy (https://theicn.org/icn-copy-and-use-policy/).
+- 2026-06-05 11:10:04 - Discovered 11 assets from icn-food-safety-in-schools (11 table, 0 anchor/webpage).
+- 2026-06-05 11:10:05 - Discovered 11 assets from icn-food-safety-basics (11 table, 0 anchor/webpage).
+- 2026-06-05 11:10:05 - Discovered 15 assets from icn-food-safety-videos (15 table, 0 anchor/webpage).
+- 2026-06-05 11:10:05 - Discovered 42 assets from icn-school-nutrition-programs (0 table, 42 anchor/webpage).
+- 2026-06-05 11:10:05 - Skipped asset discovery for msde-training-technical-assistance (https://marylandpublicschools.org/programs/SchoolandCommunityNutrition/pages/tta.aspx).
+- 2026-06-05 11:10:05 - Discovery complete. Manifest has 67 assets; 32 download_allowed; 1 video_youtube.
+- 2026-06-05 11:10:06 - Role-topic matrix complete. Wrote 246 rows.
+- 2026-06-05 11:10:06 - Chunking complete. Wrote 723 chunks to chunks/chunks.jsonl.
+- 2026-06-05 11:10:06 - Mockup content JSON, course idea map, and content inventory report generated.
+- 2026-06-05 11:10:07 - Validation complete. Errors=0; warnings=1.
+- 2026-06-05 11:10:38 - Mockup content JSON, course idea map, and content inventory report generated.
+- 2026-06-05 11:10:38 - Validation complete. Errors=0; warnings=1.
+- 2026-06-05 11:11:27 - Starting discovery from seed_sources.json.
+- 2026-06-05 11:11:27 - Skipped asset discovery for icn-copy-use-policy (https://theicn.org/icn-copy-and-use-policy/).
+- 2026-06-05 11:11:28 - Discovered 11 assets from icn-food-safety-in-schools (11 table, 0 anchor/webpage).
+- 2026-06-05 11:11:28 - Discovered 11 assets from icn-food-safety-basics (11 table, 0 anchor/webpage).
+- 2026-06-05 11:11:28 - Discovered 15 assets from icn-food-safety-videos (15 table, 0 anchor/webpage).
+- 2026-06-05 11:11:29 - Discovered 42 assets from icn-school-nutrition-programs (0 table, 42 anchor/webpage).
+- 2026-06-05 11:11:29 - Skipped asset discovery for msde-training-technical-assistance (https://marylandpublicschools.org/programs/SchoolandCommunityNutrition/pages/tta.aspx).
+- 2026-06-05 11:11:29 - Skipped asset discovery for msna-professional-development (https://www.mdsna.org/ProDev.aspx).
+- 2026-06-05 11:11:29 - Discovery complete. Manifest has 67 assets; 32 download_allowed; 1 video_youtube.
+- 2026-06-05 11:11:29 - Role-topic matrix complete. Wrote 246 rows.
+- 2026-06-05 11:11:30 - Chunking complete. Wrote 723 chunks to chunks/chunks.jsonl.
+- 2026-06-05 11:11:30 - Mockup content JSON, course idea map, and content inventory report generated.
+- 2026-06-05 11:11:30 - Validation complete. Errors=0; warnings=1.
+- 2026-06-05 13:19:59 - Starting discovery from seed_sources.json.
+- 2026-06-05 13:19:59 - Skipped asset discovery for icn-copy-use-policy (https://theicn.org/icn-copy-and-use-policy/).
+- 2026-06-05 13:20:02 - Discovered 11 assets from icn-food-safety-in-schools (11 table, 0 anchor/webpage).
+- 2026-06-05 13:20:05 - Discovered 11 assets from icn-food-safety-basics (11 table, 0 anchor/webpage).
+- 2026-06-05 13:20:09 - Discovered 15 assets from icn-food-safety-videos (15 table, 0 anchor/webpage).
+- 2026-06-05 13:20:13 - Discovered 42 assets from icn-school-nutrition-programs (0 table, 42 anchor/webpage).
+- 2026-06-05 13:20:17 - Discovered 3 assets from icn-planning-reimbursable-school-meals (3 table, 0 anchor/webpage).
+- 2026-06-05 13:20:21 - Discovered 12 assets from icn-sodium-reduction-vilt-series (12 table, 0 anchor/webpage).
+- 2026-06-05 13:20:24 - Discovered 3 assets from icn-cicn-menu-planning-tools (0 table, 3 anchor/webpage).
+- 2026-06-05 13:20:24 - Skipped asset discovery for msde-training-technical-assistance (https://marylandpublicschools.org/programs/SchoolandCommunityNutrition/pages/tta.aspx).
+- 2026-06-05 13:20:24 - Skipped asset discovery for msna-professional-development (https://www.mdsna.org/ProDev.aspx).
+- 2026-06-05 13:20:24 - Discovery complete. Manifest has 82 assets; 47 download_allowed; 1 video_youtube.
+- 2026-06-05 13:21:13 - Starting discovery from seed_sources.json.
+- 2026-06-05 13:21:13 - Skipped asset discovery for icn-copy-use-policy (https://theicn.org/icn-copy-and-use-policy/).
+- 2026-06-05 13:21:14 - Discovered 11 assets from icn-food-safety-in-schools (11 table, 0 anchor/webpage).
+- 2026-06-05 13:21:14 - Discovered 11 assets from icn-food-safety-basics (11 table, 0 anchor/webpage).
+- 2026-06-05 13:21:14 - Discovered 15 assets from icn-food-safety-videos (15 table, 0 anchor/webpage).
+- 2026-06-05 13:21:15 - Discovered 42 assets from icn-school-nutrition-programs (0 table, 42 anchor/webpage).
+- 2026-06-05 13:21:15 - Discovered 3 assets from icn-planning-reimbursable-school-meals (3 table, 0 anchor/webpage).
+- 2026-06-05 13:21:15 - Discovered 12 assets from icn-sodium-reduction-vilt-series (12 table, 0 anchor/webpage).
+- 2026-06-05 13:21:15 - Discovered 3 assets from icn-cicn-menu-planning-tools (0 table, 3 anchor/webpage).
+- 2026-06-05 13:21:15 - Skipped asset discovery for msde-training-technical-assistance (https://marylandpublicschools.org/programs/SchoolandCommunityNutrition/pages/tta.aspx).
+- 2026-06-05 13:21:15 - Skipped asset discovery for msna-professional-development (https://www.mdsna.org/ProDev.aspx).
+- 2026-06-05 13:21:15 - Discovery complete. Manifest has 85 assets; 50 download_allowed; 1 video_youtube.
+- 2026-06-05 13:21:30 - Starting download_allowed_assets.py.
+- 2026-06-05 13:21:30 - Skipped license_posture=link_only.
+- 2026-06-05 13:21:30 - Skipped license_posture=link_only.
+- 2026-06-05 13:21:30 - Skipped license_posture=link_only.
+- 2026-06-05 13:21:30 - Skipped license_posture=link_only.
+- 2026-06-05 13:21:30 - Skipped license_posture=link_only.
+- 2026-06-05 13:21:30 - Skipped license_posture=link_only.
+- 2026-06-05 13:21:30 - Skipped license_posture=link_only.
+- 2026-06-05 13:21:30 - Skipped license_posture=link_only.
+- 2026-06-05 13:21:30 - Skipped license_posture=link_only.
+- 2026-06-05 13:21:30 - Skipped license_posture=link_only.
+- 2026-06-05 13:21:30 - Skipped license_posture=link_only.
+- 2026-06-05 13:21:30 - Skipped license_posture=link_only.
+- 2026-06-05 13:21:30 - Skipped license_posture=link_only.
+- 2026-06-05 13:21:30 - Skipped license_posture=link_only.
+- 2026-06-05 13:21:30 - Skipped license_posture=link_only.
+- 2026-06-05 13:21:30 - Skipped license_posture=link_only.
+- 2026-06-05 13:21:30 - Skipped license_posture=link_only.
+- 2026-06-05 13:21:30 - Skipped license_posture=link_only.
+- 2026-06-05 13:21:30 - Skipped license_posture=link_only.
+- 2026-06-05 13:21:30 - Skipped license_posture=link_only.
+- 2026-06-05 13:21:30 - Skipped license_posture=link_only.
+- 2026-06-05 13:21:30 - Skipped license_posture=link_only.
+- 2026-06-05 13:21:30 - Skipped license_posture=link_only.
+- 2026-06-05 13:21:30 - Skipped license_posture=link_only.
+- 2026-06-05 13:21:30 - Skipped license_posture=link_only.
+- 2026-06-05 13:21:30 - Skipped license_posture=link_only.
+- 2026-06-05 13:21:32 - Downloaded icn-sodium-reduction-vilt-series-identifying-low-sodium-food-products-and-menu-planning-str-127831-identifying-low-sodium-f to assets/documents/Identifying-Low-Sodium-Food-Products-and-Menu-Planning-Strategies-to-Meet-Meal-Pattern-Requirements-Instructor-Manual.pdf (3383002 bytes).
+- 2026-06-05 13:21:34 - Downloaded icn-sodium-reduction-vilt-series-identifying-low-sodium-food-products-and-menu-planning-str-127830-identifying-low-sodium-f to assets/documents/Identifying-Low-Sodium-Food-Products-and-Menu-Planning-Strategies-to-Meet-Meal-Pattern-Requirements-Participant-Workbook.pdf (3002123 bytes).
+- 2026-06-05 13:21:37 - Downloaded icn-sodium-reduction-vilt-series-identifying-low-sodium-food-products-and-menu-planning-strategies-to-meet-meal-pattern-req to assets/presentations/Identifying-Low-Sodium-Food-Products-and-Menu-Planning-Strategies-to-Meet-Meal-Pattern-Requirements-Presentation.pptx (24031034 bytes).
+- 2026-06-05 13:21:40 - Downloaded icn-sodium-reduction-vilt-series-maintaining-student-acceptability-of-lower-sodium-meals-instructor-manual to assets/documents/Maintaining-Student-Acceptability-of-Lower-Sodium-Meals-Instructor-Manual.pdf (2138693 bytes).
+- 2026-06-05 13:21:42 - Downloaded icn-sodium-reduction-vilt-series-maintaining-student-acceptability-of-lower-sodium-meals-participant-workbook to assets/documents/Maintaining-Student-Acceptability-of-Lower-Sodium-Meals-Participant-Workbook.pdf (1742517 bytes).
+- 2026-06-05 13:21:46 - Downloaded icn-sodium-reduction-vilt-series-maintaining-student-acceptability-of-lower-sodium-meals-presentation to assets/presentations/Maintaining-Student-Acceptability-of-Lower-Sodium-Meals-Presentation.pptx (18030331 bytes).
+- 2026-06-05 13:21:46 - Skipped license_posture=link_only.
+- 2026-06-05 13:21:48 - Downloaded icn-planning-reimbursable-school-meals-planning-reimbursable-school-meals-for-menu-planners-instructor-manual to assets/documents/Planning-Reimbursable-School-Meals-for-Menu-Planners-Instructor-Manual.pdf (2634833 bytes).
+- 2026-06-05 13:21:50 - Downloaded icn-planning-reimbursable-school-meals-planning-reimbursable-school-meals-for-menu-planners-participant-workbook to assets/documents/Planning-Reimbursable-School-Meals-for-Menu-Planners-Participant-Workbook.pdf (2439621 bytes).
+- 2026-06-05 13:21:54 - Downloaded icn-planning-reimbursable-school-meals-planning-reimbursable-school-meals-for-menu-planners-slides to assets/presentations/Planning-Reimbursable-School-Meals-for-Menu-Planners-Slides.pptx (28142699 bytes).
+- 2026-06-05 13:21:54 - Skipped license_posture=link_only.
+- 2026-06-05 13:21:56 - Downloaded icn-sodium-reduction-vilt-series-procurement-of-lower-sodium-foods-instructor-manual to assets/documents/Procurement-of-Lower-Sodium-Foods-Instructor-Manual.pdf (2890561 bytes).
+- 2026-06-05 13:21:58 - Downloaded icn-sodium-reduction-vilt-series-procurement-of-lower-sodium-foods-participant-workbook to assets/documents/Procurement-of-Lower-Sodium-Foods-Participant-Workbook.pdf (2276549 bytes).
+- 2026-06-05 13:22:02 - Downloaded icn-sodium-reduction-vilt-series-procurement-of-lower-sodium-foods-presentation to assets/presentations/Procurement-of-Lower-Sodium-Foods-Presentation.pptx (17310514 bytes).
+- 2026-06-05 13:22:02 - Skipped license_posture=link_only.
+- 2026-06-05 13:22:05 - Downloaded icn-sodium-reduction-vilt-series-staff-training-and-engagement-for-sodium-reduction-success-instructor-manual to assets/documents/Staff-Training-and-Engagement-for-Sodium-Reduction-Success-Instructor-Manual.pdf (845517 bytes).
+- 2026-06-05 13:22:07 - Downloaded icn-sodium-reduction-vilt-series-staff-training-and-engagement-for-sodium-reduction-success-127839-staff-training-and-engag to assets/documents/Staff-Training-and-Engagement-for-Sodium-Reduction-Success-Participant-Workbook.pdf (374925 bytes).
+- 2026-06-05 13:22:10 - Downloaded icn-sodium-reduction-vilt-series-staff-training-and-engagement-for-sodium-reduction-success-participant-workbook to assets/presentations/Staff-Training-and-Engagement-for-Sodium-Reduction-Success-Participant-Workbook.pptx (12503902 bytes).
+- 2026-06-05 13:22:10 - Skipped license_posture=link_only.
+- 2026-06-05 13:22:10 - Skipped license_posture=link_only.
+- 2026-06-05 13:22:10 - Skipped license_posture=link_only.
+- 2026-06-05 13:22:10 - Skipped license_posture=link_only.
+- 2026-06-05 13:22:10 - Skipped license_posture=link_only.
+- 2026-06-05 13:22:12 - Downloaded icn-cmenu-planning-tools-managers-corner-cycle-menus to assets/documents/Managers-Corner-Cycle-Menus.pdf (625131 bytes).
+- 2026-06-05 13:22:15 - Downloaded icn-cmenu-planning-tools-managers-corner-forecasting to assets/documents/Managers-Corner-Forecasting.pdf (642659 bytes).
+- 2026-06-05 13:22:17 - Downloaded icn-cmenu-planning-tools-managers-corner-production-records to assets/documents/Managers-Corner-Production-Records.pdf (2074909 bytes).
+- 2026-06-05 13:22:17 - Skipped YouTube asset by policy.
+- 2026-06-05 13:22:17 - Download step complete. Downloaded=18; skipped=67; errors=0.
+- 2026-06-05 13:22:25 - Starting extract_document_text.py.
+- 2026-06-05 13:22:25 - Starting extract_presentation_text.py.
+- 2026-06-05 13:22:25 - Extracted presentation text for icn-food-safety-basics-food-safety-basics-presentation to extracted/text/icn-food-safety-basics-food-safety-basics-presentation.md.
+- 2026-06-05 13:22:25 - Extracted presentation text for icn-food-safety-in-schools-food-safety-in-schools-training-presentation to extracted/text/icn-food-safety-in-schools-food-safety-in-schools-training-presentation.md.
+- 2026-06-05 13:22:25 - Extracted presentation text for icn-sodium-reduction-vilt-series-identifying-low-sodium-food-products-and-menu-planning-strategies-to-meet-meal-pattern-req to extracted/text/icn-sodium-reduction-vilt-series-identifying-low-sodium-food-products-and-menu-planning-strategies-to-meet-meal-pattern-req.md.
+- 2026-06-05 13:22:25 - Extracted presentation text for icn-sodium-reduction-vilt-series-maintaining-student-acceptability-of-lower-sodium-meals-presentation to extracted/text/icn-sodium-reduction-vilt-series-maintaining-student-acceptability-of-lower-sodium-meals-presentation.md.
+- 2026-06-05 13:22:25 - Extracted presentation text for icn-planning-reimbursable-school-meals-planning-reimbursable-school-meals-for-menu-planners-slides to extracted/text/icn-planning-reimbursable-school-meals-planning-reimbursable-school-meals-for-menu-planners-slides.md.
+- 2026-06-05 13:22:25 - Extracted presentation text for icn-sodium-reduction-vilt-series-procurement-of-lower-sodium-foods-presentation to extracted/text/icn-sodium-reduction-vilt-series-procurement-of-lower-sodium-foods-presentation.md.
+- 2026-06-05 13:22:25 - Extracted presentation text for icn-sodium-reduction-vilt-series-staff-training-and-engagement-for-sodium-reduction-success-participant-workbook to extracted/text/icn-sodium-reduction-vilt-series-staff-training-and-engagement-for-sodium-reduction-success-participant-workbook.md.
+- 2026-06-05 13:22:25 - Starting make_pdf_previews.py.
+- 2026-06-05 13:22:25 - Presentation extraction complete. Extracted=7; skipped=78; errors=0.
+- 2026-06-05 13:22:26 - Generated 3 PDF previews for icn-food-safety-basics-food-safety-basics-instructor-s-manual.
+- 2026-06-05 13:22:26 - Generated 3 PDF previews for icn-food-safety-basics-food-safety-basics-participant-s-workbook.
+- 2026-06-05 13:22:27 - Generated 2 PDF previews for icn-food-safety-basics-food-safety-basics-post-assessment.
+- 2026-06-05 13:22:27 - Generated 2 PDF previews for icn-food-safety-basics-food-safety-basics-pre-assessment.
+- 2026-06-05 13:22:27 - Generated 2 PDF previews for icn-food-safety-basics-food-safety-basics-pre-post-assessment-answers.
+- 2026-06-05 13:22:28 - Extracted document text for icn-food-safety-basics-food-safety-basics-instructor-s-manual to extracted/text/icn-food-safety-basics-food-safety-basics-instructor-s-manual.md.
+- 2026-06-05 13:22:28 - Generated 3 PDF previews for icn-sodium-reduction-vilt-series-identifying-low-sodium-food-products-and-menu-planning-str-127831-identifying-low-sodium-f.
+- 2026-06-05 13:22:28 - Generated 3 PDF previews for icn-sodium-reduction-vilt-series-identifying-low-sodium-food-products-and-menu-planning-str-127830-identifying-low-sodium-f.
+- 2026-06-05 13:22:29 - Generated 3 PDF previews for icn-food-safety-in-schools-instructor-s-manual.
+- 2026-06-05 13:22:29 - Extracted document text for icn-food-safety-basics-food-safety-basics-participant-s-workbook to extracted/text/icn-food-safety-basics-food-safety-basics-participant-s-workbook.md.
+- 2026-06-05 13:22:29 - Extracted document text for icn-food-safety-basics-food-safety-basics-post-assessment to extracted/text/icn-food-safety-basics-food-safety-basics-post-assessment.md.
+- 2026-06-05 13:22:29 - Extracted document text for icn-food-safety-basics-food-safety-basics-pre-assessment to extracted/text/icn-food-safety-basics-food-safety-basics-pre-assessment.md.
+- 2026-06-05 13:22:29 - Extracted document text for icn-food-safety-basics-food-safety-basics-pre-post-assessment-answers to extracted/text/icn-food-safety-basics-food-safety-basics-pre-post-assessment-answers.md.
+- 2026-06-05 13:22:29 - Generated 3 PDF previews for icn-sodium-reduction-vilt-series-maintaining-student-acceptability-of-lower-sodium-meals-instructor-manual.
+- 2026-06-05 13:22:30 - Generated 3 PDF previews for icn-sodium-reduction-vilt-series-maintaining-student-acceptability-of-lower-sodium-meals-participant-workbook.
+- 2026-06-05 13:22:30 - Generated 3 PDF previews for icn-food-safety-in-schools-participant-s-workbook.
+- 2026-06-05 13:22:31 - Generated 3 PDF previews for icn-planning-reimbursable-school-meals-planning-reimbursable-school-meals-for-menu-planners-instructor-manual.
+- 2026-06-05 13:22:31 - Generated 3 PDF previews for icn-planning-reimbursable-school-meals-planning-reimbursable-school-meals-for-menu-planners-participant-workbook.
+- 2026-06-05 13:22:32 - Generated 3 PDF previews for icn-food-safety-in-schools-post-assessment.
+- 2026-06-05 13:22:32 - Generated 3 PDF previews for icn-food-safety-in-schools-pre-assessment.
+- 2026-06-05 13:22:32 - Generated 3 PDF previews for icn-food-safety-in-schools-pre-post-assessment-answer-key.
+- 2026-06-05 13:22:33 - Generated 3 PDF previews for icn-sodium-reduction-vilt-series-procurement-of-lower-sodium-foods-instructor-manual.
+- 2026-06-05 13:22:33 - Generated 3 PDF previews for icn-sodium-reduction-vilt-series-procurement-of-lower-sodium-foods-participant-workbook.
+- 2026-06-05 13:22:34 - Generated 3 PDF previews for icn-sodium-reduction-vilt-series-staff-training-and-engagement-for-sodium-reduction-success-instructor-manual.
+- 2026-06-05 13:22:34 - Extracted document text for icn-sodium-reduction-vilt-series-identifying-low-sodium-food-products-and-menu-planning-str-127831-identifying-low-sodium-f to extracted/text/icn-sodium-reduction-vilt-series-identifying-low-sodium-food-products-and-menu-planning-str-127831-identifying-low-sodium-f.md.
+- 2026-06-05 13:22:34 - Generated 3 PDF previews for icn-sodium-reduction-vilt-series-staff-training-and-engagement-for-sodium-reduction-success-127839-staff-training-and-engag.
+- 2026-06-05 13:22:35 - Generated 3 PDF previews for icn-cmenu-planning-tools-managers-corner-cycle-menus.
+- 2026-06-05 13:22:35 - Generated 3 PDF previews for icn-cmenu-planning-tools-managers-corner-forecasting.
+- 2026-06-05 13:22:35 - Generated 3 PDF previews for icn-cmenu-planning-tools-managers-corner-production-records.
+- 2026-06-05 13:22:36 - PDF preview generation complete. Generated=23; skipped=62; errors=0.
+- 2026-06-05 13:22:38 - Extracted document text for icn-sodium-reduction-vilt-series-identifying-low-sodium-food-products-and-menu-planning-str-127830-identifying-low-sodium-f to extracted/text/icn-sodium-reduction-vilt-series-identifying-low-sodium-food-products-and-menu-planning-str-127830-identifying-low-sodium-f.md.
+- 2026-06-05 13:22:40 - Extracted document text for icn-food-safety-in-schools-instructor-s-manual to extracted/text/icn-food-safety-in-schools-instructor-s-manual.md.
+- 2026-06-05 13:22:42 - Extracted document text for icn-sodium-reduction-vilt-series-maintaining-student-acceptability-of-lower-sodium-meals-instructor-manual to extracted/text/icn-sodium-reduction-vilt-series-maintaining-student-acceptability-of-lower-sodium-meals-instructor-manual.md.
+- 2026-06-05 13:22:43 - Extracted document text for icn-sodium-reduction-vilt-series-maintaining-student-acceptability-of-lower-sodium-meals-participant-workbook to extracted/text/icn-sodium-reduction-vilt-series-maintaining-student-acceptability-of-lower-sodium-meals-participant-workbook.md.
+- 2026-06-05 13:22:48 - Extracted document text for icn-food-safety-in-schools-participant-s-workbook to extracted/text/icn-food-safety-in-schools-participant-s-workbook.md.
+- 2026-06-05 13:22:50 - Extracted document text for icn-planning-reimbursable-school-meals-planning-reimbursable-school-meals-for-menu-planners-instructor-manual to extracted/text/icn-planning-reimbursable-school-meals-planning-reimbursable-school-meals-for-menu-planners-instructor-manual.md.
+- 2026-06-05 13:22:53 - Extracted document text for icn-planning-reimbursable-school-meals-planning-reimbursable-school-meals-for-menu-planners-participant-workbook to extracted/text/icn-planning-reimbursable-school-meals-planning-reimbursable-school-meals-for-menu-planners-participant-workbook.md.
+- 2026-06-05 13:22:53 - Extracted document text for icn-food-safety-in-schools-post-assessment to extracted/text/icn-food-safety-in-schools-post-assessment.md.
+- 2026-06-05 13:22:53 - Extracted document text for icn-food-safety-in-schools-pre-assessment to extracted/text/icn-food-safety-in-schools-pre-assessment.md.
+- 2026-06-05 13:22:53 - Extracted document text for icn-food-safety-in-schools-pre-post-assessment-answer-key to extracted/text/icn-food-safety-in-schools-pre-post-assessment-answer-key.md.
+- 2026-06-05 13:22:59 - Extracted document text for icn-sodium-reduction-vilt-series-procurement-of-lower-sodium-foods-instructor-manual to extracted/text/icn-sodium-reduction-vilt-series-procurement-of-lower-sodium-foods-instructor-manual.md.
+- 2026-06-05 13:23:03 - Extracted document text for icn-sodium-reduction-vilt-series-procurement-of-lower-sodium-foods-participant-workbook to extracted/text/icn-sodium-reduction-vilt-series-procurement-of-lower-sodium-foods-participant-workbook.md.
+- 2026-06-05 13:23:04 - Extracted document text for icn-sodium-reduction-vilt-series-staff-training-and-engagement-for-sodium-reduction-success-instructor-manual to extracted/text/icn-sodium-reduction-vilt-series-staff-training-and-engagement-for-sodium-reduction-success-instructor-manual.md.
+- 2026-06-05 13:23:04 - Extracted document text for icn-sodium-reduction-vilt-series-staff-training-and-engagement-for-sodium-reduction-success-127839-staff-training-and-engag to extracted/text/icn-sodium-reduction-vilt-series-staff-training-and-engagement-for-sodium-reduction-success-127839-staff-training-and-engag.md.
+- 2026-06-05 13:23:05 - Extracted document text for icn-cmenu-planning-tools-managers-corner-cycle-menus to extracted/text/icn-cmenu-planning-tools-managers-corner-cycle-menus.md.
+- 2026-06-05 13:23:05 - Extracted document text for icn-cmenu-planning-tools-managers-corner-forecasting to extracted/text/icn-cmenu-planning-tools-managers-corner-forecasting.md.
+- 2026-06-05 13:23:05 - Extracted document text for icn-cmenu-planning-tools-managers-corner-production-records to extracted/text/icn-cmenu-planning-tools-managers-corner-production-records.md.
+- 2026-06-05 13:23:06 - Document extraction complete. Extracted=23; skipped=62; errors=0.
+- 2026-06-05 13:23:14 - Starting extract_presentation_text.py.
+- 2026-06-05 13:23:14 - Extracted presentation text for icn-food-safety-basics-food-safety-basics-presentation to extracted/text/icn-food-safety-basics-food-safety-basics-presentation.md.
+- 2026-06-05 13:23:14 - Extracted presentation text for icn-food-safety-in-schools-food-safety-in-schools-training-presentation to extracted/text/icn-food-safety-in-schools-food-safety-in-schools-training-presentation.md.
+- 2026-06-05 13:23:14 - Extracted presentation text for icn-sodium-reduction-vilt-series-identifying-low-sodium-food-products-and-menu-planning-strategies-to-meet-meal-pattern-req to extracted/text/icn-sodium-reduction-vilt-series-identifying-low-sodium-food-products-and-menu-planning-strategies-to-meet-meal-pattern-req.md.
+- 2026-06-05 13:23:14 - Extracted presentation text for icn-sodium-reduction-vilt-series-maintaining-student-acceptability-of-lower-sodium-meals-presentation to extracted/text/icn-sodium-reduction-vilt-series-maintaining-student-acceptability-of-lower-sodium-meals-presentation.md.
+- 2026-06-05 13:23:14 - Extracted presentation text for icn-planning-reimbursable-school-meals-planning-reimbursable-school-meals-for-menu-planners-slides to extracted/text/icn-planning-reimbursable-school-meals-planning-reimbursable-school-meals-for-menu-planners-slides.md.
+- 2026-06-05 13:23:14 - Extracted presentation text for icn-sodium-reduction-vilt-series-procurement-of-lower-sodium-foods-presentation to extracted/text/icn-sodium-reduction-vilt-series-procurement-of-lower-sodium-foods-presentation.md.
+- 2026-06-05 13:23:14 - Extracted presentation text for icn-sodium-reduction-vilt-series-staff-training-and-engagement-for-sodium-reduction-success-participant-workbook to extracted/text/icn-sodium-reduction-vilt-series-staff-training-and-engagement-for-sodium-reduction-success-participant-workbook.md.
+- 2026-06-05 13:23:14 - Presentation extraction complete. Extracted=7; skipped=78; errors=0.
+- 2026-06-05 13:23:15 - Starting make_pdf_previews.py.
+- 2026-06-05 13:23:15 - Generated 3 PDF previews for icn-food-safety-basics-food-safety-basics-instructor-s-manual.
+- 2026-06-05 13:23:16 - Generated 3 PDF previews for icn-food-safety-basics-food-safety-basics-participant-s-workbook.
+- 2026-06-05 13:23:16 - Generated 2 PDF previews for icn-food-safety-basics-food-safety-basics-post-assessment.
+- 2026-06-05 13:23:16 - Generated 2 PDF previews for icn-food-safety-basics-food-safety-basics-pre-assessment.
+- 2026-06-05 13:23:16 - Generated 2 PDF previews for icn-food-safety-basics-food-safety-basics-pre-post-assessment-answers.
+- 2026-06-05 13:23:17 - Generated 3 PDF previews for icn-sodium-reduction-vilt-series-identifying-low-sodium-food-products-and-menu-planning-str-127831-identifying-low-sodium-f.
+- 2026-06-05 13:23:17 - Generated 3 PDF previews for icn-sodium-reduction-vilt-series-identifying-low-sodium-food-products-and-menu-planning-str-127830-identifying-low-sodium-f.
+- 2026-06-05 13:23:18 - Generated 3 PDF previews for icn-food-safety-in-schools-instructor-s-manual.
+- 2026-06-05 13:23:18 - Generated 3 PDF previews for icn-sodium-reduction-vilt-series-maintaining-student-acceptability-of-lower-sodium-meals-instructor-manual.
+- 2026-06-05 13:23:18 - Generated 3 PDF previews for icn-sodium-reduction-vilt-series-maintaining-student-acceptability-of-lower-sodium-meals-participant-workbook.
+- 2026-06-05 13:23:19 - Generated 3 PDF previews for icn-food-safety-in-schools-participant-s-workbook.
+- 2026-06-05 13:23:19 - Generated 3 PDF previews for icn-planning-reimbursable-school-meals-planning-reimbursable-school-meals-for-menu-planners-instructor-manual.
+- 2026-06-05 13:23:20 - Generated 3 PDF previews for icn-planning-reimbursable-school-meals-planning-reimbursable-school-meals-for-menu-planners-participant-workbook.
+- 2026-06-05 13:23:20 - Generated 3 PDF previews for icn-food-safety-in-schools-post-assessment.
+- 2026-06-05 13:23:20 - Generated 3 PDF previews for icn-food-safety-in-schools-pre-assessment.
+- 2026-06-05 13:23:20 - Generated 3 PDF previews for icn-food-safety-in-schools-pre-post-assessment-answer-key.
+- 2026-06-05 13:23:21 - Generated 3 PDF previews for icn-sodium-reduction-vilt-series-procurement-of-lower-sodium-foods-instructor-manual.
+- 2026-06-05 13:23:22 - Generated 3 PDF previews for icn-sodium-reduction-vilt-series-procurement-of-lower-sodium-foods-participant-workbook.
+- 2026-06-05 13:23:22 - Generated 3 PDF previews for icn-sodium-reduction-vilt-series-staff-training-and-engagement-for-sodium-reduction-success-instructor-manual.
+- 2026-06-05 13:23:23 - Generated 3 PDF previews for icn-sodium-reduction-vilt-series-staff-training-and-engagement-for-sodium-reduction-success-127839-staff-training-and-engag.
+- 2026-06-05 13:23:23 - Generated 3 PDF previews for icn-cmenu-planning-tools-managers-corner-cycle-menus.
+- 2026-06-05 13:23:24 - Generated 3 PDF previews for icn-cmenu-planning-tools-managers-corner-forecasting.
+- 2026-06-05 13:23:24 - Generated 3 PDF previews for icn-cmenu-planning-tools-managers-corner-production-records.
+- 2026-06-05 13:23:24 - PDF preview generation complete. Generated=23; skipped=62; errors=0.
+- 2026-06-05 13:23:25 - Whisper is not installed; skipped local video transcription. Install an open-source whisper package to enable transcripts.
+- 2026-06-05 13:23:26 - Role-topic matrix complete. Wrote 328 rows.
+- 2026-06-05 13:23:28 - Chunking complete. Wrote 1970 chunks to chunks/chunks.jsonl.
+- 2026-06-05 13:23:28 - Mockup content JSON, course idea map, and content inventory report generated.
+- 2026-06-05 13:23:29 - Validation complete. Errors=0; warnings=1.
+- 2026-06-05 13:24:01 - Role-topic matrix complete. Wrote 311 rows.
+- 2026-06-05 13:24:02 - Chunking complete. Wrote 1970 chunks to chunks/chunks.jsonl.
+- 2026-06-05 13:24:02 - Mockup content JSON, course idea map, and content inventory report generated.
+- 2026-06-05 13:24:02 - Validation complete. Errors=0; warnings=1.

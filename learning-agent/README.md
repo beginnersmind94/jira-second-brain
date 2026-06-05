@@ -34,15 +34,71 @@ The architecture is in [CLAUDE.md](CLAUDE.md). This README is the runbook.
 └──────────────┬──────────────┘
                │
                ▼
-       drafts/<id>.eval.json   (verdict: pass / warn / fail)
+       drafts/<id>.eval.json   (deterministic grounding gate: pass / fail)
                │
                ▼
-       [human reviews + clicks Publish]
-               │
+┌─────────────────────────────────────────────┐
+│ Human review  (the gate INTO the Library)    │
+│   • read the grounded draft                   │
+│   • Request edits (AI-assisted) ──┐           │
+│       edit agent → find/replace ops           │   loops back
+│       (NEVER touches <!-- Source -->)         │   until approved
+│       → grounding gate re-runs (free)         │
+│       → triage router: stylistic | substantive│  (advisory only)
+│   • Approve  ─────────────────────┘           │
+└──────────────┬──────────────────────────────┘
+               │ approve  (grounding must be clean)
                ▼
-       published/<id>.html  (source comments stripped)
-       + published/metadata/<id>.json  (catalog entry)
+       Library — approved only   (source comments stripped on download/PDF)
+       + metadata { status: approved, approved_at }
 ```
+
+Two floors, in order: the **deterministic grounding gate** is the machine floor (a
+draft can't be reviewed until every citation is verbatim and correctly-tiered); a
+**human approval** is the floor INTO the Library. Unapproved drafts never appear in
+the Library — they live in its "Awaiting review" queue. See "Review & approve" below.
+
+**Grounding source (Create form toggle).** Every claim is verbatim-cited, but you
+choose what it's cited *to*:
+- **Jira tickets** (default) — claims cite live NXT tickets at their trust tier
+  (AC > RN > Description). Requires a captured module fixture.
+- **Transcript only** — claims cite **verbatim spans of the uploaded transcript**
+  (`[[TRANSCRIPT:T####]] "the SME's words"`), no Jira. Same grounding-by-construction
+  guarantee (the gate re-verifies each quote against the transcript). For the
+  navigation/procedure an SME demos live that Jira — behavior-only — never records,
+  and for modules with no fixture. The module field then accepts any label
+  (e.g. **Financials**) since no fixture is needed.
+
+## Review & approve (human-in-the-loop)
+
+After a draft passes the grounding gate, a human reviews it and either approves it
+into the Library or requests changes. This is implemented in the demo server
+(`demo_app.py`); the production port is specced in `docs/ADR-001`.
+
+- **Approve is the only gate into the Library.** `POST /resources/{id}/approve`
+  re-validates grounding **live** against the module fixture, then marks the
+  resource `approved` / `available`. Only approved resources show in the Library;
+  approved downloads/PDFs drop the "pending review" banner.
+- **Request edits is AI-assisted, not a raw editor.** `POST /resources/{id}/revise`
+  takes a plain-English instruction. An **edit agent** (`revise.py`) emits targeted
+  find/replace ops — it is structurally barred from touching `<!-- Source: ... -->`
+  citation comments or inventing uncited facts (it refuses, or inserts a
+  `[TO VERIFY]` marker). The deterministic grounding gate **re-runs after every
+  edit** (free), so a bad edit that breaks a citation is caught and blocks approval.
+- **The triage router is advisory, never a gate.** A lightweight classifier tags
+  each edit `stylistic` (wording/format — fast-path to approve) or `substantive`
+  (a claim/number/label/step may have changed — read it closely), defaulting to
+  `substantive` when unsure. It can only *route to an extra check*; it can never
+  skip the grounding gate. (Pattern: Anthropic's "routing" workflow + a "validating"
+  approval gate — keep it a classifier, not another agent.)
+- An edit re-opens review: an approved guide drops back to draft until re-approved.
+  Pre-edit versions are kept under `drafts/_pre_edit/` as an audit trail.
+- **Every decision is logged** to `logs/review-decisions.jsonl` — edit applied,
+  refused (with `refusal_kind`), no-change, approved, approve-blocked — with the
+  instruction, the ops, the triage verdict, and the grounding result. Read it via
+  `GET /review-log` (filter `?rid=`). This is how you audit whether a refusal was
+  appropriate or the editor over-reached, and it's the real-traffic corpus for the
+  triage/scope evals.
 
 ## Prerequisites
 
@@ -81,8 +137,36 @@ python smoke_test.py
 # 6. Start the server
 python -m uvicorn app:app --host 127.0.0.1 --port 8000
 
-# 7. Open http://127.0.0.1:8000/ in Chrome
+# 6b. For the offline demo WITH the review/approve + AI-edit UI, run the demo
+#     server instead (pre-cached Jira fixtures, no network, port 8001):
+#         python demo_app.py
+#     ^ On Windows you MUST launch the demo server this way (NOT
+#       `python -m uvicorn demo_app:app`). See "Windows: event loop" below —
+#       the wrong launcher silently breaks all generation with a misleading
+#       "Claude Code not found" error.
+
+# 7. Open http://127.0.0.1:8000/ (or :8001 for the demo) in Chrome
 ```
+
+> **⚠️ Windows: event loop (READ THIS — it will save you an hour).**
+> The Claude Agent SDK spawns the `claude` CLI as a **subprocess**. On Windows
+> that requires asyncio's **`ProactorEventLoop`**; the **`SelectorEventLoop`
+> cannot spawn subprocesses**. uvicorn can land on Selector, and when it does,
+> *every* generation fails with the misleading error
+> `planning failed: Claude Code not found at: ...\_bundled\claude.exe`
+> — even though `claude.exe` exists and runs fine from a terminal.
+>
+> `demo_app.py`'s `__main__` forces `WindowsProactorEventLoopPolicy()` and runs
+> the server via `asyncio.run(uvicorn.Server(config).serve())`, so **always start
+> it with `python demo_app.py`**. To check the live loop, hit any endpoint and
+> log `type(asyncio.get_running_loop()).__name__` — it must say `ProactorEventLoop`.
+>
+> **Corollary — never inline large text into `system_prompt`.** The SDK passes
+> `system_prompt` as a CLI argument (`--system-prompt <text>`), which is bounded
+> by Windows' ~32 KB command-line limit. Inlining a full transcript/ticket dump
+> there makes `CreateProcess` fail with the *same* "not found" error. Put large
+> content in the **user prompt** (delivered over stdin — no length limit) and keep
+> the system prompt small.
 
 ## .env configuration
 
@@ -181,6 +265,50 @@ If it fails, check:
   every sibling child story. Cheaper than fanning out many `match_tickets`
   searches when you have a known feature theme.
 
+## Identifier handling at ingestion
+
+Rules for handling Jira identifiers when importing tickets into a fixture. These are
+**directive** — follow them; the hard guarantees are enforced in code (see *Enforcement*
+below), and this section documents that enforcement.
+
+- **Resolve at the boundary.** Resolve every Jira parent reference to a real issue key
+  (e.g. `NXT-64788`) at ingestion, *before persisting*. Never store a bare internal
+  numeric id (e.g. `105530`) as `epic_key`. Bind to the key the live API returns; treat
+  CSV / non-API imports as untrusted and normalize at the door.
+  *(Principle: "Writing effective tools for AI agents" — resolve identifiers to a
+  canonical form inside the tool, not in the agent.)*
+- **Fail loud, don't mask.** If a parent reference does not resolve to an existing epic,
+  drop the reference (`epic_key = "-"`) — or fail the import under `--strict` — with a
+  clear message. **Never mint a stub epic and never persist a bare id.** A `read_epic`
+  bare-number normalize-and-retry is a temporary noise-killer, never the fix.
+  *(Principle: "How we built our multi-agent research system" — errors compound; pair
+  adaptable agents with deterministic safeguards.)*
+- **Actionable errors.** A tool advertises a parent lookup only when the parent resolves
+  to a real key; on a miss it returns a clear, actionable, non-blocking message — not a
+  silent dead end. *(Principle: "Writing effective tools for AI agents".)*
+- **Grounding stays deterministic and code-owned.** Identifier resolution and the
+  grounding gate live in code, not in prose. Agent judgment is reserved for the
+  open-ended parts (intent, search, what-to-build) — never for resolving references or
+  grounding. *(Principle: "How we built our multi-agent research system" — a dedicated,
+  deterministic attribution/citation step.)*
+
+**Enforcement (in code — this README documents these, it does not replace them):**
+- `build_fixtures_from_csv.py` — resolves `Parent` (internal id) → real key via an
+  `Issue id` join, then a unique-epic-`summary` fallback; otherwise drops to `"-"`. Never
+  mints a stub. Post-build it asserts no bare parent key survives, flags duplicate-summary
+  epics (the duplicate-identity fingerprint), and fails the build under `--strict`.
+- `demo.py` — `read_epic` canonicalizes `NXT-<n>` ⇄ `<n>` and returns an actionable note
+  on a true miss; `read_ticket` advertises `read_epic` only when the parent resolves.
+- `eval/regression.py` **REG-16** — every ticket's parent reference resolves (no
+  `read_epic` dead-end), gated in the suite.
+- `test_ingestion.py` — feeds a ticket whose parent is a bare internal number and asserts
+  the pipeline resolves it to a real key or drops it, and never mints a phantom; also
+  covers `--strict` and the duplicate-summary check.
+
+> These guarantees are enforced in the pipeline and tests above. This README only
+> *documents* them — **editing this README cannot weaken or disable them.** If you change
+> a rule here, change the enforcing code and its test in the same commit, or the doc is lying.
+
 ## Troubleshooting
 
 | Symptom | Likely cause | Fix |
@@ -189,7 +317,9 @@ If it fails, check:
 | `401 Invalid authentication credentials` | Claude Code is not logged in, or a stale API key/token is taking precedence | Run `/login` in Claude Code for local use, or set a fresh `CLAUDE_CODE_OAUTH_TOKEN` from `claude setup-token` for scripts/CI |
 | `match_tickets` returns "No tickets matched" for everything | Phrase is too specific | Use 2-4 word queries: "Income Survey wizard", not "Income Survey wizard with 7 steps" |
 | Agent uses `Read` / `Glob` / `Bash` mid-run | `disallowed_tools` regression | Verify `agent_sdk.py:build_options()` still passes `tools=[]` + `disallowed_tools=[...]` |
-| Server fails to bind on port 8000 | Orphan uvicorn from previous run | `netstat -ano \| findstr :8000`, then `Stop-Process -Id <pid> -Force` |
+| Server fails to bind on port 8000/8001 | Orphan uvicorn from previous run still holds the port (and silently serves OLD code) | `netstat -ano \| findstr :8001`, then `Stop-Process -Id <pid> -Force` (from git-bash, `taskkill //PID` gets mangled — use PowerShell `Stop-Process`) |
+| `planning failed: Claude Code not found at: ...\_bundled\claude.exe` (but `claude.exe` runs fine directly) | Server is on Windows `SelectorEventLoop`, which can't spawn subprocesses | Launch the demo with `python demo_app.py` (forces `ProactorEventLoop`), NOT `python -m uvicorn demo_app:app`. See "Windows: event loop" above |
+| Same "Claude Code not found" error, but only for one specific generation path | Large text inlined into `system_prompt` (passed as a CLI arg) exceeds Windows' ~32 KB command-line limit | Move the large content (transcript spans, ticket dumps) into the **user prompt** (stdin); keep `system_prompt` small |
 | Draft HTML starts with planning preamble instead of `<h1>` | Server-side strip in `app.py:_stream_generation` not running | Confirm the `re.search(r"<h[1-2]\b", ...)` block is in `app.py` |
 | Evaluator says "Could not parse evaluator output as JSON" | Model emitted prose around the JSON | Re-run; if recurring, tighten `evaluator_sdk.py:EVALUATOR_PROMPT` |
 
@@ -199,7 +329,22 @@ Documented in `CLAUDE.md`. Short version:
 - Evaluator retry routing (current Evaluator runs once, no retry)
 - Vector similarity for `match_tickets` (current is JQL `text ~`)
 - PDF / Word transcript upload (text-only for V1)
-- Rich text editor for draft edits (textarea for V1)
+- Draft edits are **AI-assisted** (describe the change → edit agent revises). A raw
+  rich-text/markdown editor is deferred — the AI-edit path keeps citations safe by
+  construction, which a free-form editor would not.
+- The **edit-triage classifier eval** exists (`python -m eval.triage_eval` — 24
+  balanced cases + a deterministic FPR/FNR scorer; offline mode needs no auth).
+  Still pending: a `--live` calibration run, **real** (non-synthetic) reviewer-edit
+  cases, and the two-stage fast-filter optimization.
+- **Translate mode (multilingual output, deferred).** The editor declines whole-doc
+  translation by design. When built, a translation is a *rendering layer* over the one
+  canonical English guide — citation comments stay verbatim English (so the grounding
+  gate still audits them) — **not** a separate, drift-prone artifact. See `docs/ADR-001`.
+- **TODO (bridge with an expiry date):** the current on-disk fixtures predate the
+  builder's ID→key resolution and lean on `read_epic`'s runtime normalization (covered by
+  `eval/regression.py` REG-16). That's a temporary masking layer. When a Jira CSV with an
+  `Issue id` column is available, **rebuild fixtures with `--strict`** to get canonical
+  parents at ingestion, and stop relying on runtime normalization as the permanent fix.
 - Quizzes & flashcards from published content
 - Template-prompt editor + regeneration of dependent resources
 - SSO / role-based access

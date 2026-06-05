@@ -1,6 +1,25 @@
+# Python
 .venv/
 __pycache__/
 *.pyc
+*.pyo
+
+# Secrets — never commit
 .env
+
+# Large / local data
 data/*.pdf
 data/chroma_db/
+
+# Transient outputs, logs, generated drafts
+*.log
+logs/
+drafts/
+published/
+*.output
+
+# Tooling / agent / OS state
+.claude/
+.codex/
+.idea/
+.DS_Store

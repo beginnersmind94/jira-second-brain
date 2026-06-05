@@ -26,6 +26,7 @@ Override the captured module with env DEMO_MODULE if your fixture is a different
 import asyncio
 import json
 import os
+import re
 import sys
 import time
 from datetime import datetime
@@ -34,8 +35,8 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException, Query
-from fastapi.responses import HTMLResponse, Response
+from fastapi import Body, FastAPI, HTTPException, Query
+from fastapi.responses import HTMLResponse, JSONResponse, Response
 from sse_starlette.sse import EventSourceResponse
 
 from claude_agent_sdk import (
@@ -67,11 +68,19 @@ from demo_d import (
     _parse_json,
     assemble,
     build_registry,
+    build_transcript_registry,
     plan_system_prompt,
+    transcript_plan_system_prompt,
+    transcript_span_menu,
     write_section,
+    SECTION_SYSTEM_PROMPT_TRANSCRIPT,
 )
 from demo import ALLOWED_TOOLS as DEMO_ALLOWED_TOOLS, MCP_SERVER_NAME, demo_mcp_server
 import pricing
+# AI-assisted review step — edit agent + edit-triage agent (network-free import).
+import revise
+# Intent-and-scope front end — "describe what you need" (network-free import).
+import intent_agent
 
 load_dotenv()
 
@@ -96,6 +105,13 @@ def _discover_modules() -> dict[str, str]:
 
 
 AVAILABLE_MODULES = _discover_modules()
+# Modules offered for transcript-only mode that have NO Jira fixture (label-only;
+# grounding comes from the transcript itself). Override/extend via env (comma-sep).
+TRANSCRIPT_EXTRA_MODULES = [m.strip() for m in os.getenv(
+    "DEMO_TRANSCRIPT_MODULES", "Financials").split(",") if m.strip()]
+# Master on/off for the whole external-learning layer (ICN content, roster, study sets).
+# One switch so it can be disabled until the ICN fair-use agreement is in place.
+EXTERNAL_LEARNING = os.getenv("EXTERNAL_LEARNING", "1").lower() not in ("0", "false", "off", "no")
 DEFAULT_MODULE = os.getenv("DEMO_MODULE", "Item Management")
 if DEFAULT_MODULE not in AVAILABLE_MODULES and AVAILABLE_MODULES:
     DEFAULT_MODULE = sorted(AVAILABLE_MODULES)[0]
@@ -106,10 +122,106 @@ print(f"[demo_app] default '{_FIX_MODULE}': {len(demo._FIX.get('tickets', {}))} 
       f"{len(demo._FIX.get('epics', {}))} epics")
 
 
+# The reused prod /transcripts handler validates the upload's module against
+# prod.VALID_MODULES. Extend it so transcript-only modules (e.g. Financials, which
+# has no Jira fixture) are accepted on upload — the module is just a label there.
+prod.VALID_MODULES = tuple(dict.fromkeys(
+    list(prod.VALID_MODULES) + sorted(AVAILABLE_MODULES) + TRANSCRIPT_EXTRA_MODULES))
+
+
 def _ensure_fixture(module: str) -> None:
     """Swap demo._FIX to the requested module's fixture (the tools read this global)."""
     if module in AVAILABLE_MODULES and demo._FIX.get("module") != module:
         demo._FIX = demo._load_fixture(module)
+
+
+async def _run_text(prompt: str, options) -> tuple[str, object]:
+    """Run a tool-less query() to completion; return (final_text, usage).
+
+    Used by the review/revise step for the edit + triage agents, which only
+    reason over text and emit a single JSON object.
+    """
+    parts: list[str] = []
+    usage = None
+    async for message in query(prompt=prompt, options=options):
+        if isinstance(message, AssistantMessage):
+            for block in (message.content or []):
+                if isinstance(block, TextBlock):
+                    parts.append(block.text)
+        elif isinstance(message, ResultMessage):
+            usage = getattr(message, "usage", None)
+    return "\n".join(parts).strip(), usage
+
+
+def _transcript_text_for(meta: dict) -> str:
+    """Load the uploaded transcript text for a draft, by its transcript_id. Needed
+    to verify transcript-only citations verbatim. Empty string if there is none."""
+    tid = meta.get("transcript_id")
+    if not tid:
+        return ""
+    t_meta = prod._read_meta(prod.TRANSCRIPT_META / f"{tid}.json")
+    if not t_meta:
+        return ""
+    tp = (prod.BASE / t_meta["path"]).resolve()
+    return tp.read_text(encoding="utf-8") if tp.exists() else ""
+
+
+def _deterministic_eval(rid: str, draft_html: str, transcript_text: str = "") -> dict:
+    """The grounding gate, as data: re-check every citation token against the
+    fixture (Jira tokens) or the transcript (transcript-only tokens) by exact match.
+    No LLM — the deterministic check IS the guarantee. Caller is responsible for
+    _ensure_fixture() on the right module first, and for passing transcript_text
+    when the draft was generated in transcript-only mode (else those tokens fail
+    closed). Persists drafts/<rid>.eval.json and returns the verdict dict."""
+    integ = validate_citations(draft_html, transcript_text=transcript_text)
+    tier_lie, not_found, ok = integ["tier_lie"], integ["quote_not_found"], integ["ok"]
+    invalid = draft_html.count("INVALID_CITE_ID")
+    hard = tier_lie + not_found + invalid
+    eval_data = {
+        "verdict": "pass" if hard == 0 else "fail",
+        "summary": (f"Deterministic grounding check: {ok} citations verified verbatim against "
+                    f"source; {tier_lie} tier violations, {not_found} non-verbatim, {invalid} invalid IDs."),
+        "checks": [
+            {"name": "Citation tiers (no Description-as-AC)", "status": "ok" if tier_lie == 0 else "fail",
+             "detail": f"tier_lie={tier_lie}"},
+            {"name": "Verbatim citations", "status": "ok" if not_found == 0 else "fail",
+             "detail": f"non-verbatim={not_found}"},
+            {"name": "Valid citation IDs", "status": "ok" if invalid == 0 else "fail",
+             "detail": f"invalid_cite_id={invalid}"},
+            {"name": "Citations verified against source", "status": "ok",
+             "detail": f"{ok} exact-quote, correct-tier citations"},
+        ],
+        "method": "deterministic-registry-validation",
+        "resource_id": rid,
+        "evaluated_at": datetime.now().isoformat(timespec="seconds"),
+        "integrity": {"verified": ok, "tier_lie": tier_lie,
+                      "not_found": not_found, "invalid_cite_id": invalid},
+        # The specific offending citations (for the Evals drill-down). Each:
+        # (ticket, tier, reason, quote-snippet). Empty when grounding is clean.
+        "violations": [{"ticket": v[0], "tier": v[1], "issue": v[2], "quote": v[3]}
+                       for v in integ.get("violations", [])][:25],
+    }
+    prod._eval_path(rid).write_text(json.dumps(eval_data, indent=2), encoding="utf-8")
+    return eval_data
+
+
+def _log_review_decision(record: dict) -> None:
+    """Append one review-loop decision to a durable, append-only audit trail
+    (logs/review-decisions.jsonl). EVERY outcome is logged — edit applied,
+    refused, no-change, approved, approve-blocked — so a human (or an eval) can
+    later judge whether a refusal was appropriate or the editor over-reached
+    (took on a whole-doc/translation task it should have declined). This is also
+    the real-traffic corpus for the triage + scope evals (eval/EVAL-SPEC.md §7)."""
+    rec = {"at": datetime.now().isoformat(timespec="seconds"), **record}
+    try:
+        with (prod.LOGS / "review-decisions.jsonl").open("a", encoding="utf-8") as f:
+            f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+    except OSError:
+        pass
+
+
+def _trunc_ops(ops, n=8, L=160):
+    return [{"find": o.get("find", "")[:L], "replace": o.get("replace", "")[:L]} for o in ops[:n]]
 
 # ── Offline evaluator: same prompt as prod, but read_ticket serves the fixture ─
 EVAL_SERVER_NAME = "evaluator_tools"
@@ -169,12 +281,13 @@ async def resource_pdf(rid: str):
 
     clean_html = prod._strip_source_comments(raw_html)
 
-    # Stamp a banner unless the doc has been SME-approved (it never is in the demo).
+    # Stamp a "pending review" banner until a human has approved the guide.
+    # Approval (the Library gate) is the human sign-off — approved downloads are clean.
     meta = prod._read_meta(meta_path) or {}
     banner = None
-    if not meta.get("sme_approved"):
-        banner = ("⚠ PENDING REVIEW BY SME — provisional draft, grounding auto-verified "
-                  "but not yet approved by a subject-matter expert. Do not treat as final.")
+    if not (meta.get("approved") or meta.get("sme_approved")):
+        banner = ("⚠ PENDING REVIEW — provisional draft, grounding auto-verified "
+                  "but not yet approved by a human reviewer. Do not treat as final.")
 
     try:
         import pdf_export
@@ -189,10 +302,416 @@ async def resource_pdf(rid: str):
     )
 
 
+# ── DEMO roster simulation (mock multi-tenant) ───────────────────────────────
+# A simulated district/learner roster so the demo can show a per-ISD admin view and
+# switch between districts. This is SYNTHETIC, clearly-labeled demo data — no real
+# students. Deterministic per district (seeded) so it doesn't churn on refresh.
+_DISTRICTS = [
+    {"id": "houston-isd", "name": "Houston ISD", "domain": "houstonisd"},
+    {"id": "dallas-isd", "name": "Dallas ISD", "domain": "dallasisd"},
+    {"id": "austin-isd", "name": "Austin ISD", "domain": "austinisd"},
+    {"id": "cy-fair-isd", "name": "Cypress-Fairbanks ISD", "domain": "cfisd"},
+]
+_ROSTER_FIRST = ["Maria", "James", "Aisha", "Carlos", "Linda", "Wei", "Diego", "Sarah", "Robert",
+                 "Priya", "Kenji", "Grace", "Marcus", "Elena", "Tyler", "Fatima", "Rosa", "Andre",
+                 "Nia", "Hector", "Joy", "Sam", "Lucia", "Omar", "Beth", "Trang", "Carl", "Imani"]
+_ROSTER_LAST = ["Garcia", "Johnson", "Patel", "Nguyen", "Smith", "Williams", "Brown", "Lee",
+                "Martinez", "Davis", "Khan", "Lopez", "Wilson", "Thomas", "Reyes", "Okafor",
+                "Cohen", "Tran", "Flores", "Bell", "Ramirez", "Young", "Diaz", "Foster"]
+_ROSTER_ROLES = ["POS Cashier", "Cafeteria Manager", "Frontline Cafeteria Staff", "District Nutrition Director"]
+_ROSTER_PATHS = ["POS Cashier Basics", "Cafeteria Manager: Food Safety Refresher",
+                 "Frontline Staff: Food Safety Skills", "Menu Planning Foundations"]
+_ROSTER_STATUS = ["Not started", "In progress", "Completed"]
+
+
+def _roster_for(d: dict) -> list:
+    import hashlib
+    import random
+    seed = int(hashlib.md5(d["id"].encode()).hexdigest(), 16) % (2 ** 32)
+    rnd = random.Random(seed)
+    out = []
+    for _ in range(rnd.randint(18, 32)):
+        fn, ln = rnd.choice(_ROSTER_FIRST), rnd.choice(_ROSTER_LAST)
+        status = rnd.choices(_ROSTER_STATUS, weights=[3, 4, 3])[0]
+        prog = 100 if status == "Completed" else (0 if status == "Not started" else rnd.randint(10, 90))
+        out.append({
+            "name": f"{fn} {ln}", "role": rnd.choice(_ROSTER_ROLES),
+            "email": f"{fn[0].lower()}{ln.lower()}@{d['domain']}.org",
+            "assigned": rnd.choice(_ROSTER_PATHS), "progress": prog, "status": status,
+            "last_active": rnd.choice(["Today", "Yesterday", "3 days ago", "Last week", "2 weeks ago", "—"]),
+        })
+    out.sort(key=lambda x: x["name"])
+    return out
+
+
+@app.get("/api/roster")
+async def api_roster(isd: str = ""):
+    """Simulated district roster (synthetic demo data, not real students)."""
+    districts = [{**d, "learners": len(_roster_for(d))} for d in _DISTRICTS]
+    d = next((x for x in _DISTRICTS if x["id"] == isd), _DISTRICTS[0])
+    return {"districts": districts, "selected": d["id"], "selected_name": d["name"],
+            "roster": _roster_for(d), "demo": True}
+
+
+# ── ICN Content catalog ───────────────────────────────────────────────────────
+# Curated, externally-authored training reference material (ICN / USDA + MSDE),
+# imported as a lightweight pack under data/icn/. This is a BROWSE/REFERENCE lane —
+# NOT a generation grounding source — so it never claims the "verified by us"
+# guarantee the generation pipeline earns by construction. ICN Copy & Use Policy is
+# honored by surfacing metadata + attribution + links only: link_only assets link
+# out, embed_only embeds, and attribution_text travels with every card.
+_ICN_DIR = Path(demo.__file__).parent / "data" / "icn"
+
+
+# Generic component names that mean nothing without their parent course.
+_ORPHAN_TITLES = {
+    "instructor's manual", "instructors manual", "participant's workbook",
+    "participants workbook", "post-assessment", "pre-assessment",
+    "manual", "workbook", "assessment", "lesson plan",
+}
+
+
+def _clean_title(t: str, parent: str = "") -> str:
+    """Turn raw asset filenames/labels into human titles:
+      'A Flash of Food Safety_1_eng'      -> 'A Flash of Food Safety — Part 1'
+      'Using Thermometers [360p]'         -> 'Using Thermometers'
+      'Video Clip Calibrating Thermometers' -> 'Calibrating Thermometers'
+      bare 'Instructor's Manual' (+parent) -> 'Food Safety in Schools — Instructor's Manual'
+    Already-clean titles pass through. `parent` is the asset's source_page_title."""
+    t = (t or "").strip()
+    m = re.match(r"^(.*?)[ _]*_(\d+)_eng$", t, re.I)
+    if m:
+        base = re.sub(r"[ _]+", " ", m.group(1)).strip()
+        t = f"{base} — Part {int(m.group(2))}"
+    else:
+        t = re.sub(r"_eng$", "", t, flags=re.I).replace("_", " ")
+    t = re.sub(r"\s*[\[(]\s*\d{3,4}p\s*[\])]", "", t)        # strip [360p] / (720p)
+    t = re.sub(r"\s+\d{3,4}p\b", "", t)                        # strip trailing 360p
+    t = re.sub(r"^\s*video\s*clip\s*[:\-]?\s*", "", t, flags=re.I)  # strip "Video Clip" prefix
+    t = re.sub(r"\s+", " ", t).strip(" -–—")
+    # Give orphaned component titles their parent course for context.
+    p = re.sub(r"\s*\(formerly[^)]*\)", "", parent or "", flags=re.I).strip()
+    if p and p.lower() not in ("popular resources for school nutrition programs",) \
+       and t.lower() in _ORPHAN_TITLES and not t.lower().startswith(p.lower()):
+        t = f"{p} — {t}"
+    return re.sub(r"\s+", " ", t).strip()
+
+
+def _icn_load():
+    def J(name):
+        p = _ICN_DIR / "data" / name
+        return json.loads(p.read_text(encoding="utf-8")) if p.exists() else None
+    lms = J("lms_mockup_content.json") or {}
+    manifest = J("asset_manifest.json") or []
+    by_id = {a.get("asset_id"): a for a in manifest}
+    return lms, by_id
+
+
+@app.get("/api/icn")
+async def api_icn():
+    """Catalog feed for the Content tab: license-aware cards + suggested paths +
+    the role/topic facets to filter on. No asset bytes here — only metadata,
+    attribution, and the right outbound link per license posture."""
+    lms, by_id = _icn_load()
+    cards_in = lms.get("content_cards", [])
+    _cidx = _icn_chunk_index()
+    quiz_ids = set(_cidx.keys())  # assets with ingestible text → quizzable
+    qtopics = set()  # chunk-backed topics → can author quizzes/flashcards by topic
+    for _cs in _cidx.values():
+        for _c in _cs:
+            for _t in (_c.get("topics") or []):
+                qtopics.add(str(_t).replace("_", " ").title())
+    cards = []
+    roles, topics = set(), set()
+    counts = {"download_allowed": 0, "link_only": 0, "embed_only": 0}
+    for c in cards_in:
+        a = by_id.get(c.get("asset_id"), {})
+        lp = c.get("license_posture") or a.get("license_posture") or "link_only"
+        counts[lp] = counts.get(lp, 0) + 1
+        rts = c.get("role_tags") or []
+        tts = c.get("topic_tags") or []
+        roles.update(rts); topics.update(tts)
+        has_thumb = bool((a.get("preview_images") or c.get("preview_images")))
+        cards.append({
+            "asset_id": c.get("asset_id"),
+            "title": _clean_title(c.get("title"), a.get("source_page_title")),
+            "subtitle": (c.get("subtitle") or "")[:160],
+            "asset_type": c.get("asset_type"),
+            "roles": rts, "topics": tts,
+            "license_posture": lp,
+            "action_label": c.get("primary_action_label") or "Open",
+            "source_url": c.get("source_url") or a.get("source_url"),
+            "embed_url": a.get("embed_url"),
+            "attribution": a.get("attribution_text") or f"Source: {c.get('source_label') or 'Institute of Child Nutrition'}",
+            "source_label": c.get("source_label") or a.get("source_org"),
+            "has_thumb": has_thumb,
+            "has_quiz": c.get("asset_id") in quiz_ids,
+            "card_id": c.get("card_id"),
+        })
+    # Resolve learning paths to their full module assets (so the path detail view can
+    # render each step with its type, source link, and quiz). Derive a role from the modules.
+    by_cardid = {c["card_id"]: c for c in cards if c.get("card_id")}
+    paths = []
+    for p in lms.get("suggested_learning_paths", []):
+        mods = [by_cardid[cid] for cid in p.get("module_card_ids", []) if cid in by_cardid]
+        role_counts = {}
+        for m in mods:
+            for r in (m.get("roles") or []):
+                role_counts[r] = role_counts.get(r, 0) + 1
+        role = max(role_counts, key=role_counts.get) if role_counts else None
+        paths.append({"id": p.get("path_id"), "title": p.get("title"),
+                      "description": p.get("description"), "role": role, "modules": mods})
+    return {
+        "cards": cards,
+        "paths": paths,
+        "roles": sorted(roles),
+        "topics": sorted(topics),
+        "quiz_topics": sorted(qtopics),
+        "counts": counts,
+        "total": len(cards),
+    }
+
+
+def _icn_chunk_index() -> dict:
+    """asset_id -> [chunk dicts] from the imported citation-preserving chunks.jsonl.
+    Only the publisher-permitted, ingestion-allowed assets are present here."""
+    idx: dict[str, list] = {}
+    p = _ICN_DIR / "chunks" / "chunks.jsonl"
+    if p.exists():
+        for line in p.read_text(encoding="utf-8").splitlines():
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                c = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            idx.setdefault(c.get("asset_id"), []).append(c)
+    return idx
+
+
+def _icn_chunks_by_topic(topic: str) -> list:
+    """All ingestible chunks tagged with `topic`, across assets (case/format tolerant —
+    'Food Safety' matches the 'food_safety' chunk tag). For author-by-topic study sets."""
+    tnorm = topic.strip().lower().replace(" ", "_")
+    out = []
+    for cs in _icn_chunk_index().values():
+        for c in cs:
+            tops = c.get("topics") or []
+            if isinstance(tops, str):
+                tops = [tops]
+            if any(tnorm in str(t).lower().replace(" ", "_") for t in tops):
+                out.append(c)
+    return out
+
+
+_QUIZ_SYS = """You write a short multiple-choice quiz that checks understanding of a training document for school-nutrition staff. You have NO tools.
+
+RULES:
+- Base EVERY question ONLY on the provided source excerpts. Never use outside knowledge or invent facts.
+- Each question has a clear stem, EXACTLY 4 options, and exactly one correct option.
+- For each question you MUST include "source_quote": a SHORT verbatim span (about 5-25 words) copied EXACTLY, character-for-character, from ONE excerpt — the span that proves the correct answer — and "chunk_id": the id of the excerpt it came from.
+- Plain, professional, non-tricky language. Spread questions across different excerpts.
+
+OUTPUT — your FINAL message is ONLY this JSON object, no prose, no code fence:
+{"questions":[{"q":"...","options":["...","...","...","..."],"answer":0,"explanation":"why, in one sentence","source_quote":"exact words from an excerpt","chunk_id":"..."}]}"""
+
+
+@app.post("/api/icn/quiz")
+async def icn_quiz(payload: dict = Body(...)):
+    """Generate a grounded multiple-choice quiz from one ICN asset's chunks. Every
+    question carries a verbatim source_quote that is re-verified against the source
+    text; questions whose quote can't be found are dropped (grounding by construction,
+    quiz edition). Attribution + source_url + page travel with each kept question."""
+    asset_id = (payload.get("asset_id") or "").strip()
+    topic = (payload.get("topic") or "").strip()
+    n = max(3, min(int(payload.get("n", 6) or 6), 10))
+    if asset_id:
+        chunks = _icn_chunk_index().get(asset_id) or []
+        _lms, by_id = _icn_load()
+        a = by_id.get(asset_id, {})
+        title = _clean_title(a.get("title") or (chunks[0].get("title") if chunks else asset_id))
+        attribution = a.get("attribution_text") or "Source: Institute of Child Nutrition / USDA."
+        src_url = a.get("source_url")
+    elif topic:
+        chunks = _icn_chunks_by_topic(topic)
+        title = topic.replace("_", " ").title()
+        attribution = "Source: Institute of Child Nutrition / USDA."
+        src_url = None
+    else:
+        raise HTTPException(400, "asset_id or topic is required")
+    if not chunks:
+        raise HTTPException(404, detail={"error": "not_ingestible",
+            "message": "No ingestible text for that selection (link-only / no extracted transcript), so a quiz can't be generated."})
+
+    # Build the excerpt menu (in the USER prompt → stdin, never the system prompt).
+    by_cid = {}
+    excerpts, total = [], 0
+    for c in chunks:
+        txt = (c.get("text") or "").strip()
+        if len(txt) < 40:
+            continue
+        by_cid[c["chunk_id"]] = c
+        excerpts.append(f"[{c['chunk_id']}]\n{txt}")
+        total += len(txt)
+        if total > 16000:  # keep the prompt bounded
+            break
+    if not excerpts:
+        raise HTTPException(404, detail={"error": "no_text", "message": "No usable text excerpts for this asset."})
+
+    prompt = (f"Document: {title}\nWrite {n} multiple-choice questions grounded ONLY in these excerpts.\n\n"
+              f"EXCERPTS:\n" + "\n\n".join(excerpts) + "\n\nEmit ONLY the JSON object.")
+    opts = ClaudeAgentOptions(
+        model="claude-sonnet-4-6", effort="medium", system_prompt=_QUIZ_SYS,
+        allowed_tools=[], disallowed_tools=_DISALLOWED, tools=[], max_turns=4,
+    )
+    try:
+        text, _usage = await _run_text(prompt, opts)
+    except Exception as e:
+        raise HTTPException(502, f"quiz generation failed: {e}")
+    parsed = _parse_json(text) or {}
+    raw_qs = parsed.get("questions") or []
+
+    # Grounding gate: keep only questions whose verbatim source_quote is found in a chunk.
+    kept, dropped = [], 0
+    for q in raw_qs:
+        quote = (q.get("source_quote") or "").strip()
+        opts_list = q.get("options") or []
+        if not quote or len(opts_list) != 4 or not isinstance(q.get("answer"), int):
+            dropped += 1
+            continue
+        nq = demo._norm(quote)
+        src = by_cid.get(q.get("chunk_id"))
+        hit = src if (src and nq in demo._norm(src.get("text", ""))) else \
+              next((c for c in by_cid.values() if nq in demo._norm(c.get("text", ""))), None)
+        if not hit or not (0 <= q["answer"] < 4):
+            dropped += 1
+            continue
+        kept.append({
+            "q": q.get("q", ""), "options": opts_list, "answer": q["answer"],
+            "explanation": q.get("explanation", ""),
+            "source_quote": quote, "page": hit.get("page"), "slide": hit.get("slide"),
+            "source_url": hit.get("source_url") or src_url,
+        })
+    return JSONResponse({
+        "asset_id": asset_id, "topic": topic, "title": title, "attribution": attribution,
+        "source_url": src_url, "questions": kept,
+        "generated": len(raw_qs), "kept": len(kept), "dropped": dropped,
+    })
+
+
+_FLASH_SYS = """You write study flashcards that help school-nutrition staff learn a topic. You have NO tools.
+
+RULES:
+- Base EVERY card ONLY on the provided source excerpts. Never use outside knowledge or invent facts.
+- Each card has a short "front" (a term, prompt, or question) and a "back" (the answer/definition).
+- For each card you MUST include "source_quote": a SHORT verbatim span (about 5-25 words) copied EXACTLY, character-for-character, from ONE excerpt that supports the back, and "chunk_id": the id of that excerpt.
+- Keep fronts crisp and backs concise. Spread cards across different excerpts.
+
+OUTPUT — your FINAL message is ONLY this JSON object, no prose, no code fence:
+{"cards":[{"front":"...","back":"...","source_quote":"exact words from an excerpt","chunk_id":"..."}]}"""
+
+
+@app.post("/api/icn/flashcards")
+async def icn_flashcards(payload: dict = Body(...)):
+    """Generate grounded flashcards from an ICN asset OR a topic (cross-asset). Each card's
+    back carries a verbatim source_quote re-verified against the source; cards that fail
+    verification are dropped. Same grounding-by-construction guarantee as the quiz."""
+    asset_id = (payload.get("asset_id") or "").strip()
+    topic = (payload.get("topic") or "").strip()
+    n = max(4, min(int(payload.get("n", 8) or 8), 14))
+    if asset_id:
+        chunks = _icn_chunk_index().get(asset_id) or []
+        _lms, by_id = _icn_load()
+        a = by_id.get(asset_id, {})
+        title = _clean_title(a.get("title") or (chunks[0].get("title") if chunks else asset_id))
+        attribution = a.get("attribution_text") or "Source: Institute of Child Nutrition / USDA."
+        src_url = a.get("source_url")
+    elif topic:
+        chunks = _icn_chunks_by_topic(topic)
+        title = topic.replace("_", " ").title()
+        attribution = "Source: Institute of Child Nutrition / USDA."
+        src_url = None
+    else:
+        raise HTTPException(400, "asset_id or topic is required")
+    if not chunks:
+        raise HTTPException(404, detail={"error": "not_ingestible",
+            "message": "No ingestible text for that selection, so flashcards can't be generated."})
+
+    by_cid, excerpts, total = {}, [], 0
+    for c in chunks:
+        txt = (c.get("text") or "").strip()
+        if len(txt) < 40:
+            continue
+        by_cid[c["chunk_id"]] = c
+        excerpts.append(f"[{c['chunk_id']}]\n{txt}")
+        total += len(txt)
+        if total > 16000:
+            break
+    if not excerpts:
+        raise HTTPException(404, detail={"error": "no_text", "message": "No usable text excerpts."})
+
+    prompt = (f"Topic: {title}\nWrite {n} study flashcards grounded ONLY in these excerpts.\n\n"
+              f"EXCERPTS:\n" + "\n\n".join(excerpts) + "\n\nEmit ONLY the JSON object.")
+    opts = ClaudeAgentOptions(
+        model="claude-sonnet-4-6", effort="medium", system_prompt=_FLASH_SYS,
+        allowed_tools=[], disallowed_tools=_DISALLOWED, tools=[], max_turns=4,
+    )
+    try:
+        text, _usage = await _run_text(prompt, opts)
+    except Exception as e:
+        raise HTTPException(502, f"flashcard generation failed: {e}")
+    raw = (_parse_json(text) or {}).get("cards") or []
+
+    kept, dropped = [], 0
+    for card in raw:
+        front, back = (card.get("front") or "").strip(), (card.get("back") or "").strip()
+        quote = (card.get("source_quote") or "").strip()
+        if not (front and back and quote):
+            dropped += 1
+            continue
+        nq = demo._norm(quote)
+        src = by_cid.get(card.get("chunk_id"))
+        hit = src if (src and nq in demo._norm(src.get("text", ""))) else \
+              next((c for c in by_cid.values() if nq in demo._norm(c.get("text", ""))), None)
+        if not hit:
+            dropped += 1
+            continue
+        kept.append({"front": front, "back": back, "source_quote": quote,
+                     "page": hit.get("page"), "slide": hit.get("slide"),
+                     "source_url": hit.get("source_url") or src_url})
+    return JSONResponse({
+        "asset_id": asset_id, "topic": topic, "title": title, "attribution": attribution,
+        "cards": kept, "generated": len(raw), "kept": len(kept), "dropped": dropped,
+    })
+
+
+@app.get("/icn/thumb/{asset_id}")
+async def icn_thumb(asset_id: str):
+    """Serve a page-1 preview image for an asset (PDFs only). 404 → UI shows a glyph."""
+    _lms, by_id = _icn_load()
+    a = by_id.get(asset_id) or {}
+    rel = (a.get("preview_images") or [None])[0]
+    if not rel:
+        raise HTTPException(404, "no preview")
+    # preview_images are stored relative to the pack root; we imported extracted/ as-is
+    candidate = (_ICN_DIR / rel).resolve()
+    # guard against path traversal — must stay inside data/icn
+    if not str(candidate).startswith(str(_ICN_DIR.resolve())) or not candidate.exists():
+        raise HTTPException(404, "preview not found")
+    return Response(content=candidate.read_bytes(), media_type="image/png")
+
+
 @app.get("/api/config")
 async def config():
     # Offer every module we have an offline fixture for + every format.
-    return {"modules": sorted(AVAILABLE_MODULES), "templates": list(demo_d.VALID_FORMATS)}
+    # `modules` are fixture-backed (required for Jira-grounded mode). Transcript-only
+    # mode needs NO fixture, so it also offers `extra_modules` (free, label-only) —
+    # e.g. Financials — letting you generate + verify against your own domain.
+    extra = [m for m in TRANSCRIPT_EXTRA_MODULES if m not in AVAILABLE_MODULES]
+    return {"modules": sorted(AVAILABLE_MODULES), "extra_modules": extra,
+            "templates": list(demo_d.VALID_FORMATS),
+            "external_learning": EXTERNAL_LEARNING}
 
 
 @app.get("/api/evals")
@@ -236,7 +755,8 @@ async def evals_feed():
             "created_at": m.get("created_at", ""), "method": m.get("method", ""),
             "verified": ci.get("verified"), "tier_lie": ci.get("tier_lie"),
             "not_found": ci.get("not_found"), "invalid_cite_id": ci.get("invalid_cite_id"),
-            "grounded": grounded, "cost_usd": m.get("cost_usd"),
+            "grounded": grounded,
+            # cost_usd intentionally omitted from customer-facing payload (see /api/evals note below)
         })
     gens.sort(key=lambda g: g.get("created_at", ""), reverse=True)
     total_cost = round(sum(g.get("cost_usd") or 0 for g in gens), 4)
@@ -244,16 +764,25 @@ async def evals_feed():
     # 3) capability suite-run logs
     runs = []
     runs_dir = prod.BASE / "eval" / "runs"
+
+    def _scrub_cost(obj):
+        """Recursively drop any key containing 'cost' so AI-spend never reaches the
+        customer-facing payload (not even via the network tab)."""
+        if isinstance(obj, dict):
+            return {k: _scrub_cost(v) for k, v in obj.items() if "cost" not in k.lower()}
+        if isinstance(obj, list):
+            return [_scrub_cost(x) for x in obj]
+        return obj
+
     if runs_dir.exists():
         for rj in sorted(runs_dir.glob("*/report.json"), reverse=True)[:10]:
             try:
                 d = json.loads(rj.read_text(encoding="utf-8"))
             except (json.JSONDecodeError, OSError):
                 continue
-            runs.append({"stamp": d.get("stamp"), "module": d.get("module"),
+            runs.append(_scrub_cost({"stamp": d.get("stamp"), "module": d.get("module"),
                          "trials": d.get("trials"), "per_format": d.get("per_format"),
-                         "total_cost_usd": d.get("total_cost_usd"),
-                         "regression_summary": d.get("regression_summary")})
+                         "regression_summary": d.get("regression_summary")}))
 
     # ── Headline "Trust Score" — one number a layman gets, + plain-English parts ──
     reg_pass, reg_total = regression.get("passed", 0), (regression.get("total", 0) or 0)
@@ -279,13 +808,15 @@ async def evals_feed():
              "ok": clean == gtotal,
              "plain": "How many generated guides have every statement traced to a genuine source at the correct "
                       "level of trust — no invented facts, no mislabelled sources."},
-            {"label": "Total cost to date", "value": f"${total_cost:.2f}", "ok": True,
-             "plain": "Total AI processing cost across all guides produced so far."},
+            # NOTE: cost is intentionally NOT exposed in the customer-facing /api/evals
+            # payload. Internal cost logging stays in run logs / generation metadata, but
+            # the customer never sees a price tag here. (total_cost is still computed above
+            # for any internal use, just not shipped in this response.)
         ],
     }
 
     return {"score": score, "regression": regression, "generations": gens[:50],
-            "generations_total_cost_usd": total_cost, "suite_runs": runs}
+            "suite_runs": runs}
 
 
 def _find_long_form_html(transcript_id: str) -> str | None:
@@ -307,7 +838,7 @@ def _find_long_form_html(transcript_id: str) -> str | None:
 # All three formats (long-form / micro-guide / tldr) flow through this same
 # registry + CITE-ID + deterministic-render path. Grounding guaranteed by
 # construction; only the section plan + budget differ by format.
-async def _stream_celld(transcript_path, transcript_id, module, rid, log, fmt="long-form"):
+async def _stream_celld(transcript_path, transcript_id, module, rid, log, fmt="long-form", directive=""):
     yield prod._sse_event("system", {"subtype": f"planning {fmt} (research)"})
     log("system", {"subtype": f"planning {fmt}"})
 
@@ -319,8 +850,16 @@ async def _stream_celld(transcript_path, transcript_id, module, rid, log, fmt="l
         allowed_tools=DEMO_ALLOWED_TOOLS, disallowed_tools=_DISALLOWED,
         tools=[], max_turns=20,
     )
+    directive_block = (
+        f"\nUSER DIRECTIVE (apply to SCOPE / EMPHASIS / AUDIENCE / TONE — e.g. focus on a "
+        f"sub-topic, or frame for a specific district. FRAMING ONLY: never invent facts or "
+        f"audience-specific claims not backed by tickets; fold tone/audience into each "
+        f'section\'s "scope" so the writers honor it):\n  {directive.strip()}\n'
+        if directive and directive.strip() else ""
+    )
     plan_prompt = (
         f"Plan a {fmt} `{module}` guide from the transcript at:\n  {transcript_path}\n"
+        f"{directive_block}"
         f'Call parse_transcript first (module="{module}"). Emit ONLY the JSON section plan.'
     )
     plan_parts: list[str] = []
@@ -363,7 +902,7 @@ async def _stream_celld(transcript_path, transcript_id, module, rid, log, fmt="l
     sem = asyncio.Semaphore(4)
 
     async def _idx(i, s):
-        return i, await write_section(s, registry, by_ticket, module, sem, budget=budget)
+        return i, await write_section(s, registry, by_ticket, module, sem, budget=budget, directive=directive)
 
     tasks = [asyncio.create_task(_idx(i, s)) for i, s in enumerate(sections_plan)]
     ordered: list = [None] * len(tasks)
@@ -382,12 +921,9 @@ async def _stream_celld(transcript_path, transcript_id, module, rid, log, fmt="l
     cost = pricing.cost_of(usages)
 
     yield prod._sse_event("text", {"text":
-        f"\nAssembled. {integ['ok']} citations verified verbatim; "
-        f"tier violations={integ['tier_lie']}, non-verbatim={integ['quote_not_found']}, "
-        f"invalid IDs={asm['invalid_cite_id']}.\n"
-        f"Run cost: ${cost['cost_usd']:.4f}  "
-        f"({cost['output_tokens']:,} out + {cost['input_tokens']:,} in + "
-        f"{cost['cache_read_tokens']:,} cache-read tok).\n"})
+        f"\nAssembled. {integ['ok']} claims verified against their sources; "
+        f"{integ['tier_lie']} trust-tier issues, {integ['quote_not_found']} unverifiable, "
+        f"{asm['invalid_cite_id']} broken references.\n"})
 
     (prod.DRAFTS / f"{rid}.html").write_text(html, encoding="utf-8")
     draft_meta = {
@@ -403,8 +939,114 @@ async def _stream_celld(transcript_path, transcript_id, module, rid, log, fmt="l
     yield prod._sse_event("done", {"resource_id": rid, "status": "draft", **draft_meta})
 
 
+# ── Transcript-only Cell D — registry built from VERBATIM transcript spans ────
+# Same pipeline shape as _stream_celld, but the source of truth is the uploaded
+# transcript, not Jira: spans are pre-numbered into a registry, the planner assigns
+# span ids to sections (no tools, no Jira), section writers emit [CITE:T####] only,
+# and the gate re-verifies every span verbatim against the transcript. For
+# navigation/procedure an SME demos live (Jira is behavior-only) and no-fixture modules.
+async def _stream_celld_transcript(transcript_path, transcript_id, module, rid, log, fmt="long-form", directive=""):
+    yield prod._sse_event("system", {"subtype": f"planning {fmt} (transcript-only)"})
+    log("system", {"subtype": f"planning {fmt} transcript-only"})
+
+    try:
+        transcript_text = Path(transcript_path).read_text(encoding="utf-8")
+    except OSError as e:
+        yield prod._sse_event("error", {"message": f"could not read transcript: {e}"})
+        return
+
+    registry, by_span, ids = build_transcript_registry(transcript_text)
+    if not ids:
+        yield prod._sse_event("error", {"message": "transcript produced no citable spans (too short or empty)"})
+        return
+    span_menu = transcript_span_menu(registry, ids)
+
+    budget = _FORMAT_BUDGET.get(fmt, _FORMAT_BUDGET["long-form"])
+    directive_block = (
+        f"\nUSER DIRECTIVE (apply to SCOPE / EMPHASIS / AUDIENCE / TONE only — FRAMING ONLY: "
+        f"never invent facts or claims not in the transcript spans):\n  {directive.strip()}\n"
+        if directive and directive.strip() else ""
+    )
+    plan_opts = ClaudeAgentOptions(
+        model="claude-sonnet-4-6", effort="medium",
+        system_prompt=transcript_plan_system_prompt(module, fmt),
+        allowed_tools=[], disallowed_tools=_DISALLOWED, tools=[], max_turns=8,
+    )
+    # The span list goes in the USER prompt (stdin), NOT the system prompt — the SDK
+    # passes system_prompt as a CLI arg, which would blow the Windows command-line
+    # length limit for a real transcript and make the CLI fail to spawn.
+    plan_prompt = (
+        f"Plan a {fmt} `{module}` guide grounded ONLY in the numbered transcript spans below.\n"
+        f"{directive_block}"
+        f"Assign span ids to each section. Emit ONLY the JSON section plan.\n\n"
+        f"NUMBERED TRANSCRIPT SPANS:\n{span_menu}"
+    )
+    plan_parts: list[str] = []
+    plan_usage = None
+    try:
+        async for message in query(prompt=plan_prompt, options=plan_opts):
+            if isinstance(message, AssistantMessage):
+                for block in (message.content or []):
+                    if isinstance(block, TextBlock):
+                        plan_parts.append(block.text)
+            elif isinstance(message, ResultMessage):
+                plan_usage = getattr(message, "usage", None)
+    except Exception as e:
+        yield prod._sse_event("error", {"message": f"planning failed: {e}"})
+        return
+
+    plan = _parse_json("\n".join(plan_parts))
+    if not plan or not plan.get("sections"):
+        yield prod._sse_event("error", {"message": "planner did not return a valid section plan"})
+        return
+    sections_plan = plan["sections"]
+    used = {c for s in sections_plan for c in s.get("span_ids", [])}
+    yield prod._sse_event("text", {"text":
+        f"Planned {len(sections_plan)} sections from {len(used)} verbatim transcript spans "
+        f"({len(ids)} spans available). Writing sections in parallel…\n"})
+    log("plan_done", {"sections": len(sections_plan), "spans_used": len(used)})
+
+    sem = asyncio.Semaphore(4)
+
+    async def _idx(i, s):
+        return i, await write_section(s, registry, by_span, module, sem, budget=budget,
+                                      directive=directive, section_tmpl=SECTION_SYSTEM_PROMPT_TRANSCRIPT)
+
+    tasks = [asyncio.create_task(_idx(i, s)) for i, s in enumerate(sections_plan)]
+    ordered: list = [None] * len(tasks)
+    for fut in asyncio.as_completed(tasks):
+        i, sec = await fut
+        ordered[i] = sec
+        yield prod._sse_event("text", {"text": f"  ✓ {sec['title']}  ({sec['secs']:.0f}s)\n"})
+        log("section_done", {"title": sec["title"], "stop_reason": sec.get("stop_reason")})
+
+    html, asm = assemble(module, ordered, registry)
+    integ = validate_citations(html, transcript_text=transcript_text)
+    usages = [plan_usage] + [s.get("usage") for s in ordered]
+    cost = pricing.cost_of(usages)
+
+    yield prod._sse_event("text", {"text":
+        f"\nAssembled. {integ['ok']} claims verified verbatim against the transcript; "
+        f"{integ['quote_not_found']} unverifiable, {asm['invalid_cite_id']} broken references.\n"})
+
+    (prod.DRAFTS / f"{rid}.html").write_text(html, encoding="utf-8")
+    draft_meta = {
+        "id": rid, "status": "draft", "module": module, "template": fmt,
+        "transcript_id": transcript_id, "transcript_filename": None,
+        "created_at": datetime.now().isoformat(timespec="seconds"),
+        "demo": True, "method": "transcript+registry", "source": "transcript-only",
+        "citation_integrity": {"verified": integ["ok"], "tier_lie": integ["tier_lie"],
+                               "not_found": integ["quote_not_found"], "invalid_cite_id": asm["invalid_cite_id"]},
+        "cost_usd": cost["cost_usd"], "cost": cost,
+    }
+    (prod.DRAFTS / f"{rid}.json").write_text(json.dumps(draft_meta, indent=2), encoding="utf-8")
+    _deterministic_eval(rid, html, transcript_text=transcript_text)  # write eval.json with transcript verify
+    yield prod._sse_event("done", {"resource_id": rid, "status": "draft", **draft_meta})
+
+
 # ── /generate — offline generation against the fixture ────────────────────────
-async def _stream_generation_demo(transcript_id: str, module: str, template: str):
+async def _stream_generation_demo(transcript_id: str, module: str, template: str,
+                                  directive: str = "", source: str = "jira"):
     _ensure_fixture(module)  # ground against THIS module's Jira, not whatever loaded last
     meta = prod._read_meta(prod.TRANSCRIPT_META / f"{transcript_id}.json")
     if not meta:
@@ -421,13 +1063,19 @@ async def _stream_generation_demo(transcript_id: str, module: str, template: str
 
     yield prod._sse_event("start", {
         "resource_id": rid, "transcript_id": transcript_id,
-        "module": module, "template": template,
+        "module": module, "template": template, "source": source,
     })
+
+    # Transcript-only mode: ground solely in the uploaded transcript (no Jira).
+    if source == "transcript" and template in demo_d.VALID_FORMATS:
+        async for ev in _stream_celld_transcript(transcript_path, transcript_id, module, rid, log, fmt=template, directive=directive):
+            yield ev
+        return
 
     # ALL formats use the validated Cell D sectioned+registry pipeline — grounding
     # guaranteed by construction (long-form, micro-guide, tldr, release-notes).
     if template in demo_d.VALID_FORMATS:
-        async for ev in _stream_celld(transcript_path, transcript_id, module, rid, log, fmt=template):
+        async for ev in _stream_celld(transcript_path, transcript_id, module, rid, log, fmt=template, directive=directive):
             yield ev
         return
 
@@ -525,12 +1173,18 @@ async def generate(
     transcript_id: str = Query(...),
     module: str = Query(...),
     template: str = Query(...),
+    directive: str = Query("", description="optional authoring directive: audience/focus/tone (framing only)"),
+    source: str = Query("jira", description="grounding source: 'jira' (default) or 'transcript' (transcript-only mode)"),
 ):
-    if module not in AVAILABLE_MODULES:
+    # Jira mode needs an offline fixture; transcript-only mode does NOT (it grounds
+    # in the uploaded transcript itself, so it works for any module).
+    if source != "transcript" and module not in AVAILABLE_MODULES:
         raise HTTPException(400, f"no offline fixture for module '{module}'. Available: {sorted(AVAILABLE_MODULES)}")
     if template not in demo_d.VALID_FORMATS:
         raise HTTPException(400, f"unknown format: {template}")
-    return EventSourceResponse(_stream_generation_demo(transcript_id, module, template))
+    if source not in ("jira", "transcript"):
+        raise HTTPException(400, f"unknown source: {source} (expected 'jira' or 'transcript')")
+    return EventSourceResponse(_stream_generation_demo(transcript_id, module, template, directive, source))
 
 
 # ── /resources/{rid}/evaluate — DETERMINISTIC grounding gate ──────────────────
@@ -539,32 +1193,7 @@ async def generate(
 # errors and isn't needed — the deterministic check IS the guarantee).
 async def _stream_evaluation_demo(rid: str, draft_html: str, transcript_text: str, meta: dict):
     yield prod._sse_event("eval_start", {"resource_id": rid})
-
-    integ = validate_citations(draft_html)
-    tier_lie, not_found, ok = integ["tier_lie"], integ["quote_not_found"], integ["ok"]
-    invalid = draft_html.count("INVALID_CITE_ID")
-    hard = tier_lie + not_found + invalid
-    verdict = "pass" if hard == 0 else "fail"
-
-    eval_data = {
-        "verdict": verdict,
-        "summary": (f"Deterministic grounding check: {ok} citations verified verbatim against "
-                    f"source; {tier_lie} tier violations, {not_found} non-verbatim, {invalid} invalid IDs."),
-        "checks": [
-            {"name": "Citation tiers (no Description-as-AC)", "status": "ok" if tier_lie == 0 else "fail",
-             "detail": f"tier_lie={tier_lie}"},
-            {"name": "Verbatim citations", "status": "ok" if not_found == 0 else "fail",
-             "detail": f"non-verbatim={not_found}"},
-            {"name": "Valid citation IDs", "status": "ok" if invalid == 0 else "fail",
-             "detail": f"invalid_cite_id={invalid}"},
-            {"name": "Citations verified against source", "status": "ok",
-             "detail": f"{ok} exact-quote, correct-tier citations"},
-        ],
-        "method": "deterministic-registry-validation",
-        "resource_id": rid,
-        "evaluated_at": datetime.now().isoformat(timespec="seconds"),
-    }
-    prod._eval_path(rid).write_text(json.dumps(eval_data, indent=2), encoding="utf-8")
+    eval_data = _deterministic_eval(rid, draft_html, transcript_text=transcript_text)
     yield prod._sse_event("eval_done", eval_data)
 
 
@@ -578,17 +1207,16 @@ async def evaluate_resource(rid: str):
     meta = prod._read_meta(meta_path) or {}
     if meta.get("module"):
         _ensure_fixture(meta["module"])  # grounding check must use this draft's module fixture
+    # The demo evaluator is DETERMINISTIC (validate_citations) and ignores the
+    # transcript, so a transcript is optional — scope-built drafts have none.
+    transcript_text = ""
     transcript_id = meta.get("transcript_id")
-    if not transcript_id:
-        raise HTTPException(400, "resource has no source transcript_id")
-    t_meta = prod._read_meta(prod.TRANSCRIPT_META / f"{transcript_id}.json")
-    if not t_meta:
-        raise HTTPException(404, "source transcript metadata missing")
-    transcript_path = (prod.BASE / t_meta["path"]).resolve()
-    if not transcript_path.exists():
-        raise HTTPException(404, "source transcript file missing")
-
-    transcript_text = transcript_path.read_text(encoding="utf-8")
+    if transcript_id:
+        t_meta = prod._read_meta(prod.TRANSCRIPT_META / f"{transcript_id}.json")
+        if t_meta:
+            tp = (prod.BASE / t_meta["path"]).resolve()
+            if tp.exists():
+                transcript_text = tp.read_text(encoding="utf-8")
     draft_html = html_path.read_text(encoding="utf-8")
     return EventSourceResponse(_stream_evaluation_demo(rid, draft_html, transcript_text, meta))
 
@@ -610,7 +1238,8 @@ async def publish_pending(rid: str):
     if not ci:  # older/non-Cell-D draft — compute grounding now
         if meta.get("module"):
             _ensure_fixture(meta["module"])
-        integ = validate_citations(html_path.read_text(encoding="utf-8"))
+        integ = validate_citations(html_path.read_text(encoding="utf-8"),
+                                   transcript_text=_transcript_text_for(meta))
         ci = {"tier_lie": integ["tier_lie"], "not_found": integ["quote_not_found"],
               "invalid_cite_id": 0}
     violations = (ci.get("tier_lie", 0) or 0) + (ci.get("not_found", 0) or 0) + (ci.get("invalid_cite_id", 0) or 0)
@@ -631,6 +1260,360 @@ async def publish_pending(rid: str):
     return meta
 
 
+# ── Intent-and-scope front end: "describe what you need" (no transcript) ──────
+# The agent resolves WHAT to build (module, topic, format, outline) and grounds it
+# in real tickets; it never supplies content. A confirmed outline flows through the
+# SAME back half of the Cell-D pipeline (registry → section writers → assemble →
+# deterministic gate), so grounding-by-construction is identical to the transcript path.
+_SCOPE_TOOLS = [f"mcp__{MCP_SERVER_NAME}__{n}" for n in ("match_tickets", "read_ticket", "read_epic")]
+
+
+def _scope_search_options(module: str, fmt: str) -> ClaudeAgentOptions:
+    spec = demo_d._FORMAT_SPEC.get(fmt, demo_d._FORMAT_SPEC["long-form"])
+    return ClaudeAgentOptions(
+        model="claude-sonnet-4-6", effort="medium",
+        system_prompt=intent_agent.build_scope_system_prompt(module, fmt, spec),
+        mcp_servers={MCP_SERVER_NAME: demo_mcp_server},
+        allowed_tools=_SCOPE_TOOLS, disallowed_tools=_DISALLOWED,
+        tools=[], max_turns=20,
+    )
+
+
+async def _stream_from_scope(module: str, fmt: str, sections_plan: list[dict], topic: str):
+    """Generate from a CONFIRMED scope outline — the back half of _stream_celld,
+    minus the transcript planner. The outline IS the plan."""
+    _ensure_fixture(module)
+    rid = prod._resource_id(module, fmt)
+    log_path = prod.LOGS / f"{rid}.jsonl"
+
+    def log(k, p):
+        with log_path.open("a", encoding="utf-8") as f:
+            f.write(json.dumps({"k": k, "p": p}, ensure_ascii=False) + "\n")
+
+    yield prod._sse_event("start", {"resource_id": rid, "module": module, "template": fmt, "source": "intent-scope"})
+    budget = _FORMAT_BUDGET.get(fmt, _FORMAT_BUDGET["long-form"])
+    all_keys = [k for s in sections_plan for k in s.get("ticket_keys", [])]
+    registry, by_ticket = build_registry(all_keys)
+    yield prod._sse_event("text", {"text":
+        f"Confirmed scope: {len(sections_plan)} sections from {len(set(all_keys))} tickets "
+        f"({len(registry)} citable verbatim quotes). Writing sections in parallel…\n"})
+    log("scope_confirmed", {"sections": len(sections_plan), "spans": len(registry)})
+
+    sem = asyncio.Semaphore(4)
+
+    async def _idx(i, s):
+        return i, await write_section(s, registry, by_ticket, module, sem, budget=budget)
+
+    tasks = [asyncio.create_task(_idx(i, s)) for i, s in enumerate(sections_plan)]
+    ordered: list = [None] * len(tasks)
+    for fut in asyncio.as_completed(tasks):
+        i, sec = await fut
+        ordered[i] = sec
+        yield prod._sse_event("text", {"text": f"  ✓ {sec['title']}  ({sec['secs']:.0f}s)\n"})
+
+    html, asm = assemble(module, ordered, registry)
+    integ = validate_citations(html)
+    cost = pricing.cost_of([s.get("usage") for s in ordered])
+
+    (prod.DRAFTS / f"{rid}.html").write_text(html, encoding="utf-8")
+    draft_meta = {
+        "id": rid, "status": "draft", "module": module, "template": fmt,
+        "transcript_id": None, "transcript_filename": None,
+        "created_at": datetime.now().isoformat(timespec="seconds"),
+        "demo": True, "method": "scope+registry", "source": "intent-scope", "topic": topic,
+        "citation_integrity": {"verified": integ["ok"], "tier_lie": integ["tier_lie"],
+                               "not_found": integ["quote_not_found"], "invalid_cite_id": asm["invalid_cite_id"]},
+        "cost_usd": cost["cost_usd"], "cost": cost,
+    }
+    (prod.DRAFTS / f"{rid}.json").write_text(json.dumps(draft_meta, indent=2), encoding="utf-8")
+    _deterministic_eval(rid, html)  # write eval.json so the verdict is on file (no transcript needed)
+    yield prod._sse_event("text", {"text":
+        f"\nAssembled. {integ['ok']} claims verified against their sources; tier issues={integ['tier_lie']}, "
+        f"unverifiable={integ['quote_not_found']}, broken references={asm['invalid_cite_id']}.\n"})
+    yield prod._sse_event("done", {"resource_id": rid, "status": "draft", **draft_meta})
+
+
+@app.post("/intent/resolve")
+async def intent_resolve(payload: dict = Body(...)):
+    """Stage 1 (module + intent) → Stage 2 (fixture-scoped scope search). Returns a
+    ScopeProposal, a clarifying question, or a refusal. Asks rather than guessing on
+    ambiguity — the primary defense against silent wrong-module grounding."""
+    request = (payload.get("request") or "").strip()
+    if not request:
+        raise HTTPException(400, "request is required")
+    history = payload.get("history") or ""
+    mods = sorted(AVAILABLE_MODULES)
+
+    try:
+        rtext, rusage = await _run_text(
+            intent_agent.build_resolver_prompt(request, mods, history),
+            intent_agent.build_resolver_options())
+    except Exception as e:
+        raise HTTPException(502, f"resolver failed: {e}")
+    r = intent_agent.parse_json(rtext) or {}
+
+    if r.get("refused"):
+        _log_review_decision({"action": "intent_resolve", "outcome": "refused",
+                              "request": request, "reason": r.get("refused_reason")})
+        return JSONResponse({"stage": "refused", "reason": r.get("refused_reason")
+                             or "No grounded data for that area yet.", "available_modules": mods})
+    module = r.get("module")
+    if r.get("ambiguous") or not module or module not in AVAILABLE_MODULES:
+        q = r.get("clarifying_question") or "Which product module should this cover?"
+        _log_review_decision({"action": "intent_resolve", "outcome": "clarify",
+                              "request": request, "question": q})
+        return JSONResponse({"stage": "clarify", "question": q, "available_modules": mods})
+
+    fmt = r.get("format") if r.get("format") in demo_d.VALID_FORMATS else "long-form"
+    topic = r.get("topic") or request
+    depth = r.get("depth") or ""
+    _ensure_fixture(module)
+    prompt = (f"The user wants a {fmt} guide about: {topic}\n"
+              f"Research the {module} Jira (module-scoped) and produce the section outline. Emit ONLY the JSON.")
+    try:
+        stext, susage = await _run_text(prompt, _scope_search_options(module, fmt))
+    except Exception as e:
+        raise HTTPException(502, f"scope search failed: {e}")
+    s = intent_agent.parse_json(stext) or {}
+    cost = pricing.cost_of([rusage, susage])
+
+    if not s.get("supported", True) or not s.get("sections"):
+        _log_review_decision({"action": "intent_resolve", "outcome": "unsupported",
+                              "request": request, "module": module, "note": s.get("note")})
+        return JSONResponse({"stage": "unsupported", "module": module,
+                             "note": s.get("note") or "No supporting tickets for that topic in this module.",
+                             "cost_usd": cost["cost_usd"]})
+
+    keys = sorted({k for sec in s["sections"] for k in sec.get("ticket_keys", [])})
+    _log_review_decision({"action": "intent_resolve", "outcome": "scope_proposed", "module": module,
+                          "request": request, "topic": topic, "format": fmt,
+                          "sections": len(s["sections"]), "ticket_keys": keys,
+                          "assumed_format": bool(r.get("assumed_format")), "cost_usd": cost["cost_usd"]})
+    return JSONResponse({"stage": "scope", "cost_usd": cost["cost_usd"], "scope": {
+        "module": module, "format": fmt, "depth": depth, "topic": topic,
+        "assumed_format": bool(r.get("assumed_format")), "sections": s["sections"]}})
+
+
+@app.post("/intent/confirm")
+async def intent_confirm(payload: dict = Body(...)):
+    """Hand a confirmed scope to the pipeline. Output is a draft, subject to the same
+    review → edit → triage → re-gate → approve flow as any other guide."""
+    scope = payload.get("scope") or {}
+    module = scope.get("module")
+    fmt = scope.get("format") if scope.get("format") in demo_d.VALID_FORMATS else "long-form"
+    sections = scope.get("sections") or []
+    if module not in AVAILABLE_MODULES:
+        raise HTTPException(400, f"unknown/missing module: {module}")
+    if not sections:
+        raise HTTPException(400, "scope has no sections")
+    return EventSourceResponse(_stream_from_scope(module, fmt, sections, scope.get("topic", "")))
+
+
+# ── POST /resources/{rid}/revise — AI-assisted edit (the human review loop) ───
+# Reviewer describes a change in plain English. An edit agent emits targeted
+# find/replace ops that NEVER touch <!-- Source --> citations; we apply them,
+# re-run the deterministic grounding gate (free), and a triage agent classifies
+# the edit stylistic vs substantive so stylistic tweaks approve fast and
+# substantive ones get flagged. An edit un-approves the doc (must re-approve).
+@app.post("/resources/{rid}/revise")
+async def revise_resource(rid: str, payload: dict = Body(...)):
+    instruction = (payload.get("instruction") or "").strip()
+    if not instruction:
+        raise HTTPException(400, "instruction is required")
+
+    resolved = prod._resolve_resource(rid)
+    if not resolved:
+        raise HTTPException(404, "resource not found")
+    html_path, meta_path, _status = resolved
+    meta = prod._read_meta(meta_path) or {}
+    module = meta.get("module")
+    fmt = meta.get("template", "?")
+    if module:
+        _ensure_fixture(module)  # grounding re-check must use this draft's module fixture
+    t_text = _transcript_text_for(meta)  # for transcript-only drafts: verify spans verbatim
+    raw_html = html_path.read_text(encoding="utf-8")
+
+    # 1) Edit agent → find/replace ops (no whole-doc rewrite, no citation edits)
+    try:
+        edit_text, edit_usage = await _run_text(
+            revise.build_edit_prompt(raw_html, instruction, fmt, module or "?"),
+            revise.build_edit_options(),
+        )
+    except Exception as e:
+        raise HTTPException(502, f"edit agent failed: {e}")
+    edit_json = revise.parse_json(edit_text) or {}
+
+    if edit_json.get("refused"):
+        refusal_kind = edit_json.get("refusal_kind") or "none"
+        refusal_reason = edit_json.get("refusal_reason") or edit_json.get("notes") or "The edit was refused."
+        _log_review_decision({
+            "rid": rid, "module": module, "template": fmt, "action": "revise",
+            "instruction": instruction, "outcome": "refused",
+            "refusal_kind": refusal_kind, "refusal_reason": refusal_reason,
+        })
+        return JSONResponse({
+            "rid": rid, "changed": False, "refused": True,
+            "refusal_kind": refusal_kind, "refusal_reason": refusal_reason,
+            "applied": [], "skipped": [],
+        })
+
+    ops = edit_json.get("ops") or []
+    new_html, applied, skipped = revise.apply_ops(raw_html, ops)
+    changed = bool(applied) and new_html != raw_html
+
+    # 2) Deterministic grounding re-check — ALWAYS, free, non-negotiable backstop.
+    integ = validate_citations(new_html, transcript_text=t_text)
+    invalid = new_html.count("INVALID_CITE_ID")
+    violations = integ["tier_lie"] + integ["quote_not_found"] + invalid
+    verdict = "pass" if violations == 0 else "fail"
+    integrity = {"verified": integ["ok"], "tier_lie": integ["tier_lie"],
+                 "not_found": integ["quote_not_found"], "invalid_cite_id": invalid}
+
+    # 3) Triage agent → does this edit need a closer (substantive) human look?
+    triage = {"classification": "stylistic", "reason": "No operations were applied.", "confidence": 1.0}
+    triage_usage = None
+    if applied:
+        try:
+            triage_text, triage_usage = await _run_text(
+                revise.build_triage_prompt(instruction, applied),
+                revise.build_triage_options(),
+            )
+            parsed = revise.parse_json(triage_text)
+        except Exception:
+            parsed = None
+        if parsed and parsed.get("classification") in ("stylistic", "substantive"):
+            triage = parsed
+        else:
+            triage = {"classification": "substantive",
+                      "reason": "Triage output could not be parsed — defaulting to substantive (safe).",
+                      "confidence": 0.0}
+
+    cost = pricing.cost_of([edit_usage, triage_usage])
+
+    if changed:
+        ts = datetime.now().strftime("%Y%m%d-%H%M%S")
+        # Audit backup in a subdir so it is NOT picked up by the *.html resource glob.
+        backup_dir = prod.DRAFTS / "_pre_edit"
+        backup_dir.mkdir(exist_ok=True)
+        (backup_dir / f"{rid}-{ts}.html").write_text(raw_html, encoding="utf-8")
+        html_path.write_text(new_html, encoding="utf-8")
+
+        _deterministic_eval(rid, new_html, transcript_text=t_text)  # refresh drafts/<rid>.eval.json
+        meta["citation_integrity"] = integrity
+        # An edit re-opens review: an approved guide drops back to draft until re-approved.
+        if meta.get("approved"):
+            meta["approved"] = False
+            meta["status"] = "draft"
+            meta.pop("approved_at", None)
+            meta.pop("status_label", None)
+        meta.setdefault("edit_history", []).append({
+            "at": datetime.now().isoformat(timespec="seconds"),
+            "instruction": instruction,
+            "applied": len(applied), "skipped": len(skipped),
+            "classification": triage.get("classification"),
+            "reason": triage.get("reason"),
+            "verdict": verdict,
+            "cost_usd": cost["cost_usd"],
+        })
+        meta_path.write_text(json.dumps(meta, indent=2), encoding="utf-8")
+
+    _log_review_decision({
+        "rid": rid, "module": module, "template": fmt, "action": "revise",
+        "instruction": instruction,
+        "outcome": "applied" if changed else "no_change",
+        "ops_applied": len(applied), "ops_skipped": len(skipped),
+        "ops": _trunc_ops(applied), "skipped": [{"why": s.get("why"), "find": s.get("find", "")[:80]} for s in skipped[:8]],
+        "triage": triage, "verdict": verdict, "integrity": integrity,
+        "cost_usd": cost["cost_usd"],
+    })
+
+    return JSONResponse({
+        "rid": rid, "changed": changed, "refused": False,
+        "applied": applied, "skipped": skipped,
+        "notes": edit_json.get("notes", ""),
+        "integrity": integrity, "verdict": verdict,
+        "triage": triage,
+        "needs_closer_review": triage.get("classification") == "substantive",
+        "html": prod._strip_source_comments(new_html), "raw_html": new_html,
+        "cost_usd": cost["cost_usd"],
+    })
+
+
+# ── POST /resources/{rid}/approve — the human gate INTO the Library ───────────
+# Approval is the human floor on top of the machine grounding floor. Only an
+# approved resource appears in the Library. Grounding must be clean to approve.
+@app.post("/resources/{rid}/approve")
+async def approve_resource(rid: str):
+    resolved = prod._resolve_resource(rid)
+    if not resolved:
+        raise HTTPException(404, "resource not found")
+    html_path, meta_path, _status = resolved
+    meta = prod._read_meta(meta_path) or {}
+
+    # Machine floor: re-validate LIVE against the current fixture (don't trust a
+    # possibly-stale stored integrity — the gate must reflect ground truth now).
+    if meta.get("module"):
+        _ensure_fixture(meta["module"])
+    raw_html = html_path.read_text(encoding="utf-8")
+    integ = validate_citations(raw_html, transcript_text=_transcript_text_for(meta))
+    invalid = raw_html.count("INVALID_CITE_ID")
+    ci = {"verified": integ["ok"], "tier_lie": integ["tier_lie"],
+          "not_found": integ["quote_not_found"], "invalid_cite_id": invalid}
+    violations = ci["tier_lie"] + ci["not_found"] + ci["invalid_cite_id"]
+    if violations > 0:
+        _log_review_decision({
+            "rid": rid, "module": meta.get("module"), "template": meta.get("template"),
+            "action": "approve", "outcome": "approve_blocked", "integrity": ci,
+        })
+        raise HTTPException(409, detail={
+            "error": "grounding_not_clean",
+            "message": "Cannot approve: the grounding gate has violations. "
+                       "Fix grounding (or revise) before approving.",
+            "citation_integrity": ci,
+        })
+    meta["citation_integrity"] = ci  # refresh with the live result
+
+    meta["status"] = "approved"
+    meta["status_label"] = "Approved · in Library"
+    meta["approved"] = True
+    meta["available"] = True
+    meta["approved_at"] = datetime.now().isoformat(timespec="seconds")
+    meta_path.write_text(json.dumps(meta, indent=2), encoding="utf-8")
+    _log_review_decision({
+        "rid": rid, "module": meta.get("module"), "template": meta.get("template"),
+        "action": "approve", "outcome": "approved", "integrity": ci,
+    })
+    return meta
+
+
+# ── GET /review-log — the review-loop decision audit trail ────────────────────
+# Every edit/approve decision (applied, refused, no_change, approved, blocked).
+# Filter by ?rid= for one resource. The substrate for auditing appropriateness
+# and for mining real-traffic cases into the triage/scope evals.
+@app.get("/review-log")
+async def review_log(rid: str | None = None, limit: int = 200):
+    p = prod.LOGS / "review-decisions.jsonl"
+    if not p.exists():
+        return JSONResponse({"entries": [], "total": 0})
+    entries = []
+    for line in p.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            e = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if rid and e.get("rid") != rid:
+            continue
+        entries.append(e)
+    # quick tallies so an auditor sees the shape at a glance
+    counts: dict[str, int] = {}
+    for e in entries:
+        counts[e.get("outcome", "?")] = counts.get(e.get("outcome", "?"), 0) + 1
+    return JSONResponse({"total": len(entries), "counts": counts, "entries": entries[-limit:]})
+
+
 # ── DELETE /resources/{rid} — remove a guide + its metadata + eval ────────────
 @app.delete("/resources/{rid}")
 async def delete_resource(rid: str):
@@ -644,6 +1627,12 @@ async def delete_resource(rid: str):
                     removed.append(p.name)
                 except OSError:
                     pass
+    for bak in (prod.DRAFTS / "_pre_edit").glob(f"{rid}-*.html"):  # AI-edit audit backups
+        try:
+            bak.unlink()
+            removed.append(bak.name)
+        except OSError:
+            pass
     log_path = prod.LOGS / f"{rid}.jsonl"
     if log_path.exists():
         try:
@@ -658,4 +1647,15 @@ async def delete_resource(rid: str):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("demo_app:app", host="127.0.0.1", port=8001, reload=False)
+    # Windows: the Claude Agent SDK spawns the `claude` CLI as a child process,
+    # which REQUIRES the ProactorEventLoop. If uvicorn ends up on a
+    # SelectorEventLoop (its win32 choice in some configs), every generation dies
+    # with "Claude Code not found" because Selector can't spawn subprocesses on
+    # Windows. Force a Proactor loop and run uvicorn's server inside it so the
+    # loop type is deterministic regardless of uvicorn's own factory choice.
+    if sys.platform == "win32":
+        asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
+        config = uvicorn.Config("demo_app:app", host="127.0.0.1", port=8001, reload=False, loop="asyncio")
+        asyncio.run(uvicorn.Server(config).serve())
+    else:
+        uvicorn.run("demo_app:app", host="127.0.0.1", port=8001, reload=False)

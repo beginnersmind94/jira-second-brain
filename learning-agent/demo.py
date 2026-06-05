@@ -96,6 +96,31 @@ def _ok(text: str) -> dict:
     return {"content": [{"type": "text", "text": text}]}
 
 
+def _resolve_issue(raw: str) -> tuple[str, dict | None, str]:
+    """Canonicalize an issue/epic identifier and resolve it against the fixture.
+
+    The CSV `Parent` column exports the parent's *internal numeric ID* (e.g.
+    `105530`), not its issue key (`NXT-64788`), so tickets reference parents by a
+    bare number while the agent reasonably normalizes to the project key form
+    (`NXT-105530`). Identifier resolution is the TOOL's job (deterministic), not
+    the model's — so we accept either form and canonicalize here.
+
+    Returns (resolved_key, record_or_None, kind) with kind in {"ticket","epic",""}.
+    """
+    k = (raw or "").strip().upper()
+    candidates = [k]
+    if k.startswith("NXT-"):
+        candidates.append(k[4:])             # NXT-105530 -> 105530 (bare internal id)
+    elif k.lstrip("-").isdigit():
+        candidates.append("NXT-" + k)        # 105530 -> NXT-105530 (project-key form)
+    for c in candidates:
+        if c in _FIX.get("tickets", {}):
+            return c, _FIX["tickets"][c], "ticket"
+        if c in _FIX.get("epics", {}):
+            return c, _FIX["epics"][c], "epic"
+    return k, None, ""
+
+
 def _slug(text: str) -> str:
     """Mirror app.py._slug so resource ids match the Library's expectations."""
     s = re.sub(r"[^a-zA-Z0-9\-]+", "-", text).strip("-").lower()
@@ -229,10 +254,13 @@ async def search_kb(args):
     {"issue_key": str},
 )
 async def read_ticket(args):
-    key = args["issue_key"].strip().upper()
-    rec = _FIX["tickets"].get(key) or _FIX["epics"].get(key)
+    key, rec, _kind = _resolve_issue(args["issue_key"])  # canonicalize NXT-<n> <-> <n>
     if rec is None:
-        return _ok(f"ERROR: issue {key} not found.")
+        return _ok(
+            f"NOTE: issue '{args['issue_key']}' is not in this module's offline fixture. "
+            f"It may belong to another module or be referenced only by internal ID. "
+            f"Skip it and continue with the tickets you have — do not retry with a prefix variant."
+        )
 
     comps = ", ".join(rec.get("components", [])) or "-"
     ac_text = rec.get("ac", "")
@@ -243,10 +271,24 @@ async def read_ticket(args):
     epic_key = rec.get("epic_key", "-")
     epic_sum = rec.get("epic_summary", "")
 
+    # Poka-yoke: only point the agent at read_epic when the parent actually resolves
+    # to an epic in THIS fixture. A parent referenced by internal ID / from another
+    # module that won't resolve is shown as context-only — never advertise a dead-end call.
+    epic_line = f"Epic: {epic_key}" + (f" — {epic_sum}" if epic_sum else "")
+    if epic_key and epic_key != "-":
+        _pk, _prec, _pkind = _resolve_issue(epic_key)
+        if _prec is not None and _pkind == "epic":
+            if any(_prec.get(f) for f in ("ac", "rn", "rn_internal", "desc")):
+                epic_line += "  (call read_epic for epic AC/RN + sibling stories)"
+            else:
+                epic_line += "  (call read_epic for sibling stories; this epic carries no AC/RN here)"
+        else:
+            epic_line += "  (parent reference only — not separately fetchable in this module; cite the ticket, not the epic)"
+
     parts = [
         f"{key} | [{rec.get('status', '?')}] [{rec.get('issuetype', '?')}] [P:{rec.get('priority', '-')}] {rec.get('summary', '')}",
         f"Module: {rec.get('module', '-')}  |  components: {comps}  |  RN Required: {rec.get('rn_required', '-')}",
-        f"Epic: {epic_key}" + (f" — {epic_sum}" if epic_sum else "") + "  (call read_epic for full epic context + sibling tickets)",
+        epic_line,
         "",
         "CITATION TOKENS — quote ONLY from the blocks below, and copy the EXACT "
         f"[[{key}:TIER]] token shown for the block you quoted into your "
@@ -271,17 +313,24 @@ async def read_ticket(args):
     {"epic_key": str},
 )
 async def read_epic(args):
-    key = args["epic_key"].strip().upper()
-    epic = _FIX["epics"].get(key)
-    if epic is None:
-        # Mirror prod: a non-epic key still returns, with a warning.
-        rec = _FIX["tickets"].get(key)
-        if rec is None:
-            return _ok(f"ERROR: epic {key} not found.")
+    raw = args["epic_key"]
+    key, rec, kind = _resolve_issue(raw)  # canonicalize NXT-<n> <-> <n>
+    if rec is None:
+        # Actionable, NON-BLOCKING guidance — not an opaque "not found".
+        return _ok(
+            f"NOTE: epic '{raw}' is not in this module's offline fixture. This usually "
+            f"means the parent epic lives outside the captured module, or is referenced "
+            f"only by an internal ID with no exported epic row. This is NON-BLOCKING and "
+            f"expected — do NOT retry with a different prefix. Proceed with the child "
+            f"tickets you already have: call read_ticket on their keys and cite those. "
+            f"Epics rarely carry Acceptance Criteria anyway."
+        )
+    if kind == "ticket":
         return _ok(
             f"WARNING: {key} is not an Epic (it's {rec.get('issuetype', '?')}). "
             f"Returning what we got, but the children list may be empty — only Epics group stories."
         )
+    epic = rec
 
     e_ac = epic.get("ac", "")
     e_rn = epic.get("rn", "")
@@ -544,6 +593,10 @@ SOURCE_COMMENT_RE = re.compile(r"<!--\s*Source:[\s\S]*?-->")
 # Re-checks every [[NXT-####:TIER]] token against the real fixture field. No LLM:
 # string-matching against ground truth is strictly better for exact-quote tiering.
 _TOKEN_RE = re.compile(r"\[\[(NXT-\d+):(AC|RN|RNINT|DESC)\]\]")
+# Transcript-only mode: the source is a verbatim span of the SME transcript, not a
+# Jira field. The token carries the span index (T####); the gate re-verifies the
+# quote appears verbatim in the transcript text (passed by the caller).
+_TRANSCRIPT_TOKEN_RE = re.compile(r"\[\[(TRANSCRIPT):(T\d+)\]\]")
 _QUOTE_RE = re.compile(r"[\"“]([^\"”]{6,})[\"”]")
 _FIELD_BY_TIER = {"AC": "ac", "RN": "rn", "RNINT": "rn_internal", "DESC": "desc"}
 
@@ -552,12 +605,52 @@ def _norm(s: str) -> str:
     return re.sub(r"\s+", " ", s or "").strip().lower()
 
 
-def validate_citations(html: str) -> dict:
-    """Verify every tier token against ground-truth fields. Returns an integrity report."""
+def sanitize_span(s: str) -> str:
+    """Make a raw source span safe to embed inside an HTML `<!-- Source: "…" -->`
+    comment and inside a double-quoted citation. Collapses internal newlines,
+    neutralizes double/smart quotes (so _QUOTE_RE can't be truncated) and any
+    `-->` that would prematurely close the comment. Applied IDENTICALLY at
+    registry-build time and at verify time, so the verbatim check stays exact."""
+    s = re.sub(r"\s*\n\s*", " ", (s or "").strip())
+    s = s.replace("“", "'").replace("”", "'").replace('"', "'")
+    s = s.replace("-->", "—>")
+    return s
+
+
+def _norm_span(s: str) -> str:
+    """Normalize a span the same way on both sides of the transcript verbatim check."""
+    return _norm(sanitize_span(s))
+
+
+def validate_citations(html: str, transcript_text: str = "") -> dict:
+    """Verify every tier token against ground-truth fields. Returns an integrity report.
+
+    Jira tokens ([[NXT-####:TIER]]) are checked against the fixture field for that
+    tier. Transcript tokens ([[TRANSCRIPT:T####]], emitted only in transcript-only
+    mode) are checked verbatim against `transcript_text` — pass the uploaded
+    transcript so they can be verified; absent it they fail closed (quote_not_found),
+    never silently pass."""
     rpt = {"total": 0, "tokened": 0, "ok": 0, "tier_lie": 0, "quote_not_found": 0,
            "untokened_ticket": 0, "transcript": 0, "violations": []}
+    hay = _norm_span(transcript_text) if transcript_text else ""
     for cm in re.findall(r"<!--\s*Source:([\s\S]*?)-->", html):
         rpt["total"] += 1
+        # Transcript-only source: verbatim span of the uploaded transcript.
+        ttok = _TRANSCRIPT_TOKEN_RE.search(cm)
+        if ttok:
+            rpt["tokened"] += 1
+            rpt["transcript"] += 1
+            qm = _QUOTE_RE.search(cm)
+            if not qm:
+                rpt["violations"].append(("TRANSCRIPT", ttok.group(2), "no-quote", ""))
+                continue
+            quote = _norm_span(qm.group(1))
+            if quote and hay and quote in hay:
+                rpt["ok"] += 1
+            else:
+                rpt["quote_not_found"] += 1
+                rpt["violations"].append(("TRANSCRIPT", ttok.group(2), "quote_not_found", qm.group(1)[:60]))
+            continue
         tok = _TOKEN_RE.search(cm)
         if not tok:
             if re.search(r"transcript", cm, re.I):

@@ -1,0 +1,85 @@
+{
+  "_comment": "Adversarial fixture for the question-bank gate. Spans are AUTHORED test data (public-standard facts phrased here), not source reproductions. Each case is self-contained: a question + the candidate spans it could cite. The gate must reach `expect` for each.",
+  "cases": [
+    {
+      "name": "clean_compliance_pass",
+      "expect": "pass",
+      "why": "lane matches, quote is verbatim, and the quote supports the answer",
+      "question": {
+        "lane": "compliance",
+        "stem": "What is the minimum hot-holding temperature for hot foods?",
+        "options": ["125°F", "135°F", "145°F", "165°F"],
+        "correct_index": 1,
+        "cite_span_id": "compliance:icn-fs:p12:01",
+        "quote": "held at 135°F or higher"
+      },
+      "spans": [
+        {"span_id": "compliance:icn-fs:p12:01", "lane": "compliance", "text": "Hot foods must be held at 135°F or higher to remain safe for service."}
+      ]
+    },
+    {
+      "name": "semantic_inversion_fail",
+      "expect": "fail",
+      "why": "verbatim + lane PASS, but the quote states a MINIMUM and the stem asks the MAXIMUM — only the semantic judge can catch this",
+      "question": {
+        "lane": "compliance",
+        "stem": "What is the maximum safe temperature at which hot food may be held?",
+        "options": ["135°F", "145°F", "165°F", "There is no maximum hold temperature"],
+        "correct_index": 0,
+        "cite_span_id": "compliance:icn-fs:p12:01",
+        "quote": "held at 135°F or higher"
+      },
+      "spans": [
+        {"span_id": "compliance:icn-fs:p12:01", "lane": "compliance", "text": "Hot foods must be held at 135°F or higher to remain safe for service."}
+      ]
+    },
+    {
+      "name": "cross_lane_fail",
+      "expect": "fail",
+      "why": "THE KEYSTONE: a PRODUCT (POS) question citing a COMPLIANCE span that merely shares the word 'item'. Must fail lane-match with zero model calls.",
+      "question": {
+        "lane": "product",
+        "stem": "In the POS, how does a cashier void an item after payment is complete?",
+        "options": ["Press Void on the Sales screen", "Restart the terminal", "Call the vendor", "Delete the student record"],
+        "correct_index": 0,
+        "cite_span_id": "compliance:icn-fs:p04:02",
+        "quote": "discard any food item"
+      },
+      "spans": [
+        {"span_id": "compliance:icn-fs:p04:02", "lane": "compliance", "text": "Discard any food item left in the temperature danger zone for more than four hours."}
+      ]
+    },
+    {
+      "name": "fabricated_quote_fail",
+      "expect": "fail",
+      "why": "lane matches but the quote is not present in the cited span — fabricated/hallucinated quote, caught deterministically",
+      "question": {
+        "lane": "compliance",
+        "stem": "Within how long must food be cooled from 135°F to 70°F?",
+        "options": ["1 hour", "2 hours", "4 hours", "6 hours"],
+        "correct_index": 1,
+        "cite_span_id": "compliance:icn-fs:p12:01",
+        "quote": "cool food from 135°F to 70°F within two hours"
+      },
+      "spans": [
+        {"span_id": "compliance:icn-fs:p12:01", "lane": "compliance", "text": "Hot foods must be held at 135°F or higher to remain safe for service."}
+      ]
+    },
+    {
+      "name": "clean_product_pass",
+      "expect": "pass",
+      "why": "product-lane question, verbatim quote from a product span, quote supports the answer",
+      "question": {
+        "lane": "product",
+        "stem": "What is required to void a completed transaction at the POS?",
+        "options": ["Nothing", "A manager PIN", "A refund form", "A district override"],
+        "correct_index": 1,
+        "cite_span_id": "product:NXT-41873:AC:01",
+        "quote": "a manager PIN is required"
+      },
+      "spans": [
+        {"span_id": "product:NXT-41873:AC:01", "lane": "product", "text": "Cashiers can void a completed transaction from the Sales screen using the Void button; a manager PIN is required to confirm."}
+      ]
+    }
+  ]
+}

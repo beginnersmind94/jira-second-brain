@@ -148,6 +148,30 @@ The mandate: a demo good enough to show leadership on Thursday, on a credible pa
 
 ---
 
+## Decision Point 11 — The review gate: approve, edit, and a router that can't weaken grounding
+
+**Situation.** The machine grounding gate proved a guide was *provably grounded*, but the demo still *auto-released* every passing draft into the Library stamped "Pending Review by SME" — a label, not a step. The team wanted the human sign-off to be real: a reviewer should read the guide and either **approve** it or **offer edits** *before* it reaches the Library. Two design forks opened immediately: how should "offer edits" work without re-opening the door to hallucination, and should a new agent decide whether an edit needs re-checking?
+
+**The temptation.** Ship a free-form rich-text editor ("let them just fix it") and add a full reviewing *agent* that re-reads the whole guide after every edit to decide if it's still fine.
+
+**The decision.** Three moves, each chosen to keep correctness a property of the *system*, not the *model*:
+
+1. **Approve is the only gate into the Library.** The deterministic grounding gate is the *machine floor* (a draft can't be reviewed until every citation is verbatim and correctly-tiered); a human approval is the *floor into the Library*. Unapproved drafts never appear there — they sit in an "Awaiting review" queue. This is the textbook **"validating" approval gate** for medium-stakes, reversible content: single approver, others get visibility not approval rights, so the gate never silently becomes a queue.
+
+2. **Edits are AI-assisted, and structurally can't break grounding.** "Offer edits" is a plain-English instruction, not a text box. An **edit agent** emits targeted find/replace ops and is *barred from touching the `<!-- Source -->` citations or inventing uncited facts* (it refuses, or inserts a `[TO VERIFY]` marker — never a fabricated citation). Critically, the **deterministic grounding gate re-runs after every edit** (it's free), so an edit that breaks a citation is caught and blocks approval. The verbatim quotes live *inside* the citation comments the agent can't touch — so a reworded paragraph is safe *by construction*, exactly as generation is.
+
+3. **The edit-triage "agent" is a classifier, not an agent — and advisory only.** A lightweight router tags each edit `stylistic` (wording/format — fast-path to approve) or `substantive` (a claim, number, label, or step may have changed — read it closely), defaulting to `substantive` when unsure. This is Anthropic's **"routing" workflow** — "find the simplest solution possible, and only increase complexity when needed," because "agentic systems often trade latency and cost for better task performance." A full agent here would re-introduce the non-determinism and latency the project spent ten decision points removing. The router can only send an edit for an *extra* check; it can **never** skip the grounding gate.
+
+**The reframe that settled it.** The worry was "won't re-checking every stylistic tweak slow the product?" But the grounding gate is *deterministic and free*, so it always runs; the classifier doesn't gate it — it only decides whether a human should look harder. Speed is gained on safe edits without ever letting the router weaken the guarantee. And because the whole gate sits *downstream* of the generator, it doesn't touch what the regression suite measures.
+
+**The one honest gap.** The router is advisory, but it can still mislabel. The dangerous direction is **under-triggering** — calling a substantive edit "stylistic." The fix (per "Demystifying evals") is the router's *own* balanced eval (~20–50 real stylistic-vs-substantive edits, with an always-"substantive" baseline that must fail the stylistic half), tracking under-trigger rate as the gated metric. That eval is specced, not yet built — logged as the next step, not hidden.
+
+**Lesson.** *A human gate is a product surface, not a label — but the way to add one without slowing the system (or moving your eval scores) is to keep the new judgment advisory and deterministic where it matters.* Approve is a real blocking step; edits ride the same ground-by-construction rails as generation; the router is the simplest classifier that works. The moat held: even a human-requested AI edit cannot represent a mis-citation.
+
+> Sources (verified by direct read): Anthropic, *Building Effective AI Agents* (routing workflow; "simplest solution possible"; latency/cost trade-off). Anthropic, *Demystifying evals for AI agents* (evals run without affecting prod users; over/under-trigger risk; balanced eval sets). A governance treatment of agentic approval gates (the four-gate framework; the "validating" gate; single-approver + async SLA; the review-becomes-a-queue failure mode).
+
+---
+
 ## Outcomes
 
 | Dimension | Start | End |
@@ -155,6 +179,8 @@ The mandate: a demo good enough to show leadership on Thursday, on a credible pa
 | Long-form generation | 522s, 74K chars, over-stuffed | ~260s, complete, scannable |
 | Cardinal-sin citations | systematic (all guides) | **0 — impossible by construction** |
 | Grounding verification | none | deterministic gate, 15/15 regression, logged |
+| Human review | none (passing drafts auto-released as a "Pending" *label*) | **approval is a real gate INTO the Library**; unapproved drafts held in an "Awaiting review" queue |
+| Editing a draft | none | AI-assisted edits that **can't break grounding** (gate re-runs every edit); advisory stylistic/substantive router |
 | Formats | 1 unreliable | 4 (long-form, micro, TLDR, release notes) |
 | Modules supported | 1 (silent wrong-module risk) | 7, with real module filtering |
 | Cost visibility | none | per-run cost, surfaced + logged (~$1/long-form) |
@@ -183,6 +209,7 @@ The mandate: a demo good enough to show leadership on Thursday, on a credible pa
 6. **The silent failure is the dangerous one.** Make the system crash honestly rather than pass confidently on wrong data.
 7. **Decide the workflow fact first.** "SME-reviewed vs auto-published" determined whether live freshness was required at all.
 8. **Reuse the assets you already have.** The CSV and the second-brain wiki were the same lineage as the raw feed — leverage beat rebuild.
+9. **A human gate is a step, not a label — and the new judgment should stay advisory.** Make approval actually block entry to the Library; route edits with the simplest classifier that works (not another agent); and keep the deterministic gate, not the router, as the thing that protects grounding. Add agency only where the task is genuinely open-ended.
 
 ---
 
@@ -193,6 +220,7 @@ The mandate: a demo good enough to show leadership on Thursday, on a credible pa
 3. Live data is fresher but riskier; cached data is reliable but can go stale. Given an SME reviews every output, was deferring live Jira the right call — and how would the answer change if the guides were auto-published?
 4. The project repeatedly slowed to "do more research" on decisions the team had effectively already made. When does gathering more evidence become a way of avoiding a decision?
 5. Trust was eventually made a visible product surface (the Trust Score, the "Pending SME Review" stamp). Does surfacing uncertainty build credibility with customers, or erode it?
+6. The edit-triage router is *advisory* — it can route an edit for an extra check but can never skip the grounding gate. When is "advisory, with a deterministic backstop" the right ceiling for a model's authority, and when does it just add a step users learn to ignore?
 
 ---
 
