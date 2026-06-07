@@ -1,5 +1,9 @@
 # Learning Content Producer — Operating Instructions
 
+> **New session? Read `HANDOFF.md` first** — current state, the Windows run gotchas
+> (ProactorEventLoop, no big text in system_prompt), the two-copy repo layout, and what's
+> next. Then `docs/REPO-WORKFLOW.md` (pushing) and `docs/NEXT-EVALS-PLAN.md` (evals).
+
 ## Purpose
 Turn training transcripts into structured, fact-checked learning content that staff can use on day one.
 The published learning library is the deliverable. Transcripts are the raw material.
