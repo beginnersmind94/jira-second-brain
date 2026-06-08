@@ -1,0 +1,1530 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Financials 2.0 · Internal Training - Onboarding, Without the Yawn</title>
+<style>
+:root {
+  --ink: #17211f;
+  --muted: #64726f;
+  --paper: #fffdf8;
+  --paper-2: #f4efe5;
+  --line: #d9dfd9;
+  --teal: #0e4b4a;
+  --teal-2: #126463;
+  --gold: #c58a25;
+  --plum: #6b2d47;
+  --blue: #245b82;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: #ece7dd;
+  color: var(--ink);
+  font-family: Aptos, "Segoe UI", Arial, sans-serif;
+  font-size: 10.6pt;
+  line-height: 1.55;
+}
+.page-shell {
+  max-width: 980px;
+  margin: 0 auto;
+  background: var(--paper);
+  box-shadow: 0 18px 70px rgba(24, 35, 31, 0.22);
+}
+.cover {
+  min-height: 9.65in;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0.72in 0.72in 0.62in;
+  color: #fffdf8;
+  background:
+    linear-gradient(135deg, rgba(14, 75, 74, 0.98), rgba(22, 34, 31, 0.98) 52%, rgba(107, 45, 71, 0.94)),
+    linear-gradient(90deg, var(--gold), var(--teal-2));
+  page-break-after: always;
+}
+.cover-topline {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.25in;
+  align-items: center;
+  color: rgba(255, 253, 248, 0.78);
+  font-size: 9pt;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.cover-rule {
+  width: 1.15in;
+  height: 0.08in;
+  margin: 0.42in 0 0.36in;
+  background: var(--gold);
+  border-radius: 99px;
+}
+.cover h1 {
+  margin: 0;
+  max-width: 7.4in;
+  font-size: 40pt;
+  line-height: 0.95;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+.cover h2 {
+  margin: 0.18in 0 0;
+  max-width: 7.5in;
+  color: #f7dca5;
+  font-size: 23pt;
+  line-height: 1.08;
+  font-weight: 650;
+  letter-spacing: 0;
+}
+.cover .deck {
+  margin-top: 0.32in;
+  max-width: 7.25in;
+  color: rgba(255, 253, 248, 0.88);
+  font-size: 13.5pt;
+  line-height: 1.45;
+}
+.cover-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.1in;
+  margin-top: 0.34in;
+}
+.cover-badge {
+  border: 1px solid rgba(255, 253, 248, 0.24);
+  border-radius: 999px;
+  padding: 0.07in 0.14in;
+  background: rgba(255, 253, 248, 0.08);
+  color: rgba(255, 253, 248, 0.9);
+  font-size: 9.5pt;
+}
+.cover-footer {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.25in;
+  align-items: end;
+  color: rgba(255, 253, 248, 0.72);
+  font-size: 9.5pt;
+}
+.cover-footer strong { color: #fffdf8; font-weight: 650; }
+.toc {
+  padding: 0.64in 0.72in;
+  page-break-after: always;
+  background: linear-gradient(180deg, #fffdf8, #fbf8f0);
+}
+.toc h2 {
+  margin: 0 0 0.08in;
+  color: var(--teal);
+  font-size: 24pt;
+  line-height: 1.1;
+}
+.toc p {
+  max-width: 6.9in;
+  margin: 0 0 0.22in;
+  color: var(--muted);
+  font-size: 10.5pt;
+}
+.toc-grid {
+  columns: 2;
+  column-gap: 0.36in;
+}
+.toc-row {
+  break-inside: avoid;
+  display: block;
+  margin: 0 0 0.055in;
+  padding: 0.045in 0 0.045in 0.12in;
+  border-left: 0.035in solid var(--line);
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 9.5pt;
+  line-height: 1.25;
+}
+.toc-level-2 { border-left-color: var(--teal); font-weight: 680; }
+.toc-level-3 { margin-left: 0.14in; color: #44514e; font-size: 8.8pt; }
+.content {
+  padding: 0.12in 0.68in 0.38in;
+}
+.content > :first-child { margin-top: 0; }
+h1, h2, h3, h4 {
+  font-family: Aptos, "Segoe UI", Arial, sans-serif;
+  color: var(--teal);
+  letter-spacing: 0;
+  page-break-after: avoid;
+  break-after: avoid;
+}
+h1 {
+  margin: 0.38in 0 0.18in;
+  padding-bottom: 0.1in;
+  border-bottom: 2px solid var(--gold);
+  font-size: 25pt;
+  line-height: 1.08;
+}
+h2 {
+  margin: 0.34in 0 0.12in;
+  padding-top: 0.05in;
+  font-size: 17.5pt;
+  line-height: 1.16;
+}
+h3 {
+  margin: 0.24in 0 0.08in;
+  color: var(--plum);
+  font-size: 13.2pt;
+  line-height: 1.2;
+}
+h4 {
+  margin: 0.18in 0 0.06in;
+  color: #354340;
+  font-size: 11.2pt;
+}
+p { margin: 0 0 0.11in; }
+a { color: var(--blue); text-decoration-thickness: 0.6px; text-underline-offset: 2px; }
+strong { font-weight: 730; color: #1c2d29; }
+em { color: #3f4a47; }
+ul, ol { margin: 0 0 0.13in 0.24in; padding: 0; }
+li { margin: 0.035in 0; padding-left: 0.02in; }
+li > p { margin: 0.03in 0; }
+hr {
+  border: 0;
+  height: 1px;
+  margin: 0.26in 0;
+  background: linear-gradient(90deg, transparent, var(--line), transparent);
+}
+blockquote {
+  margin: 0.18in 0;
+  padding: 0.16in 0.18in 0.13in;
+  border-left: 0.07in solid var(--gold);
+  background: #fff7e7;
+  color: #26332f;
+  break-inside: avoid;
+}
+blockquote h2, blockquote h3, blockquote h4 {
+  margin-top: 0;
+  color: #74481a;
+}
+blockquote p:last-child { margin-bottom: 0; }
+table {
+  width: 100%;
+  margin: 0.17in 0 0.24in;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 8.25pt;
+  line-height: 1.35;
+  break-inside: auto;
+}
+thead { display: table-header-group; }
+tr { break-inside: avoid; }
+th, td {
+  border: 1px solid var(--line);
+  padding: 0.07in 0.075in;
+  vertical-align: top;
+  overflow-wrap: anywhere;
+}
+th {
+  background: var(--teal);
+  color: #fffdf8;
+  font-weight: 720;
+  text-align: left;
+}
+tbody tr:nth-child(even) td { background: #f7f4ed; }
+tbody tr:nth-child(odd) td { background: #fffdf8; }
+code {
+  font-family: "Cascadia Code", Consolas, monospace;
+  font-size: 0.88em;
+  color: #7a2e43;
+  background: #f3e9ea;
+  border-radius: 4px;
+  padding: 0.02in 0.045in;
+}
+pre.hljs {
+  margin: 0.18in 0;
+  padding: 0.14in;
+  border: 1px solid #d7ddd6;
+  border-radius: 8px;
+  background: #1f2927;
+  color: #f8fbf7;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  break-inside: avoid;
+}
+pre.hljs code {
+  color: inherit;
+  background: transparent;
+  padding: 0;
+  font-size: 8.6pt;
+}
+img { max-width: 100%; }
+.compact-note {
+  margin-top: 0.2in;
+  padding-top: 0.12in;
+  border-top: 1px solid rgba(255, 253, 248, 0.22);
+  color: rgba(255, 253, 248, 0.7);
+  font-size: 8.5pt;
+}
+@media print {
+  body { background: #fff; }
+  .page-shell { max-width: none; margin: 0; box-shadow: none; }
+  .content { padding-left: 0; padding-right: 0; }
+  .cover, .toc { margin-left: -0.02in; margin-right: -0.02in; }
+  a { color: inherit; }
+}
+</style>
+</head>
+<body>
+<main class="page-shell">
+  <section class="cover">
+    <div>
+      <div class="cover-topline"><span>Internal Training</span><span>Financials 2.0</span></div>
+      <div class="cover-rule"></div>
+      <h1>Financials 2.0 · Internal Training</h1>
+      <h2>Onboarding, Without the Yawn</h2>
+      <div class="deck">A jobs-to-be-done guide for the district finance and child-nutrition staff bringing Financials 2.0 online — and for the Cybersoft implementers walking them through it.</div>
+      <div class="cover-badges">
+        <span class="cover-badge">11 Jobs to be Done · 90-Day Cheat Sheet</span>
+        <span class="cover-badge">SchoolCafé · Cybersoft Implementation Team · April 2026 Edition</span>
+        <span class="cover-badge">364 inline source notes</span>
+      </div>
+    </div>
+    <div class="cover-footer">
+      <div><strong>Prepared for implementation and district finance teams</strong><br>Readable field guide, grounded in Jira acceptance criteria.</div>
+      <div>PDF render: Jun 8, 2026</div>
+    </div>
+  </section>
+  <section class="toc">
+    <h2>Contents</h2>
+    <p>Generated from the guide headings so the PDF is easier to scan during onboarding, training, and implementation calls.</p>
+    <div class="toc-grid"><a class="toc-row toc-level-2" href="#what-this-update-covers"><span>What this update covers</span></a>
+<a class="toc-row toc-level-2" href="#who-this-is-for"><span>Who this is for</span></a>
+<a class="toc-row toc-level-2" href="#how-to-read-this-guide"><span>How to read this guide</span></a>
+<a class="toc-row toc-level-2" href="#what-actually-changed-in-2-0-read-this-first-90-seconds"><span>What actually changed in 2.0 (read this first — 90 seconds)</span></a>
+<a class="toc-row toc-level-2" href="#before-you-touch-the-product"><span>Before you touch the product</span></a>
+<a class="toc-row toc-level-2" href="#the-three-kpi-cards-the-top-of-the-page"><span>The three KPI cards (the top of the page)</span></a>
+<a class="toc-row toc-level-2" href="#the-period-selector-top-right"><span>The period selector (top right)</span></a>
+<a class="toc-row toc-level-2" href="#the-trend-arrow-am-i-improving"><span>The trend arrow (am I improving?)</span></a>
+<a class="toc-row toc-level-2" href="#the-site-by-site-table"><span>The site-by-site table</span></a>
+<a class="toc-row toc-level-3" href="#coming-refinements-to-the-site-table"><span>(Coming) Refinements to the site table</span></a>
+<a class="toc-row toc-level-2" href="#what-this-is-not"><span>What this is not</span></a>
+<a class="toc-row toc-level-3" href="#phase-1-subtract-5-minutes"><span>Phase 1 — Subtract (5 minutes)</span></a>
+<a class="toc-row toc-level-3" href="#phase-2-bulk-map-by-section-5-minutes"><span>Phase 2 — Bulk-map by section (5 minutes)</span></a>
+<a class="toc-row toc-level-3" href="#phase-3-override-the-few-that-aren-t-routine-10-minutes"><span>Phase 3 — Override the few that aren&#39;t routine (10 minutes)</span></a>
+<a class="toc-row toc-level-3" href="#phase-4-custom-data-points-only-if-you-need-them"><span>Phase 4 — Custom data points (only if you need them)</span></a>
+<a class="toc-row toc-level-3" href="#phase-5-coming-set-up-valuation-categories-before-any-inventory-can-post"><span>Phase 5 — (Coming) Set up Valuation Categories before any inventory can post</span></a>
+<a class="toc-row toc-level-2" href="#job-9-continued-reading-the-p-l-line-by-line"><span>Job 9 (continued) — Reading the P&amp;L, line by line</span></a>
+<a class="toc-row toc-level-3" href="#what-s-live-today-shipped"><span>What&#39;s live today (shipped)</span></a>
+<a class="toc-row toc-level-3" href="#what-s-coming-to-the-p-l-upcoming-not-yet-live"><span>What&#39;s coming to the P&amp;L (upcoming — not yet live)</span></a>
+<a class="toc-row toc-level-3" href="#coming-the-promotional-p-l-a-board-ready-pdf-likely-a-new-subsection"><span>(Coming) The promotional P&amp;L — a board-ready PDF (likely a new subsection)</span></a>
+<a class="toc-row toc-level-3" href="#p-l-legacy-2-0-for-this-section"><span>P&amp;L — legacy → 2.0, for this section</span></a>
+<a class="toc-row toc-level-2" href="#job-10-refresh-what-s-coming-to-the-posting-activity-log"><span>Job 10 (refresh) — what&#39;s coming to the Posting Activity Log</span></a>
+<a class="toc-row toc-level-3" href="#tl-dr"><span>TL;DR</span></a>
+<a class="toc-row toc-level-3" href="#what-this-page-is-for"><span>What this page is for</span></a>
+<a class="toc-row toc-level-3" href="#coming-the-ready-to-post-queue-review-and-post-without-leaving-the-page"><span>(Coming) The Ready-to-Post queue — review and post without leaving the page</span></a>
+<a class="toc-row toc-level-3" href="#coming-the-pos-and-inventory-posting-grids-per-site-post-repost-remove"><span>(Coming) The POS and Inventory posting grids — per-site Post / Repost / Remove</span></a>
+<a class="toc-row toc-level-3" href="#coming-redesigned-summary-cards-progress-problems-dollars"><span>(Coming) Redesigned summary cards — progress, problems, dollars</span></a>
+<a class="toc-row toc-level-3" href="#coming-failures-surface-first"><span>(Coming) Failures surface first</span></a>
+<a class="toc-row toc-level-3" href="#coming-richer-completed-job-detail-export"><span>(Coming) Richer completed-job detail + export</span></a>
+<a class="toc-row toc-level-3" href="#coming-you-re-posting-manually-nudge"><span>(Coming) &quot;You&#39;re posting manually&quot; nudge</span></a>
+<a class="toc-row toc-level-3" href="#coming-notifications-blocked-postings-and-login-summaries"><span>(Coming) Notifications: blocked postings and login summaries</span></a>
+<a class="toc-row toc-level-3" href="#coming-fix-the-mapping-once-failed-jobs-rerun-themselves"><span>(Coming) Fix the mapping once — failed jobs rerun themselves</span></a>
+<a class="toc-row toc-level-2" href="#legacy-2-0-for-this-section"><span>Legacy → 2.0, for this section</span></a>
+<a class="toc-row toc-level-2" href="#part-a-the-two-flows-that-are-live-today"><span>Part A — The two flows that are LIVE today</span></a>
+<a class="toc-row toc-level-3" href="#a1-meal-sales-revenue-your-ledger-when-you-close-a-pos-period-live"><span>A1. Meal-sales revenue → your ledger, when you close a POS period (Live)</span></a>
+<a class="toc-row toc-level-3" href="#a2-sales-tax-posted-as-a-liability-you-owe-not-as-revenue-live"><span>A2. Sales tax → posted as a liability you owe, not as revenue (Live)</span></a>
+<a class="toc-row toc-level-2" href="#part-b-the-inventory-side-coming"><span>Part B — The inventory side (Coming)</span></a>
+<a class="toc-row toc-level-3" href="#b1-what-inventory-close-will-post-coming"><span>B1. What inventory close will post (Coming)</span></a>
+<a class="toc-row toc-level-3" href="#b2-what-you-ll-see-in-job-8-journal-ledger-and-job-10-activity-log-for-inventory-coming"><span>B2. What you&#39;ll see in Job 8 (Journal/Ledger) and Job 10 (Activity Log) for inventory (Coming)</span></a>
+<a class="toc-row toc-level-3" href="#b3-a-finer-purchase-grain-is-being-added-by-vendor-coming"><span>B3. A finer purchase grain is being added: by Vendor (Coming)</span></a>
+<a class="toc-row toc-level-2" href="#part-c-reimbursements-and-other-inventory-entries-on-the-roadmap-coming"><span>Part C — Reimbursements and other inventory entries on the roadmap (Coming)</span></a>
+<a class="toc-row toc-level-3" href="#c1-reimbursement-claim-and-reimbursement-received-coming"><span>C1. Reimbursement Claim and Reimbursement Received (Coming)</span></a>
+<a class="toc-row toc-level-3" href="#c2-other-inventory-entries-specified-but-not-yet-built-coming"><span>C2. Other inventory entries specified but not yet built (Coming)</span></a>
+<a class="toc-row toc-level-2" href="#under-the-hood-why-this-all-balances-for-the-curious-coming"><span>Under the hood — why this all balances (for the curious) (Coming)</span></a>
+<a class="toc-row toc-level-2" href="#quick-reference-what-posts-what-s-live"><span>Quick reference — what posts, what&#39;s live</span></a>
+<a class="toc-row toc-level-2" href="#the-three-tiers-at-a-glance"><span>The three tiers at a glance</span></a>
+<a class="toc-row toc-level-2" href="#tier-1-director-central-office-schoolcafe-administrator-full-access"><span>Tier 1 — Director, Central Office, SchoolCafe Administrator: full access</span></a>
+<a class="toc-row toc-level-2" href="#tier-2-finance-coordinator-configure-everything-but-fenced-out-of-deletes-reports-and-most-of-periods"><span>Tier 2 — Finance Coordinator: configure everything, but fenced out of deletes, reports, and most of periods</span></a>
+<a class="toc-row toc-level-2" href="#tier-3-cafeteria-manager-read-only-limited"><span>Tier 3 — Cafeteria Manager: read-only / limited</span></a>
+<a class="toc-row toc-level-2" href="#how-role-switching-behaves"><span>How role switching behaves</span></a>
+<a class="toc-row toc-level-2" href="#what-gets-logged"><span>What gets logged</span></a>
+<a class="toc-row toc-level-2" href="#what-this-is-renamed-from-where-it-sits-relative-to-the-rest-of-the-guide"><span>What this is renamed from / where it sits relative to the rest of the guide</span></a>
+<a class="toc-row toc-level-2" href="#open-questions-for-the-sme-product-owner-do-not-invent-answers"><span>Open Questions (for the SME / product owner — do not invent answers)</span></a></div>
+  </section>
+  <article class="content">
+    <blockquote>
+<h2 id="what-this-update-covers">What this update covers</h2>
+<p>This edition has been brought up to date against the <strong>136-ticket Financials backlog</strong> (Perseus Jira capture), using the Learning Studio <strong>coverage + grounding gates</strong>: every new or changed product-behavior claim traces to a verbatim quote from a ticket’s Acceptance Criteria, carried in an inline <code>&lt;!-- Source: NXT-####:AC &quot;…&quot; --&gt;</code> comment.</p>
+<p><strong>“(Coming)” tags mark features that are specified but not yet shipped.</strong> A line tagged <strong>(Coming)</strong> describes agreed, in-development behavior — a backlog story, not a screen you can open today. Live, shipped behavior is written in the present tense with no tag. Read the tags, not just the headings: if you go looking for a (Coming) feature and it isn’t on your screen, the guide isn’t wrong — the feature hasn’t shipped yet.</p>
+<p>New since the last edition: a <strong>Financial Dashboard</strong> landing view (Job 0), a <strong>roles &amp; permissions</strong> plan (Job 11, Coming), a deep-dive into <strong>what posting actually writes to your ledger</strong> (expanding Jobs 2/8/10), and a full <strong>P&amp;L build-out</strong> (expanding Job 9). The Job 10 “posting is automatic / Approve-Post buttons gone” story has been <strong>qualified</strong> — those statements are true for the first 2.0 build, but manual Post / Repost controls and a Review/Post-All queue are returning as an option (Coming).</p>
+</blockquote>
+<hr>
+<h2 id="who-this-is-for">Who this is for</h2>
+<p>District finance and child-nutrition staff getting started in Financials 2.0 (CN Director, Finance Manager / Director, Business Administrator, accountants who’ll touch the ledger). Also for: Cybersoft implementation staff onboarding a district. Look for the 🔧 callouts — those are yours.</p>
+<p>One thing to remember before you start: <strong>Financials is a downstream module.</strong> It reads what POS and Inventory hand it. It never invents source data, it never modifies it, and it can’t post until upstream periods are closed.</p>
+<h2 id="how-to-read-this-guide">How to read this guide</h2>
+<p>It’s organized by jobs you’re trying to get done — not by menus. Each section is short on purpose. Skim the TL;DRs, drop into the section that matches what you’re doing today, and come back when the next one becomes your problem.</p>
+<hr>
+<h2 id="what-actually-changed-in-2-0-read-this-first-90-seconds">What actually changed in 2.0 (read this first — 90 seconds)</h2>
+<table>
+<thead>
+<tr>
+<th>You used to…</th>
+<th>Now you…</th>
+<th>Why it matters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Click <strong>Approve</strong> then <strong>Post</strong> on three separate pages every period</td>
+<td>Do nothing. Posting fires the moment the upstream POS or Inventory period closes — <em>for the first 2.0 build</em> (manual Post / Repost controls are <strong>(Coming)</strong> back as an option; see Job 10).</td>
+<td>You can no longer “forget to post.” But you also can’t post early. Mapping must be complete or nothing posts.</td>
+</tr>
+<tr>
+<td>Have your CoA import rejected because one account code was off</td>
+<td>Get a non-blocking import. Bad codes flag a warning; the rest land cleanly</td>
+<td>Fix issues iteratively instead of being stuck in a reject-fix-reupload loop.</td>
+</tr>
+<tr>
+<td>Map ~248 system accounts on the revenue side, even programs you don’t run</td>
+<td>Map ~72 data points, deactivate what you don’t use, bulk-map the rest by section</td>
+<td>Phase 1 of mapping is deletion, not data entry.</td>
+</tr>
+<tr>
+<td>Manually do a “Pay Refunds” entry to clear the refunds-liability bucket</td>
+<td>Get one balanced entry, no liability parking</td>
+<td>Fewer accounts to manage. No accidentally orphaned liabilities.</td>
+</tr>
+<tr>
+<td>Get a “dirty” flag on the financial period whenever POS reopened, even if nothing changed</td>
+<td>See exactly what changed when source data is re-closed; auto-adjust if you opt in</td>
+<td>No more pointless reposting.</td>
+</tr>
+<tr>
+<td>Run reports against live data that drifted from what was posted</td>
+<td>Generate reports from posted ledger entries only — async, downloaded from Document Center</td>
+<td>The numbers in your report match the numbers in your ledger. Always.</td>
+</tr>
+<tr>
+<td>Have a flat list of revenue accounts to map</td>
+<td>Map by eligibility × program with bulk actions and a Program filter</td>
+<td>Map all NSLP revenue in one click.</td>
+</tr>
+<tr>
+<td>Create a separate GL Entry Type for every audit adjustment shape</td>
+<td>Use one Template Entry that allows the same account on both debit and credit sides</td>
+<td>Auditors can do anything they need without a support ticket.</td>
+</tr>
+</tbody>
+</table>
+<!-- C1 refresh: the following rows qualify the present-tense "gone/automatic" claims the live guide states as fact. Source tickets are status New → tagged (Coming). The shipped-first anchor is NXT-69493 (Done Done). -->
+<blockquote>
+<p><strong>Update — the Posting Activity Log story is being qualified (see Job 10).</strong> The audit flagged the rows below as stating the <em>opposite</em> of what’s coming as present-tense fact. The “Shipped first in 2.0” column keeps what shipped; the “(Coming)” column qualifies it.</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Shipped first in 2.0</th>
+<th>(Coming) — qualify the “gone / automatic” claim</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Posting trigger</td>
+<td>Posting runs in the background; manual trigger is out of scope on the Activity Log page. <!-- Source: NXT-69493:AC "*Manual trigger*: Out of scope — jobs triggered from Fiscal Periods page, not here." --></td>
+<td>A manual <strong>Ready to Post</strong> queue (<strong>Review / Post All</strong>) returns on the Activity Log. <!-- Source: NXT-70065:AC "two actions: Review and Post All" --></td>
+</tr>
+<tr>
+<td>Summary cards</td>
+<td>Four cards: Total Jobs / Completed / Failed / Running. <!-- Source: NXT-69493:AC "*Summary cards*: Four cards at top — Total Jobs (30 Days), Completed (green), Failed (red), Running (orange)." --></td>
+<td><strong>Three</strong> cards (Posting Progress / Needs Attention / Posted This Period) replace them; the counts move to the table header. <!-- Source: NXT-70066:AC "Replace the four Phase 1 cards (Total Jobs, Completed, Failed, Running) with three cards in a horizontal grid" --></td>
+</tr>
+<tr>
+<td>Approve / Post buttons</td>
+<td>Removed; the page is a read-only monitor. <!-- Source: NXT-69493:AC "*Manual trigger*: Out of scope — jobs triggered from Fiscal Periods page, not here." --></td>
+<td><strong>Post / Repost / Remove</strong> return per site on the POS and Inventory grids. <!-- Source: NXT-65487:AC "*Actions* (Post, View, Repost, Remove)" --> <!-- Source: NXT-66123:AC "*Actions* (Post, View, Repost, Remove)" --></td>
+</tr>
+<tr>
+<td>“You can’t forget to post”</td>
+<td>Automatic posting means you don’t have to remember. <em>(Keep, but qualify.)</em></td>
+<td>If automatic posting is off, a <strong>“You’re posting manually”</strong> nudge banner appears. <!-- Source: NXT-70069:AC "Banner text: \"You're posting manually. Districts with automatic posting enabled only visit this page when something needs attention.\"" --></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="before-you-touch-the-product">Before you touch the product</h2>
+<p>You can’t shortcut these. Lock them down before login.</p>
+<ol>
+<li><strong>Account code structure</strong> — How long are your segments? What does each represent? If your state publishes a standard (Texas FASRG, etc.), have it open. If you have a custom structure, get the segment definitions in writing from your ERP team.</li>
+<li><strong>Your chart of accounts, exported from your ERP</strong> (Oracle, Tyler Munis, etc.) — You’ll fill the GL Accounts Import template with this. The template lives at Configuration › General Ledger Accounts › Import.</li>
+<li><strong>Two short answers</strong> — Have these on hand. They’ll save hours later:
+<ul>
+<li>Which meal programs do you actually run? (NSLP, SBP, Special Milk, CACFP, SFSP, etc.) — You’ll deactivate everything else.</li>
+<li>How many distinct GL accounts do you post meal sales revenue to? — For most districts, the answer is “one or two.” That answer drives whether mapping takes 5 minutes or 5 hours.</li>
+</ul>
+</li>
+<li><strong>The imports themselves have to be turned on first.</strong> Before any customer can run the GL Accounts Import (Job 1), the Opening Balance Import (Job 5), or the Payroll journal-entry import, each one has to be registered as an import type in the platform’s Imports &amp; Exports area first. Until that registration happens, the import type the customer expects won’t appear on the picklist when they click the Import button.</li>
+</ol>
+<p>Where the registration happens: <strong>Imports &amp; Exports › Imports tab › Add New.</strong> For each import (GL Accounts, Opening Balance, Payroll), the implementer:</p>
+<ul>
+<li>Adds the import to the picklist of import types</li>
+<li>Sets the accepted file format (<code>.xlsx</code> / <code>.xls</code> / <code>.csv</code>)</li>
+<li>Defines required columns and column mappings (e.g. for GL Accounts: Account Code, Account Description, Account Category, Account Base Type)</li>
+<li>Confirms the help-tooltip text the customer will see at upload time</li>
+</ul>
+<p>After registration, customers see “GL Accounts Import,” “Opening Balance Import,” and (when in scope) the payroll journal-entry import as available options when they hit the Import button in Configuration. Without registration, they don’t.</p>
+<blockquote>
+<p>🔧 <strong>Implementer:</strong> Send the GL Accounts template to the customer at kickoff. The customer’s ERP team typically needs lead time to pull a clean chart of accounts. Also confirm the site-code segment length matches the actual site codes on the Sites page — the system pads with leading zeros if a site code is shorter than the segment length.</p>
+</blockquote>
+<blockquote>
+<p>🔧 <strong>Implementer:</strong> Register all three import types during environment setup, even the ones the customer won’t use until later. Opening Balance is needed in week 3; Payroll often comes after go-live. Treat import-type registration as part of “stand up the environment,” not “start onboarding the district.”</p>
+</blockquote>
+<hr>
+<!-- ============================================================ -->
+<!-- C3 — NEW SECTION (Job 0, Financial Dashboard). Slots before Job 1. -->
+<!-- NXT-68659 = Done Done => SHIPPED (present tense). NXT-68660 = Story Refinement => (Coming). -->
+<!-- ============================================================ -->
+<h1 id="job-0-see-where-my-district-stands-the-moment-i-log-in-financial-dashboard">Job 0 — “See where my district stands the moment I log in” (Financial Dashboard)</h1>
+<blockquote>
+<p><strong>Where this slots in.</strong> This is a new section for the guide. Logically it sits <em>before</em> Job 1 as a landing / “at-a-glance” job — it’s the screen a director reads, not a setup task they perform. It is distinct from Job 9 (Reports), which produces downloadable board/auditor files. <strong>Open question for SME:</strong> the guide should state the exact menu path / screen name for this dashboard. NXT-68659 AC calls it “the dashboard” and “the Financial Dashboard” but never states its navigation path, so none is asserted here.</p>
+</blockquote>
+<p><strong>TL;DR:</strong> The Financial Dashboard is your single-glance scoreboard — Net Income, Total Revenue, and Total Expenses for a period you pick at the top right, a trend arrow that tells you if the district is improving month over month, and a table breaking the numbers down site by site.</p>
+<p><strong>When this is your job:</strong> Login, day one and every day after. For a CN Director or Business Administrator this is usually the first screen you land on — read it before you drop into the setup Jobs below.</p>
+<p><strong>Status:</strong> ✅ <strong>Shipped today.</strong> Everything in this section is live unless explicitly tagged <strong>(Coming)</strong>.</p>
+<h2 id="the-three-kpi-cards-the-top-of-the-page">The three KPI cards (the top of the page)</h2>
+<p>The dashboard leads with Net Income, Total Revenue, and Total Expenses for whatever period you’ve selected. <!-- Source: NXT-68659:AC "Changing the period recalculates Net Income, Total Revenue, and Total Expenses and updates the card label (e.g., \"Net Income (June 2025)\")." --></p>
+<ul>
+<li><strong>Net Income</strong> is the headline number, shown big with dollar formatting and comma separators. <!-- Source: NXT-68659:AC "Main Net Income number is shown in large text with currency formatting and thousands separators." --> It’s simply Total Revenue minus Total Expenses, and if the district is in the red it shows with a minus sign (e.g. <code>-$125,000</code>). <!-- Source: NXT-68659:AC "Net Income = Total Revenue – Total Expenses; if negative, show with a minus sign (e.g., -$125,000)." --></li>
+<li><strong>Total Revenue</strong> and <strong>Total Expenses</strong> sit underneath as smaller numbers, each rounded to the nearest whole dollar. <!-- Source: NXT-68659:AC "Total Revenue and Total Expenses are shown below as smaller values, rounded to the nearest dollar." --></li>
+<li>The card’s title carries the period in parentheses so you always know what window you’re reading — e.g. “Net Income (June 2025).” <!-- Source: NXT-68659:AC "Changing the period recalculates Net Income, Total Revenue, and Total Expenses and updates the card label (e.g., \"Net Income (June 2025)\")." --></li>
+</ul>
+<p><strong>What the numbers are built from:</strong> posted General Ledger transactions only — the same posted-ledger truth the rest of 2.0 runs on. <!-- Source: NXT-68659:AC "Data source is posted financial transactions from the General Ledger." --> Every active site is rolled in, <!-- Source: NXT-68659:AC "Calculations include all active sites." --> and only accounts whose base type is Revenue or Expense count toward the totals. <!-- Source: NXT-68659:AC "Only GL accounts with base type Revenue or Expense are included." --></p>
+<blockquote>
+<p>⚠️ <strong>Empty period reads as zero, not blank.</strong> If there are no posted Revenue or Expense transactions in the period you picked, that side shows <strong>0</strong> and Net Income is calculated treating it as zero — the card won’t go blank or error out. <!-- Source: NXT-68659:AC "If there are no posted Revenue or Expense transactions in the selected period, show \"0\" for the respective column and calculate net income assuming it’s value as zero." --></p>
+</blockquote>
+<h2 id="the-period-selector-top-right">The period selector (top right)</h2>
+<p>Pick your reporting window from the <strong>“Period:”</strong> dropdown in the top-right corner of the dashboard. <!-- Source: NXT-68659:AC "Period selector is a standard dropdown labeled “Period:” in the top right of the dashboard." --> Your options are Current Month, Current Quarter, Current Fiscal Year, and a Custom Range. <!-- Source: NXT-68659:AC "Period options: Current Month (MMM YYYY), Current Quarter (Q# YYYY), Current Fiscal Year (FY YYYY), Custom Range." --> When the dashboard loads it defaults to <strong>Current Fiscal Year</strong> as of today, so you open to a year-to-date picture without touching anything. <!-- Source: NXT-68659:AC "Default period on dashboard load: Current Fiscal Year (FY ) as of today." --></p>
+<p>A few things worth knowing about how the windows are defined:</p>
+<ul>
+<li>The <strong>Current Fiscal Year</strong> range comes straight from your Fiscal Year Settings (the start and end dates you configure in Job 4). <!-- Source: NXT-68659:AC "Current Fiscal Year date range comes from Fiscal Year Settings (start and end dates)." --> <strong>Current Month</strong> is the 1st through the last day of this calendar month, within the fiscal year that contains today. <!-- Source: NXT-68659:AC "Current Month = 1st to last day of the current calendar month, within the fiscal year that includes today." --></li>
+<li><strong>Current Quarter</strong> uses your <em>fiscal</em> quarters (Q1–Q4), not calendar quarters — again defined by Fiscal Year Settings. <!-- Source: NXT-68659:AC "Current Quarter uses fiscal quarters (Q1–Q4) defined by Fiscal Year Settings." --> Every “Current …” option stays inside the active fiscal year. <!-- Source: NXT-68659:AC "All “Current …” options must fall inside the active fiscal year" --></li>
+<li>The Current Month, Quarter, and year-to-date ranges are <strong>system-defined — you can’t hand-edit them</strong>; pick Custom Range when you need your own dates. <!-- Source: NXT-68659:AC "Period date ranges for the quarter, year-to-date and current month are system-defined and not user-editable." --></li>
+</ul>
+<blockquote>
+<p>⚠️ <strong>Open vs. closed periods don’t gate the dashboard.</strong> The totals include every posted transaction whose posting date falls in your selected window — <strong>even if that fiscal period is still open.</strong> <!-- Source: NXT-68659:AC "Include all posted transactions whose transaction/posting date falls within the selected period, even if the fiscal period is still open." --> So the dashboard can move during an open period as new postings land; that’s expected, not a bug.</p>
+</blockquote>
+<blockquote>
+<p>🔧 <strong>Implementer:</strong> The dashboard’s “Current” windows are only as right as the customer’s Fiscal Year Settings, because that’s literally where the ranges come from. <!-- Source: NXT-68659:AC "Current Fiscal Year date range comes from Fiscal Year Settings (start and end dates)." --> Walk Job 4 (Open my fiscal year) <em>before</em> you point a director at this screen — a fiscal year that’s off by a month makes every “Current Quarter” number look wrong.</p>
+</blockquote>
+<h2 id="the-trend-arrow-am-i-improving">The trend arrow (am I improving?)</h2>
+<p>Next to Net Income you’ll see a small trend arrow. It compares Net Income for the <strong>latest completed fiscal month</strong> against the month right before it. <!-- Source: NXT-68659:AC "Trend arrow compares Net Income for the latest completed fiscal month vs the immediately previous fiscal month." --> “Completed” means a fiscal month that has fully passed in real time — the current, still-running month doesn’t count yet. <!-- Source: NXT-68659:AC "A completed month = a fiscal month that has fully passed in real time." --></p>
+<ul>
+<li>Up if the latest month beat the previous one, down if it came in lower, and <strong>no arrow at all if they’re equal.</strong> <!-- Source: NXT-68659:AC "If latest > previous show ↑; if less show ↓; if equal show no arrow." --></li>
+<li>Brand-new districts won’t see an arrow until there are two completed fiscal months on the books — with fewer than two, it’s hidden. <!-- Source: NXT-68659:AC "Hide arrow if fewer than two completed fiscal months exist in the current fiscal year." --></li>
+</ul>
+<blockquote>
+<p>⚠️ <strong>The arrow ignores the period dropdown.</strong> Changing the period selector at the top <strong>does not</strong> change what the arrow compares — it always looks at the two most recently completed fiscal months, no matter what window the KPI cards are showing. <!-- Source: NXT-68659:AC "Trend arrow is not affected by the selected reporting period." --> If that’s confusing on screen, the tooltip says it out loud: <em>“Trend compares the two most recently completed fiscal months.”</em> <!-- Source: NXT-68659:AC "Tooltip: *“Trend compares the two most recently completed fiscal months.”*" --></p>
+</blockquote>
+<h2 id="the-site-by-site-table">The site-by-site table</h2>
+<p>Below the cards is a table that breaks the same numbers out per site: Revenue, Expenses, and Net Income (Revenue minus Expenses) for each active site, with a district total row at the bottom. <!-- Source: NXT-68659:AC "Site-by-site performance table shows Revenue, Expenses, and Net Income (Revenue – Expenses) for each active site, plus a district total row at the bottom." --> The columns are Location, Revenue, Expenses, and Net Income, <!-- Source: NXT-68659:AC "Columns: Location, Revenue, Expenses, Net Income." --> and the bottom roll-up row carries your district name in the Location column. <!-- Source: NXT-68659:AC "For the district-level entry, use the district name." --></p>
+<p>How it behaves:</p>
+<ul>
+<li>It reads the <strong>same period</strong> you picked at the top and, like the cards, uses <strong>posted GL transactions only.</strong> <!-- Source: NXT-68659:AC "Table uses only posted GL transactions and the same selected period as the dashboard." --></li>
+<li>It’s sorted by <strong>Net Income, highest first</strong>, with Location name as the tie-breaker. <!-- Source: NXT-68659:AC "Default sort is Net Income descending; secondary sort by Location name." --></li>
+<li><strong>Inactive sites never appear</strong> — only active sites are listed. <!-- Source: NXT-68659:AC "Only show *active* sites; do not display inactive sites." --></li>
+<li>A site with no numbers for the period shows a dash (<strong>–</strong>) in its numeric columns. <!-- Source: NXT-68659:AC "Sites with no data show “–” in numeric fields." --></li>
+</ul>
+<blockquote>
+<p>⚠️ <strong>A dash in Net Income means data is missing, not that the site broke even.</strong> Net Income only fills in when <strong>both</strong> Revenue and Expense totals exist for that row; if either is missing, the cell shows <strong>–</strong>. <!-- Source: NXT-68659:AC "Net Income only appears when both Revenue and Expense totals are present; otherwise show “–”." --> The tooltip explains why: <em>“Net Income is unavailable because Revenue and/or Expenses are missing for this period.”</em> <!-- Source: NXT-68659:AC "Tooltip: *“Net Income is unavailable because Revenue and/or Expenses are missing for this period.”*" --> Don’t read a dash as a zero.</p>
+</blockquote>
+<h3 id="coming-refinements-to-the-site-table">(Coming) Refinements to the site table</h3>
+<p>A follow-up refinement (NXT-68660, in refinement — <strong>not yet live</strong>) sharpens this same table. When it ships you’ll be able to:</p>
+<ul>
+<li><strong>(Coming)</strong> Sort the table by site name as well as by Net Income — Net Income descending stays the default. <!-- Source: NXT-68660:AC "Sortable by Net Income (default: descending)" --> <!-- Source: NXT-68660:AC "Also by site name" --></li>
+<li><strong>(Coming)</strong> Read an aggregated district total row at the bottom of the table. <!-- Source: NXT-68660:AC "Aggregated district total row at the bottom." --> <em>(Interpretation: this restates the district total row that NXT-68659 already ships; NXT-68660 is the refinement that owns it going forward.)</em></li>
+</ul>
+<p>The refinement keeps the same ground rules you already know: posted GL transactions only, <!-- Source: NXT-68660:AC "Only posted GL transactions included." --> active sites only, <!-- Source: NXT-68660:AC "Only show data for active sites" --> a dash in every column for any site with no data in the selected period, <!-- Source: NXT-68660:AC "Show {{- }}in all columns." --> and it filters on the same period dropdown at the top of the dashboard. <!-- Source: NXT-68660:AC "Uses the *selected period* from the period dropdown at the top of the dashboard" --></p>
+<blockquote>
+<p>🔧 <strong>Implementer:</strong> Two “Top revenue sources” and “Top expense categories” analysis cards were <em>considered</em> for this dashboard and then <strong>cut</strong> — they’re struck through in NXT-68660’s Acceptance Criteria. Don’t promise a customer revenue/expense ranking cards on the dashboard today; that scope was removed. (Reporting-level revenue/expense detail lives in the P&amp;L work — see Job 9.)</p>
+</blockquote>
+<h2 id="what-this-is-not">What this is <em>not</em></h2>
+<ul>
+<li>It is <strong>not</strong> a report you download. The dashboard is a live on-screen read; the downloadable board/auditor files live in Job 9 (Reports), which generate from posted ledger entries and arrive through the Document Center.</li>
+<li>It does <strong>not</strong> include unposted activity beyond what’s already posted to the GL. Like everything in 2.0, the dashboard’s truth is the posted ledger. <!-- Source: NXT-68659:AC "Data source is posted financial transactions from the General Ledger." --></li>
+</ul>
+<blockquote>
+<p><strong>Open questions for SME (do not ship as fact — AC does not state these):</strong></p>
+<ol>
+<li>Menu path / screen name for the Financial Dashboard. NXT-68659 AC names it “the dashboard” / “Financial Dashboard” but gives no navigation path. Confirm before publishing a path.</li>
+<li>Whether the dashboard is one of the role-gated surfaces (see Job 11 roles, NXT-66927/66928/66929). AC for NXT-68659 says nothing about who can see it; do not assert visibility-by-role here.</li>
+<li>Exact on-screen wording of the trend up/down indicator (arrow glyph vs. label). AC specifies ↑ / ↓ / “no arrow” behavior but not a text label; left as “up / down arrow” rather than inventing one.</li>
+</ol>
+</blockquote>
+<hr>
+<h1 id="job-1-get-my-chart-of-accounts-into-the-system">Job 1 — “Get my chart of accounts into the system”</h1>
+<p><strong>TL;DR:</strong> Define the account code structure → import your CoA from the ERP → fix any flagged accounts in place.</p>
+<p><strong>When this is your job:</strong> Day 1. Nothing else works without it.</p>
+<p><strong>Prerequisite:</strong> The GL Accounts Import has to be registered in Imports &amp; Exports first (see Before-You-Touch step 4). If “GL Accounts Import” doesn’t show up when you click the Import button, registration hasn’t happened yet — flag it to your implementer.</p>
+<p><strong>What it looks like:</strong></p>
+<p>Configuration › General Ledger Accounts has three tabs. Visit them in order:</p>
+<ol>
+<li><strong>Account Code Structure.</strong> Pick your state from the dropdown — if your state has a public standard, segments auto-populate. Otherwise build segments manually: name, position, length. Save.</li>
+<li><strong>Account Categories.</strong> These are groupings (Salaries &amp; Benefits, Food Costs, etc.) — not GL accounts. They have no codes. They exist to organize your CoA for reports. Optional — you can skip them and let the system auto-assign by base type when you import.</li>
+<li><strong>Individual GL Accounts.</strong> Click Import › GL Accounts Import. Required columns: Account Code, Account Description, Account Category, Account Base Type. Upload.</li>
+</ol>
+<p><strong>What you’ll see when it works:</strong> A grid of accounts. Anything that didn’t match the structure shows a yellow warning icon — an “X accounts need structure corrections” banner appears at the top with a count. The import still succeeded.</p>
+<p><strong>Watch out:</strong></p>
+<ul>
+<li>Warnings don’t block the import, but they will cause export problems with your ERP later. Resolve before you start mapping.</li>
+<li>Account Code is treated as a string during import to preserve leading zeros and your district’s segment formatting exactly. Don’t let Excel quietly convert a column to numbers and chop your zeros.</li>
+<li>Once a transaction posts to an account in a category, the category’s Base Type is locked forever. You can’t accidentally re-classify Cash as Revenue six months in.</li>
+<li>If you skip Account Categories in the import, every account gets assigned to its base-type default (Asset → “Asset” category, etc.). Reclassify later — no rush.</li>
+</ul>
+<p><strong>What’s renamed from legacy:</strong></p>
+<ul>
+<li>“GL Code Segments” → Account Code Structure</li>
+<li>“Parent Accounts” → Account Categories</li>
+</ul>
+<blockquote>
+<p>🔧 <strong>Implementer:</strong> Walk the customer through resolving warnings live. Unresolved structure mismatches don’t block the import, but they do cause ERP export problems downstream.</p>
+</blockquote>
+<hr>
+<h1 id="job-2-tell-the-system-where-to-post-each-kind-of-transaction">Job 2 — “Tell the system where to post each kind of transaction”</h1>
+<p><strong>TL;DR:</strong> Subtract first, then map. Deactivate programs you don’t run, then bulk-map what’s left, then override the few exceptions.</p>
+<p><strong>The vocabulary you need:</strong></p>
+<ul>
+<li><strong>Data points</strong> are the buckets of financial activity Financials collects from across SchoolCafé — meal sales by eligibility, reimbursements by program, inventory transactions, prepaids, etc. They replace “system accounts” in legacy. There are ~72 of them, organized by section (Assets, Liabilities, Revenue, Expenses) and grouped within each section.</li>
+<li><strong>Mapping</strong> = picking which of your imported GL accounts each data point posts to.</li>
+</ul>
+<p><strong>Where:</strong> Configuration › Account Mapping.</p>
+<h3 id="phase-1-subtract-5-minutes">Phase 1 — Subtract (5 minutes)</h3>
+<ol>
+<li>Filter by Program at the top of the page.</li>
+<li>For each program your district doesn’t run: click Bulk Actions, use the section-level checkbox to grab everything, then Deactivate All in the floating action bar.</li>
+<li>Confirm. Repeat per program.</li>
+</ol>
+<p>The data points for programs you don’t run drop out of the active list.</p>
+<h3 id="phase-2-bulk-map-by-section-5-minutes">Phase 2 — Bulk-map by section (5 minutes)</h3>
+<ol>
+<li>Still in Bulk Actions mode. Select all groups in Revenue.</li>
+<li>Click Map All in the floating action bar.</li>
+<li>Pick the GL account from the typeahead (only Revenue-type accounts appear — base-type filtering is enforced).</li>
+<li>Apply. Repeat for Assets, Liabilities, Expenses.</li>
+</ol>
+<blockquote>
+<p>⚠️ Map All only works inside one section. Cross-section selection grays the button out. This is intentional — base types must match.</p>
+</blockquote>
+<h3 id="phase-3-override-the-few-that-aren-t-routine-10-minutes">Phase 3 — Override the few that aren’t routine (10 minutes)</h3>
+<p>Exit Bulk Actions. Expand the relevant group. Use inline edit on the rows that need a different account than your bulk pass set. Common: NSLP reimbursements posting to a different account than other reimbursements; food vs. non-food inventory expenses.</p>
+<h3 id="phase-4-custom-data-points-only-if-you-need-them">Phase 4 — Custom data points (only if you need them)</h3>
+<p>Pre-installed payroll already splits Salaries / Wages / Benefits / Overtime. If you need more granularity, click Add Data Point and define a journal entry template (debit account + credit account). Validation: debit and credit must balance and at least one side must reference the data point itself.</p>
+<p>Click Save Changes. All changes commit at once and show in the configuration history.</p>
+<blockquote>
+<p>⚠️ <strong>Critical — every active data point must always be mapped.</strong> The posting engine checks every active mapping before any job runs. One unmapped active data point halts all posting (POS, Inventory, Reimbursements). If you don’t need a data point anymore, deactivate it. Don’t just remove the mapping.</p>
+</blockquote>
+<blockquote>
+<p>🔧 <strong>Implementer:</strong> The two prep questions (“which programs do you run?” and “how many GL accounts for meal sales?”) drive everything. Ask them on a screen share before the customer touches this page so they can use Bulk Actions instead of mapping row by row.</p>
+</blockquote>
+<!-- ============================================================ -->
+<!-- C6 — Job 2 prerequisite: Valuation Categories. NXT-65482 (Story Refinement) => (Coming). -->
+<!-- ============================================================ -->
+<h3 id="phase-5-coming-set-up-valuation-categories-before-any-inventory-can-post">Phase 5 — (Coming) Set up Valuation Categories before any inventory can post</h3>
+<blockquote>
+<p>⚠️ <strong>All of this is (Coming).</strong> Inventory posting (Job 8/10 deep-dive, Part B) does not run yet. But the mapping that gates it belongs here in Job 2, so set it up when this ships — it’s a prerequisite, not an afterthought.</p>
+</blockquote>
+<p>🎯 <strong>The job:</strong> tell Financials how each kind of inventory is valued and which GL accounts it should hit — <em>before</em> any inventory can post.</p>
+<p>A Valuation Category cannot be used in postings until it has <strong>both</strong> an Asset account (for inventory value) and an Expense account (for usage) mapped. <!-- Source: NXT-65482:AC "Every valuation category must have *both* an Asset Account and an Expense Account mapped before it can be used in postings." --> Both account fields start blank and you fill them from a searchable dropdown of your GL accounts. <!-- Source: NXT-65482:AC "Asset Account (GL account for inventory value) (this is blank and to be filled in by the user, make it a searchable dropdown of all GL accounts so they can pick the relevant one)" --></p>
+<p>The page shows, per category: the category name, its <strong>valuation method</strong> (such as FIFO, Last Received Price, Moving Average, Replacement Value, or Standard Price), the Asset account, the Expense account, and the data source. <!-- Source: NXT-65482:AC "* Valuation Category ** Valuation Method (e.g., FIFO, Last Received Price, Moving Average, Replacement Value, Standard Price) ** Asset Account ... ** Expense Account ... ** Data Source (e.g., Local, State Level, Food Distribution)" --></p>
+<p>⚠️ <strong>Watch-outs that bite later:</strong></p>
+<ul>
+<li><strong>One account, one category.</strong> Each asset or expense account can be linked to <strong>only one</strong> Valuation Category. <!-- Source: NXT-65482:AC "Each asset and expense account can only be linked to one valuation category." --></li>
+<li><strong>Mapping changes are not retroactive.</strong> Changing a category’s accounts or valuation method affects <strong>future postings only</strong> — it never restates what’s already posted. <!-- Source: NXT-65482:AC "Changes to account mappings or valuation method only affect *future postings* and do not retroactively change historical posted values." --></li>
+<li><strong>Once it’s posted, it’s locked.</strong> After a Valuation Category has any posted activity, its Asset and Expense accounts are <strong>permanently locked</strong>; to use different accounts you create a <em>new</em> category and move items to it. <!-- Source: NXT-65482:AC "Once a valuation category has any posted activity, its Asset and Expense GL accounts become permanently locked and cannot be edited." --> <!-- Source: NXT-65482:AC "If a district needs to change the GL accounts, they must create a new valuation category and begin using that going forward; historical categories remain frozen for audit integrity." --> The system warns you when you hit this. <!-- Source: NXT-65482:AC "Provide warning 'This valuation category already has posted activity, so its GL accounts can't be changed. To use different accounts, create a new valuation category and move the items to it. Historical mappings are locked for audit integrity.'" --></li>
+<li><strong>You can’t orphan a mapped account.</strong> If you try to delete an asset or expense account that’s linked to a category, the system blocks it and tells you to assign a different account first. <!-- Source: NXT-65482:AC "If the user tries to delete an asset or expense account linked to a valuation category on the GL Accounts page, block it and inform the user that they must first assign a different account to that valuation group" --></li>
+</ul>
+<blockquote>
+<p>📌 <strong>Open question (label):</strong> AC sources this data from “Item Management &gt; Item Configuration &gt; Valuation Categories” but does not state the exact in-Financials menu path or page title a user clicks to reach the mapping view. <!-- Source: NXT-65482:AC "Data is sourced from Item Managemnt > Item Configuration > Valuation Categories" --> Confirm the customer-facing navigation label with the SME before publishing.</p>
+</blockquote>
+<hr>
+<h1 id="job-3-decide-whether-to-track-prepaids-refunds-by-site-or-by-district">Job 3 — “Decide whether to track prepaids/refunds by site or by district”</h1>
+<p><strong>TL;DR:</strong> One radio button. Pick the model your ERP already uses.</p>
+<p><strong>Where:</strong> Configuration › Settings › Posting Settings.</p>
+<p><strong>The choice:</strong></p>
+<ul>
+<li><strong>Distributed (Enrollment Site)</strong> — default. One entry per site per period for prepaids, bonuses, refunds, and account transfers. Choose this if your ERP reconciles prepaid balances by school.</li>
+<li><strong>Centralized (District Office)</strong> — one combined entry at the central office level. Choose this if your ERP has a single district prepaid liability account.</li>
+</ul>
+<p><strong>What it affects:</strong> Pre Payment (POS + Online), Bonus, Refunds, Returned Checks, Returned Check Fees, Account Adjustments, Account Transfer In/Out. It does not change how meal sales or reimbursements post — those are always per-site.</p>
+<p><strong>Watch out:</strong></p>
+<ul>
+<li>Switching modes shows a confirmation dialog. The change is forward-only — already-posted entries don’t restate.</li>
+<li>Centralized uses your Central Office site code from Site Configuration. If none is defined, the system uses all zeros (matching your site-code segment length).</li>
+</ul>
+<blockquote>
+<p>🔧 <strong>Implementer:</strong> Ask the customer: “How do you reconcile prepaid balances in your ERP — by school, or one bucket?” That answer determines the setting. The mode can be changed later, and only affects future entries.</p>
+</blockquote>
+<hr>
+<h1 id="job-4-open-my-fiscal-year-so-i-can-actually-start">Job 4 — “Open my fiscal year so I can actually start”</h1>
+<p><strong>TL;DR:</strong> Enter FY start/end + frequency. The system generates the periods. Move on.</p>
+<p><strong>Where:</strong> Configuration › Periods.</p>
+<p><strong>What you do:</strong></p>
+<ol>
+<li>Enter fiscal year start and end (e.g. July 1 – June 30 for Texas).</li>
+<li>Pick a frequency: Weekly, Biweekly, Semi-monthly, or Monthly. Monthly is most common.</li>
+<li>Save. Periods populate, all in Open state.</li>
+</ol>
+<p><strong>What “Open” vs. “Closed” means:</strong></p>
+<ul>
+<li><strong>Open:</strong> manual entries allowed, automated posting flows in.</li>
+<li><strong>Closed:</strong> manual entries blocked. Source data (POS / Inventory) keeps flowing in regardless — the period just gets a “dirty” indicator if upstream changes after you closed it.</li>
+</ul>
+<p><strong>The one toggle you should know about: Automatic Entry Adjustments.</strong> Default: off. When off, if a closed POS or Inventory period gets reopened and reclosed with different numbers, the system tells you what changed and waits for your review before adjusting. When on, the system auto-reverses and reposts. The history drawer shows every status change with timestamps.</p>
+<p><strong>Locked after first save:</strong> Fiscal year dates and period frequency. Splitting individual periods after generation is allowed.</p>
+<blockquote>
+<p>🔧 <strong>Implementer:</strong> Recommend new districts leave Automatic Entry Adjustments off for their first fiscal year, so they can review what would have changed before opting into automatic adjustments.</p>
+</blockquote>
+<hr>
+<h1 id="job-5-get-my-opening-balances-in">Job 5 — “Get my opening balances in”</h1>
+<p><strong>TL;DR:</strong> Pull balances from your ERP as of the day before go-live. Upload. Confirm debits = credits.</p>
+<p><strong>Prerequisite:</strong> Like the GL Accounts Import, the Opening Balance Import has to be registered in Imports &amp; Exports › Imports › Add New first (see Before-You-Touch step 4). If your implementer hasn’t done that, the import option won’t be available when you click Import.</p>
+<p><strong>Where:</strong> Configuration › Opening Balance Import.</p>
+<p><strong>Required columns:</strong> Account Code, Site Code (if Distributed), Debit Balance, Credit Balance.</p>
+<p><strong>What you need to know:</strong></p>
+<ul>
+<li>This is a one-time import. It anchors the audit trail for your first FY.</li>
+<li>Total debits must equal total credits across the file. If they don’t, the import rejects and tells you the variance. Validate this before you upload.</li>
+<li>Distributed posting → balances at site level. Centralized → district-level totals are fine.</li>
+<li>Audit trail records who imported, when, and the file contents.</li>
+</ul>
+<blockquote>
+<p>🔧 <strong>Implementer:</strong> Build this into the timeline at week one — the customer’s ERP team needs lead time, and reconciling the file against the imported CoA usually takes at least one round of corrections. Confirm the Opening Balance Import is already registered as an import type in Imports &amp; Exports before the file is ready to upload.</p>
+</blockquote>
+<hr>
+<h1 id="job-6-make-a-manual-journal-entry">Job 6 — “Make a manual journal entry”</h1>
+<p><strong>TL;DR:</strong> Two modes — Template (pre-populated) or Manual (blank). Both must balance. Both must fall in an open period.</p>
+<p><strong>Where:</strong> Journal &amp; Ledger › New Entry.</p>
+<p><strong>Quick anatomy:</strong></p>
+<ul>
+<li><strong>Site selection</strong> — district-wide or specific site. Site code embeds into the account code (e.g. <code>1000-2000-3000-001-50000</code> for site 001). District-wide → all zeros.</li>
+<li><strong>Posted Date</strong> — defaults to today. Cannot exceed today. Cannot fall in a closed period or closed FY (you’ll get an inline error).</li>
+<li><strong>Mode toggle</strong> — Template or Manual.
+<ul>
+<li><strong>Template:</strong> select a Template Entry (e.g. “Monthly Salaries”, “EOY Audit Adjustments”) — line items pre-populate, all editable.</li>
+<li><strong>Manual:</strong> blank slate.</li>
+</ul>
+</li>
+<li><strong>Line items</strong> — Account / Debit / Credit. Real-time balance check at the bottom. Make Entry button only enables when debits = credits and both &gt; 0.</li>
+</ul>
+<p><strong>Bulk payroll entries via import (when in scope):</strong> Districts that close payroll outside of SchoolCafé can bring their payroll journal entries in via a dedicated journal-entry-lines import — same setup pattern as the GL Accounts and Opening Balance imports (registered once in Imports &amp; Exports, then available from the Import button in Journal &amp; Ledger). If your district plans to use this path, confirm with your implementer that the payroll import type is registered before payroll close week.</p>
+<p><strong>The Template Entry change worth knowing:</strong> A single template can include the same GL account on both debit and credit sides. Legacy blocked this, which forced multiple entry types for audit work. In 2.0, one “EOY Audit Adjustments” template covering your entire CoA is enough — the system shows an informational warning if you put the same account on both sides, but it’s not a block.</p>
+<p><strong>Renamed from legacy:</strong></p>
+<ul>
+<li>“Ad-Hoc Entries” → Manual Entries</li>
+<li>“GL Entry Types” → Template Entries</li>
+</ul>
+<hr>
+<h1 id="job-7-fix-a-posting-that-went-out-wrong">Job 7 — “Fix a posting that went out wrong”</h1>
+<p><strong>TL;DR:</strong> Click the reverse icon. Type a reason. Done.</p>
+<p><strong>Where:</strong> Journal or Ledger view, on the row of the bad transaction.</p>
+<p><strong>What happens:</strong></p>
+<ol>
+<li>Side drawer opens showing the original transaction.</li>
+<li>You type a reason (required).</li>
+<li>The system creates a new, balanced reversal entry with debit/credit flipped. The original is tagged REVERSED; the new one is tagged REVERSAL OF #[id]. Both stay visible in the ledger.</li>
+</ol>
+<p><strong>Reversing a reversal:</strong> This isn’t a documented path — the design covers reversing an original transaction, not reversing a reversal of an original. If you find yourself wanting to do it, treat it as “stop and ask your implementer” rather than assumed-supported.</p>
+<p><strong>What auditors will love:</strong> The reason text is preserved. Both transactions remain in place. The pair is linked. There’s no quiet “delete” path.</p>
+<hr>
+<h1 id="job-8-see-what-happened-by-account-or-by-date">Job 8 — “See what happened — by account or by date”</h1>
+<p>Two views, one job.</p>
+<table>
+<thead>
+<tr>
+<th>View</th>
+<th>Best for</th>
+<th>What it shows</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Ledger</strong></td>
+<td>“What’s the balance of this account as of this date?”</td>
+<td>One account, running balance, beginning + ending balance bar fixed at the bottom.</td>
+</tr>
+<tr>
+<td><strong>Journal</strong></td>
+<td>“What happened on these days, across these sites?”</td>
+<td>All accounts, by date, expandable rows showing line items.</td>
+</tr>
+</tbody>
+</table>
+<p>Both support: location filter, date-range filter, sortable columns, transaction-ID hyperlink to a details drawer, in-place reversal, and async Excel export through the Document Center.</p>
+<p><strong>Note on legacy:</strong> Older PrimeroEdge customers will remember separate Journal and Ledger pages. In 2.0, both views still exist, but the data model behind them is unified — the same transaction shows up in both, and the line-level details, reversal status, and audit metadata are consistent across views.</p>
+<p><strong>Balance behavior — read this once, never forget it:</strong> Asset and Expense accounts are debit-normal: debits add. Liability, Equity, and Revenue accounts are credit-normal: credits add. The Ledger does this math correctly per account type. A liability with a $500 debit posting will see its balance go down, which is what you want.</p>
+<blockquote>
+<p><strong>See also:</strong> the Job 8 / Job 10 deep-dive below — <em>“What posting actually puts in your ledger”</em> — opens the hood on the exact debit/credit lines each kind of posting writes.</p>
+</blockquote>
+<hr>
+<h1 id="job-9-pull-a-report-for-my-board-my-auditor-or-to-know-where-i-stand">Job 9 — “Pull a report for my board, my auditor, or to know where I stand”</h1>
+<p><strong>Where:</strong> Reports landing page — three tiles.</p>
+<table>
+<thead>
+<tr>
+<th>Report</th>
+<th>Use when…</th>
+<th>Output shape</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>General Ledger</strong></td>
+<td>Auditor wants account-level detail</td>
+<td>One Excel sheet per selected account; multi-select with Select All for all active mapped accounts</td>
+</tr>
+<tr>
+<td><strong>Journal</strong></td>
+<td>You need a date-range view of all activity</td>
+<td>One workbook, one sheet covering all selected locations</td>
+</tr>
+<tr>
+<td><strong>Profit &amp; Loss</strong></td>
+<td>Board meeting, monthly review, fiscal close</td>
+<td>One sheet per site; revenue, expenses, net income, Cost of Foods Used breakdown</td>
+</tr>
+</tbody>
+</table>
+<p><strong>P&amp;L additions you should know about:</strong></p>
+<ul>
+<li>Reporting period options: Single month, Quarter, Fiscal YTD, or Custom range.</li>
+<li>Cost of Foods Used subsection — Beginning Inventory + Purchases + Additions ± Net Transfers − Ending Inventory. Sourced live from the Inventory Usage Report. If Inventory data is stale, P&amp;L COFU is stale. Close your Inventory period first.</li>
+<li>% calculations suppress (show “-”) if total revenue or total expenses ≤ 0.</li>
+<li>Custom date ranges drop the prior-period and % change columns. They only make sense for standard periods.</li>
+</ul>
+<p>Generation is async. You click Generate, the file builds in the background, you get notified, and you download from the Document Center. No spinning loaders.</p>
+<blockquote>
+<p>⚠️ <strong>One reporting truth in 2.0:</strong> Reports pull only from posted ledger entries. There’s no “live recalculate” mode. If a number isn’t in the ledger, it isn’t in the report. This is by design — your reports always match your ledger, which means your reports always match what got exported to your ERP.</p>
+</blockquote>
+<!-- ============================================================ -->
+<!-- C7 — Job 9 (continued): P&L build-out. NXT-68643 (shell) + NXT-70296 (COFU) shipped; the rest (Coming). -->
+<!-- ============================================================ -->
+<h2 id="job-9-continued-reading-the-p-l-line-by-line">Job 9 (continued) — Reading the P&amp;L, line by line</h2>
+<blockquote>
+<p><strong>TL;DR.</strong> The P&amp;L (officially the <strong>Revenue &amp; Expenditure (P&amp;L) Report</strong>) is your board-and-auditor deliverable. Today it ships as a parameter screen that builds a per-site Excel workbook with a revenue table, an expense table, and a Cost of Food Used breakdown. A much deeper version is coming: meal-type-level revenue, a reimbursements section, an itemized expenses section, a Meal Counts section, a standalone Cost of Goods Sold report, and a board-ready promotional PDF. <strong>The shell is live; the detail layer is (Coming).</strong> This section tells you what works today and what’s on the way, so you don’t promise a customer a column that isn’t there yet.</p>
+</blockquote>
+<h3 id="what-s-live-today-shipped">What’s live today (shipped)</h3>
+<p>You generate a P&amp;L the same way you generate the General Ledger and Journal reports: pick parameters, click Generate, download from the Document Center.</p>
+<p><strong>Parameters.</strong> Choose a fiscal year, a reporting period, and one or more sites; multiple sites each get their own worksheet in one Excel file. <!-- Source: NXT-68643:AC "Choose a fiscal year, reporting period, and sites. When multiple sites are selected, each site gets its own P&L worksheet in the Excel file." --> The reporting period can be a single month, a quarter, a fiscal year-to-date, or a custom date range. <!-- Source: NXT-68643:AC "Options:\n*** {{Single month}}\n*** {{Quarter}}\n*** {{Fiscal YTD}}\n*** {{Custom date range}}" --> One Generate action produces one workbook. <!-- Source: NXT-68643:AC "*One workbook per Generate action.*" --> If you select <strong>All</strong> sites, the report consolidates every site in the district into a single report. <!-- Source: NXT-68643:AC "If ‘All’ is selected, consolidate data from all sites within the district in one report." --> Any line with no data shows a dash, and the backend uses zero for the math. <!-- Source: NXT-68643:AC "If a line in the report doesn’t have any data, indicate so using a ‘-‘ and use zero in the backend for calculations" --></p>
+<blockquote>
+<p>🔧 <strong>Implementer note — what populates the two tables today.</strong> In the current (Phase 1) build the P&amp;L is driven by <strong>manual journal entries only</strong>, not by automated POS/inventory feeds. A revenue row appears for each revenue-type GL account that shows up in at least one manual entry line dated inside the period; an expense row appears the same way for expense-type accounts. <!-- Source: NXT-68643:AC "revenue table must include one row for each gl account that meets both of these conditions:\n** account type = revenue\n** account appears in at least one manual entry line (debit or credit) where the posting date is inside the selected reporting period" --> Each row label is the GL account name exactly as stored. <!-- Source: NXT-68643:AC "row label must use the gl account name exactly as stored in the gl accounts table" --> So if a customer’s P&amp;L looks empty in early onboarding, it’s usually because the manual entries that feed it haven’t been posted yet — not a bug.</p>
+</blockquote>
+<p><strong>How the columns are computed (live).</strong> For a revenue row, the current period is credits minus debits in the period; for an expense row, it’s debits minus credits. <!-- Source: NXT-68643:AC "** current period = (sum of credits in period) – (sum of debits in period)" --> <!-- Source: NXT-68643:AC "** current period = (sum of debits in period) – (sum of credits in period)" --> Year-to-date is the running total from the fiscal-year start through the end of the selected period. <!-- Source: NXT-68643:AC "** year-to-date = cumulative (credits – debits) from fiscal year start up to the end date of the selected reporting period" --> % of Revenue and % of Expenses are each computed as the row divided by its table total, shown as <code>XX.XX%</code>. <!-- Source: NXT-68643:AC "*if total revenue > 0 → (current period ÷ total revenue) × 100, display as \"XX.XX%\"*" --> Net Income at the bottom is total revenue minus total expenses. <!-- Source: NXT-68770:AC "display net income = total revenue – total expenses and subtotals" --></p>
+<blockquote>
+<p>⚠️ <strong>Watch-out — custom date range hides the comparison columns.</strong> If a customer picks a custom date range, the report intentionally drops every prior-period comparison column. <!-- Source: NXT-68643:AC "*Note: If the user selects a custom date range, do not show any columns involving comparison with prior periods.*" --> So “where did my % Change column go?” is expected behavior, not a defect — they’re on a custom range. A period with no postings exports a “No records were found” line. <!-- Source: NXT-68643:AC "If no records are available, indicate in export that “No records were found”" --> And when a period’s total revenue or total expenses is zero or negative, the percentage columns are suppressed and a warning banner explains why. <!-- Source: NXT-68643:AC "if total revenue ≤ 0 AND total expenses ≤ 0 → \"Total revenue and expenses are zero or negative for this period. Percentage calculations have been suppressed.\"" --></p>
+</blockquote>
+<p><strong>Cost of Food Used (live).</strong> The P&amp;L includes a <strong>Cost of Food Used</strong> subsection, grouped by Valuation Category (Food and Non-Food) exactly as those categories are defined in the Inventory Usage Report. <!-- Source: NXT-70296:AC "Add a \"Cost of Food Used\" subsection in the P&L." --> <!-- Source: NXT-70296:AC "Group by Valuation Category (Food & Non-Food) as already defined in the Inventory Usage Report." --> It breaks the cost into Beginning Inventory, Purchases, Additions, Net Transfers (transfers in minus transfers out), and Ending Inventory, then derives Cost of Food Used from them. <!-- Source: NXT-70296:AC "* Line A — Beginning Inventory\n* Line B — Purchases\n* Line C — Additions\n* Line D — Net Transfers (Transfers In − Transfers Out)\n* Line E — Ending Inventory\n* Line F — Cost of Food Used ({{A + B + C ± D − E = COFU}})" --> These numbers are pulled <strong>live from the Inventory Usage Report</strong> — the P&amp;L does not recalculate them itself. <!-- Source: NXT-70296:AC "All Cost of Sales data is fetched live from the Usage Report. The P&L does not independently calculate these values in columns A - D." --></p>
+<blockquote>
+<p>⚠️ <strong>Watch-out (read this before you teach Cost of Food Used) — the source of this number is changing.</strong> Today’s shipped behavior is “Cost of Food Used is fetched live from the Inventory Usage Report.” <!-- Source: NXT-70296:AC "All Cost of Sales data is fetched live from the Usage Report." --> A Phase-2 rebuild of the P&amp;L instead derives Ending Inventory from <strong>manually entered inventory transactions</strong> until the Item Management integration lands: <em>“After integration, this value will be sourced from Item Management. However, since we are not there yet, we will determine this with the formula below using transactions of the type Inventory – Usage (COGS).”</em> <!-- Source: NXT-68719:AC "Ending Inventory: After integration, this value will be sourced from Item Management. However, since we are not there yet, we will determine this with the formula below using transactions of the type Inventory – Usage (COGS):" --> <strong>These two are in tension</strong> — one says “live from the Usage Report,” the other says “computed from manual usage entries until integration.” Do not silently pick one when training. State that the live-feed version is what’s shipped, the manual-entry version is the Phase-2 plan, and flag it as an <strong>Open question</strong> (below) for the product owner to confirm which a given customer’s release behaves like.</p>
+</blockquote>
+<h3 id="what-s-coming-to-the-p-l-upcoming-not-yet-live">What’s coming to the P&amp;L (upcoming — not yet live)</h3>
+<p>Everything in this part is <strong>(Coming)</strong>. The tickets are real and define the agreed behavior, but they are New / in development — do not demo them as working or promise the columns to a customer as shipped.</p>
+<h4 id="coming-revenue-broken-out-by-program-and-meal-type">(Coming) Revenue, broken out by program and meal type</h4>
+<p>The revenue table is being expanded from “one row per GL account” to a meal-type-level breakdown. The planned version shows a row for <strong>every program and meal type defined in the district’s configuration</strong> (the AC’s examples include NSLP Lunch, SBP Breakfast, CACFP Supper, and others). <!-- Source: NXT-65475:AC "For *every program and meal type defined in the district’s configuration* (e.g., NSLP Lunch, SBP Breakfast, CACFP Supper, SFSP Snack, Adult Meals, Second Meals, Milk, or any other configured type)" --> Each row will carry a full comparison set: current period, prior period, current and prior cost-per-meal, percent of total revenue, change from prior period, and year-to-date totals. <!-- Source: NXT-65475:AC "** Revenue for *Current Period*\n** Revenue for *Prior Period*\n** *Current Cost-per-Meal*\n** *Prior Cost-per-Meal*\n** *Percentage of Total Revenue* (current period)\n** *Change from Prior Period* (percentage and/or dollar change)\n** *Year-to-Date Total Revenue*" --> Rows will be grouped first by program, then by meal type. <!-- Source: NXT-65475:AC "Display metrics in a *tabular format*, grouped first by *Program*, then by *Meal Type*, with clear labels for Current Period, Prior Period, and YTD." --> The report will count only <strong>closed POS periods</strong> inside the selected period, <!-- Source: NXT-65475:AC "Report includes only *closed POS periods* within the selected financial period." --> and you’ll be able to drill from district totals down to program, meal type, and site level. <!-- Source: NXT-65475:AC "Drill-down supported from *District totals → Program totals → Meal type → Site level* when multiple sites are included." --> The same dataset that drives the Accountability Revenue Report feeds this section, so the two reconcile. <!-- Source: NXT-65475:AC "Report uses the same dataset that drives the *Accountability → Revenue Report* for consistency." --></p>
+<p>A companion ticket refines the same section’s totals. The revenue table is planned to show a row for <strong>every meal-sales revenue mapping marked Active</strong>, and a mapped-but-zero program still shows at <code>$0.00</code> rather than disappearing. <!-- Source: NXT-69386:AC "Create a row corresponding to every single meal sales revenue data point with the status “Active” in the mapping page.\n** If a program is active but has no revenue, it should still display with $0.00 with the income in the current period section." --> An <strong>Additional Income</strong> line is added under Revenue, and the totals are redefined so that Net Revenue excludes sales tax while Total Collected includes it. <!-- Source: NXT-69386:AC "* Add *Additional Income* under the *Revenue* section.\n* *Net Revenue (excludes sales tax)* = Cash Sales + Debit Sales + Additional Income\n* *Sales Tax Collected* = Cash Tax + Debit Tax\n* *Total Collected (includes sales tax)* = Net Revenue + Sales Tax Collected" --></p>
+<blockquote>
+<p>🔧 <strong>Implementer note — where these revenue rows come from in Phase 2.</strong> In the Phase-2 design, each revenue row is sourced from a specific manual-entry type — separate entry types for catering, for breakfast/lunch à-la-carte, adult/visitor, paid, and reduced. <!-- Source: NXT-68719:AC "Revenue – Catering\n### Revenue – Breakfast A La Carte\n### Revenue – Breakfast Adult/Visitor\n### Revenue – Breakfast Paid\n### Revenue – Breakfast Reduced\n### Revenue – Lunch A La Carte\n### Revenue – Lunch Adult/Visitor\n### Revenue – Lunch Paid\n### Revenue – Lunch Reduced" --> (In the AC these are internal entry-type names; when this ships, confirm the customer-facing row labels with the product owner before teaching them — see Open questions.)</p>
+</blockquote>
+<h4 id="coming-reimbursements-section">(Coming) Reimbursements section</h4>
+<p>A dedicated <strong>Government Reimbursements</strong> section is planned. It pulls reimbursable meal counts from the Meal Count Report across the district’s active federal and state programs, applies the reimbursement rate in effect for the period, and earns reimbursement as meal count times rate, summed across programs. <!-- Source: NXT-65480:AC "Pull reimbursable meal counts from the *Meal Count Report*, ensuring it includes all active federal and state meal programs" --> <!-- Source: NXT-65480:AC "For each program:\n{{Earned Reimbursement = Σ (Meal Count × Applicable Rate)}}" --> Individual programs are itemized behind the scenes, but the summary shows a single <strong>Total Government Reimbursements</strong> figure. <!-- Source: NXT-65480:AC "Include separate line items by program in the backend for transparency, but aggregate to a *Total Government Reimbursements* figure in the main summary." --> Its columns are designed to match the Meal Sales Revenue section so the two read consistently. <!-- Source: NXT-65480:AC "Match “Meal Sales Revenue” section’s columns for consistency" --></p>
+<blockquote>
+<p>🔧 <strong>Implementer note — reimbursement is recognized when earned, not when paid.</strong> This is the whole point of the section, and it surprises districts used to cash accounting. Revenue is recognized in the <strong>current service period</strong> on an accrual basis — the system records an amount owed by federal funds when the meals are served, and clears it to cash only when the claim payment actually arrives. <!-- Source: NXT-65480:AC "Recognize revenue in the *current service period* (accrual method):\n** Debit: _Due from Federal Funds (Asset)_\n** Credit: _Reimbursement Program System Accounts (Revenue)_\n* When payment is received:\n** Debit: _Cash in Bank_\n** Credit: _Due from Federal Funds_" --> Two business rules gate it: the financial periods must be open from the posting date through today, and <strong>all POS periods in the selected range must be closed</strong>. <!-- Source: NXT-65480:AC "Financial periods must be open from posting date to current date.\n* All POS periods in the selected financial period’s range must be closed." --> Mid-year rate changes are handled by applying the rate valid on each meal’s service date. <!-- Source: NXT-65480:AC "Handle mid-year reimbursement rate changes by applying rates valid for the service date of each meal." --></p>
+</blockquote>
+<p>The refinement ticket splits reimbursements into two rows — one aggregating all Active <strong>Federal Sources</strong> mappings, one aggregating all Active <strong>State Sources</strong> mappings — each valued as credits minus debits for entries whose claim-period posting date falls in the report range. <!-- Source: NXT-69386:AC "Create a row for Reimbursement Claim - Federal Sources.\n** This row is the aggregation of all reimbursement data points with the status “Active” created for Federal Sources." --> <!-- Source: NXT-69386:AC "Create a row for Reimbursement Claim - State Sources.\n** This row is the aggregation of all reimbursement data points with the status “Active” created for State Sources." --></p>
+<h4 id="coming-expenses-detail-cost-per-meal-of-revenue-categorized">(Coming) Expenses detail (cost-per-meal, % of revenue, categorized)</h4>
+<p>The expense table is being expanded to the same comparison grid as revenue — current period, prior period, current and prior cost-per-meal, % of revenue, % change from prior, year-to-date, YTD cost-per-meal, and item % of category. <!-- Source: NXT-65483:AC "** Current Period\n** Prior Period\n** Current CPM (Cost per Meal)\n** Prior CPM\n** Current % of Revenue\n** % Change from Prior Period\n** Year-to-Date Total\n** YTD CPM\n** Item % of Category" --> Expenses are grouped by category, with the AC naming four sources: inventory-related expenses from the Inventory Posting module, payroll from payroll imports or manual GL postings, purchased goods and services from Accounts Payable when invoices post to GL expense accounts, and miscellaneous expenses from manual journal entries. <!-- Source: NXT-65483:AC "** *Inventory-related expenses* (e.g., Cleaning Supplies, Supplies) from *Inventory Posting* module.\n** *Payroll expenses* (e.g., Professional Salaries, Wages) from *payroll imports* or manual GL postings.\n** *Purchased goods and services* (e.g., Professional Services, Operational Supplies) from *Accounts Payable* when invoices are posted to GL expense accounts.\n** *Miscellaneous expenses* from *manual journal entries* or adjustments posted to expense codes." --> Only postings in <strong>open financial periods</strong> within the selected fiscal period are included, and expenses display grouped by GL account code and description. <!-- Source: NXT-65483:AC "** Only include postings within the selected fiscal period that are in *open financial periods*.\n** Group and display expenses by GL account code and description." --> In the Phase-2 design the cost-of-operation half of expenses is itself split into two sub-sections — general/administrative expenses and a separate salaries-and-wages block sourced from payroll entries. <!-- Source: NXT-68719:AC "The SG&A expenses table has two sections (Sales, Goods & Administrative (SG&A) and Salaries & Wages)" --></p>
+<h4 id="coming-meal-counts-section">(Coming) Meal Counts section</h4>
+<p>A <strong>Meal Counts</strong> section is planned, sourced from the same POS meal-transaction data as the standalone Meal Count Report so the totals match. <!-- Source: NXT-65486:AC "Use the same source data as the Meal Count report for the specified filters and dates." --> <!-- Source: NXT-65486:AC "Ensure totals in the financial report match those in the source report." --> It keeps the Meal Count Report’s existing breakdowns — program types, adult, à-la-carte, and so on — <!-- Source: NXT-65486:AC "Maintain the breakdowns shown in that report (program types, adult, a la carte, etc.)." --> and shows current period, prior period %, % change from prior, year-to-date, and % of total meals. <!-- Source: NXT-65486:AC "** Current period\n** Prior period %\n** % change from prior period\n** Year-to-date\n** % of total meals" --></p>
+<h4 id="coming-cost-of-goods-sold-both-inside-the-p-l-and-as-a-standalone-report">(Coming) Cost of Goods Sold — both inside the P&amp;L and as a standalone report</h4>
+<p>A standalone monthly <strong>Cost of Goods Sold</strong> report is planned, broken out by inventory category with a total line for the chosen scope (district, area, or site). <!-- Source: NXT-65481:AC "Show results by inventory category (e.g., Main Dish, Dairy, Bread, Supplies).\n* Provide a total line for the selected scope (district, area, or site)." --> It shows Beginning Inventory, Purchases, net Transfers, Ending Inventory, and COGS, where <strong>COGS = Beginning Inventory + Purchases + Transfers − Ending Inventory</strong>. <!-- Source: NXT-65481:AC "* Beginning Inventory\n* Purchases\n* Transfers (net in/out)\n* Ending Inventory\n* Cost of Goods Sold (COGS)" --> <!-- Source: NXT-65481:AC "COGS = Beginning Inventory + Purchases + Transfers − Ending Inventory" --> That same COGS value flows into the P&amp;L’s expense section as <strong>Cost of Sales</strong>, and the report reconciles to the General Ledger because it uses the same ledger postings. <!-- Source: NXT-65481:AC "COGS values also flow through to the Profit & Loss report under the *Expenses section* as *Cost of Sales*." --> <!-- Source: NXT-65481:AC "This report reconciles to the General Ledger, since it uses the same ledger postings that drive financial statements." --> An empty period still generates a report with the column headers in place. <!-- Source: NXT-65481:AC "If the selected parameters return no data, generate an empty report with the columns" --></p>
+<blockquote>
+<p>🔧 <strong>Implementer note — Phase-2 COGS uses Item Management’s valuation categories.</strong> In the Phase-2 P&amp;L rebuild, the Cost of Goods Sold rows are the <strong>Valuation Categories defined in Item Management</strong> (Item Configuration), and the formula adds an explicit Transfers-Out term: <em>COGS = Beginning Inventory + Purchases + Transfers In − Transfers Out − Ending Inventory.</em> <!-- Source: NXT-68719:AC "Valuation Categories are sourced from Item Management > Item Configuration > Valuation Categories" --> <!-- Source: NXT-68719:AC "The formula for COGS is COGS = Beginning Inventory + Purchases + Transfers In - Transfers Out - Ending Inventory" --> The “Description” column is the valuation-category name from Item Management — <strong>it is not a financials data point</strong>, so don’t try to map it on the financials side. <!-- Source: NXT-68719:AC "This refers to the name of the valuation category and is sourced from item management. It *does not* refer to any data source from financials." --> Negative values across the report are shown in parentheses and all figures round to two decimals. <!-- Source: NXT-68719:AC "Use parantheses to indicate negative values\n### All dollar values and percentages should be rounded to two decimal places" --></p>
+</blockquote>
+<h4 id="coming-backend-rebuild-that-all-of-the-above-sits-on">(Coming) Backend rebuild that all of the above sits on</h4>
+<p>A backend story restates the engine for the expanded report: the user picks a reporting period, the system builds a revenue table and an expense table, and <strong>Net Income = Total Revenue − Total Expenses</strong>. <!-- Source: NXT-68770:AC "display net income = total revenue – total expenses and subtotals" --> The exact row and total values the report computes are the same values the <strong>Financial Dashboard</strong> consumes — so the dashboard and the P&amp;L will always agree. <!-- Source: NXT-68770:AC "these exact revenue values (each row + totals) must be used by the dashboard" --> <!-- Source: NXT-68770:AC "these exact expense values (each row + totals) must be used by the dashboard" --> A row appears for a revenue or expense GL account only if that account shows up in at least one manual entry line dated inside the period — same rule as the shipped shell. <!-- Source: NXT-68770:AC "account appears in at least one manual entry line (debit or credit) where the posting date is inside the selected reporting period" --></p>
+<h3 id="coming-the-promotional-p-l-a-board-ready-pdf-likely-a-new-subsection">(Coming) The promotional P&amp;L — a board-ready PDF (likely a new subsection)</h3>
+<p>This one is <strong>not just more columns on the existing report — it’s a separate printable artifact</strong> aimed at sharing with internal teams and external stakeholders, so it likely earns its own subsection rather than living inside the working P&amp;L. Treat it as <strong>(Coming)</strong>.</p>
+<p>The planned PDF leads with header info (district name, report title, reporting period, fiscal year, and a “generated by” name and date-time) <!-- Source: NXT-70682:AC "The report shows header information: district name, report title, reporting period, fiscal year, and “generated by” name/date-time." --> and an <strong>Executive Summary</strong> table covering Net Gain/(Loss), Total Revenue, Total Expenditures, and Beginning and Ending Fund Balance. <!-- Source: NXT-70682:AC "The report includes an *Executive Summary* table with columns {{Line Item}} and {{Amount}}, containing:\n#* Net Gain/(Loss)\n#* Total Revenue\n#* Total Expenditures\n#* Beginning Fund Balance\n#* Ending Fund Balance" --> Below that sit detailed <strong>Revenue</strong> and <strong>Expenditures</strong> tables, each carrying a Budget column, a Variance column, and a Total row — note these are <strong>budget-vs-actual</strong> tables, which the working P&amp;L does not have. <!-- Source: NXT-70682:AC "The report includes a *Revenue* table with columns:\n#* Description\n#* Current Period\n#* YTD\n#* Budget\n#* % of Revenue\n#* % Change\n#* Variance" --> <!-- Source: NXT-70682:AC "The report includes an *Expenditures* table with columns:\n#* Description\n#* Current Period\n#* YTD\n#* Budget\n#* % of Expenses\n#* % Change\n#* Variance" --></p>
+<p>It also includes a <strong>Summary</strong> table with a Prior Year column, <!-- Source: NXT-70682:AC "The report includes a *Summary* table with columns:\n#* Line Item\n#* Current Period\n#* YTD\n#* Budget\n#* Variance\n#* Prior Year" --> a <strong>Compliance Checks</strong> table (metric, value, status, benchmark), <!-- Source: NXT-70682:AC "The report includes a *Compliance Checks* table with columns:\n#* Metric\n#* Value\n#* Status\n#* Benchmark" --> and a <strong>KPI Analysis</strong> table with a plain-language “Signal” column explaining each metric. <!-- Source: NXT-70682:AC "The report includes a *KPI Analysis* table with columns:\n#* Metric\n#* Current\n#* vs Prior Year\n#* Signal" --></p>
+<blockquote>
+<p>⚠️ <strong>Watch-out — set the right expectation when you show this to a customer.</strong> Two design choices matter for how you frame it. First, every line is tagged by data source: a legend marks each figure as <strong>system-generated</strong> or <strong>manually entered</strong>, so a reader can see which numbers are computed versus keyed by hand. <!-- Source: NXT-70682:AC "The report includes a legend defining data source markers: {{System-generated}} and {{Manually entered}}." --> Second, the report carries an explicit disclosure that <strong>it is not a substitute for a fully audited financial statement</strong> — keep that disclosure in any copy you share so no one mistakes the promotional PDF for audited financials. <!-- Source: NXT-70682:AC "The report includes a disclosure statement that this is not a substitute for a fully audited financial statement." --> The output is built for stakeholder distribution as a printable report/PDF. <!-- Source: NXT-70682:AC "Generate output suitable for stakeholder distribution as a printable report/PDF." --></p>
+</blockquote>
+<h3 id="p-l-legacy-2-0-for-this-section">P&amp;L — legacy → 2.0, for this section</h3>
+<table>
+<thead>
+<tr>
+<th>You may hear / expect</th>
+<th>In Financials 2.0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>“The P&amp;L” / “the income statement”</td>
+<td>The report is named <strong>Revenue &amp; Expenditure (P&amp;L) Report</strong>. <!-- Source: NXT-68643:AC "Page title: *“Revenue and Expenditure (P&L) Report”*" --></td>
+</tr>
+<tr>
+<td>“Cost of Goods Sold”</td>
+<td>Inside the P&amp;L the food-cost block is labeled <strong>Cost of Food Used</strong> (Beginning Inventory → Purchases → Additions → Net Transfers → Ending Inventory → COFU). <!-- Source: NXT-70296:AC "Add a \"Cost of Food Used\" subsection in the P&L." --> A standalone Cost of Goods Sold report and the Phase-2 “Cost of Sales” expense line are <strong>(Coming)</strong>. <!-- Source: NXT-65481:AC "COGS values also flow through to the Profit & Loss report under the *Expenses section* as *Cost of Sales*." --></td>
+</tr>
+<tr>
+<td>“Reimbursement shows up when the check clears”</td>
+<td>(Coming) Reimbursement is recognized <strong>when meals are served</strong> (accrual), and cleared to cash when the claim is paid. <!-- Source: NXT-65480:AC "Recognize revenue in the *current service period* (accrual method):" --></td>
+</tr>
+<tr>
+<td>“Revenue is one lump sum”</td>
+<td>(Coming) Revenue breaks out by program and meal type, with cost-per-meal and prior-period comparison per row. <!-- Source: NXT-65475:AC "grouped first by *Program*, then by *Meal Type*" --></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Open questions for the SME / product owner (P&amp;L build-out):</strong></p>
+<ol>
+<li><strong>Cost of Food Used source — live feed vs. manual entries.</strong> The shipped report fetches it <strong>live from the Inventory Usage Report</strong>; the Phase-2 rebuild derives Ending Inventory from manual <code>Inventory – Usage (COGS)</code> entries until the Item Management integration lands. Which behavior does the customer’s current release actually use, and when does the cutover happen? (Do not resolve in the guide until confirmed.)</li>
+<li><strong>Customer-facing revenue/expense row labels.</strong> The Phase-2 AC lists internal entry-type names (e.g., <code>Revenue – Lunch Paid</code>, <code>Expense – SG&amp;A</code>, <code>Expense – Payroll</code>). <!-- Source: NXT-68719:AC "Revenue – Lunch Paid" --> <!-- Source: NXT-68719:AC "Expense – SG&A\n#### Expense – Payroll\n#### Expense – Other" --> What are the exact customer-facing labels for these rows? Don’t print the internal entry-type strings in the guide as if they were UI labels.</li>
+<li><strong>Reimbursement program-account naming.</strong> AC references a “Reimbursement Program System Accounts (Revenue)” account and “Due from Federal Funds (Asset).” Confirm the exact account names a customer will see before naming them in customer-facing copy.</li>
+<li><strong>Promotional PDF — where does Budget come from?</strong> The promotional report adds Budget and Variance columns the working P&amp;L lacks. AC does not state where the budget figures are entered or imported. Flag as unspecified — do not invent a budget-entry path.</li>
+<li><strong>Two overlapping backend stories.</strong> NXT-68770 and NXT-68719 both restate the P&amp;L backend at different depths. Confirm which is the authoritative spec for the release being documented so the guide doesn’t describe two different layouts.</li>
+</ol>
+</blockquote>
+<hr>
+<h1 id="job-10-figure-out-why-a-posting-failed-or-didn-t-run">Job 10 — “Figure out why a posting failed (or didn’t run)”</h1>
+<p><strong>TL;DR:</strong> One page. Activity › Posting Activity Log.</p>
+<p><strong>Where:</strong> Financials › Activity › Posting Activity Log.</p>
+<p><strong>What you’ll see:</strong></p>
+<ul>
+<li>Summary cards (last 30 days): Total Jobs, Completed, Failed, Running.</li>
+<li>A table of every posting job: Job Name, Type (POS / Inventory / Claim), Status, Last Run, Triggered By.</li>
+<li>Expand a successful job → entries created, total amount, duration, breakdown by entry type, and a “View in Journal →” link that pre-filters the journal to that job.</li>
+<li>Expand a failed job → red warning, error reason (“Missing GL account mapping for site: Washington Elementary,” etc.).</li>
+</ul>
+<p><strong>The five reasons posting halts globally:</strong></p>
+<ol>
+<li>An active data point isn’t mapped.</li>
+<li>An entry references an inactive data point.</li>
+<li>The financial period covering the source date is closed.</li>
+<li>The source POS/Inventory period isn’t closed yet.</li>
+<li>A category’s base type doesn’t match the data points referencing it.</li>
+</ol>
+<p>Fix one of those, the job re-runs (or you re-trigger from the source system). The log keeps history.</p>
+<blockquote>
+<p>⚠️ <strong>Partial-failure caveat:</strong> If a job posts some entries and then fails, it shows as Failed with no entries listed in the expanded row. Some entries did post — they’re in the journal. Filter the journal by date range to find them before re-running, or you’ll double-post.</p>
+</blockquote>
+<!-- ============================================================ -->
+<!-- C1 — Job 10 refresh. ALL ten cluster tickets are status New => everything below tagged (Coming). -->
+<!-- Shipped anchor for TODAY's behavior is NXT-69493 (Done Done). -->
+<!-- ============================================================ -->
+<h2 id="job-10-refresh-what-s-coming-to-the-posting-activity-log">Job 10 (refresh) — what’s coming to the Posting Activity Log</h2>
+<blockquote>
+<p>⚠️ <strong>Read this before the section below.</strong> This guide tells you posting is fully hands-off — “Do nothing. Posting fires the moment the upstream period closes… you can no longer forget to post” — and the Glossary says the old <strong>Approve / Post</strong> buttons are <em>gone</em>. <strong>That is true for the version shipping now, but a wave of work is in flight that brings manual Post / Repost controls back as an option.</strong> None of it has shipped yet (all of it is in development at the time of writing). If you see <strong>Post</strong> buttons or a <strong>Ready to Post</strong> queue on your screen, the product is not broken and neither is this guide — you are on a newer build. Everything tagged <strong>(Coming)</strong> below is the new behavior.</p>
+</blockquote>
+<h3 id="tl-dr">TL;DR</h3>
+<ul>
+<li><strong>Today (shipped):</strong> the Posting Activity Log is a read-only monitor. Postings run in the background when an upstream period closes; you open this page to confirm jobs ran and to see why any failed. The shipped page has <strong>four</strong> summary cards (Total Jobs / Completed / Failed / Running) and a reverse-chronological job table. <!-- Source: NXT-69493:AC "*Summary cards*: Four cards at top — Total Jobs (30 Days), Completed (green), Failed (red), Running (orange)." --> <!-- Source: NXT-69493:AC "*Manual trigger*: Out of scope — jobs triggered from Fiscal Periods page, not here." --></li>
+<li><strong>(Coming) Manual posting comes back as an option.</strong> A <strong>Ready to Post</strong> queue lets you review closed periods and post them yourself, without leaving this page. <!-- Source: NXT-70065:AC "A \"Ready to Post\" section appears between the summary cards and the job history table" --> <!-- Source: NXT-70065:AC "two actions: Review and Post All" --></li>
+<li><strong>(Coming) Two posting grids</strong> — one for POS, one for Inventory — give you a per-site, per-month list with a <strong>Status</strong> column and <strong>Post / View / Repost / Remove</strong> actions. <!-- Source: NXT-65487:AC "*Status* (Not Ready, Ready to Post, Posted, Error)" --> <!-- Source: NXT-65487:AC "*Actions* (Post, View, Repost, Remove)" --></li>
+<li><strong>(Coming) The top of the page is redesigned</strong> from four system-job counts to three “what matters now” cards: posting progress, what needs attention, and dollars posted this period. <!-- Source: NXT-70066:AC "Replace the four Phase 1 cards (Total Jobs, Completed, Failed, Running) with three cards in a horizontal grid" --></li>
+<li><strong>(Coming) A gentle nudge</strong> points manual posters toward turning automatic posting back on. <!-- Source: NXT-70069:AC "Banner text: \"You're posting manually. Districts with automatic posting enabled only visit this page when something needs attention.\"" --></li>
+</ul>
+<h3 id="what-this-page-is-for">What this page is for</h3>
+<p>You come to the Posting Activity Log to answer one question: <em>did my financial data post correctly, and if not, what do I fix?</em> <!-- Source: NXT-69493:desc "As a Child Nutrition Director, I want to view a log of all background posting jobs, so that I can confirm my financial data is being posted correctly." --> The shipped version is a monitor only — postings are triggered elsewhere, and you watch them land here. <!-- Source: NXT-69493:AC "*Manual trigger*: Out of scope — jobs triggered from Fiscal Periods page, not here." --></p>
+<p>The upcoming work keeps that monitoring job but adds a second job on the same page: <strong>reviewing and posting closed periods yourself.</strong> <!-- Source: NXT-70065:desc "As a CN Director, I want to see which periods are closed and waiting for ledger entries so I can review and post them without navigating away from the Activity Log." --></p>
+<h3 id="coming-the-ready-to-post-queue-review-and-post-without-leaving-the-page">(Coming) The Ready-to-Post queue — review and post without leaving the page</h3>
+<blockquote>
+<p>🔧 <strong>Implementer note:</strong> This section is the single biggest change to the “do nothing” story. If your district leaves automatic posting on, you will rarely see this queue do anything (closed periods post themselves and the queue stays empty). If automatic posting is off, this is where you’ll work each period close. All of it is <strong>(Coming)</strong> — status <em>New</em> / in development.</p>
+</blockquote>
+<p>A new <strong>Ready to Post</strong> card sits between the summary cards and the job history table; it’s expanded by default and shows a badge with how many periods are waiting. <!-- Source: NXT-70065:AC "A \"Ready to Post\" section appears between the summary cards and the job history table" --> <!-- Source: NXT-70065:AC "Section is a collapsible card with a left-border accent and a badge showing pending item count" --> <!-- Source: NXT-70065:AC "Section is expanded by default; collapses on header click" --></p>
+<p>Each waiting period shows as one row with the period name, how many sites it covers, a type badge (POS or Inventory), and two buttons — <strong>Review</strong> and <strong>Post All</strong>. <!-- Source: NXT-70065:AC "Each pending item shows as a row: period name, site count, type badge (POS Posting / Inventory Posting), and two actions: Review and Post All" --> Rows are grouped one per period per type, so a large district doesn’t get a wall of rows. <!-- Source: NXT-70065:AC "Items aggregate one row per period per type, regardless of district size" --></p>
+<p><strong>To review before posting:</strong> click <strong>Review</strong> to open an inline checklist of the sites in that period — each row a checkbox, the site name, the entry types you’d expect, and an estimated amount. <!-- Source: NXT-70065:AC "Clicking Review expands an inline panel below that row with a checklist table: checkbox, site name, expected entry types, estimated amount" --> Every site is checked by default; you get a <strong>Select All / Deselect All</strong> toggle and a search-by-site-name filter, and the <strong>Post Selected (X sites)</strong> button updates its count as you check and uncheck. <!-- Source: NXT-70065:AC "All sites checked by default; \"Select All / Deselect All\" toggle and search-by-site-name filter are present" --> <!-- Source: NXT-70065:AC "\"Post Selected (X sites)\" button updates count dynamically as user checks/unchecks" --></p>
+<p><strong>To post:</strong> clicking <strong>Post All</strong> or <strong>Post Selected</strong> opens a confirmation modal with a preview table — site, entry types, estimated amount, and a total — so you confirm the dollars before you commit. <!-- Source: NXT-70065:AC "Clicking Post All or Post Selected opens a confirmation modal showing a preview table of entries (site, entry types, estimated amount, total)" --> On confirm, the queue row animates away, the badge count drops, and a new <strong>Running</strong> job appears at the top of the job history table with <strong>Triggered By</strong> showing <em>your</em> name (not “System”). <!-- Source: NXT-70065:AC "On confirm: pending item animates out, a new Running job appears at the top of the job history table with Triggered By showing the current user name, badge count decrements" --></p>
+<p>When several periods are waiting, a <strong>Post All Pending</strong> button appears in the section header and its confirmation modal rolls everything up to a period-level summary with totals. <!-- Source: NXT-70065:AC "When 2+ items are pending, a \"Post All Pending\" batch button appears in the section header; confirmation modal shows a period-level summary with totals" --></p>
+<p>When nothing is waiting, the section shows an all-clear empty state. <!-- Source: NXT-70065:AC "When no items are pending, section shows an empty state: \"All caught up. Every closed period has been posted.\" with muted quip underneath" --></p>
+<h3 id="coming-the-pos-and-inventory-posting-grids-per-site-post-repost-remove">(Coming) The POS and Inventory posting grids — per-site Post / Repost / Remove</h3>
+<blockquote>
+<p>⚠️ <strong>Watch-out — this is the line the Glossary needs to qualify.</strong> Today’s Glossary says the legacy <strong>Approve / Post</strong> buttons are <em>gone</em>. These two grids bring <strong>Post</strong>, <strong>Repost</strong>, and <strong>Remove</strong> actions back at the per-site level. Treat the Glossary’s “gone” as “gone in the version that shipped, returning as an explicit per-site control.” Both grids are <strong>(Coming)</strong> — status <em>New</em>.</p>
+</blockquote>
+<p><strong>POS postings grid.</strong> A table lists each site and month with <strong>Total Revenue</strong>, <strong>Total Transactions</strong>, and a <strong>Status</strong> of <em>Not Ready, Ready to Post, Posted,</em> or <em>Error</em>, plus <strong>Post / View / Repost / Remove</strong> actions. <!-- Source: NXT-65487:AC "Create a table with these columns:" --> <!-- Source: NXT-65487:AC "*Status* (Not Ready, Ready to Post, Posted, Error)" --> <!-- Source: NXT-65487:AC "*Actions* (Post, View, Repost, Remove)" --> Selecting a site shows a summary of its POS transactions. <!-- Source: NXT-65487:AC "Selecting a site displays a summary of various POS transactions." --></p>
+<p><strong>Inventory postings grid.</strong> Same idea for inventory — site, month, the same four-value <strong>Status</strong>, and <strong>Post / View / Repost / Remove</strong>; selecting a site shows a summary of its inventory transactions. <!-- Source: NXT-66123:AC "Create a table with these columns:" --> <!-- Source: NXT-66123:AC "*Status* (Not Ready, Ready to Post, Posted, Error)" --> <!-- Source: NXT-66123:AC "*Actions* (Post, View, Repost, Remove)" --> <!-- Source: NXT-66123:AC "Selecting a site displays a summary of various Inventory transactions." --></p>
+<blockquote>
+<p>🔧 <strong>Implementer note — period setup gates inventory posting.</strong> If your financial and inventory periods aren’t lined up, the grid blocks the post and shows this exact message in an info tooltip: <em>“To Approve or Post, close all open Inventory Periods up to the selected Financial Period’s end date. To Approve or Post, open all Financial Periods from the start date of the selected Financial Period to today’s date.”</em> <!-- Source: NXT-66123:AC "*Then* I should receive the message “To Approve or Post, close all open Inventory Periods up to the selected Financial Period's end date.\nTo Approve or Post, open all Financial Periods from the start date of the selected Financial Period to today's date.” via a tooltip with an info icon." --></p>
+</blockquote>
+<blockquote>
+<p><strong>Open question (do not invent):</strong> NXT-66123’s title and its tooltip both use the word <strong>Approve</strong> (“To <em>Approve</em> or Post…”), but its <strong>Actions</strong> column lists only <em>Post / View / Repost / Remove</em> — no Approve button. The AC does not define a separate Approve control, so this guide does not describe one. <strong>Confirm with the PO whether Inventory has a distinct Approve step or whether “Approve” is legacy wording for Post.</strong></p>
+</blockquote>
+<h3 id="coming-redesigned-summary-cards-progress-problems-dollars">(Coming) Redesigned summary cards — progress, problems, dollars</h3>
+<p>The four shipped cards (Total Jobs / Completed / Failed / Running) are being replaced by <strong>three</strong> cards. <!-- Source: NXT-70066:AC "Replace the four Phase 1 cards (Total Jobs, Completed, Failed, Running) with three cards in a horizontal grid" --></p>
+<ol>
+<li><strong>Posting Progress</strong> — the current fiscal period, showing “X of Y sites posted” with a thin progress bar; a site counts as posted only once <em>all</em> its posting types are done. <!-- Source: NXT-70066:AC "Card 1 — Posting Progress: label is the current fiscal period name (uppercase), value shows \"X of Y sites posted\", thin green progress bar underneath proportional to completion. A site counts as \"posted\" only when all its posting types are complete." --></li>
+<li><strong>Needs Attention</strong> — a red count of failed/unresolved jobs; click it to jump to the table filtered to failures. When there are none it reads “No issues ✓” in green. <!-- Source: NXT-70066:AC "Card 2 — Needs Attention: value shows failed/unresolved count in red. Clickable — scrolls to and filters the job history table to failed jobs. When zero: \"No issues ✓\" in green" --></li>
+<li><strong>Posted This Period</strong> — total dollars posted to the ledger this period, with a delta versus the prior period. <!-- Source: NXT-70066:AC "Card 3 — Posted This Period: value shows total dollar amount of ledger entries for the current period in green. Subtitle shows delta vs prior period (e.g., \"↑ $4,200 vs Dec 2025\")" --></li>
+</ol>
+<p>The old job counts don’t disappear — they move into the job-table header as muted inline text (for example, “25 total · 21 completed · 2 failed · 1 running”). <!-- Source: NXT-70066:AC "The old job counts (total, completed, failed, running) move to the job history table section header as inline muted text: \"Posting Jobs (Last 30 Days) · 25 total · 21 completed · 2 failed · 1 running\"" --></p>
+<h3 id="coming-failures-surface-first">(Coming) Failures surface first</h3>
+<p>Failed jobs get pinned to the top of the table no matter how you’ve sorted it, with a <strong>Needs Attention</strong> divider above them and a <strong>Recent Jobs</strong> divider below. <!-- Source: NXT-70067:AC "Failed jobs are pinned to the top of the job history table regardless of sort order" --> <!-- Source: NXT-70067:AC "A \"Needs Attention\" divider row appears above the first failed job; a \"Recent Jobs\" divider appears below the last failed job, before completed/running jobs" --> The <strong>Failed</strong> filter chip carries a red count badge (for example, “Failed 2”). <!-- Source: NXT-70067:AC "The \"Failed\" filter chip shows a red badge with the count of failed jobs (e.g., \"Failed 2\")" --> Expanding a failed job shows the error, a plain-language help line, and a <strong>Resolve Issue</strong> link. <!-- Source: NXT-70067:AC "Expanded failed job detail panels show: error message, a direct help line (\"This one needs a fix before it's audit-ready. Here's what to do →\"), and a Resolve Issue link" --></p>
+<h3 id="coming-richer-completed-job-detail-export">(Coming) Richer completed-job detail + export</h3>
+<p>Open a completed POS job and you’ll see an <strong>Entries by GL Entry Type</strong> table — entry type, the debit/credit accounts, a count, and a total. <!-- Source: NXT-70068:AC "Expanded completed POS job panels show an \"Entries by GL Entry Type\" table with columns: entry type, debit/credit accounts, entry count, total amount" --> <strong>Reimbursement Receivable</strong> is the first, bold row; <strong>Sales Tax Collected</strong> appears as a muted, conditional last row only if your district has sales tax configured, with a footnote that entry types depend on your configuration. <!-- Source: NXT-70068:AC "Reimbursement Receivable is the first row in the table, visually prominent (bold text)" --> <!-- Source: NXT-70068:AC "Sales Tax Collected appears as the last row only if the district has sales tax configured; styled as conditional (muted italic)" --> <!-- Source: NXT-70068:AC "A footnote below the table reads: \"Entry types shown depend on your district's configuration.\"" --> An <strong>Export Entries</strong> button offers <strong>CSV, PDF,</strong> or <strong>ERP Format</strong>. <!-- Source: NXT-70068:AC "Clicking Export shows a dropdown with format options: CSV, PDF, ERP Format" --> When you posted a job yourself, the <strong>Triggered By</strong> column shows a user icon before your name. <!-- Source: NXT-70068:AC "The Triggered By column shows a user icon before the name when the job was triggered manually (not \"System\")" --></p>
+<h3 id="coming-you-re-posting-manually-nudge">(Coming) “You’re posting manually” nudge</h3>
+<p>If automatic posting is off, a low-key banner appears between the summary cards and the Ready-to-Post section: <em>“You’re posting manually. Districts with automatic posting enabled only visit this page when something needs attention.”</em> <!-- Source: NXT-70069:AC "A standalone banner appears between the summary cards and the Ready to Post section when automatic posting is not enabled" --> <!-- Source: NXT-70069:AC "Banner text: \"You're posting manually. Districts with automatic posting enabled only visit this page when something needs attention.\"" --> It offers an <strong>Enable automatic posting →</strong> link and an X to dismiss for the session, and it never shows if automatic posting is already on. <!-- Source: NXT-70069:AC "Right side shows \"Enable automatic posting →\" link and an X dismiss button" --> <!-- Source: NXT-70069:AC "Dismissing hides the banner for the session (persists via local storage)" --> <!-- Source: NXT-70069:AC "Banner never renders if automatic posting is already enabled" --> The page subtitle becomes “Your posting jobs, tracked and audit-ready.” <!-- Source: NXT-70069:AC "Page subtitle updated to: \"Your posting jobs, tracked and audit-ready.\"" --></p>
+<blockquote>
+<p>🔧 <strong>Implementer note:</strong> This banner is the product’s own acknowledgement that manual posting is a <em>mode</em>, not the default. The 2.0 promise (“posting is automatic”) is the recommended path; the manual queue and grids above exist for districts that choose to keep it hands-on. Frame it that way for staff so the two messages don’t read as contradictory.</p>
+</blockquote>
+<h3 id="coming-notifications-blocked-postings-and-login-summaries">(Coming) Notifications: blocked postings and login summaries</h3>
+<p><strong>Blocked by missing GL mappings.</strong> When the readiness gate blocks a posting job, a bell notification fires and a <strong>yellow</strong> banner pins to the top of this page: <em>“Financial postings could not run. [X] required GL mappings are incomplete.”</em> — where [X] is the live count of gaps. <!-- Source: NXT-70866:AC "When the readiness gate is active, display a yellow informational banner pinned to the top of the Posting Activity Log page" --> <!-- Source: NXT-70866:AC "Notification text: _\"Financial postings could not run. [X] required GL mappings are incomplete.\"_ where [X] = current count of incomplete mappings" --> The banner links straight to the Account Mapping page filtered to the incomplete mappings, has no dismiss button, and clears itself once every required mapping is complete. <!-- Source: NXT-70866:AC "Banner includes a link to Account Mapping page, pre-filtered to incomplete mappings only" --> <!-- Source: NXT-70866:AC "Banner has no dismiss button — it remains visible as long as gaps exist" --> <!-- Source: NXT-70866:AC "Banner disappears automatically when all required mappings are complete" --></p>
+<p><strong>Login summary.</strong> When you arrive in Financial Oversight and there’s been posting activity since your last login, a banner summarizes it — e.g. “X posting jobs completed since your last login. View Activity Log →” — and prioritizes warnings if any jobs failed or need review. <!-- Source: NXT-69972:AC "*Given* there are new completed jobs since last login, *Then:* notification displays: \"X posting jobs completed since your last login. View Activity Log →\"" --> <!-- Source: NXT-69972:AC "*Then:* notification prioritizes warnings: \"X jobs need attention, Y completed. View Activity Log →\"" --> Clicking through opens this page filtered to jobs since your last login. <!-- Source: NXT-69972:AC "*Given* the user clicks \"View Activity Log →\", *Then:* user navigates to Posting Activity Log, filtered to jobs since last login." --></p>
+<blockquote>
+<p>🔧 <strong>New status to know — “Requires Review.”</strong> Beyond Completed / Failed, a job can land as <strong>Requires Review</strong> when a posting already exists for that period or claim. The expanded row tells you to review and manually reverse the existing entry before reposting. <!-- Source: NXT-69972:AC "*Given* a posting job has status \"Requires Review\" due to existing system-generated entry, *Then:* expanded row shows: \"A system-generated posting already exists for [Period]. Review and manually reverse if needed before reposting.\"" --> <!-- Source: NXT-69972:AC "*Given* a posting job has status \"Requires Review\" due to existing claim posting, *Then:* expanded row shows: \"A posting already exists for this claim. Review and manually reverse if needed before reposting.\"" --></p>
+</blockquote>
+<h3 id="coming-fix-the-mapping-once-failed-jobs-rerun-themselves">(Coming) Fix the mapping once — failed jobs rerun themselves</h3>
+<p>You don’t re-post failed jobs by hand after fixing a mapping. When you save the missing GL mappings under <strong>Financials &gt; Account Mapping</strong>, the system automatically reruns every posting job that had failed for a missing-mapping reason, and logs each new result here. <!-- Source: NXT-70111:AC "When a user saves missing GL mappings in {{Financials > Account Mapping}}, the system automatically reruns all previously failed posting jobs whose failure reason was missing mapping." --> <!-- Source: NXT-70111:AC "The rerun is system-triggered (no manual retry), and each job logs the new result (success or new failure reason) in Posting Activity Log." --></p>
+<blockquote>
+<p>🔧 <strong>Implementer note — the resolution loop, end to end:</strong> a job fails for a missing mapping → the yellow banner and bell point you to Account Mapping → you fill the gap → the failed jobs rerun on their own and reappear here with their new result. No “resolved” notification fires; postings just resume. <!-- Source: NXT-70866:AC "If the user resolves all gaps, do not send a \"resolved\" notification — postings resume silently on the next cycle" --></p>
+</blockquote>
+<blockquote>
+<p><strong>Open question (do not invent a release label):</strong> the AC for these tickets does not state <em>when</em> the manual controls ship or under what release/version name. This guide tags them <strong>(Coming)</strong> only. Do not add a version number, sprint, or date to the Glossary or the “What changed in 2.0” table until the PO confirms one.</p>
+</blockquote>
+<hr>
+<!-- ============================================================ -->
+<!-- C6 — Job 8 / Job 10 deep-dive: what posting writes to the ledger. -->
+<!-- Live: NXT-70304, NXT-66384 (Done Done). Everything else (Coming). -->
+<!-- ============================================================ -->
+<h1 id="job-8-job-10-deep-dive-what-posting-actually-puts-in-your-ledger">Job 8 / Job 10 deep-dive — What posting actually puts in your ledger</h1>
+<blockquote>
+<p><strong>Where this lives.</strong> This expands <strong>Job 8 (“See what happened — Journal &amp; Ledger”)</strong> and <strong>Job 10 (“Why a posting fired or failed — Posting Activity Log”)</strong>. It also leans on the Job 2 prerequisite above (Phase 5 — Valuation Categories), which gates all inventory posting.</p>
+</blockquote>
+<blockquote>
+<p><strong>TL;DR.</strong> The rest of this guide keeps telling you “posting is automatic.” True — but it never shows you <em>what</em> it posts. This section opens the hood. When a period closes, the system writes balanced double-entry lines for you: a debit, a credit, an amount, a date, and a site. Two of these flows are <strong>live today</strong> (your meal-sales revenue and your sales-tax liability). The rest — the whole inventory side and reimbursements — are <strong>(Coming)</strong>. Read the live ones as fact; read the (Coming) ones as “this is what’s being built, don’t expect the buttons yet.”</p>
+</blockquote>
+<blockquote>
+<p>⚠️ <strong>Read the status tags, not just the headings.</strong> A line tagged <strong>(Coming)</strong> describes a backlog story, not a screen you can open today. If you go looking for it and it isn’t there, the guide isn’t wrong — the feature hasn’t shipped. Live behavior is written in the present tense with no tag.</p>
+</blockquote>
+<h2 id="legacy-2-0-for-this-section">Legacy → 2.0, for this section</h2>
+<table>
+<thead>
+<tr>
+<th>You used to think…</th>
+<th>In 2.0 it’s actually…</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>“Posting is a black box; money just appears in the GL.”</td>
+<td>Every posted line names its <strong>debit account, credit account, amount, posting date, and source</strong> — and you can open the entry to see them. <!-- Source: NXT-65485:AC "The output will show all the information needed for the ledger entry — which accounts are debited and credited, the amount, the date, and where the transaction came from." --> (engine: <strong>(Coming)</strong>)</td>
+</tr>
+<tr>
+<td>“Sales tax is part of my meal revenue.”</td>
+<td>Sales tax is a <strong>liability you owe</strong>, posted separately from revenue — never counted as income. <!-- Source: NXT-70304:desc "*Sales Tax* = the tax amount collected on taxable sales (a *liability*, not revenue)." --> <strong>(Live)</strong></td>
+</tr>
+<tr>
+<td>“Inventory just needs GL accounts somewhere.”</td>
+<td>Inventory posts by <strong>Valuation Category</strong>, and each category needs <strong>both</strong> an Asset and an Expense account before it can post at all. <!-- Source: NXT-65482:AC "Every valuation category must have *both* an Asset Account and an Expense Account mapped before it can be used in postings." --> <strong>(Coming)</strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="part-a-the-two-flows-that-are-live-today">Part A — The two flows that are LIVE today</h2>
+<p>These two are <strong>Done Done</strong>. The entries described here are real lines you will see in the Journal and Ledger (Job 8) right now.</p>
+<h3 id="a1-meal-sales-revenue-your-ledger-when-you-close-a-pos-period-live">A1. Meal-sales revenue → your ledger, when you close a POS period <strong>(Live)</strong></h3>
+<p>🎯 <strong>The job:</strong> you close a POS period and your meal money lands in the general ledger automatically, split correctly between revenue and the prepaid balances customers drew down.</p>
+<p>When a POS period is closed for a site, the system posts your meal-sales revenue to the ledger without a manual journal entry. <!-- Source: NXT-66384:AC "*When a POS period is closed:* * Backend accesses the <meal sales revenue source> from the accountability database * Ledger Entries are created in the tables associated with the given district" --> The entry is labeled <strong>Meal Sales Revenue</strong>. <!-- Source: NXT-66384:AC "*Transaction Code:* MEALSLS ** *Transaction Description:* Meal Sales Revenue" --> (Backend transaction code: <code>MEALSLS</code> — you don’t type this; it’s the system’s internal tag for the entry.)</p>
+<p>What the entry contains:</p>
+<ul>
+<li><strong>Debit side</strong> — your <strong>Cash in Bank</strong> account <em>and</em> the <strong>prepaid balance</strong> account, by site. <!-- Source: NXT-66384:AC "*Accounts Debited:* <Cash In Bank GL Site Sub Account> AND <Prepaid Account GL Site Sub Account>" --> (Why prepaid is debited: when a student spends down money they paid earlier, that prepaid liability goes down — so it sits on the debit side here.)</li>
+<li><strong>Credit side</strong> — your <strong>meal-sales</strong> and <strong>à la carte sales</strong> revenue accounts, by site. <!-- Source: NXT-66384:AC "*Accounts Credited:* <Meal Sales AND A La Carte Sales GL Site Sub Accounts>" --></li>
+<li>The meal-sales account follows the <strong>revenue program</strong> the money came from (for example, the School Breakfast Program), and the à la carte account follows the <strong>meal type</strong> (for example, Breakfast). <!-- Source: NXT-66384:AC "The *meal sales account* must align to the *student revenue source* (e.g., School Breakfast Program), and the *a la carte account* must align to the *student meal type* (e.g., Breakfast)." --></li>
+</ul>
+<blockquote>
+<p>🔧 <strong>Implementer note — this is why one GL account can show two different totals on your P&amp;L.</strong> Each debit/credit line is tagged with the exact data point it came from, so the Profit &amp; Loss report can total <em>by data point</em> even when several data points map to the same GL account. <!-- Source: NXT-66384:AC "each debit/credit line must be attributed to the originating data point / data source (e.g., the specific meal sales revenue data point or reimbursement data point) so the Profit & Loss report can calculate totals by data point even when one GL account is mapped to multiple data points." --> If you’ve ever wondered how the P&amp;L splits a shared account, this is the mechanism.</p>
+</blockquote>
+<p>⚠️ <strong>Watch-outs before this will post:</strong></p>
+<ul>
+<li>Every meal-sales revenue data point must be mapped to a GL account first. <!-- Source: NXT-66384:AC "All Meal Sales Revenue accounts mapped to GL Accounts" --> (That’s a Job 2 task.)</li>
+<li>The financial period has to be <strong>open</strong> from the posting date through today. <!-- Source: NXT-66384:AC "Financial periods must be open from the date of posting to the current date." --></li>
+<li><strong>Every</strong> POS period that falls inside the financial period’s date range has to be <strong>closed</strong>. <!-- Source: NXT-66384:AC "All POS periods that fall in the selected Financial period's date range need to be closed." --></li>
+<li>The entry posts dated to the <strong>last day of the POS period</strong>, not the day you close it. <!-- Source: NXT-66384:AC "The last day of the POS Period is used as the Posting date." --></li>
+</ul>
+<blockquote>
+<p>📌 <strong>The lines always balance.</strong> There may be several accounts on each side; the system validates that total debits equal total credits before it posts. <!-- Source: NXT-66384:AC "Note that there may be multiple accounts involved on either side of the transaction. Validate that debit and credit totals are equal." --></p>
+</blockquote>
+<h3 id="a2-sales-tax-posted-as-a-liability-you-owe-not-as-revenue-live">A2. Sales tax → posted as a liability you owe, not as revenue <strong>(Live)</strong></h3>
+<p>🎯 <strong>The job:</strong> the tax you collected at the register is tracked as money you owe the state, ready to remit — and it never inflates your revenue.</p>
+<p>When a POS period closes for a site, the system creates <strong>exactly one</strong> sales-tax entry for that site and period. <!-- Source: NXT-70304:AC "*Then* the system creates *exactly one* TAXCLCTD journal entry for that *site + POS period*." --> (Backend code: <code>TAXCLCTD</code>, “tax collected.”) The entry has <strong>two lines only</strong>:</p>
+<ol>
+<li><strong>Debit: Cash in Bank</strong> — the net sales tax. <!-- Source: NXT-70304:AC "*Debit:* Cash in Bank = Net Sales Tax" --></li>
+<li><strong>Credit: Sales Tax Owed (a liability)</strong> — the net sales tax. <!-- Source: NXT-70304:AC "*Credit:* Sales Tax Owed (Liability) = Net Sales Tax" --></li>
+</ol>
+<p>The amount is <strong>net</strong> tax: tax collected minus tax reversed (voids and returns) in that same POS period. <!-- Source: NXT-70304:AC "Posted Amount = *Tax Collected – Tax Reversed* (same POS period)." --> It posts dated to the <strong>last day of the POS period</strong>. <!-- Source: NXT-70304:AC "Posting Date = *last day of the POS period*." --> Like every posting, debits equal credits. <!-- Source: NXT-70304:AC "Total Debits = Total Credits for TAXCLCTD." --></p>
+<blockquote>
+<p>🔧 <strong>Implementer note — where you’ll see it on the close screen.</strong> On the POS Period Close job for that period, this shows up as <strong>“Sales Tax Collected.”</strong> <!-- Source: NXT-70304:AC "Appears as 'Sales Tax Collected' in POS Period Close job corresponding to the period." --></p>
+</blockquote>
+<p>⚠️ <strong>Watch-out — an inactive account silently skips the tax posting.</strong> If either the Cash in Bank account or the Sales Tax Owed account is inactive when posting runs, the system <strong>skips</strong> the sales-tax entry. <!-- Source: NXT-70304:AC "*Given* Cash in Bank or Sales Tax Owed is inactive *When* posting runs *Then* skip TAXCLCTD" --> Keep both accounts active or your tax liability won’t post.</p>
+<blockquote>
+<p>💡 <strong>Why this matters for accuracy.</strong> Meal-sales revenue is the <strong>tax-exclusive</strong> amount — the gross/total figure that includes tax must never be used for revenue posting. <!-- Source: NXT-70304:desc "*Meal Sales Revenue* = the tax-exclusive revenue amount (does *not* include sales tax)." --> <!-- Source: NXT-70304:desc "*Total / Gross Amount* = Meal Sales Revenue *plus* Sales Tax (may exist in POS, but must not be used for revenue posting)." --> That separation is what keeps your reported revenue honest.</p>
+</blockquote>
+<h2 id="part-b-the-inventory-side-coming">Part B — The inventory side <strong>(Coming)</strong></h2>
+<blockquote>
+<p>⚠️ <strong>All of Part B is upcoming.</strong> None of these inventory entries post yet. Read this as “here’s how inventory will hit your ledger,” and complete the prerequisite — Job 2, Phase 5 (Valuation Categories) — now so you’re ready when it ships.</p>
+</blockquote>
+<h3 id="b1-what-inventory-close-will-post-coming">B1. What inventory close will post <strong>(Coming)</strong></h3>
+<p>🎯 <strong>The job:</strong> when an inventory period closes, your food and supply costs land in the ledger automatically — no manual journal entries — grouped the way your reports expect.</p>
+<p>When an inventory period transitions to <strong>Closed</strong> for a site, the system will start a posting job named <strong>“Inventory Posting”</strong> for that site and period, with no manual trigger. <!-- Source: NXT-70295:AC "*Then* the system automatically initiates a posting job named \"Inventory Posting\" for that site-period with no manual trigger required" --> Every entry is dated the <strong>last day of the inventory period</strong>. <!-- Source: NXT-70295:AC "*Then* every entry in the batch has a posting date of 2026-01-31" --></p>
+<p><strong>Grouping (the grain).</strong> The system creates <strong>one entry per entry type, per Valuation Category, per site, per period</strong>, and each entry balances on its own. <!-- Source: NXT-70295:AC "*Then* the system creates exactly two WD entries for Site A — one for $2,000 (Purchased Food) and one for $800 (USDA Foods)" --> <!-- Source: NXT-70295:AC "*Then* total debits = total credits on that entry" --> So if one site used food from two categories, you get two separate withdrawal entries, not one blended line.</p>
+<p><strong>The entry types and the lines each one writes</strong> (all amounts come from the Inventory <strong>Usage Report</strong>):</p>
+<table>
+<thead>
+<tr>
+<th>In plain language</th>
+<th>Debit</th>
+<th>Credit</th>
+<th>Amount comes from</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Purchases</strong> — stock bought in</td>
+<td>the category’s <strong>Asset</strong> account</td>
+<td><strong>Cash in Bank</strong> (one configured account, <em>not</em> from the category mapping)</td>
+<td>the Purchases column <!-- Source: NXT-70295:AC "Debit → Valuation Category's Asset GL Account ** Credit → Cash in Bank GL Account (single configured account, not derived from Valuation Category mapping) ** Amount = Purchases column value from Usage Report" --></td>
+</tr>
+<tr>
+<td><strong>Withdrawals / usage</strong> — stock consumed in production</td>
+<td>the category’s <strong>Expense</strong> account</td>
+<td>the category’s <strong>Asset</strong> account</td>
+<td>the Usage value <!-- Source: NXT-70295:AC "Debit → Valuation Category's Expense GL Account ** Credit → Valuation Category's Asset GL Account ** Amount = Usage value from Usage Report" --></td>
+</tr>
+<tr>
+<td><strong>Add to inventory</strong> — stock added back</td>
+<td>the category’s <strong>Asset</strong> account</td>
+<td>the category’s <strong>Expense</strong> account</td>
+<td>the Add to Inventory value <!-- Source: NXT-70295:AC "Debit → Valuation Category's Asset GL Account ** Credit → Valuation Category's Expense GL Account ** Amount = Add to Inventory value from Usage Report" --></td>
+</tr>
+<tr>
+<td><strong>Transfer out</strong> — stock sent to another site</td>
+<td>the category’s <strong>Expense</strong> account</td>
+<td>the category’s <strong>Asset</strong> account</td>
+<td>the Transfers value <!-- Source: NXT-70295:AC "*Scenario: Transfer-out posting* ... Debit → Valuation Category's Expense GL Account ** Credit → Valuation Category's Asset GL Account ** Amount = Transfers In value from Usage Report" --></td>
+</tr>
+<tr>
+<td><strong>Transfer in</strong> — stock received from another site</td>
+<td>the category’s <strong>Asset</strong> account</td>
+<td>the category’s <strong>Expense</strong> account</td>
+<td>the Transfers value <!-- Source: NXT-70295:AC "*Scenario: Transfer-in posting* ... Debit → Valuation Category's Asset GL Account ** Credit → Valuation Category's Expense GL Account ** Amount = Transfers In value from Usage Report" --></td>
+</tr>
+</tbody>
+</table>
+<p>(Backend codes for the curious — you never type these: purchases <code>PURCH</code>, withdrawals <code>WD</code>, add-to-inventory <code>ADDINV</code>, transfer-out <code>INVTRFRFR</code>, transfer-in <code>INVTRFRTO</code>.) <!-- Source: NXT-70295:desc "Period-close batch postings for 5 entry types: PURCH, WD, ADDINV, INVTRFRFR, INVTRFRTO." --></p>
+<blockquote>
+<p>🔧 <strong>Implementer note — Purchases is the odd one out.</strong> For every other entry type, both the debit and the credit come from the same Valuation Category mapping. Purchases is the only type where the credit side is a <strong>single configured Cash in Bank account</strong> instead. <!-- Source: NXT-70295:AC "Credit → Cash in Bank GL Account (single configured account, not derived from Valuation Category mapping)" --> Configure that one Cash in Bank account when you set up inventory posting.</p>
+</blockquote>
+<p>⚠️ <strong>Watch-out — one missing mapping blocks the entire site-period.</strong> If <em>any</em> Valuation Category in scope is missing its Asset <strong>or</strong> Expense account, <strong>nothing posts for that site-period</strong> — not even the entry types that don’t touch the unmapped category. <!-- Source: NXT-70295:AC "*Then* no posting job runs for any entry type in that site-period — including entry types that do not use the Valuation Category with the missing mapping" --> Finish all your category mappings (Job 2, Phase 5) before you expect a clean close.</p>
+<p>⚠️ <strong>Watch-out — it’s all-or-nothing on validation.</strong> If one entry type in the batch fails validation (for example a rounding imbalance), the <strong>whole</strong> site-period batch is rejected, zero entries are created, and the reason is logged. <!-- Source: NXT-70295:AC "*Then* zero entries are created for the entire site-period batch" --> <!-- Source: NXT-70295:AC "*Then* the entire posting batch for that site-period is rejected and the error is logged in the Posting Activity Log" --></p>
+<h3 id="b2-what-you-ll-see-in-job-8-journal-ledger-and-job-10-activity-log-for-inventory-coming">B2. What you’ll see in Job 8 (Journal/Ledger) and Job 10 (Activity Log) for inventory <strong>(Coming)</strong></h3>
+<p>Posted inventory entries will appear in the <strong>Journal and Ledger right alongside</strong> your POS and manual entries. <!-- Source: NXT-70295:AC "*Then* the posted inventory entries appear alongside POS and manual entries" --> You’ll be able to tell them apart: each one shows its <strong>source module (“Inventory”)</strong>, its entry-type code and name (for example “Withdrawals”), the site, and the Valuation Category. <!-- Source: NXT-70295:AC "*Then* it displays source module (\"Inventory\"), entry type code and name (e.g., \"WD — Withdrawals\"), site, and Valuation Category" --> Open any entry and the detail will show the entry type, the Valuation Category, the <strong>list of source transaction IDs</strong> from inventory that were rolled into it, the posting date, and the site. <!-- Source: NXT-70295:AC "** Entry type (e.g., \"WD — Inventory Withdrawals\") ** Valuation Category ** List of source transaction IDs from the inventory module that were aggregated into the entry ** Posting date ** Site" --> You can filter the ledger by site, fiscal year, financial period, GL account, and entry type. <!-- Source: NXT-70295:AC "*Then* entries are filterable by site, fiscal year, financial period, GL account, and entry type" --></p>
+<p>In <strong>Job 10 (Posting Activity Log)</strong>, a successful inventory close logs a confirmation for the site-period; a failure logs the <strong>specific reason</strong>. <!-- Source: NXT-70295:AC "*Then* a log entry confirms successful completion for that site-period" --> <!-- Source: NXT-70295:AC "*Then* a log entry shows the specific failure reason for that site-period" --></p>
+<blockquote>
+<p>🔧 <strong>Implementer note — reopening and re-closing a period (how corrections work).</strong> If you reopen a posted inventory period, the posting batch in the Periods view shows that state. <!-- Source: NXT-70295:AC "*Then* the corresponding posting batch in the Periods view reflects this state" --> When you re-close it, the system reposts <strong>only if you have the repost setting enabled</strong> in Periods — otherwise nothing happens. <!-- Source: NXT-70295:AC "*Then* the system automatically initiates a repost for that site-period" --> <!-- Source: NXT-70295:AC "*Given* a previously-posted inventory period has been reopened and the user has the repost setting disabled in Periods *When* the period is re-closed *Then* no repost is initiated" --> A repost never edits or deletes the original entries — they stay in the ledger with their original values. <!-- Source: NXT-70295:AC "*Then* the original entries remain unmodified and undeleted with their original values" --> Instead it writes <strong>reversal entries</strong> dated to the <strong>original posting date</strong> (not today), with every amount inverted (debits become credits), each referencing the entry it reverses; then it posts a fresh batch under the same rules. <!-- Source: NXT-70295:AC "*Then* each reversal entry's posting date equals the original entry's posting date (last day of the inventory period), not today's date" --> <!-- Source: NXT-70295:AC "*Then* all amounts are the exact inverse of the originals (debits become credits, credits become debits) and each reversal references the original entry it reverses" --></p>
+</blockquote>
+<blockquote>
+<p>⚠️ <strong>Known limitation — two kinds of waste won’t tie out.</strong> Waste recorded through a withdrawal reason code <strong>is</strong> included in the withdrawal postings above. Production-record waste (from Insights) uses fair-market-value estimates and <strong>will not reconcile</strong> to those withdrawal-based postings. This is a documented product limitation, not a bug. <!-- Source: NXT-70295:AC "Waste/spoilage via withdrawal reason codes is included in WD postings." --> <!-- Source: NXT-70295:AC "Production-record waste (Insights) uses fair market value estimates and will not reconcile to withdrawal-based postings." --> <!-- Source: NXT-70295:desc "This is a *documented product limitation*, not a bug." --></p>
+</blockquote>
+<blockquote>
+<p>📌 <strong>Source-of-truth note:</strong> every dollar amount in inventory postings comes from the inventory module’s own valuation (the Valuation/Usage reports). Financials does <strong>not</strong> recompute inventory values — it consumes what inventory provides. <!-- Source: NXT-70295:desc "Financials does not independently calculate inventory values; it consumes what inventory provides." --></p>
+</blockquote>
+<h3 id="b3-a-finer-purchase-grain-is-being-added-by-vendor-coming">B3. A finer purchase grain is being added: by Vendor <strong>(Coming)</strong></h3>
+<p>🎯 <strong>The job:</strong> keep purchase postings manageable in the GL while still being able to reconcile them back to what each vendor was paid.</p>
+<p>A later refinement will post purchases at <strong>Valuation Category × Vendor</strong> detail — one total per site, period, vendor, and category. <!-- Source: NXT-70620:AC "*Then* exactly 3 debit/credit pairs are created (V1/Food, V1/NonFood, V2/Food), and no receipt/item-level pairs exist." --> Each pair debits the category’s <strong>Inventory Asset</strong> account and credits the configured <strong>Cash in Bank</strong> account. <!-- Source: NXT-70620:AC "*Then* Debit = VC's Inventory Asset GL *And* Credit = configured Cash in Bank GL." --> The posted amount uses the <strong>Total Receipt Amount</strong>, not market value. <!-- Source: NXT-70620:AC "the posted total equals *Total Receipt Amount / Amount*, not Market Value." --></p>
+<p>⚠️ <strong>Watch-outs (when this ships):</strong></p>
+<ul>
+<li>A receipt with no vendor is grouped under <strong>“Unknown Vendor”</strong> and still posts; totals still tie to the period’s Total Receipt Amount. <!-- Source: NXT-70620:AC "*Then* amounts from those receipts are included under Vendor = \"Unknown Vendor\" *And* totals still tie to the period's Total Receipt Amount." --></li>
+<li>A missing category mapping blocks posting and the error <strong>lists every</strong> missing mapping, not just the first. <!-- Source: NXT-70620:AC "*Then* nothing posts *And* the error lists VC2 as missing (and any other missing mappings)." --></li>
+<li>A closed period with <strong>zero receipts</strong> posts nothing and the job is still marked <strong>successful</strong> with “0 entries created.” <!-- Source: NXT-70620:AC "*Then* zero PURCH entries are created *And* job is marked successful with \"0 entries created.\"" --></li>
+</ul>
+<blockquote>
+<p>📌 <strong>Open relationship note:</strong> NXT-70620 (Vendor-level detail) and NXT-70295’s purchase entry (category-level) both describe the purchase posting and are at different refinement stages. Confirm with the SME which grain ships first so the guide states one, not both, as current. <em>(Interpretation, not from AC.)</em></p>
+</blockquote>
+<h2 id="part-c-reimbursements-and-other-inventory-entries-on-the-roadmap-coming">Part C — Reimbursements and other inventory entries on the roadmap <strong>(Coming)</strong></h2>
+<blockquote>
+<p>⚠️ Everything in Part C is upcoming (status <strong>New</strong>). These are specified but not built; treat as roadmap.</p>
+</blockquote>
+<h3 id="c1-reimbursement-claim-and-reimbursement-received-coming">C1. Reimbursement Claim and Reimbursement Received <strong>(Coming)</strong></h3>
+<p>🎯 <strong>The job:</strong> your state and federal meal-program money flows into the ledger as receivables when you claim it, then as cash when it arrives.</p>
+<p>Two separate entries, created <strong>by site</strong>: <!-- Source: NXT-66385:AC "Ledger entries are created by site for each claim and reimbursement." --></p>
+<ul>
+<li><strong>Reimbursement Claim</strong> — <strong>Debit: Due from Federal Funds</strong> (a receivable), <strong>Credit: the reimbursement revenue account</strong>; dated the <strong>last day of the claim period</strong>. <!-- Source: NXT-66385:AC "*Reimbursement Claim* *** *Debit:* Due from Federal Funds (Asset) *** *Credit:* Reimbursement Program System Accounts (Revenue)" --> <!-- Source: NXT-66385:AC "_Reimbursement Claim_ (GLEntryTypeCd = RMBRSCLM) entries use the last day of the claim period as posting date." --> (Backend codes: <code>RMBRSCLM</code>; receivable <code>DUEFEDF</code>; revenue <code>RMBRSMNT</code>.)</li>
+<li><strong>Reimbursement Received</strong> — <strong>Debit: Cash in Bank</strong>, <strong>Credit: Due from Federal Funds</strong> (clearing the receivable); dated the <strong>current date</strong>. <!-- Source: NXT-66385:AC "*Reimbursement Received* *** *Debit:* Cash in Bank (Asset) *** *Credit:* Due from Federal Funds (Asset)" --> <!-- Source: NXT-66385:AC "_Reimbursement Received_ (GLEntryTypeCd = RMBRSRCVD) entries use the current date as posting date." --> (Backend codes: <code>RMBRSRCVD</code>; cash <code>CASHBNK</code>.)</li>
+</ul>
+<p>These entries will be visible in the General Ledger journal and View Ledger, with site-level drill-down, and flow into financial statements as revenue and assets. <!-- Source: NXT-66385:AC "Entries are visible in the General Ledger journal and View Ledger pages. ** Users can drill down to see site-level breakdowns. ** Reimbursement claim and received amounts flow into financial statements as revenue and assets." --></p>
+<p>⚠️ <strong>Watch-out (when this ships) — resubmitting a claim reverses the old one first.</strong> If a claim is recreated and resubmitted, the system auto-generates rollback entries that reverse the originals (the debit/credit sides swap) <strong>before</strong> posting the new claim and received entries from the updated data. <!-- Source: NXT-66385:AC "If a claim is recreated and resubmitted, rollback ledgers are automatically generated before new postings." --> <!-- Source: NXT-66385:AC "After rollback entries are posted, the new Claim and Reimbursement entries are created using the updated data." --></p>
+<blockquote>
+<p>📌 <strong>Conflict to flag (don’t pick silently):</strong> NXT-66385 says Reimbursement <em>Received</em> posts to the <strong>current date</strong>, while the inventory-side stories post everything to the period’s last day. These are different flows, so both can be right — but confirm the <strong>Received = current date</strong> rule with the SME, since it’s the one posting in this whole section that does <em>not</em> use a period-end date. <!-- Source: NXT-66385:AC "_Reimbursement Received_ (GLEntryTypeCd = RMBRSRCVD) entries use the current date as posting date." --></p>
+</blockquote>
+<h3 id="c2-other-inventory-entries-specified-but-not-yet-built-coming">C2. Other inventory entries specified but not yet built <strong>(Coming)</strong></h3>
+<p>These overlap with the inventory engine in B1 and are tracked separately; the consistent rule across all of them is <strong>posting date = last day of the inventory period</strong> and <strong>rollbacks reverse the entries</strong> on a repost. <!-- Source: NXT-66386:AC "Posting date = last day of inventory period." --> <!-- Source: NXT-66386:AC "Rollbacks: Reverse entries if reposted." --></p>
+<ul>
+<li><strong>Inventory usage, including commodity (USDA) usage</strong> — usage debits Expense, credits Asset; commodity usage is the same shape valued at <strong>Standard Price</strong>, and both flow to the P&amp;L as food expense and reduce inventory on the Balance Sheet. <!-- Source: NXT-66386:AC "_Usage (GLEntryTypeCd: WD)_ → Debit Expense, Credit Asset. ** _Commodity Usage (GLEntryTypeCd: COMMUSG, Value = Standard Price)_ → Debit Expense, Credit Asset." --> <!-- Source: NXT-66386:AC "Entries visible in GL journal/View Ledger, flow to P&L as food expense and Balance Sheet as reduced inventory." --></li>
+<li><strong>Withdrawals / waste</strong> — debits Expense, credits Asset, so unusable stock leaves assets and is recorded as waste expense. <!-- Source: NXT-66389:AC "_Withdrawal/Waste (GLEntryTypeCd: WD or WASTE depending on setup)_ → Debit Expense, Credit Asset." --> <!-- Source: NXT-66389:AC "Entries flow into GL and financial statements as waste expense." --></li>
+<li><strong>Inventory transfers (site ↔ warehouse)</strong> — debits the receiving site’s Asset, credits the warehouse’s Asset, so stock movement shifts balances between locations with <strong>zero net effect</strong> across the district. <!-- Source: NXT-66387:AC "_Warehouse Receives (GLEntryTypeCd: WHIRCV, Multisite)_ → Debit Site Asset, Credit Warehouse Asset." --> <!-- Source: NXT-66387:AC "net effect is zero across district but shifts balances between locations." --></li>
+<li><strong>Warehouse fees (delivery, processing)</strong> — debits the site’s Expense, credits the warehouse’s Expense, capturing those costs as operational expense. <!-- Source: NXT-66388:AC "_Warehouse Receives Commodity Fees (GLEntryTypeCd: None, Multisite)_ → Debit Site Expense, Credit Warehouse Expense." --> <!-- Source: NXT-66388:AC "Entries flow into food cost/operational expense reporting." --></li>
+</ul>
+<p>⚠️ <strong>Watch-out — these stories contradict the “Approve/Post buttons are gone” promise.</strong> Usage/commodity posting AC describes an <strong>Approve / Post / Reapprove</strong> control governed by a checkbox-state matrix. <!-- Source: NXT-66386:AC "The availability of Approve, Post, and Reapprove follows the checkbox state matrix (see attached rules)." --> That conflicts with the guide’s headline claim that posting is fully automatic with no Post button. This is part of the broader Job 10 contradiction (the manual-posting wave above) — flag it; do not present “fully automatic, no buttons” as settled while these stories are in flight.</p>
+<blockquote>
+<p>📌 <strong>Open question (warehouse codes):</strong> NXT-66388 (warehouse fees) and one transfer line in NXT-66387 state the entry type code as “None,” and NXT-66389 says the waste code is “<code>WD</code> or <code>WASTE</code> depending on setup.” <!-- Source: NXT-66388:AC "_Warehouse Receives Commodity Fees (GLEntryTypeCd: None, Multisite)_" --> <!-- Source: NXT-66389:AC "_Withdrawal/Waste (GLEntryTypeCd: WD or WASTE depending on setup)_" --> The user-facing entry-type label is not finalized in AC — leave it as a placeholder and confirm with the SME before publishing.</p>
+</blockquote>
+<h2 id="under-the-hood-why-this-all-balances-for-the-curious-coming">Under the hood — why this all balances (for the curious) <strong>(Coming)</strong></h2>
+<blockquote>
+<p>🔧 You don’t operate this directly, but it’s worth knowing what produces these lines. A single posting engine takes each source transaction (meal sales, inventory, payroll), looks up the matching debit/credit rule in one central rules table, and swaps the system-account codes in that rule for <strong>your</strong> district’s actual GL accounts using your account mapping. <!-- Source: NXT-65485:AC "For each transaction, it finds the matching debit and credit rule from our central rules table." --> <!-- Source: NXT-65485:AC "It replaces the system account codes from the rule with the correct GL accounts for that customer, using their account mapping." --> It writes one debit line and one credit line per transaction with matching amounts so the ledger stays balanced. <!-- Source: NXT-65485:AC "It creates one debit line and one credit line for each transaction, making sure the amounts match so the ledger stays balanced." --></p>
+</blockquote>
+<p>This is why two things in this guide are reliably true: a transaction that <strong>can’t</strong> find a rule or a mapped account still shows up — flagged as needing a fix rather than silently dropped <!-- Source: NXT-65485:AC "If a transaction can't find a matching rule or account mapping, it still shows in the results, but is marked as needing a fix." --> — and re-running posting for the same period and data always produces the <strong>same</strong> result. <!-- Source: NXT-65485:AC "Running the procedure again for the same period and data will always give the same results." --></p>
+<h2 id="quick-reference-what-posts-what-s-live">Quick reference — what posts, what’s live</h2>
+<table>
+<thead>
+<tr>
+<th>Flow</th>
+<th>Debit</th>
+<th>Credit</th>
+<th>When it posts</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Meal-sales revenue</td>
+<td>Cash in Bank + Prepaid balance</td>
+<td>Meal sales + À la carte</td>
+<td>POS period close, dated period’s last day</td>
+<td><strong>Live</strong></td>
+</tr>
+<tr>
+<td>Sales tax</td>
+<td>Cash in Bank</td>
+<td>Sales Tax Owed (liability)</td>
+<td>POS period close, dated period’s last day</td>
+<td><strong>Live</strong></td>
+</tr>
+<tr>
+<td>Purchases</td>
+<td>Category Asset</td>
+<td>Cash in Bank (one configured acct)</td>
+<td>Inventory period close, dated period’s last day</td>
+<td>(Coming)</td>
+</tr>
+<tr>
+<td>Withdrawals / usage / waste</td>
+<td>Category Expense</td>
+<td>Category Asset</td>
+<td>Inventory period close</td>
+<td>(Coming)</td>
+</tr>
+<tr>
+<td>Add to inventory</td>
+<td>Category Asset</td>
+<td>Category Expense</td>
+<td>Inventory period close</td>
+<td>(Coming)</td>
+</tr>
+<tr>
+<td>Transfer in / out</td>
+<td>Asset ↔ Expense (per direction)</td>
+<td>(per direction)</td>
+<td>Inventory period close</td>
+<td>(Coming)</td>
+</tr>
+<tr>
+<td>Reimbursement Claim</td>
+<td>Due from Federal Funds</td>
+<td>Reimbursement revenue</td>
+<td>Claim period’s last day</td>
+<td>(Coming)</td>
+</tr>
+<tr>
+<td>Reimbursement Received</td>
+<td>Cash in Bank</td>
+<td>Due from Federal Funds</td>
+<td>Current date</td>
+<td>(Coming)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<!-- ============================================================ -->
+<!-- C2 — NEW SECTION (Job 11, Roles & Permissions). ALL THREE tickets status New => entire section (Coming). -->
+<!-- ============================================================ -->
+<h1 id="job-11-coming-decide-who-can-touch-the-ledger-and-what-they-ll-see">Job 11 (Coming) — “Decide who can touch the ledger, and what they’ll see”</h1>
+<blockquote>
+<p><strong>(Coming)</strong> — Roles &amp; permissions for Financials 2.0 are <strong>in development</strong> (Jira: NXT-66927, NXT-66928, NXT-66929, all <em>New</em>). Build your access plan now, but treat every behavior below as the <strong>specified</strong> design, not something you can click today. Nothing in this section is live yet.</p>
+</blockquote>
+<p><strong>TL;DR:</strong> Three access tiers ship with Financials 2.0 — <strong>full-access admins</strong>, a <strong>Finance Coordinator</strong> who configures everything but is fenced out of a few transaction and period actions, and a <strong>read-only Cafeteria Manager</strong>. Pick the tier per person before go-live; the lower two tiers are <em>not</em> “admin with a few boxes unchecked.”</p>
+<p><strong>When this is your job:</strong> Week 0–1, during environment setup — right alongside registering imports and confirming site codes. “What will my cafeteria managers actually see?” is a go-live-gating question, and the answer is fixed by role.</p>
+<p><strong>Who this is for:</strong> Everyone the guide already addresses — the CN Director, Finance Manager/Director, Business Administrator, accountants who touch the ledger, <em>and</em> the Cafeteria Managers who only need to look. Each maps to exactly one of the three tiers below.</p>
+<blockquote>
+<p>🔧 <strong>Implementer:</strong> This is a real onboarding decision, not a checkbox sweep. The three tiers behave differently <em>by design</em> — selecting a role pre-sets its permission boxes, and two of the three tiers have a default master toggle state that tells you at a glance what kind of role you picked. Walk the customer through “who is each person, and which tier do they need” before anyone logs in.</p>
+</blockquote>
+<h2 id="the-three-tiers-at-a-glance">The three tiers at a glance</h2>
+<p>Each tier below is the permission set Financials 2.0 will apply when that role accesses the module. <!-- Source: NXT-66928:AC "*When* I access the Financial Oversight module / *Then* I should have the following permissions:" --> Read down the column that matches the person you’re setting up.</p>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th><strong>Director / Central Office / SchoolCafe Admin</strong></th>
+<th><strong>Finance Coordinator</strong></th>
+<th><strong>Cafeteria Manager</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dashboard</td>
+<td>Full — view, edit, add, delete, configure layout</td>
+<td>View only</td>
+<td>View only</td>
+</tr>
+<tr>
+<td>Configuration (GL structure, Account Mapping, Import/Export templates, Version History)</td>
+<td>Full — view, edit, add, delete</td>
+<td><strong>Full</strong> — view, edit, add, delete</td>
+<td><strong>View only</strong> — cannot change anything</td>
+</tr>
+<tr>
+<td>Manual journal entries</td>
+<td>Full — view, edit, add, delete</td>
+<td>View, edit, add (<strong>no delete</strong>)</td>
+<td>View only</td>
+</tr>
+<tr>
+<td>Posting from POS / Inventory</td>
+<td>Full</td>
+<td>View only</td>
+<td><strong>No access</strong></td>
+</tr>
+<tr>
+<td>Void / Reverse a transaction</td>
+<td>Full</td>
+<td>Can void/reverse (edit)</td>
+<td><strong>No access</strong></td>
+</tr>
+<tr>
+<td>Reports (P&amp;L, Balance Sheet, Site-Level Analysis)</td>
+<td>Full</td>
+<td>View only</td>
+<td>View only</td>
+</tr>
+<tr>
+<td>Export reports to ERP</td>
+<td>Full</td>
+<td>View only</td>
+<td><strong>No access</strong></td>
+</tr>
+<tr>
+<td>Period management (open/close periods, fiscal year)</td>
+<td>Full</td>
+<td><strong>Edit only</strong></td>
+<td><strong>No access</strong></td>
+</tr>
+<tr>
+<td>Default master toggle when role is selected</td>
+<td>“Disable All” (everything already on)</td>
+<td>(not specified — see Open Questions)</td>
+<td>“Enable All” (most things off)</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>The three tiers are deliberately different shapes — a full admin, a configuration-heavy coordinator who is fenced out of deletes and most of period/report management, and a look-but-don’t-touch manager. Match the person to the shape, not to a count of checkboxes.</p>
+</blockquote>
+<h2 id="tier-1-director-central-office-schoolcafe-administrator-full-access">Tier 1 — Director, Central Office, SchoolCafe Administrator: full access</h2>
+<p>These three roles get the keys to everything, and they all get the <strong>same</strong> keys. <!-- Source: NXT-66928:AC "All three roles (Director, Central Office, SchoolCafe Administrator) have identical permissions" --> There are no restrictions on any feature. <!-- Source: NXT-66928:AC "I have FULL access to ALL modules and features" --> <!-- Source: NXT-66928:AC "No restrictions apply to any feature or capability" --></p>
+<p>What “full access” covers for these roles:</p>
+<ul>
+<li><strong>Everything is view, edit, add, and delete</strong> across all Financials functions. <!-- Source: NXT-66928:AC "I can VIEW, EDIT, ADD, and DELETE across all Financial Oversight functions" --></li>
+<li><strong>The dashboard</strong> — view, edit, add, delete, and configure layouts and settings. <!-- Source: NXT-66928:AC "FULL access to Financial Oversight dashboard" --> <!-- Source: NXT-66928:AC "I can configure dashboard layouts and settings" --></li>
+<li><strong>Configuration</strong> — full access to GL structure (the Account Code Structure in this guide’s terms), Account Mapping, Import/Export templates, and Version History. <!-- Source: NXT-66928:AC "GL Code Structure: FULL access (VIEW, EDIT, ADD, DELETE)" --> <!-- Source: NXT-66928:AC "Account Mapping: FULL access (VIEW, EDIT, ADD, DELETE)" --> <!-- Source: NXT-66928:AC "Import/Export Templates: FULL access (VIEW, EDIT, ADD, DELETE)" --> <!-- Source: NXT-66928:AC "Version History: FULL access (VIEW, EDIT, ADD, DELETE)" --></li>
+<li><strong>Transactions</strong> — full access to manual entries, posting from POS/Inventory, transaction search, and void/reverse. <!-- Source: NXT-66928:AC "Manual Entries: FULL access (VIEW, EDIT, ADD, DELETE)" --> <!-- Source: NXT-66928:AC "Post from POS/Inventory: FULL access (VIEW, EDIT, ADD, DELETE)" --> <!-- Source: NXT-66928:AC "Void/Reverse: FULL access (VIEW, EDIT, ADD, DELETE)" --></li>
+<li><strong>Period management</strong> — full control, including opening and closing financial periods and managing fiscal-year configurations (the same Periods work covered in Job 4). <!-- Source: NXT-66928:AC "I can open/close financial periods" --> <!-- Source: NXT-66928:AC "I can manage fiscal year configurations" --></li>
+<li><strong>Reports</strong> — full access to every report, including Export to ERP. <!-- Source: NXT-66928:AC "Export to ERP: FULL access (VIEW, EDIT, ADD, DELETE)" --></li>
+</ul>
+<p>What it looks like when this role is selected: every permission box is turned on automatically, and the master toggle reads <strong>“Disable All”</strong> by default — because there’s nothing left to enable. <!-- Source: NXT-66928:AC "All permission checkboxes are automatically enabled when any of these three roles is selected" --> <!-- Source: NXT-66928:AC "Master toggle shows \"Disable All\" by default (since all permissions are enabled)" --> A full-access user also sees every saved configuration, no matter who created it. <!-- Source: NXT-66928:AC "All saved configurations are accessible regardless of who created them" --></p>
+<blockquote>
+<p>🔧 <strong>Implementer:</strong> Use the master-toggle state as your sanity check. If you select a Director-tier role and the toggle does <strong>not</strong> read “Disable All” with everything on, the role mapping is wrong — stop before you hand the environment over.</p>
+</blockquote>
+<blockquote>
+<p>⚠️ <strong>Watch out:</strong> “Full access” really is full — including delete. These three roles can delete configuration, delete transactions, and delete dashboard elements. Reserve the Director tier for the people who genuinely need that reach; use the Finance Coordinator tier (below) for day-to-day configuration work that shouldn’t include deleting posted-ledger data.</p>
+</blockquote>
+<h2 id="tier-2-finance-coordinator-configure-everything-but-fenced-out-of-deletes-reports-and-most-of-periods">Tier 2 — Finance Coordinator: configure everything, but fenced out of deletes, reports, and most of periods</h2>
+<p>This is the tier for the Finance Manager / accountant who <em>runs</em> the configuration but shouldn’t have a delete-everything key. It’s the most granular of the three. <!-- Source: NXT-66927:AC "*Given* I am logged in as a Finance Coordinator / *When* I access the Financial Oversight module / *Then* I should have the following permissions:" --></p>
+<p><strong>Where the Finance Coordinator has full power — Configuration.</strong> They get full access to the Configuration module: GL structure, Account Mapping, Import/Export templates, and Version History, all view/edit/add/delete. <!-- Source: NXT-66927:AC "I have FULL access to the Configuration module" --> <!-- Source: NXT-66927:AC "GL Code Structure: FULL access (VIEW, EDIT, ADD, DELETE)" --> <!-- Source: NXT-66927:AC "Account Mapping: FULL access (VIEW, EDIT, ADD, DELETE)" --> <!-- Source: NXT-66927:AC "Import/Export Templates: FULL access (VIEW, EDIT, ADD, DELETE)" --> <!-- Source: NXT-66927:AC "Version History: FULL access (VIEW, EDIT, ADD, DELETE)" --> In practice that means a Finance Coordinator can own Jobs 1 and 2 (chart of accounts, account mapping) end to end.</p>
+<p><strong>Where they’re fenced in — transactions.</strong> They can view, edit, and add transaction-management functions, but they <strong>cannot delete</strong> transactions and do not get full access. <!-- Source: NXT-66927:AC "I can VIEW, EDIT, and ADD transaction management functions" --> <!-- Source: NXT-66927:AC "I cannot DELETE transactions or have FULL access" --> Specifically:</p>
+<ul>
+<li><strong>Manual entries</strong> — view, edit, and add (the Job 6 flow), but no delete. <!-- Source: NXT-66927:AC "Manual Entries: I can VIEW, EDIT, and ADD manual entries" --></li>
+<li><strong>Posting from POS/Inventory</strong> — view only. <!-- Source: NXT-66927:AC "Post from POS/Inventory: I can VIEW only" --></li>
+<li><strong>Void / Reverse</strong> — they <em>can</em> do this. The reverse-a-bad-posting flow from Job 7 is available to the Finance Coordinator. <!-- Source: NXT-66927:AC "Void/Reverse: I can EDIT transactions (void/reverse capability)" --></li>
+</ul>
+<p><strong>Reports — view only.</strong> A Finance Coordinator can read every report but cannot edit, add, delete, or export them. P&amp;L, Balance Sheet, and Site-Level Analysis are all view-only, including Export to ERP. <!-- Source: NXT-66927:AC "I can VIEW all reports but cannot modify them" --> <!-- Source: NXT-66927:AC "I cannot EDIT, ADD, DELETE, or have FULL access to reports" --> <!-- Source: NXT-66927:AC "Export to ERP: VIEW only" --></p>
+<p><strong>Period management — edit only.</strong> This is the narrowest slice: the Finance Coordinator can <strong>edit</strong> period settings, but cannot view (as a separate permission), add, delete, or hold full access to period management. <!-- Source: NXT-66927:AC "I can EDIT period settings" --> <!-- Source: NXT-66927:AC "I cannot VIEW, ADD, DELETE, or have FULL access to period management" --></p>
+<p><strong>Dashboard — view only</strong>, with no edit/add/delete and no dashboard-configuration rights. <!-- Source: NXT-66927:AC "I can VIEW the Financial Oversight dashboard" --> <!-- Source: NXT-66927:AC "I cannot EDIT, ADD, or DELETE dashboard elements" --></p>
+<p>How the permission screen behaves for this tier: the parent-module <strong>“FULL access” toggle is a shortcut</strong> — turning it on for a module flips on all of that module’s child permissions at once; if you then change an individual box, the “FULL access” indicator updates to match. <!-- Source: NXT-66927:AC "When I click FULL access on a parent module, all child permissions are automatically enabled" --> <!-- Source: NXT-66927:AC "When I modify individual permissions, the FULL access indicator updates accordingly" --> The Finance Coordinator can also save a permission configuration for reuse in future sessions. <!-- Source: NXT-66927:AC "I can save my permission configurations for future sessions" --></p>
+<blockquote>
+<p>⚠️ <strong>Watch out — “edit periods” is not “open/close periods” in the AC.</strong> The Finance Coordinator AC grants <em>edit</em> on period settings and explicitly withholds full access; the open/close-periods and fiscal-year wording lives only in the Director tier. Don’t assume a Finance Coordinator can close a period the way an admin can until the exact period actions are confirmed (see Open Questions). This matters because period close is what releases posting in Job 4 / Job 10.</p>
+</blockquote>
+<blockquote>
+<p>🔧 <strong>Implementer:</strong> The Finance Coordinator is the right default for “the person who sets up and maintains Financials but isn’t the district’s top admin.” They can do all of Job 1 and Job 2, make and reverse journal entries (Jobs 6–7), and read every report — but they can’t delete transactions or export to the ERP, and their period control is limited to editing settings. If your customer needs that person to also close periods or push exports, they need the Director tier, or you flag the gap to the product owner.</p>
+</blockquote>
+<h2 id="tier-3-cafeteria-manager-read-only-limited">Tier 3 — Cafeteria Manager: read-only / limited</h2>
+<p>This is the “look, don’t touch” tier. A Cafeteria Manager can see relevant financial information but cannot change financial data. <!-- Source: NXT-66929:AC "*Given* I am logged in as a Cafeteria Manager / *When* I access the Financial Oversight module / *Then* I should have the following permissions:" --></p>
+<p>What a Cafeteria Manager <strong>can</strong> see:</p>
+<ul>
+<li><strong>The dashboard</strong> — view only; no edit, add, delete, or full access. <!-- Source: NXT-66929:AC "I can VIEW the Financial Oversight dashboard" --> <!-- Source: NXT-66929:AC "I cannot EDIT, ADD, DELETE, or have FULL access to dashboard elements" --></li>
+<li><strong>Configuration — view only.</strong> They can look at configuration settings (GL structure, Account Mapping, Import/Export templates, Version History) but cannot modify any of them. <!-- Source: NXT-66929:AC "I can VIEW configuration settings but cannot modify them" --> <!-- Source: NXT-66929:AC "GL Code Structure: VIEW only" --> <!-- Source: NXT-66929:AC "Account Mapping: VIEW only" --> <!-- Source: NXT-66929:AC "I cannot EDIT, ADD, or DELETE any configuration items" --></li>
+<li><strong>Manual entries and transaction search — view only.</strong> <!-- Source: NXT-66929:AC "Manual Entries: VIEW only" --> <!-- Source: NXT-66929:AC "Transaction Search: VIEW only" --></li>
+<li><strong>Reports — view only</strong>, including P&amp;L, Balance Sheet, and Site-Level Analysis. <!-- Source: NXT-66929:AC "I can VIEW all reports but cannot modify them" --> <!-- Source: NXT-66929:AC "Profit & Loss: VIEW only" --> <!-- Source: NXT-66929:AC "Balance Sheet: VIEW only" --> <!-- Source: NXT-66929:AC "Site-Level Analysis: VIEW only" --></li>
+</ul>
+<p>What a Cafeteria Manager <strong>cannot reach at all</strong> (not even view):</p>
+<ul>
+<li><strong>Posting from POS/Inventory</strong> — no access. <!-- Source: NXT-66929:AC "Post from POS/Inventory: No access (cannot VIEW, EDIT, ADD, or DELETE)" --></li>
+<li><strong>Void / Reverse</strong> — no access; the Job 7 fix-a-bad-posting flow is not available to this tier. <!-- Source: NXT-66929:AC "Void/Reverse: No access (cannot VIEW, EDIT, ADD, or DELETE)" --></li>
+<li><strong>Export to ERP</strong> — no access. <!-- Source: NXT-66929:AC "Export to ERP: No access (cannot VIEW, EDIT, ADD, or DELETE)" --></li>
+<li><strong>Period management</strong> — no access of any kind. <!-- Source: NXT-66929:AC "I have no access to period management" --> <!-- Source: NXT-66929:AC "I cannot VIEW, EDIT, ADD, DELETE, or have FULL access to period settings" --></li>
+</ul>
+<p>How the permission screen behaves for this tier: most boxes start <strong>unchecked</strong> when Cafeteria Manager is selected, only the view permissions for reachable modules are enabled, and the master toggle reads <strong>“Enable All”</strong> by default — the mirror image of the Director tier. <!-- Source: NXT-66929:AC "Most permission checkboxes remain unchecked when Cafeteria Manager role is selected" --> <!-- Source: NXT-66929:AC "Only VIEW permissions are enabled for accessible modules" --> <!-- Source: NXT-66929:AC "Master toggle shows \"Enable All\" by default (since most permissions are disabled)" --></p>
+<blockquote>
+<p>⚠️ <strong>Watch out:</strong> When a Cafeteria Manager tries something they’re not allowed to do, they get an <strong>“Access Denied”</strong> message rather than a silent no-op — so “I clicked it and nothing happened” is usually a sign the action was blocked, not broken. <!-- Source: NXT-66929:AC "I receive appropriate \"Access Denied\" messages when attempting restricted actions" --></p>
+</blockquote>
+<blockquote>
+<p>🔧 <strong>Implementer:</strong> This is the answer to “what will my cafeteria managers see?” — the dashboard, configuration, manual entries, transaction search, and reports, all read-only; and nothing at all for posting, void/reverse, ERP export, or periods. Set this expectation with the customer’s site staff up front so a Cafeteria Manager isn’t surprised by an “Access Denied” on day one.</p>
+</blockquote>
+<h2 id="how-role-switching-behaves">How role switching behaves</h2>
+<p>Where AC specifies it, a tier’s permission set is sticky: switching away from a role and back restores that role’s permissions rather than leaking the previous role’s access. This is stated for two of the three tiers:</p>
+<ul>
+<li>A <strong>Cafeteria Manager’s</strong> limited set is maintained when switching between roles and returning. <!-- Source: NXT-66929:AC "My limited permission set is maintained when switching between roles and returning to Cafeteria Manager" --></li>
+<li>The <strong>Director tier</strong> maintains full permissions across switches between Director, Central Office, and SchoolCafe Administrator. <!-- Source: NXT-66928:AC "Role switching between Director, Central Office, and SchoolCafe Administrator maintains full permissions" --></li>
+</ul>
+<blockquote>
+<p>⚠️ <strong>Watch out:</strong> The “permission set is maintained on role switch” guarantee is stated per-tier in the Cafeteria Manager and Director ACs. The Finance Coordinator AC does not restate it in those words — do not assume identical switch behavior for the Coordinator tier beyond what its own AC covers (see Open Questions).</p>
+</blockquote>
+<h2 id="what-gets-logged">What gets logged</h2>
+<p>Permission and configuration changes are auditable — consistent with the rest of Financials 2.0, where the ledger and configuration history keep a trail (Jobs 1, 2, 7, 8).</p>
+<ul>
+<li>For the Finance Coordinator tier, <strong>all permission changes are logged and auditable</strong>. <!-- Source: NXT-66927:AC "All permission changes are logged and auditable" --></li>
+<li>For the Director tier, <strong>permission changes are logged with an audit trail for each role</strong>. <!-- Source: NXT-66928:AC "Permission changes are logged with appropriate audit trail for each role" --></li>
+</ul>
+<p>(No audit-logging line appears in the Cafeteria Manager AC — unsurprising, since that tier can’t change permissions. Don’t infer the absence of an audit trail for that role; it simply isn’t specified there.)</p>
+<h2 id="what-this-is-renamed-from-where-it-sits-relative-to-the-rest-of-the-guide">What this is renamed from / where it sits relative to the rest of the guide</h2>
+<p>This is a <strong>new</strong> capability area, not a renamed legacy one — there’s no legacy→2.0 glossary row for it yet. Two framing notes so it lines up with the rest of the guide:</p>
+<ul>
+<li>The AC for all three tiers calls the product the <strong>“Financial Oversight module.”</strong> This guide calls it <strong>Financials 2.0</strong>. Treat those as the same module until a customer-facing module name is confirmed. <!-- Source: NXT-66928:AC "*When* I access the Financial Oversight module" --></li>
+<li>The permission areas in the AC line up with the Jobs you already know: <em>Configuration</em> = Jobs 1–3 (chart of accounts, mapping, posting settings); <em>Transaction Management</em> = Jobs 6–7 (manual entries, reversals) plus posting; <em>Reports</em> = Job 9; <em>Period Management</em> = Job 4; <em>Dashboard</em> = Job 0 (Financial Dashboard). The AC module <strong>labels</strong> (“Transaction Management,” “GL Code Structure”) are quoted from the tickets and may not be the exact on-screen labels in this guide’s wording — see Open Questions.</li>
+</ul>
+<h2 id="open-questions-for-the-sme-product-owner-do-not-invent-answers">Open Questions (for the SME / product owner — do not invent answers)</h2>
+<p>These are gaps the AC does <strong>not</strong> resolve. Per the no-invented-specifics rule, they’re surfaced rather than filled.</p>
+<ol>
+<li><strong>Where does the roles/permissions screen live?</strong> No AC states a menu path (no <code>Configuration › …</code> location) or the page name for managing roles/permissions. <em>Needs a confirmed navigation path before this section can tell a user where to click.</em></li>
+<li><strong>What is the exact role-picker label and the canonical role names in the UI?</strong> AC names the roles (“Finance Coordinator,” “Director,” “Central Office,” “SchoolCafe Administrator,” “Cafeteria Manager”) but not the on-screen selector label or whether these are exactly how they appear in the role dropdown. The Finance Coordinator desc field says “Finance Manager”; AC says “Finance Coordinator” — <em>confirm which is the product term.</em></li>
+<li><strong>Do the AC module labels match this guide’s labels?</strong> AC uses “Transaction Management,” “GL Code Structure,” “Import/Export Templates.” The guide uses “Journal &amp; Ledger,” “Account Code Structure,” and the Imports &amp; Exports area. <em>Confirm the permission-screen labels so prose can use the real ones instead of straddling both.</em></li>
+<li><strong>What is the Finance Coordinator’s default master-toggle state?</strong> AC gives the default toggle state for the Director tier (“Disable All”) and the Cafeteria Manager tier (“Enable All”) but is silent for the Finance Coordinator. <em>Left blank in the table on purpose — needs confirmation.</em></li>
+<li><strong>“Edit periods” vs. “open/close periods” for the Finance Coordinator.</strong> AC grants the Coordinator “EDIT period settings” and withholds full access; the open/close-periods and fiscal-year wording appears only in the Director AC. <em>Confirm exactly which period actions the Coordinator can perform — this gates who can release posting.</em></li>
+<li><strong>Does the Coordinator’s permission set persist on role switch?</strong> Stated explicitly for the Cafeteria Manager and Director tiers; not stated for the Finance Coordinator. <em>Confirm before claiming identical behavior.</em></li>
+<li><strong>Exact restricted-action message strings.</strong> AC quotes “Access Denied” for the Cafeteria Manager. <em>Confirm whether the same string is used for blocked actions in the other tiers, and whether it varies by action.</em></li>
+</ol>
+<hr>
+<h1 id="the-first-90-days-cheat-sheet">The First-90-Days Cheat Sheet</h1>
+<p>Print this. Tape it to a monitor.</p>
+<p><strong>Week 0 (implementer setup, before the customer logs in)</strong></p>
+<ul>
+<li>[ ] GL Accounts Import registered in Imports &amp; Exports</li>
+<li>[ ] Opening Balance Import registered in Imports &amp; Exports</li>
+<li>[ ] Payroll journal-entry import registered (if in scope)</li>
+<li>[ ] Site codes confirmed against site-code segment length</li>
+</ul>
+<p><strong>Week 1</strong></p>
+<ul>
+<li>[ ] Account code structure saved</li>
+<li>[ ] CoA imported (warnings noted, not necessarily fixed yet)</li>
+<li>[ ] Fiscal year + period frequency configured</li>
+</ul>
+<p><strong>Week 2</strong></p>
+<ul>
+<li>[ ] Structure warnings on CoA resolved</li>
+<li>[ ] Account Mapping: Phase 1 (subtract) and Phase 2 (bulk-map) done</li>
+<li>[ ] Posting Settings (Distributed vs. Centralized) chosen</li>
+</ul>
+<p><strong>Week 3</strong></p>
+<ul>
+<li>[ ] Account Mapping Phase 3 overrides finished</li>
+<li>[ ] Opening balances imported and validated (debits = credits)</li>
+<li>[ ] One POS or Inventory period closed → test posting reviewed in Posting Activity Log</li>
+</ul>
+<p><strong>Weeks 4–8</strong></p>
+<ul>
+<li>[ ] First real period close walked through with implementer</li>
+<li>[ ] First report (Trial Balance / P&amp;L) generated and reviewed</li>
+<li>[ ] First manual entry made (even if just a $0 dummy to learn the flow)</li>
+<li>[ ] Reversal walkthrough completed</li>
+</ul>
+<p><strong>Weeks 9–12</strong></p>
+<ul>
+<li>[ ] Automatic Entry Adjustments toggle decision made (most: leave off)</li>
+<li>[ ] First fiscal-year-equivalent rollover dry run scoped, even if not run</li>
+</ul>
+<blockquote>
+<p>🔧 <strong>Implementer:</strong> Run a test posting on a single closed period before go-live and review the entries with the customer’s finance team line by line. Catching mapping or base-type issues here is much cheaper than catching them after live data has been posted.</p>
+</blockquote>
+<hr>
+<h1 id="glossary-what-it-used-to-be-called">Glossary — what it used to be called</h1>
+<table>
+<thead>
+<tr>
+<th>Legacy PrimeroEdge</th>
+<th>Financials 2.0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GL Code Segments</td>
+<td>Account Code Structure</td>
+</tr>
+<tr>
+<td>Parent Accounts</td>
+<td>Account Categories</td>
+</tr>
+<tr>
+<td>System Accounts</td>
+<td>Data Points</td>
+</tr>
+<tr>
+<td>GL Entry Types</td>
+<td>Template Entries</td>
+</tr>
+<tr>
+<td>Ad-Hoc Entries</td>
+<td>Manual Entries</td>
+</tr>
+<tr>
+<td>Approve / Post buttons</td>
+<td>Removed from the first 2.0 build — a read-only monitor; posting runs in the background. <!-- Source: NXT-69493:AC "*Manual trigger*: Out of scope — jobs triggered from Fiscal Periods page, not here." --> <strong>(Coming)</strong> Per-site <strong>Post / Repost / Remove</strong> return on the POS and Inventory grids, and a <strong>Review / Post All</strong> queue returns on the Activity Log, for districts that post manually. <!-- Source: NXT-65487:AC "*Actions* (Post, View, Repost, Remove)" --> <!-- Source: NXT-66123:AC "*Actions* (Post, View, Repost, Remove)" --> <!-- Source: NXT-70065:AC "two actions: Review and Post All" --> “Gone” describes the first 2.0 build, not the end state.</td>
+</tr>
+<tr>
+<td>Refunds Liability + Pay Refunds entries</td>
+<td>(gone — single-step refund posting)</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Open question (do not invent a release label):</strong> AC states no ship date or version name for the manual posting controls. This guide tags them <strong>(Coming)</strong> only — do not add a version/sprint/date to this Glossary row until the PO confirms one.</p>
+</blockquote>
+<hr>
+<h1 id="when-you-re-stuck">When you’re stuck</h1>
+<ul>
+<li><strong>Posting didn’t run.</strong> → Posting Activity Log. The error reason is on the row.</li>
+<li><strong>Posting ran but the numbers look wrong.</strong> → Open the Ledger for the affected account, find the transaction, click through to its line items. Reverse if needed.</li>
+<li><strong>Report shows a number you don’t recognize.</strong> → It came from a posted ledger entry. Find that entry. The chain is always: source event → posted entry → report.</li>
+<li><strong>The product won’t let you do something.</strong> → Almost always a base-type, period-state, or mapping check. The error message will say which.</li>
+<li><strong>The “Import” button doesn’t show the import type you expected.</strong> → That import type hasn’t been registered yet in Imports &amp; Exports (see Before-You-Touch step 4). Ping your implementer.</li>
+<li><strong>You see Post buttons or a “Ready to Post” queue the guide says are gone.</strong> → You’re on a newer build. The manual-posting wave (Job 10, Coming) brings per-site Post/Repost and a Review/Post-All queue back as an option. The “posting is automatic” story is the default, not the only mode.</li>
+<li><strong>You can’t tell if a behavior is intentional.</strong> → Check with your implementer. The product specs are the source of truth for fine-grained behavior.</li>
+</ul>
+
+  </article>
+</main>
+</body>
+</html>
