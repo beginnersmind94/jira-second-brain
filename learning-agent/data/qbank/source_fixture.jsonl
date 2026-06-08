@@ -1,0 +1,10 @@
+{"_comment": "SYNTHETIC source-quality fixture for eval/source_quality.py (wiki EVAL-WIKI.md in-body §11.2 / TOC §13.2 source-quality grader). One row per cited source backing a claim. These rows are AUTHORED test data, NOT source reproductions — they exist so the grader runs offline. Real SME-owned source-audit rows come later. Schema: guide_id, claim_id, source_type (key into AUTHORITY_TIER), higher_available (bool — a higher-authority source existed for THIS claim but the generator cited a lower one; set upstream by the retrieval-audit step). source=synthetic on every row."}
+{"guide_id": "g_clean_high", "claim_id": "c1", "source_type": "usda_primary", "higher_available": false, "source": "synthetic"}
+{"guide_id": "g_clean_high", "claim_id": "c1", "source_type": "state_cn", "higher_available": false, "source": "synthetic"}
+{"guide_id": "g_clean_high", "claim_id": "c2", "source_type": "vendor_docs", "higher_available": false, "source": "synthetic"}
+{"guide_id": "g_flagged", "claim_id": "c1", "source_type": "vendor_docs", "higher_available": false, "source": "synthetic"}
+{"guide_id": "g_flagged", "claim_id": "c2", "source_type": "freshdesk", "higher_available": true, "source": "synthetic"}
+{"guide_id": "g_low_authority", "claim_id": "c1", "source_type": "cybersoft_sop", "higher_available": false, "source": "synthetic"}
+{"guide_id": "g_low_authority", "claim_id": "c2", "source_type": "freshdesk", "higher_available": false, "source": "synthetic"}
+{"guide_id": "g_unmapped", "claim_id": "c1", "source_type": "usda_primary", "higher_available": false, "source": "synthetic"}
+{"guide_id": "g_unmapped", "claim_id": "c2", "source_type": "podcast_episode", "higher_available": false, "source": "synthetic"}
