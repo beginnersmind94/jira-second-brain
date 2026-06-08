@@ -201,16 +201,30 @@ async def upload_transcript(file: UploadFile, module: str | None = None):
     if not file.filename:
         raise HTTPException(400, "filename missing")
     suffix = Path(file.filename).suffix.lower()
-    if suffix not in (".md", ".txt"):
-        raise HTTPException(400, "only .md and .txt accepted in V1")
+    if suffix not in (".md", ".txt", ".pdf"):
+        raise HTTPException(400, "only .md, .txt, and .pdf accepted")
     if module and module not in VALID_MODULES:
         raise HTTPException(400, f"unknown module: {module}")
 
     body = await file.read()
-    try:
-        text = body.decode("utf-8")
-    except UnicodeDecodeError:
-        text = body.decode("utf-8", errors="replace")
+    pdf_warnings: list[str] = []
+    converted_from_pdf = False
+    if suffix == ".pdf":
+        # Intermediate step: convert the PDF to markdown for our pipeline. Word-export-fast
+        # (<30s), pitfall-aware (reuses guide_text_cleanup); stored as .md like any upload.
+        import pdf_to_md
+        try:
+            res = pdf_to_md.convert(body, title=Path(file.filename).stem)
+        except pdf_to_md.PdfConversionError as e:
+            raise HTTPException(422, str(e))
+        text = res["markdown"]
+        pdf_warnings = res["warnings"]
+        converted_from_pdf = True
+    else:
+        try:
+            text = body.decode("utf-8")
+        except UnicodeDecodeError:
+            text = body.decode("utf-8", errors="replace")
 
     transcript_id = f"{_now_id()}-{_slug(module or 'unscoped')}-{_slug(file.filename)}"
     transcript_path = TRANSCRIPTS / f"{transcript_id}.md"
@@ -223,6 +237,8 @@ async def upload_transcript(file: UploadFile, module: str | None = None):
         "uploaded_at": datetime.now().isoformat(timespec="seconds"),
         "char_count": len(text),
         "path": str(transcript_path.relative_to(BASE)),
+        "converted_from_pdf": converted_from_pdf,
+        "pdf_warnings": pdf_warnings,
     }
     (TRANSCRIPT_META / f"{transcript_id}.json").write_text(
         json.dumps(meta, indent=2), encoding="utf-8"
