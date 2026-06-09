@@ -31,6 +31,9 @@
       --accent:        #B3543B;   /* primary actions, active nav, progress, focus, in-progress */
       --accent-hover:  #9D4732;
       --accent-press:  #8A3D2B;
+      --warn-text:     #8A4A12;   /* amber — needs-attention text (~6:1 on white, AA) */
+      --warn-soft:     #FBEAD2;   /* amber chip fill */
+      --warn-border:   #D98324;   /* amber accent border (decorative) */
       --accent-soft:   #F3E2D9;   /* terracotta tint: active chips, step icons, active node halo */
       --accent-ink:    #FBF8F1;   /* text/glyphs on terracotta */
       --clay:          #B3543B;   /* legacy alias == --accent (kept so old refs re-skin) */
@@ -800,6 +803,73 @@
       color: var(--muted); font-size: 11px;
     }
     .lib-card .row span:last-child { margin-left: auto; font-family: var(--mono); }
+    /* ── Library as a TABLE + the preview/actions as a right side-drawer ── */
+    .lib-grid { background: var(--panel); border-right: 0; padding: 12px 16px; flex: 1; min-height: 0; }
+    .lib-empty { padding: 28px; text-align: center; color: var(--muted); font-size: 13px; }
+    .lib-group { font-weight: 700; font-size: 10.5px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); padding: 14px 2px 4px; }
+    .lib-table { width: 100%; border-collapse: collapse; }
+    .lib-table thead th { text-align: left; padding: 9px 12px; font-size: 10.5px; font-weight: 700; letter-spacing: .05em;
+      text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--panel2); z-index: 1; }
+    .lib-row { cursor: pointer; transition: background .12s ease; }
+    .lib-row > td { padding: 11px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    .lib-row:hover { background: var(--panel2); }
+    .lib-row.selected { background: var(--accent-soft); }
+    .lib-row.selected td:first-child { box-shadow: inset 3px 0 0 var(--accent); }
+    .lib-c-title { font-weight: 700; color: var(--text); font-size: 13.5px; }
+    .lib-c-title .lib-type-ico { width: 14px; height: 14px; vertical-align: -2px; margin-right: 6px; stroke: var(--muted); }
+    .lib-c-src { color: var(--muted); font-family: var(--mono); font-size: 11px; white-space: nowrap; }
+    .lib-c-status { white-space: nowrap; }
+    .lib-c-date { color: var(--muted); font-family: var(--mono); font-size: 11px; white-space: nowrap; }
+    .lib-group-row td { padding: 14px 12px 4px; font-weight: 700; font-size: 10.5px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
+    .lib-pager-row td { text-align: center; padding: 16px 12px; }
+    .lib-pager-info { font-size: 12px; color: var(--muted); margin: 0 12px; }
+    .lib-drawer-backdrop { position: fixed; inset: 0; background: rgba(28,24,20,0.42); backdrop-filter: blur(2px); z-index: 49; }
+    .lib-drawer { position: fixed; top: 0; right: 0; height: 100vh; width: min(680px, 94vw); background: var(--panel);
+      border-left: 1px solid var(--border); box-shadow: -10px 0 34px rgba(0,0,0,.18); z-index: 50; display: flex; flex-direction: column;
+      transform: translateX(100%); transition: transform .22s ease; }
+    .lib-drawer.open { transform: translateX(0); }
+    .lib-drawer .preview-toolbar { flex-wrap: wrap; }
+    .lib-drawer-close { background: none; border: 0; font-size: 17px; line-height: 1; color: var(--muted); cursor: pointer; padding: 4px 9px; border-radius: 6px; }
+    .lib-drawer-close:hover { background: var(--panel3); color: var(--text); }
+    /* ── Library: top filter bar + left grounded-librarian rail + wider table ── */
+    .lib-filterbar { display: flex; align-items: flex-end; gap: 14px; flex-wrap: wrap; padding: 14px 30px; border-bottom: 1px solid var(--border); background: var(--panel); }
+    .lib-filterbar .fb-field { display: flex; flex-direction: column; gap: 3px; }
+    .lib-filterbar label { font-size: 10px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
+    .lib-filterbar select, .lib-filterbar input { padding: 7px 9px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); font: inherit; font-size: 13px; background: var(--surface); color: var(--text); }
+    .lib-filterbar .fb-search { flex: 1 1 220px; }
+    .lib-filterbar .fb-search input { width: 100%; box-sizing: border-box; }
+    .lib-filterbar > button { align-self: flex-end; }
+    .lib-main { display: grid; grid-template-columns: 300px minmax(0, 1fr); min-height: calc(100vh - 150px); align-items: stretch; }
+    .lib-main.rail-collapsed { grid-template-columns: 46px minmax(0, 1fr); }
+    .lib-rail { display: flex; flex-direction: column; min-height: 0; border-right: 1px solid var(--border); background: var(--panel2); }
+    .lib-rail-head { display: flex; align-items: center; gap: 8px; padding: 12px 14px; border-bottom: 1px solid var(--border); }
+    .lib-rail-title { font-weight: 700; font-size: 13px; color: var(--text); flex: 1; }
+    .lib-rail-collapse, .lib-rail-reopen { background: none; border: 0; cursor: pointer; color: var(--muted); font-size: 16px; padding: 2px 6px; border-radius: 6px; }
+    .lib-rail-collapse:hover, .lib-rail-reopen:hover { background: var(--panel3); color: var(--text); }
+    .lib-rail-reopen { display: none; }
+    .lib-rail-log { flex: 1; min-height: 0; overflow-y: auto; padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; }
+    .lib-bubble { font-size: 13px; line-height: 1.45; }
+    .lib-bubble.you { align-self: flex-end; background: var(--accent-soft); color: var(--accent-press); padding: 7px 11px; border-radius: 12px 12px 2px 12px; max-width: 90%; }
+    .lib-bubble.lib { color: var(--text); }
+    .lib-bubble.lib .secondary { margin-top: 7px; }
+    .lib-ask-note { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+    .lib-ask-none { font-size: 13px; color: var(--text); background: var(--panel3); border-radius: 10px; padding: 12px; }
+    .lib-ask-none span { display: block; margin-top: 4px; font-size: 11.5px; color: var(--muted); }
+    .lib-ask-card { display: flex; align-items: center; gap: 8px; width: 100%; text-align: left; margin: 5px 0 0; padding: 9px 10px; border: 1px solid var(--border); border-radius: 9px; background: var(--panel); cursor: pointer; font: inherit; }
+    .lib-ask-card:hover { border-color: var(--accent); }
+    .lib-ask-card .t { flex: 1; font-weight: 700; font-size: 12.5px; color: var(--text); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .lib-ask-card .lib-type-ico { width: 14px; height: 14px; stroke: var(--muted); flex: 0 0 auto; }
+    /* Grounded answer (the assistant's content-query reply) + its verbatim citations. */
+    .lib-ans { font-size: 13px; line-height: 1.5; color: var(--text); background: var(--panel3); border-radius: 10px; padding: 11px 12px; }
+    .lib-cite { margin: 6px 0 0; padding: 8px 10px; border-left: 3px solid var(--accent); background: var(--panel); border-radius: 0 8px 8px 0; font-size: 12.5px; color: var(--text); }
+    .lib-cite cite { display: block; margin-top: 5px; font-style: normal; font-size: 11px; color: var(--muted); }
+    .linklike { background: none; border: none; padding: 0; font: inherit; color: var(--accent); cursor: pointer; text-decoration: underline; }
+    .lib-rail-input { display: flex; gap: 7px; padding: 10px 14px; border-top: 1px solid var(--border); }
+    .lib-rail-input input { flex: 1; min-width: 0; padding: 8px 10px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); font: inherit; }
+    .lib-rail-foot { font-size: 11px; color: var(--muted); padding: 0 14px 12px; margin: 0; line-height: 1.4; }
+    .lib-main.rail-collapsed .lib-rail-head, .lib-main.rail-collapsed .lib-rail-log,
+    .lib-main.rail-collapsed .lib-rail-input, .lib-main.rail-collapsed .lib-rail-foot { display: none; }
+    .lib-main.rail-collapsed .lib-rail-reopen { display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; font-size: 18px; }
 
     .badge {
       display: inline-block;
@@ -1158,6 +1228,7 @@
     .icn-badge.download { background: var(--green-soft); color: var(--green-text); }   /* positive affordance */
     .icn-badge.link     { background: var(--panel3); color: var(--muted-aa); }
     .icn-badge.embed    { background: rgba(79,124,116,0.14); color: #3C5F58; }
+    .icn-badge.cyber    { background: rgba(79,124,116,0.14); color: #3C5F58; }   /* internal Cybersoft source */
     .icn-info { background: none; border: 0; cursor: help; font-size: var(--cfs-micro); font-weight: 600; color: var(--muted); padding: 2px 4px; border-radius: var(--radius-sm); }
     .icn-info:hover { color: var(--accent); }
     /* actions: title is the hero → open is a QUIET ghost text link, quiz is the one soft accent */
@@ -1175,6 +1246,12 @@
     .icn-path { border: 1px solid var(--border); border-radius: var(--radius-sm); padding: var(--sp-3); margin-bottom: var(--sp-2); background: var(--surface); }
     .icn-path .ip-title { font-family: var(--serif); font-size: var(--cfs-meta); font-weight: 650; color: var(--text); }
     .icn-path .ip-meta { font-size: var(--cfs-micro); color: var(--muted-aa); margin-top: 3px; line-height: 1.45; }
+    /* filter rail spacing — fields were flush to the card edge (no padding); give them the
+       same 20px gutter as .panel-body + breathing room, with the header full-bleed at the top */
+    .icn-filters-body { padding: 0 20px 22px; }
+    .icn-filters-body .panel-header { margin: 0 -20px 18px; }
+    .icn-filters-body .field { margin-bottom: 20px; }
+    .icn-filters-body .icn-paths { margin-top: var(--sp-4); }
     /* responsive: filter rail collapses into a "Filters" control on narrow screens */
     .icn-filters > summary { display: none; }
     @media (max-width: 760px) {
@@ -1233,6 +1310,31 @@
       .path-title { font-size: 26px; }
     }
 
+    /* ── Learn: DataCamp-style track cards (detail reuses .path-* above) ── */
+    .tracks-hero { margin: var(--sp-5) 30px var(--sp-4); }
+    .tracks-eyebrow { font-size: var(--cfs-micro); font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0 0 6px; }
+    .tracks-h1 { font-family: var(--serif); font-size: 30px; font-weight: 600; margin: 0 0 6px; color: var(--text); }
+    .tracks-sub { color: var(--text-soft); font-size: var(--cfs-body); margin: 0; max-width: 640px; }
+    .tracks-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: var(--sp-4); margin: 0 30px var(--sp-8); }
+    .track-card { display: flex; gap: var(--sp-4); text-align: left; background: #FFF; border: 1px solid var(--border); border-radius: var(--radius); padding: var(--sp-4); cursor: pointer; font: inherit; transition: box-shadow .16s ease, border-color .16s ease; }
+    .track-card:hover { border-color: var(--accent); box-shadow: var(--shadow-sm); }
+    .track-ava { flex: none; width: 46px; height: 46px; border-radius: 50%; background: linear-gradient(135deg, #3B2C20, #6B4A33); color: #F3ECE0; display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-weight: 700; font-size: 16px; }
+    .track-main { min-width: 0; flex: 1; }
+    .track-role { font-size: var(--cfs-micro); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+    .track-title { font-family: var(--serif); font-size: var(--cfs-title); font-weight: 650; color: var(--text); margin: 2px 0 4px; }
+    .track-blurb { font-size: var(--cfs-meta); color: var(--text-soft); line-height: 1.5; margin: 0 0 8px; }
+    .track-meta { display: flex; flex-wrap: wrap; gap: 6px; font-size: 11.5px; color: var(--muted); margin-bottom: 8px; }
+    .track-prog { height: 6px; background: var(--panel3); border-radius: 999px; overflow: hidden; }
+    .track-prog-bar { height: 100%; background: var(--accent); border-radius: 999px; transition: width .2s ease; }
+    .track-prog-lbl { font-size: 11px; color: var(--muted); margin-top: 4px; }
+    .track-open { background: var(--accent); color: #FFF; border: 0; border-radius: var(--radius-sm); padding: 6px 12px; font: inherit; font-weight: 650; font-size: 12px; cursor: pointer; }
+    .track-open:hover { filter: brightness(1.05); }
+    .track-done { background: none; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); padding: 6px 12px; font: inherit; font-size: 12px; cursor: pointer; color: var(--text); }
+    .track-done.is-done { background: var(--green-soft); color: var(--green-text); border-color: var(--green-soft); }
+    .track-soon { font-size: 12px; color: var(--muted); font-style: italic; }
+    .track-cert { display: inline-block; background: #E7B79A; color: #3B2C20; font-weight: 700; padding: 8px 14px; border-radius: var(--radius-sm); font-size: 13px; }
+    .track-cert-todo { display: inline-block; color: #D9CDBC; font-size: 13px; }
+
     /* ── Header right: district switcher + user (demo shell) ── */
     .top-right { margin-left: auto; display: flex; align-items: center; gap: var(--sp-3); }
     .isd-switch { position: relative; }
@@ -1273,6 +1375,8 @@
     .roster-tools { display: flex; align-items: center; gap: var(--sp-3); }
     .demo-tag { font-size: var(--cfs-micro); font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--muted-aa); background: var(--panel3); padding: 3px 9px; border-radius: 999px; }
     #roster-search { padding: 8px 12px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); font: inherit; font-size: 13px; background: var(--panel); min-width: 200px; }
+    .mg-help { background: var(--amber-soft, #F3E4CE); color: var(--amber-text, #8A5A12); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 14px; margin: 0 30px 14px; font-size: 13px; }
+    .mg-flag td { background: var(--amber-soft, #F7ECDA); }
     .roster-cards { display: flex; flex-wrap: wrap; gap: var(--sp-3); margin-bottom: var(--sp-5); }
     .roster-stat { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: var(--sp-3) var(--sp-5); box-shadow: var(--shadow-sm); }
     .roster-stat .n { font-family: var(--serif); font-size: 22px; font-weight: 650; color: var(--text); }
@@ -1319,6 +1423,85 @@
     .quiz-src .attr { display: block; margin-top: 5px; font-family: var(--mono, monospace); font-size: 10.5px; color: var(--muted); }
     .quiz-src a { color: var(--accent); }
     .quiz-foot { padding: 13px 22px; border-top: 1px solid var(--border); font-size: 11.5px; color: var(--muted); display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+    /* ── Quiz builder ── */
+    .qb-toolbar { display:flex; gap:14px; align-items:flex-end; flex-wrap:wrap; margin-bottom:12px; }
+    .qb-toolbar label { display:flex; flex-direction:column; gap:4px; font-size:12px; color:var(--muted); }
+    .qb-toolbar select { padding:6px 8px; }
+    .qb-existing { font-size:12px; color:var(--muted); margin-bottom:10px; display:flex; gap:6px; flex-wrap:wrap; align-items:center; }
+    .qb-meta { display:flex; gap:10px; align-items:center; margin:4px 0 12px; }
+    .qb-meta #qb-title { flex:1; font-weight:700; padding:6px 8px; border:1px solid var(--border); border-radius:6px; font:inherit; }
+    .qb-srclabel { font-size:11px; color:var(--muted); white-space:nowrap; }
+    .qb-card { border:1px solid var(--border); border-radius:10px; padding:12px; margin-bottom:10px; background:var(--panel,#fff); }
+    .qb-card-top { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+    .qb-card-actions { margin-left:auto; display:flex; gap:4px; }
+    .qb-badge { font-size:10.5px; font-weight:700; padding:2px 8px; border-radius:999px; }
+    .qb-badge.ok { background:var(--green-soft,#e6f4ea); color:var(--green-text,#1e7a3d); }
+    .qb-badge.warn { background:#fbe7e2; color:#9a4a2e; }
+    .qb-card textarea, .qb-card input[type=text] { width:100%; box-sizing:border-box; padding:6px 8px; margin:3px 0; border:1px solid var(--border); border-radius:6px; font:inherit; }
+    .qb-opt { display:flex; align-items:center; gap:8px; }
+    .qb-opt input[type=text] { flex:1; margin:2px 0; }
+    .qb-sme { display:flex; align-items:center; gap:6px; font-size:12px; color:#9a4a2e; margin-top:6px; }
+    .qb-actions { display:flex; gap:8px; flex-wrap:wrap; }
+    button.link { background:none; border:none; color:var(--muted); cursor:pointer; font-size:14px; padding:2px 5px; border-radius:5px; }
+    button.link.danger { color:#9a4a2e; }
+    .quiz-opt.picked { outline:2px solid var(--accent,#4f7c74); outline-offset:1px; }
+    #quiz-modal { z-index: 70; }   /* taker must sit ABOVE the builder when previewing */
+    .qb-card.flagged { border-color:#d98324; box-shadow: inset 3px 0 0 #d98324; }
+    .qb-badge.flag { background:#fdebd0; color:#a85a14; }
+    /* roomier builder: fixed header/footer, only the question list scrolls */
+    #qb-modal { padding: 28px 16px; }   /* tighter overlay padding → a taller sheet */
+    #qb-modal .quiz-sheet { display:flex; flex-direction:column; height: calc(100vh - 56px); max-height: 900px; }
+    #qb-foot { flex-wrap: wrap; }
+    .qb-status { display:inline-flex; align-items:center; gap:8px; flex-wrap:wrap; }
+    #qb-modal .quiz-body { max-height:none; flex:1 1 auto; overflow-y:auto; }
+    #qb-modal .quiz-head, #qb-modal .quiz-foot { flex:0 0 auto; }
+    /* design-system alignment + grounding emphasis + a11y (design-critique pass) */
+    .qb-card textarea:focus, .qb-card input[type=text]:focus { border-color:var(--accent); outline:none; box-shadow:0 0 0 2px var(--accent-soft, rgba(179,84,59,.18)); }
+    .qb-fieldlabel { font-size:10.5px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--muted-aa,#5E5B53); margin:9px 0 2px; }
+    .qb-fieldlabel.ground { color:var(--accent); }
+    textarea.qb-quote { background:var(--panel2,#F6F1E7); border-left:3px solid var(--accent); }
+    button.link { min-width:30px; min-height:30px; border-radius:6px; }
+    button.link:hover:not(:disabled) { background:var(--panel3,#ECE5D7); }
+    .qb-badge.flag { background:var(--warn-soft); color:var(--warn-text); }
+    .qb-card.flagged { border-color:var(--warn-border); box-shadow: inset 3px 0 0 var(--warn-border); }
+    .qb-sme { color:var(--warn-text); }
+    .qb-ackbox { font-size:11.5px; color:var(--warn-text); display:inline-flex; align-items:center; gap:6px; margin-right:6px; }
+    .qb-ackbox input { width:16px; height:16px; }
+    /* builder landing hub */
+    .qb-start { display:flex; flex-direction:column; gap:14px; }
+    /* CRITICAL: the [hidden] attr must beat the display rules above — otherwise
+       qbShowEditor() can't hide the source list and the generated editor renders
+       BELOW it inside a nested scroll (the "generated quiz is invisible" defect). */
+    .qb-start[hidden], #qb-editor[hidden], .qb-mode-panel[hidden] { display: none !important; }
+    /* Customer view-state — a loud, persistent signal so a trainer never screen-shares
+       internal content thinking it's the customer view (the "hot seat" safety fix). */
+    .customer-banner { background:#1f6f43; color:#fff; text-align:center; font:700 13px/1.4 var(--font); letter-spacing:.01em; padding:9px 16px; }
+    body.customer-view .top { background:#eef5ef; box-shadow: inset 0 -4px 0 #1f6f43; }
+    body.customer-view .brand-product::after { content:' · Customer view'; color:#1f6f43; font-weight:700; }
+    .qb-modes { display:inline-flex; gap:4px; background:var(--panel3); padding:4px; border-radius:10px; align-self:flex-start; flex-wrap:wrap; }
+    .qb-modes button { border:0; background:transparent; padding:7px 13px; border-radius:7px; font-weight:600; font-size:12.5px; color:var(--muted); cursor:pointer; }
+    .qb-modes button.on { background:var(--panel); color:var(--text); box-shadow:0 1px 2px rgba(0,0,0,.07); }
+    .qb-search { width:100%; box-sizing:border-box; padding:9px 12px; border:1px solid var(--border); border-radius:8px; font:inherit; }
+    .qb-search:focus { border-color:var(--accent); outline:none; box-shadow:0 0 0 2px var(--accent-soft, rgba(179,84,59,.18)); }
+    .qb-row-tools { display:flex; gap:10px; align-items:center; }
+    .qb-row-tools .qb-search { flex:1; }
+    .qb-row-tools select { padding:9px 10px; border:1px solid var(--border); border-radius:8px; font:inherit; background:var(--panel); }
+    .qb-srclist, .qb-banklist { display:flex; flex-direction:column; gap:6px; max-height:52vh; overflow-y:auto; padding:2px; }
+    .qb-srcrow, .qb-bankrow { display:flex; align-items:center; gap:10px; padding:10px 12px; border:1px solid var(--border); border-radius:9px; background:var(--panel); }
+    .qb-srcrow { cursor:pointer; }
+    .qb-srcrow:hover, .qb-bankrow:hover { border-color:var(--accent); }
+    .qb-srcrow.sel { border-color:var(--accent); box-shadow:inset 0 0 0 1px var(--accent); }
+    .qb-srcrow .nm, .qb-bankrow .nm { font-weight:600; flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .qb-bankrow .nm { cursor:pointer; }
+    .qb-tag { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; padding:2px 8px; border-radius:999px; background:var(--panel3); color:var(--muted-aa); white-space:nowrap; }
+    .qb-tag.verified { background:var(--green-soft,#e6f4ea); color:var(--green-text,#1e7a3d); }
+    .qb-tag.content { background:rgba(79,124,116,.14); color:#3C5F58; }
+    .qb-srcrow .meta, .qb-bankrow .meta { font-size:11px; color:var(--muted); white-space:nowrap; }
+    .qb-empty { padding:22px; text-align:center; color:var(--muted); font-size:13px; }
+    .qb-genbar { display:flex; align-items:center; gap:12px; padding-top:10px; border-top:1px solid var(--border); }
+    .qb-genbar label { font-size:12px; color:var(--muted); display:flex; align-items:center; gap:6px; }
+    .qb-genbar .primary { margin-left:auto; }
+    .qb-back { background:none; border:0; color:var(--accent); cursor:pointer; font-size:13px; font-weight:600; padding:0 0 8px; }
     /* ── Study-set authoring (Create) + flashcards ── */
     .ss-actions { display: flex; gap: var(--sp-3); flex-wrap: wrap; margin-top: var(--sp-2); }
     .flash-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: var(--sp-3); }
@@ -1342,6 +1525,8 @@
 </head>
 <body>
 
+<div id="customer-banner" class="customer-banner" hidden>👀 Viewing as Customer — this is the district-facing view. Safe to screen-share.</div>
+
 <header class="top">
   <h1 class="brand">
     <img class="brand-logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA4QAAAEICAMAAAAwfcqDAAAAAXNSR0IArs4c6QAAAGNQTFRFAAAAAIBAAIdAAIVDAIVAAIZBAINEAIRBAINDAIRDAIVCAINDAIRCAIVCAINCAIRCAIVCAIRCAIRBAIVCAIRDAIRBAINCAIRDAIRCAIRCAIRCAIRCAIRCAIRCAIRCAIRCAIRCQA7eQAAAACB0Uk5TABAgLjA/QE9QX2BvcH+Aj5CfoK+wv8DP0Nbd3+Dr7/AWURnMAAAjDklEQVR42u2dC3OrOpOuLYZoEQUrhGDMHHPA//9XjnNbsUGXbl3wSvb7Vk1N1bdXLBB61K3ulrTbQRDEkpC11lqiIyDoLiqb4fyhBp0BQZuraMbzt9AfELSxZHe+EXoEgrZFsL9F8DyjTyBoQ4mFFbyoRa9A0Haq5hWD5wLdAkGbSa8RhCGEoA3VGhicYQgh6K4MnjX6BYI2Ww+aGBzRLxC0lcRsghBFaxC0mToTgx36BYK2Um1icBboGAi6qzNao2Mg6K7OaI9+gaCtZIyMnkt0DATd1RnFRkIIuq8zOiIqA0H3dUYrdAwEbeWMjojKQNBd1ZxRuA1B95Q8J0wRllJp3fQ30lpXEkxDkFWDicGB7dPKuumNQVbUgkOQWzo+RVjW7Xj2CotMCDKqOMelCIVaA3g47PePDxfdbFFE2hGCjOpjUoSiXmQYD89PD9d/O6IQFYI8qiNShNUNgdPr08MKUhTBQZDPlM2huwiFvv7T4/7B9I8UzhCGII+6wBRh0V4heHyy/UGLuAwEeRzKsBRhcQXX9OJwM2ecGAVBbpdyDEkRXjuip0dBZRxLQghaqwlJEVbf5B48x0Bde6MTuhuCVjLXq7ndxqu7KnwI3kZ9cJA3BK018FOE8i9XJ/9hiAoboyDIKXO9miT5r9MToYEe3igEuVSwU4Tir+l8XZvLckVviWtlIIhsp0gHjZZfEZlp5VpWbbMO57TwRiHIJXaKsJwtZrBqx72B3ZvK8BM6HIKWruXM3G30l8Hb1WDRzNNeeJecyNRD0FLcFOEXg6ebf6IuPu2LIFCOffUQtBA3RfjF4PGaOHVZJB5t0dQWYRkIcmnkpQi/IqkvCwSnvfUvcO09BLnETBF+5SaukJNvGB/t7utN7PUVPQ5BLjPl9xk/S9XU9w+8M/Zsb6GCIYQgl5gpwnrJYP3mnU7K3sDt9gysCCFoIWU0hFamysV//zCDk2uzxU3sdYIhhKCFmWKmCIdbBqt5FSZdSp5/Q45QXgmbITkD7LrnMAMb1RoNobWz9C1JzdnL4C3lP7ZYBmemhs5eKNNgdZG/rz6yE1+5CdH6GVwcXCMBISCETN4l+Yj6d6IOXwwOBAb1L7lpFBACwkxipgjfO/QkGAzeWtqjAISAEDJ4l/QUYX8VCP1kcHJyVc6/5dp7QAgI84iZIpRXgdGvuhknV4sD3NQOEAJC6Ebci7H7q6KzjsCVuF1xvuwAISCEXHbKO8LKqwWhJgRaFgwedoAQEEK34l6M3X7HbD5t6JHB4A8OygBCQJhJJXMX4VvWvbkJ6DiL1X4Xg4AQEOYQ92Js9R0K7f3XVCzioj+dQUAICDOo5h40OvwNw9R+Z1T+MgYBISDMEJWZmRdjF39DK1/ZRYczuigC+PkMAkJAmF4d96DR+i91vQ9Ysfjx15/PICAEhHm7hnQob/dVSfP5p/ZSmWphZF9+Q4cBQkCY2hllpgjfR+Fn8mJ096dYZD4mtQOEgBAQ+tZshIuxqy9DqNyGUC3M4PGX7IAFhIAwrQr+XYQNyRDKZTXqs9gBQkAICNfq+Rdj9wRDWCyjPSf5a7oMEALCpFL8uwh3X6HR0RoalauTMn6NGQSEgDB1VIabInzrysPX0tByCI1aWdfDrzoPCRACwpRquCnCi2p148gubg8tmhXXp192ByEgBIQJVbJThG+G7jaic512KOt1Ferp8bf1GiAEhAk1sFOE32oXd86LqjVkHI+Pv6/XACEgTKeanSK80nzljZZ1a+T5Vf7GbgOEgDBzVIbYOV9hmU73Rv4ufuj+lx6yDAgBYTK1/BTht7qzU9OL/LX9BggBYZYu4R5FKFwEnp7//OaOA4SAMJVGforwW8pqAl+ffvtVH4AQECaS5l2MTfFGjy+P/4VbigAhIEwj84nbVchAfCuJed0//mduCQOEgDCNjKaso/51eXjX636/f3z4r93RBwgBYRJVMSnC/7gAISBMIfN2+hrjBBACwq2kY1KEgBAQAsJoFTEpQkAICAFhvPqYFOGmn03r/kOtrtLsCxZS/f3RN2mtpMgEYVnppv/7AipxEZGQte76r2855mjC0tYc1lZGCN+/avfe0Z2ufkJso4pKEfLtrnwT++eLejlXDE2csRaV7o2ZmcsI1vQHJF5cpQ1TXa8TuRtl3Znf5Dy0KvEYvLQ1JmkrD4SlalY9Pep/nUMRlyJkYFRdJqfv2GunGCDK3kxLHTpXyGZwl7uSCSFAKNvZ1kqC8WHcNHYDR7ox6G+rKe4HYaFsc9G5/bcxbKJShGRH0mR0qD1jQfCd5SYAw7LxDKUvQigjygehUJ7GuhhzaDi6wMiGSuDZFLRuo7aVGELTFvKfsuoss6cIC6uvROsZ0To7d9a88eWFgjmi3BAKTYAkeJp2zE7r2Srym8qO3hbphVJCKOrB+1T9v3u6WJ83RVhqd+8M3p4pvczMVXLLwRhRTghrWmuzzozgB+sRo5DdVrEhhLKlTagpvIH3iEbigJfKmSIstN/oNCEPuPLoiN1LskvMEeWAUA50i8v2SYue/R5cp+G7rS5DW6kgVORejhrXt3G8eR0yCIw42qIyaWJ2ivblingGqcYwDEEPhlYIRcMatMybOXTQe4xBc3hYv43VBhDyFhfBebfSFMe7nme+18tzy+3jJleKkO721QkYJD20HM/hsjuMNgjLgdkEp9vZPx7hk4a35XZQUkBYM6eHoHVxaQ0Jz1+D9/a+Md7qsww4aJSEYEvvF52EQe+bi+4cJ5vDaIFQ8a1Hm9kMfhoopp9T52orHkI15utiYsjnY52pYgKbfZYUIW8R7+j+ck73xcdztGoGhE2QlSKOi8j5hOP4ijZHnyWBsOwDnodpYPwO3RuFZehBoVZD02+KoOumC8H0g+Yyi+nwuFemvgsduiQKiyH2Pej2QGRsKw5CETTN8SwMyaHrjYEVsik0RmUiU4T8mF3JWLBOh/3Tw8Pj/uXACs8I50MdDs/7Lx0OE9clNUBoHLofz/5QXP7vYf98CF4XlnOm2SRTW9ZlQhSEVeCT6cQIvjkWHcu0UKIyUQmbAAsw0Resh6tT28TjC3mis0cWDvs/6znn4enlxDC2awgNDB6fVn/48DKFzNQOLsZOV/LzfaSsmz42ZeZrq4xqKwLCcIdcp7e08zkCQuMhh2MMg3XA9GQvkFt09OpKw2K/GsVHQR9K04vjJMbi6UilcAXhisHp2eJdPJ7YjojVAnSm4mlpLTSjUFjy2rKWZVjaCoewCjfQXcahHALhEPPHabLHrijBYpfji+FLiufFaC/JQ+ngPQu12J9IFK4gXHTDtHeM98eJtyQvLcPcXlxXWorHCaVKM7uthtNWMIRNBBy0dmT0Upjo79dpQriRsQ+7N3rr2b5YSDkEMfhCW/g+nggULglaeOSe+1DFKydvaubCkx0W9RhCobmtXobkzo1tBUJIjUuZV/ekYuUmFkGqQ2mOyohtzaCrU2YCgxft+Qy+0mNPJgwXI2oB4e1cdPQn5Z7o38DIRe93XszVem7PrAhsy1xe0yeDkOCKTh8H3oopzNOrEmSziFmgNjaDlMRLn6wj7mar8atrxp4cDBqG0onnca8XnosRdftf1Jk2dzgSRZqTLyAWrxsjGS0zN0GsrDNG59pEEPr9re+l/hjiJsYmRj/m6YioTHCKMNh+16SfnJxdJ45WBg1D6Zlr7IuD23zfdOCNrZqIc5oiDpQ+PNdgniYdz9flbysEQh8h09XdXyJkhKco6iCn+QZeyi5TwPhAe0DfF3qxPfvqm00hgae906m5mQFH3xKVModpqhFgFX0bkqX26gbNqn0hJWbLeAh9pQO3MTB15r8EK7Ax93EVAXXCFCGlquKwN/2vJ8fcSjaEHxQq0lsew9a8cumSXp/AYx0RjCntNh8yE32XmTlptmEpvKC21r7R6tQiNoS+kMwigM73RgU1sNE378eBKVsNTXhUJvBsJ/+m27dgpGIO0zJByLb0fCWGS3q0V7YkYHD5pIr0yfh7VBWxQmd9GPRQxLfVRULoKd85Sr9Ra2Ma+MKkqTz/vgidE4NThN4n//ARNHOYyvhw0cpCv+yCJY7WKTUBg8vu6SiLtJB94or20ds8bVVRELoH2vREie5K3gMbPNDrE/6GqKKcMqaWgMngZyBEM4epji8g0OkYXFJ4HWE1vzbTe1uE04U7WBzKhWGgmdwfmamtRfKFB6F7oL0KStDjEBlc7BXhD6g1Z31ERMfnuFhScisID4JMUBpnNIrBWwr3tuhouPHW7pX9qp9Dz0tRhHk7W1tNOIROBqeKFmGRUcHFRZK0iitYU8miMp6YzJXB0EsflTEow4ZAn5TBKwoPxc4HIb8x4V676DTrd1OwqvC1FV7BoZz+AQdCJ4NrM2j29Q4xwcW+IIRVIqMyYWfgtO7FoNXF8ZeNaf5C1zkAjvHHBXy4jNOjPYxLifqSunLp0hSRsUrXN2s9wyOmrcY1QhkQCgeDpmys2UErwxdV61IhWyC1COuZ8HWXcym7MBjf3tzpmfCg0WvCkViZw3FwJ1OANVFnVq5FYRuWiDJrcD+tTlVFZRqqMghCl50yFgYyj07yMWjIx9oO/SAeFFQmK9wuZk606n373Omwf2DzHeIp1ykiv6uHOhh+x+AeBf34ZKesCPvSxM/WO9tqo9oSjrboEDoYfCEPcbt74mOwJbq7DNe9T1a47UhtHmOP8JaRrvKYcNS6tZ5/wt69tY/JNsXSwR5SKByGMPZiIGk3hWQIW26hdMcqY/EwOEtGPJJYVqQi/pbsjO6jh3YRV06notdo4RAGEq+s+aKlOYk+FrazG7tlW9EuRGttiwqh/bg3S5ZLsPxED4PGilnbtBCzgyloarVnJyaZeGzzXaIxgzNKhbBIMO0MjlEYb9aXg0BYZ9Y2eVsFF8LK7m6Ri+4u/zaMQXN1rvWRiAOtSVa4XTMixrG+LpeiKsEaLRTC4HF7syi0zygJjoVd+py1bfmVoi1lS4XRILQHHl5JJ0h5fCE3g+azZq2P1AdMt3FT65jNFV2PE+7KpE1hmgIhLJNMO8IaBEhyWc9o8YTKJCX9rrZGJoQDKyRjcUet1VluBi2bt/pIQ5guKlORixcC8wER5kUkdqk4EB7TrJ6kzXmZ08R5LT5ik9wQrtoqWRA2fAZ3u1MaBslbyniFnxWzxErYr5lp6VmbMJ3CSVIbGsLdOZWh0hYIx/TGafmj9YZtNRwIZVDoTxMHpbtORlGsA3+gGWMpNkdWft1N/r13wxmPSFSXYltzcijsyFW76SEs0rywtnz0OVEPa6M/WnJ23wV+yYEBoTX4564guC2Ht64dnQzaCoXs8cg2pOetaxghdbdw5JuSMkWlZHB1Tg/9OiGRruKDDeEp/Icsg1Jn8a2FEbd6i7YKOoRtYDquPFHWR20Ag7su0hAWfse3VMbL5d85lD6ej2nTcZoUqvI53dNuUwibRBA2lmV8smxLZ8pkd+mK4+yjXZEhlAHrwU/uPw+NPT4JnknybRyxJ8eJU5YpKvM37ihk3XpKyee+ck0IiRlcH1k31wHfvN0WQpUIwt78+2Oyx1amuWNOHwJahyJaKoQ2z4+2R+Xt0o+CH1l0M+io1PQbwtu7fm9COtWuvPxH4iFT0g70olpLqObtRwed6tuZ9pMQotrVthBGBKaEEUKZKdIrDIGBMlNbO+Oi0AuhxVSlSfu6AqP2DZRDsCGUTfSp3qso7OhcKxdXNytGfMvXtTHW3OEltoUw1S/15qhGwimlXz+3yrWY7k195IOw4NXJMOegIYRBx+57l3kQqpvPCSVswdHJSGDcMkkYbmXx37ou06TtgiA8JYewyTWl6LUF17lSO7XJnfJBaA6BJKoDbkMYdHiwdlNTqO6cWNIG4fj+zYrKcA9Q+PRdmk4y70vG6Gq2hbBP9ktGIzIkfG65/kZ9nuXnsi1FgtASlUmTiFYhDLq27tlmrHo4p5eyQXh5+t7SYMR2GCOF57YgT3L1thB2ySGcc0WZxDpIPiZ7FeeraRKEfUCCkCoHTo7BOrANYTmec+hrUE+cP4oIzpgpnLUgLkDkthDq5BDmKGEx4N3kbWs0jFg3hDIiMBqUJ/DkB93HsZmtgpqzMPjXG2BdwhRT5lGab811pCvmTeMyCUfuyQBhkW9PVr/0o0WuGJChLS+EfcYFYe0f37yURsttJkrDLgTCKCdCWO7MHSuOQdkIwnQHshgNQlII2yUYGdvSXAhlzDaFcGdUhfwR9SKUVBkKQbHNSf3Ri55t27cK71pn2hhCmRfCXVYwZL7cjjZUATgh7NMPI4IzqoNSGuZwXBYGey2DTW3kcrqaGJ0mk0Ur/wUIq40gPOcFvjb8tAtCY47wlOZZFA8mV77E/tVFcgbnTi/bKTl/H+3Kry+VtmcNfxeEOh8Y1YYQSiaEbT5n1H6GqSMw6kRq5EIbAGBt9HiP9J+YEuR2rMaw+acgFFkhnPOCUf0zEBpBSXRKiQ4Iymiun6fzA+g26jkYvHwX28pwubnirhDuskLY5wVD/zMQqrAKaVJUxpt944712fe6eQB814Hqi6babF9aWlxc2/6LIRzzgvHvWMIhoEI6JCZMK05Q3KijSJMfbP3kCJpDekgYZZMngkv6iyHMDMY/syYsXFXLmQyhPZft8/kKViSVkw8kvDKFwtX1KZF6PHmTpTKf7bgDhBmtk9oQwooFYZ3PEFrTE1Uog10uBomVg3ufJ/qYvmBlb4zQ9MI56f5cCLfKEw4btuXNEw7ZVoSSPd69aQDJiqTyRKpaKh0lpNNzmWXQi73bFhb5Us53h7DIBsa/VDFThBqF8BXhHHY4sNHXSpidINR7Sgfzr3/yDfvixUlhvqF0BwjvVzuat0TOBaEKtQnhK0Lbz0tviKWOyBvEl5op14VVmc/6lEdHbxDjzj8DwoxvM6y+dr5dFD1nF4Vhbk9UftgwnVECT+uRLliYjV0tRR9mCpVjp9Qxv/nZPU20DR7bburt00M4Z3ubNXLjhm05IJxzhWVsqYO5CGaw4wR/VuHPRhWedaRjKpT9dgFRm2dxsO3w6IzbPn4qhH2ujEu5dj6z7eIvTb6fDcIimzeqeCOd4ldWgRDOvb45276lVwJ8Tiiu+M+eEQpROiZ2szKGyhAE2PagpwwQNrlClvXajciWlFSm1aYNQtPYz5qfGMMZnL1RKGqpeM9brVaOxeqBsRiUo90RoM2vJ2NnVhnm0PtBWOeKlnTrUa5y9Vx79gV+tXPhlsYDKOibIKjxlTYoq2Fq0nbIasuK8r7lBTnfTcc7+8tyAWXo6/aHQ1jmipbM6wcvzpkWhbOpk2wQ9vwgYYjt93w0WrbPPODHEHYl3da6ygGeGa6f6FJsDFhQ+GkKp3w7D7aHcHfOs1CTplE+56k2Ko1w2yCccy0JB8bmCRqDM6VvqTHPjhp+deQuWbeilYN//0gAhaXhbaofDmGXJ13fmjqpI27ticoMVG4IBWuTUbw32jpMRJA3uvOe8FQTpir7+HUwyLqg92pZWaWfZFWOWou7QVjn8Udn0zKtzuOPjsZQmQVCmSsuU1MtDb360zp4/+f/s4psXJZakxnkXQ5aJxxVeu2tFec8xuM+EJbnHD6ieaIqsrRVmT1qOoRpUvX/j2rMCnIFNtHPIAWCbFFVTZ0gnlkuZJtyar+9u+ljlj3mCjDcA8KFHUl0Q0Rv/tEhf1u1B8I6T3DURhZryUUtaG2D/qqiQGhLZUyswPkC5Wj/qllPMjW3CvafhrDJEK2XlpFYZwgD2RwT0qWoqd7ZtkpbG0JJ35Fbk9bA5P0gkgCh7YC1V9YgX84z0RCW618rznnWUfeBsKA5MxHGqcvaVmsBakMI7YEW6fbTzyE4qcCabOkn3Xb6KSsisyY5npDT+tc6UmngD4Fw4SOmMIXybHM7++SmsLC1tR2E9mDlwDNiCSptHEe6EQ48Nvu5E2vdYCh400ln9d7oXbc/G0KVPGnWW7Nd6px6Vdjb1gYWCNvUEBaOWk5FT03MxASFx5QqarDMlJ4xZ1l4J6mZFsfxEGrD5zplcKvuBuEinTBGr3GV4xOMidfTi/mw2fkg7NOmKISmJ9tdqYm5pS0JFbdo1Bcd9dppHoPGJW8eCNU58bi9K4Q6bZcJF2j6nDS0vCyJLLwQtpxYhn++GenJdmdY1HDLmeQz6Cw7aL0O88zJeDBAr7NAuDSFadIUjekuqA0gXO6Diywg6VwjcdlWpBPR2NuirwmDveJqZCTbnWUuqiTZZx+DzoWR0Q43thhkyJRs88xlHghVhurDt99cX0KzAYTLgRln2BcO4jJslbQt6TBpDAjDqp6kd2OfP+bx9/Fqf1DHv4nJ6d0L7zxh+nlOIYN1/1PaEPj3TLPYYDHHlx9+DN6VMdwCwqV5iok0eXNEYwoAzBF1+wGx2m1MAvxR5b8lt3eHK276uyUs77xV3zVjclwU+dmWy/TPY486JQhcDqTqpyF2Wfh38C6M4RYQrubhcCd+GXxYT84q2ard3RajdpQ9TERNuai6cYcrbj7r4IXQX/U9cDx3w5+MzEgPzQyep/gUnrAsHpq0FF4ZkFtjuAmEqzGgUkxZlh/qU7XVOacOxi4K5jJYEo/+1M7xfztyvMOfUHHqXnqNXtt5DofQNUMkWKopy2uKU0oKb524a2O4DYRlop5rCd+wTBQX8bRl2094Yua4ly4wyQhej/By8DPohZBQ7eb2HEt/UU74eq6egzKXl+mp5U/trqBADIXLyNlVNGMbCNeLcpWCC3MxUaa2ShqEjQMFP4GcM+gbSjTlo+EyJINH6Wv3L/Q7L4SEbyPHcyCDirYScNz/surdIdT5rR2B440gXC9K+GSsz7esicHygLY6X1s2CCtLvZfXI5UN8xaItzWqL37zCb90unGS0rBnbT36CTkH+QjOILG74k3S1uO3yeDFe66OCJ6DEiLrYruj2B7CdSqZm/xcu10dMarJj4ysV0j9jgjhznofrH24Can7M19z73MivwywdJipgrQE9cAiCSmNkNimO0/jvrfwc8i1Psxb1/JdnFIU6KzH7k2h0FYQGmL3Pcu/XofH7ONibY36Iq6tdRSWcwL313gzrIRlpbvxnEmDcDHybttLYhSo4gWxTHzZgrfWzyiU20S77y38mxjzLAVuB+Zxxc96Uh24CUPt6c/NIDQMzpkenjGEx1y50/UKZaa7pKKhhDdZF8J8d3GrdSWl0hd1fX/Oqu/RZ36moemp/HuGRuEPy9g39M7aSEnVeuz8MzXB5FwKKN8KR/K8GtqaVu/uA6GprolqoEw1WYr8MFnasl+NdkiP0/Q0xzBotUJkleypfj2c7DZ3btXtxynrzvfCU8UYjjU1XjIJig/3NnGQPVHT3POyuxeExir/ljCnGAMHNSvR/tEWAUPjIkTvOBCWyRk8FDu+0bzp2cgbsD3rd0Eqzfbt0Ogb/S6Sg3AsWMFtiwe5ipdogrH8NK81xRqa17QLBreE0LyxevahofqQIhTzuEjYluPO+ja1GdzxtusauIlzfH1bwkiGcCcS9onvWKia9OlXseWT2JEpvIxcj38gLBmnJYObQmjbbdMr60cumjGwXjCgLc1pywGhmFIy+CIcmQ9q/kxHPUIdMuFVtOhNiE7eNIHpDtBu8USGsI/NxVWWLzo2lT3na3vdFYPbQmjf89ap0hC4b2xxA0rKwd5WXXKydO2OCyGbGJcnWoY4lKtkVtQT+Y4JMRI+EvMYASIcCyWOxm7pPi+TEtKIyKt9MNnn1b6pFr1dSN3aI16GA3W2hdC183Tum1pK+f4Sb4F7R3ialvYrR1db+tKW+GyrDWjLBSHfebStfGSQj2so64hZFMo0hjBRyOpEypabKfT8sgPu4uhJ2fZvge+3iPfAjydtDCHjaNrgMIE7OsMNb+xCINy9Jhluj9TMhz+AHrFO9W03IlSsJQxZUa+MKdlrAvdBG+IlyaxqbGNrCHciOjnGyPh1+dpyQxgyES8d0ccwjMzZ1whXsAjJEUq64xo/iNPYQl/WWk25ZpDNIYz9EiOrXCGuLVedoBvCnYh0vV4kKbZMT4cGewWa8919QymuV3jXaDMp9M/tReQ3tTrSd4DQeU+r1zdi7iWREW056+qkb6BGuC/TviCF3Q3TRk163oTpiYplPaM8hD13H9Fzav/qMcYY2o84vgeE4W7izN+HGN6WOzDvhXC3D3W5HgUpAW2aNhxuQmA/eAan+YreJmnA5NM3CNhEVFGhoR68KJ5zPP5dIPQfJGaJkgRtqZRBbXWeb+6HcHUhOslleS6CA03u+ljh8wn+l+NXOv19p/V83gzBt5emRciO9F8vXtI//p0gvHw9tp/YBx9tl6MtAoTseXN6+RMR7tWeKar0GP4+ID1RBljPih+3fA4/R0YSTC/rWrYLhhP3s3oe/24Q7gQPjT7mdElmWwPB66VAeBmkh2QEvr+HY5+Uf5y6ijfbIuiIqiHEejLnptNT3PlKjx6H5MA+ylA8Mpzqw6P38e8H4dt+MbKj2MUe8Orbm8Zuiwbh5d+RMDw+P9Dew3LGb0syFdZSibe1pOlb+C4jMgefy4TGZHpJcAmEdDilh7DfL55JHB6fKB/mcKW4g76b658id09LMFFDneQegLIdKW0RPZ/y+nWV+3u5p+Lp9ZHhbRmM4UjuH3OS9r0QuQ5IT5RBOY2PJ3miDOLXx0Q3QBTm5k7PEQf6Fo8vJ/fE+ifv3aIJ5T5bZe7qhFfDle5zXJK2da0/Ng5PL4/sYXBb1D42rKl8tbfmc9Yxhm18B8AYO5N8IV355HQSTgT3nOUL/dkfppu57yn+SO3iz/51/RbHw/PTw+6HSUhTqejct3W5UVvnLG0tPtfNGDgfXvYPoTNloXR/Uacr/qxRfEdgxu9ZpwlIT2hGrYxFD/tXg4maDvtcRuTh4eFp/+fhIe3HLi8/+7Df79/+X7n7yRKfxz68qZLy17R1Q8DlKz2+fStx766WN29dBARYzOn/JqRT/lwG8MWkvO7fB7LYQdB/TwHpCXPecQBBEBS0LjeukN1/0wVGRiEIokZY3MvNOjwyCkHQUorPkzk7MaAvIShExiLsmXayLiu3D0GQWZqfnugjt1tDEOSzaqPzT8xn6LToSwgKUsNOT5grwUdkJyAoSPw8vbkOfEZ2AoLC1HLTE5bdwVgQQlCY2NsILTuLsSCEoED13PSEeV8xytUgKKUhdOXpzVsnkCGEoK0MoQo7OBeCII4hVMx/7722CYIgqwZent5ySA2CMhAUKsXL01sYRFAGgoI1svL0luQEgjIQtJEhtDGIShkI2sYQ2o7/RqUMBKU1hFbfsjtjLz0EbWAIrYFOywH8CIxC0EaG0MIgzrOAoI0MoY1BJCcgKFySYQjbsFt8IQhyqadHWWwMIjkBQREq6ZYNDEJQDrVkQ9iekSCEoPQqyIYQDELQfQ0hGISgLDId1mQ0hDYGG/QhBEVJ0Qyh+XptFMpAULxGUo7QVrMNBiEoVpIEVgEGISiXWoohtOyjB4MQFC9BIQsMQlA+1YQN9QoMQlA+Df4N9foMBiEom0r/6b0tGISgjGp8Z41aUxNgEIKSaPQUwJQjGISgrb3R6/xENYNBCNraG+3d/xn1ohCUVINrS4R9OYh9ExCUSKadhH/3T8gZDEJQbtWOgwvtruiMGwghKJU662KvtLuiOE8GgtJptuwkFNYimfN5BIMQlEylJeyp7KtBnPELQZmXhOdZN6MdwXMHBiEoodozV0jRQ1BS9VwGkZqAoLRiIjhLdBkEJZXgMTggLApBiSVZDCIkA0H3hRBXYUNQetWM5SAq1SAogzR9OVigtyDonhBi8yAE3dUdhSsKQblEC8z0iIpCUC4VFDNYo58gKJ9GvxlEgh6CcqqBGYSgf9of7ZGYgKDcciUpRgRFIWgDWU+SmTWCohC0hWxHizZAEIK2otBw4NrcYjEIQRuqWiQqRjiiELS11Lc1HFvsnoegu0jW+iL1G93Q/wPxSKt0gPhoKQAAAABJRU5ErkJggg==" alt="SchoolCafé — A Cybersoft Solution" />
@@ -1351,9 +1536,11 @@
   <nav>
     <button id="tab-author" class="active" onclick="showView('author')">Create</button>
     <button id="tab-library" onclick="showView('library')">Library</button>
+    <button id="tab-learn" onclick="showView('learn')">Learn</button>
     <button id="tab-content" onclick="showView('content')">Content</button>
     <button id="tab-evals" onclick="showView('evals')">Quality</button>
     <button id="tab-roster" onclick="showView('roster')">Roster</button>
+    <button id="tab-manage" onclick="showView('manage')">Management</button>
     <button id="tab-howitworks" onclick="showView('howitworks')">How it works</button>
   </nav>
   <div class="top-right">
@@ -1509,83 +1696,74 @@
 </section>
 
 <!-- ═══════════════════════════════════ LIBRARY ═══════════════════════════════════ -->
+<!-- ═══════════════════════════════════ LEARN ═══════════════════════════════════ -->
+<section id="view-learn" class="view">
+  <div id="tracks-hero" class="tracks-hero">
+    <p class="tracks-eyebrow">Your learning</p>
+    <h1 class="tracks-h1">Tracks</h1>
+    <p class="tracks-sub">Guided paths built from approved, source-cited guides. Work through the lessons, then certify.</p>
+  </div>
+  <div id="tracks-grid" class="tracks-grid"></div>
+  <div id="track-detail" class="path-detail" hidden></div>
+</section>
+
 <section id="view-library" class="view">
-  <div class="library">
-    <div class="panel lib-filters">
-      <div class="panel-header">Filter library</div>
-      <div class="panel-body">
-      <div class="field">
-        <label for="lib-search">Search</label>
-        <input id="lib-search" type="text" placeholder="module, format, status, id…" autocomplete="off" />
+  <div class="lib-filterbar">
+    <div class="fb-field"><label for="lib-module">Module</label><select id="lib-module"><option value="">All</option></select></div>
+    <div class="fb-field"><label for="lib-template">Template</label><select id="lib-template"><option value="">All</option></select></div>
+    <div class="fb-field"><label for="lib-source">Source</label><select id="lib-source"><option value="internal" selected>Internal (Cybersoft)</option><option value="vendor">Outside vendor (ICN)</option><option value="">All sources</option></select></div>
+    <div class="fb-field"><label for="lib-status">Status</label><select id="lib-status"><option value="library" selected>In Library (approved)</option><option value="awaiting">Awaiting review</option><option value="">All</option></select></div>
+    <div class="fb-field"><label for="lib-sort">Sort by</label><select id="lib-sort"><option value="created_desc">Newest first</option><option value="created_asc">Oldest first</option><option value="module">Module A–Z</option><option value="template">Format</option><option value="status">Status</option></select></div>
+    <div class="fb-field fb-search"><label for="lib-search">Search</label><input id="lib-search" type="text" placeholder="module, format, status, id…" autocomplete="off" /></div>
+    <button class="secondary" onclick="loadLibrary()">Refresh</button>
+  </div>
+
+  <div class="lib-main" id="lib-main">
+    <aside id="lib-rail" class="lib-rail">
+      <div class="lib-rail-head">
+        <span class="lib-rail-title">📚 Library assistant</span>
+        <button class="lib-rail-collapse" onclick="toggleLibRail()" title="Collapse" aria-label="Collapse assistant">«</button>
       </div>
-      <div class="field">
-        <label for="lib-module">Module</label>
-        <select id="lib-module"><option value="">All</option></select>
+      <div id="lib-ask-log" class="lib-rail-log"></div>
+      <div class="lib-rail-input">
+        <input id="lib-ask" type="text" placeholder="Ask the library…" autocomplete="off" onkeydown="if(event.key==='Enter')libAsk()" />
+        <button class="primary" onclick="libAsk()">Ask</button>
       </div>
-      <div class="field">
-        <label for="lib-template">Template</label>
-        <select id="lib-template"><option value="">All</option></select>
-      </div>
-      <div class="field">
-        <label for="lib-source">Source</label>
-        <select id="lib-source">
-          <option value="internal" selected>Internal (Cybersoft)</option>
-          <option value="vendor">Outside vendor (ICN)</option>
-          <option value="">All sources</option>
-        </select>
-      </div>
-      <div class="field">
-        <label for="lib-status">Status</label>
-        <select id="lib-status">
-          <option value="library" selected>In Library (approved)</option>
-          <option value="awaiting">Awaiting review</option>
-          <option value="">All</option>
-        </select>
-      </div>
-      <div class="field">
-        <label for="lib-sort">Sort by</label>
-        <select id="lib-sort">
-          <option value="created_desc">Newest first</option>
-          <option value="created_asc">Oldest first</option>
-          <option value="module">Module A–Z</option>
-          <option value="template">Format</option>
-          <option value="status">Status</option>
-        </select>
-      </div>
-      <button class="secondary" style="width:100%;" onclick="loadLibrary()">Refresh</button>
-      </div>
-    </div>
+      <p class="lib-rail-foot">Returns guides from the library — with citations — or <b>&ldquo;not in the library.&rdquo;</b> It never invents an answer.</p>
+      <button class="lib-rail-reopen" onclick="toggleLibRail()" title="Open Library assistant" aria-label="Open Library assistant">📚</button>
+    </aside>
 
     <div class="panel lib-detail">
       <div class="panel-header"><span id="lib-count">0</span> resources</div>
-      <div class="lib-split">
-        <div id="lib-grid" class="lib-grid"></div>
-        <div class="preview-wrap">
-          <div class="preview-toolbar">
-            <span id="lib-resid" class="id">pick a resource</span>
-            <button id="lib-download-pdf" class="secondary pdf-btn" disabled>Download PDF</button>
-            <button id="lib-publish" class="secondary accent" disabled>Approve &amp; publish</button>
-            <button id="lib-delete" class="secondary danger ghost" disabled>Delete</button>
-          </div>
-          <div id="lib-edit-bar" class="edit-bar" style="display:none;">
-            <input id="lib-edit-instruction" type="text" autocomplete="off"
-                   placeholder="Request a change — e.g. &ldquo;shorten the intro&rdquo;, &ldquo;make step 3 clearer&rdquo;&hellip;" />
-            <button id="lib-edit-run" class="secondary">Request edits</button>
-          </div>
-          <div id="lib-edit-result" class="edit-result" style="display:none;"></div>
-          <div id="lib-preview" class="preview"><div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg><div class="hint">Select a guide from the list to preview it here.</div></div></div>
-        </div>
-      </div>
+      <div id="lib-grid" class="lib-grid"></div>
     </div>
   </div>
+
+  <div id="lib-drawer-backdrop" class="lib-drawer-backdrop" hidden onclick="closeLibDrawer()"></div>
+  <aside id="lib-drawer" class="lib-drawer" aria-hidden="true" aria-label="Resource preview">
+    <div class="preview-toolbar">
+      <span id="lib-resid" class="id">pick a resource</span>
+      <button id="lib-download-pdf" class="secondary pdf-btn" disabled>Download PDF</button>
+      <button id="lib-publish" class="secondary accent" disabled>Approve &amp; publish</button>
+      <button id="lib-delete" class="secondary danger ghost" disabled>Delete</button>
+      <button class="lib-drawer-close" onclick="closeLibDrawer()" aria-label="Close preview">✕</button>
+    </div>
+    <div id="lib-edit-bar" class="edit-bar" style="display:none;">
+      <input id="lib-edit-instruction" type="text" autocomplete="off"
+             placeholder="Request a change — e.g. &ldquo;shorten the intro&rdquo;, &ldquo;make step 3 clearer&rdquo;&hellip;" />
+      <button id="lib-edit-run" class="secondary">Request edits</button>
+    </div>
+    <div id="lib-edit-result" class="edit-result" style="display:none;"></div>
+    <div id="lib-preview" class="preview"><div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg><div class="hint">Select a guide from the table to preview it here.</div></div></div>
+  </aside>
 </section>
 
 <section id="view-content" class="view">
   <header class="icn-hero">
     <div class="icn-hero-main">
-      <p class="icn-eyebrow">Training library · ICN / USDA</p>
+      <p class="icn-eyebrow">Training library · Cybersoft + ICN / USDA</p>
       <h1 class="icn-hero-title">Sourced, role-ready training for your nutrition team</h1>
-      <p class="icn-hero-sub">A curated library of externally-authored training from the Institute of Child Nutrition, USDA, and partners — food safety, handwashing, thermometer use, menu planning, and more. Every asset is cited and attributed; nothing here is AI-generated.</p>
+      <p class="icn-hero-sub">Cybersoft's own SchoolCafé / Family Hub guides alongside a curated set of externally-authored training from the Institute of Child Nutrition, USDA, and partners. Use the <strong>Source</strong> filter to switch between internal and outside-vendor content. Every asset is cited and attributed; nothing here is AI-generated.</p>
     </div>
     <div class="icn-hero-stats">
       <div class="icn-stat"><span class="num" id="icn-stat-total">—</span><span class="lbl">assets</span></div>
@@ -1600,6 +1778,14 @@
       <summary>Filters &amp; paths</summary>
       <div class="icn-filters-body">
         <div class="panel-header"><span>Refine</span></div>
+        <div class="field">
+          <label for="icn-source">Source</label>
+          <select id="icn-source">
+            <option value="">All sources</option>
+            <option value="internal">Cybersoft (internal)</option>
+            <option value="vendor">Outside vendor (ICN / USDA)</option>
+          </select>
+        </div>
         <div class="field">
           <label for="icn-role">Role</label>
           <select id="icn-role"><option value="">All roles</option></select>
@@ -1625,7 +1811,7 @@
       </div>
     </details>
     <div class="panel" style="min-width:0;">
-      <div class="panel-header"><span id="icn-count">Content library</span></div>
+      <div class="panel-header" style="display:flex;align-items:center;gap:10px;"><span id="icn-count">Content library</span><button class="secondary" style="margin-left:auto;" onclick="openQuizBuilder()" title="Build a grounded quiz from a guide or content asset">+ Quiz</button></div>
       <div id="icn-grid" class="icn-grid"></div>
     </div>
   </div>
@@ -1643,6 +1829,17 @@
     </div>
     <div id="quiz-body" class="quiz-body"></div>
     <div id="quiz-foot" class="quiz-foot"></div>
+  </div>
+</div>
+
+<div id="qb-modal" class="quiz-modal" hidden>
+  <div class="quiz-sheet" style="max-width:880px;" role="dialog" aria-modal="true" aria-label="Quiz builder">
+    <div class="quiz-head">
+      <div><div class="quiz-kicker">Quiz builder · grounded by construction</div><h3>Build a quiz</h3></div>
+      <button class="quiz-close" onclick="closeQB()" aria-label="Close">✕</button>
+    </div>
+    <div id="qb-body" class="quiz-body"></div>
+    <div id="qb-foot" class="quiz-foot"></div>
   </div>
 </div>
 
@@ -1685,6 +1882,17 @@
         <tbody id="roster-body"></tbody>
       </table>
     </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ MANAGEMENT ═══════════════════════════════════ -->
+<section id="view-manage" class="view">
+  <div class="roster-wrap">
+    <div class="roster-head">
+      <div><h1 class="roster-title" id="manage-title">Management</h1><p class="roster-sub" id="manage-sub">—</p></div>
+      <span class="demo-tag">Demo data</span>
+    </div>
+    <div id="manage-body"></div>
   </div>
 </section>
 
@@ -1837,9 +2045,14 @@ function applyViewMode() {
   const isdBtn = document.getElementById('isd-btn');
   if (isdBtn) { isdBtn.style.pointerEvents = _viewMode === 'customer' ? 'none' : ''; isdBtn.style.opacity = _viewMode === 'customer' ? '.6' : ''; }
   const ava = document.getElementById('user-ava'); if (ava) ava.textContent = _viewMode === 'customer' ? 'DC' : 'DA';
+  // Loud, persistent customer-view signal so a screen-share is never mistaken for internal.
+  document.body.classList.toggle('customer-view', _viewMode === 'customer');
+  const cbn = document.getElementById('customer-banner'); if (cbn) cbn.hidden = _viewMode !== 'customer';
+  if (typeof libRailIntro === 'function') libRailIntro(true);   // persona changed → reset the assistant's framing
   // if the active tab just got hidden, fall back to a visible view
   const active = document.querySelector('.view.active');
   if (active) { const tab = document.getElementById('tab-' + active.id.replace('view-', '')); if (tab && tab.hidden) showView(_extLearning ? 'content' : 'library'); }
+  if (m === 'customer') showView('learn');   // a customer (learner) lands on their tracks
 }
 
 function showView(name) {
@@ -1848,9 +2061,11 @@ function showView(name) {
   document.getElementById('view-' + name).classList.add('active');
   document.getElementById('tab-' + name).classList.add('active');
   if (name === 'library') loadLibrary();
+  if (name === 'learn') loadLearn();
   if (name === 'content') loadContent();
   if (name === 'evals') loadEvals();
   if (name === 'roster') loadRoster();
+  if (name === 'manage') loadManage();
 }
 
 // ─── Evals dashboard ───────────────────────────────────────────────
@@ -2959,6 +3174,9 @@ function libSourceLine(r) {
 
 // ─── ICN Content catalog ───────────────────────────────────────────
 let _icnData = null;
+let _icnPage = 1;
+const ICN_PER_PAGE = 12;
+function gotoIcnPage(p) { _icnPage = p; renderICN(); }
 const ICN_GLYPH = {
   Video: '<path d="M9 8l6 4-6 4V8z"/><rect x="3" y="4" width="18" height="16" rx="2"/>',
   PDF: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>',
@@ -2992,7 +3210,7 @@ function _icnTypeKey(t) {
   return 'web';
 }
 function _icnCard(c) {
-  const lic = _icnLic(c.license_posture);
+  const lic = c._source === 'internal' ? { cls: 'cyber', label: 'Cybersoft' } : _icnLic(c.license_posture);
   const href = (c.license_posture === 'embed_only' ? c.embed_url : c.source_url) || c.source_url || '#';
   const typeKey = _icnTypeKey(c.asset_type);
   // Real preview when we have one; the glyph sits BEHIND the <img> and the img removes
@@ -3003,7 +3221,7 @@ function _icnCard(c) {
   const chips = (c.topics || []).slice(0, 3).map(t => `<span class="icn-chip">${escapeHtml(t)}</span>`).join('');
   // Open is a QUIET ghost link (title is the hero); quiz is the one soft accent affordance.
   const openBtn = href && href !== '#'
-    ? `<a class="icn-open" href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer">${escapeHtml(_icnActionLabel(c))}</a>`
+    ? `<a class="icn-open" href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer">${escapeHtml(c._source === 'internal' ? 'Open guide ↗' : _icnActionLabel(c))}</a>`
     : '';
   const quizBtn = c.has_quiz
     ? `<button class="icn-quiz" data-aid="${escapeHtml(c.asset_id)}" onclick="genQuiz(this.dataset.aid)">✎ Generate quiz</button>`
@@ -3025,9 +3243,11 @@ function renderICN() {
   const grid = document.getElementById('icn-grid'); if (!grid || !_icnData) return;
   const role = document.getElementById('icn-role').value;
   const topic = document.getElementById('icn-topic').value;
+  const source = (document.getElementById('icn-source') || {}).value || '';
   const q = (document.getElementById('icn-search').value || '').trim().toLowerCase();
   const sort = (document.getElementById('icn-sort') || {}).value || 'title';
   const cards = _icnData.cards.filter(c =>
+    (!source || c._source === source) &&
     (!role || (c.roles||[]).includes(role)) &&
     (!topic || (c.topics||[]).includes(topic)) &&
     (!q || (c.title+' '+(c.topics||[]).join(' ')+' '+(c.source_label||'')).toLowerCase().includes(q)));
@@ -3040,9 +3260,23 @@ function renderICN() {
   });
   document.getElementById('icn-count').textContent =
     `${cards.length} of ${_icnData.total} assets`;
-  grid.innerHTML = cards.length
-    ? cards.map(_icnCard).join('')
-    : `<div class="preview" style="grid-column:1/-1;"><div class="empty"><div class="hint">No ICN content matches this filter yet. As new packs are imported, role- and topic-matched material will appear here.</div></div></div>`;
+  if (!cards.length) {
+    grid.innerHTML = `<div class="preview" style="grid-column:1/-1;"><div class="empty"><div class="hint">No content matches this filter yet. Try a different source, role, or topic.</div></div></div>`;
+    return;
+  }
+  // Paginate (same 12/page as the Library) — Content now spans ~170 internal + vendor cards.
+  const pageCount = Math.max(1, Math.ceil(cards.length / ICN_PER_PAGE));
+  _icnPage = Math.min(Math.max(_icnPage, 1), pageCount);
+  const start = (_icnPage - 1) * ICN_PER_PAGE;
+  let html = cards.slice(start, start + ICN_PER_PAGE).map(_icnCard).join('');
+  if (cards.length > ICN_PER_PAGE) {
+    const from = start + 1, to = Math.min(start + ICN_PER_PAGE, cards.length);
+    html += `<div style="grid-column:1/-1; display:flex; align-items:center; justify-content:center; gap:14px; padding:16px 2px 6px; flex-wrap:wrap;">`
+      + `<button class="secondary" ${_icnPage <= 1 ? 'disabled' : ''} onclick="gotoIcnPage(${_icnPage - 1})">&lsaquo; Prev</button>`
+      + `<span style="font-size:12px; color:var(--muted);">${from}&ndash;${to} of ${cards.length} &middot; page ${_icnPage} / ${pageCount}</span>`
+      + `<button class="secondary" ${_icnPage >= pageCount ? 'disabled' : ''} onclick="gotoIcnPage(${_icnPage + 1})">Next &rsaquo;</button></div>`;
+  }
+  grid.innerHTML = html;
 }
 async function loadContent() {
   const grid = document.getElementById('icn-grid'); if (!grid) return;
@@ -3053,6 +3287,25 @@ async function loadContent() {
     const r = await fetch('/api/icn', {signal: ctrl.signal}); clearTimeout(to);
     if (!r.ok) throw new Error('HTTP ' + r.status);
     _icnData = await r.json();
+    (_icnData.cards || []).forEach(c => { c._source = 'vendor'; });
+    // Internal Cybersoft content — the imported SchoolCafé / Family Hub guides (origin:internal),
+    // the SAME set the Library's Source=Internal shows — surfaced here so Content spans both sources.
+    try {
+      const ri = await fetch('/resources', { signal: ctrl.signal });
+      if (ri.ok) {
+        const internal = (await ri.json())
+          .filter(g => g && g.origin === 'internal')
+          .map(g => ({
+            _source: 'internal', asset_id: g.id, title: g.title || g.id,
+            asset_type: g.content_type || 'Guide', topics: [g.module].filter(Boolean), roles: [],
+            source_url: g.source_url || '', source_label: 'Cybersoft',
+            attribution: (g.origin_label || 'Cybersoft (internal)') + (g.source_url ? ' — opens the source guide' : ''),
+            has_quiz: false, has_thumb: false, license_posture: 'link_only',
+          }));
+        _icnData.cards = internal.concat(_icnData.cards || []);
+        _icnData.total = (_icnData.total || 0) + internal.length;
+      }
+    } catch (e) { /* internal content stays absent on error */ }
   } catch (e) {
     clearTimeout(to);
     grid.innerHTML = `<div class="async-error" style="grid-column:1/-1;"><p class="ae-title">Couldn't load the content library</p><p>${e.name==='AbortError'?'Timed out.':escapeHtml(e.message)}</p><button class="secondary accent" onclick="_icnData=null;loadContent()">Try again</button></div>`;
@@ -3074,8 +3327,9 @@ async function loadContent() {
     `<div class="icn-path" role="button" tabindex="0" onclick="openPath(${i})" onkeydown="if(event.key==='Enter')openPath(${i})">
       <div class="ip-title">${escapeHtml(p.title||'')}</div>
       <div class="ip-meta">${escapeHtml(p.description||'')}<br>${(p.modules||[]).length} module${(p.modules||[]).length===1?'':'s'} · view path →</div></div>`).join('');
-  ['icn-role','icn-topic','icn-sort'].forEach(id => document.getElementById(id).addEventListener('change', renderICN));
-  document.getElementById('icn-search').addEventListener('input', renderICN);
+  const icnRefilter = () => { _icnPage = 1; renderICN(); };
+  ['icn-role','icn-topic','icn-source','icn-sort'].forEach(id => document.getElementById(id).addEventListener('change', icnRefilter));
+  document.getElementById('icn-search').addEventListener('input', icnRefilter);
   renderICN();
 }
 
@@ -3134,6 +3388,125 @@ function closePath() {
   if (lib) lib.style.display = '';
 }
 
+// ─── Learn — DataCamp-style tracks (the learner experience) ──────────
+// Façade for the demo: tracks are seeded shells; their lessons are populated from the REAL
+// /resources library + the grounded quiz. No real enrollment/identity — completion is
+// client-side state. A track = a sequence of mixed lessons (guide / quiz / video) + certify.
+const _TRACKS = [
+  { id: 'ps-cashier-basics', title: 'PS Cashier Basics', role: 'Cashier', instructor: 'CB',
+    mods: ['Item Management', 'Inventory'],
+    blurb: 'Everything a returning cashier needs before the first lunch line of the year — item lookups, point-of-sale basics, and a knowledge check.' },
+  { id: 'site-mgr-prod-inv', title: 'Site Manager: Production + Inventory', role: 'Site Manager', instructor: 'SM',
+    mods: ['Inventory', 'Menu Planning'],
+    blurb: 'Run a site end to end — production records, inventory distribution, and how the two fit together.' },
+  { id: 'food-safety-refresher', title: 'Food-Safety Refresher', role: 'All staff', instructor: 'FS',
+    mods: ['Inventory'],
+    blurb: 'The annual mandatory refresher — safe handling, holding, and the checks that keep your site compliant.' },
+];
+let _libForTracks = null;
+const _trackDone = {};                                   // {trackId: Set(lessonIdx)} — demo completion
+function _doneSet(tid) { return (_trackDone[tid] = _trackDone[tid] || new Set()); }
+function _trackLessons(t) {
+  const guides = (_libForTracks || []).filter(r => (t.mods || []).includes(r.module)).slice(0, 3);
+  const lessons = guides.map(g => ({ type: 'guide', title: `${g.module}: ${g.template || 'guide'}`, rid: g.id }));
+  if (guides[0]) lessons.push({ type: 'quiz', title: 'Check your knowledge', rid: guides[0].id });
+  lessons.push({ type: 'video', title: 'Walkthrough (video) — coming soon' });
+  if (!lessons.some(l => l.type === 'guide')) lessons.unshift({ type: 'doc', title: 'Overview' });
+  return lessons;
+}
+function _trackMins(lessons) { return lessons.reduce((a, l) => a + (l.type === 'quiz' ? 5 : l.type === 'video' ? 4 : 8), 0); }
+function _lessonIcon(type) { return type === 'quiz' ? '✎' : type === 'video' ? '▶' : '📄'; }
+
+async function loadLearn() {
+  if (_libForTracks === null) {
+    try { _libForTracks = await (await fetch('/resources')).json(); } catch (e) { _libForTracks = []; }
+  }
+  renderTracks();
+}
+function renderTracks() {
+  const grid = document.getElementById('tracks-grid'); if (!grid) return;
+  document.getElementById('track-detail').hidden = true;
+  document.getElementById('tracks-hero').hidden = false;
+  grid.hidden = false;
+  grid.innerHTML = _TRACKS.map(t => {
+    const lessons = _trackLessons(t), done = _doneSet(t.id).size;
+    const pct = lessons.length ? Math.round(100 * done / lessons.length) : 0;
+    return `<button class="track-card" onclick="openTrack('${t.id}')">
+      <div class="track-ava">${escapeHtml(t.instructor)}</div>
+      <div class="track-main">
+        <div class="track-role">${escapeHtml(t.role)} track</div>
+        <div class="track-title">${escapeHtml(t.title)}</div>
+        <div class="track-blurb">${escapeHtml(t.blurb)}</div>
+        <div class="track-meta"><span>${lessons.length} lessons</span><span>·</span><span>~${_trackMins(lessons)} min</span><span>·</span><span>✓ every claim cited</span></div>
+        <div class="track-prog"><div class="track-prog-bar" style="width:${pct}%"></div></div>
+        <div class="track-prog-lbl">${pct}% complete</div>
+      </div></button>`;
+  }).join('');
+}
+function openTrack(tid) {
+  const t = _TRACKS.find(x => x.id === tid); if (!t) return;
+  const lessons = _trackLessons(t), done = _doneSet(tid);
+  const rows = lessons.map((l, idx) => {
+    const isDone = done.has(idx);
+    const act = l.type === 'guide'
+      ? `<button class="track-open" onclick="event.stopPropagation(); window.open('/resources/${escAttr(l.rid)}/pdf','_blank')">Open guide ↗</button>`
+      : l.type === 'quiz'
+        ? `<button class="track-open" onclick="event.stopPropagation(); trackQuiz('${escAttr(l.rid)}','${tid}',${idx})">Take quiz</button>`
+        : l.type === 'video' ? `<span class="track-soon">video placeholder</span>` : '';
+    return `<li class="path-mod" data-type="${l.type}">
+        <span class="path-num">${isDone ? '✓' : idx + 1}</span>
+        <div class="path-mod-main">
+          <div class="icn-type">${_lessonIcon(l.type)} <span>${escapeHtml(l.type)}</span></div>
+          <div class="path-mod-title">${escapeHtml(l.title)}</div>
+          <div class="path-mod-actions">${act}
+            <button class="track-done ${isDone ? 'is-done' : ''}" onclick="event.stopPropagation(); toggleLesson('${tid}',${idx})">${isDone ? 'Completed' : 'Mark complete'}</button>
+          </div>
+        </div></li>`;
+  }).join('');
+  const n = done.size, pct = lessons.length ? Math.round(100 * n / lessons.length) : 0;
+  const certified = n === lessons.length && lessons.length > 0;
+  document.getElementById('track-detail').innerHTML = `
+    <button class="path-back" onclick="renderTracks()">← All tracks</button>
+    <header class="path-hero">
+      <p class="path-eyebrow">${escapeHtml(t.role)} track</p>
+      <h1 class="path-title">${escapeHtml(t.title)}</h1>
+      <p class="path-desc">${escapeHtml(t.blurb)}</p>
+      <div class="path-stats"><span><b>${lessons.length}</b>lessons</span><span><b>~${_trackMins(lessons)}</b>min</span><span><b>${pct}%</b>done</span></div>
+      ${certified ? '<span class="track-cert">🏅 Track complete — certified</span>' : '<span class="track-cert-todo">Finish every lesson to certify</span>'}
+    </header>
+    <div class="path-layout">
+      <ol class="path-modules">${rows}</ol>
+      <aside class="path-aside">
+        <h4>About this track</h4>
+        <p class="path-aside-note">Lessons draw on approved, source-cited guides. The quiz is grounded in the guide text — any question without a verbatim source quote is dropped automatically.</p>
+      </aside>
+    </div>`;
+  document.getElementById('tracks-hero').hidden = true;
+  document.getElementById('tracks-grid').hidden = true;
+  document.getElementById('track-detail').hidden = false;
+  window.scrollTo(0, 0);
+}
+function toggleLesson(tid, idx) { const s = _doneSet(tid); if (s.has(idx)) s.delete(idx); else s.add(idx); openTrack(tid); }
+async function trackQuiz(rid, tid, idx) {
+  const m = document.getElementById('quiz-modal'), body = document.getElementById('quiz-body'), foot = document.getElementById('quiz-foot');
+  if (m) m.hidden = false;
+  if (body) body.innerHTML = '<div style="padding:22px; color:var(--muted);">Generating a grounded quiz from this guide…</div>';
+  if (foot) foot.innerHTML = '';
+  try {
+    const r = await fetch('/api/quizzes/generate', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ source_type: 'resource', source_id: rid, n: 5 })
+    });
+    const q = await r.json();
+    openTaker(q.title || 'Knowledge check', (q && q.questions) || [], {
+      attribution: q.source_label || '',
+      onDone: pct => { if (pct >= 70 && tid != null) { _doneSet(tid).add(idx); openTrack(tid); } }
+    });
+  } catch (e) {
+    if (body) body.innerHTML = '<div class="async-error"><p class="ae-title">Couldn’t generate the quiz</p><p>Please try again in a moment.</p></div>';
+  }
+}
+
 // ─── Roster (simulated multi-tenant demo) ───────────────────────────
 let _rosterData = null, _curISD = '';
 async function loadRoster(isd) {
@@ -3177,7 +3550,40 @@ function renderRoster() {
     || '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:24px;">No learners match.</td></tr>';
 }
 function toggleISDMenu() { const m = document.getElementById('isd-menu'); if (m) m.hidden = !m.hidden; }
-function selectISD(id) { const m = document.getElementById('isd-menu'); if (m) m.hidden = true; loadRoster(id); }
+function selectISD(id) { const m = document.getElementById('isd-menu'); if (m) m.hidden = true; loadRoster(id); if ((document.querySelector('.view.active')||{}).id === 'view-manage') loadManage(); }
+
+// ─── Management dashboards — internal-team (Trainer) + CN-Director (Customer) ───
+async function loadManage(){
+  try{ _rosterData = await (await fetch('/api/roster'+(_curISD?('?isd='+encodeURIComponent(_curISD)):''))).json(); _curISD=_rosterData.selected; }catch(e){ if(!_rosterData) return; }
+  renderManage();
+}
+function nudgeRole(role,n){ alert(`Reminder sent to ${n} ${role} who haven’t finished the mandatory refresher (demo).`); }
+function renderManage(){
+  const d=_rosterData; if(!d) return;
+  const title=document.getElementById('manage-title'), sub=document.getElementById('manage-sub'), body=document.getElementById('manage-body');
+  if(_viewMode==='customer'){
+    // CN-Director: the selected district's staff, by role, vs the mandatory deadline + nudge.
+    const roster=d.roster||[], total=roster.length, done=roster.filter(l=>l.status==='Completed').length;
+    const byRole={}; roster.forEach(l=>{ (byRole[l.role]=byRole[l.role]||[]).push(l); });
+    if(title) title.textContent=d.selected_name+' · Training compliance';
+    if(sub) sub.textContent=`Mandatory refresher · due Jun 30 · ${done}/${total} staff complete`;
+    let h='<div class="roster-cards">'+[['Staff',total],['Completed',done],['Outstanding',total-done],['Due','Jun 30']].map(([l,n])=>`<div class="roster-stat"><div class="n">${n}</div><div class="l">${escapeHtml(l)}</div></div>`).join('')+'</div>';
+    h+='<div class="roster-table-wrap"><table class="roster-table"><thead><tr><th>Role</th><th>Staff</th><th>Completed</th><th>Completion</th><th></th></tr></thead><tbody>';
+    h+=Object.keys(byRole).sort().map(role=>{ const g=byRole[role], c=g.filter(l=>l.status==='Completed').length, pct=Math.round(100*c/g.length), out=g.length-c;
+      return `<tr><td>${escapeHtml(role)}</td><td>${g.length}</td><td>${c}</td><td><span class="r-prog"><span class="r-bar"><span style="width:${pct}%"></span></span>${pct}%</span></td><td>${out?`<button class="track-open" onclick="nudgeRole('${escAttr(role)}',${out})">Nudge ${out}</button>`:'<span class="r-status done">All done</span>'}</td></tr>`; }).join('')+'</tbody></table></div>';
+    if(body) body.innerHTML=h;
+  } else {
+    // Internal team (Cybersoft): all districts rolled up + a 'raised hand for help'.
+    const ds=d.districts||[], help=ds.filter(x=>x.help_request);
+    if(title) title.textContent='All districts';
+    if(sub) sub.textContent=`${ds.length} districts · ${ds.reduce((a,x)=>a+(x.learners||0),0)} learners enrolled`;
+    let h='';
+    if(help.length){ const hd=help[0]; h+=`<div class="mg-help">🖐 <b>${escapeHtml(help.map(x=>x.name).join(', '))}</b> raised a hand for help — ${escapeHtml(hd.help_note||'needs assistance')}. <button class="track-open" onclick="alert('Routed to the district trainer (demo).')">Assign trainer</button></div>`; }
+    h+='<div class="roster-table-wrap"><table class="roster-table"><thead><tr><th>District</th><th>Learners</th><th>Completion</th><th>In progress</th><th>Not started</th><th>Active (7d)</th></tr></thead><tbody>';
+    h+=ds.map(x=>`<tr class="${x.help_request?'mg-flag':''}"><td>${escapeHtml(x.name)}${x.help_request?' 🖐':''}</td><td>${x.learners}</td><td><span class="r-prog"><span class="r-bar"><span style="width:${x.completion_rate||0}%"></span></span>${x.completion_rate||0}%</span></td><td>${x.in_progress||0}</td><td>${x.not_started||0}</td><td>${x.active_7d||0}</td></tr>`).join('')+'</tbody></table></div>';
+    if(body) body.innerHTML=h;
+  }
+}
 function doLogin() { const m = document.getElementById('login-modal'); if (m) m.hidden = true; try { sessionStorage.setItem('ls_demo_login', '1'); } catch (e) {} loadRoster(); }
 document.addEventListener('click', e => {
   const sw = document.querySelector('.isd-switch');
@@ -3192,29 +3598,43 @@ document.addEventListener('click', e => {
 // ─── Grounded quiz from ICN content ─────────────────────────────────
 function closeQuiz() { const m = document.getElementById('quiz-modal'); if (m) m.hidden = true; }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeQuiz(); });
-function _quizQuestion(q, i) {
-  const opts = q.options.map((o, oi) =>
-    `<button class="quiz-opt" data-qi="${i}" data-oi="${oi}" onclick="answerQuiz(${i},${oi})">${escapeHtml(o)}</button>`).join('');
-  const pg = q.page ? ` · p.${q.page}` : (q.slide ? ` · slide ${q.slide}` : '');
-  const link = q.source_url ? ` <a href="${escapeHtml(q.source_url)}" target="_blank" rel="noopener noreferrer">View source${escapeHtml(pg)} ↗</a>` : '';
-  return `<div class="quiz-q" id="quiz-q-${i}">
-    <div class="stem"><span class="qn">${i+1}.</span>${escapeHtml(q.q)}</div>
-    <div class="opts">${opts}</div>
-    <div class="quiz-src" id="quiz-src-${i}" hidden>
-      <span class="sq">“${escapeHtml(q.source_quote)}”</span>${q.explanation?'<br>'+escapeHtml(q.explanation):''}
-      <span class="attr">Source: Institute of Child Nutrition / USDA.${link}</span>
-    </div></div>`;
+// ─── Unified quiz taker — ONE model for every surface (ICN content, study-set, builder
+// preview): pick an answer for each → Submit → scored feedback with the source span per item.
+// (Replaces the old reveal-on-click model so every quiz behaves identically.)
+let _taker = null;
+function _normQ(q){
+  return { stem: (q.stem!=null?q.stem:(q.q||'')), options: q.options||[],
+           answer_index: (q.answer_index!=null?q.answer_index:(q.answer!=null?q.answer:0)),
+           source_quote: q.source_quote||'', explanation: q.explanation||'',
+           source_url: q.source_url||'', page: q.page, slide: q.slide };
 }
-let _quizState = null;
-function answerQuiz(qi, oi) {
-  const q = _quizState.questions[qi];
-  document.querySelectorAll(`.quiz-opt[data-qi="${qi}"]`).forEach(b => {
-    const o = +b.dataset.oi; b.disabled = true;
-    if (o === q.answer) b.classList.add('correct');
-    else if (o === oi) b.classList.add('wrong');
-  });
-  const src = document.getElementById('quiz-src-' + qi); if (src) src.hidden = false;
+function openTaker(title, questions, meta){
+  _taker = { title: title||'Quiz', questions: questions||[], meta: meta||{}, picks: {} };
+  const m=document.getElementById('quiz-modal'), body=document.getElementById('quiz-body'),
+        foot=document.getElementById('quiz-foot'), ttl=document.getElementById('quiz-title');
+  m.hidden=false; ttl.textContent=_taker.title;
+  if(!_taker.questions.length){ body.innerHTML=`<div class="async-error"><p class="ae-title">No verifiable questions</p><p>Every draft question failed source verification, so none were kept.</p></div>`; foot.innerHTML=''; return; }
+  body.innerHTML=_taker.questions.map((q,i)=>`<div class="quiz-q"><div class="stem"><span class="qn">${i+1}.</span>${escapeHtml(q.stem)}</div><div class="opts">${(q.options||[]).map((o,oi)=>`<button class="quiz-opt" data-qi="${i}" data-oi="${oi}" onclick="takerPick(${i},${oi})">${escapeHtml(o)}</button>`).join('')}</div></div>`).join('');
+  foot.innerHTML=`<span>${_taker.questions.length} question${_taker.questions.length===1?'':'s'} · pick an answer for each</span><button class="primary" onclick="takerSubmit()">Submit</button>`;
 }
+function takerPick(qi,oi){ if(!_taker) return; _taker.picks[qi]=oi; document.querySelectorAll(`.quiz-opt[data-qi="${qi}"]`).forEach(b=>b.classList.toggle('picked',+b.dataset.oi===oi)); }
+function takerSubmit(){
+  if(!_taker) return; const qs=_taker.questions; let correct=0;
+  const html=qs.map((q,i)=>{
+    const chosen=_taker.picks[i]; const ok=chosen===q.answer_index; if(ok) correct++;
+    const pg=q.page?` · p.${q.page}`:(q.slide?` · slide ${q.slide}`:'');
+    const link=q.source_url?` <a href="${escAttr(q.source_url)}" target="_blank" rel="noopener noreferrer">View source${escapeHtml(pg)} ↗</a>`:'';
+    const attr=(_taker.meta.attribution||link)?`<span class="attr">${escapeHtml(_taker.meta.attribution||'')}${link}</span>`:'';
+    return `<div class="quiz-q"><div class="stem"><span class="qn">${i+1}.</span>${escapeHtml(q.stem)} ${ok?'<b style="color:var(--green-text,#1e7a3d)">✓</b>':'<b style="color:var(--warn-text,#8A4A12)">✗</b>'}</div>
+      <div class="opts">${(q.options||[]).map((o,oi)=>`<button class="quiz-opt ${oi===q.answer_index?'correct':(oi===chosen&&!ok?'wrong':'')}" disabled>${escapeHtml(o)}</button>`).join('')}</div>
+      <div class="quiz-src">${q.source_quote?`<span class="sq">“${escapeHtml(q.source_quote)}”</span>`:'<span class="sq">(manual question — not source-verified)</span>'}${q.explanation?'<br>'+escapeHtml(q.explanation):''}${attr}</div></div>`;
+  }).join('');
+  document.getElementById('quiz-body').innerHTML=html;
+  const pct=qs.length?Math.round(100*correct/qs.length):0;
+  document.getElementById('quiz-foot').innerHTML=`<span>Score: <b>${correct}/${qs.length}</b> (${pct}%)</span><button class="secondary" onclick="takerRetake()">Retake</button>`;
+  if(_taker.meta && typeof _taker.meta.onDone==='function'){ try{ _taker.meta.onDone(pct); }catch(e){} }
+}
+function takerRetake(){ if(_taker) openTaker(_taker.title, _taker.questions, _taker.meta); }
 async function genQuiz(assetId) {
   const card = (_icnData && _icnData.cards.find(c => c.asset_id === assetId)) || {};
   const m = document.getElementById('quiz-modal'), body = document.getElementById('quiz-body'),
@@ -3227,13 +3647,241 @@ async function genQuiz(assetId) {
     const r = await fetch('/api/icn/quiz', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ asset_id: assetId }) });
     if (!r.ok) { let msg = 'HTTP ' + r.status; try { const j = await r.json(); msg = (j.detail && j.detail.message) || j.detail || msg; } catch {} throw new Error(msg); }
     const data = await r.json();
-    _quizState = data;
-    if (!data.questions.length) { body.innerHTML = `<div class="async-error"><p class="ae-title">No verifiable questions</p><p>Every draft question failed source verification, so none were kept.</p></div>`; return; }
-    body.innerHTML = data.questions.map(_quizQuestion).join('');
-    foot.innerHTML = `<span>✓ ${data.kept} question${data.kept===1?'':'s'}, each verified verbatim against the source${data.dropped?` · ${data.dropped} unverifiable dropped`:''}</span><span>${escapeHtml(data.attribution||'')}</span>`;
+    openTaker(card.title || 'Quiz', (data.questions||[]).map(_normQ), { attribution: data.attribution || 'Source: Institute of Child Nutrition / USDA.' });
   } catch (e) {
     body.innerHTML = `<div class="async-error"><p class="ae-title">Couldn't generate the quiz</p><p>${escapeHtml(e.message)}</p></div>`;
   }
+}
+
+// ─── Quiz Builder (Content "+" → grounded generate → hybrid edit → approve) ───
+let _qb = { quiz: null, flagged: {}, ack: false, checked: false };
+async function _errMsg(r){ try{ const j=await r.json(); return (j.detail&&(j.detail.message||j.detail))||('HTTP '+r.status);}catch{ return 'HTTP '+r.status; } }
+function closeQB(){ const m=document.getElementById('qb-modal'); if(m) m.hidden=true; }
+function _qbTick(id, base){ let s=0; return setInterval(()=>{ s++; const e=document.getElementById(id); if(e) e.textContent=base+' ('+s+'s)'; }, 1000); }
+document.addEventListener('keydown', e=>{
+  const m=document.getElementById('qb-modal'); if(!m||m.hidden) return;
+  if(e.key==='Escape'){ closeQB(); return; }
+  if(e.key==='Tab'){ const f=[...m.querySelectorAll('button,select,input,textarea,a[href]')].filter(el=>!el.disabled&&el.offsetParent!==null); if(!f.length) return; const a=f[0],z=f[f.length-1]; if(e.shiftKey&&document.activeElement===a){ e.preventDefault(); z.focus(); } else if(!e.shiftKey&&document.activeElement===z){ e.preventDefault(); a.focus(); } }
+});
+
+async function openQuizBuilder(preset){
+  const m=document.getElementById('qb-modal'); if(!m) return;
+  m.hidden=false; _qb.quiz=null; _qb.flagged={}; _qb.ack=false; _qb.checked=false; _qb.selSource=preset||'';
+  document.getElementById('qb-foot').innerHTML='';
+  const body=document.getElementById('qb-body');
+  body.innerHTML='<div class="qb-empty"><span class="spinner"></span> Loading…</div>';
+  let guides=[], assets=[];
+  try{ guides=await (await fetch('/resources')).json(); }catch{}
+  try{ if(!_icnData){ _icnData=await (await fetch('/api/icn')).json(); } assets=(_icnData&&_icnData.cards)||[]; }catch{}
+  _qb.sources=[]
+    .concat(guides.filter(g=>g.id).map(g=>({value:'resource:'+g.id, name:((g.module||g.id)+' '+(g.template||'')).trim(), type:(g.status==='approved'||g.approved)?'verified':'draft', sub:(g.created_at||'').slice(0,10)})))
+    .concat(assets.filter(a=>a.asset_id&&a.has_quiz).map(a=>({value:'asset:'+a.asset_id, name:a.title||a.asset_id, type:'content', sub:(a.source_label||'').replace(/^Source:\s*/,'')})));
+  await qbLoadBank();
+  body.innerHTML=`
+    <div id="qb-start" class="qb-start">
+      <div class="qb-modes" role="tablist" aria-label="How to start">
+        <button id="qbm-generate" role="tab" aria-selected="true" class="on" onclick="qbMode('generate')">✦ Generate from a source</button>
+        <button id="qbm-manual" role="tab" aria-selected="false" onclick="qbMode('manual')">✎ Create manually</button>
+        <button id="qbm-bank" role="tab" aria-selected="false" onclick="qbMode('bank')">▤ Quiz bank${_qb.bank.length?` (${_qb.bank.length})`:''}</button>
+      </div>
+      <div id="qb-mode-generate" class="qb-mode-panel">
+        <div class="qb-row-tools">
+          <input id="qb-src-search" class="qb-search" type="text" placeholder="Search guides &amp; content…" oninput="qbRenderSources()">
+          <select id="qb-src-filter" onchange="qbRenderSources()"><option value="">All sources</option><option value="verified">✓ Verified guides</option><option value="content">Content assets</option><option value="draft">Draft guides</option></select>
+        </div>
+        <div id="qb-srclist" class="qb-srclist"></div>
+        <div class="qb-genbar"><label>Questions <select id="qb-n"><option>4</option><option selected>6</option><option>8</option><option>10</option></select></label><button class="primary" id="qb-genbtn" disabled onclick="qbGenerate()">✦ Generate grounded draft</button></div>
+      </div>
+      <div id="qb-mode-manual" class="qb-mode-panel" hidden>
+        <p class="hint" style="margin:0 0 4px;">Write your own questions from scratch. Manual questions aren't auto-grounded, so each needs an SME sign-off before the quiz can be approved.</p>
+        <input id="qb-manual-title" class="qb-search" type="text" placeholder="Quiz title — e.g. 'Inventory Distribution — basics'">
+        <div class="qb-genbar"><label>Start with <select id="qb-manual-n"><option>3</option><option selected>4</option><option>6</option></select> blank questions</label><button class="primary" onclick="qbCreateManual()">✎ Create quiz</button></div>
+      </div>
+      <div id="qb-mode-bank" class="qb-mode-panel" hidden>
+        <div class="qb-row-tools"><input id="qb-bank-search" class="qb-search" type="text" placeholder="Search quizzes…" oninput="qbRenderBank()"><select id="qb-bank-filter" onchange="qbRenderBank()"><option value="">All</option><option value="approved">Approved</option><option value="draft">Draft</option></select></div>
+        <div id="qb-banklist" class="qb-banklist"></div>
+      </div>
+    </div>
+    <div id="qb-editor" class="qb-editor" hidden></div>`;
+  qbRenderSources();
+  if(_qb.selSource){ const b=document.getElementById('qb-genbtn'); if(b) b.disabled=false; }
+  const _s=document.getElementById('qb-src-search'); if(_s) _s.focus();
+}
+function qbShowEditor(){ const s=document.getElementById('qb-start'), e=document.getElementById('qb-editor'); if(s) s.hidden=true; if(e) e.hidden=false; }
+function qbMode(name){
+  ['generate','manual','bank'].forEach(x=>{ const p=document.getElementById('qb-mode-'+x), b=document.getElementById('qbm-'+x); if(p) p.hidden=x!==name; if(b){ b.classList.toggle('on',x===name); b.setAttribute('aria-selected', x===name?'true':'false'); } });
+  if(name==='generate') qbRenderSources(); if(name==='bank') qbRenderBank();
+}
+function _srcTag(t){ return t==='verified'?'<span class="qb-tag verified">✓ Verified</span>':(t==='content'?'<span class="qb-tag content">Content</span>':'<span class="qb-tag">Draft</span>'); }
+function qbRenderSources(){
+  const list=document.getElementById('qb-srclist'); if(!list) return;
+  const q=((document.getElementById('qb-src-search')||{}).value||'').toLowerCase().trim();
+  const f=(document.getElementById('qb-src-filter')||{}).value||'';
+  const rows=(_qb.sources||[]).filter(s=>(!f||s.type===f)&&(!q||s.name.toLowerCase().includes(q)));
+  list.innerHTML=rows.length?rows.map(s=>`<div class="qb-srcrow${_qb.selSource===s.value?' sel':''}" onclick="qbPickSource('${escAttr(s.value)}',this)"><span class="nm">${escapeHtml(s.name)}</span>${s.sub?`<span class="meta">${escapeHtml(s.sub)}</span>`:''}${_srcTag(s.type)}</div>`).join('')
+    :'<div class="qb-empty">No sources match. Try a different search or filter.</div>';
+}
+function qbPickSource(v,el){ _qb.selSource=v; document.querySelectorAll('#qb-srclist .qb-srcrow').forEach(r=>r.classList.remove('sel')); if(el) el.classList.add('sel'); const b=document.getElementById('qb-genbtn'); if(b) b.disabled=false; }
+async function qbLoadBank(){ try{ _qb.bank=((await (await fetch('/api/quizzes')).json()).quizzes)||[]; }catch{ _qb.bank=[]; } }
+function _qbStatusTag(z){ return z.status==='approved'?'<span class="qb-tag verified">Approved</span>':(z.stale?'<span class="qb-tag">⚠ stale</span>':'<span class="qb-tag">Draft</span>'); }
+function qbRenderBank(){
+  const list=document.getElementById('qb-banklist'); if(!list) return;
+  const q=((document.getElementById('qb-bank-search')||{}).value||'').toLowerCase().trim();
+  const f=(document.getElementById('qb-bank-filter')||{}).value||'';
+  const rows=(_qb.bank||[]).filter(z=>(!f||z.status===f)&&(!q||(`${z.title||''} ${z.source_label||''}`).toLowerCase().includes(q)));
+  list.innerHTML=rows.length?rows.map(z=>`<div class="qb-bankrow"><span class="nm" onclick="qbLoad('${escAttr(z.id)}')" title="Open">${escapeHtml(z.title||z.id)}</span>${_qbStatusTag(z)}<span class="meta">${z.grounded||0}/${z.total||0} grounded</span><button class="link" title="Take" aria-label="Take quiz" onclick="openQuizTaker('${escAttr(z.id)}')">▶</button><button class="link danger" title="Delete" aria-label="Delete quiz" onclick="qbDeleteFromBank('${escAttr(z.id)}')">✕</button></div>`).join('')
+    :'<div class="qb-empty">No saved quizzes yet — generate or create one to start your bank.</div>';
+}
+async function qbDeleteFromBank(id){
+  if(!confirm('Delete this quiz? This cannot be undone.')) return;
+  try{ await fetch('/api/quizzes/'+id,{method:'DELETE'}); await qbLoadBank(); qbRenderBank(); const b=document.getElementById('qbm-bank'); if(b) b.textContent='▤ Quiz bank'+(_qb.bank.length?` (${_qb.bank.length})`:''); }catch(e){}
+}
+async function qbCreateManual(){
+  const title=((document.getElementById('qb-manual-title')||{}).value||'').trim()||'Untitled quiz';
+  const n=+(document.getElementById('qb-manual-n')||{}).value||4;
+  try{
+    const r=await fetch('/api/quizzes/create',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({title,n})});
+    if(!r.ok) throw new Error(await _errMsg(r));
+    _qb.quiz=await r.json(); _qb.flagged={}; _qb.ack=false; _qb.checked=false; qbRenderEditor();
+  }catch(e){ alert('Could not create quiz: '+e.message); }
+}
+
+async function qbGenerate(){
+  const v=_qb.selSource||'';
+  if(!v) return;
+  const source_type=v.slice(0,v.indexOf(':')), source_id=v.slice(v.indexOf(':')+1);
+  const n=+(document.getElementById('qb-n')||{}).value||6;
+  qbShowEditor();
+  const ed=document.getElementById('qb-editor');
+  ed.innerHTML='<div class="qb-empty"><span class="spinner"></span> <span id="qb-tick">Generating + verifying every question against the source…</span></div>';
+  const tk=_qbTick('qb-tick','Generating + verifying every question against the source…');
+  try{
+    const r=await fetch('/api/quizzes/generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({source_type,source_id,n})});
+    if(!r.ok) throw new Error(await _errMsg(r));
+    _qb.quiz=await r.json(); _qb.flagged={}; _qb.ack=false; _qb.checked=false; qbRenderEditor();
+  }catch(e){ ed.innerHTML=`<div class="async-error"><p class="ae-title">Generation failed</p><p>${escapeHtml(e.message)}</p></div>`; }
+  finally{ clearInterval(tk); }
+}
+async function qbLoad(qid){
+  try{ _qb.quiz=await (await fetch('/api/quizzes/'+qid)).json(); _qb.flagged={}; _qb.ack=false; _qb.checked=false; qbRenderEditor(); }
+  catch(e){ qbFoot('Load failed: '+e.message); }
+}
+function _qbBadge(q){ return q.grounded?'<span class="qb-badge ok">grounded ✓</span>':'<span class="qb-badge warn">manual · not source-verified</span>'; }
+function qbRenderEditor(){
+  const quiz=_qb.quiz, ed=document.getElementById('qb-editor'); if(!ed) return; if(!quiz){ ed.innerHTML=''; return; }
+  qbShowEditor();
+  const overridden=quiz.support_override&&quiz.status==='approved';
+  const cards=(quiz.questions||[]).map((q,i)=>{
+    const fr=_qb.flagged&&_qb.flagged[i];
+    return `
+    <div class="qb-card${fr?' flagged':''}">
+      <div class="qb-card-top"><b>Q${i+1}</b>${_qbBadge(q)}${fr?`<span class="qb-badge flag" title="${escAttr(fr)}">${overridden?'⚠ acknowledged override':'⚠ answer check: quote may not support this answer'}</span>`:''}
+        <span class="qb-card-actions"><button class="link" onclick="qbMove(${i},-1)" title="Move up" aria-label="Move question up">↑</button><button class="link" onclick="qbMove(${i},1)" title="Move down" aria-label="Move question down">↓</button><button class="link danger" onclick="qbDel(${i})" title="Delete question" aria-label="Delete question">✕</button></span></div>
+      <div class="qb-fieldlabel">Question</div>
+      <textarea class="qb-stem" data-i="${i}" rows="2" placeholder="Question…">${escapeHtml(q.stem||'')}</textarea>
+      <div class="qb-fieldlabel">Answer options · ◉ marks the correct answer</div>
+      ${[0,1,2,3].map(oi=>`<label class="qb-opt"><input type="radio" name="qbc-${i}" ${q.answer_index===oi?'checked':''} onchange="qbSetCorrect(${i},${oi})" title="Mark as the correct answer" aria-label="Mark option ${oi+1} correct"><input type="text" class="qb-optText" data-i="${i}" data-oi="${oi}" value="${escAttr((q.options||[])[oi]||'')}" placeholder="Option ${oi+1}"></label>`).join('')}
+      <div class="qb-fieldlabel">Explanation</div>
+      <input type="text" class="qb-expl" data-i="${i}" value="${escAttr(q.explanation||'')}" placeholder="One sentence — why the answer is right">
+      <div class="qb-fieldlabel ground">Grounding quote — verbatim from the source</div>
+      <textarea class="qb-quote" data-i="${i}" rows="2" placeholder="Paste the exact words from the content that prove the answer">${escapeHtml(q.source_quote||'')}</textarea>
+      ${q.grounded?'':`<label class="qb-sme"><input type="checkbox" class="qb-smeChk" data-i="${i}" ${q.sme_verified?'checked':''}> I (SME) verified this manual question is correct</label>`}
+    </div>`; }).join('');
+  ed.innerHTML=`<button class="qb-back" onclick="openQuizBuilder()">← Quizzes</button><div class="qb-meta"><input id="qb-title" type="text" value="${escAttr(quiz.title||'')}" placeholder="Quiz title"><span class="qb-srclabel">source: ${escapeHtml(quiz.source_label||quiz.source_id||'')}${quiz.stale?' · <b style="color:var(--warn-text)">SOURCE CHANGED</b>':''}</span></div>${cards}<button class="secondary" onclick="qbAdd()">+ Add question</button>`;
+  qbFoot();
+}
+function qbFoot(msg){
+  const quiz=_qb.quiz, f=document.getElementById('qb-foot'); if(!f) return;
+  if(!quiz){ f.innerHTML=msg?`<span>${escapeHtml(msg)}</span>`:''; return; }
+  const g=(quiz.questions||[]).filter(q=>q.grounded).length, t=(quiz.questions||[]).length;
+  const nf=_qb.flagged?Object.keys(_qb.flagged).length:0;
+  const overridden=quiz.support_override&&quiz.status==='approved';
+  const approved=quiz.status==='approved';
+  const blocked=nf&&!overridden;   // checked + flagged + not acknowledged
+  // ONE contextual primary, following the author's path: review → check → preview → approve.
+  const primary=approved?'preview':(!_qb.checked?'check':(blocked?'none':'approve'));
+  const note=nf
+    ?(overridden?` · <b style="color:var(--warn-text)">⚠ ${nf} acknowledged override (recorded)</b>`
+                :` · <b style="color:var(--warn-text)">⚠ ${nf} flagged</b> — fix, or tick acknowledge to override`)
+    :(approved?' · ✓ live for learners':(_qb.checked?' · ✓ answers checked':''));
+  // override checkbox lives RIGHT NEXT TO the flag note (cause + action together), not in the button cluster.
+  const ackBox=blocked?` <label class="qb-ackbox"><input type="checkbox" id="qb-ack" ${_qb.ack?'checked':''} onchange="_qb.ack=this.checked"> acknowledge &amp; override</label>`:'';
+  const cls=k=>primary===k?'primary':(k==='preview'?'secondary accent':'secondary');
+  f.innerHTML=`<span class="qb-status">${(msg?escapeHtml(msg):`${g}/${t} grounded`)+note}${ackBox}</span>
+    <span class="qb-actions"><button class="secondary" onclick="qbSave()">Save draft</button><button class="${cls('check')}" onclick="qbCheck()">Check answers</button><button class="${cls('preview')}" onclick="openQuizTaker('${escAttr(quiz.id)}')">Preview / take</button><button class="${cls('approve')}" onclick="qbApprove()">Approve → live</button></span>`;
+}
+function qbCollect(){
+  const quiz=_qb.quiz; if(!quiz) return;
+  const tEl=document.getElementById('qb-title'); if(tEl) quiz.title=tEl.value;
+  (quiz.questions||[]).forEach((q,i)=>{
+    const s=document.querySelector(`.qb-stem[data-i="${i}"]`); if(s) q.stem=s.value;
+    q.options=q.options||['','','',''];
+    [0,1,2,3].forEach(oi=>{ const o=document.querySelector(`.qb-optText[data-i="${i}"][data-oi="${oi}"]`); if(o) q.options[oi]=o.value; });
+    const ex=document.querySelector(`.qb-expl[data-i="${i}"]`); if(ex) q.explanation=ex.value;
+    const qt=document.querySelector(`.qb-quote[data-i="${i}"]`); if(qt) q.source_quote=qt.value;
+    const sme=document.querySelector(`.qb-smeChk[data-i="${i}"]`); if(sme) q.sme_verified=sme.checked;
+  });
+}
+function qbSetCorrect(i,oi){ if(_qb.quiz&&_qb.quiz.questions[i]) _qb.quiz.questions[i].answer_index=oi; }
+function qbAdd(){ qbCollect(); _qb.quiz.questions.push({stem:'',options:['','','',''],answer_index:0,explanation:'',source_quote:'',source_ref:'',provenance:'manual_unverified',grounded:false,sme_verified:false}); _qb.flagged={}; _qb.checked=false; qbRenderEditor(); }
+function qbDel(i){ qbCollect(); _qb.quiz.questions.splice(i,1); _qb.flagged={}; _qb.checked=false; qbRenderEditor(); }
+function qbMove(i,d){ qbCollect(); const qs=_qb.quiz.questions, j=i+d; if(j<0||j>=qs.length) return; [qs[i],qs[j]]=[qs[j],qs[i]]; _qb.flagged={}; _qb.checked=false; qbRenderEditor(); }
+async function qbSaveQuiet(){
+  qbCollect(); const quiz=_qb.quiz; if(!quiz) return null;
+  const r=await fetch('/api/quizzes/'+quiz.id,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({title:quiz.title,questions:quiz.questions})});
+  const d=await r.json(); _qb.quiz=d.quiz; _qb.checked=false; return d.qa;
+}
+async function qbSave(){ qbFoot('Saving…'); try{ const qa=await qbSaveQuiet(); qbRenderEditor(); qbFoot(`Saved · ${qa.grounded}/${qa.total} grounded${qa.warnings&&qa.warnings.length?' · '+qa.warnings.join('; '):''}`);}catch(e){ qbFoot('Save failed: '+e.message);} }
+async function qbApprove(){
+  const nf=_qb.flagged?Object.keys(_qb.flagged).length:0;
+  // Flagged quiz: require a DELIBERATE, recorded acknowledgement (checkbox), not a reflexive OK.
+  if(nf && !_qb.ack){
+    qbFoot(`⚠ ${nf} question(s) flagged — tick "acknowledge & override" to publish a flagged quiz, or fix the flagged question(s) first.`);
+    const cb=document.getElementById('qb-ack'); if(cb){ cb.focus(); cb.parentElement.style.outline='2px solid #d98324'; }
+    return;
+  }
+  try{ await qbSaveQuiet(); }catch(e){ qbFoot('Save failed: '+e.message); return; }
+  const quiz=_qb.quiz; if(!quiz) return;
+  const payload = nf ? { override:true, flagged:_qb.flagged } : {};
+  try{
+    const r=await fetch('/api/quizzes/'+quiz.id+'/approve',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    if(r.status===409){ const j=await r.json(); const det=j.detail||{}; qbRenderEditor(); qbFoot('⚠ Cannot approve: '+(det.message||((det.qa&&det.qa.blocking||[]).join('; '))||'QA not clean')); return; }
+    if(!r.ok) throw new Error(await _errMsg(r));
+    const d=await r.json(); _qb.quiz=d.quiz; _qb.ack=false; qbRenderEditor();
+    qbFoot('✓ Approved — live for learners');
+  }catch(e){ qbFoot('Approve failed: '+e.message); }
+}
+// Busy footer that KEEPS the action bar anchored (buttons disabled in place) instead of
+// blanking it — so a multi-second action doesn't make the whole bar disappear.
+function qbFootBusy(msg){
+  const f=document.getElementById('qb-foot'); if(!f) return;
+  f.innerHTML=`<span class="qb-status"><span class="spinner"></span> <span id="qb-tick">${escapeHtml(msg)}</span></span>`
+    + `<span class="qb-actions"><button class="secondary" disabled>Save draft</button><button class="secondary" disabled>Check answers</button><button class="secondary accent" disabled>Preview / take</button><button class="primary" disabled>Approve → live</button></span>`;
+}
+async function qbCheck(){
+  try{ await qbSaveQuiet(); }catch{}
+  const quiz=_qb.quiz; if(!quiz) return;
+  qbFootBusy('Checking each answer against its source…');
+  const tk=_qbTick('qb-tick','Checking each answer against its source…');
+  try{
+    const d=await (await fetch('/api/quizzes/'+quiz.id+'/check',{method:'POST'})).json();
+    _qb.flagged={}; (d.flagged||[]).forEach(x=>{ _qb.flagged[x.index]=x.reason; }); _qb.ack=false; _qb.checked=true;
+    qbRenderEditor();   // re-renders cards + the SINGLE footer note (the flag copy lives in ONE place)
+    if(!d.flagged||!d.flagged.length){ qbFoot(`✓ Support check: all ${d.checked} grounded question(s) supported`); }
+    else { const el=document.querySelector('.qb-card.flagged'); if(el) el.scrollIntoView({behavior:'smooth',block:'center'}); }
+  }catch(e){ qbFoot('Check failed: '+e.message); }
+  finally{ clearInterval(tk); }
+}
+
+// ─── Builder preview: load a SAVED quiz and take it through the unified taker ───
+async function openQuizTaker(qid){
+  const body=document.getElementById('quiz-body'),foot=document.getElementById('quiz-foot');
+  document.getElementById('quiz-modal').hidden=false;
+  body.innerHTML='<div style="text-align:center;padding:30px;color:var(--muted);"><span class="spinner"></span> Loading…</div>'; foot.innerHTML='';
+  try{
+    const quiz=await (await fetch('/api/quizzes/'+qid)).json();
+    openTaker(quiz.title||'Quiz', (quiz.questions||[]).map(_normQ), {});
+  }catch(e){ body.innerHTML=`<div class="async-error"><p>${escapeHtml(e.message)}</p></div>`; }
 }
 
 // ─── Create → Study set (author quizzes / flashcards from ICN + LLM, by topic) ───
@@ -3265,10 +3913,8 @@ async function runStudyQuiz(topic) {
   try {
     const r = await fetch('/api/icn/quiz', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ topic }) });
     if (!r.ok) { let msg = 'HTTP ' + r.status; try { const j = await r.json(); msg = (j.detail && j.detail.message) || j.detail || msg; } catch {} throw new Error(msg); }
-    const data = await r.json(); _quizState = data;
-    if (!data.questions.length) { body.innerHTML = '<div class="async-error"><p class="ae-title">No verifiable questions</p><p>Every draft failed source verification, so none were kept.</p></div>'; return; }
-    body.innerHTML = data.questions.map(_quizQuestion).join('');
-    foot.innerHTML = `<span>✓ ${data.kept} question${data.kept===1?'':'s'}, each verified verbatim against the source${data.dropped?` · ${data.dropped} dropped`:''}</span><span>${escapeHtml(data.attribution||'')}</span>`;
+    const data = await r.json();
+    openTaker(topic + ' — Quiz', (data.questions||[]).map(_normQ), { attribution: data.attribution || 'Source: Institute of Child Nutrition / USDA.' });
   } catch (e) { body.innerHTML = `<div class="async-error"><p class="ae-title">Couldn't generate the quiz</p><p>${escapeHtml(e.message)}</p></div>`; }
 }
 async function runFlashcards(topic) {
@@ -3292,6 +3938,9 @@ async function runFlashcards(topic) {
   } catch (e) { body.innerHTML = `<div class="async-error"><p class="ae-title">Couldn't generate flashcards</p><p>${escapeHtml(e.message)}</p></div>`; }
 }
 
+// Library pagination — the imported guide library is large; render one page at a time.
+const LIB_PER_PAGE = 12;
+let _libInternal = [], _libVendorCards = [], _libVendorLocked = false, _libSrc = '', _libPage = 1;
 async function loadLibrary() {
   const grid = document.getElementById('lib-grid');
   // Skeleton first paint while we fetch.
@@ -3361,51 +4010,88 @@ async function loadLibrary() {
   }
 
   if (grid) grid.removeAttribute('aria-busy');
+  // Stash filtered+sorted results and render ONE PAGE at a time. The imported guide
+  // library is ~150 items; rendering them all made the Library scroll on forever.
+  _libInternal = list; _libVendorCards = vendorCards; _libVendorLocked = vendorLocked; _libSrc = src;
+  _libPage = 1;
+  renderLib();
+}
+
+function gotoLibPage(p) { _libPage = p; renderLib(); }
+
+function renderLib() {
+  const grid = document.getElementById('lib-grid');
+  if (!grid) return;
+  const list = _libInternal, vendorCards = _libVendorCards, vendorLocked = _libVendorLocked, src = _libSrc;
   document.getElementById('lib-count').textContent = list.length + vendorCards.length;
   grid.innerHTML = '';
   if (!list.length && !vendorCards.length && !vendorLocked) {
-    grid.innerHTML = '<div style="padding:24px; text-align:center; color:var(--muted); font-size:13px;">No matching resources.</div>';
+    grid.innerHTML = '<div class="lib-empty">No matching resources.</div>';
     return;
   }
-  const groupLabel = (txt) => `<div class="lib-group" style="grid-column:1/-1; font-weight:700; font-size:11px; letter-spacing:.05em; text-transform:uppercase; color:var(--muted); padding:8px 2px 2px;">${txt}</div>`;
-  if (src === '' && list.length) grid.insertAdjacentHTML('beforeend', groupLabel('Internal · Cybersoft'));
-  list.forEach(r => {
-    const card = document.createElement('div');
-    card.className = 'lib-card';
-    card.dataset.id = r.id;
-    const verdict = normalizedVerdict(r.evaluator_verdict);
-    // Status accent bar (colors from slice-A CSS): approved (green) / fail (terracotta) / awaiting (amber).
-    card.dataset.state = inLibrary(r) ? 'approved' : (verdict === 'fail' ? 'fail' : 'await');
-    const evalLabel = inLibrary(r)
-      ? 'sources verified'
-      : verdict ? (verdict === 'pass' ? 'sources verified' : verdict === 'warn' ? 'check sources' : verdict === 'fail' ? 'sources failed' : 'check error') : 'not checked yet';
-    const evalTitle = inLibrary(r)
-      ? 'Approved — every claim traces to a real source.'
-      : verdict ? (verdict === 'pass' ? 'Every claim traces to a real source.' : verdict === 'warn' ? 'A few claims need a second look before publishing.' : verdict === 'fail' ? 'One or more claims could not be traced to a source.' : 'The source check could not finish.') : 'This draft has not been source-checked yet.';
-    const verdictClass = ['pass', 'warn', 'fail', 'error'].includes(verdict) ? verdict : 'error';
-    const evalClass = inLibrary(r)
-      ? 'eval-pass'
-      : verdict ? `eval-${verdictClass}` : 'eval-missing';
-    const sb = statusBadge(r);
-    const srcLine = libSourceLine(r);
-    card.innerHTML = `
-      <p class="title">${libTypeIcon(r.template)}${r.module || '?'} | ${r.template || '?'}</p>
-      <p class="lib-src">↳ ${srcLine}</p>
-      <div class="row">
-        <span class="badge ${sb.cls}" title="${escAttr(sb.tip)}">${sb.label}</span>
-        <span class="badge ${evalClass}" title="${escAttr(evalTitle)}">${evalLabel}</span>
-        <span>${(r.created_at || '').slice(0, 16).replace('T', ' ')}</span>
-      </div>
-    `;
-    card.addEventListener('click', () => selectLibResource(r));
-    grid.appendChild(card);
-  });
+
+  // ── Internal resources → a TABLE (click a row → preview drawer) ──
+  if (list.length) {
+    const _pageCount = Math.max(1, Math.ceil(list.length / LIB_PER_PAGE));
+    _libPage = Math.min(Math.max(_libPage, 1), _pageCount);
+    const _start = (_libPage - 1) * LIB_PER_PAGE;
+    const _pageItems = list.slice(_start, _start + LIB_PER_PAGE);
+
+    const table = document.createElement('table');
+    table.className = 'lib-table';
+    table.innerHTML = '<thead><tr><th>Guide</th><th>Source</th><th>Status</th><th>Updated</th></tr></thead>';
+    const tbody = document.createElement('tbody');
+
+    if (src === '') {
+      const gr = document.createElement('tr');
+      gr.className = 'lib-group-row';
+      gr.innerHTML = '<td colspan="4">Internal · Cybersoft</td>';
+      tbody.appendChild(gr);
+    }
+    _pageItems.forEach(r => {
+      const verdict = normalizedVerdict(r.evaluator_verdict);
+      const evalLabel = inLibrary(r) ? 'sources verified'
+        : verdict ? (verdict === 'pass' ? 'sources verified' : verdict === 'warn' ? 'check sources' : verdict === 'fail' ? 'sources failed' : 'check error') : 'not checked yet';
+      const evalTitle = inLibrary(r) ? 'Approved — every claim traces to a real source.'
+        : verdict ? (verdict === 'pass' ? 'Every claim traces to a real source.' : verdict === 'warn' ? 'A few claims need a second look before publishing.' : verdict === 'fail' ? 'One or more claims could not be traced to a source.' : 'The source check could not finish.') : 'This draft has not been source-checked yet.';
+      const verdictClass = ['pass', 'warn', 'fail', 'error'].includes(verdict) ? verdict : 'error';
+      const evalClass = inLibrary(r) ? 'eval-pass' : verdict ? `eval-${verdictClass}` : 'eval-missing';
+      const sb = statusBadge(r);
+      const tr = document.createElement('tr');
+      tr.className = 'lib-row';
+      tr.dataset.id = r.id;
+      tr.dataset.state = inLibrary(r) ? 'approved' : (verdict === 'fail' ? 'fail' : 'await');
+      tr.innerHTML =
+        `<td class="lib-c-title">${libTypeIcon(r.template)}<span>${escapeHtml(r.module || '?')} | ${escapeHtml(r.template || '?')}</span></td>`
+        + `<td class="lib-c-src">${escapeHtml(libSourceLine(r))}</td>`
+        + `<td class="lib-c-status"><span class="badge ${sb.cls}" title="${escAttr(sb.tip)}">${sb.label}</span> <span class="badge ${evalClass}" title="${escAttr(evalTitle)}">${evalLabel}</span></td>`
+        + `<td class="lib-c-date">${(r.created_at || '').slice(0, 16).replace('T', ' ')}</td>`;
+      tr.addEventListener('click', () => selectLibResource(r));
+      tbody.appendChild(tr);
+    });
+
+    if (list.length > LIB_PER_PAGE) {
+      const _from = _start + 1, _to = Math.min(_start + LIB_PER_PAGE, list.length);
+      const pr = document.createElement('tr');
+      pr.className = 'lib-pager-row';
+      pr.innerHTML = '<td colspan="4">'
+        + `<button class="secondary" ${_libPage <= 1 ? 'disabled' : ''} onclick="gotoLibPage(${_libPage - 1})">&lsaquo; Prev</button>`
+        + `<span class="lib-pager-info">${_from}&ndash;${_to} of ${list.length} &middot; page ${_libPage} / ${_pageCount}</span>`
+        + `<button class="secondary" ${_libPage >= _pageCount ? 'disabled' : ''} onclick="gotoLibPage(${_libPage + 1})">Next &rsaquo;</button>`
+        + '</td>';
+      tbody.appendChild(pr);
+    }
+    table.appendChild(tbody);
+    grid.appendChild(table);
+  }
+
+  // ── Outside-vendor (ICN) → credited link-out cards below the table ──
   if (vendorLocked) {
-    grid.insertAdjacentHTML('beforeend', groupLabel('Outside vendor · ICN') +
-      `<div style="grid-column:1/-1; padding:14px; color:var(--muted); font-size:13px;">ICN / external content is behind the <code>EXTERNAL_LEARNING</code> flag (pending a fair-use agreement). Enable it to browse credited vendor content here.</div>`);
+    grid.insertAdjacentHTML('beforeend', '<div class="lib-group">Outside vendor · ICN</div>'
+      + '<div style="padding:6px 2px; color:var(--muted); font-size:13px;">ICN / external content is behind the <code>EXTERNAL_LEARNING</code> flag (pending a fair-use agreement). Enable it to browse credited vendor content here.</div>');
   } else if (vendorCards.length) {
-    if (src === '') grid.insertAdjacentHTML('beforeend', groupLabel('Outside vendor · ICN (credited · opens at source)'));
-    grid.insertAdjacentHTML('beforeend', vendorCards.map(_icnCard).join(''));
+    const lbl = (src === '') ? '<div class="lib-group">Outside vendor · ICN (credited · opens at source)</div>' : '';
+    grid.insertAdjacentHTML('beforeend', lbl + `<div class="icn-grid" style="margin-top:8px;">${vendorCards.map(_icnCard).join('')}</div>`);
   }
 }
 
@@ -3436,9 +4122,85 @@ async function publishErrorMessage(resp) {
   return detail;
 }
 
+function openLibDrawer(){ const d=document.getElementById('lib-drawer'), b=document.getElementById('lib-drawer-backdrop'); if(b) b.hidden=false; if(d){ d.classList.add('open'); d.setAttribute('aria-hidden','false'); } }
+function closeLibDrawer(){ const d=document.getElementById('lib-drawer'), b=document.getElementById('lib-drawer-backdrop'); if(d){ d.classList.remove('open'); d.setAttribute('aria-hidden','true'); } if(b) b.hidden=true; }
+document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ const d=document.getElementById('lib-drawer'); if(d&&d.classList.contains('open')) closeLibDrawer(); } });
+
+// ─── Library assistant: a GROUNDED librarian ────────────────────────────────
+// Returns library guides + citations, or "not in the library" — NEVER a synthesized
+// capability claim (that would betray the "every claim cited" promise this product is
+// built on). This first cut matches the loaded resource list; real retrieval wires in
+// later. It can drive the filters in NL and route authoring/quality asks to those views.
+function toggleLibRail(){ const m=document.getElementById('lib-main'); if(m) m.classList.toggle('rail-collapsed'); }
+function _libAskBubble(who, html){ const log=document.getElementById('lib-ask-log'); if(!log) return; const d=document.createElement('div'); d.className='lib-bubble '+who; d.innerHTML=html; log.appendChild(d); log.scrollTop=log.scrollHeight; }
+function libRailIntro(force){
+  const log=document.getElementById('lib-ask-log'); if(!log) return;
+  if(!force && log.children.length) return;     // preserve a live conversation; reset only on persona change
+  log.innerHTML='';
+  const intro=(_viewMode==='customer')
+    ? 'Ask me to find a how-to — e.g. <i>&ldquo;how do I add a student?&rdquo;</i> I&rsquo;ll show guides from the library, or tell you it isn&rsquo;t covered yet.'
+    : 'Ask me to find, filter, or route — e.g. <i>&ldquo;approved Inventory guides,&rdquo;</i> <i>&ldquo;make a micro-guide on distribution,&rdquo;</i> or <i>&ldquo;is the Inventory guide drift-checked?&rdquo;</i>';
+  _libAskBubble('lib', intro);
+}
+function libOpenFromAsk(id){ const r=(_libInternal||[]).find(x=>x.id===id); if(r) selectLibResource(r); }
+function _libAskCard(r){ const sb=statusBadge(r); return `<button class="lib-ask-card" onclick="libOpenFromAsk('${escAttr(r.id)}')">${libTypeIcon(r.template)}<span class="t">${escapeHtml((r.module||'?')+' | '+(r.template||'?'))}</span><span class="badge ${sb.cls}">${sb.label}</span></button>`; }
+function _libMatch(q){
+  const stop=new Set(['the','and','for','does','support','how','can','what','guide','guides','show','find','give','need','about','with','from','that','this','have','has','are','module','approved','draft']);
+  const terms=q.toLowerCase().split(/[^a-z0-9]+/).filter(w=>w.length>2 && !stop.has(w));
+  const list=_libInternal||[];
+  if(!terms.length) return list.slice(0,5);
+  return list.map(r=>{ const hay=(`${r.module||''} ${r.template||''} ${r.title||''} ${libSourceLine(r)}`).toLowerCase(); return {r, s:terms.reduce((a,t)=>a+(hay.includes(t)?1:0),0)}; })
+    .filter(x=>x.s>0).sort((a,b)=>b.s-a.s).slice(0,5).map(x=>x.r);
+}
+function _libAskThinking(){ const log=document.getElementById('lib-ask-log'); const d=document.createElement('div'); d.className='lib-bubble lib'; d.innerHTML='<span class="lib-ask-note">Searching every guide…</span>'; if(log){ log.appendChild(d); log.scrollTop=log.scrollHeight; } return d; }
+function _libGuideCard(g){ const label=escapeHtml((g.module||'?')+' | '+(g.template||'?')); return `<button class="lib-ask-card" onclick="libOpenFromAsk('${escAttr(g.rid||g.id)}')">${libTypeIcon(g.template)}<span class="t">${label}</span><span class="badge approved">approved</span></button>`; }
+function _libCiteHtml(c){ const src=escapeHtml((c.module||'?')+' | '+(c.template||'?')); return `<blockquote class="lib-cite">&ldquo;${escapeHtml(c.quote)}&rdquo;<cite>${src} · <button class="linklike" onclick="libOpenFromAsk('${escAttr(c.rid)}')">open guide →</button></cite></blockquote>`; }
+function _libAnswerHtml(d){
+  if(d && d.grounded && d.answer){
+    let h = `<div class="lib-ans">${escapeHtml(d.answer)}</div>`;
+    h += (d.citations||[]).map(_libCiteHtml).join('');
+    h += '<div class="lib-ask-note" style="margin-top:6px;">Every line above is quoted from a library guide — open one to verify.</div>';
+    return h;
+  }
+  let h = '<div class="lib-ask-none">📭 Not in the library — no approved guide answers that yet.<span>I only answer from guides that exist, each with a citation. I won&rsquo;t invent a capability or a fact.</span></div>';
+  const gs=(d&&d.guides)||[];
+  if(gs.length){ h += '<div class="lib-ask-note" style="margin-top:8px;">Closest guides — may be related:</div>' + gs.map(_libGuideCard).join(''); }
+  return h;
+}
+async function libAsk(){
+  const inp=document.getElementById('lib-ask'); if(!inp) return; const q=(inp.value||'').trim(); if(!q) return;
+  _libAskBubble('you', escapeHtml(q)); inp.value='';
+  const ql=q.toLowerCase();
+  // Front door (Trainer): authoring / quality asks ROUTE to those views — never "answered" here.
+  if(_viewMode==='trainer' && /\b(make|create|draft|generate|build|write)\b/.test(ql) && /(guide|micro|tldr|long|one-?pager|quiz|flashcard)/.test(ql)){
+    _libAskBubble('lib', 'That&rsquo;s an authoring task — new guides are made (and grounded) in Create. <button class="secondary" onclick="showView(\'author\')">Open Create →</button>'); return;
+  }
+  if(_viewMode==='trainer' && /(drift|quality|trace|grounded|verified|\beval)/.test(ql)){
+    _libAskBubble('lib', 'Grounding &amp; drift status live in Quality. <button class="secondary" onclick="showView(\'evals\')">Open Quality →</button>'); return;
+  }
+  // NL → drive the filters (complementary to the dropdowns; power users keep both).
+  const drove=[]; const modSel=document.getElementById('lib-module');
+  if(modSel){ for(const o of modSel.options){ if(o.value && ql.includes(o.value.toLowerCase())){ modSel.value=o.value; drove.push('Module: '+o.value); break; } } }
+  const stSel=document.getElementById('lib-status');
+  if(stSel){ if(/\bapproved\b|in library|published/.test(ql)){ stSel.value='library'; drove.push('Status: Approved'); } else if(/awaiting|needs review|\bdraft\b/.test(ql)){ stSel.value='awaiting'; drove.push('Status: Awaiting review'); } }
+  if(drove.length){ try{ await loadLibrary(); }catch(e){} _libAskBubble('lib', `<div class="lib-ask-note">Narrowed the table → ${escapeHtml(drove.join(' · '))}.</div>`); }
+  // Query the CONTENT of every guide and reply — grounded by construction (verbatim quote, or "not in the library").
+  const thinking=_libAskThinking();
+  try{
+    const resp = await fetch('/api/library/ask', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({question:q, view:_viewMode})});
+    const d = await resp.json();
+    if(thinking) thinking.remove();
+    _libAskBubble('lib', _libAnswerHtml(d));
+  }catch(e){
+    if(thinking) thinking.remove();
+    _libAskBubble('lib', '<div class="lib-ask-none">Couldn&rsquo;t reach the assistant just now. Please try again.</div>');
+  }
+}
+libRailIntro();
 async function selectLibResource(r) {
   libSelectedId = r.id;
-  document.querySelectorAll('.lib-card').forEach(c => c.classList.toggle('selected', c.dataset.id === r.id));
+  openLibDrawer();
+  document.querySelectorAll('.lib-row').forEach(c => c.classList.toggle('selected', c.dataset.id === r.id));
   document.getElementById('lib-resid').textContent = r.id;
   document.getElementById('lib-download-pdf').disabled = false;
   const detail = await fetch(`/resources/${r.id}?view=clean`).then(x => x.json());
@@ -3459,6 +4221,7 @@ async function selectLibResource(r) {
     document.getElementById('lib-edit-result').style.display = 'none';
     delBtn.disabled = true;
     libSelectedId = null;
+    closeLibDrawer();
     loadLibrary();
   };
 

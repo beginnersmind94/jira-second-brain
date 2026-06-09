@@ -1,0 +1,26 @@
+{
+  "run_date": "2026-06-09 09:13:49",
+  "server": "http://127.0.0.1:8001",
+  "checked_faithfulness": false,
+  "quizzes": 1,
+  "drifted": 0,
+  "reopened": 0,
+  "with_blocking": 0,
+  "support_flagged": 0,
+  "rows": [
+    {
+      "id": "quiz-20260608-155920-inventory-long-form-af5d-e9ab51",
+      "title": "Quiz — Inventory",
+      "status": "approved",
+      "total": 6,
+      "grounded": 6,
+      "manual_unverified": 0,
+      "drifted": false,
+      "reopened": false,
+      "stale": false,
+      "blocking": [],
+      "warnings": [],
+      "flagged": []
+    }
+  ]
+}

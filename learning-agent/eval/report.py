@@ -53,6 +53,7 @@ sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 from eval import coverage as coverage_mod
 from eval import scoring as scoring_mod
 from eval import source_quality as source_quality_mod
+from eval import source_faithfulness as faithfulness_mod
 
 
 # ── helpers ─────────────────────────────────────────────────────────────────────
@@ -112,8 +113,15 @@ def collect() -> dict:
 
     total_draft = len(cov_draft) + len(src["draft_guides"])
 
+    # Source-faithfulness (guide CLAIM vs its CITED span): fixture stats only here. The live
+    # FN-rate needs the semantic judge (--live), so the dashboard reports it as n/a rather
+    # than fabricate — same honesty as the broken-citation line (§0 real-artifact-wins).
+    faith_rows = faithfulness_mod.load_rows()
+    faith = {"n": len(faith_rows),
+             "n_over": sum(1 for r in faith_rows if r["gold"] == "over_reach")}
+
     return {
-        "fail": fail, "passk": passk, "abst": abst,
+        "fail": fail, "passk": passk, "abst": abst, "faith": faith,
         "cov_roll": cov_roll, "cov_draft": cov_draft, "cov_report": cov_report,
         "src": src,
         "draft_reasons": draft_reasons,
@@ -198,7 +206,16 @@ def print_dashboard(d: dict) -> None:
     else:
         print("  Top draft reasons: none (no guide held in DRAFT)")
 
-    # 9) Broken citation rate — §8.3/§12.3 citation-verifiability grader is UNBUILT and
+    # 9) Source-faithfulness (guide CLAIM within its CITED span) — the seam the verbatim
+    # gate AND the quiz<->guide gate both miss: a claim can cite a real verbatim span yet
+    # over-reach/reframe it. The real Q4 drift from the Inventory Distribution run is a
+    # regression row in the fixture. Live FN-rate needs the semantic judge (--live).
+    f = d["faith"]
+    print(f"  Source-faithfulness (guide claim within cited span): fixture {f['n']} rows, "
+          f"{f['n_over']} over-reach incl. the real Q4 drift; live FN-rate n/a "
+          f"— `python -m eval.source_faithfulness --live`")
+
+    # 10) Broken citation rate — §8.3/§12.3 citation-verifiability grader is UNBUILT and
     # has no fixture in this repo. Print honestly rather than fabricate (§0 real-artifact
     # wins; cite-or-cut). The wiki's static example reasons (stale source, cross-lane) are
     # likewise not graded here — only coverage (§11.1) and source-quality (§11.2) gate.

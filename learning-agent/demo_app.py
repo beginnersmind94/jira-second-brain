@@ -81,6 +81,9 @@ import pricing
 import revise
 # Intent-and-scope front end — "describe what you need" (network-free import).
 import intent_agent
+# Quiz Builder — persistence + QA/grounding gate (+ the support judge for the QA pass).
+import quiz_store
+import qbank_gate
 
 load_dotenv()
 
@@ -344,10 +347,31 @@ def _roster_for(d: dict) -> list:
     return out
 
 
+def _district_stats(d: dict) -> dict:
+    """Seeded per-district roll-up for the management dashboard (synthetic demo)."""
+    import hashlib
+    roster = _roster_for(d)
+    n = len(roster)
+    completed = sum(1 for x in roster if x["status"] == "Completed")
+    in_progress = sum(1 for x in roster if x["status"] == "In progress")
+    h = int(hashlib.md5((d["id"] + "stats").encode()).hexdigest(), 16)
+    flagged = d["id"] == "dallas-isd"
+    return {
+        "learners": n, "completed": completed, "in_progress": in_progress,
+        "not_started": n - completed - in_progress,
+        "completion_rate": round(100 * completed / n) if n else 0,
+        "avg_progress": round(sum(x["progress"] for x in roster) / n) if n else 0,
+        "active_7d": round(n * (0.55 + (h % 35) / 100.0)),
+        "help_request": flagged,
+        "help_note": "3 cashiers stuck on Inventory Distribution" if flagged else "",
+        "due": "Jun 30",
+    }
+
+
 @app.get("/api/roster")
 async def api_roster(isd: str = ""):
-    """Simulated district roster (synthetic demo data, not real students)."""
-    districts = [{**d, "learners": len(_roster_for(d))} for d in _DISTRICTS]
+    """Simulated district roster + per-district roll-up (synthetic demo data, not real students)."""
+    districts = [{**d, **_district_stats(d)} for d in _DISTRICTS]
     d = next((x for x in _DISTRICTS if x["id"] == isd), _DISTRICTS[0])
     return {"districts": districts, "selected": d["id"], "selected_name": d["name"],
             "roster": _roster_for(d), "demo": True}
@@ -598,6 +622,495 @@ async def icn_quiz(payload: dict = Body(...)):
         "source_url": src_url, "questions": kept,
         "generated": len(raw_qs), "kept": len(kept), "dropped": dropped,
     })
+
+
+def _strip_tags(html: str) -> str:
+    """HTML -> readable text for quiz grounding (drop tags, keep paragraph breaks)."""
+    t = re.sub(r"(?is)<(script|style)[^>]*>.*?</\1>", " ", html or "")
+    t = re.sub(r"(?i)</(p|div|li|h[1-6]|tr)\s*>", "\n", t)
+    t = re.sub(r"(?i)<br\s*/?>", "\n", t)
+    t = re.sub(r"<[^>]+>", " ", t)
+    for a, b in (("&amp;", "&"), ("&lt;", "<"), ("&gt;", ">"), ("&quot;", '"'), ("&#39;", "'"), ("&nbsp;", " ")):
+        t = t.replace(a, b)
+    t = re.sub(r"[ \t]+", " ", t)
+    t = re.sub(r"\n\s*\n+", "\n\n", t)
+    return t.strip()
+
+
+async def _grounded_quiz(excerpts_by_id: dict, title: str, n: int, attribution: str, src_url):
+    """Shared grounded-MCQ core: run _QUIZ_SYS over {excerpt_id: text}; keep ONLY questions
+    whose verbatim source_quote is found in an excerpt (grounding by construction).
+    Shared by /api/icn/quiz (ICN chunks) and /api/resources/{rid}/quiz (a generated guide)."""
+    by_id, excerpts, total = {}, [], 0
+    for eid, txt in excerpts_by_id.items():
+        txt = (txt or "").strip()
+        if len(txt) < 40:
+            continue
+        by_id[eid] = txt
+        excerpts.append(f"[{eid}]\n{txt}")
+        total += len(txt)
+        if total > 16000:
+            break
+    if not excerpts:
+        return {"questions": [], "generated": 0, "kept": 0, "dropped": 0,
+                "title": title, "attribution": attribution, "source_url": src_url,
+                "note": "no usable excerpts (guide too short/empty after stripping)"}
+    prompt = (f"Document: {title}\nWrite {n} multiple-choice questions grounded ONLY in these excerpts.\n\n"
+              "EXCERPTS:\n" + "\n\n".join(excerpts) + "\n\nEmit ONLY the JSON object.")
+    opts = ClaudeAgentOptions(
+        model="claude-sonnet-4-6", effort="medium", system_prompt=_QUIZ_SYS,
+        allowed_tools=[], disallowed_tools=_DISALLOWED, tools=[], max_turns=4,
+    )
+    text, _usage = await _run_text(prompt, opts)
+    parsed = _parse_json(text) or {}
+    raw_qs = parsed.get("questions") or []
+    kept, dropped = [], 0
+    for q in raw_qs:
+        quote = (q.get("source_quote") or "").strip()
+        opts_list = q.get("options") or []
+        if not quote or len(opts_list) != 4 or not isinstance(q.get("answer"), int) or not (0 <= q["answer"] < 4):
+            dropped += 1
+            continue
+        nq = demo._norm(quote)
+        cid = q.get("chunk_id")
+        hit = cid if (cid in by_id and nq in demo._norm(by_id[cid])) else \
+            next((eid for eid, t in by_id.items() if nq in demo._norm(t)), None)
+        if not hit:
+            dropped += 1
+            continue
+        kept.append({"q": q.get("q", ""), "options": opts_list, "answer": q["answer"],
+                     "explanation": q.get("explanation", ""), "source_quote": quote, "excerpt_id": hit})
+    return {"questions": kept, "generated": len(raw_qs), "kept": len(kept), "dropped": dropped,
+            "title": title, "attribution": attribution, "source_url": src_url}
+
+
+@app.post("/api/resources/{rid}/quiz")
+async def resource_quiz(rid: str, payload: dict = Body(default={})):
+    """Generate a grounded quiz FROM a published/generated guide. The guide's own sections
+    are the excerpts; every kept question carries a verbatim quote found in the guide text.
+    'Learning validation on a generated guide' — quiz-from-content wired to the real resource
+    store. <!-- Source --> citations are stripped first so questions ground against the
+    visible guide text, not the citation comments."""
+    resolved = prod._resolve_resource(rid)
+    if not resolved:
+        raise HTTPException(404, "resource not found")
+    html_path, meta_path, _status = resolved
+    try:
+        raw_html = html_path.read_text(encoding="utf-8")
+    except OSError as e:
+        raise HTTPException(500, f"could not read resource: {e}")
+    clean = prod._strip_source_comments(raw_html)
+    parts = re.split(r"(?is)<h[23][^>]*>(.*?)</h[23]>", clean)
+    excerpts_by_id = {}
+    if len(parts) >= 3:
+        intro = _strip_tags(parts[0])
+        if len(intro) >= 40:
+            excerpts_by_id["Intro"] = intro
+        for i in range(1, len(parts) - 1, 2):
+            head = (_strip_tags(parts[i]).strip()[:64]) or f"Section {i // 2 + 1}"
+            body = _strip_tags(parts[i + 1])
+            excerpts_by_id[f"{i // 2 + 1}. {head}"] = f"{head}\n{body}"
+    else:
+        excerpts_by_id["Guide"] = _strip_tags(clean)
+    meta = prod._read_meta(meta_path) or {}
+    title = meta.get("title") or meta.get("module") or rid
+    n = max(3, min(int(payload.get("n", 6) or 6), 10))
+    try:
+        res = await _grounded_quiz(excerpts_by_id, title, n,
+                                   attribution=f"From guide {rid}: {title}", src_url=None)
+    except Exception as e:
+        raise HTTPException(502, f"quiz generation failed: {e}")
+    return JSONResponse({"resource_id": rid, "sections": list(excerpts_by_id.keys()), **res})
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Library assistant — grounded Q&A over ALL library guides (the rail's "reply").
+# Same grounding-by-construction as the generator and the quiz: the model may
+# answer ONLY from guide excerpts, every claim carries a VERBATIM quote, and we
+# DROP any citation whose quote isn't a verbatim substring of the cited guide.
+# No grounded citation -> "not in the library" (never a free-form answer).
+# ─────────────────────────────────────────────────────────────────────────────
+_LIB_ANSWER_SYS = (
+    "You are the Library Assistant for SchoolCafe Learning Studio. Answer the user's question "
+    "USING ONLY the supplied guide excerpts — never outside knowledge, never a plausible guess. "
+    "For EVERY claim in your answer you must cite a VERBATIM quote copied exactly from one of the "
+    "excerpts. If the excerpts do not contain the answer, you MUST return answer=null — do not "
+    "improvise. Reply with ONLY a JSON object, no prose around it: "
+    '{"answer": "<concise 1-3 sentence answer, or null if unsupported>", '
+    '"citations": [{"rid": "<the GUIDE id from the excerpt header>", '
+    '"quote": "<span copied verbatim from that guide\'s excerpt>"}]}. '
+    "When in doubt, answer=null. A wrong or unsupported answer is far worse than 'not in the library'."
+)
+
+_LIB_STOP = {"the", "and", "for", "does", "support", "how", "can", "what", "guide", "guides", "show",
+             "find", "give", "need", "about", "with", "from", "that", "this", "have", "has", "are",
+             "module", "when", "where", "who", "why", "into", "you", "your", "not", "but", "all", "any"}
+_LIB_INDEX = {"sig": None, "docs": None}
+
+
+def _library_docs() -> list:
+    """Cached content index over library guides: [{rid,title,module,template,text,excerpts}].
+    Scans both dirs (V1 keeps approved guides in DRAFTS with a status flag, not a separate tree)."""
+    try:
+        listing = (prod._list_resources_in(prod.DRAFTS, "draft")
+                   + prod._list_resources_in(prod.PUBLISHED, "published"))
+    except Exception:
+        listing = []
+    sig = tuple(sorted((r.get("id"), r.get("created_at", "")) for r in listing if r.get("id")))
+    if _LIB_INDEX["sig"] == sig and _LIB_INDEX["docs"] is not None:
+        return _LIB_INDEX["docs"]
+    docs = []
+    for r in listing:
+        rid = r.get("id")
+        if not rid:
+            continue
+        try:
+            got = _resource_excerpts(rid)
+        except Exception:
+            got = None
+        if not got:
+            continue
+        excerpts, full, title, _label = got
+        if len((full or "").strip()) < 40:
+            continue
+        docs.append({"rid": rid, "title": title, "module": r.get("module", ""),
+                     "template": r.get("template", ""), "text": full, "excerpts": excerpts})
+    _LIB_INDEX["sig"], _LIB_INDEX["docs"] = sig, docs
+    return docs
+
+
+def _rank_library(question: str, docs: list, k: int = 4) -> list:
+    """Keyword content rank (term frequency over title+module+full text). Real content search
+    over ~all guides; swap in the Chroma index here for semantic recall later."""
+    terms = [w for w in re.findall(r"[a-z0-9]{3,}", (question or "").lower()) if w not in _LIB_STOP]
+    if not terms:
+        return docs[:k]
+    scored = []
+    for d in docs:
+        hay = (d["title"] + " " + d["module"] + " " + d["text"]).lower()
+        s = sum(hay.count(t) for t in terms)
+        if s:
+            scored.append((s, d))
+    scored.sort(key=lambda x: -x[0])
+    return [d for _s, d in scored[:k]]
+
+
+@app.post("/api/library/ask")
+async def library_ask(payload: dict = Body(default={})):
+    """Grounded Q&A over ALL library guides. Returns an answer ONLY if it can be backed by a
+    verbatim quote from a real guide; otherwise 'not in the library'. Grounded by construction —
+    the same gate as the generator and the quiz. This is the rail's content-query 'reply'."""
+    question = (payload.get("question") or payload.get("q") or "").strip()
+    if not question:
+        raise HTTPException(400, "question required")
+    docs = _library_docs()
+    top = _rank_library(question, docs, k=4) if docs else []
+    guide_cards = [{"rid": d["rid"], "title": d["title"], "module": d["module"],
+                    "template": d["template"]} for d in top[:3]]
+    if not top:
+        return JSONResponse({"question": question, "answer": None, "grounded": False,
+                             "citations": [], "guides": [], "note": "not in the library"})
+    # Bounded labeled excerpts for the top guides.
+    blocks, by_excerpt, total = [], {}, 0
+    for d in top:
+        for eid, txt in (d["excerpts"] or {}).items():
+            txt = (txt or "").strip()
+            if len(txt) < 40:
+                continue
+            by_excerpt[f"{d['rid']} :: {eid}"] = (d, txt)
+            blocks.append(f"[GUIDE {d['rid']} | {d['title']} | section: {eid}]\n{txt}")
+            total += len(txt)
+            if total > 14000:
+                break
+        if total > 14000:
+            break
+    prompt = (f"QUESTION: {question}\n\nGUIDE EXCERPTS (the ONLY allowed source):\n\n"
+              + "\n\n".join(blocks) + "\n\nEmit ONLY the JSON object.")
+    opts = ClaudeAgentOptions(model="claude-sonnet-4-6", effort="medium", system_prompt=_LIB_ANSWER_SYS,
+                              allowed_tools=[], disallowed_tools=_DISALLOWED, tools=[], max_turns=4)
+    try:
+        text, _usage = await _run_text(prompt, opts)
+    except Exception as e:
+        raise HTTPException(502, f"library assistant failed: {e}")
+    parsed = _parse_json(text) or {}
+    answer = parsed.get("answer")
+    verified, guide_ids = [], []
+    for c in (parsed.get("citations") or []):
+        quote = (c.get("quote") or "").strip()
+        if not quote:
+            continue
+        nq = demo._norm(quote)
+        hit = next(((d, key.split(" :: ", 1)[-1]) for key, (d, txt) in by_excerpt.items()
+                    if nq and nq in demo._norm(txt)), None)
+        if hit:
+            d, eid = hit
+            verified.append({"rid": d["rid"], "title": d["title"], "module": d["module"],
+                             "template": d["template"], "section": eid, "quote": quote})
+            if d["rid"] not in guide_ids:
+                guide_ids.append(d["rid"])
+    grounded = bool(answer) and bool(verified)
+    return JSONResponse({
+        "question": question,
+        "answer": answer if grounded else None,
+        "grounded": grounded,
+        "citations": verified,
+        "guides": guide_cards,
+        "note": None if grounded else "not in the library",
+    })
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Quiz Builder — create / edit / approve / take quizzes grounded in published content.
+# Generation reuses the grounded MCQ core (_grounded_quiz); quiz_store owns persistence
+# + the deterministic QA gate. Every edit/approve re-derives the CURRENT source text and
+# re-verifies grounding, so a guide changing under a quiz is caught (drift) not ignored.
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _resource_excerpts(rid: str):
+    """(excerpts_by_id, full_source_text, title, label) for a generated guide, or None."""
+    resolved = prod._resolve_resource(rid)
+    if not resolved:
+        return None
+    html_path, meta_path, _status = resolved
+    clean = prod._strip_source_comments(html_path.read_text(encoding="utf-8"))
+    parts = re.split(r"(?is)<h[23][^>]*>(.*?)</h[23]>", clean)
+    excerpts_by_id = {}
+    if len(parts) >= 3:
+        intro = _strip_tags(parts[0])
+        if len(intro) >= 40:
+            excerpts_by_id["Intro"] = intro
+        for i in range(1, len(parts) - 1, 2):
+            head = (_strip_tags(parts[i]).strip()[:64]) or f"Section {i // 2 + 1}"
+            excerpts_by_id[f"{i // 2 + 1}. {head}"] = f"{head}\n{_strip_tags(parts[i + 1])}"
+    else:
+        excerpts_by_id["Guide"] = _strip_tags(clean)
+    meta = prod._read_meta(meta_path) or {}
+    title = meta.get("title") or meta.get("module") or rid
+    label = (f"{meta.get('module', '')} {meta.get('template', '')}".strip()) or title
+    return excerpts_by_id, _strip_tags(clean), title, label
+
+
+def _asset_excerpts(asset_id: str):
+    """(excerpts_by_id, full_source_text, title, label) for an ICN/internal Content asset."""
+    chunks = _icn_chunk_index().get(asset_id) or []
+    _lms, by_id = _icn_load()
+    a = by_id.get(asset_id, {})
+    title = _clean_title(a.get("title") or asset_id)
+    excerpts_by_id, full = {}, []
+    for c in chunks:
+        txt = (c.get("text") or "").strip()
+        if len(txt) < 40:
+            continue
+        excerpts_by_id[c["chunk_id"]] = txt
+        full.append(txt)
+    return excerpts_by_id, "\n".join(full), title, title
+
+
+async def _generate_for_source(source_type: str, source_id: str, n: int):
+    if source_type == "resource":
+        got = _resource_excerpts(source_id)
+        if not got:
+            raise HTTPException(404, "source guide not found")
+        excerpts, source_text, title, label = got
+    elif source_type == "asset":
+        excerpts, source_text, title, label = _asset_excerpts(source_id)
+        if not excerpts:
+            raise HTTPException(404, "no ingestible text for that asset")
+    else:
+        raise HTTPException(400, "source_type must be 'resource' or 'asset'")
+    res = await _grounded_quiz(excerpts, title, n, attribution=f"Quiz source: {label}", src_url=None)
+    return res.get("questions", []), source_text, label, title
+
+
+def _quiz_source_text(quiz: dict) -> str:
+    """Re-derive the CURRENT source text for a quiz (so drift is always measured live)."""
+    st, sid = quiz.get("source_type"), quiz.get("source_id")
+    try:
+        if st == "resource":
+            got = _resource_excerpts(sid)
+            return got[1] if got else ""
+        if st == "asset":
+            return _asset_excerpts(sid)[1]
+    except Exception:
+        return ""
+    return ""
+
+
+@app.post("/api/quizzes/generate")
+async def quizzes_generate(payload: dict = Body(...)):
+    source_type = (payload.get("source_type") or "").strip()
+    source_id = (payload.get("source_id") or "").strip()
+    n = max(quiz_store.MIN_Q, min(int(payload.get("n", 6) or 6), quiz_store.MAX_Q))
+    if not source_id:
+        raise HTTPException(400, "source_id is required")
+    try:
+        gen, source_text, label, title = await _generate_for_source(source_type, source_id, n)
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(502, f"quiz generation failed: {e}")
+    quiz = quiz_store.build_quiz(
+        source_type=source_type, source_id=source_id, source_label=label,
+        title=payload.get("title") or f"Quiz — {title}",
+        generated_questions=gen, source_text=source_text)
+    return JSONResponse(quiz)
+
+
+@app.post("/api/quizzes/create")
+async def quizzes_create(payload: dict = Body(default={})):
+    """Create a BLANK manual quiz (no source). Manual questions can't be auto-grounded,
+    so they stay manual_unverified and need SME sign-off before approval."""
+    title = (payload.get("title") or "Untitled quiz").strip()
+    n = max(1, min(int(payload.get("n", 4) or 4), quiz_store.MAX_Q))
+    quiz = {
+        "id": quiz_store.new_quiz_id("manual"),
+        "title": title, "status": "draft",
+        "source_type": "manual", "source_id": "", "source_label": "Manual (no source)",
+        "source_content_hash": "", "questions": [quiz_store.blank_question() for _ in range(n)],
+        "stale": False,
+    }
+    quiz_store.save_quiz(quiz)
+    return JSONResponse(quiz)
+
+
+@app.get("/api/quizzes")
+async def quizzes_list():
+    return JSONResponse({"quizzes": quiz_store.list_quizzes()})
+
+
+@app.get("/api/quizzes/{qid}")
+async def quizzes_get(qid: str):
+    q = quiz_store.load_quiz(qid)
+    if not q:
+        raise HTTPException(404, "quiz not found")
+    return JSONResponse(q)
+
+
+@app.put("/api/quizzes/{qid}")
+async def quizzes_update(qid: str, payload: dict = Body(...)):
+    quiz = quiz_store.load_quiz(qid)
+    if not quiz:
+        raise HTTPException(404, "quiz not found")
+    if "title" in payload:
+        quiz["title"] = payload["title"]
+    if isinstance(payload.get("questions"), list):
+        quiz["questions"] = payload["questions"]
+    # An edit re-opens review and re-grounds every question against the CURRENT source.
+    # It also voids any prior support-flag override — a changed quiz must be re-acknowledged.
+    quiz["status"] = "draft"
+    quiz["approved"] = False
+    quiz["support_override"] = False
+    quiz.pop("overridden_flags", None)
+    src = _quiz_source_text(quiz)
+    for q in quiz.get("questions", []):
+        quiz_store.verify_question(q, src)
+    quiz["source_content_hash"] = quiz_store.source_hash(src)
+    quiz["stale"] = False
+    quiz_store.save_quiz(quiz)
+    return JSONResponse({"quiz": quiz, "qa": quiz_store.qa_gate(quiz, src)})
+
+
+@app.get("/api/quizzes/{qid}/qa")
+async def quizzes_qa(qid: str):
+    """Deterministic QA + drift check. ENFORCES drift prevention: an approved quiz that
+    drifted or lost grounding is dropped back to draft (stale) so it can't stay live."""
+    quiz = quiz_store.load_quiz(qid)
+    if not quiz:
+        raise HTTPException(404, "quiz not found")
+    src = _quiz_source_text(quiz)
+    report = quiz_store.qa_gate(quiz, src)  # mutates questions' grounded/provenance
+    reopened = False
+    if quiz.get("status") == "approved" and (report["drifted"] or not report["ok"]):
+        quiz["status"] = "draft"
+        quiz["approved"] = False
+        quiz["stale"] = True
+        reopened = True
+    quiz_store.save_quiz(quiz)
+    return JSONResponse({"qa": report, "status": quiz.get("status"),
+                         "stale": quiz.get("stale", False), "reopened": reopened})
+
+
+@app.post("/api/quizzes/{qid}/approve")
+async def quizzes_approve(qid: str, payload: dict = Body(default={})):
+    quiz = quiz_store.load_quiz(qid)
+    if not quiz:
+        raise HTTPException(404, "quiz not found")
+    src = _quiz_source_text(quiz)
+    report = quiz_store.qa_gate(quiz, src)
+    if not report["ok"]:
+        quiz_store.save_quiz(quiz)
+        raise HTTPException(409, detail={"error": "qa_not_clean",
+            "message": "Cannot approve — the QA gate has blocking issues. "
+                       "Fix grounding or get SME sign-off on manual questions.",
+            "qa": report})
+    # Advisory support-check flags (from /check) are OVERRIDABLE, but only with an explicit,
+    # RECORDED acknowledgement. The client passes the flagged set + override; a flagged quiz
+    # without override is blocked (the server holds the line, not just the UI).
+    flagged = payload.get("flagged") or {}
+    override = bool(payload.get("override"))
+    if flagged and not override:
+        quiz_store.save_quiz(quiz)
+        raise HTTPException(409, detail={"error": "support_flags_unacknowledged",
+            "message": f"{len(flagged)} question(s) flagged by Check answers. "
+                       "Acknowledge the override to approve, or fix the flagged question(s).",
+            "flagged": list(flagged.keys())})
+    now = datetime.now().isoformat(timespec="seconds")
+    quiz["status"] = "approved"
+    quiz["approved"] = True
+    quiz["stale"] = False
+    quiz["approved_at"] = now
+    quiz["support_override"] = bool(flagged)
+    if flagged:
+        quiz["overridden_flags"] = flagged
+        quiz["override_at"] = now
+    else:
+        quiz.pop("overridden_flags", None)
+    quiz_store.save_quiz(quiz)
+    _log_review_decision({
+        "rid": qid, "action": "approve_quiz", "quiz_title": quiz.get("title"),
+        "outcome": "approved_with_override" if flagged else "approved",
+        "overridden_flags": list(flagged.keys()) if flagged else [],
+    })
+    return JSONResponse({"quiz": quiz, "qa": report})
+
+
+@app.post("/api/quizzes/{qid}/check")
+async def quizzes_check(qid: str):
+    """Advisory LLM 'check answers' pass: does each grounded question's cited quote actually
+    SUPPORT its keyed answer? Reuses the question-bank support judge — catches wrong-key the
+    verbatim gate can't. Does NOT mutate status (advisory)."""
+    quiz = quiz_store.load_quiz(qid)
+    if not quiz:
+        raise HTTPException(404, "quiz not found")
+    qs = quiz.get("questions") or []
+    grounded = [(i, q) for i, q in enumerate(qs) if q.get("grounded")]
+
+    async def _judge(i, q):
+        correct = (q.get("options") or [None])[q.get("answer_index", 0)]
+        try:
+            verdict = await qbank_gate.llm_support_judge(q.get("source_quote", ""), q.get("stem", ""), correct)
+            if not verdict.get("ok"):
+                return {"index": i, "stem": q.get("stem", ""), "reason": verdict.get("reason", "")}
+        except Exception as e:
+            return {"index": i, "stem": q.get("stem", ""), "reason": f"judge error: {e}"}
+        return None
+
+    # Judge questions in PARALLEL (was sequential — N back-to-back LLM calls summed their latency).
+    results = await asyncio.gather(*[_judge(i, q) for i, q in grounded])
+    return JSONResponse({"checked": len(grounded), "flagged": [r for r in results if r]})
+
+
+@app.post("/api/quizzes/{qid}/score")
+async def quizzes_score(qid: str, payload: dict = Body(...)):
+    quiz = quiz_store.load_quiz(qid)
+    if not quiz:
+        raise HTTPException(404, "quiz not found")
+    return JSONResponse(quiz_store.score_quiz(quiz, payload.get("answers") or []))
+
+
+@app.delete("/api/quizzes/{qid}")
+async def quizzes_delete(qid: str):
+    return JSONResponse({"deleted": quiz_store.delete_quiz(qid)})
 
 
 _FLASH_SYS = """You write study flashcards that help school-nutrition staff learn a topic. You have NO tools.

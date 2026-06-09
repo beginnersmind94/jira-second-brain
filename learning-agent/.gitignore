@@ -23,3 +23,6 @@ published/
 .codex/
 .idea/
 .DS_Store
+
+# Runtime quiz-store output
+quizzes/

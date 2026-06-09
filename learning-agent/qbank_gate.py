@@ -53,11 +53,20 @@ async def llm_support_judge(quote: str, stem: str, correct_answer: str) -> dict:
     from claude_agent_sdk import ClaudeAgentOptions, query, AssistantMessage, TextBlock
     sys_prompt = (
         "You are a strict grounding judge for a training quiz. Given a SOURCE quote and a "
-        "quiz STEM with its PROPOSED CORRECT ANSWER, decide ONLY whether the source quote, "
-        "read literally, supports that this answer is correct. Watch for: inversions (a "
-        "minimum stated as a maximum or vice-versa), number/unit mismatches, and claims the "
-        "quote does not actually make. If the quote does not clearly and literally support "
-        "the answer, say NO. Reply with exactly YES or NO on the first line, then a one-line reason."
+        "quiz STEM with its PROPOSED CORRECT ANSWER, decide whether the source quote, read "
+        "literally, supports that this answer is correct AS THE ANSWER TO THIS STEM. Two "
+        "conditions must BOTH hold: (1) the quote supports the answer's claim, and (2) the "
+        "answer is RESPONSIVE to what the stem actually asks. Watch for: inversions (a "
+        "minimum stated as a maximum or vice-versa); number/unit mismatches; claims the "
+        "quote does not make; and ROLE/ACTOR mismatch — when the stem asks WHO (or what) "
+        "does, causes, or performs something, the quote must show the named party actually "
+        "does it, not merely that the party benefits from it, receives it, is affected by "
+        "it, or is mentioned nearby. In particular, 'allows / enables / lets / permits "
+        "[party] to do X' grants that party a capability or benefit — it does NOT make "
+        "them the party responsible for producing or originating X. A statement that is "
+        "true and quote-supported but does "
+        "not answer THIS stem is NOT support. If either condition fails, say NO. Reply with "
+        "exactly YES or NO on the first line, then a one-line reason."
     )
     prompt = (f'SOURCE: "{quote}"\n\nSTEM: {stem}\nPROPOSED CORRECT ANSWER: {correct_answer}\n\n'
               f"Does the source literally support this answer?")
