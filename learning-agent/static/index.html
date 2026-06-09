@@ -1456,6 +1456,13 @@
     .home-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--sp-4); margin: 0 30px var(--sp-6); align-items: start; }
     .home-card { display: flex; flex-direction: column; align-items: stretch; text-align: left; background: #FFF; border: 1px solid var(--border); border-radius: var(--radius); padding: var(--sp-4); cursor: pointer; font: inherit; }
     .home-help-msg .help-quote { flex: 1; font-style: italic; }
+    /* Tracks — role-based grouping of learning content */
+    .tracks-hint { font-size: 12.5px; color: var(--muted); margin: 0 0 14px; max-width: 72ch; }
+    .role-group { margin: 0 0 22px; }
+    .role-head { display: flex; align-items: baseline; gap: 10px; margin: 0 0 10px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+    .role-badge { font-family: var(--serif); font-size: 17px; font-weight: 650; color: var(--text); }
+    .role-sub { font-size: 12px; color: var(--muted); }
+    .roster-table tr.mg-focus > td { background: var(--amber-soft, #FBF1E2); }
     .home-card:hover { border-color: var(--accent); box-shadow: var(--shadow-sm); }
     .home-card.flagged { border-color: var(--amber-text, #8A5A12); background: var(--amber-soft, #FBF1E2); }
     .home-card-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 15px; }
@@ -2273,6 +2280,8 @@ const _DEMO = (() => {
 // session-scoped mutations (reset on reload)
 let _demoState = { helpCleared:{}, nudged:{}, progress:{}, userTracks:[], approvedRids:null };
 function _districtCompletion(d){ return d.learners && d.learners.length ? Math.round(d.learners.reduce((a,l)=>a+l.completion,0)/d.learners.length) : 0; }
+const _CURRENT_TRAINER = 'Dana Alvarez';   // the logged-in trainer (DA avatar) — a trainer only ever sees their OWN districts + content
+function _myDistricts(){ const m = _DEMO.districts.filter(d => d.trainer === _CURRENT_TRAINER); return m.length ? m : _DEMO.districts; }
 function _allDemoTracks(){ return _DEMO.tracks.concat(_demoState.userTracks); }
 function setViewMode(m) {
   _viewMode = m;
@@ -2330,7 +2339,7 @@ async function loadHome(){
 }
 function renderHome(){
   const body = document.getElementById('home-body'); if (!body) return;
-  const mine = _DEMO.districts.slice(0, 5);
+  const mine = _myDistricts();
   const avg = Math.round(mine.reduce((a, d) => a + _districtCompletion(d), 0) / mine.length);
   const activeWk = mine.reduce((a, d) => a + d.learners.filter(l => ['Today','Yesterday','2 days ago'].includes(l.last_active)).length, 0);
   const helps = mine.filter(d => d.help_request && !_demoState.helpCleared[d.id]);
@@ -2355,7 +2364,8 @@ function showHelpPanel(id){ const d = _DEMO.districts.find(x => x.id === id); if
 function respondHelp(id){ _demoState.helpCleared[id] = true; const d = _DEMO.districts.find(x => x.id === id); alert('Reply sent to ' + (d ? d.name : 'district') + '.'); renderHome(); const av = (document.querySelector('.view.active') || {}).id; if (av === 'view-manage' && typeof renderManage === 'function') renderManage(); }
 function inboxView(i){ const ids = _demoState.approvedRids || []; if (ids.length) window.open('/resources/' + encodeURIComponent(ids[i % ids.length]) + '/pdf', '_blank'); else alert('Opening “' + _DEMO.inbox[i].title + '” (demo).'); }
 function inboxCatalog(i){ _demoState.catalogFilter = _DEMO.inbox[i].title; showView('content'); }
-function openDistrictInManage(id){ _curISD = id; showView('manage'); }
+let _focusDistrict = '';
+function openDistrictInManage(id){ _curISD = id; _focusDistrict = id; showView('manage'); }
 // ─── My Team (CN-Director dashboard, scoped to selected district) ───
 let _assignSel = { track: null, staff: {} };
 function loadMyTeam() { _demoISDInit(); renderMyTeam(); }
@@ -2433,9 +2443,19 @@ async function loadTracks() {
 }
 function renderTrackList() {
   const body = document.getElementById('tracks-list-body'); if (!body) return;
-  let h = '<h2 class="home-h2" style="margin:0 0 12px;">Tracks</h2><div class="home-cards" style="margin:0 0 24px;">';
-  h += _allDemoTracks().map(t => { const cs = _trackCourses(t); return `<div class="home-card"><div class="home-card-top"><b>${escapeHtml(t.title)}</b><span class="chip behind">${escapeHtml(t.role)}</span></div><div class="home-card-meta">${cs.length} course${cs.length === 1 ? '' : 's'} · ~${_trackEst(t)} · Due ${escapeHtml(t.due || _DEMO.due)}</div></div>`; }).join('') + '</div>';
-  h += '<h2 class="home-h2" style="margin:0 0 12px;">Courses</h2><div class="home-cards" style="margin:0 0 24px;">';
+  const tracks = _allDemoTracks();
+  const order = ['Cashier', 'Site Manager', 'CN Director'];
+  const roles = order.concat([...new Set(tracks.map(t => t.role))].filter(r => r && !order.includes(r)));
+  let h = '<p class="tracks-hint">Learning content grouped by the staff role it trains. Each track is a sequence of courses; each course is built from approved, source-cited guides.</p>';
+  roles.forEach(role => {
+    const rt = tracks.filter(t => t.role === role);
+    if (!rt.length) return;
+    const nC = rt.reduce((a, t) => a + _trackCourses(t).length, 0);
+    h += `<section class="role-group"><div class="role-head"><span class="role-badge">${escapeHtml(role)}</span><span class="role-sub">${rt.length} track${rt.length === 1 ? '' : 's'} · ${nC} course${nC === 1 ? '' : 's'}</span></div><div class="home-cards" style="margin:0;">`;
+    h += rt.map(t => { const cs = _trackCourses(t); return `<div class="home-card"><div class="home-card-top"><b>${escapeHtml(t.title)}</b><span class="chip ok">${cs.length} course${cs.length === 1 ? '' : 's'}</span></div><div class="home-card-meta">${cs.map(c => escapeHtml(c.title)).join(' · ') || 'No courses yet'}</div><div class="home-card-meta">~${_trackEst(t)} · Due ${escapeHtml(t.due || _DEMO.due)}</div></div>`; }).join('');
+    h += '</div></section>';
+  });
+  h += '<h2 class="home-h2" style="margin:18px 0 12px;">Course library</h2><p class="tracks-hint" style="margin:0 0 12px;">Reusable building blocks — assemble these into the role tracks above.</p><div class="home-cards" style="margin:0 0 24px;">';
   h += _allDemoCourses().map(c => `<div class="home-card"><div class="home-card-top"><b>${escapeHtml(c.title)}</b><span class="chip behind">${escapeHtml(c.module || '')}</span></div><div class="home-card-meta">${c.lessons.length} lessons</div></div>`).join('') + '</div>';
   body.innerHTML = h;
 }
@@ -4047,12 +4067,13 @@ function renderRoster() {
 }
 function toggleISDMenu() { const m = document.getElementById('isd-menu'); if (m) m.hidden = !m.hidden; }
 function _demoISDInit() {
-  if (!_curISD || !_DEMO.districts.some(d => d.id === _curISD)) _curISD = 'houston-isd';
+  const mine = _myDistricts();
+  if (!_curISD || !mine.some(d => d.id === _curISD)) _curISD = mine[0].id;
   const menu = document.getElementById('isd-menu');
-  if (menu) menu.innerHTML = _DEMO.districts.map(d => `<button class="isd-opt ${d.id === _curISD ? 'active' : ''}" onclick="selectISD('${d.id}')">${escapeHtml(d.name)} <span class="n">${d.learners.length}</span></button>`).join('');
+  if (menu) menu.innerHTML = mine.map(d => `<button class="isd-opt ${d.id === _curISD ? 'active' : ''}" onclick="selectISD('${d.id}')">${escapeHtml(d.name)} <span class="n">${d.learners.length}</span></button>`).join('');
   const cur = _DEMO.districts.find(d => d.id === _curISD); const nm = document.getElementById('isd-name'); if (nm && cur) nm.textContent = cur.name;
 }
-function _curDistrict() { return _DEMO.districts.find(d => d.id === _curISD) || _DEMO.districts[0]; }
+function _curDistrict() { return _DEMO.districts.find(d => d.id === _curISD) || _myDistricts()[0]; }
 function selectISD(id) {
   _curISD = id;
   const m = document.getElementById('isd-menu'); if (m) m.hidden = true;
@@ -4071,15 +4092,15 @@ function _districtStatus(d){ if (d.help_request && !_demoState.helpCleared[d.id]
 function toggleManageRow(id){ const r = document.getElementById('mg-exp-' + id); if (r) r.hidden = !r.hidden; }
 function renderManage(){
   const title = document.getElementById('manage-title'), sub = document.getElementById('manage-sub'), body = document.getElementById('manage-body');
-  const ds = _DEMO.districts.slice().sort((a, b) => {
+  const ds = _myDistricts().slice().sort((a, b) => {
     const fa = (a.help_request && !_demoState.helpCleared[a.id]) ? 0 : 1, fb = (b.help_request && !_demoState.helpCleared[b.id]) ? 0 : 1; return fa - fb;
   });
   const totLearners = ds.reduce((a, d) => a + d.learners.length, 0);
   const avg = Math.round(ds.reduce((a, d) => a + _districtCompletion(d), 0) / ds.length);
   const activeWk = ds.reduce((a, d) => a + d.learners.filter(l => ['Today','Yesterday','2 days ago'].includes(l.last_active)).length, 0);
   const helps = ds.filter(d => d.help_request && !_demoState.helpCleared[d.id]);
-  if (title) title.textContent = 'All districts';
-  if (sub) sub.textContent = `${ds.length} districts · ${totLearners} learners enrolled`;
+  if (title) title.textContent = 'My districts';
+  if (sub) sub.textContent = `${_CURRENT_TRAINER} · ${ds.length} districts · ${totLearners} learners enrolled`;
   let h = '';
   if (helps.length) { const hd = helps[0]; h += `<div class="mg-help">🖐 <b>${escapeHtml(helps.map(x => x.name).join(', '))}</b> raised a hand — &ldquo;${escapeHtml(hd.help_msg)}&rdquo; <button class="track-open" onclick="respondHelp('${hd.id}')">Respond</button></div>`; }
   h += '<div class="roster-cards">' + [['Districts', ds.length], ['Avg completion', avg + '%'], ['Active this week', activeWk], ['Help requests', helps.length]].map(t => `<div class="roster-stat"><div class="n">${t[1]}</div><div class="l">${escapeHtml(t[0])}</div></div>`).join('') + '</div>';
@@ -4087,11 +4108,17 @@ function renderManage(){
   ds.forEach(d => {
     const flagged = d.help_request && !_demoState.helpCleared[d.id], comp = _districtCompletion(d), st = _districtStatus(d);
     const stc = st === 'Needs help' ? 'needs-help' : st === 'On track' ? 'ok' : 'behind';
-    h += `<tr class="mg-row${flagged ? ' mg-flag' : ''}" onclick="toggleManageRow('${d.id}')"><td>${escapeHtml(d.name)}${flagged ? ' 🖐' : ''}</td><td>${escapeHtml(d.trainer)}</td><td>${d.learners.length}</td><td><span class="r-prog"><span class="r-bar"><span style="width:${comp}%"></span></span>${comp}%</span></td><td>${d.logins30}</td><td><span class="chip ${stc}">${escapeHtml(st)}</span></td></tr>`;
+    h += `<tr class="mg-row${flagged ? ' mg-flag' : ''}" id="mg-row-${d.id}" onclick="toggleManageRow('${d.id}')"><td>${escapeHtml(d.name)}${flagged ? ' 🖐' : ''}</td><td>${escapeHtml(d.trainer)}</td><td>${d.learners.length}</td><td><span class="r-prog"><span class="r-bar"><span style="width:${comp}%"></span></span>${comp}%</span></td><td>${d.logins30}</td><td><span class="chip ${stc}">${escapeHtml(st)}</span></td></tr>`;
     h += `<tr class="mg-expand" id="mg-exp-${d.id}" hidden><td colspan="6"><div class="mg-bd"><b>Completion by track</b>${_DEMO.tracks.map(t => { const tc = _trackCompletionForDistrict(d, t.id); return `<div class="mg-bd-row"><span>${escapeHtml(t.title)}</span><span class="r-prog"><span class="r-bar"><span style="width:${tc == null ? 0 : tc}%"></span></span>${tc == null ? '—' : tc + '%'}</span></div>`; }).join('')}</div></td></tr>`;
   });
   h += '</tbody></table></div>';
   if (body) body.innerHTML = h;
+  if (_focusDistrict) {
+    const ex = document.getElementById('mg-exp-' + _focusDistrict); if (ex) ex.hidden = false;
+    const row = document.getElementById('mg-row-' + _focusDistrict);
+    if (row) { row.classList.add('mg-focus'); row.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+    _focusDistrict = '';
+  }
 }
 function doLogin() { const m = document.getElementById('login-modal'); if (m) m.hidden = true; try { sessionStorage.setItem('ls_demo_login', '1'); } catch (e) {} loadRoster(); }
 document.addEventListener('click', e => {
