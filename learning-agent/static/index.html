@@ -1334,6 +1334,75 @@
     .track-soon { font-size: 12px; color: var(--muted); font-style: italic; }
     .track-cert { display: inline-block; background: #E7B79A; color: #3B2C20; font-weight: 700; padding: 8px 14px; border-radius: var(--radius-sm); font-size: 13px; }
     .track-cert-todo { display: inline-block; color: #D9CDBC; font-size: 13px; }
+    .course-prog { display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--muted); }
+    .course-prog .r-bar { width: 80px; }
+    .quiz-score { font-size: 11.5px; font-weight: 700; padding: 2px 8px; border-radius: var(--radius-pill); margin-left: 6px; }
+    .quiz-score.pass { background: var(--green-soft); color: var(--green-text); }
+    .quiz-score.fail { background: var(--amber-soft, #F3E0C8); color: var(--amber-text, #8A5A12); }
+    .cert-card { text-align: center; padding: 30px 24px; border: 2px solid var(--accent); border-radius: var(--radius); background: linear-gradient(135deg, #FFFDF8, #F3ECE0); }
+    .cert-seal { font-size: 42px; }
+    .cert-h { font-family: var(--serif); font-size: 13px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-top: 8px; }
+    .cert-name { font-family: var(--serif); font-size: 26px; font-weight: 650; color: var(--text); margin: 10px 0 4px; }
+    .cert-sub { color: var(--muted); font-size: 13px; }
+    .cert-track { font-family: var(--serif); font-size: 20px; font-weight: 600; color: var(--accent); margin: 6px 0 10px; }
+    .cert-date { font-size: 12px; color: var(--muted); }
+    /* My Team */
+    .mt-banner { margin: 0 30px var(--sp-4); background: var(--amber-soft, #F7ECDA); color: var(--amber-text, #8A5A12); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 14px; font-size: 13px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .mt-tools { margin: 0 30px var(--sp-3); }
+    .r-status.over { background: var(--amber-soft, #F3E0C8); color: var(--amber-text, #8A5A12); }
+    .nudged { font-size: 10.5px; color: var(--muted); font-style: italic; }
+    .secondary.sm { padding: 4px 9px; font-size: 11.5px; }
+    .am-overlay { position: fixed; inset: 0; z-index: 90; background: rgba(30,22,16,.5); display: flex; align-items: center; justify-content: center; }
+    .am-overlay[hidden] { display: none; }
+    .am-modal { width: 100%; max-width: 460px; max-height: 84vh; overflow: auto; background: var(--panel); border-radius: var(--radius); box-shadow: var(--shadow-lift); }
+    .am-head { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; border-bottom: 1px solid var(--border); font-family: var(--serif); font-size: 16px; }
+    .am-body { padding: 14px 16px; }
+    .am-foot { padding: 14px 16px; border-top: 1px solid var(--border); text-align: right; }
+    .tb-l { display: block; font-size: 11.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); margin: 12px 0 6px; }
+    .am-row { display: block; font-size: 13px; padding: 5px 0; cursor: pointer; }
+    .am-row .meta { color: var(--muted); font-size: 11.5px; }
+    /* Manage expandable rows */
+    .mg-row { cursor: pointer; }
+    .mg-row:hover td { background: var(--panel3); }
+    .mg-bd { padding: 6px 4px; }
+    .mg-bd b { font-size: 11.5px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 6px; }
+    .mg-bd-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 12.5px; padding: 3px 0; }
+    /* Quality */
+    .ql-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sp-4); margin: 0 0 var(--sp-4); }
+    .ql-tile { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: var(--sp-4); }
+    .ql-tile .n { font-family: var(--serif); font-size: 26px; font-weight: 650; color: var(--text); }
+    .ql-tile .l { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .ql-row { cursor: pointer; }
+    .ql-row:hover td { background: var(--panel3); }
+    .ql-score { display: inline-block; min-width: 20px; text-align: center; font-weight: 700; font-size: 12px; padding: 1px 6px; border-radius: var(--radius-sm); background: var(--green-soft); color: var(--green-text); }
+    .ql-card { margin-top: 16px; background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: var(--sp-4); }
+    .ql-rubric { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px 18px; margin: 8px 0; }
+    .ql-rb { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 12.5px; }
+    /* Course / track builder */
+    .cb-lessons { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 5px; }
+    .cb-li { display: flex; justify-content: space-between; align-items: center; gap: 10px; background: var(--panel3); border-radius: var(--radius-sm); padding: 7px 10px; font-size: 13px; }
+    .cb-li-act button { background: none; border: 0; cursor: pointer; font-size: 13px; color: var(--muted); padding: 2px 4px; }
+    .cb-li-act button:hover { color: var(--accent); }
+    .cb-empty { color: var(--muted); font-style: italic; font-size: 12.5px; padding: 8px; list-style: none; }
+    .cb-add { display: flex; gap: 8px; margin-top: 10px; }
+    .cb-pick { margin-top: 10px; border-top: 1px dashed var(--border); padding-top: 10px; }
+    .cb-list { max-height: 180px; overflow: auto; display: flex; flex-direction: column; gap: 3px; margin-top: 6px; }
+    .cb-pick-row { text-align: left; background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 7px 10px; cursor: pointer; font: inherit; font-size: 12.5px; }
+    .cb-pick-row:hover { border-color: var(--accent); }
+    /* Origin badges + Catalog */
+    .og { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: var(--radius-pill); white-space: nowrap; }
+    .og-ai { background: #E4ECF5; color: #2B4A6F; }
+    .og-hum { background: var(--green-soft); color: var(--green-text); }
+    .og-vendor { background: var(--amber-soft, #F3E0C8); color: var(--amber-text, #8A5A12); }
+    .cat-filters { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-bottom: 6px; }
+    .cat-fl { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin: 0 2px 0 8px; }
+    .cat-fl:first-child { margin-left: 0; }
+    .cat-chip { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius-pill); padding: 4px 11px; font: inherit; font-size: 12px; cursor: pointer; color: var(--text); }
+    .cat-chip.on { background: var(--accent); color: #FFF; border-color: var(--accent); }
+    .cat-card { padding: var(--sp-4); gap: 6px; }
+    .cat-type { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+    .cat-title { font-family: var(--serif); font-size: 15px; font-weight: 650; color: var(--text); }
+    .cat-meta { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
 
     /* ── Header right: district switcher + user (demo shell) ── */
     .top-right { margin-left: auto; display: flex; align-items: center; gap: var(--sp-3); }
@@ -1377,6 +1446,31 @@
     #roster-search { padding: 8px 12px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); font: inherit; font-size: 13px; background: var(--panel); min-width: 200px; }
     .mg-help { background: var(--amber-soft, #F3E4CE); color: var(--amber-text, #8A5A12); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 14px; margin: 0 30px 14px; font-size: 13px; }
     .mg-flag td { background: var(--amber-soft, #F7ECDA); }
+    /* Home (trainer landing) */
+    .home-tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sp-4); margin: 0 30px var(--sp-5); }
+    .home-tile { background: #FFF; border: 1px solid var(--border); border-radius: var(--radius); padding: var(--sp-4); }
+    .home-tile .n { font-family: var(--serif); font-size: 30px; font-weight: 650; color: var(--text); }
+    .home-tile .l { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .home-tile.alert { border-color: var(--amber-text, #8A5A12); background: var(--amber-soft, #F7ECDA); }
+    .home-h2 { font-family: var(--serif); font-size: 18px; margin: 0 30px var(--sp-3); color: var(--text); }
+    .home-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--sp-4); margin: 0 30px var(--sp-6); }
+    .home-card { text-align: left; background: #FFF; border: 1px solid var(--border); border-radius: var(--radius); padding: var(--sp-4); cursor: pointer; font: inherit; }
+    .home-card:hover { border-color: var(--accent); box-shadow: var(--shadow-sm); }
+    .home-card.flagged { border-color: var(--amber-text, #8A5A12); background: var(--amber-soft, #FBF1E2); }
+    .home-card-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 15px; }
+    .home-card-meta { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+    .chip { font-size: 10.5px; font-weight: 700; padding: 3px 9px; border-radius: var(--radius-pill); white-space: nowrap; }
+    .chip.ok { background: var(--green-soft); color: var(--green-text); }
+    .chip.behind { background: var(--panel3); color: var(--text-soft); }
+    .chip.needs-help, .chip.raised { background: var(--amber-soft, #F3E0C8); color: var(--amber-text, #8A5A12); cursor: pointer; }
+    .home-help-msg { margin-top: 10px; font-size: 12.5px; color: var(--text); background: #FFF; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 9px 10px; display: flex; gap: 8px; align-items: center; justify-content: space-between; }
+    .home-inbox { margin: 0 30px var(--sp-8); background: #FFF; border: 1px solid var(--border); border-radius: var(--radius); }
+    .home-inbox-head { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; border-bottom: 1px solid var(--border); font-size: 14px; }
+    .inbox-row { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-bottom: 1px solid var(--border); font-size: 13px; }
+    .inbox-row:last-child { border-bottom: 0; }
+    .inbox-title { font-weight: 650; flex: 1; min-width: 0; }
+    .inbox-meta { color: var(--muted); font-size: 11.5px; }
+    .inbox-actions { display: flex; gap: 6px; }
     .roster-cards { display: flex; flex-wrap: wrap; gap: var(--sp-3); margin-bottom: var(--sp-5); }
     .roster-stat { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: var(--sp-3) var(--sp-5); box-shadow: var(--shadow-sm); }
     .roster-stat .n { font-family: var(--serif); font-size: 22px; font-weight: 650; color: var(--text); }
@@ -1521,6 +1615,13 @@
     .view-toggle button { border: 0; background: none; cursor: pointer; font-family: var(--font); font-size: 11.5px; font-weight: 650;
                           color: var(--muted-aa); padding: 5px 12px; border-radius: var(--radius-pill); }
     .view-toggle button.active { background: var(--panel); color: var(--accent); box-shadow: var(--shadow-sm); }
+    .viewing-as { font-size: 11px; color: var(--muted); margin-right: 2px; white-space: nowrap; }
+    .ava-wrap { position: relative; }
+    .user-ava { cursor: pointer; }
+    .ava-menu { position: absolute; right: 0; top: calc(100% + 6px); background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-lift); min-width: 240px; padding: 6px; z-index: 50; }
+    .ava-menu[hidden] { display: none; }
+    .ava-menu button { display: block; width: 100%; text-align: left; background: none; border: 0; padding: 9px 11px; border-radius: var(--radius-sm); cursor: pointer; font: inherit; font-size: 12.5px; color: var(--text); }
+    .ava-menu button:hover { background: var(--panel3); }
   </style>
 </head>
 <body>
@@ -1534,21 +1635,22 @@
     <span class="brand-product">Learning Studio</span>
   </h1>
   <nav>
-    <button id="tab-author" class="active" onclick="showView('author')">Create</button>
+    <button id="tab-home" onclick="showView('home')">Home</button>
+    <button id="tab-author" onclick="showView('author')">Create</button>
     <button id="tab-library" onclick="showView('library')">Library</button>
     <button id="tab-learn" onclick="showView('learn')">Learn</button>
-    <button id="tab-content" onclick="showView('content')">Content</button>
+    <button id="tab-content" onclick="showView('content')">Catalog</button>
     <button id="tab-evals" onclick="showView('evals')">Quality</button>
-    <button id="tab-roster" onclick="showView('roster')">Roster</button>
-    <button id="tab-manage" onclick="showView('manage')">Management</button>
-    <button id="tab-howitworks" onclick="showView('howitworks')">How it works</button>
+    <button id="tab-tracks" onclick="showView('tracks')">Tracks</button>
+    <button id="tab-myteam" onclick="showView('myteam')">My Team</button>
+    <button id="tab-manage" onclick="showView('manage')">Manage</button>
   </nav>
   <div class="top-right">
+    <span class="viewing-as">Viewing as</span>
     <div class="view-toggle" id="view-toggle" role="tablist" title="Switch between the internal trainer workspace and the customer-facing view">
       <button class="active" onclick="setViewMode('trainer')" id="vm-trainer">Trainer</button>
       <button onclick="setViewMode('customer')" id="vm-customer">Customer</button>
     </div>
-    <button class="meta" onclick="showView('evals')" title="Every claim in every generated guide is traced to a verifiable source. Click to see the Quality dashboard.">Every claim cited</button>
     <div class="isd-switch">
       <button class="isd-btn" id="isd-btn" onclick="toggleISDMenu()" aria-haspopup="true">
         <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h.01M9 13h.01M9 17h.01M15 9h.01M15 13h.01M15 17h.01"/></svg>
@@ -1557,7 +1659,13 @@
       </button>
       <div class="isd-menu" id="isd-menu" hidden></div>
     </div>
-    <span class="user-ava" id="user-ava" title="Demo admin">DA</span>
+    <div class="ava-wrap">
+      <span class="user-ava" id="user-ava" title="Account menu" onclick="toggleAvaMenu(event)">DA</span>
+      <div class="ava-menu" id="ava-menu" hidden>
+        <button onclick="closeAvaMenu(); showView('howitworks')">How it works</button>
+        <button onclick="closeAvaMenu(); showView('evals')">Every claim cited — why this matters</button>
+      </div>
+    </div>
   </div>
 </header>
 
@@ -1705,6 +1813,57 @@
   </div>
   <div id="tracks-grid" class="tracks-grid"></div>
   <div id="track-detail" class="path-detail" hidden></div>
+</section>
+
+<!-- ═══ persona placeholders (real content lands later) ═══ -->
+<section id="view-home" class="view">
+  <div class="roster-wrap">
+    <div class="roster-head"><div><h1 class="roster-title">Home</h1><p class="roster-sub">Your training programs across districts.</p></div><span class="demo-tag">Demo data</span></div>
+    <div id="home-body"></div>
+  </div>
+</section>
+<section id="view-tracks" class="view">
+  <div class="roster-wrap">
+    <div class="roster-head"><div><h1 class="roster-title">Tracks</h1><p class="roster-sub">Build courses from approved content, then bundle them into tracks.</p></div>
+      <div style="display:flex;gap:8px;"><button class="secondary" onclick="openCourseBuilder()">+ New Course</button><button class="primary" onclick="openTrackBuilder()">+ New Track</button></div></div>
+    <div id="tracks-list-body"></div>
+  </div>
+  <div id="cb-modal" class="am-overlay" hidden><div class="am-modal" style="max-width:560px;">
+    <div class="am-head"><b>Build a course</b><button class="lib-drawer-close" onclick="cbClose()">✕</button></div>
+    <div class="am-body">
+      <label class="tb-l">Course name</label><input id="cb-name" class="tb-in" placeholder="e.g. Summer Refresher" autocomplete="off">
+      <label class="tb-l">Module</label><input id="cb-module" class="tb-in" placeholder="e.g. POS" autocomplete="off">
+      <label class="tb-l">Lessons</label><ol id="cb-lessons" class="cb-lessons"></ol>
+      <div class="cb-add"><button class="secondary" onclick="cbAddGuide()">+ Guide</button><button class="secondary" onclick="cbAddQuiz()">+ Quiz</button><button class="secondary" onclick="cbAddVideo()">+ Video</button></div>
+      <div id="cb-picker"></div>
+    </div>
+    <div class="am-foot"><span class="tb-note">Assembly only — content stays grounded.</span><button class="primary" onclick="cbSave()">Save course</button></div>
+  </div></div>
+  <div id="tbk-modal" class="am-overlay" hidden><div class="am-modal">
+    <div class="am-head"><b>Build a track</b><button class="lib-drawer-close" onclick="tbkClose()">✕</button></div>
+    <div class="am-body">
+      <label class="tb-l">Track name</label><input id="tbk-name" class="tb-in" placeholder="e.g. New Cashier Onboarding" autocomplete="off">
+      <label class="tb-l">Role</label><select id="tbk-role" class="tb-in"><option>Cashier</option><option>Site Manager</option><option>CN Director</option></select>
+      <label class="tb-l">Courses</label><div id="tbk-courses"></div>
+    </div>
+    <div class="am-foot"><span class="tb-note">A track is a sequence of courses.</span><button class="primary" onclick="tbkSave()">Create track</button></div>
+  </div></div>
+</section>
+<section id="view-myteam" class="view">
+  <div class="roster-wrap">
+    <div class="roster-head"><div><h1 class="roster-title" id="myteam-title">My Team</h1><p class="roster-sub">Your district&rsquo;s training compliance.</p></div><span class="demo-tag">Demo data</span></div>
+    <div id="myteam-body"></div>
+  </div>
+  <div id="assign-modal" class="am-overlay" hidden>
+    <div class="am-modal">
+      <div class="am-head"><b>Assign a track</b><button class="lib-drawer-close" onclick="closeAssign()">✕</button></div>
+      <div class="am-body">
+        <label class="tb-l">Track</label><div id="am-tracks"></div>
+        <label class="tb-l">Staff</label><div id="am-staff"></div>
+      </div>
+      <div class="am-foot"><button class="primary" onclick="doAssign()">Assign</button></div>
+    </div>
+  </div>
 </section>
 
 <section id="view-library" class="view">
@@ -1889,8 +2048,8 @@
 <section id="view-manage" class="view">
   <div class="roster-wrap">
     <div class="roster-head">
-      <div><h1 class="roster-title" id="manage-title">Management</h1><p class="roster-sub" id="manage-sub">—</p></div>
-      <span class="demo-tag">Demo data</span>
+      <div><h1 class="roster-title" id="manage-title">Manage</h1><p class="roster-sub" id="manage-sub">—</p></div>
+      <div style="display:flex; gap:8px; align-items:center;"><button class="secondary" onclick="showView('roster')">Roster ↗</button><span class="demo-tag">Demo data</span></div>
     </div>
     <div id="manage-body"></div>
   </div>
@@ -2024,6 +2183,96 @@ let libSelectedId = null;
 // ─── Tabs ──────────────────────────────────────────────────────────
 // ─── Two views (internal Trainer vs. Customer) + external-learning feature flag ───
 let _viewMode = 'trainer', _extLearning = true;
+let _curTrack = null, _curCourse = null, _curISD = '';   // demo nav state — declared up top so boot (setViewMode/_demoISDInit) never hits a TDZ
+
+// ════════════ DEMO UNIVERSE — fully seeded, client-side, deterministic, resets on reload ════════════
+// No real identity/persistence. Real endpoints (/resources, /resources/{id}/pdf, /api/quizzes/*) are
+// consumed read-only; everything below (districts, learners, tracks, inbox, SMEs, quality) is seeded.
+const _DEMO = (() => {
+  const DUE = 'Jun 30';
+  // A COURSE is a sequence of lessons (guide / quiz / video) — this is what the builder makes.
+  const courses = [
+    { id:'c-pos', title:'POS Fundamentals', module:'POS', lessons:[{type:'guide',title:'POS Basics'},{type:'video',title:'Meal Service Walkthrough',dur:'6 min'},{type:'guide',title:'Counting Meals Correctly'},{type:'quiz',title:'POS Knowledge Check',n:5}] },
+    { id:'c-item', title:'Item Management Core', module:'Item Management', lessons:[{type:'guide',title:'Managing Item Categories'},{type:'guide',title:'Bulk Updates'},{type:'quiz',title:'Item Management Check',n:6}] },
+    { id:'c-inv', title:'Inventory Basics', module:'Inventory', lessons:[{type:'guide',title:'Inventory Overview'},{type:'video',title:'Receiving & Storage',dur:'8 min'},{type:'guide',title:'Physical Inventory Counts'}] },
+    { id:'c-elig', title:'Eligibility Core', module:'Eligibility', lessons:[{type:'guide',title:'Eligibility Overview'},{type:'guide',title:'Direct Certification Workflow'},{type:'guide',title:'Verification Rules'},{type:'quiz',title:'Eligibility Exam',n:8}] },
+    { id:'c-menu', title:'Menu Planning Essentials', module:'Menu Planning', lessons:[{type:'guide',title:'Cycle Menu Setup'},{type:'quiz',title:'Menu Planning Check',n:5}] },
+  ];
+  // A TRACK is a sequence of COURSES (+ a certify step at the end).
+  const tracks = [
+    { id:'t-cashier', title:'New Cashier Onboarding', role:'Cashier', due:DUE, instructor:'CB', courseIds:['c-pos'] },
+    { id:'t-sitemgr', title:'Site Manager Essentials', role:'Site Manager', due:DUE, instructor:'SM', courseIds:['c-item','c-inv'] },
+    { id:'t-elig', title:'Eligibility Certification Prep', role:'CN Director', due:DUE, instructor:'EL', courseIds:['c-elig'] },
+  ];
+  const districts = [
+    { id:'houston-isd', name:'Houston ISD', trainer:'Dana Alvarez', last:'2 hours ago', logins30:412, sites:['Lamar HS','Pershing MS','Garden Oaks ES','Central Kitchen'] },
+    { id:'aldine-isd', name:'Aldine ISD', trainer:'Dana Alvarez', last:'1 hour ago', logins30:288, sites:['Aldine HS','Hill MS','Stovall MS','Carver ES'], help_request:true, help_msg:'Our site managers are stuck on the Eligibility module — can someone walk us through Direct Certification?' },
+    { id:'klein-isd', name:'Klein ISD', trainer:'Dana Alvarez', last:'Yesterday', logins30:351, sites:['Klein HS','Doerre MS','Kohrville ES'] },
+    { id:'spring-branch-isd', name:'Spring Branch ISD', trainer:'Marcus Webb', last:'3 days ago', logins30:204, sites:['Memorial HS','Spring Forest MS','Bunker Hill ES'] },
+    { id:'cy-fair-isd', name:'Cy-Fair ISD', trainer:'Marcus Webb', last:'Today', logins30:498, sites:['Cy Ridge HS','Truitt MS','Lowery ES'] },
+    { id:'pasadena-isd', name:'Pasadena ISD', trainer:'Priya Shah', last:'Last week', logins30:176, sites:['Pasadena HS','San Jacinto MS','Golden Acres ES'] },
+  ];
+  const FN=['Maria','James','Aisha','Carlos','Linda','Wei','Diego','Sarah','Robert','Priya','Kenji','Grace','Marcus','Elena','Tyler','Fatima','Rosa','Andre','Nia','Hector','Joy','Sam'];
+  const LN=['Garcia','Johnson','Patel','Nguyen','Smith','Williams','Brown','Lee','Martinez','Davis','Khan','Lopez','Wilson','Thomas','Reyes','Okafor','Tran','Flores','Bell','Ramirez'];
+  const ACT=['Today','Yesterday','2 days ago','Last week','2 weeks ago'];
+  const rng = (seed) => { let s = seed % 2147483647; if (s <= 0) s += 2147483646; return () => (s = s * 16807 % 2147483647) / 2147483647; };
+  districts.forEach((d, di) => {
+    const r = rng(di * 97 + 13), n = 10 + Math.floor(r() * 5);
+    const forced = ['Complete','Complete','Overdue','Overdue','Not started','Not started'];   // guarantee every state per district
+    d.learners = [];
+    for (let i = 0; i < n; i++) {
+      const role = i % 7 === 0 ? 'CN Director' : (i % 3 === 0 ? 'Site Manager' : 'Cashier');
+      const status = forced[i] || ['Complete','In progress','In progress','Not started','Overdue'][Math.floor(r() * 5)];
+      const completion = status === 'Complete' ? 100 : status === 'Not started' ? 0 : status === 'Overdue' ? Math.floor(r() * 45) : 25 + Math.floor(r() * 65);
+      const track = role === 'Cashier' ? 't-cashier' : role === 'Site Manager' ? 't-sitemgr' : 't-elig';
+      d.learners.push({ name: `${FN[(di * 7 + i) % FN.length]} ${LN[(di * 5 + i * 3) % LN.length]}`, role, site: d.sites[i % d.sites.length], tracks: [track], completion, status, last_active: ACT[Math.floor(r() * ACT.length)] });
+    }
+  });
+  const inbox = [
+    { title:'Managing Item Categories', module:'Item Management', date:'Jun 8' },
+    { title:'Direct Certification Workflow', module:'Eligibility', date:'Jun 7' },
+    { title:'Daily Reconciliation Checklist', module:'POS', date:'Jun 6' },
+    { title:'Cycle Menu Setup', module:'Menu Planning', date:'Jun 5' },
+    { title:'Physical Inventory Counts', module:'Inventory', date:'Jun 3' },
+  ];
+  const smes = { 'POS':'Jaime', 'Item Management':'Srina', 'Eligibility':'Lalitha', 'Inventory':'Mohammed', 'Menu Planning':'Yulisa' };
+  const claim = (t, s) => ({ text: t, source: s });
+  const quality = [
+    { title:'POS Basics', module:'POS', format:'Micro', scores:[5,4,5,4], verdict:'Pass', sme:'Jaime', sme_date:'May 28', claims:[claim('Cashiers select the student’s meal status before ringing the transaction.','POS Basics guide · NXT-66012 AC'),claim('A reimbursable meal requires at least three of the five components.','POS Basics guide · USDA meal pattern')] },
+    { title:'Counting Meals Correctly', module:'POS', format:'Long-form', scores:[5,5,4,5], verdict:'Pass', sme:'Jaime', sme_date:'Jun 2', claims:[claim('Meal counts are taken at the point of service, not at production.','Counting Meals guide · NXT-66120 AC')] },
+    { title:'Item Management: Bulk Updates', module:'Item Management', format:'Long-form', scores:[4,4,4,5], verdict:'Pass', sme:'Srina', sme_date:'May 30', claims:[claim('Sub-Qty cannot be modified for Locked items.','NXT-69523 AC')] },
+    { title:'Direct Certification Workflow', module:'Eligibility', format:'Long-form', scores:[5,4,5,4], verdict:'Pass', sme:'Lalitha', sme_date:'May 28', claims:[claim('Directly certified students are eligible without a household application.','Direct Cert guide · 7 CFR 245')] },
+    { title:'Inventory Distribution', module:'Inventory', format:'Long-form', scores:[4,3,4,4], verdict:'Pass', sme:null, claims:[claim('Assigning the distribution site type makes a site eligible to be linked to an internal vendor.','Inventory Distribution transcript')] },
+    { title:'Cycle Menu Setup', module:'Menu Planning', format:'Micro', scores:[4,4,5,4], verdict:'Pass', sme:null, claims:[] },
+    { title:'Eligibility Exam', module:'Eligibility', format:'Quiz', scores:[5,5,5,5], verdict:'Pass', sme:'Lalitha', sme_date:'Jun 1', claims:[] },
+    { title:'Receiving & Storage Notes', module:'Inventory', format:'TLDR', scores:null, verdict:null, sme:null, claims:[] },   // not yet evaluated
+  ];
+  // Studio-produced content (AI-generated + manually assembled), ALL statuses — the Library set.
+  const studio = [
+    { title:'Managing Item Categories', module:'Item Management', format:'Long-form', status:'Approved', created:'Jun 8', origin:'AI-generated' },
+    { title:'POS Basics', module:'POS', format:'Micro', status:'Approved', created:'Jun 6', origin:'AI-generated' },
+    { title:'Inventory Distribution', module:'Inventory', format:'Long-form', status:'In review', created:'Jun 7', origin:'AI-generated' },
+    { title:'Cycle Menu Setup', module:'Menu Planning', format:'Micro', status:'Approved', created:'Jun 5', origin:'AI-generated' },
+    { title:'Summer Meal Service Notes', module:'POS', format:'TLDR', status:'Draft', created:'Jun 9', origin:'AI-generated' },
+    { title:'New Cashier Onboarding', module:'POS', format:'Track', status:'Approved', created:'Jun 4', origin:'Human-authored' },
+    { title:'Direct Certification Workflow', module:'Eligibility', format:'Long-form', status:'Approved', created:'Jun 7', origin:'AI-generated' },
+    { title:'Verification Rules', module:'Eligibility', format:'Long-form', status:'Draft', created:'Jun 9', origin:'AI-generated' },
+    { title:'POS Knowledge Check', module:'POS', format:'Quiz', status:'In review', created:'Jun 6', origin:'AI-generated' },
+  ];
+  // Imported, ready-to-use, non-studio origins — Catalog-only.
+  const imported = [
+    { title:'Food Safety in Schools', module:'Food Safety', format:'Guide', origin:'Outside vendor' },
+    { title:'HACCP Principles', module:'Food Safety', format:'Guide', origin:'Outside vendor' },
+    { title:'Cafeteria Manager Handbook', module:'Operations', format:'Guide', origin:'Human-authored' },
+    { title:'Allergen Management', module:'Food Safety', format:'Guide', origin:'Outside vendor' },
+    { title:'Smart Snacks Standards', module:'Menu Planning', format:'Guide', origin:'Human-authored' },
+  ];
+  return { due:DUE, courses, tracks, districts, inbox, smes, quality, studio, imported, rubric:['Grounding','Coverage','Clarity','Structure'] };
+})();
+// session-scoped mutations (reset on reload)
+let _demoState = { helpCleared:{}, nudged:{}, progress:{}, userTracks:[], approvedRids:null };
+function _districtCompletion(d){ return d.learners && d.learners.length ? Math.round(d.learners.reduce((a,l)=>a+l.completion,0)/d.learners.length) : 0; }
+function _allDemoTracks(){ return _DEMO.tracks.concat(_demoState.userTracks); }
 function setViewMode(m) {
   _viewMode = m;
   const t = document.getElementById('vm-trainer'), c = document.getElementById('vm-customer');
@@ -2033,15 +2282,14 @@ function setViewMode(m) {
 }
 function applyViewMode() {
   const show = (id, on) => { const el = document.getElementById(id); if (el) el.hidden = !on; };
-  // authoring/ops tabs are internal-only; Content & Roster are the external-learning layer (flag-gated)
-  show('tab-author', _viewMode === 'trainer');
-  show('tab-evals', _viewMode === 'trainer');
-  show('tab-content', _extLearning);
-  show('tab-roster', _extLearning);
+  // Persona-driven primary nav: show EXACTLY the active persona's tab set.
+  const ALL_TABS = ['tab-home','tab-author','tab-library','tab-learn','tab-content','tab-evals','tab-tracks','tab-myteam','tab-manage'];
+  const VISIBLE = _viewMode === 'customer'
+    ? ['tab-learn','tab-myteam','tab-content']
+    : ['tab-home','tab-author','tab-library','tab-content','tab-evals','tab-tracks','tab-manage'];
+  ALL_TABS.forEach(id => show(id, VISIBLE.includes(id)));
   show('cmode-studyset', _extLearning && _viewMode === 'trainer');
   // district switcher: trainers can switch ISDs; a customer is locked to their own
-  const sw = document.querySelector('.isd-switch');
-  if (sw) sw.style.display = _extLearning ? '' : 'none';
   const isdBtn = document.getElementById('isd-btn');
   if (isdBtn) { isdBtn.style.pointerEvents = _viewMode === 'customer' ? 'none' : ''; isdBtn.style.opacity = _viewMode === 'customer' ? '.6' : ''; }
   const ava = document.getElementById('user-ava'); if (ava) ava.textContent = _viewMode === 'customer' ? 'DC' : 'DA';
@@ -2049,24 +2297,237 @@ function applyViewMode() {
   document.body.classList.toggle('customer-view', _viewMode === 'customer');
   const cbn = document.getElementById('customer-banner'); if (cbn) cbn.hidden = _viewMode !== 'customer';
   if (typeof libRailIntro === 'function') libRailIntro(true);   // persona changed → reset the assistant's framing
-  // if the active tab just got hidden, fall back to a visible view
-  const active = document.querySelector('.view.active');
-  if (active) { const tab = document.getElementById('tab-' + active.id.replace('view-', '')); if (tab && tab.hidden) showView(_extLearning ? 'content' : 'library'); }
-  if (m === 'customer') showView('learn');   // a customer (learner) lands on their tracks
+  // land on the persona's home — every switch (also clears any orphaned highlight on a now-hidden tab)
+  showView(_viewMode === 'customer' ? 'learn' : 'home');
 }
 
 function showView(name) {
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-  document.getElementById('view-' + name).classList.add('active');
-  document.getElementById('tab-' + name).classList.add('active');
-  if (name === 'library') loadLibrary();
+  const vw = document.getElementById('view-' + name); if (vw) vw.classList.add('active');
+  const tb = document.getElementById('tab-' + name); if (tb) tb.classList.add('active');   // null-safe: roster/howitworks have no nav tab
+  if (name === 'library') loadLibraryDemo();
   if (name === 'learn') loadLearn();
-  if (name === 'content') loadContent();
-  if (name === 'evals') loadEvals();
+  if (name === 'content') loadCatalogDemo();
+  if (name === 'evals') loadQuality();
   if (name === 'roster') loadRoster();
   if (name === 'manage') loadManage();
+  if (name === 'home') loadHome();
+  if (name === 'myteam' && typeof loadMyTeam === 'function') loadMyTeam();
+  if (name === 'tracks' && typeof loadTracks === 'function') loadTracks();
 }
+function toggleAvaMenu(e){ if (e) e.stopPropagation(); const m = document.getElementById('ava-menu'); if (m) m.hidden = !m.hidden; }
+function closeAvaMenu(){ const m = document.getElementById('ava-menu'); if (m) m.hidden = true; }
+document.addEventListener('click', e => { const w = document.querySelector('.ava-wrap'), m = document.getElementById('ava-menu'); if (m && !m.hidden && w && !w.contains(e.target)) m.hidden = true; });
+// ─── Home (trainer landing) ───
+async function loadHome(){
+  renderHome();
+  if (_demoState.approvedRids === null) {
+    try { const rs = await (await fetch('/resources')).json(); _demoState.approvedRids = (rs || []).filter(inLibrary).map(r => r.id); }
+    catch (e) { _demoState.approvedRids = []; }
+  }
+}
+function renderHome(){
+  const body = document.getElementById('home-body'); if (!body) return;
+  const mine = _DEMO.districts.slice(0, 5);
+  const avg = Math.round(mine.reduce((a, d) => a + _districtCompletion(d), 0) / mine.length);
+  const activeWk = mine.reduce((a, d) => a + d.learners.filter(l => ['Today','Yesterday','2 days ago'].includes(l.last_active)).length, 0);
+  const helps = mine.filter(d => d.help_request && !_demoState.helpCleared[d.id]);
+  let h = '<div class="home-tiles">' + [['My districts', mine.length], ['Avg completion', avg + '%'], ['Active this week', activeWk], ['Help requests', helps.length]]
+    .map((t, i) => `<div class="home-tile${i === 3 && helps.length ? ' alert' : ''}"><div class="n">${t[1]}</div><div class="l">${escapeHtml(t[0])}</div></div>`).join('') + '</div>';
+  h += '<h2 class="home-h2">My projects</h2><div class="home-cards">';
+  h += mine.map(d => {
+    const comp = _districtCompletion(d), flagged = d.help_request && !_demoState.helpCleared[d.id];
+    const chip = flagged ? '<span class="chip needs-help">Needs help</span>' : (comp >= 70 ? '<span class="chip ok">On track</span>' : '<span class="chip behind">Behind</span>');
+    return `<button class="home-card${flagged ? ' flagged' : ''}" onclick="openDistrictInManage('${d.id}')">
+      <div class="home-card-top"><b>${escapeHtml(d.name)}</b>${flagged ? `<span class="chip raised" onclick="event.stopPropagation(); showHelpPanel('${d.id}')">🖐 Raised a hand</span>` : chip}</div>
+      <div class="home-card-meta">${_DEMO.tracks.length} active tracks · ${d.learners.length} learners · ${escapeHtml(d.last)}</div>
+      <div class="r-prog"><span class="r-bar"><span style="width:${comp}%"></span></span>${comp}%</div>
+      ${flagged ? `<div class="home-help-msg">&ldquo;${escapeHtml(d.help_msg)}&rdquo; <button class="secondary" onclick="event.stopPropagation(); respondHelp('${d.id}')">Respond</button></div>` : ''}
+    </button>`;
+  }).join('') + '</div>';
+  h += `<div class="home-inbox"><div class="home-inbox-head"><b>${_DEMO.inbox.length} new docs approved by the PM team — safe to use</b><span class="badge approved">${_DEMO.inbox.length}</span></div>`;
+  h += _DEMO.inbox.map((it, i) => `<div class="inbox-row"><span class="inbox-title">${escapeHtml(it.title)}</span><span class="badge">${escapeHtml(it.module)}</span><span class="inbox-meta">Approved by PM team · ${escapeHtml(it.date)}</span><span class="inbox-actions"><button class="secondary" onclick="inboxView(${i})">View</button><button class="secondary" onclick="inboxCatalog(${i})">Open in Catalog</button></span></div>`).join('') + '</div>';
+  body.innerHTML = h;
+}
+function showHelpPanel(id){ const d = _DEMO.districts.find(x => x.id === id); if (d) alert('🖐 ' + d.name + ' raised a hand:\n\n“' + d.help_msg + '”'); }
+function respondHelp(id){ _demoState.helpCleared[id] = true; const d = _DEMO.districts.find(x => x.id === id); alert('Reply sent to ' + (d ? d.name : 'district') + '.'); renderHome(); const av = (document.querySelector('.view.active') || {}).id; if (av === 'view-manage' && typeof renderManage === 'function') renderManage(); }
+function inboxView(i){ const ids = _demoState.approvedRids || []; if (ids.length) window.open('/resources/' + encodeURIComponent(ids[i % ids.length]) + '/pdf', '_blank'); else alert('Opening “' + _DEMO.inbox[i].title + '” (demo).'); }
+function inboxCatalog(i){ _demoState.catalogFilter = _DEMO.inbox[i].title; showView('content'); }
+function openDistrictInManage(id){ _curISD = id; showView('manage'); }
+// ─── My Team (CN-Director dashboard, scoped to selected district) ───
+let _assignSel = { track: null, staff: {} };
+function loadMyTeam() { _demoISDInit(); renderMyTeam(); }
+function renderMyTeam() {
+  const d = _curDistrict(); const body = document.getElementById('myteam-body'); if (!body) return;
+  const ls = d.learners, total = ls.length;
+  const done = ls.filter(l => l.status === 'Complete').length, overdue = ls.filter(l => l.status === 'Overdue').length, notStarted = ls.filter(l => l.status === 'Not started').length;
+  const tt = document.getElementById('myteam-title'); if (tt) tt.textContent = d.name + ' · My Team';
+  let h = `<div class="mt-banner">All staff training due ${_DEMO.due} — <b>${Math.round(100 * done / total)}%</b> complete, <b>${overdue}</b> overdue. <button class="track-open" onclick="nudgeAllOverdue()">Nudge all overdue</button></div>`;
+  h += '<div class="roster-cards">' + [['Staff complete', Math.round(100 * done / total) + '%'], ['Overdue', overdue], ['Not started', notStarted], ['Days to deadline', 21]].map(t => `<div class="roster-stat"><div class="n">${t[1]}</div><div class="l">${escapeHtml(t[0])}</div></div>`).join('') + '</div>';
+  h += `<div class="mt-tools"><button class="secondary" onclick="openAssign()">Assign track</button></div>`;
+  const sites = {}; ls.forEach((l, gi) => { l._gi = gi; (sites[l.site] = sites[l.site] || []).push(l); });
+  h += '<div class="roster-table-wrap"><table class="roster-table"><thead><tr><th>Staff</th><th>Role</th><th>Tracks</th><th>Completion</th><th>Last active</th><th>Status</th><th></th></tr></thead><tbody>';
+  Object.keys(sites).forEach(site => {
+    h += `<tr class="lib-group-row"><td colspan="7">${escapeHtml(site)}</td></tr>`;
+    sites[site].forEach(l => {
+      const nk = d.id + ':' + l._gi, nudged = _demoState.nudged[nk];
+      const sc = l.status === 'Complete' ? 'done' : l.status === 'Overdue' ? 'over' : l.status === 'Not started' ? 'none' : 'prog';
+      const tnames = (l.tracks || []).map(tid => (_allDemoTracks().find(t => t.id === tid) || {}).title).filter(Boolean).join(', ');
+      h += `<tr><td><div class="r-name">${escapeHtml(l.name)}</div></td><td>${escapeHtml(l.role)}</td><td>${escapeHtml(tnames || '—')}</td>
+        <td><span class="r-prog"><span class="r-bar"><span style="width:${l.completion}%"></span></span>${l.completion}%</span></td>
+        <td>${escapeHtml(l.last_active)}</td><td><span class="r-status ${sc}">${escapeHtml(l.status)}</span>${nudged ? ' <span class="nudged">Nudged today</span>' : ''}</td>
+        <td>${l.status === 'Complete' ? '' : `<button class="secondary sm" onclick="nudgeOne('${escAttr(nk)}','${escAttr(l.name)}')">Nudge</button>`}</td></tr>`;
+    });
+  });
+  h += '</tbody></table></div>';
+  body.innerHTML = h;
+}
+function nudgeOne(nk, name) { _demoState.nudged[nk] = true; alert('Reminder sent to ' + name + '.'); renderMyTeam(); }
+function nudgeAllOverdue() { const d = _curDistrict(); let c = 0; d.learners.forEach((l, gi) => { if (l.status === 'Overdue') { _demoState.nudged[d.id + ':' + gi] = true; c++; } }); alert('Reminders sent to ' + c + ' staff.'); renderMyTeam(); }
+function openAssign() {
+  const d = _curDistrict(); const tracks = _allDemoTracks(); _assignSel = { track: tracks[0] ? tracks[0].id : null, staff: {} };
+  const tw = document.getElementById('am-tracks'); if (tw) tw.innerHTML = tracks.map(t => `<label class="am-row"><input type="radio" name="am-tk" ${t.id === _assignSel.track ? 'checked' : ''} onclick="_assignSel.track='${t.id}'"> ${escapeHtml(t.title)} <span class="meta">${escapeHtml(t.role)}</span></label>`).join('');
+  const sw = document.getElementById('am-staff'); if (sw) sw.innerHTML = d.learners.map((l, gi) => `<label class="am-row"><input type="checkbox" onclick="_assignSel.staff[${gi}]=this.checked"> ${escapeHtml(l.name)} <span class="meta">${escapeHtml(l.role)} · ${escapeHtml(l.site)}</span></label>`).join('');
+  const m = document.getElementById('assign-modal'); if (m) m.hidden = false;
+}
+function closeAssign() { const m = document.getElementById('assign-modal'); if (m) m.hidden = true; }
+function doAssign() {
+  const d = _curDistrict(), tid = _assignSel.track; let c = 0;
+  d.learners.forEach((l, gi) => { if (_assignSel.staff[gi] && tid) { l.tracks = l.tracks || []; if (!l.tracks.includes(tid)) l.tracks.push(tid); l.completion = 0; l.status = 'Not started'; c++; } });
+  closeAssign(); alert('Assigned to ' + c + ' staff.'); renderMyTeam();
+}
+// ─── Quality (the proof surface) — generated items + eval + SME approval, all from _DEMO ───
+function loadQuality(){ renderQuality(); }
+function renderQuality(){
+  const el = document.getElementById('evals-body'); if (!el) return; el.removeAttribute('aria-busy');
+  const items = _DEMO.quality, gen = items.length, approved = items.filter(i => i.sme).length;
+  const evaled = items.filter(i => i.scores);
+  const avg = evaled.length ? Math.round(evaled.reduce((a, i) => a + i.scores.reduce((x, y) => x + y, 0) / i.scores.length, 0) / evaled.length * 20) : 0;
+  let h = '<div class="ql-strip">' + [['Items generated', gen], ['SME-approved', approved], ['Avg eval score', avg + '%'], ['Claims verified', '96%']].map(t => `<div class="ql-tile"><div class="n">${t[1]}</div><div class="l">${escapeHtml(t[0])}</div></div>`).join('') + '</div>';
+  h += '<div class="roster-table-wrap"><table class="roster-table"><thead><tr><th>Item</th><th>Module</th><th>Format</th>' + _DEMO.rubric.map(r => `<th>${escapeHtml(r)}</th>`).join('') + '<th>Result</th><th>SME approval</th></tr></thead><tbody>';
+  h += items.map((it, idx) => {
+    const sme = it.sme ? `Approved · ${escapeHtml(it.sme)} · ${escapeHtml(it.sme_date)}` : (it.scores ? 'Pending SME review' : 'Not yet evaluated');
+    const smeC = it.sme ? 'done' : it.scores ? 'prog' : 'none';
+    const scoreCells = _DEMO.rubric.map((r, ri) => it.scores ? `<td><span class="ql-score">${it.scores[ri]}</span></td>` : '<td>—</td>').join('');
+    const result = it.verdict ? `<span class="r-status ${it.verdict === 'Pass' ? 'done' : 'over'}">${it.verdict}</span>` : '<span class="r-status none">—</span>';
+    return `<tr class="ql-row" onclick="qualityDetail(${idx})"><td>${escapeHtml(it.title)}</td><td>${escapeHtml(it.module)}</td><td>${escapeHtml(it.format)}</td>${scoreCells}<td>${result}</td><td><span class="r-status ${smeC}" style="white-space:nowrap;">${sme}</span></td></tr>`;
+  }).join('') + '</tbody></table></div><div id="ql-detail"></div>';
+  el.innerHTML = h;
+}
+function qualityDetail(idx){
+  const it = _DEMO.quality[idx], d = document.getElementById('ql-detail'); if (!d || !it) return;
+  if (!it.scores) { d.innerHTML = '<div class="ql-card">This item has not been evaluated yet — rubric scores appear once a generation eval runs.</div>'; d.scrollIntoView({ behavior: 'smooth' }); return; }
+  let h = `<div class="ql-card"><h3>${escapeHtml(it.title)} — eval detail</h3><div class="ql-rubric">`;
+  h += _DEMO.rubric.map((r, ri) => `<div class="ql-rb"><span>${escapeHtml(r)}</span><span class="r-prog"><span class="r-bar"><span style="width:${it.scores[ri] * 20}%"></span></span>${it.scores[ri]}/5</span></div>`).join('');
+  h += '</div><h4 style="margin:14px 0 6px;">Sample verified claims</h4>';
+  h += (it.claims && it.claims.length) ? it.claims.map(c => `<blockquote class="lib-cite">&ldquo;${escapeHtml(c.text)}&rdquo;<cite>${escapeHtml(c.source)}</cite></blockquote>`).join('') : '<p class="path-aside-note">Claims sample available after SME review.</p>';
+  h += '</div>'; d.innerHTML = h; d.scrollIntoView({ behavior: 'smooth' });
+}
+// ─── Tracks (trainer) — course builder + track builder (assembly only; content stays grounded) ───
+let _cb = { lessons: [] }, _tbk = { courseIds: [] };
+async function loadTracks() {
+  renderTrackList();                                   // render immediately — list doesn't need the fetch
+  if (_demoState.libCache === undefined) { try { _demoState.libCache = (await (await fetch('/resources')).json()).filter(inLibrary); } catch (e) { _demoState.libCache = []; } }
+}
+function renderTrackList() {
+  const body = document.getElementById('tracks-list-body'); if (!body) return;
+  let h = '<h2 class="home-h2" style="margin:0 0 12px;">Tracks</h2><div class="home-cards" style="margin:0 0 24px;">';
+  h += _allDemoTracks().map(t => { const cs = _trackCourses(t); return `<div class="home-card"><div class="home-card-top"><b>${escapeHtml(t.title)}</b><span class="chip behind">${escapeHtml(t.role)}</span></div><div class="home-card-meta">${cs.length} course${cs.length === 1 ? '' : 's'} · ~${_trackEst(t)} · Due ${escapeHtml(t.due || _DEMO.due)}</div></div>`; }).join('') + '</div>';
+  h += '<h2 class="home-h2" style="margin:0 0 12px;">Courses</h2><div class="home-cards" style="margin:0 0 24px;">';
+  h += _allDemoCourses().map(c => `<div class="home-card"><div class="home-card-top"><b>${escapeHtml(c.title)}</b><span class="chip behind">${escapeHtml(c.module || '')}</span></div><div class="home-card-meta">${c.lessons.length} lessons</div></div>`).join('') + '</div>';
+  body.innerHTML = h;
+}
+function openCourseBuilder() { _cb = { lessons: [] }; ['cb-name','cb-module'].forEach(id => { const e = document.getElementById(id); if (e) e.value = ''; }); document.getElementById('cb-picker').innerHTML = ''; cbRender(); document.getElementById('cb-modal').hidden = false; }
+function cbClose() { document.getElementById('cb-modal').hidden = true; }
+function cbRender() { const ol = document.getElementById('cb-lessons'); if (!ol) return; ol.innerHTML = _cb.lessons.map((l, i) => `<li class="cb-li"><span>${_lessonIcon(l.type)} ${escapeHtml(l.title)}${l.dur ? ' · ' + escapeHtml(l.dur) : ''}</span><span class="cb-li-act"><button onclick="cbMove(${i},-1)">↑</button><button onclick="cbMove(${i},1)">↓</button><button onclick="cbRemove(${i})">✕</button></span></li>`).join('') || '<li class="cb-empty">No lessons yet — add a guide, quiz, or video.</li>'; }
+function cbMove(i, d) { const j = i + d; if (j < 0 || j >= _cb.lessons.length) return; const a = _cb.lessons;[a[i], a[j]] = [a[j], a[i]]; cbRender(); }
+function cbRemove(i) { _cb.lessons.splice(i, 1); cbRender(); }
+function _cbGuideRows(q) { const lib = (_demoState.libCache || []).filter(r => !q || (`${r.module} ${r.template} ${r.id}`).toLowerCase().includes(q.toLowerCase())); return lib.slice(0, 40).map(r => `<button class="cb-pick-row" onclick="cbPickGuide('${escAttr(r.id)}')">${escapeHtml((r.module || '?') + ' | ' + (r.template || 'guide'))}</button>`).join('') || '<div class="cb-empty">No approved guides match.</div>'; }
+function cbAddGuide() { document.getElementById('cb-picker').innerHTML = `<div class="cb-pick"><input class="tb-in" placeholder="search guides…" autocomplete="off" oninput="document.getElementById('cb-guidelist').innerHTML=_cbGuideRows(this.value)"><div id="cb-guidelist" class="cb-list">${_cbGuideRows('')}</div></div>`; }
+function cbPickGuide(rid) { const r = (_demoState.libCache || []).find(x => x.id === rid) || {}; _cb.lessons.push({ type: 'guide', title: (r.module || 'Guide') + ' — ' + (r.template || 'guide'), rid }); document.getElementById('cb-picker').innerHTML = ''; cbRender(); }
+function cbAddQuiz() { const lib = _demoState.libCache || []; document.getElementById('cb-picker').innerHTML = `<div class="cb-pick"><label class="tb-l">Generate a grounded quiz from a guide</label><select id="cb-quiz-src" class="tb-in">${lib.slice(0, 40).map(r => `<option value="${escAttr(r.id)}">${escapeHtml((r.module || '?') + ' | ' + (r.template || 'guide'))}</option>`).join('')}</select><label class="tb-l">Questions</label><select id="cb-quiz-n" class="tb-in"><option>3</option><option selected>5</option><option>8</option></select><button class="secondary" onclick="cbGenQuiz()">Generate &amp; add</button><div id="cb-quiz-status" class="tb-note" style="margin-top:6px;"></div></div>`; }
+async function cbGenQuiz() {
+  const rid = document.getElementById('cb-quiz-src').value, n = +document.getElementById('cb-quiz-n').value, st = document.getElementById('cb-quiz-status');
+  if (st) st.textContent = 'Generating grounded quiz…';
+  try { const q = await (await fetch('/api/quizzes/generate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ source_type: 'resource', source_id: rid, n }) })).json(); _cb.lessons.push({ type: 'quiz', title: q.title || 'Knowledge check', n }); document.getElementById('cb-picker').innerHTML = ''; cbRender(); }
+  catch (e) { if (st) st.textContent = 'Could not generate — try another guide.'; }
+}
+function cbAddVideo() { document.getElementById('cb-picker').innerHTML = `<div class="cb-pick"><label class="tb-l">Video title</label><input id="cb-vid-t" class="tb-in" placeholder="e.g. Receiving &amp; Storage" autocomplete="off"><label class="tb-l">Duration</label><input id="cb-vid-d" class="tb-in" placeholder="e.g. 6 min" autocomplete="off"><button class="secondary" onclick="cbAddVideoDo()">Add video</button></div>`; }
+function cbAddVideoDo() { const t = (document.getElementById('cb-vid-t').value || 'Video lesson'), d = (document.getElementById('cb-vid-d').value || '5 min'); _cb.lessons.push({ type: 'video', title: t, dur: d }); document.getElementById('cb-picker').innerHTML = ''; cbRender(); }
+function cbSave() {
+  const name = (document.getElementById('cb-name').value || '').trim() || 'Untitled course', module = (document.getElementById('cb-module').value || '').trim();
+  if (!_cb.lessons.length) { alert('Add at least one lesson.'); return; }
+  _demoState.userCourses = _demoState.userCourses || [];
+  _demoState.userCourses.push({ id: 'u-c-' + (_demoState.userCourses.length + 1), title: name, module, lessons: _cb.lessons.slice() });
+  cbClose(); renderTrackList(); alert('Course “' + name + '” created — now available to add to a track.');
+}
+function openTrackBuilder() {
+  _tbk = { courseIds: [] }; const nm = document.getElementById('tbk-name'); if (nm) nm.value = '';
+  const cw = document.getElementById('tbk-courses'); if (cw) cw.innerHTML = _allDemoCourses().map(c => `<label class="am-row"><input type="checkbox" onclick="tbkToggle('${c.id}',this.checked)"> ${escapeHtml(c.title)} <span class="meta">${escapeHtml(c.module || '')} · ${c.lessons.length} lessons</span></label>`).join('');
+  document.getElementById('tbk-modal').hidden = false;
+}
+function tbkClose() { document.getElementById('tbk-modal').hidden = true; }
+function tbkToggle(cid, on) { _tbk.courseIds = _tbk.courseIds || []; if (on) { if (!_tbk.courseIds.includes(cid)) _tbk.courseIds.push(cid); } else { _tbk.courseIds = _tbk.courseIds.filter(x => x !== cid); } }
+function tbkSave() {
+  const name = (document.getElementById('tbk-name').value || '').trim() || 'Untitled track', role = document.getElementById('tbk-role').value;
+  if (!_tbk.courseIds.length) { alert('Add at least one course.'); return; }
+  _demoState.userTracks = _demoState.userTracks || [];
+  _demoState.userTracks.push({ id: 'u-t-' + (_demoState.userTracks.length + 1), title: name, role, instructor: (role[0] || 'T'), due: _DEMO.due, courseIds: _tbk.courseIds.slice() });
+  tbkClose(); renderTrackList(); alert('Track “' + name + '” created — it’s now live in Learn.');
+}
+// ─── Library (studio-produced, all statuses) + Catalog (ready-to-use, all origins) ───
+function _originBadge(o){ const c = o === 'AI-generated' ? 'og-ai' : o === 'Human-authored' ? 'og-hum' : 'og-vendor'; return `<span class="og ${c}">${escapeHtml(o)}</span>`; }
+function _statusChip(s){ const c = s === 'Approved' ? 'approved' : s === 'In review' ? 'pending' : 'draft'; return `<span class="badge ${c}">${escapeHtml(s)}</span>`; }
+function _userStudioItems(){
+  const cs = (_demoState.userCourses || []).map(c => ({ title: c.title, module: c.module || '—', format: 'Course', status: 'Draft', created: 'Today', origin: 'Human-authored' }));
+  const ts = (_demoState.userTracks || []).map(t => ({ title: t.title, module: '—', format: 'Track', status: 'Draft', created: 'Today', origin: 'Human-authored' }));
+  return cs.concat(ts);
+}
+function loadLibraryDemo(){ renderLibraryDemo(); }
+function renderLibraryDemo(){
+  const grid = document.getElementById('lib-grid'); if (!grid) return; grid.removeAttribute('aria-busy');
+  const mod = (document.getElementById('lib-module') || {}).value || '', stf = (document.getElementById('lib-status') || {}).value || '', q = ((document.getElementById('lib-search') || {}).value || '').toLowerCase();
+  let items = _DEMO.studio.concat(_userStudioItems());
+  if (mod) items = items.filter(i => i.module === mod);
+  if (stf === 'library') items = items.filter(i => i.status === 'Approved');
+  else if (stf === 'awaiting') items = items.filter(i => i.status !== 'Approved');
+  if (q) items = items.filter(i => (`${i.title} ${i.module} ${i.format} ${i.status}`).toLowerCase().includes(q));
+  const cnt = document.getElementById('lib-count'); if (cnt) cnt.textContent = items.length;
+  let h = '<table class="lib-table"><thead><tr><th>Item</th><th>Module</th><th>Format</th><th>Status</th><th>Created</th><th>Origin</th></tr></thead><tbody>';
+  h += items.map(i => `<tr class="lib-row"><td class="lib-c-title">${escapeHtml(i.title)}</td><td>${escapeHtml(i.module)}</td><td>${escapeHtml(i.format)}</td><td>${_statusChip(i.status)}</td><td>${escapeHtml(i.created)}</td><td>${_originBadge(i.origin)}</td></tr>`).join('') || '<tr><td colspan="6" class="lib-empty">No studio content matches — make one in Create.</td></tr>';
+  h += '</tbody></table>';
+  grid.innerHTML = h;
+}
+function _catalogItems(){
+  const sa = _DEMO.studio.filter(i => i.status === 'Approved').map(i => ({ title: i.title, module: i.module, type: i.format === 'Quiz' ? 'Quiz' : i.format === 'Track' ? 'Track' : 'Guide', origin: i.origin }));
+  const im = _DEMO.imported.map(i => ({ title: i.title, module: i.module, type: 'Guide', origin: i.origin }));
+  const tr = _allDemoTracks().map(t => ({ title: t.title, module: t.role, type: 'Track', origin: 'Human-authored' }));
+  const qz = _DEMO.quality.filter(q => q.format === 'Quiz').map(q => ({ title: q.title, module: q.module, type: 'Quiz', origin: 'AI-generated' }));
+  const seen = {}, out = []; sa.concat(im, tr, qz).forEach(x => { if (!seen[x.title]) { seen[x.title] = 1; out.push(x); } });
+  return out;
+}
+let _catType = '', _catOrigin = '';
+function loadCatalogDemo(){ renderCatalogDemo(); }
+function renderCatalogDemo(){
+  const grid = document.getElementById('icn-grid'); if (!grid) return;
+  let items = _catalogItems();
+  const cf = _demoState.catalogFilter;
+  if (cf) items = items.filter(x => x.title.toLowerCase().includes(cf.toLowerCase()));
+  if (_catType) items = items.filter(x => x.type === _catType);
+  if (_catOrigin) items = items.filter(x => x.origin === _catOrigin);
+  const types = ['', 'Guide', 'Quiz', 'Track'], origins = ['', 'AI-generated', 'Human-authored', 'Outside vendor'];
+  let fh = '<div class="cat-filters" style="grid-column:1/-1;"><span class="cat-fl">Type</span>';
+  fh += types.map(t => `<button class="cat-chip ${_catType === t ? 'on' : ''}" onclick="_catType='${t}';renderCatalogDemo()">${t || 'All'}</button>`).join('');
+  fh += '<span class="cat-fl">Origin</span>' + origins.map(o => `<button class="cat-chip ${_catOrigin === o ? 'on' : ''}" onclick="_catOrigin='${o}';renderCatalogDemo()">${o || 'All'}</button>`).join('');
+  if (cf) fh += `<button class="cat-chip on" onclick="_demoState.catalogFilter=null;renderCatalogDemo()">✕ &ldquo;${escapeHtml(cf)}&rdquo;</button>`;
+  fh += '</div>';
+  const cards = items.map(x => `<div class="icn-card cat-card"><div class="cat-type">${escapeHtml(x.type)}</div><div class="cat-title">${escapeHtml(x.title)}</div><div class="cat-meta">${escapeHtml(x.module || '')}</div>${_originBadge(x.origin)}</div>`).join('') || '<div class="lib-empty" style="grid-column:1/-1;">No ready-to-use resources match.</div>';
+  grid.innerHTML = fh + cards;
+  const tot = document.getElementById('icn-stat-total'); if (tot) tot.textContent = _catalogItems().length;
+  const cnt = document.getElementById('icn-count'); if (cnt) cnt.textContent = 'Catalog — ' + _catalogItems().length + ' ready-to-use';
+}
+setViewMode('trainer'); _demoISDInit();   // boot: Trainer persona, lands on Home
 
 // ─── Evals dashboard ───────────────────────────────────────────────
 function _pill(text, good) {
@@ -3388,97 +3849,87 @@ function closePath() {
   if (lib) lib.style.display = '';
 }
 
-// ─── Learn — DataCamp-style tracks (the learner experience) ──────────
-// Façade for the demo: tracks are seeded shells; their lessons are populated from the REAL
-// /resources library + the grounded quiz. No real enrollment/identity — completion is
-// client-side state. A track = a sequence of mixed lessons (guide / quiz / video) + certify.
-const _TRACKS = [
-  { id: 'ps-cashier-basics', title: 'PS Cashier Basics', role: 'Cashier', instructor: 'CB',
-    mods: ['Item Management', 'Inventory'],
-    blurb: 'Everything a returning cashier needs before the first lunch line of the year — item lookups, point-of-sale basics, and a knowledge check.' },
-  { id: 'site-mgr-prod-inv', title: 'Site Manager: Production + Inventory', role: 'Site Manager', instructor: 'SM',
-    mods: ['Inventory', 'Menu Planning'],
-    blurb: 'Run a site end to end — production records, inventory distribution, and how the two fit together.' },
-  { id: 'food-safety-refresher', title: 'Food-Safety Refresher', role: 'All staff', instructor: 'FS',
-    mods: ['Inventory'],
-    blurb: 'The annual mandatory refresher — safe handling, holding, and the checks that keep your site compliant.' },
-];
-let _libForTracks = null;
-const _trackDone = {};                                   // {trackId: Set(lessonIdx)} — demo completion
-function _doneSet(tid) { return (_trackDone[tid] = _trackDone[tid] || new Set()); }
-function _trackLessons(t) {
-  const guides = (_libForTracks || []).filter(r => (t.mods || []).includes(r.module)).slice(0, 3);
-  const lessons = guides.map(g => ({ type: 'guide', title: `${g.module}: ${g.template || 'guide'}`, rid: g.id }));
-  if (guides[0]) lessons.push({ type: 'quiz', title: 'Check your knowledge', rid: guides[0].id });
-  lessons.push({ type: 'video', title: 'Walkthrough (video) — coming soon' });
-  if (!lessons.some(l => l.type === 'guide')) lessons.unshift({ type: 'doc', title: 'Overview' });
-  return lessons;
+// ─── Learn — tracks → courses → lessons (the learner experience) ──────────
+// Façade: track/course/lesson progress is client-side, seeded for the demo. Guides open the REAL
+// PDF render; quizzes run the REAL grounded player (pass ≥ 80%). A track = courses; a course = lessons.
+function _allDemoCourses() { return _DEMO.courses.concat(_demoState.userCourses || []); }
+function _courseById(id) { return _allDemoCourses().find(c => c.id === id); }
+function _trackCourses(t) { return (t.courseIds || []).map(_courseById).filter(Boolean); }
+function _lessonIcon(type) { return type === 'quiz' ? '✎' : type === 'video' ? '▶' : type === 'certify' ? '🏅' : '📄'; }
+function _courseDoneSet(cid) { _demoState.courseDone = _demoState.courseDone || {}; return (_demoState.courseDone[cid] = _demoState.courseDone[cid] || new Set()); }
+function _courseScores() { _demoState.quizScore = _demoState.quizScore || {}; return _demoState.quizScore; }
+function _coursePct(c) { const n = c.lessons.length; return n ? Math.round(100 * _courseDoneSet(c.id).size / n) : 0; }
+function _trackPct(t) { const cs = _trackCourses(t); return cs.length ? Math.round(cs.reduce((a, c) => a + _coursePct(c), 0) / cs.length) : 0; }
+function _trackCertified(t) { const cs = _trackCourses(t); return cs.length > 0 && cs.every(c => _coursePct(c) === 100); }
+function _trackEst(t) { const m = _trackCourses(t).reduce((a, c) => a + c.lessons.length, 0) * 8; return m >= 60 ? `${Math.floor(m / 60)} hr${m % 60 ? ' ' + (m % 60) + ' min' : ''}` : `${m} min`; }
+function _seedLearnProgress() {
+  if (_demoState._seeded) return; _demoState._seeded = true;
+  const cpos = _courseById('c-pos'); if (cpos) { const s = _courseDoneSet('c-pos'); for (let i = 0; i < Math.max(1, cpos.lessons.length - 1); i++) s.add(i); }   // New Cashier ~80%
+  _courseDoneSet('c-item').add(0);                                                                                                                              // Site Manager ~30%
+  // Eligibility track left at 0%
 }
-function _trackMins(lessons) { return lessons.reduce((a, l) => a + (l.type === 'quiz' ? 5 : l.type === 'video' ? 4 : 8), 0); }
-function _lessonIcon(type) { return type === 'quiz' ? '✎' : type === 'video' ? '▶' : '📄'; }
+// _curTrack, _curCourse declared near the top (avoids TDZ at boot)
 
 async function loadLearn() {
-  if (_libForTracks === null) {
-    try { _libForTracks = await (await fetch('/resources')).json(); } catch (e) { _libForTracks = []; }
+  _seedLearnProgress();
+  renderLearnGrid();                                   // render immediately — cards don't need the fetch
+  if (_demoState.approvedRids === null) {
+    try { const rs = await (await fetch('/resources')).json(); _demoState.approvedRids = (rs || []).filter(inLibrary).map(r => r.id); } catch (e) { _demoState.approvedRids = []; }
   }
-  renderTracks();
 }
-function renderTracks() {
+function renderLearnGrid() {
+  _curTrack = null; _curCourse = null;
   const grid = document.getElementById('tracks-grid'); if (!grid) return;
   document.getElementById('track-detail').hidden = true;
   document.getElementById('tracks-hero').hidden = false;
   grid.hidden = false;
-  grid.innerHTML = _TRACKS.map(t => {
-    const lessons = _trackLessons(t), done = _doneSet(t.id).size;
-    const pct = lessons.length ? Math.round(100 * done / lessons.length) : 0;
+  grid.innerHTML = _allDemoTracks().map(t => {
+    const cs = _trackCourses(t), pct = _trackPct(t);
     return `<button class="track-card" onclick="openTrack('${t.id}')">
-      <div class="track-ava">${escapeHtml(t.instructor)}</div>
+      <div class="track-ava">${escapeHtml(t.instructor || 'T')}</div>
       <div class="track-main">
         <div class="track-role">${escapeHtml(t.role)} track</div>
         <div class="track-title">${escapeHtml(t.title)}</div>
-        <div class="track-blurb">${escapeHtml(t.blurb)}</div>
-        <div class="track-meta"><span>${lessons.length} lessons</span><span>·</span><span>~${_trackMins(lessons)} min</span><span>·</span><span>✓ every claim cited</span></div>
+        <div class="track-meta"><span>${cs.length} course${cs.length === 1 ? '' : 's'}</span><span>·</span><span>~${_trackEst(t)}</span><span>·</span><span>Due ${escapeHtml(t.due || _DEMO.due)}</span></div>
         <div class="track-prog"><div class="track-prog-bar" style="width:${pct}%"></div></div>
         <div class="track-prog-lbl">${pct}% complete</div>
       </div></button>`;
   }).join('');
 }
 function openTrack(tid) {
-  const t = _TRACKS.find(x => x.id === tid); if (!t) return;
-  const lessons = _trackLessons(t), done = _doneSet(tid);
-  const rows = lessons.map((l, idx) => {
-    const isDone = done.has(idx);
-    const act = l.type === 'guide'
-      ? `<button class="track-open" onclick="event.stopPropagation(); window.open('/resources/${escAttr(l.rid)}/pdf','_blank')">Open guide ↗</button>`
-      : l.type === 'quiz'
-        ? `<button class="track-open" onclick="event.stopPropagation(); trackQuiz('${escAttr(l.rid)}','${tid}',${idx})">Take quiz</button>`
-        : l.type === 'video' ? `<span class="track-soon">video placeholder</span>` : '';
-    return `<li class="path-mod" data-type="${l.type}">
-        <span class="path-num">${isDone ? '✓' : idx + 1}</span>
+  const t = _allDemoTracks().find(x => x.id === tid); if (!t) return;
+  _curTrack = tid; _curCourse = null;
+  const cs = _trackCourses(t), pct = _trackPct(t), certified = _trackCertified(t);
+  const rows = cs.map((c, i) => {
+    const cp = _coursePct(c), done = cp === 100;
+    return `<li class="path-mod" data-type="${done ? 'pdf' : 'web'}">
+        <span class="path-num">${done ? '✓' : i + 1}</span>
         <div class="path-mod-main">
-          <div class="icn-type">${_lessonIcon(l.type)} <span>${escapeHtml(l.type)}</span></div>
-          <div class="path-mod-title">${escapeHtml(l.title)}</div>
-          <div class="path-mod-actions">${act}
-            <button class="track-done ${isDone ? 'is-done' : ''}" onclick="event.stopPropagation(); toggleLesson('${tid}',${idx})">${isDone ? 'Completed' : 'Mark complete'}</button>
+          <div class="icn-type">📚 <span>course · ${escapeHtml(c.module || '')}</span></div>
+          <div class="path-mod-title">${escapeHtml(c.title)}</div>
+          <div class="path-mod-actions">
+            <button class="track-open" onclick="event.stopPropagation(); openCourse('${c.id}')">${cp > 0 ? 'Continue' : 'Start'} course →</button>
+            <span class="course-prog"><span class="r-bar"><span style="width:${cp}%"></span></span>${cp}%</span>
           </div>
         </div></li>`;
   }).join('');
-  const n = done.size, pct = lessons.length ? Math.round(100 * n / lessons.length) : 0;
-  const certified = n === lessons.length && lessons.length > 0;
+  const certRow = `<li class="path-mod" data-type="certify"><span class="path-num">${certified ? '🏅' : cs.length + 1}</span>
+      <div class="path-mod-main"><div class="icn-type">🏅 <span>certify</span></div><div class="path-mod-title">Track certificate</div>
+        <div class="path-mod-actions">${certified ? `<button class="track-open" onclick="event.stopPropagation(); showCertificate('${tid}')">View certificate</button>` : '<span class="track-soon">Finish every course to unlock</span>'}</div>
+      </div></li>`;
   document.getElementById('track-detail').innerHTML = `
-    <button class="path-back" onclick="renderTracks()">← All tracks</button>
+    <button class="path-back" onclick="renderLearnGrid()">← All tracks</button>
     <header class="path-hero">
       <p class="path-eyebrow">${escapeHtml(t.role)} track</p>
       <h1 class="path-title">${escapeHtml(t.title)}</h1>
-      <p class="path-desc">${escapeHtml(t.blurb)}</p>
-      <div class="path-stats"><span><b>${lessons.length}</b>lessons</span><span><b>~${_trackMins(lessons)}</b>min</span><span><b>${pct}%</b>done</span></div>
-      ${certified ? '<span class="track-cert">🏅 Track complete — certified</span>' : '<span class="track-cert-todo">Finish every lesson to certify</span>'}
+      <div class="path-stats"><span><b>${cs.length}</b>courses</span><span><b>~${_trackEst(t)}</b></span><span><b>${pct}%</b>done</span><span>Due ${escapeHtml(t.due || _DEMO.due)}</span></div>
+      ${certified ? '<span class="track-cert">🏅 Track complete — certified</span>' : '<span class="track-cert-todo">Complete all courses to certify</span>'}
     </header>
     <div class="path-layout">
-      <ol class="path-modules">${rows}</ol>
+      <ol class="path-modules">${rows}${certRow}</ol>
       <aside class="path-aside">
         <h4>About this track</h4>
-        <p class="path-aside-note">Lessons draw on approved, source-cited guides. The quiz is grounded in the guide text — any question without a verbatim source quote is dropped automatically.</p>
+        <p class="path-aside-note">A track is a sequence of courses; each course is built from approved, source-cited guides and a grounded quiz.</p>
       </aside>
     </div>`;
   document.getElementById('tracks-hero').hidden = true;
@@ -3486,29 +3937,73 @@ function openTrack(tid) {
   document.getElementById('track-detail').hidden = false;
   window.scrollTo(0, 0);
 }
-function toggleLesson(tid, idx) { const s = _doneSet(tid); if (s.has(idx)) s.delete(idx); else s.add(idx); openTrack(tid); }
-async function trackQuiz(rid, tid, idx) {
+function openCourse(cid) {
+  const c = _courseById(cid); if (!c) return; _curCourse = cid;
+  const done = _courseDoneSet(cid), scores = _courseScores();
+  const rows = c.lessons.map((l, idx) => {
+    const isDone = done.has(idx), sk = cid + ':' + idx, sc = scores[sk];
+    const act = l.type === 'guide'
+      ? `<button class="track-open" onclick="event.stopPropagation(); openGuideLesson('${cid}',${idx})">Open guide ↗</button>`
+      : l.type === 'quiz'
+        ? `<button class="track-open" onclick="event.stopPropagation(); courseQuiz('${cid}',${idx})">${sc != null ? 'Retake' : 'Take quiz'}</button>${sc != null ? `<span class="quiz-score ${sc >= 80 ? 'pass' : 'fail'}">${sc >= 80 ? 'Passed' : 'Try again'} · ${sc}%</span>` : ''}`
+        : l.type === 'video' ? `<button class="track-open" onclick="event.stopPropagation(); openVideoLesson('${cid}',${idx})">Play ▶</button>` : '';
+    return `<li class="path-mod" data-type="${l.type}">
+        <span class="path-num">${isDone ? '✓' : idx + 1}</span>
+        <div class="path-mod-main">
+          <div class="icn-type">${_lessonIcon(l.type)} <span>${escapeHtml(l.type)}${l.dur ? ' · ' + escapeHtml(l.dur) : ''}</span></div>
+          <div class="path-mod-title">${escapeHtml(l.title)}</div>
+          <div class="path-mod-actions">${act}
+            <button class="track-done ${isDone ? 'is-done' : ''}" onclick="event.stopPropagation(); toggleLesson('${cid}',${idx})">${isDone ? 'Completed' : 'Mark complete'}</button>
+          </div>
+        </div></li>`;
+  }).join('');
+  document.getElementById('track-detail').innerHTML = `
+    <button class="path-back" onclick="openTrack('${_curTrack}')">← Back to track</button>
+    <header class="path-hero">
+      <p class="path-eyebrow">Course · ${escapeHtml(c.module || '')}</p>
+      <h1 class="path-title">${escapeHtml(c.title)}</h1>
+      <div class="path-stats"><span><b>${c.lessons.length}</b>lessons</span><span><b>${_coursePct(c)}%</b>done</span><span>✓ every claim cited</span></div>
+    </header>
+    <div class="path-layout">
+      <ol class="path-modules">${rows}</ol>
+      <aside class="path-aside"><h4>About this course</h4><p class="path-aside-note">Lessons draw on approved, source-cited guides. The quiz is grounded in the guide text — pass at 80%.</p></aside>
+    </div>`;
+  document.getElementById('tracks-hero').hidden = true;
+  document.getElementById('tracks-grid').hidden = true;
+  document.getElementById('track-detail').hidden = false;
+  window.scrollTo(0, 0);
+}
+function toggleLesson(cid, idx) { const s = _courseDoneSet(cid); if (s.has(idx)) s.delete(idx); else s.add(idx); openCourse(cid); }
+function _lessonRid(cid, idx) { const ids = _demoState.approvedRids || []; return ids.length ? ids[(idx + cid.length) % ids.length] : null; }
+function openGuideLesson(cid, idx) { const rid = _lessonRid(cid, idx); if (rid) window.open('/resources/' + encodeURIComponent(rid) + '/pdf', '_blank'); _courseDoneSet(cid).add(idx); openCourse(cid); }
+function openVideoLesson(cid, idx) { const l = _courseById(cid).lessons[idx]; alert('▶ ' + l.title + (l.dur ? ' (' + l.dur + ')' : '') + '\n\n(video player — demo placeholder)'); _courseDoneSet(cid).add(idx); openCourse(cid); }
+async function courseQuiz(cid, idx) {
+  const rid = _lessonRid(cid, idx);
   const m = document.getElementById('quiz-modal'), body = document.getElementById('quiz-body'), foot = document.getElementById('quiz-foot');
   if (m) m.hidden = false;
-  if (body) body.innerHTML = '<div style="padding:22px; color:var(--muted);">Generating a grounded quiz from this guide…</div>';
+  if (body) body.innerHTML = '<div style="padding:22px; color:var(--muted);">Generating a grounded quiz…</div>';
   if (foot) foot.innerHTML = '';
   try {
-    const r = await fetch('/api/quizzes/generate', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ source_type: 'resource', source_id: rid, n: 5 })
-    });
-    const q = await r.json();
+    if (!rid) throw new Error('no source');
+    const q = await (await fetch('/api/quizzes/generate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ source_type: 'resource', source_id: rid, n: 5 }) })).json();
     openTaker(q.title || 'Knowledge check', (q && q.questions) || [], {
       attribution: q.source_label || '',
-      onDone: pct => { if (pct >= 70 && tid != null) { _doneSet(tid).add(idx); openTrack(tid); } }
+      onDone: pct => { _courseScores()[cid + ':' + idx] = pct; if (pct >= 80) _courseDoneSet(cid).add(idx); else _courseDoneSet(cid).delete(idx); openCourse(cid); }
     });
   } catch (e) {
     if (body) body.innerHTML = '<div class="async-error"><p class="ae-title">Couldn’t generate the quiz</p><p>Please try again in a moment.</p></div>';
   }
 }
+function showCertificate(tid) {
+  const t = _allDemoTracks().find(x => x.id === tid); if (!t) return;
+  const m = document.getElementById('quiz-modal'), body = document.getElementById('quiz-body'), foot = document.getElementById('quiz-foot');
+  if (!m) return; m.hidden = false;
+  if (body) body.innerHTML = `<div class="cert-card"><div class="cert-seal">🏅</div><div class="cert-h">Certificate of Completion</div><div class="cert-name">${_viewMode === 'customer' ? 'Demo Learner' : 'Demo Learner'}</div><div class="cert-sub">has completed</div><div class="cert-track">${escapeHtml(t.title)}</div><div class="cert-date">${_DEMO.due}, 2026 · SchoolCafé Learning Studio</div></div>`;
+  if (foot) foot.innerHTML = '<button class="primary" onclick="window.print()">Download</button>';
+}
 
 // ─── Roster (simulated multi-tenant demo) ───────────────────────────
-let _rosterData = null, _curISD = '';
+let _rosterData = null;   // _curISD declared near the top (avoids TDZ at boot)
 async function loadRoster(isd) {
   isd = isd || _curISD || '';
   try {
@@ -3550,39 +4045,52 @@ function renderRoster() {
     || '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:24px;">No learners match.</td></tr>';
 }
 function toggleISDMenu() { const m = document.getElementById('isd-menu'); if (m) m.hidden = !m.hidden; }
-function selectISD(id) { const m = document.getElementById('isd-menu'); if (m) m.hidden = true; loadRoster(id); if ((document.querySelector('.view.active')||{}).id === 'view-manage') loadManage(); }
+function _demoISDInit() {
+  if (!_curISD || !_DEMO.districts.some(d => d.id === _curISD)) _curISD = 'houston-isd';
+  const menu = document.getElementById('isd-menu');
+  if (menu) menu.innerHTML = _DEMO.districts.map(d => `<button class="isd-opt ${d.id === _curISD ? 'active' : ''}" onclick="selectISD('${d.id}')">${escapeHtml(d.name)} <span class="n">${d.learners.length}</span></button>`).join('');
+  const cur = _DEMO.districts.find(d => d.id === _curISD); const nm = document.getElementById('isd-name'); if (nm && cur) nm.textContent = cur.name;
+}
+function _curDistrict() { return _DEMO.districts.find(d => d.id === _curISD) || _DEMO.districts[0]; }
+function selectISD(id) {
+  _curISD = id;
+  const m = document.getElementById('isd-menu'); if (m) m.hidden = true;
+  _demoISDInit();
+  const av = (document.querySelector('.view.active') || {}).id;
+  if (av === 'view-myteam') renderMyTeam();
+  else if (av === 'view-manage' && typeof renderManage === 'function') renderManage();
+  else if (av === 'view-home') renderHome();
+  else if (av === 'view-roster') loadRoster(id);
+}
 
 // ─── Management dashboards — internal-team (Trainer) + CN-Director (Customer) ───
-async function loadManage(){
-  try{ _rosterData = await (await fetch('/api/roster'+(_curISD?('?isd='+encodeURIComponent(_curISD)):''))).json(); _curISD=_rosterData.selected; }catch(e){ if(!_rosterData) return; }
-  renderManage();
-}
-function nudgeRole(role,n){ alert(`Reminder sent to ${n} ${role} who haven’t finished the mandatory refresher (demo).`); }
+function loadManage(){ _demoISDInit(); renderManage(); }
+function _trackCompletionForDistrict(d, tid){ const ls = d.learners.filter(l => (l.tracks || []).includes(tid)); return ls.length ? Math.round(ls.reduce((a, l) => a + l.completion, 0) / ls.length) : null; }
+function _districtStatus(d){ if (d.help_request && !_demoState.helpCleared[d.id]) return 'Needs help'; return _districtCompletion(d) >= 70 ? 'On track' : 'Behind'; }
+function toggleManageRow(id){ const r = document.getElementById('mg-exp-' + id); if (r) r.hidden = !r.hidden; }
 function renderManage(){
-  const d=_rosterData; if(!d) return;
-  const title=document.getElementById('manage-title'), sub=document.getElementById('manage-sub'), body=document.getElementById('manage-body');
-  if(_viewMode==='customer'){
-    // CN-Director: the selected district's staff, by role, vs the mandatory deadline + nudge.
-    const roster=d.roster||[], total=roster.length, done=roster.filter(l=>l.status==='Completed').length;
-    const byRole={}; roster.forEach(l=>{ (byRole[l.role]=byRole[l.role]||[]).push(l); });
-    if(title) title.textContent=d.selected_name+' · Training compliance';
-    if(sub) sub.textContent=`Mandatory refresher · due Jun 30 · ${done}/${total} staff complete`;
-    let h='<div class="roster-cards">'+[['Staff',total],['Completed',done],['Outstanding',total-done],['Due','Jun 30']].map(([l,n])=>`<div class="roster-stat"><div class="n">${n}</div><div class="l">${escapeHtml(l)}</div></div>`).join('')+'</div>';
-    h+='<div class="roster-table-wrap"><table class="roster-table"><thead><tr><th>Role</th><th>Staff</th><th>Completed</th><th>Completion</th><th></th></tr></thead><tbody>';
-    h+=Object.keys(byRole).sort().map(role=>{ const g=byRole[role], c=g.filter(l=>l.status==='Completed').length, pct=Math.round(100*c/g.length), out=g.length-c;
-      return `<tr><td>${escapeHtml(role)}</td><td>${g.length}</td><td>${c}</td><td><span class="r-prog"><span class="r-bar"><span style="width:${pct}%"></span></span>${pct}%</span></td><td>${out?`<button class="track-open" onclick="nudgeRole('${escAttr(role)}',${out})">Nudge ${out}</button>`:'<span class="r-status done">All done</span>'}</td></tr>`; }).join('')+'</tbody></table></div>';
-    if(body) body.innerHTML=h;
-  } else {
-    // Internal team (Cybersoft): all districts rolled up + a 'raised hand for help'.
-    const ds=d.districts||[], help=ds.filter(x=>x.help_request);
-    if(title) title.textContent='All districts';
-    if(sub) sub.textContent=`${ds.length} districts · ${ds.reduce((a,x)=>a+(x.learners||0),0)} learners enrolled`;
-    let h='';
-    if(help.length){ const hd=help[0]; h+=`<div class="mg-help">🖐 <b>${escapeHtml(help.map(x=>x.name).join(', '))}</b> raised a hand for help — ${escapeHtml(hd.help_note||'needs assistance')}. <button class="track-open" onclick="alert('Routed to the district trainer (demo).')">Assign trainer</button></div>`; }
-    h+='<div class="roster-table-wrap"><table class="roster-table"><thead><tr><th>District</th><th>Learners</th><th>Completion</th><th>In progress</th><th>Not started</th><th>Active (7d)</th></tr></thead><tbody>';
-    h+=ds.map(x=>`<tr class="${x.help_request?'mg-flag':''}"><td>${escapeHtml(x.name)}${x.help_request?' 🖐':''}</td><td>${x.learners}</td><td><span class="r-prog"><span class="r-bar"><span style="width:${x.completion_rate||0}%"></span></span>${x.completion_rate||0}%</span></td><td>${x.in_progress||0}</td><td>${x.not_started||0}</td><td>${x.active_7d||0}</td></tr>`).join('')+'</tbody></table></div>';
-    if(body) body.innerHTML=h;
-  }
+  const title = document.getElementById('manage-title'), sub = document.getElementById('manage-sub'), body = document.getElementById('manage-body');
+  const ds = _DEMO.districts.slice().sort((a, b) => {
+    const fa = (a.help_request && !_demoState.helpCleared[a.id]) ? 0 : 1, fb = (b.help_request && !_demoState.helpCleared[b.id]) ? 0 : 1; return fa - fb;
+  });
+  const totLearners = ds.reduce((a, d) => a + d.learners.length, 0);
+  const avg = Math.round(ds.reduce((a, d) => a + _districtCompletion(d), 0) / ds.length);
+  const activeWk = ds.reduce((a, d) => a + d.learners.filter(l => ['Today','Yesterday','2 days ago'].includes(l.last_active)).length, 0);
+  const helps = ds.filter(d => d.help_request && !_demoState.helpCleared[d.id]);
+  if (title) title.textContent = 'All districts';
+  if (sub) sub.textContent = `${ds.length} districts · ${totLearners} learners enrolled`;
+  let h = '';
+  if (helps.length) { const hd = helps[0]; h += `<div class="mg-help">🖐 <b>${escapeHtml(helps.map(x => x.name).join(', '))}</b> raised a hand — &ldquo;${escapeHtml(hd.help_msg)}&rdquo; <button class="track-open" onclick="respondHelp('${hd.id}')">Respond</button></div>`; }
+  h += '<div class="roster-cards">' + [['Districts', ds.length], ['Avg completion', avg + '%'], ['Active this week', activeWk], ['Help requests', helps.length]].map(t => `<div class="roster-stat"><div class="n">${t[1]}</div><div class="l">${escapeHtml(t[0])}</div></div>`).join('') + '</div>';
+  h += '<div class="roster-table-wrap"><table class="roster-table"><thead><tr><th>District</th><th>Trainer</th><th>Learners</th><th>Completion</th><th>Logins (30d)</th><th>Status</th></tr></thead><tbody>';
+  ds.forEach(d => {
+    const flagged = d.help_request && !_demoState.helpCleared[d.id], comp = _districtCompletion(d), st = _districtStatus(d);
+    const stc = st === 'Needs help' ? 'needs-help' : st === 'On track' ? 'ok' : 'behind';
+    h += `<tr class="mg-row${flagged ? ' mg-flag' : ''}" onclick="toggleManageRow('${d.id}')"><td>${escapeHtml(d.name)}${flagged ? ' 🖐' : ''}</td><td>${escapeHtml(d.trainer)}</td><td>${d.learners.length}</td><td><span class="r-prog"><span class="r-bar"><span style="width:${comp}%"></span></span>${comp}%</span></td><td>${d.logins30}</td><td><span class="chip ${stc}">${escapeHtml(st)}</span></td></tr>`;
+    h += `<tr class="mg-expand" id="mg-exp-${d.id}" hidden><td colspan="6"><div class="mg-bd"><b>Completion by track</b>${_DEMO.tracks.map(t => { const tc = _trackCompletionForDistrict(d, t.id); return `<div class="mg-bd-row"><span>${escapeHtml(t.title)}</span><span class="r-prog"><span class="r-bar"><span style="width:${tc == null ? 0 : tc}%"></span></span>${tc == null ? '—' : tc + '%'}</span></div>`; }).join('')}</div></td></tr>`;
+  });
+  h += '</tbody></table></div>';
+  if (body) body.innerHTML = h;
 }
 function doLogin() { const m = document.getElementById('login-modal'); if (m) m.hidden = true; try { sessionStorage.setItem('ls_demo_login', '1'); } catch (e) {} loadRoster(); }
 document.addEventListener('click', e => {
@@ -4096,9 +4604,9 @@ function renderLib() {
 }
 
 ['lib-module', 'lib-template', 'lib-status', 'lib-sort', 'lib-source'].forEach(id => {
-  document.getElementById(id).addEventListener('change', loadLibrary);
+  const el = document.getElementById(id); if (el) el.addEventListener('change', loadLibraryDemo);
 });
-document.getElementById('lib-search').addEventListener('input', loadLibrary);
+document.getElementById('lib-search').addEventListener('input', loadLibraryDemo);
 
 function normalizedVerdict(value) {
   return String(value || '').trim().toLowerCase();

@@ -45,9 +45,15 @@ moat violation and does not ship. The header badge "✓ every claim cited" is th
 | Quiz builder + player + gate | Generate MCQs grounded in a source; drop any question whose answer isn't a verbatim span; take + score | **Real** | `qbank_gate.py`, `/api/quizzes/*`, `openTaker` in `index.html` |
 | Quiz-from-guide | Generate a grounded quiz from a published guide | **Real** | `demo_app.py` `/api/resources/{rid}/quiz` |
 | Library assistant | Grounded Q&A over all guides — verbatim-cited answer or "not in the library"; never invents | **Real** | `demo_app.py` `/api/library/ask`, rail in `index.html` |
-| Learn (tracks) | DataCamp-style tracks → lessons (guide PDF / grounded quiz / video) → complete → certify; Customer lands here | **Real player, façade tracks** | `index.html` `_TRACKS`/`loadLearn`/`openTrack` |
-| Management dashboards | Persona-toggled: internal all-districts roll-up (+ "raised hand for help") / CN-Director compliance (by role, nudge) | **Façade data** | `index.html` `loadManage`; `demo_app.py` `/api/roster` + `_district_stats` |
-| Roster / multi-tenant | Districts + per-learner progress/status; ISD switcher | **Façade data** | `demo_app.py` `/api/roster`, `loadRoster` |
+| Learn (3-level) | DataCamp-style **Track → Courses → Lessons** (guide PDF / grounded quiz / video / certify); per-track seeded progress, complete → certify; Customer lands here | **Real player, façade tracks** | `index.html` `loadLearn`/`openTrack`/`openCourse`/`courseQuiz` |
+| Trainer Home / day-view | 4 KPI tiles, 5 district project cards (Aldine "raised hand" flag + Respond), "N approved by PM team" inbox → open PDF / send to Catalog | **Façade data** | `index.html` `loadHome`/`renderHome`/`respondHelp` |
+| Manage (Trainer) | All-6-districts roll-up: completion %, logins, status, Aldine help banner, expandable per-district rows → Roster | **Façade data** | `index.html` `loadManage`; `demo_app.py` `/api/roster` + `_district_stats` |
+| My Team (CN-Director) | Customer-scoped staff compliance by site/role vs deadline; nudge one / nudge-all-overdue; self-assign a track | **Façade data** | `index.html` `loadMyTeam`/`nudgeOne`/`doAssign` |
+| Tracks + Courses builder | Trainer assembles **courses** from approved guides + auto-grounded quizzes + video, reorder, Save → builds **tracks** from courses; appears in Learn. No free claim-authoring (moat-safe) | **Façade store** | `index.html` `openCourseBuilder`/`cbSave`/`openTrackBuilder`/`tbkSave` |
+| Library vs Catalog (IA) | **Library** = AI-generated studio items, all statuses + origin/status badges; **Catalog** = ready-to-use approved+imported+tracks+quizzes, provenance badges | **Façade + real content** | `index.html` `loadLibraryDemo`/`loadCatalogDemo` |
+| Quality (top-level) | Eval/quality strip + per-item rubric scores, SME verdict states, cited-claim drill-down | **Façade data** | `index.html` `loadQuality`/`qualityDetail` |
+| Persona nav + provenance | Avatar "Viewing as" dropdown toggles Trainer/Customer tab sets + safe-to-share banner; origin badges (AI-grounded · human · outside-vendor) everywhere | **Façade** | `index.html` `setViewMode`/`applyViewMode`/`_originBadge` |
+| Roster / multi-tenant | 6 districts + per-learner progress/status; ISD switcher reconciled to demo universe | **Façade data** | `demo_app.py` `/api/roster`, `loadRoster`, `_demoISDInit` |
 | Imported guide library | 86 SchoolCafé/ICN guides as approved Library items, honest provenance (human-authored, **not** gate-grounded); Source filter | **Real content, not gate-grounded** | `import_guides.py`, Library view |
 | PDF → markdown upload | Server-side transcript conversion (header/footer strip, multi-column warning, 80pp cap) | **Real** | `pdf_to_md.py`, `app.upload_transcript` |
 | Eval suite | See **Evals** below | **Real** | `eval/*` |
@@ -60,11 +66,12 @@ moat violation and does not ship. The header badge "✓ every claim cited" is th
 - **Trace-back audit:** `docs/TRACE-BACK-AUDIT-INV-DISTRIBUTION.md` — a **standing manual SME gate** (the backstop for the judge's residual FN). **Scaffolded, NOT yet SME-run.** "0 automated flags ≠ safe until trace-back runs."
 - Also: triage classifier (`eval/triage_eval.py`), scope/lane-purity (`eval/scope_eval.py`), coverage, source-quality, `eval/report.py` (Jaime dashboard).
 
-## IN PROGRESS (current to-dos — see plan file)
-1. **Header & nav re-carve + provenance** — quiet utility row (workspace ▾ · Trainer/Customer · ✓ trust badge · avatar) vs slim primary nav; "How it works" → "?"; Library = AI-only, imported → Content, provenance badges. *Not* a Studio/Deployments/Insights rename.
-2. **Projects + content allocation** — "+ New Project" in the workspace dropdown (façade); assign a track to a role/site in a project.
-3. **Track builder** — right-slide drawer, **search-to-add** approved guides (pills + dedupe, no drag-drop), attach an auto-grounded quiz, optional video, Save → Learn grid. No free quiz-question authoring.
-4. **Trainer day-view + approval inbox** — projects, course statuses, "N approved by PM team" inbox.
+## IN PROGRESS
+Nothing open. The **complete end-to-end seeded demo** shipped this session — all 7 surfaces (Home, Learn,
+My Team, Manage, Quality, Tracks/Courses builder, Library/Catalog) are fully populated on a client-side
+`_DEMO` universe (6 districts, seeded learners, courses, tracks, inbox, quality items) and walk-through-ready.
+The 4 prior to-dos (nav re-carve + provenance · projects/allocation · builder · day-view/inbox) all landed.
+Next: the Thursday live walkthrough + whatever the user flags.
 
 ## PLANNED / PARKED (deliberately deferred, post-Thursday)
 - Full **Studio / Deployments / Insights** IA rebrand (use as a grouping model, not a rename).
