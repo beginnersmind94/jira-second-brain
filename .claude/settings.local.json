@@ -207,7 +207,10 @@
       "Bash(./.venv/Lib/site-packages/claude_agent_sdk/_bundled/claude.exe -v)",
       "Bash(\"/c/Users/rahul.mehta/.local/bin/claude.exe\" -v)",
       "mcp__Claude_Preview__preview_start",
-      "WebFetch(domain:www.schoolcafe.com)"
+      "WebFetch(domain:www.schoolcafe.com)",
+      "mcp__Claude_in_Chrome__browser_batch",
+      "mcp__Claude_in_Chrome__read_console_messages",
+      "mcp__Claude_in_Chrome__navigate"
     ]
   }
 }
