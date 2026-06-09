@@ -1453,8 +1453,9 @@
     .home-tile .l { font-size: 12px; color: var(--muted); margin-top: 2px; }
     .home-tile.alert { border-color: var(--amber-text, #8A5A12); background: var(--amber-soft, #F7ECDA); }
     .home-h2 { font-family: var(--serif); font-size: 18px; margin: 0 30px var(--sp-3); color: var(--text); }
-    .home-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--sp-4); margin: 0 30px var(--sp-6); }
-    .home-card { text-align: left; background: #FFF; border: 1px solid var(--border); border-radius: var(--radius); padding: var(--sp-4); cursor: pointer; font: inherit; }
+    .home-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--sp-4); margin: 0 30px var(--sp-6); align-items: start; }
+    .home-card { display: flex; flex-direction: column; align-items: stretch; text-align: left; background: #FFF; border: 1px solid var(--border); border-radius: var(--radius); padding: var(--sp-4); cursor: pointer; font: inherit; }
+    .home-help-msg .help-quote { flex: 1; font-style: italic; }
     .home-card:hover { border-color: var(--accent); box-shadow: var(--shadow-sm); }
     .home-card.flagged { border-color: var(--amber-text, #8A5A12); background: var(--amber-soft, #FBF1E2); }
     .home-card-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 15px; }
@@ -2339,12 +2340,12 @@ function renderHome(){
   h += mine.map(d => {
     const comp = _districtCompletion(d), flagged = d.help_request && !_demoState.helpCleared[d.id];
     const chip = flagged ? '<span class="chip needs-help">Needs help</span>' : (comp >= 70 ? '<span class="chip ok">On track</span>' : '<span class="chip behind">Behind</span>');
-    return `<button class="home-card${flagged ? ' flagged' : ''}" onclick="openDistrictInManage('${d.id}')">
+    return `<div class="home-card${flagged ? ' flagged' : ''}" role="button" tabindex="0" onclick="openDistrictInManage('${d.id}')">
       <div class="home-card-top"><b>${escapeHtml(d.name)}</b>${flagged ? `<span class="chip raised" onclick="event.stopPropagation(); showHelpPanel('${d.id}')">🖐 Raised a hand</span>` : chip}</div>
       <div class="home-card-meta">${_DEMO.tracks.length} active tracks · ${d.learners.length} learners · ${escapeHtml(d.last)}</div>
       <div class="r-prog"><span class="r-bar"><span style="width:${comp}%"></span></span>${comp}%</div>
-      ${flagged ? `<div class="home-help-msg">&ldquo;${escapeHtml(d.help_msg)}&rdquo; <button class="secondary" onclick="event.stopPropagation(); respondHelp('${d.id}')">Respond</button></div>` : ''}
-    </button>`;
+      ${flagged ? `<div class="home-help-msg"><span class="help-quote">&ldquo;${escapeHtml(d.help_msg)}&rdquo;</span> <button class="secondary" onclick="event.stopPropagation(); respondHelp('${d.id}')">Respond</button></div>` : ''}
+    </div>`;
   }).join('') + '</div>';
   h += `<div class="home-inbox"><div class="home-inbox-head"><b>${_DEMO.inbox.length} new docs approved by the PM team — safe to use</b><span class="badge approved">${_DEMO.inbox.length}</span></div>`;
   h += _DEMO.inbox.map((it, i) => `<div class="inbox-row"><span class="inbox-title">${escapeHtml(it.title)}</span><span class="badge">${escapeHtml(it.module)}</span><span class="inbox-meta">Approved by PM team · ${escapeHtml(it.date)}</span><span class="inbox-actions"><button class="secondary" onclick="inboxView(${i})">View</button><button class="secondary" onclick="inboxCatalog(${i})">Open in Catalog</button></span></div>`).join('') + '</div>';
