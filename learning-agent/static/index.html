@@ -1463,6 +1463,54 @@
     .role-badge { font-family: var(--serif); font-size: 17px; font-weight: 650; color: var(--text); }
     .role-sub { font-size: 12px; color: var(--muted); }
     .roster-table tr.mg-focus > td { background: var(--amber-soft, #FBF1E2); }
+    /* Home — command center */
+    .cmd-tiles { grid-template-columns: repeat(5, 1fr); }
+    .home-tile.warn { border-color: var(--warn-border, #E0B574); background: var(--warn-soft, #FBF3E3); }
+    .cmd-grid { display: grid; grid-template-columns: 1.7fr 1fr; gap: var(--sp-4); margin: 0 30px var(--sp-6); align-items: start; }
+    .cmd-main, .cmd-side { display: flex; flex-direction: column; gap: var(--sp-4); min-width: 0; }
+    .cmd-card { background: #FFF; border: 1px solid var(--border); border-radius: var(--radius); padding: 15px 17px; }
+    .cmd-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin: 0 0 12px; }
+    .cmd-head h3 { font-family: var(--serif); font-size: 16px; font-weight: 650; margin: 0; color: var(--text); }
+    .cmd-sub { font-size: 12px; color: var(--muted); }
+    .cmd-pill { font-size: 12px; font-weight: 650; color: var(--accent); background: var(--panel3); border-radius: 999px; padding: 1px 9px; }
+    .attn-list { display: flex; flex-direction: column; gap: 8px; }
+    .attn-row { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); }
+    .attn-row.attn-help { border-color: var(--amber-text, #8A5A12); background: var(--amber-soft, #FBF1E2); }
+    .attn-row.attn-warn { border-color: var(--warn-border, #E0B574); background: var(--warn-soft, #FBF3E3); }
+    .attn-ico { font-size: 17px; flex: none; width: 22px; text-align: center; }
+    .attn-bd { flex: 1; min-width: 0; }
+    .attn-title { font-size: 13.5px; font-weight: 650; color: var(--text); }
+    .attn-desc { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .attn-row > .secondary { flex: none; }
+    .attn-empty { font-size: 13px; color: var(--muted); padding: 8px 2px; }
+    .proj-rows { display: flex; flex-direction: column; gap: 8px; }
+    .proj-row { display: flex; align-items: center; gap: 12px; padding: 9px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; }
+    .proj-row:hover { border-color: var(--accent); box-shadow: var(--shadow-sm); }
+    .pr-name { font-weight: 650; font-size: 13.5px; flex: none; width: 120px; }
+    .pr-meta { font-size: 12px; color: var(--muted); flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .pr-prog { flex: none; }
+    .todo-add { display: flex; gap: 6px; margin: 0 0 10px; }
+    .todo-in { padding: 7px 9px; border: 1px solid var(--border); border-radius: var(--radius-sm); font: inherit; font-size: 13px; background: #FFF; }
+    .todo-time-in { flex: none; width: 96px; }
+    .todo-text-in { flex: 1; min-width: 0; }
+    .todo-list { list-style: none; margin: 0; padding: 0; }
+    .todo-item { display: flex; align-items: center; gap: 10px; padding: 8px 2px; border-bottom: 1px solid var(--border); }
+    .todo-item:last-child { border-bottom: 0; }
+    .todo-check { flex: none; width: 15px; height: 15px; cursor: pointer; accent-color: var(--accent); }
+    .todo-time { font-size: 12px; color: var(--muted); flex: none; width: 42px; font-variant-numeric: tabular-nums; }
+    .todo-text { flex: 1; font-size: 13px; color: var(--text); min-width: 0; }
+    .todo-item.done .todo-text { text-decoration: line-through; color: var(--muted); }
+    .todo-del { flex: none; border: 0; background: none; cursor: pointer; color: var(--muted); font-size: 13px; opacity: .45; padding: 2px 4px; }
+    .todo-del:hover { opacity: 1; color: var(--accent); }
+    .todo-empty { font-size: 13px; color: var(--muted); padding: 8px 2px; }
+    .inbox-mini { display: flex; flex-direction: column; }
+    .inbox-mini-row { display: flex; align-items: center; gap: 10px; padding: 8px 2px; border-bottom: 1px solid var(--border); }
+    .inbox-mini-row:last-child { border-bottom: 0; }
+    .imr-bd { flex: 1; min-width: 0; }
+    .imr-title { font-size: 13px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .imr-meta { font-size: 11.5px; color: var(--muted); }
+    .inbox-mini-row > .secondary { flex: none; }
+    @media (max-width: 1100px) { .cmd-grid { grid-template-columns: 1fr; } .cmd-tiles { grid-template-columns: repeat(2, 1fr); } }
     .home-card:hover { border-color: var(--accent); box-shadow: var(--shadow-sm); }
     .home-card.flagged { border-color: var(--amber-text, #8A5A12); background: var(--amber-soft, #FBF1E2); }
     .home-card-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 15px; }
@@ -2342,24 +2390,68 @@ function renderHome(){
   const mine = _myDistricts();
   const avg = Math.round(mine.reduce((a, d) => a + _districtCompletion(d), 0) / mine.length);
   const activeWk = mine.reduce((a, d) => a + d.learners.filter(l => ['Today','Yesterday','2 days ago'].includes(l.last_active)).length, 0);
+  const overdue = mine.reduce((a, d) => a + d.learners.filter(l => l.status === 'Overdue').length, 0);
   const helps = mine.filter(d => d.help_request && !_demoState.helpCleared[d.id]);
-  let h = '<div class="home-tiles">' + [['My districts', mine.length], ['Avg completion', avg + '%'], ['Active this week', activeWk], ['Help requests', helps.length]]
-    .map((t, i) => `<div class="home-tile${i === 3 && helps.length ? ' alert' : ''}"><div class="n">${t[1]}</div><div class="l">${escapeHtml(t[0])}</div></div>`).join('') + '</div>';
-  h += '<h2 class="home-h2">My projects</h2><div class="home-cards">';
+  // ── KPI signal strip ──
+  const tiles = [['My districts', mine.length, ''], ['Avg completion', avg + '%', ''], ['Active this week', activeWk, ''], ['Overdue learners', overdue, overdue ? ' warn' : ''], ['Help requests', helps.length, helps.length ? ' alert' : '']];
+  let h = '<div class="home-tiles cmd-tiles">' + tiles.map(t => `<div class="home-tile${t[2]}"><div class="n">${t[1]}</div><div class="l">${escapeHtml(t[0])}</div></div>`).join('') + '</div>';
+  // ── command-center grid ──
+  h += '<div class="cmd-grid"><div class="cmd-main">';
+  // Needs your attention — prioritized "what's next" feed (help > overdue > behind > approvals)
+  const attn = [];
+  helps.forEach(d => attn.push({ p: 1, cls: 'attn-help', ico: '🖐', title: `${d.name} raised a hand`, desc: d.help_msg, act: `<button class="secondary" onclick="respondHelp('${d.id}')">Respond</button>` }));
+  if (overdue) attn.push({ p: 2, cls: 'attn-warn', ico: '⏰', title: `${overdue} learner${overdue === 1 ? '' : 's'} overdue`, desc: `Across your ${mine.length} districts · due ${_DEMO.due}`, act: `<button class="secondary" onclick="showView('manage')">Review</button>` });
+  mine.filter(d => !(d.help_request && !_demoState.helpCleared[d.id]) && _districtCompletion(d) < 70).forEach(d => attn.push({ p: 3, cls: '', ico: '📉', title: `${d.name} is behind`, desc: `${_districtCompletion(d)}% complete · due ${_DEMO.due}`, act: `<button class="secondary" onclick="openDistrictInManage('${d.id}')">Open</button>` }));
+  if (_DEMO.inbox.length) attn.push({ p: 4, cls: '', ico: '📥', title: `${_DEMO.inbox.length} new guides approved`, desc: 'From the PM team — ready to assign or add to a track', act: `<button class="secondary" onclick="showView('content')">Open Catalog</button>` });
+  attn.sort((a, b) => a.p - b.p);
+  h += `<section class="cmd-card"><div class="cmd-head"><h3>Needs your attention</h3><span class="cmd-pill">${attn.length}</span></div><div class="attn-list">`;
+  h += attn.map(a => `<div class="attn-row ${a.cls}"><span class="attn-ico">${a.ico}</span><div class="attn-bd"><div class="attn-title">${escapeHtml(a.title)}</div><div class="attn-desc">${escapeHtml(a.desc)}</div></div>${a.act}</div>`).join('') || '<div class="attn-empty">All clear — nothing needs you right now.</div>';
+  h += '</div></section>';
+  // My projects — compact, scannable rows
+  h += `<section class="cmd-card"><div class="cmd-head"><h3>My projects</h3><span class="cmd-sub">${mine.length} districts</span></div><div class="proj-rows">`;
   h += mine.map(d => {
     const comp = _districtCompletion(d), flagged = d.help_request && !_demoState.helpCleared[d.id];
-    const chip = flagged ? '<span class="chip needs-help">Needs help</span>' : (comp >= 70 ? '<span class="chip ok">On track</span>' : '<span class="chip behind">Behind</span>');
-    return `<div class="home-card${flagged ? ' flagged' : ''}" role="button" tabindex="0" onclick="openDistrictInManage('${d.id}')">
-      <div class="home-card-top"><b>${escapeHtml(d.name)}</b>${flagged ? `<span class="chip raised" onclick="event.stopPropagation(); showHelpPanel('${d.id}')">🖐 Raised a hand</span>` : chip}</div>
-      <div class="home-card-meta">${_DEMO.tracks.length} active tracks · ${d.learners.length} learners · ${escapeHtml(d.last)}</div>
-      <div class="r-prog"><span class="r-bar"><span style="width:${comp}%"></span></span>${comp}%</div>
-      ${flagged ? `<div class="home-help-msg"><span class="help-quote">&ldquo;${escapeHtml(d.help_msg)}&rdquo;</span> <button class="secondary" onclick="event.stopPropagation(); respondHelp('${d.id}')">Respond</button></div>` : ''}
-    </div>`;
-  }).join('') + '</div>';
-  h += `<div class="home-inbox"><div class="home-inbox-head"><b>${_DEMO.inbox.length} new docs approved by the PM team — safe to use</b><span class="badge approved">${_DEMO.inbox.length}</span></div>`;
-  h += _DEMO.inbox.map((it, i) => `<div class="inbox-row"><span class="inbox-title">${escapeHtml(it.title)}</span><span class="badge">${escapeHtml(it.module)}</span><span class="inbox-meta">Approved by PM team · ${escapeHtml(it.date)}</span><span class="inbox-actions"><button class="secondary" onclick="inboxView(${i})">View</button><button class="secondary" onclick="inboxCatalog(${i})">Open in Catalog</button></span></div>`).join('') + '</div>';
+    const st = flagged ? 'Needs help' : (comp >= 70 ? 'On track' : 'Behind'), stc = flagged ? 'needs-help' : (comp >= 70 ? 'ok' : 'behind');
+    return `<div class="proj-row" role="button" tabindex="0" onclick="openDistrictInManage('${d.id}')"><span class="pr-name">${escapeHtml(d.name)}${flagged ? ' 🖐' : ''}</span><span class="pr-meta">${_DEMO.tracks.length} tracks · ${d.learners.length} learners · ${escapeHtml(d.last)}</span><span class="r-prog pr-prog"><span class="r-bar"><span style="width:${comp}%"></span></span>${comp}%</span><span class="chip ${stc}">${st}</span></div>`;
+  }).join('') + '</div></section>';
+  h += '</div><aside class="cmd-side">';
+  // My day — personal to-do list with times (add / check / delete)
+  h += `<section class="cmd-card"><div class="cmd-head"><h3>My day</h3><span class="cmd-sub">Today</span></div>
+    <div class="todo-add"><input id="todo-time" type="time" value="09:00" class="todo-in todo-time-in" aria-label="Task time"><input id="todo-text" type="text" class="todo-in todo-text-in" placeholder="Add a task…" autocomplete="off" onkeydown="if(event.key==='Enter')addTodo()"><button class="secondary" onclick="addTodo()">Add</button></div>
+    <ul id="todo-list" class="todo-list"></ul></section>`;
+  // Approvals feed — compact
+  h += `<section class="cmd-card"><div class="cmd-head"><h3>Approved by PM team</h3><span class="cmd-pill">${_DEMO.inbox.length}</span></div><div class="inbox-mini">`;
+  h += _DEMO.inbox.map((it, i) => `<div class="inbox-mini-row"><div class="imr-bd"><div class="imr-title">${escapeHtml(it.title)}</div><div class="imr-meta">${escapeHtml(it.module)} · ${escapeHtml(it.date)}</div></div><button class="secondary" onclick="inboxCatalog(${i})">Catalog</button></div>`).join('') + '</div></section>';
+  h += '</aside></div>';
   body.innerHTML = h;
+  renderTodos();
 }
+// ── My day: personal to-do list (session-scoped; add with time, check off, delete) ──
+function _initTodos(){
+  if (_demoState.todos) return;
+  _demoState.todos = [
+    { id: 1, time: '09:00', text: 'Prep Aldine Direct Certification walkthrough', done: false },
+    { id: 2, time: '11:30', text: 'Review Item Management guide approvals', done: false },
+    { id: 3, time: '14:00', text: 'Send Klein completion reminders', done: true },
+  ];
+  _demoState.todoSeq = 3;
+}
+function renderTodos(){
+  _initTodos();
+  const ul = document.getElementById('todo-list'); if (!ul) return;
+  const items = _demoState.todos.slice().sort((a, b) => (a.done - b.done) || (a.time || '').localeCompare(b.time || ''));
+  ul.innerHTML = items.map(t => `<li class="todo-item${t.done ? ' done' : ''}"><input type="checkbox" class="todo-check" ${t.done ? 'checked' : ''} onclick="toggleTodo(${t.id})"><span class="todo-time">${escapeHtml(t.time || '')}</span><span class="todo-text">${escapeHtml(t.text)}</span><button class="todo-del" title="Remove" onclick="removeTodo(${t.id})">✕</button></li>`).join('') || '<li class="todo-empty">No tasks yet — add one above.</li>';
+}
+function addTodo(){
+  _initTodos();
+  const ti = document.getElementById('todo-text'), tm = document.getElementById('todo-time');
+  const text = ((ti && ti.value) || '').trim(); if (!text) { if (ti) ti.focus(); return; }
+  _demoState.todos.push({ id: ++_demoState.todoSeq, time: (tm && tm.value) || '', text, done: false });
+  if (ti) { ti.value = ''; ti.focus(); }
+  renderTodos();
+}
+function toggleTodo(id){ _initTodos(); const t = _demoState.todos.find(x => x.id === id); if (t) t.done = !t.done; renderTodos(); }
+function removeTodo(id){ _initTodos(); _demoState.todos = _demoState.todos.filter(x => x.id !== id); renderTodos(); }
 function showHelpPanel(id){ const d = _DEMO.districts.find(x => x.id === id); if (d) alert('🖐 ' + d.name + ' raised a hand:\n\n“' + d.help_msg + '”'); }
 function respondHelp(id){ _demoState.helpCleared[id] = true; const d = _DEMO.districts.find(x => x.id === id); alert('Reply sent to ' + (d ? d.name : 'district') + '.'); renderHome(); const av = (document.querySelector('.view.active') || {}).id; if (av === 'view-manage' && typeof renderManage === 'function') renderManage(); }
 function inboxView(i){ const ids = _demoState.approvedRids || []; if (ids.length) window.open('/resources/' + encodeURIComponent(ids[i % ids.length]) + '/pdf', '_blank'); else alert('Opening “' + _DEMO.inbox[i].title + '” (demo).'); }
