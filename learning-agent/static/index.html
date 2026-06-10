@@ -2189,8 +2189,7 @@
   <nav>
     <button id="tab-home" onclick="showView('home')">Home</button>
     <button id="tab-author" onclick="showView('author')">Create</button>
-    <button id="tab-library" onclick="showView('library')">Library</button>
-    <button id="tab-content" onclick="showView('content')">Catalog</button>
+    <button id="tab-library" onclick="openLibraryTab()">Library</button>
     <button id="tab-manage" onclick="showView('manage')">Manage</button>
     <button id="tab-learn" onclick="showView('learn')">Learn</button>
     <button id="tab-myteam" onclick="showView('myteam')">My Team</button>
@@ -2679,6 +2678,10 @@
 </section>
 
 <section id="view-library" class="view">
+  <div class="manage-nav lib-subnav" role="tablist" aria-label="Library sections">
+    <button class="active" role="tab" aria-selected="true" onclick="showView('library')">Studio</button>
+    <button role="tab" aria-selected="false" onclick="showView('content')">Catalog</button>
+  </div>
   <div class="lib-filterbar">
     <div class="fb-field"><label for="lib-module">Module</label><select id="lib-module"><option value="">All</option></select></div>
     <div class="fb-field"><label for="lib-template">Template</label><select id="lib-template"><option value="">All</option></select></div>
@@ -2730,6 +2733,10 @@
 </section>
 
 <section id="view-content" class="view">
+  <div class="manage-nav lib-subnav" role="tablist" aria-label="Library sections">
+    <button role="tab" aria-selected="false" onclick="showView('library')">Studio</button>
+    <button class="active" role="tab" aria-selected="true" onclick="showView('content')">Catalog</button>
+  </div>
   <header class="icn-hero">
     <div class="icn-hero-main">
       <p class="icn-eyebrow">Training library · Cybersoft + ICN / USDA</p>
@@ -3591,13 +3598,16 @@ function applyViewMode() {
   // IDs here MUST match the buttons in <aside class="sidebar">. Trainer runs the
   // production pipeline (Create → Library → Catalog → Manage); Customer consumes
   // (Learn / My Team / Catalog). Quality lives behind the header gear, not the nav.
-  const ALL_TABS = ['tab-home','tab-author','tab-library','tab-content','tab-manage','tab-learn','tab-myteam'];
+  const ALL_TABS = ['tab-home','tab-author','tab-library','tab-manage','tab-learn','tab-myteam'];
   const VISIBLE = _viewMode === 'customer'
-    ? ['tab-learn','tab-myteam','tab-content']
-    : ['tab-home','tab-author','tab-library','tab-content','tab-manage'];
+    ? ['tab-library','tab-learn','tab-myteam']
+    : ['tab-home','tab-author','tab-library','tab-manage'];
   ALL_TABS.forEach(id => show(id, VISIBLE.includes(id)));
   // Quality (grounding QA) is a trainer-only admin affordance — header gear, hidden for customers.
   const qbtn = document.getElementById('quality-btn'); if (qbtn) qbtn.hidden = _viewMode === 'customer';
+  // Library is an umbrella (Studio pipeline + Catalog). Customers only get the ready-to-use
+  // Catalog, so hide the Studio/Catalog sub-tab strip for them.
+  document.querySelectorAll('.lib-subnav').forEach(el => { el.hidden = _viewMode === 'customer'; });
   show('cmode-studyset', _extLearning && _viewMode === 'trainer');
   // district switcher: trainers can switch ISDs; a customer is locked to their own
   const isdBtn = document.getElementById('isd-btn');
@@ -3617,9 +3627,9 @@ function showView(name) {
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
   const vw = document.getElementById('view-' + name); if (vw) vw.classList.add('active');
-  // Manage is an umbrella tab: its Overview (manage) + Districts (projects) sub-views and the
-  // Projects drill-downs all keep the single "Manage" sidebar button lit. null-safe elsewhere.
-  const TAB_GROUP = { projects: 'manage', 'csv-upload': 'manage', 'project-dashboard': 'manage' };
+  // Umbrella tabs: a group of sub-views all keep one sidebar button lit. Manage = Overview
+  // (manage) + Projects (+ its drill-downs); Library = Studio (library) + Catalog (content).
+  const TAB_GROUP = { projects: 'manage', 'csv-upload': 'manage', 'project-dashboard': 'manage', content: 'library' };
   const tb = document.getElementById('tab-' + (TAB_GROUP[name] || name)); if (tb) tb.classList.add('active');
   if (name === 'library') loadLibraryDemo();
   if (name === 'learn') loadLearn();
@@ -3644,6 +3654,9 @@ function showView(name) {
     _writeProjectsHash(name, (typeof _projState === 'object' && _projState) ? _projState.currentPid : null);
   }
 }
+// Library umbrella entry: trainers land on the Studio pipeline; customers go straight to the
+// ready-to-use Catalog (they never see the in-house production pipeline).
+function openLibraryTab(){ showView(_viewMode === 'customer' ? 'content' : 'library'); }
 function toggleAvaMenu(e){ if (e) e.stopPropagation(); const m = document.getElementById('ava-menu'); if (m) m.hidden = !m.hidden; }
 function closeAvaMenu(){ const m = document.getElementById('ava-menu'); if (m) m.hidden = true; }
 document.addEventListener('click', e => { const w = document.querySelector('.ava-wrap'), m = document.getElementById('ava-menu'); if (m && !m.hidden && w && !w.contains(e.target)) m.hidden = true; });
