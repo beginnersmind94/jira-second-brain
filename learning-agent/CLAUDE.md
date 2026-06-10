@@ -266,6 +266,91 @@ If a new failure mode appears in a future session, first check whether an existi
 
 ---
 
+## Module / Track API Contract (Task 2 — locked)
+
+### Source enum
+- `AI_TRANSCRIPT` — AI-generated guide approved in this Learning Studio instance (`method != "imported_guide"`, `origin != "internal"`)
+- `HUMAN_GUIDE` — imported Cybersoft/SchoolCafé guide (`origin == "internal"`)
+- `ICN_DOC` — ICN/USDA external content asset (from `/api/icn` catalog)
+
+### GET /api/modules
+Query params (all optional, combinable):
+- `source` — one of `AI_TRANSCRIPT`, `HUMAN_GUIDE`, `ICN_DOC`
+- `product` — e.g. `SchoolCafé`
+- `role` — role_tags contains this value
+- `q` — full-text search on title + module
+
+Only `status == "approved"` modules are returned (mirror of `inLibrary()` in JS).
+
+Response JSON:
+```json
+{
+  "modules": [
+    {
+      "id": "GUIDE-001",
+      "title": "System Onboarding Quick Guide",
+      "module": "System",
+      "product": "SchoolCafé",
+      "source": "HUMAN_GUIDE",
+      "template": "quick-guide",
+      "role_tags": [],
+      "duration_min": null,
+      "status": "approved",
+      "created_at": "2026-05-18T20:51:52+00:00"
+    }
+  ],
+  "total": 92,
+  "sources": {"AI_TRANSCRIPT": 3, "HUMAN_GUIDE": 86, "ICN_DOC": 47}
+}
+```
+
+ICN modules use id `"icn-{asset_id}"` and `source: "ICN_DOC"`. Only `license_posture != "link_only"` ICN assets are included (embed_only and download_allowed).
+
+### POST /api/tracks
+Body: `{ "title": str (required), "description"?: str, "product"?: str, "role_tags"?: [str] }`
+Returns: Track object with `status: "draft"`
+
+### GET /api/tracks
+Returns: `{ "tracks": [Track] }`
+
+### GET /api/tracks/:id
+Returns: Track object + `"modules": [Module]` (expanded, ordered)
+
+### PUT /api/tracks/:id/modules
+Body: `{ "module_ids": [str] }` — full ordered replacement list
+Returns: updated Track
+
+### POST /api/tracks/:id/quiz
+Body: `{ "quiz_id": str }`
+Returns: updated Track
+
+### POST /api/tracks/:id/publish
+Returns: updated Track (`status: "published"`) or 409 if `module_ids` is empty
+
+### Track schema
+```json
+{
+  "id": "track-20260610-abc123",
+  "title": "New Cashier Onboarding",
+  "description": "",
+  "product": "SchoolCafé",
+  "role_tags": ["Cashier"],
+  "module_ids": ["GUIDE-001", "GUIDE-002"],
+  "quiz_id": null,
+  "status": "draft",
+  "created_at": "2026-06-10T12:00:00"
+}
+```
+
+Tracks persisted as JSON in `data/tracks/<id>.json`.
+
+### Source badge (shared component)
+CSS class `src-badge` with modifier `src-badge--ai`, `src-badge--guide`, `src-badge--icn`.
+Used in the Module library left pane, track builder right pane, AND the learner track view (Task 4).
+Build once in `static/index.html`; do not duplicate the CSS.
+
+---
+
 ## V1 Implementation Notes (delta from full spec)
 
 For the end-of-June PM demo, the following are intentionally deferred to V1.5:

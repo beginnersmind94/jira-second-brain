@@ -1,6 +1,7 @@
 {
   "id": "20260603-124709-item-management-long-form-68d6de",
-  "status": "pending_sme_review",
+  "status": "approved",
+  "approved": true,
   "module": "Item Management",
   "template": "long-form",
   "transcript_id": "20260603-124709-item-management-2026-05-28-item-management-create-items-training",
