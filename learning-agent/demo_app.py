@@ -253,6 +253,11 @@ def build_demo_evaluator_options() -> ClaudeAgentOptions:
 # ── App: reuse the prod UI + unchanged routes, override the three offline ones ─
 app = FastAPI(title="Learning Studio (DEMO)")
 
+# Projects flow (Trainer creates a project, imports sites + users via CSV).
+# Self-contained module — in-memory store, mock cookie auth, /api/projects/* routes.
+from projects import router as projects_router
+app.include_router(projects_router)
+
 # Unchanged routes — reuse prod's handlers verbatim (they read/write the same
 # drafts/, published/, logs/, transcripts/ dirs).
 app.get("/", response_class=HTMLResponse)(prod.index)

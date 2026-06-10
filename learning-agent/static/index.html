@@ -1446,6 +1446,73 @@
     .am-foot { padding: 14px 16px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 12px; }
     .am-foot .primary { width: auto; flex: none; }
     .am-foot .tb-note { margin: 0; }
+    /* ── Projects flow (project_create, csv_upload, project_dashboard) ─────── */
+    .trainer-pill { display: inline-flex; align-items: center; padding: 5px 11px 5px 9px; border-radius: var(--radius-pill); background: var(--surface); border: 1px solid var(--border); color: var(--text); font-size: 12px; font-weight: 600; margin-right: 10px; white-space: nowrap; }
+    body.customer-view .trainer-pill { display: none; }
+    .pj-wrap { padding: var(--sp-4) 28px var(--sp-6); max-width: 1180px; margin: 0 auto; }
+    .pj-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 18px; }
+    .pj-head h1 { font-family: var(--serif); font-size: 28px; margin: 0 0 4px; }
+    .pj-head .sub { color: var(--muted); font-size: 13.5px; margin: 0; max-width: 720px; }
+    .pj-grid { display: grid; grid-template-columns: minmax(0,1fr) 360px; gap: 24px; align-items: start; }
+    @media (max-width: 900px) { .pj-grid { grid-template-columns: 1fr; } }
+    .pj-card { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 18px 16px; box-shadow: var(--shadow); }
+    .pj-card h2 { font-family: var(--serif); font-size: 17px; margin: 0 0 12px; }
+    .pj-card .sub { font-size: 12.5px; color: var(--muted); margin: -8px 0 12px; }
+    .pj-list { display: flex; flex-direction: column; gap: 10px; }
+    .pj-list-empty { color: var(--muted); font-size: 13px; padding: 12px; border: 1px dashed var(--border); border-radius: var(--radius-sm); text-align: center; }
+    .pj-row { display: flex; justify-content: space-between; align-items: center; padding: 11px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; transition: border-color .12s; background: var(--surface); }
+    .pj-row:hover { border-color: var(--accent); }
+    .pj-row-meta { color: var(--muted); font-size: 12px; }
+    .pj-row-name { font-weight: 600; }
+    .pj-form-row { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
+    .pj-form-row label { font-size: 11.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+    .pj-form-row .err { color: var(--red-text); font-size: 12px; margin-top: 2px; }
+    .pj-form-row input, .pj-form-row select { width: 100%; box-sizing: border-box; padding: 9px 11px; border: 1px solid var(--border); border-radius: var(--radius-sm); font: inherit; font-size: 13.5px; background: var(--panel); color: var(--text); }
+    .pj-form-row input:focus, .pj-form-row select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
+    .pj-step { display: flex; gap: 6px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; color: var(--muted); font-size: 12.5px; }
+    .pj-step .num { display:inline-flex; align-items:center; justify-content:center; width:22px; height:22px; border-radius:50%; background:var(--border); color:var(--text); font-weight:700; font-size:11.5px; }
+    .pj-step .num.done { background: var(--accent); color: #fff; }
+    .pj-step .num.curr { background: var(--text); color: #fff; }
+    .pj-step .sep { color: var(--border-strong); margin: 0 4px; }
+    .pj-step .lbl { font-weight: 600; color: var(--text); }
+    .pj-step .lbl.muted { color: var(--muted); font-weight: 500; }
+    .pj-drop { border: 2px dashed var(--border-strong); border-radius: var(--radius); padding: 28px 18px; text-align: center; background: var(--surface); transition: border-color .12s, background .12s; }
+    .pj-drop.over { border-color: var(--accent); background: var(--accent-soft); }
+    .pj-drop p { margin: 6px 0; color: var(--muted); font-size: 13px; }
+    .pj-drop .pj-drop-title { color: var(--text); font-weight: 600; font-size: 14.5px; }
+    .pj-drop .pj-drop-fmt { color: var(--muted); font-size: 12px; }
+    .pj-drop input[type=file] { display: none; }
+    .pj-banner { padding: 11px 14px; border-radius: var(--radius-sm); margin-bottom: 12px; font-size: 13px; }
+    .pj-banner.err { background: var(--red-soft); color: var(--red-text); border: 1px solid var(--red-text); }
+    .pj-banner.ok { background: var(--green-soft, #e3f1e6); color: var(--green-text, #1f6f43); border: 1px solid var(--green-text, #1f6f43); }
+    .pj-preview { overflow-x: auto; margin-top: 12px; }
+    .pj-preview table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .pj-preview th { text-align: left; padding: 8px 10px; background: var(--surface); border-bottom: 1px solid var(--border); font-size: 11.5px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); font-weight: 700; }
+    .pj-preview td { padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    .pj-preview tr.bad { background: var(--red-soft); }
+    .pj-preview tr.bad td { color: var(--red-text); }
+    .pj-preview .row-errs { display: block; margin-top: 4px; font-size: 11.5px; color: var(--red-text); }
+    .pj-preview td.row-num { color: var(--muted); width: 50px; }
+    .pj-stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px; margin-bottom: 22px; }
+    .pj-stat { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 16px; }
+    .pj-stat .n { font-family: var(--serif); font-size: 32px; line-height: 1; font-weight: 700; color: var(--text); }
+    .pj-stat .lbl { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .04em; font-weight: 700; margin-top: 6px; }
+    .pj-sites-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+    .pj-sites-table th, .pj-sites-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+    .pj-sites-table th { font-size: 11.5px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); background: var(--surface); }
+    .pj-sites-table td.n { text-align: right; width: 80px; font-variant-numeric: tabular-nums; }
+    .pj-empty-tracks { border: 1px dashed var(--border-strong); border-radius: var(--radius); padding: 28px; text-align: center; color: var(--muted); }
+    .pj-empty-tracks h3 { font-family: var(--serif); color: var(--text); margin: 0 0 6px; font-size: 16px; }
+    .pj-empty-tracks p { margin: 0 0 12px; font-size: 13px; }
+    .pj-import-stamp { color: var(--muted); font-size: 12px; margin-top: 8px; }
+    .pj-actions { display: flex; gap: 10px; margin-top: 14px; align-items: center; }
+    .pj-actions[hidden] { display: none; }
+    .pj-actions .note { color: var(--muted); font-size: 12px; margin-left: auto; }
+    .pj-signin-shell { display: flex; align-items: center; justify-content: center; min-height: 70vh; }
+    .pj-signin-shell[hidden] { display: none; }
+    .pj-signin-card { max-width: 420px; background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; text-align: center; box-shadow: var(--shadow-lift); }
+    .pj-signin-card h2 { font-family: var(--serif); margin: 0 0 10px; }
+    .pj-signin-card p { color: var(--muted); margin: 0 0 16px; font-size: 13px; }
     .tb-l { display: block; font-size: 11.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); margin: 14px 0 6px; }
     .tb-in { width: 100%; box-sizing: border-box; padding: 9px 11px; border: 1px solid var(--border); border-radius: var(--radius-sm); font: inherit; font-size: 13.5px; background: var(--panel); color: var(--text); }
     .tb-in:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
@@ -1874,6 +1941,10 @@
       <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
       <span class="inbox-badge" id="inbox-badge"></span>
     </button>
+    <span class="trainer-pill" id="trainer-pill" title="Signed-in trainer (demo mock auth)" hidden>
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="margin-right:5px;vertical-align:-2px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span id="trainer-pill-name">Trainer Bob</span>
+    </span>
     <div class="ava-wrap">
       <span class="user-ava" id="user-ava" title="Account menu" onclick="toggleAvaMenu(event)">DA</span>
       <div class="ava-menu" id="ava-menu" hidden>
@@ -1886,6 +1957,7 @@
 <aside class="sidebar" id="sidebar">
   <nav>
     <button id="tab-home" onclick="showView('home')">Home</button>
+    <button id="tab-projects" onclick="showView('projects')">Projects</button>
     <button id="tab-manage" onclick="showView('manage')">Manage</button>
     <button id="tab-author" onclick="showView('author')">Create</button>
     <button id="tab-library" onclick="showView('library')">Library</button>
@@ -2131,6 +2203,94 @@
     </div>
     <div class="am-foot"><span class="tb-note">A track is a sequence of courses.</span><button class="primary" onclick="tbkSave()">Create track</button></div>
   </div></div>
+</section>
+<!-- ── Projects: project_create / csv_upload / project_dashboard ───────── -->
+<section id="view-projects" class="view">
+  <div class="pj-wrap">
+    <div class="pj-head">
+      <div>
+        <h1>Projects</h1>
+        <p class="sub">A <strong>project</strong> is one district rollout. Create one to import sites and people, then assign learning content. <span class="demo-tag" style="margin-left:6px;">Demo data</span></p>
+      </div>
+    </div>
+    <div id="pj-signin" class="pj-signin-shell" hidden>
+      <div class="pj-signin-card">
+        <h2>Sign in to manage projects</h2>
+        <p>This demo uses mock auth — no real account.</p>
+        <button class="primary" onclick="projSignIn()">Sign in as Trainer Bob</button>
+      </div>
+    </div>
+    <div id="pj-main" class="pj-grid">
+      <div class="pj-card">
+        <h2>Your projects</h2>
+        <p class="sub">Open one to see its dashboard, or re-import its roster.</p>
+        <div id="pj-list" class="pj-list"></div>
+      </div>
+      <div class="pj-card">
+        <h2>+ New project</h2>
+        <p class="sub">Name the rollout, pick the product, set its go-live date.</p>
+        <div id="pj-create-banner"></div>
+        <div class="pj-form-row">
+          <label for="pj-name">Project name</label>
+          <input id="pj-name" placeholder="e.g. Demo ISD" autocomplete="off">
+          <div class="err" id="pj-err-name" hidden></div>
+        </div>
+        <div class="pj-form-row">
+          <label for="pj-product">Product</label>
+          <select id="pj-product">
+            <option>SchoolCafé</option>
+            <option>Family Hub</option>
+          </select>
+          <div class="err" id="pj-err-product" hidden></div>
+        </div>
+        <div class="pj-form-row">
+          <label for="pj-golive">Go-live date</label>
+          <input id="pj-golive" type="date">
+          <div class="err" id="pj-err-go_live_date" hidden></div>
+        </div>
+        <button class="primary" onclick="projCreate()">Create project</button>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="view-csv-upload" class="view">
+  <div class="pj-wrap">
+    <div class="pj-head">
+      <div>
+        <h1 id="csv-title">Import sites</h1>
+        <p class="sub" id="csv-sub">Upload a CSV. Preview will validate every row before you commit.</p>
+      </div>
+      <button class="secondary" onclick="showView('projects')">← Projects</button>
+    </div>
+    <div class="pj-step" id="csv-stepper"></div>
+    <div class="pj-card">
+      <div id="csv-banner"></div>
+      <label class="pj-drop" id="csv-drop">
+        <div class="pj-drop-title" id="csv-drop-title">Drop your sites CSV here, or click to browse</div>
+        <p class="pj-drop-fmt" id="csv-drop-fmt">CSV with columns: site_name, address</p>
+        <p id="csv-filename" style="color:var(--text); font-weight:600;" hidden></p>
+        <input type="file" id="csv-file" accept=".csv,text/csv" onchange="csvFileChosen()">
+      </label>
+      <div id="csv-preview" class="pj-preview"></div>
+      <div class="pj-actions" id="csv-actions" hidden>
+        <button class="primary" id="csv-commit-btn" onclick="csvCommit()">Commit import</button>
+        <button class="secondary" onclick="csvReset()">Choose a different file</button>
+        <span class="note" id="csv-note"></span>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="view-project-dashboard" class="view">
+  <div class="pj-wrap">
+    <div class="pj-head">
+      <div>
+        <h1 id="pjd-title">Project dashboard</h1>
+        <p class="sub" id="pjd-sub"></p>
+      </div>
+      <button class="secondary" onclick="showView('projects')">← All projects</button>
+    </div>
+    <div id="pjd-body"></div>
+  </div>
 </section>
 <section id="view-myteam" class="view">
   <div class="roster-wrap">
@@ -2560,6 +2720,252 @@ function _districtCompletion(d){ return d.learners && d.learners.length ? Math.r
 const _CURRENT_TRAINER = 'Dana Alvarez';   // the logged-in trainer (DA avatar) — a trainer only ever sees their OWN districts + content
 function _myDistricts(){ const m = _DEMO.districts.filter(d => d.trainer === _CURRENT_TRAINER); return m.length ? m : _DEMO.districts; }
 function _allDemoTracks(){ return _DEMO.tracks.concat(_demoState.userTracks); }
+// ── Projects flow ──────────────────────────────────────────────────────────
+// In-memory state for the create → import sites → import users → dashboard wizard.
+let _projState = { signedIn: false, currentPid: null, csvKind: 'sites', csvFile: null, csvPreview: null };
+
+async function projRefreshMe(){
+  try{ const r = await fetch('/api/me'); const j = await r.json();
+       _projState.signedIn = !!j.signed_in;
+       const pill = document.getElementById('trainer-pill');
+       if(pill) pill.hidden = !j.signed_in;
+       if(j.signed_in){ const nm = document.getElementById('trainer-pill-name'); if(nm) nm.textContent = (j.user&&j.user.name)||'Trainer Bob'; }
+  } catch(_){}
+}
+async function projSignIn(){
+  try{ const r = await fetch('/api/auth/login', {method:'POST'}); if(!r.ok) throw 0;
+       await projRefreshMe(); loadProjects(); } catch(_){ alert('Sign-in failed.'); }
+}
+function _fmtDate(iso){
+  if(!iso) return '';
+  try{ const d=new Date(iso); return d.toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'}); } catch(_){ return iso; }
+}
+async function loadProjects(){
+  await projRefreshMe();
+  const gate = document.getElementById('pj-signin');
+  const main = document.getElementById('pj-main');
+  if(gate) gate.hidden = _projState.signedIn;
+  if(main) main.style.display = _projState.signedIn ? '' : 'none';
+  if(!_projState.signedIn) return;
+  // default go-live date = today + 60d (sensible demo seed)
+  const gl = document.getElementById('pj-golive');
+  if(gl && !gl.value){ const d=new Date(); d.setDate(d.getDate()+60); gl.value = d.toISOString().slice(0,10); }
+  let body = {projects:[]};
+  try{ const r = await fetch('/api/projects'); body = await r.json(); } catch(_){}
+  const list = document.getElementById('pj-list');
+  if(!list) return;
+  if(!body.projects.length){
+    list.innerHTML = '<div class="pj-list-empty">No projects yet — create your first one →</div>';
+    return;
+  }
+  list.innerHTML = body.projects.map(p => `
+    <div class="pj-row" onclick="openProjectDashboard('${p.id}')">
+      <div>
+        <div class="pj-row-name">${_esc(p.name)}</div>
+        <div class="pj-row-meta">${_esc(p.product)} · Go-live ${_esc(p.go_live_date)} · ${p.site_count} sites · ${p.user_count} people</div>
+      </div>
+      <div class="pj-row-meta">${p.users_imported_at?('Imported '+_fmtDate(p.users_imported_at)):'Roster pending →'}</div>
+    </div>`).join('');
+}
+function _esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+async function projCreate(){
+  ['name','product','go_live_date'].forEach(k=>{const e=document.getElementById('pj-err-'+k); if(e){e.hidden=true; e.textContent='';}});
+  const banner = document.getElementById('pj-create-banner'); if(banner) banner.innerHTML='';
+  const payload = {
+    name: (document.getElementById('pj-name')||{}).value || '',
+    product: (document.getElementById('pj-product')||{}).value || '',
+    go_live_date: (document.getElementById('pj-golive')||{}).value || '',
+  };
+  const r = await fetch('/api/projects', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)});
+  const j = await r.json();
+  if(!r.ok){
+    const errs = (j && j.detail && j.detail.errors) || {};
+    Object.keys(errs).forEach(k=>{ const e=document.getElementById('pj-err-'+k); if(e){ e.textContent=errs[k]; e.hidden=false; } });
+    if(banner) banner.innerHTML = '<div class="pj-banner err">Fix the highlighted fields and try again.</div>';
+    return;
+  }
+  _projState.currentPid = j.project.id;
+  // Move on to sites import
+  openCsvUpload(j.project.id, 'sites');
+}
+function openCsvUpload(pid, kind){
+  _projState.currentPid = pid;
+  _projState.csvKind = kind;   // 'sites' | 'users'
+  _projState.csvFile = null;
+  _projState.csvPreview = null;
+  showView('csv-upload');
+}
+function renderCsvUpload(){
+  const kind = _projState.csvKind;
+  const title = document.getElementById('csv-title');
+  const sub = document.getElementById('csv-sub');
+  const dropTitle = document.getElementById('csv-drop-title');
+  const dropFmt = document.getElementById('csv-drop-fmt');
+  if(kind === 'sites'){
+    if(title) title.textContent = 'Import sites';
+    if(sub) sub.textContent = 'Upload your district\'s site list. Required columns: site_name, address.';
+    if(dropTitle) dropTitle.textContent = 'Drop your sites CSV here, or click to browse';
+    if(dropFmt) dropFmt.textContent = 'CSV with columns: site_name, address';
+  } else {
+    if(title) title.textContent = 'Import people';
+    if(sub) sub.textContent = 'Upload your district\'s staff roster. Each row must reference a known site.';
+    if(dropTitle) dropTitle.textContent = 'Drop your users CSV here, or click to browse';
+    if(dropFmt) dropFmt.textContent = 'CSV with columns: employee_id, full_name, email, role, site_name';
+  }
+  // stepper
+  const step = document.getElementById('csv-stepper');
+  if(step){
+    const k = kind === 'sites' ? 1 : 2;
+    step.innerHTML = `
+      <span class="num done">✓</span><span class="lbl muted">Create project</span>
+      <span class="sep">→</span>
+      <span class="num ${k===1?'curr':'done'}">${k===1?'2':'✓'}</span><span class="lbl ${k===1?'':'muted'}">Import sites</span>
+      <span class="sep">→</span>
+      <span class="num ${k===2?'curr':''}">3</span><span class="lbl ${k===2?'':'muted'}">Import people</span>
+      <span class="sep">→</span>
+      <span class="num">4</span><span class="lbl muted">Dashboard</span>`;
+  }
+  csvReset();
+}
+function csvReset(){
+  _projState.csvFile = null; _projState.csvPreview = null;
+  const fn = document.getElementById('csv-filename'); if(fn){ fn.hidden=true; fn.textContent=''; }
+  const fi = document.getElementById('csv-file'); if(fi) fi.value = '';
+  const pv = document.getElementById('csv-preview'); if(pv) pv.innerHTML = '';
+  const act = document.getElementById('csv-actions'); if(act) act.hidden = true;
+  const bn = document.getElementById('csv-banner'); if(bn) bn.innerHTML = '';
+}
+async function csvFileChosen(){
+  const fi = document.getElementById('csv-file');
+  if(!fi || !fi.files || !fi.files.length) return;
+  const file = fi.files[0];
+  _projState.csvFile = file;
+  const fn = document.getElementById('csv-filename'); if(fn){ fn.textContent = file.name; fn.hidden=false; }
+  // Immediately preview
+  await csvPreview();
+}
+async function csvPreview(){
+  if(!_projState.currentPid || !_projState.csvFile) return;
+  const fd = new FormData(); fd.append('file', _projState.csvFile);
+  const url = `/api/projects/${_projState.currentPid}/${_projState.csvKind}/import?mode=preview`;
+  const bn = document.getElementById('csv-banner'); if(bn) bn.innerHTML = '';
+  const pv = document.getElementById('csv-preview'); if(pv) pv.innerHTML = '<p style="color:var(--muted);font-size:13px;">Validating…</p>';
+  let r, j;
+  try{ r = await fetch(url, {method:'POST', body: fd}); j = await r.json(); }
+  catch(e){ if(pv) pv.innerHTML = '<div class="pj-banner err">Upload failed — try again.</div>'; return; }
+  _projState.csvPreview = j;
+  renderPreviewBody(j);
+}
+function renderPreviewBody(j){
+  const pv = document.getElementById('csv-preview');
+  const bn = document.getElementById('csv-banner');
+  const act = document.getElementById('csv-actions');
+  const btn = document.getElementById('csv-commit-btn');
+  const note = document.getElementById('csv-note');
+  if(!pv) return;
+  if(j.columns_ok === false){
+    pv.innerHTML = '';
+    if(bn) bn.innerHTML = '<div class="pj-banner err">' + (j.errors_summary||[]).map(_esc).join('<br>') + '<br><small>Required columns: ' + (j.required_columns||[]).join(', ') + (j.columns_seen?(' · Saw: '+j.columns_seen.join(', ')):'') + '</small></div>';
+    if(act) act.hidden = true;
+    return;
+  }
+  const cols = _projState.csvKind === 'sites' ? ['site_name','address'] : ['employee_id','full_name','email','role','site_name'];
+  const rows = j.rows || [];
+  const hasErr = (j.summary && j.summary.rows_with_errors) || 0;
+  if(bn){
+    if(hasErr){
+      bn.innerHTML = '<div class="pj-banner err"><strong>' + hasErr + ' row(s) have errors.</strong> Fix the CSV and re-upload to commit.</div>';
+    } else if(rows.length){
+      bn.innerHTML = '<div class="pj-banner ok"><strong>' + rows.length + ' row(s) ready to import.</strong> Review below, then commit.</div>';
+    } else { bn.innerHTML = ''; }
+  }
+  const head = ['#'].concat(cols).map(c=>`<th>${_esc(c)}</th>`).join('');
+  const body = rows.map(r=>{
+    const bad = (r._errors||[]).length>0;
+    const cells = cols.map(c => `<td>${_esc(r[c])}</td>`).join('');
+    const errsHtml = bad ? `<span class="row-errs">${(r._errors||[]).map(_esc).join(' · ')}</span>` : '';
+    return `<tr class="${bad?'bad':''}"><td class="row-num">${r._row_num}${errsHtml}</td>${cells}</tr>`;
+  }).join('');
+  pv.innerHTML = `<table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>`;
+  if(act){
+    act.hidden = false;
+    if(btn){ btn.disabled = hasErr>0; btn.textContent = hasErr ? `Fix ${hasErr} row error${hasErr>1?'s':''} first` : `Commit ${rows.length} ${_projState.csvKind === 'sites' ? 'site' : 'user'}${rows.length===1?'':'s'}`; }
+    if(note) note.textContent = j.summary ? `${j.summary.total_rows} rows, ${j.summary.rows_with_errors} with errors` : '';
+  }
+}
+async function csvCommit(){
+  if(!_projState.currentPid || !_projState.csvFile) return;
+  const fd = new FormData(); fd.append('file', _projState.csvFile);
+  const url = `/api/projects/${_projState.currentPid}/${_projState.csvKind}/import?mode=commit`;
+  const btn = document.getElementById('csv-commit-btn'); if(btn){ btn.disabled = true; btn.textContent = 'Committing…'; }
+  let r, j;
+  try{ r = await fetch(url, {method:'POST', body: fd}); j = await r.json(); }
+  catch(e){ if(btn) btn.disabled=false; alert('Import failed — try again.'); return; }
+  if(!j.ok){ // server pushed back to preview shape (errors)
+    renderPreviewBody(j);
+    return;
+  }
+  // Move to next step
+  if(_projState.csvKind === 'sites'){
+    openCsvUpload(_projState.currentPid, 'users');
+  } else {
+    openProjectDashboard(_projState.currentPid);
+  }
+}
+function openProjectDashboard(pid){
+  _projState.currentPid = pid;
+  showView('project-dashboard');
+}
+async function renderProjectDashboard(){
+  const pid = _projState.currentPid;
+  const body = document.getElementById('pjd-body');
+  const title = document.getElementById('pjd-title');
+  const sub = document.getElementById('pjd-sub');
+  if(!pid){ if(body) body.innerHTML = '<p>No project selected.</p>'; return; }
+  if(body) body.innerHTML = '<p style="color:var(--muted)">Loading…</p>';
+  let j;
+  try{ const r = await fetch('/api/projects/'+pid); if(!r.ok) throw 0; j = await r.json(); }
+  catch(_){ if(body) body.innerHTML = '<p>Project not found.</p>'; return; }
+  const p = j.project;
+  if(title) title.textContent = p.name;
+  if(sub) sub.textContent = `${p.product} · Go-live ${p.go_live_date} · ${p.user_count} people across ${p.site_count} sites`;
+  const ROLES = ['Cashier','Site Manager','CN Director'];
+  const statCards = ROLES.map(role => `
+    <div class="pj-stat"><div class="n">${(j.counts.by_role[role]||0)}</div><div class="lbl">${role}${role==='Cashier'||role==='Site Manager'?'s':'s'}</div></div>`).join('');
+  const totalCard = `<div class="pj-stat"><div class="n">${j.counts.total_users}</div><div class="lbl">Total people</div></div>`;
+  const sitesRows = j.sites.map(s=>`
+    <tr><td><strong>${_esc(s.name)}</strong><div style="color:var(--muted);font-size:12px;">${_esc(s.address)}</div></td>
+        <td class="n">${s.user_count}</td>
+        <td style="color:var(--muted);font-size:12.5px;">${ROLES.map(r=>s.by_role[r]?`${s.by_role[r]} ${r}`:'').filter(Boolean).join(' · ')}</td></tr>`).join('') || `<tr><td colspan="3" style="color:var(--muted);padding:14px;">No sites yet.</td></tr>`;
+  body.innerHTML = `
+    <div class="pj-stat-grid">${totalCard}${statCards}</div>
+    <div class="pj-card">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+        <div>
+          <h2>Roster by site</h2>
+          <div class="pj-import-stamp">${p.users_imported_at?'Imported '+_fmtDate(p.users_imported_at)+' — ':''}<a href="javascript:void(0)" onclick="openCsvUpload('${pid}','users')">re-import to update</a></div>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button class="secondary" onclick="openCsvUpload('${pid}','sites')">Re-import sites</button>
+          <button class="secondary" onclick="openCsvUpload('${pid}','users')">Re-import people</button>
+        </div>
+      </div>
+      <div style="overflow-x:auto;margin-top:10px;">
+        <table class="pj-sites-table">
+          <thead><tr><th>Site</th><th style="text-align:right;">People</th><th>Breakdown</th></tr></thead>
+          <tbody>${sitesRows}</tbody>
+        </table>
+      </div>
+    </div>
+    <div class="pj-empty-tracks" style="margin-top:18px;">
+      <h3>No tracks assigned yet</h3>
+      <p>Build a track in <strong>Tracks</strong>, then assign it from <strong>Manage › Assignments</strong>.</p>
+      <button class="primary" onclick="showView('tracks')">Open Tracks →</button>
+    </div>`;
+}
+// Refresh "Trainer Bob" pill on first load, regardless of which view boots first.
+window.addEventListener('DOMContentLoaded', () => { projRefreshMe(); });
+
 function setViewMode(m) {
   _viewMode = m;
   const t = document.getElementById('vm-trainer'), c = document.getElementById('vm-customer');
@@ -2570,10 +2976,10 @@ function setViewMode(m) {
 function applyViewMode() {
   const show = (id, on) => { const el = document.getElementById(id); if (el) el.hidden = !on; };
   // Persona-driven primary nav: show EXACTLY the active persona's tab set.
-  const ALL_TABS = ['tab-home','tab-author','tab-library','tab-learn','tab-content','tab-evals','tab-tracks','tab-myteam','tab-manage'];
+  const ALL_TABS = ['tab-home','tab-projects','tab-author','tab-library','tab-learn','tab-content','tab-evals','tab-tracks','tab-myteam','tab-manage'];
   const VISIBLE = _viewMode === 'customer'
     ? ['tab-learn','tab-myteam','tab-content']
-    : ['tab-home','tab-author','tab-library','tab-content','tab-evals','tab-tracks','tab-manage'];
+    : ['tab-home','tab-projects','tab-author','tab-library','tab-content','tab-evals','tab-tracks','tab-manage'];
   ALL_TABS.forEach(id => show(id, VISIBLE.includes(id)));
   show('cmode-studyset', _extLearning && _viewMode === 'trainer');
   // district switcher: trainers can switch ISDs; a customer is locked to their own
@@ -2604,6 +3010,9 @@ function showView(name) {
   if (name === 'home') loadHome();
   if (name === 'myteam' && typeof loadMyTeam === 'function') loadMyTeam();
   if (name === 'tracks' && typeof loadTracks === 'function') loadTracks();
+  if (name === 'projects' && typeof loadProjects === 'function') loadProjects();
+  if (name === 'project-dashboard' && typeof renderProjectDashboard === 'function') renderProjectDashboard();
+  if (name === 'csv-upload' && typeof renderCsvUpload === 'function') renderCsvUpload();
 }
 function toggleAvaMenu(e){ if (e) e.stopPropagation(); const m = document.getElementById('ava-menu'); if (m) m.hidden = !m.hidden; }
 function closeAvaMenu(){ const m = document.getElementById('ava-menu'); if (m) m.hidden = true; }
