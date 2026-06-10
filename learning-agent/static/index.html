@@ -1479,6 +1479,16 @@
     .cmd-head h3 { font-family: var(--serif); font-size: 16px; font-weight: 650; margin: 0; color: var(--text); }
     .cmd-sub { font-size: 12px; color: var(--muted); }
     .cmd-pill { font-size: 12px; font-weight: 650; color: var(--accent); background: var(--panel3); border-radius: 999px; padding: 1px 9px; }
+    /* Trend band — Tufte sparkline (minimal chrome; endpoint labeled by current value) */
+    .trend-band { display: flex; align-items: center; gap: 18px; margin: 0 30px var(--sp-4); }
+    .trend-meta { flex: none; width: 180px; }
+    .trend-meta h3 { font-family: var(--serif); font-size: 15px; font-weight: 650; margin: 0; color: var(--text); }
+    .spark { flex: 1; min-width: 0; height: 44px; display: block; }
+    .spark-line { fill: none; stroke: var(--accent); stroke-width: 2; vector-effect: non-scaling-stroke; stroke-linejoin: round; stroke-linecap: round; }
+    .spark-area { fill: var(--accent-soft); opacity: .55; stroke: none; }
+    .trend-now { flex: none; display: flex; flex-direction: column; align-items: flex-end; }
+    .trend-val { font-family: var(--serif); font-size: 22px; font-weight: 650; color: var(--text); line-height: 1; }
+    .trend-now .kpi-trend { margin-top: 3px; }
     .attn-list { display: flex; flex-direction: column; gap: 8px; }
     .attn-row { display: flex; align-items: center; gap: 12px; padding: 10px 12px; min-height: 56px; border: 1px solid var(--border); border-radius: var(--radius-sm); }
     .attn-row.attn-help { border-color: var(--red, #B3543B); background: var(--red-soft, #F2E1D8); }
@@ -1516,7 +1526,25 @@
     .imr-title { font-size: 13px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .imr-meta { font-size: 11.5px; color: var(--muted); }
     .inbox-mini-row > .secondary { flex: none; }
-    @media (max-width: 1100px) { .cmd-grid { grid-template-columns: 1fr; } .cmd-tiles { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 1100px) { .cmd-grid { grid-template-columns: 1fr; } .cmd-tiles { grid-template-columns: repeat(2, 1fr); } .trend-meta { width: 150px; } }
+    /* Phone (research: single-column stack, ≥44px touch targets per WCAG 2.5.5 / Apple, wrap dense rows) */
+    @media (max-width: 640px) {
+      .home-tiles.cmd-tiles, .cmd-grid, .trend-band { margin-left: 16px; margin-right: 16px; }
+      .cmd-tiles { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+      .secondary, .todo-in { min-height: 44px; }
+      .attn-row { flex-wrap: wrap; min-height: 0; }
+      .attn-row > .secondary { flex: 1 0 100%; min-width: 0; margin-top: 8px; }
+      .proj-row { flex-wrap: wrap; }
+      .pr-name { width: auto; }
+      .pr-meta { white-space: normal; flex-basis: 100%; }
+      .todo-add { flex-wrap: wrap; }
+      .todo-text-in { flex: 1 1 100%; order: 1; }
+      .todo-time-in { order: 2; width: 130px; }
+      .todo-add .secondary { order: 3; }
+      .trend-band { flex-wrap: wrap; gap: 10px; }
+      .trend-meta { width: 100%; }
+      .spark { flex-basis: 65%; }
+    }
     .home-card:hover { border-color: var(--accent); box-shadow: var(--shadow-sm); }
     .home-card.flagged { border-color: var(--amber-text, #8A5A12); background: var(--amber-soft, #FBF1E2); }
     .home-card-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 15px; }
@@ -2411,6 +2439,9 @@ function renderHome(){
     const tr = t.flat ? '<div class="kpi-trend tr-flat">— no change</div>' : `<div class="kpi-trend ${t.good ? 'tr-good' : 'tr-bad'}">${t.up ? '▲' : '▼'} ${escapeHtml(t.d)}${escapeHtml(t.unit)}</div>`;
     return `<div class="home-tile${t.cls}"><div class="n">${t.val}</div><div class="l">${escapeHtml(t.label)}</div>${tr}</div>`;
   }).join('') + '</div>';
+  // ── trend band: the inverted-pyramid "direction" layer — 6-week completion trajectory ──
+  const sparkVals = [avg - 11, avg - 8, avg - 6, avg - 4, avg - 6, avg];
+  h += `<section class="cmd-card trend-band"><div class="trend-meta"><h3>Completion trend</h3><span class="cmd-sub">last 6 weeks · all my districts</span></div>${_spark(sparkVals)}<div class="trend-now"><span class="trend-val">${avg}%</span><span class="kpi-trend tr-good">▲ +11 pts / 6 wks</span></div></section>`;
   // ── command-center grid ──
   h += '<div class="cmd-grid"><div class="cmd-main">';
   // Needs your attention — prioritized "what's next" feed (help > overdue > behind > approvals)
@@ -2441,6 +2472,14 @@ function renderHome(){
   h += '</aside></div>';
   body.innerHTML = h;
   renderTodos();
+}
+// Tufte-style sparkline: no axes/grid/shadow, non-scaling 2px stroke + faint area; the endpoint is labeled by the current value (the "actionable end"). role=img + aria-label so the trend isn't conveyed by shape alone.
+function _spark(values){
+  const w = 320, hgt = 44, pad = 5;
+  const min = Math.min(...values), max = Math.max(...values), span = (max - min) || 1;
+  const pts = values.map((v, i) => (pad + i * (w - 2 * pad) / (values.length - 1)).toFixed(1) + ',' + (hgt - pad - ((v - min) / span) * (hgt - 2 * pad)).toFixed(1));
+  const area = `${pad},${hgt - pad} ` + pts.join(' ') + ` ${w - pad},${hgt - pad}`;
+  return `<svg class="spark" viewBox="0 0 ${w} ${hgt}" preserveAspectRatio="none" role="img" aria-label="Average completion over the last 6 weeks: ${values.join(', ')} percent"><polygon class="spark-area" points="${area}"></polygon><polyline class="spark-line" points="${pts.join(' ')}"></polyline></svg>`;
 }
 // ── My day: personal to-do list (session-scoped; add with time, check off, delete) ──
 function _initTodos(){
