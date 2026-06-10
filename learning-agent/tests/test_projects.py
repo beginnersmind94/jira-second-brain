@@ -211,3 +211,67 @@ def test_mock_login_sets_cookie(client):
     me = client.get("/api/me")
     assert me.json()["signed_in"] is True
     assert me.json()["user"]["name"] == "Trainer Bob"
+
+
+# Status lifecycle ─────────────────────────────────────────────────────────
+def test_default_status_planning(client):
+    """A freshly-created project defaults to PLANNING (acceptance 6)."""
+    proj = _make_project(client)
+    assert proj["status"] == "PLANNING"
+    assert proj["status_changed_at"]
+    assert proj["can_assign_tracks"] is False
+    assert proj["can_director_access"] is False
+    assert proj["is_archived"] is False
+
+
+def test_status_transition_persists(client):
+    """Status dropdown allows manual transition to any other status
+    (acceptance 7) and the new value persists across GETs."""
+    proj = _make_project(client)
+    pid = proj["id"]
+
+    r = client.post(f"/api/projects/{pid}/status", json={"status": "ONBOARDING"})
+    assert r.status_code == 200
+    assert r.json()["project"]["status"] == "ONBOARDING"
+    assert r.json()["project"]["can_assign_tracks"] is True
+
+    # Persists on subsequent fetch.
+    assert client.get(f"/api/projects/{pid}").json()["project"]["status"] == "ONBOARDING"
+
+    # Walk through all valid statuses.
+    for s in ("LIVE", "ARCHIVED", "PLANNING"):
+        r2 = client.post(f"/api/projects/{pid}/status", json={"status": s})
+        assert r2.status_code == 200, r2.text
+        assert r2.json()["project"]["status"] == s
+
+    # Invalid status rejected.
+    bad = client.post(f"/api/projects/{pid}/status", json={"status": "in_progress"})
+    assert bad.status_code == 400
+    assert "status" in bad.json()["detail"]["errors"]
+
+    # Lowercase auto-uppercased (forgiving input).
+    ok = client.post(f"/api/projects/{pid}/status", json={"status": "live"})
+    assert ok.status_code == 200 and ok.json()["project"]["status"] == "LIVE"
+
+
+def test_status_helpers_truth_table():
+    """Helper truth tables — the canonical source of behavior gating for
+    the parallel track-assignment + Director-login work that imports these."""
+    from projects import can_assign_tracks, can_director_access, is_archived
+
+    # can_assign_tracks: ONBOARDING + LIVE only
+    assert can_assign_tracks("PLANNING") is False    # too early
+    assert can_assign_tracks("ONBOARDING") is True
+    assert can_assign_tracks("LIVE") is True
+    assert can_assign_tracks("ARCHIVED") is False    # read-only
+
+    # can_director_access: LIVE + ARCHIVED (archived = read-only view)
+    assert can_director_access("PLANNING") is False
+    assert can_director_access("ONBOARDING") is False  # acceptance 9
+    assert can_director_access("LIVE") is True         # acceptance 9
+    assert can_director_access("ARCHIVED") is True     # read-only viewing
+
+    # is_archived
+    assert is_archived("ARCHIVED") is True
+    for s in ("PLANNING", "ONBOARDING", "LIVE"):
+        assert is_archived(s) is False

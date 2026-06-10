@@ -30,18 +30,56 @@ from datetime import datetime, timezone
 from typing import Any
 
 from fastapi import APIRouter, Body, Cookie, File, HTTPException, Query, Response, UploadFile
+import modules_store
 
 router = APIRouter()
 
 # ── Storage (in-memory, demo-façade pattern) ────────────────────────────────
 _PROJECTS: dict[str, dict] = {}
+_ASSIGNMENTS: dict[str, list] = {}   # pid -> [TrackAssignment]
+_RULES: dict[str, list] = {}         # pid -> [EnrollmentRule]
 
 # Canonical role enum — matches the app's existing role dropdown.
 ROLES = ("Cashier", "Site Manager", "CN Director")
 
+# ── Project status (implementation lifecycle) ───────────────────────────────
+# A project moves through these states as the customer goes live. The status
+# is set MANUALLY by the trainer (no automatic transitions in V1 — see the
+# design note in the commit). The status gates two behaviors enforced
+# server-side by the helpers below; UI uses them too to dim/hide actions.
+#
+#   PLANNING    project created, roster not yet imported
+#   ONBOARDING  roster imported, tracks being assigned, pre-go-live training
+#   LIVE        district has gone live; learners + Director have access
+#   ARCHIVED    engagement ended; read-only, no new assignments
+STATUSES = ("PLANNING", "ONBOARDING", "LIVE", "ARCHIVED")
+DEFAULT_STATUS = "PLANNING"
+
+
+def can_assign_tracks(status: str) -> bool:
+    """Tracks can be assigned during active implementation + live operation.
+    PLANNING is too early (no roster yet); ARCHIVED is read-only.
+    Called by the parallel track-assignment router."""
+    return status in ("ONBOARDING", "LIVE")
+
+
+def can_director_access(status: str) -> bool:
+    """Director (the customer-side admin) can log in once the district is LIVE.
+    ARCHIVED still allows viewing (read-only). PLANNING + ONBOARDING block.
+    Called by the parallel Director-login flow."""
+    return status in ("LIVE", "ARCHIVED")
+
+
+def is_archived(status: str) -> bool:
+    """True when no new mutations are allowed (read-only end-state)."""
+    return status == "ARCHIVED"
+
 TRAINER_COOKIE = "lc_trainer"
 TRAINER_NAME = "Trainer Bob"
 TRAINER_TOKEN = "trainer-bob"
+
+DIRECTOR_COOKIE = "lc_director"
+DIRECTOR_TOKEN = "director-demo"
 
 EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
 
@@ -57,6 +95,8 @@ def _new_id(prefix: str) -> str:
 def _reset_for_tests():
     """Hook for pytest — wipes the in-memory store between tests."""
     _PROJECTS.clear()
+    _ASSIGNMENTS.clear()
+    _RULES.clear()
 
 
 # ── Mock auth ───────────────────────────────────────────────────────────────
@@ -81,9 +121,12 @@ def auth_logout(response: Response):
 
 
 @router.get("/api/me")
-def auth_me(lc_trainer: str | None = Cookie(default=None)):
+def auth_me(lc_trainer: str | None = Cookie(default=None),
+            lc_director: str | None = Cookie(default=None)):
     if lc_trainer == TRAINER_TOKEN:
         return {"signed_in": True, "user": {"name": TRAINER_NAME, "role": "Trainer"}}
+    if lc_director == DIRECTOR_TOKEN:
+        return {"signed_in": True, "user": {"name": "Director Jamie", "role": "Director"}}
     return {"signed_in": False}
 
 
@@ -115,6 +158,8 @@ def create_project(payload: dict = Body(...)):
         "name": name,
         "product": product,
         "go_live_date": go_live,
+        "status": DEFAULT_STATUS,           # PLANNING on create — see STATUSES
+        "status_changed_at": _now_iso(),
         "created_at": _now_iso(),
         "sites_imported_at": None,
         "users_imported_at": None,
@@ -125,15 +170,44 @@ def create_project(payload: dict = Body(...)):
     return {"ok": True, "project": _project_summary(proj)}
 
 
+@router.post("/api/projects/{pid}/status")
+def set_project_status(pid: str, payload: dict = Body(...)):
+    """Manually transition a project to a new status. V1 allows any transition;
+    the trainer is responsible for keeping it honest.
+
+    Once parallel work (track assignment, Director login) lands, those
+    endpoints will gate themselves via can_assign_tracks() / can_director_access()
+    on the project's current status."""
+    proj = _PROJECTS.get(pid)
+    if not proj:
+        raise HTTPException(status_code=404, detail="Project not found")
+    new_status = (payload.get("status") or "").strip().upper()
+    if new_status not in STATUSES:
+        raise HTTPException(
+            status_code=400,
+            detail={"errors": {"status": f'Invalid status. Must be one of: {", ".join(STATUSES)}'}}
+        )
+    proj["status"] = new_status
+    proj["status_changed_at"] = _now_iso()
+    return {"ok": True, "project": _project_summary(proj)}
+
+
 @router.get("/api/projects")
 def list_projects():
     return {"projects": [_project_summary(p) for p in _PROJECTS.values()]}
 
 
 def _project_summary(proj: dict) -> dict:
+    # Backfill status for projects created before the field existed (defensive —
+    # the in-memory store resets on restart, so this only matters mid-session).
+    status = proj.get("status") or DEFAULT_STATUS
     return {
         "id": proj["id"], "name": proj["name"], "product": proj["product"],
         "go_live_date": proj["go_live_date"], "created_at": proj["created_at"],
+        "status": status, "status_changed_at": proj.get("status_changed_at"),
+        "can_assign_tracks": can_assign_tracks(status),
+        "can_director_access": can_director_access(status),
+        "is_archived": is_archived(status),
         "sites_imported_at": proj["sites_imported_at"],
         "users_imported_at": proj["users_imported_at"],
         "site_count": len(proj["sites"]), "user_count": len(proj["users"]),
@@ -377,3 +451,180 @@ async def import_users(pid: str, file: UploadFile = File(...),
     proj["users_imported_at"] = _now_iso()
     return {"ok": True, "mode": "commit", "summary": summary,
             "project": _project_summary(proj), "rows": validated}
+
+
+# ── Assignment helpers ───────────────────────────────────────────────────────
+
+def match_users(project_id: str,
+                role_filter: list[str] | None = None,
+                site_filter: list[str] | None = None) -> list[str]:
+    """Pure function: return user_ids in the project matching role/site filters.
+    Empty filter list = no restriction on that dimension."""
+    proj = _PROJECTS.get(project_id)
+    if not proj:
+        return []
+    out = []
+    for uid, user in proj["users"].items():
+        if role_filter and user["role"] not in role_filter:
+            continue
+        if site_filter and user["site_id"] not in site_filter:
+            continue
+        out.append(uid)
+    return out
+
+
+# ── New routes: users, assignable-tracks, assignments, enrollment-rules ──────
+
+@router.get("/api/projects/{pid}/users")
+def get_project_users(pid: str):
+    proj = _PROJECTS.get(pid)
+    if not proj:
+        raise HTTPException(status_code=404, detail="Project not found")
+    site_names = {s["id"]: s["name"] for s in proj["sites"].values()}
+    users = [
+        {**u, "site_name": site_names.get(u["site_id"], "")}
+        for u in proj["users"].values()
+    ]
+    return {"users": sorted(users, key=lambda u: u["full_name"])}
+
+
+@router.get("/api/projects/{pid}/assignable-tracks")
+def get_assignable_tracks(pid: str):
+    if not _PROJECTS.get(pid):
+        raise HTTPException(status_code=404, detail="Project not found")
+    tracks = [t for t in modules_store.list_tracks() if t.get("status") == "published"]
+    return {"tracks": tracks}
+
+
+@router.post("/api/projects/{pid}/assignments")
+def create_assignments(pid: str, payload: dict = Body(...),
+                       lc_trainer: str | None = Cookie(default=None)):
+    if lc_trainer != TRAINER_TOKEN:
+        raise HTTPException(status_code=403, detail="Only trainers can create assignments")
+    proj = _PROJECTS.get(pid)
+    if not proj:
+        raise HTTPException(status_code=404, detail="Project not found")
+    track_id = (payload.get("track_id") or "").strip()
+    user_ids = list(payload.get("user_ids") or [])
+    due_date = payload.get("due_date") or None
+    if not track_id:
+        raise HTTPException(status_code=400, detail="track_id is required")
+    if not user_ids:
+        raise HTTPException(status_code=400, detail="user_ids must be a non-empty list")
+
+    existing = _ASSIGNMENTS.setdefault(pid, [])
+    already = {(a["user_id"], a["track_id"]) for a in existing}
+    created = 0
+    for uid in user_ids:
+        if uid not in proj["users"]:
+            continue
+        if (uid, track_id) in already:
+            continue
+        existing.append({
+            "id": _new_id("ta"),
+            "project_id": pid,
+            "user_id": uid,
+            "track_id": track_id,
+            "status": "NOT_STARTED",
+            "due_date": due_date,
+            "assigned_at": _now_iso(),
+        })
+        already.add((uid, track_id))
+        created += 1
+    return {"ok": True, "created": created, "skipped": len(user_ids) - created}
+
+
+@router.get("/api/projects/{pid}/assignments")
+def get_assignments(pid: str,
+                    track_id: str | None = Query(default=None),
+                    status: str | None = Query(default=None)):
+    proj = _PROJECTS.get(pid)
+    if not proj:
+        raise HTTPException(status_code=404, detail="Project not found")
+    rows = list(_ASSIGNMENTS.get(pid, []))
+    if track_id:
+        rows = [a for a in rows if a["track_id"] == track_id]
+    if status:
+        rows = [a for a in rows if a["status"] == status]
+    site_names = {s["id"]: s["name"] for s in proj["sites"].values()}
+    enriched = []
+    for a in rows:
+        user = proj["users"].get(a["user_id"], {})
+        enriched.append({
+            **a,
+            "user_name": user.get("full_name", a["user_id"]),
+            "user_role": user.get("role", ""),
+            "user_site_id": user.get("site_id", ""),
+            "user_site_name": site_names.get(user.get("site_id", ""), ""),
+        })
+    enriched.sort(key=lambda a: a["assigned_at"], reverse=True)
+    return {"assignments": enriched, "total": len(enriched)}
+
+
+@router.get("/api/projects/{pid}/enrollment-rules")
+def get_enrollment_rules(pid: str):
+    if not _PROJECTS.get(pid):
+        raise HTTPException(status_code=404, detail="Project not found")
+    return {"rules": list(_RULES.get(pid, []))}
+
+
+@router.post("/api/projects/{pid}/enrollment-rules/preview")
+def preview_enrollment_rule(pid: str, payload: dict = Body(...)):
+    if not _PROJECTS.get(pid):
+        raise HTTPException(status_code=404, detail="Project not found")
+    role_filter = list(payload.get("role_filter") or [])
+    site_filter = list(payload.get("site_filter") or [])
+    user_ids = match_users(pid, role_filter or None, site_filter or None)
+    return {"preview_count": len(user_ids), "user_ids": user_ids}
+
+
+@router.post("/api/projects/{pid}/enrollment-rules")
+def create_enrollment_rule(pid: str, payload: dict = Body(...),
+                            lc_trainer: str | None = Cookie(default=None)):
+    if lc_trainer != TRAINER_TOKEN:
+        raise HTTPException(status_code=403, detail="Only trainers can create enrollment rules")
+    proj = _PROJECTS.get(pid)
+    if not proj:
+        raise HTTPException(status_code=404, detail="Project not found")
+    track_id = (payload.get("track_id") or "").strip()
+    role_filter = list(payload.get("role_filter") or [])
+    site_filter = list(payload.get("site_filter") or [])
+    due_date = payload.get("due_date") or None
+    if not track_id:
+        raise HTTPException(status_code=400, detail="track_id is required")
+    if not role_filter:
+        raise HTTPException(status_code=400, detail="role_filter must have at least one role")
+    for r in role_filter:
+        if r not in ROLES:
+            raise HTTPException(status_code=400, detail=f'Unknown role: "{r}"')
+
+    rule = {
+        "id": _new_id("rule"),
+        "project_id": pid,
+        "track_id": track_id,
+        "role_filter": role_filter,
+        "site_filter": site_filter,
+        "due_date": due_date,
+        "created_at": _now_iso(),
+    }
+    _RULES.setdefault(pid, []).append(rule)
+
+    # Run immediately — enroll all matching users (idempotent).
+    user_ids = match_users(pid, role_filter, site_filter or None)
+    existing = _ASSIGNMENTS.setdefault(pid, [])
+    already = {(a["user_id"], a["track_id"]) for a in existing}
+    enrolled = 0
+    for uid in user_ids:
+        if (uid, track_id) not in already:
+            existing.append({
+                "id": _new_id("ta"),
+                "project_id": pid,
+                "user_id": uid,
+                "track_id": track_id,
+                "status": "NOT_STARTED",
+                "due_date": due_date,
+                "assigned_at": _now_iso(),
+            })
+            already.add((uid, track_id))
+            enrolled += 1
+    return {"ok": True, "rule": rule, "enrolled": enrolled}

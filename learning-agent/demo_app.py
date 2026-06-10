@@ -258,6 +258,94 @@ app = FastAPI(title="Learning Studio (DEMO)")
 from projects import router as projects_router
 app.include_router(projects_router)
 
+# ── Module library + Track builder (/api/modules, /api/tracks/*) ─────────────
+import modules_store as _ms
+import quiz_store as _qs
+
+
+@app.get("/api/modules")
+async def api_list_modules(source: str = "", product: str = "", role: str = "", q: str = ""):
+    return _ms.list_modules(source=source, product=product, role=role, q=q)
+
+
+@app.get("/api/tracks")
+async def api_list_tracks():
+    return {"tracks": _ms.list_tracks()}
+
+
+@app.post("/api/tracks")
+async def api_create_track(body: dict):
+    track = _ms.create_track(
+        title=body.get("title", "Untitled Track"),
+        description=body.get("description", ""),
+        product=body.get("product", "SchoolCafé"),
+        role_tags=body.get("role_tags"),
+    )
+    return track
+
+
+@app.get("/api/tracks/{tid}")
+async def api_get_track(tid: str):
+    track = _ms.load_track(tid)
+    if not track:
+        raise HTTPException(404, "track not found")
+    return _ms.expand_track(track)
+
+
+@app.put("/api/tracks/{tid}/modules")
+async def api_set_track_modules(tid: str, body: dict):
+    track = _ms.load_track(tid)
+    if not track:
+        raise HTTPException(404, "track not found")
+    track["module_ids"] = body.get("module_ids") or []
+    _ms.save_track(track)
+    return {"module_ids": track["module_ids"]}
+
+
+@app.put("/api/tracks/{tid}")
+async def api_update_track(tid: str, body: dict):
+    track = _ms.load_track(tid)
+    if not track:
+        raise HTTPException(404, "track not found")
+    for field in ("title", "description", "product", "role_tags"):
+        if field in body:
+            track[field] = body[field]
+    _ms.save_track(track)
+    return track
+
+
+@app.post("/api/tracks/{tid}/publish")
+async def api_publish_track(tid: str):
+    track = _ms.load_track(tid)
+    if not track:
+        raise HTTPException(404, "track not found")
+    if not track.get("module_ids"):
+        raise HTTPException(409, {"error": "no_modules", "detail": "Add at least one module before publishing."})
+    track["status"] = "published"
+    _ms.save_track(track)
+    return track
+
+
+@app.post("/api/tracks/{tid}/quiz")
+async def api_attach_quiz(tid: str, body: dict):
+    track = _ms.load_track(tid)
+    if not track:
+        raise HTTPException(404, "track not found")
+    qid = body.get("quiz_id", "")
+    if not _qs.load_quiz(qid):
+        raise HTTPException(404, "quiz not found")
+    track["quiz_id"] = qid
+    _ms.save_track(track)
+    return {"quiz_id": qid}
+
+
+@app.delete("/api/tracks/{tid}")
+async def api_delete_track(tid: str):
+    if not _ms.delete_track(tid):
+        raise HTTPException(404, "track not found")
+    return {"ok": True}
+
+
 # Unchanged routes — reuse prod's handlers verbatim (they read/write the same
 # drafts/, published/, logs/, transcripts/ dirs).
 app.get("/", response_class=HTMLResponse)(prod.index)

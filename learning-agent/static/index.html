@@ -1513,6 +1513,26 @@
     .pj-signin-card { max-width: 420px; background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; text-align: center; box-shadow: var(--shadow-lift); }
     .pj-signin-card h2 { font-family: var(--serif); margin: 0 0 10px; }
     .pj-signin-card p { color: var(--muted); margin: 0 0 16px; font-size: 13px; }
+    /* Status pill — color-coded by lifecycle. Icon+text (not color alone). */
+    .pj-status { display: inline-flex; align-items: center; gap: 6px; padding: 3px 9px 3px 8px; border-radius: var(--radius-pill); font-size: 11.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; white-space: nowrap; border: 1px solid; }
+    .pj-status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+    .pj-status-planning   { color: #6b6258; background: #efe9df; border-color: #d8cdb9; }
+    .pj-status-planning::before   { background: #9a8e7c; }
+    .pj-status-onboarding { color: #8a5a14; background: #fbecd0; border-color: #e6c887; }
+    .pj-status-onboarding::before { background: #d4a342; }
+    .pj-status-live       { color: #1f6f43; background: #e0efe3; border-color: #8fc8a3; }
+    .pj-status-live::before       { background: #2f9a5e; }
+    .pj-status-archived   { color: #595045; background: #cfc8bd; border-color: #a59c8e; }
+    .pj-status-archived::before   { background: #6e6457; }
+    .pj-status-changer { position: relative; display: inline-block; }
+    .pj-status-changer-btn { background: none; border: 0; padding: 4px 6px; margin-left: 6px; cursor: pointer; color: var(--muted); font-size: 12px; border-radius: var(--radius-sm); }
+    .pj-status-changer-btn:hover { background: var(--surface); color: var(--text); }
+    .pj-status-menu { position: absolute; top: 100%; left: 0; margin-top: 6px; background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius-sm); box-shadow: var(--shadow-lift); min-width: 240px; padding: 6px; z-index: 50; }
+    .pj-status-menu[hidden] { display: none; }
+    .pj-status-menu button { display: block; width: 100%; text-align: left; background: none; border: 0; padding: 8px 10px; border-radius: var(--radius-sm); cursor: pointer; font-size: 13px; color: var(--text); }
+    .pj-status-menu button:hover { background: var(--surface); }
+    .pj-status-menu button[aria-current="true"] { font-weight: 700; background: var(--accent-soft); }
+    .pj-status-menu .pj-status-menu-sub { font-size: 11px; color: var(--muted); font-weight: 400; margin-top: 2px; line-height: 1.35; }
     .tb-l { display: block; font-size: 11.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); margin: 14px 0 6px; }
     .tb-in { width: 100%; box-sizing: border-box; padding: 9px 11px; border: 1px solid var(--border); border-radius: var(--radius-sm); font: inherit; font-size: 13.5px; background: var(--panel); color: var(--text); }
     .tb-in:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
@@ -1911,6 +1931,125 @@
     .ava-menu[hidden] { display: none; }
     .ava-menu button { display: block; width: 100%; text-align: left; background: none; border: 0; padding: 9px 11px; border-radius: var(--radius-sm); cursor: pointer; font: inherit; font-size: 12.5px; color: var(--text); }
     .ava-menu button:hover { background: var(--panel3); }
+
+    /* ── Track Assignment table + modals (Task 3) ─────────────────────────── */
+    .asn-tbl { width:100%; border-collapse:collapse; font-size:13px; }
+    .asn-tbl th { text-align:left; padding:8px 12px; color:var(--label); font-size:11.5px; font-weight:700; letter-spacing:.03em; text-transform:uppercase; border-bottom:1px solid var(--border); background:var(--panel2); }
+    .asn-tbl td { padding:9px 12px; border-bottom:1px solid var(--border); vertical-align:top; }
+    .asn-tbl tbody tr:last-child td { border-bottom:0; }
+    .asn-status { display:inline-block; padding:2px 8px; border-radius:999px; font-size:11px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; background:var(--panel3); color:var(--muted-aa); }
+    .rb-preview { text-align:center; padding:20px 0 8px; }
+    .rb-preview-n { font-size:52px; font-weight:800; color:var(--accent); line-height:1; }
+    .rb-preview-lbl { color:var(--muted-aa); font-size:13px; margin-top:6px; }
+    .at-count-line { margin-top:10px; min-height:26px; }
+    .at-count-badge { display:inline-block; padding:5px 14px; border-radius:999px; background:var(--accent-soft); color:var(--accent); font-size:13px; font-weight:700; }
+    .at-roles { display:flex; gap:14px; flex-wrap:wrap; margin-top:6px; }
+    .at-roles label { display:inline-flex; align-items:center; gap:5px; cursor:pointer; font-size:13px; color:var(--text); }
+
+    /* ════════════════════════════════════════════════════════════════════
+       TRACK BUILDER VIEW
+       .src-badge: global shared component (spec: build once, use everywhere).
+       Layout/card/seq classes: scoped to #view-track-builder.
+       .tb-overlay/.tb-modal/.tb-toast: global (position:fixed, outside view section).
+       ════════════════════════════════════════════════════════════════════ */
+    .src-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 7px; border-radius: var(--radius-pill); font-size: 9.5px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; white-space: nowrap; }
+    .src-badge--ai    { background: #E4ECF5; color: #2B4A6F; }
+    .src-badge--guide { background: var(--green-soft); color: var(--green-text); }
+    .src-badge--icn   { background: var(--amber-soft); color: var(--amber-text); }
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .tag-row { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 5px; min-height: 22px; }
+    .tag-chip { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; background: var(--panel3); border: 1px solid var(--border); border-radius: var(--radius-pill); font-size: 11.5px; font-weight: 600; color: var(--text-soft); }
+    .tag-chip button { background: none; border: 0; cursor: pointer; color: var(--muted); font-size: 12px; padding: 0 1px; line-height: 1; border-radius: 3px; }
+    .tag-chip button:hover { color: var(--red-text); }
+    .tag-input-row { display: flex; gap: 6px; margin-top: 6px; }
+    .tag-input-row input { flex: 1; min-width: 0; padding: 6px 10px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); font: inherit; font-size: 12.5px; background: var(--surface); color: var(--text); outline: none; }
+    .tag-input-row input:focus { border-color: var(--accent); box-shadow: var(--ring); }
+    #view-track-builder .page { display: grid; grid-template-columns: 340px minmax(0,1fr); min-height: calc(100vh - 120px); align-items: stretch; }
+    #view-track-builder .lib-pane { display: flex; flex-direction: column; border-right: 1px solid var(--border); background: var(--panel); min-height: 0; overflow: hidden; }
+    #view-track-builder .lib-pane-head { padding: 14px 14px 0; background: var(--panel2); border-bottom: 1px solid var(--border); }
+    #view-track-builder .lib-pane-title { margin: 0 0 10px; font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); }
+    #view-track-builder .lib-search-row { display: flex; gap: 6px; margin-bottom: 8px; }
+    #view-track-builder .lib-search { flex: 1; min-width: 0; padding: 7px 10px; background: var(--surface); border: 1px solid var(--border-strong); border-radius: var(--radius-sm); font: inherit; font-size: 13px; color: var(--text); outline: none; }
+    #view-track-builder .lib-search:focus { border-color: var(--accent); box-shadow: var(--ring); }
+    #view-track-builder .lib-filter-row { display: flex; gap: 6px; flex-wrap: wrap; padding-bottom: 10px; }
+    #view-track-builder .lib-filter-select { padding: 5px 28px 5px 9px; background: var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236B6860' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 8px center; appearance: none; -webkit-appearance: none; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); font: inherit; font-size: 12px; color: var(--text); outline: none; cursor: pointer; flex: 1; min-width: 88px; }
+    #view-track-builder .lib-filter-select:focus { border-color: var(--accent); }
+    #view-track-builder .lib-count { padding: 6px 14px 4px; font-size: 11px; color: var(--muted); }
+    #view-track-builder .lib-scroll { flex: 1; overflow-y: auto; padding: 6px 10px 14px; }
+    #view-track-builder .lib-scroll::-webkit-scrollbar { width: 10px; }
+    #view-track-builder .lib-scroll::-webkit-scrollbar-thumb { background: #D4CDBE; border-radius: 999px; border: 2px solid transparent; background-clip: content-box; }
+    #view-track-builder .lib-scroll::-webkit-scrollbar-thumb:hover { background: #C2BAA8; background-clip: content-box; }
+    #view-track-builder .mod-card { display: flex; align-items: center; gap: 10px; padding: 10px 12px; margin-bottom: 5px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; transition: border-color .14s, box-shadow .14s, transform .12s; user-select: none; }
+    #view-track-builder .mod-card:hover { border-color: var(--accent); transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+    #view-track-builder .mod-card.in-track { background: #F5F9F2; border-color: var(--green); }
+    #view-track-builder .mod-card-body { flex: 1; min-width: 0; }
+    #view-track-builder .mod-card-title { font-size: 13px; font-weight: 700; color: var(--text); margin: 0 0 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    #view-track-builder .mod-card-meta { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    #view-track-builder .mod-card-module { font-size: 11px; color: var(--muted); font-family: var(--mono); }
+    #view-track-builder .mod-card-add { flex: none; width: 28px; height: 28px; border: 1px solid var(--border-strong); border-radius: 50%; background: var(--panel); color: var(--muted); font-size: 15px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background .14s, border-color .14s, color .14s; flex-shrink: 0; }
+    #view-track-builder .mod-card-add:hover { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+    #view-track-builder .mod-card.in-track .mod-card-add { background: var(--green-soft); border-color: var(--green); color: var(--green-text); font-size: 12px; }
+    #view-track-builder .editor-pane { display: flex; flex-direction: column; gap: 18px; padding: 20px 24px 36px; overflow-y: auto; }
+    #view-track-builder .editor-pane::-webkit-scrollbar { width: 10px; }
+    #view-track-builder .editor-pane::-webkit-scrollbar-thumb { background: #D4CDBE; border-radius: 999px; border: 2px solid transparent; background-clip: content-box; }
+    #view-track-builder .track-switcher { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    #view-track-builder .track-switcher-label { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+    #view-track-builder .track-select { flex: 1; min-width: 200px; padding: 8px 32px 8px 11px; background: var(--panel) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236B6860' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 11px center; appearance: none; -webkit-appearance: none; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); font: inherit; font-size: 13px; color: var(--text); outline: none; cursor: pointer; }
+    #view-track-builder .track-select:focus { border-color: var(--accent); box-shadow: var(--ring); }
+    #view-track-builder .card { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+    #view-track-builder .card-header { display: flex; align-items: center; gap: 10px; padding: 12px 18px; background: var(--panel2); border-bottom: 1px solid var(--border); font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); }
+    #view-track-builder .card-header-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+    #view-track-builder .card-body { padding: 18px; }
+    #view-track-builder .track-modules { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 5px; min-height: 72px; }
+    #view-track-builder .track-mod-item { display: flex; align-items: center; gap: 10px; padding: 9px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: grab; transition: box-shadow .14s, border-color .14s; }
+    #view-track-builder .track-mod-item:active { cursor: grabbing; }
+    #view-track-builder .track-mod-item.drag-over { border-color: var(--accent); background: var(--accent-soft); box-shadow: var(--ring); }
+    #view-track-builder .track-mod-drag-handle { flex: none; color: var(--muted-soft); cursor: grab; font-size: 14px; line-height: 1; padding: 2px 0; user-select: none; }
+    #view-track-builder .track-mod-seq { flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--panel3); color: var(--text-soft); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+    #view-track-builder .track-mod-body { flex: 1; min-width: 0; }
+    #view-track-builder .track-mod-title { font-size: 13px; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    #view-track-builder .track-mod-meta { display: flex; align-items: center; gap: 6px; margin-top: 3px; }
+    #view-track-builder .track-mod-remove { flex: none; border: 0; background: none; cursor: pointer; color: var(--muted); font-size: 15px; padding: 3px 5px; border-radius: 6px; line-height: 1; transition: background .14s, color .14s; }
+    #view-track-builder .track-mod-remove:hover { background: var(--red-soft); color: var(--red-text); }
+    #view-track-builder .track-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; min-height: 100px; padding: 22px; background: var(--surface); border: 1.5px dashed rgba(179,84,59,0.32); border-radius: var(--radius-sm); color: var(--muted); text-align: center; font-size: 13px; font-family: var(--serif); }
+    #view-track-builder .track-empty svg { width: 24px; height: 24px; stroke: var(--muted-soft); opacity: .8; margin-bottom: 2px; }
+    #view-track-builder .drop-hint { margin-top: 8px; font-size: 11.5px; color: var(--muted-aa); }
+    #view-track-builder .status-badge { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px; border-radius: var(--radius-pill); font-size: 10.5px; font-weight: 700; letter-spacing: 0.02em; text-transform: uppercase; }
+    #view-track-builder .status-badge::before { content: ""; width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    #view-track-builder .status-badge.draft     { background: var(--amber-soft); color: var(--amber-text); }
+    #view-track-builder .status-badge.draft::before { background: var(--amber-text); }
+    #view-track-builder .status-badge.published { background: var(--green-soft); color: var(--green-text); }
+    #view-track-builder .status-badge.published::before { background: var(--green); }
+    #view-track-builder .publish-strip { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--green-soft); border: 1px solid var(--green); border-radius: var(--radius-sm); font-size: 13px; color: var(--green-text); font-weight: 600; }
+    #view-track-builder .publish-strip[hidden] { display: none; }
+    #view-track-builder .lib-empty-state { padding: 28px 14px; text-align: center; color: var(--muted); font-size: 13px; font-family: var(--serif); line-height: 1.55; }
+    #view-track-builder .editor-empty    { padding: 20px 0; text-align: center; color: var(--muted); font-size: 13px; font-family: var(--serif); }
+    .tb-overlay { position: fixed; inset: 0; z-index: 60; background: rgba(28,24,20,0.46); backdrop-filter: blur(2px); display: flex; align-items: center; justify-content: center; padding: 24px 16px; }
+    .tb-overlay[hidden] { display: none; }
+    .tb-modal { width: 100%; max-width: 480px; background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-lift); animation: tb-modal-in .18s ease; }
+    @keyframes tb-modal-in { from { transform: translateY(8px); opacity: 0; } to { transform: none; opacity: 1; } }
+    .tb-modal-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 20px; border-bottom: 1px solid var(--border); font-family: var(--serif); font-size: 17px; font-weight: 650; }
+    .tb-modal-close { border: 0; background: none; color: var(--muted); font-size: 17px; cursor: pointer; padding: 4px 8px; border-radius: var(--radius-sm); line-height: 1; }
+    .tb-modal-close:hover { background: var(--panel3); color: var(--text); }
+    .tb-modal-body { padding: 18px 20px; }
+    .tb-modal-foot { display: flex; align-items: center; justify-content: flex-end; gap: 10px; padding: 13px 20px; border-top: 1px solid var(--border); background: var(--panel2); }
+    .tb-modal-note { font-size: 12px; color: var(--muted); margin-right: auto; }
+    .tb-toast { position: fixed; bottom: 24px; right: 24px; z-index: 80; min-width: 260px; max-width: 380px; padding: 12px 16px; background: var(--text); color: #FBF8F1; border-radius: var(--radius-sm); box-shadow: var(--shadow-lift); font-size: 13.5px; font-weight: 600; display: flex; align-items: center; gap: 10px; animation: tb-toast-in .22s ease; }
+    .tb-toast.success { background: #3A5A39; }
+    .tb-toast.error   { background: #8A3D2B; }
+    @keyframes tb-toast-in { from { transform: translateY(10px); opacity: 0; } to { transform: none; opacity: 1; } }
+    .tb-toast[hidden] { display: none; }
+    .tb-toast-close { border: 0; background: none; color: inherit; cursor: pointer; font-size: 15px; margin-left: auto; padding: 2px 5px; opacity: 0.7; }
+    .tb-toast-close:hover { opacity: 1; }
+    @media (max-width: 860px) {
+      #view-track-builder .page { grid-template-columns: 1fr; }
+      #view-track-builder .lib-pane { border-right: 0; border-bottom: 1px solid var(--border); max-height: 42vh; }
+    }
+    @media (max-width: 560px) {
+      #view-track-builder .editor-pane { padding: 14px 14px 24px; }
+      #view-track-builder .track-switcher { flex-direction: column; align-items: stretch; }
+      #view-track-builder .track-select { min-width: 0; }
+    }
   </style>
 </head>
 <body>
@@ -1965,6 +2104,7 @@
     <button id="tab-content" onclick="showView('content')">Catalog</button>
     <button id="tab-evals" onclick="showView('evals')">Quality</button>
     <button id="tab-tracks" onclick="showView('tracks')">Tracks</button>
+    <button id="tab-track-builder" onclick="showView('track-builder')">Track Builder</button>
     <button id="tab-myteam" onclick="showView('myteam')">My Team</button>
   </nav>
 </aside>
@@ -2285,6 +2425,7 @@
     <div class="pj-head">
       <div>
         <h1 id="pjd-title">Project dashboard</h1>
+        <div id="pjd-status-row" style="display:flex;align-items:center;gap:6px;margin:6px 0 8px;"></div>
         <p class="sub" id="pjd-sub"></p>
       </div>
       <button class="secondary" onclick="showView('projects')">← All projects</button>
@@ -2292,6 +2433,51 @@
     <div id="pjd-body"></div>
   </div>
 </section>
+<!-- ── Assign Track modal (Task 3) ────────────────────────────────────────── -->
+<div id="at-modal" class="am-overlay" hidden>
+  <div class="am-modal" style="max-width:540px;">
+    <div class="am-head"><b>Assign Track</b><button class="lib-drawer-close" onclick="atClose()">✕</button></div>
+    <div class="am-body">
+      <label class="tb-l">Track</label>
+      <select id="at-track" class="tb-in" onchange="atRefresh()"><option value="">Pick a track…</option></select>
+      <label class="tb-l" style="margin-top:12px;">Filter by role</label>
+      <div id="at-roles" class="at-roles"></div>
+      <label class="tb-l" style="margin-top:12px;">Filter by site</label>
+      <select id="at-site" class="tb-in" onchange="atRefresh()"><option value="">All sites</option></select>
+      <label class="tb-l" style="margin-top:12px;">Search by name</label>
+      <input id="at-search" type="text" class="tb-in" placeholder="e.g. Alice" autocomplete="off" oninput="atRefresh()">
+      <div id="at-count" class="at-count-line"></div>
+      <label class="tb-l" style="margin-top:12px;">Due date <span style="font-weight:400;color:var(--muted-aa);">(optional)</span></label>
+      <input id="at-due" type="date" class="tb-in">
+      <p style="font-size:12px;color:var(--muted-aa);margin-top:4px;">Reminders coming in V2</p>
+    </div>
+    <div class="am-foot">
+      <button class="primary" id="at-btn" onclick="atCommit()" disabled>Assign to ? users</button>
+    </div>
+  </div>
+</div>
+<!-- ── Rule Builder modal (Task 3) ───────────────────────────────────────── -->
+<div id="rb-modal" class="am-overlay" hidden>
+  <div class="am-modal" style="max-width:480px;">
+    <div class="am-head"><b>Auto-enroll Rule</b><button class="lib-drawer-close" onclick="rbClose()">✕</button></div>
+    <div class="am-body">
+      <label class="tb-l">Enroll in track</label>
+      <select id="rb-track" class="tb-in" onchange="rbPreview()"><option value="">Pick a track…</option></select>
+      <label class="tb-l" style="margin-top:12px;">When role is</label>
+      <div id="rb-roles" class="at-roles"></div>
+      <label class="tb-l" style="margin-top:12px;">Site filter <span style="font-weight:400;color:var(--muted-aa);">(optional — blank = all sites)</span></label>
+      <select id="rb-site" class="tb-in" onchange="rbPreview()"><option value="">All sites</option></select>
+      <label class="tb-l" style="margin-top:12px;">Due date <span style="font-weight:400;color:var(--muted-aa);">(optional)</span></label>
+      <input id="rb-due" type="date" class="tb-in">
+      <p style="font-size:12px;color:var(--muted-aa);margin-top:4px;">Reminders coming in V2</p>
+      <div id="rb-preview"></div>
+    </div>
+    <div class="am-foot">
+      <span class="tb-note">Creates the rule and enrolls matching users immediately.</span>
+      <button class="primary" id="rb-btn" onclick="rbCommit()" disabled>Save Rule &amp; Enroll</button>
+    </div>
+  </div>
+</div>
 <section id="view-myteam" class="view">
   <div class="roster-wrap">
     <div class="roster-head"><div><h1 class="roster-title" id="myteam-title">My Team</h1><p class="roster-sub">Your district&rsquo;s training compliance.</p></div><span class="demo-tag">Demo data</span></div>
@@ -2727,6 +2913,7 @@ let _projState = { signedIn: false, currentPid: null, csvKind: 'sites', csvFile:
 async function projRefreshMe(){
   try{ const r = await fetch('/api/me'); const j = await r.json();
        _projState.signedIn = !!j.signed_in;
+       _meUser = j.signed_in ? (j.user || null) : null;
        const pill = document.getElementById('trainer-pill');
        if(pill) pill.hidden = !j.signed_in;
        if(j.signed_in){ const nm = document.getElementById('trainer-pill-name'); if(nm) nm.textContent = (j.user&&j.user.name)||'Trainer Bob'; }
@@ -2761,13 +2948,60 @@ async function loadProjects(){
   list.innerHTML = body.projects.map(p => `
     <div class="pj-row" onclick="openProjectDashboard('${p.id}')">
       <div>
-        <div class="pj-row-name">${_esc(p.name)}</div>
+        <div class="pj-row-name" style="display:flex;align-items:center;gap:8px;">${_esc(p.name)}${_statusPill(p.status)}</div>
         <div class="pj-row-meta">${_esc(p.product)} · Go-live ${_esc(p.go_live_date)} · ${p.site_count} sites · ${p.user_count} people</div>
       </div>
       <div class="pj-row-meta">${p.users_imported_at?('Imported '+_fmtDate(p.users_imported_at)):'Roster pending →'}</div>
     </div>`).join('');
 }
 function _esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+// Status pill + change-status menu — color-coded, icon+text, not color-alone.
+const _STATUS_LABEL = { PLANNING:'Planning', ONBOARDING:'Onboarding', LIVE:'Live', ARCHIVED:'Archived' };
+const _STATUS_HINT = {
+  PLANNING:   'Project created, roster not yet imported.',
+  ONBOARDING: 'Roster imported, tracks being assigned, pre-go-live training.',
+  LIVE:       'District is live — Director can sign in and learners have access.',
+  ARCHIVED:   'Engagement ended. Read-only.',
+};
+function _statusPill(status){
+  const s = (status || 'PLANNING');
+  const cls = 'pj-status-' + s.toLowerCase();
+  return `<span class="pj-status ${cls}" title="${_esc(_STATUS_HINT[s]||'')}">${_esc(_STATUS_LABEL[s] || s)}</span>`;
+}
+function _statusChanger(pid, current){
+  const items = ['PLANNING','ONBOARDING','LIVE','ARCHIVED'].map(s => `
+    <button onclick="event.stopPropagation(); setProjectStatus('${pid}','${s}')" aria-current="${s===current?'true':'false'}">
+      <div style="display:flex;align-items:center;gap:8px;">${_statusPill(s)}<span>${_esc(_STATUS_LABEL[s])}</span></div>
+      <div class="pj-status-menu-sub">${_esc(_STATUS_HINT[s])}</div>
+    </button>`).join('');
+  return `<span class="pj-status-changer">
+    <button class="pj-status-changer-btn" onclick="event.stopPropagation(); _toggleStatusMenu(event)" aria-haspopup="true" aria-expanded="false" title="Change status">Change ▾</button>
+    <div class="pj-status-menu" hidden role="menu">${items}</div>
+  </span>`;
+}
+function _toggleStatusMenu(ev){
+  const btn = ev.currentTarget; const menu = btn.parentElement.querySelector('.pj-status-menu');
+  const willShow = menu.hidden;
+  // close any other open menus first
+  document.querySelectorAll('.pj-status-menu').forEach(m=>m.hidden=true);
+  menu.hidden = !willShow;
+  btn.setAttribute('aria-expanded', willShow ? 'true' : 'false');
+  if(willShow){
+    const close = (e) => { if(!menu.contains(e.target) && e.target !== btn){ menu.hidden=true; btn.setAttribute('aria-expanded','false'); document.removeEventListener('click', close); } };
+    setTimeout(()=>document.addEventListener('click', close), 0);
+  }
+}
+async function setProjectStatus(pid, status){
+  document.querySelectorAll('.pj-status-menu').forEach(m=>m.hidden=true);
+  try{
+    const r = await fetch('/api/projects/'+pid+'/status', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({status})});
+    if(!r.ok) throw 0;
+    // Re-render whichever view is active
+    const cur = (document.querySelector('.view.active')||{}).id;
+    if(cur === 'view-project-dashboard') renderProjectDashboard();
+    else loadProjects();
+  } catch(_){ alert('Could not update status — try again.'); }
+}
 async function projCreate(){
   ['name','product','go_live_date'].forEach(k=>{const e=document.getElementById('pj-err-'+k); if(e){e.hidden=true; e.textContent='';}});
   const banner = document.getElementById('pj-create-banner'); if(banner) banner.innerHTML='';
@@ -2928,6 +3162,8 @@ async function renderProjectDashboard(){
   catch(_){ if(body) body.innerHTML = '<p>Project not found.</p>'; return; }
   const p = j.project;
   if(title) title.textContent = p.name;
+  const statusRow = document.getElementById('pjd-status-row');
+  if(statusRow) statusRow.innerHTML = _statusPill(p.status) + _statusChanger(p.id, p.status);
   if(sub) sub.textContent = `${p.product} · Go-live ${p.go_live_date} · ${p.user_count} people across ${p.site_count} sites`;
   const ROLES = ['Cashier','Site Manager','CN Director'];
   const statCards = ROLES.map(role => `
@@ -2957,11 +3193,8 @@ async function renderProjectDashboard(){
         </table>
       </div>
     </div>
-    <div class="pj-empty-tracks" style="margin-top:18px;">
-      <h3>No tracks assigned yet</h3>
-      <p>Build a track in <strong>Tracks</strong>, then assign it from <strong>Manage › Assignments</strong>.</p>
-      <button class="primary" onclick="showView('tracks')">Open Tracks →</button>
-    </div>`;
+    <div id="pjd-asn" style="margin-top:18px;"></div>`;
+  _renderAssignmentsSection(pid, document.getElementById('pjd-asn'));
 }
 // Refresh "Trainer Bob" pill on first load, regardless of which view boots first.
 window.addEventListener('DOMContentLoaded', () => { projRefreshMe(); });
@@ -5710,6 +5943,262 @@ document.getElementById('download-pdf').addEventListener('click', () => {
 document.getElementById('lib-download-pdf').addEventListener('click', () => {
   downloadResourcePdf(libSelectedId);
 });
+
+// ── Track Assignments (Task 3) ────────────────────────────────────────────────
+// _meUser is set by projRefreshMe; null when not signed in.
+let _meUser = null;
+let _atPid = null;        // project id open in the assign-track modal
+let _atAllUsers = [];     // full user list for _atPid (loaded at open)
+let _atTracks = [];       // published tracks for _atPid
+let _atFiltered = [];     // user-id list after current filter state
+
+let _rbPid = null;        // project id open in the rule-builder modal
+
+// ── Assignments section (embedded in project dashboard) ───────────────────────
+
+function _asnRows(asgns, tMap) {
+  if (!asgns.length) return `<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--muted);">No assignments yet.</td></tr>`;
+  return asgns.map(a => `
+    <tr>
+      <td>${_esc(a.user_name)}<div style="font-size:11.5px;color:var(--muted);">${_esc(a.user_role)} · ${_esc(a.user_site_name)}</div></td>
+      <td>${_esc(tMap[a.track_id] || a.track_id)}</td>
+      <td><span class="asn-status">${_esc(a.status.replace(/_/g,' '))}</span></td>
+      <td style="color:${a.due_date?'inherit':'var(--muted)'};">${a.due_date ? _fmtDate(a.due_date) : '—'}</td>
+      <td style="color:var(--muted);">${_fmtDate(a.assigned_at)}</td>
+    </tr>`).join('');
+}
+
+async function _renderAssignmentsSection(pid, el) {
+  if (!el) return;
+  el.innerHTML = '<p style="color:var(--muted);padding:4px 0;font-size:13px;">Loading assignments…</p>';
+  let aData = {assignments:[]}, tData = {tracks:[]};
+  try {
+    [aData, tData] = await Promise.all([
+      fetch(`/api/projects/${pid}/assignments`).then(r => r.json()),
+      fetch(`/api/projects/${pid}/assignable-tracks`).then(r => r.json()),
+    ]);
+  } catch(_) {}
+
+  const isDir = (_meUser && _meUser.role === 'Director');
+  const asgns = aData.assignments || [];
+  const tracks = tData.tracks || [];
+  const tMap = Object.fromEntries(tracks.map(t => [t.id, t.title]));
+  const trackOpts = ['<option value="">All tracks</option>',
+    ...tracks.map(t => `<option value="${_esc(t.id)}">${_esc(t.title)}</option>`)].join('');
+
+  el.innerHTML = `
+    <div class="pj-card">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+        <div>
+          <h2>Track Assignments</h2>
+          <div class="pj-import-stamp">${asgns.length} total</div>
+        </div>
+        ${isDir ? '' : `<div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="primary" onclick="openAssignTrack('${_esc(pid)}')">Assign Track</button>
+          <button class="secondary" onclick="openRuleBuilder('${_esc(pid)}')">+ Auto-enroll Rule</button>
+        </div>`}
+      </div>
+      <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
+        <select id="pjd-track-filter" class="tb-in" style="min-width:160px;" onchange="pjdFilterAsgn('${_esc(pid)}')">
+          ${trackOpts}
+        </select>
+        <select id="pjd-status-filter" class="tb-in" style="min-width:130px;" onchange="pjdFilterAsgn('${_esc(pid)}')">
+          <option value="">All statuses</option>
+          <option value="NOT_STARTED">Not started</option>
+          <option value="IN_PROGRESS">In progress</option>
+          <option value="COMPLETED">Completed</option>
+        </select>
+      </div>
+      <div style="overflow-x:auto;margin-top:10px;">
+        <table class="asn-tbl">
+          <thead><tr><th>Person</th><th>Track</th><th>Status</th><th>Due</th><th>Assigned</th></tr></thead>
+          <tbody id="pjd-asn-rows">${_asnRows(asgns, tMap)}</tbody>
+        </table>
+      </div>
+    </div>`;
+}
+
+async function pjdFilterAsgn(pid) {
+  const tid = document.getElementById('pjd-track-filter')?.value || '';
+  const status = document.getElementById('pjd-status-filter')?.value || '';
+  const params = [];
+  if (tid) params.push(`track_id=${encodeURIComponent(tid)}`);
+  if (status) params.push(`status=${encodeURIComponent(status)}`);
+  const url = `/api/projects/${pid}/assignments` + (params.length ? '?' + params.join('&') : '');
+  let asgns = [], tMap = {};
+  try {
+    const [ar, tr] = await Promise.all([
+      fetch(url).then(r => r.json()),
+      fetch(`/api/projects/${pid}/assignable-tracks`).then(r => r.json()),
+    ]);
+    asgns = ar.assignments || [];
+    (tr.tracks || []).forEach(t => { tMap[t.id] = t.title; });
+  } catch(_) {}
+  const tbody = document.getElementById('pjd-asn-rows');
+  if (tbody) tbody.innerHTML = _asnRows(asgns, tMap);
+}
+
+// ── Assign Track modal ────────────────────────────────────────────────────────
+
+async function openAssignTrack(pid) {
+  _atPid = pid; _atAllUsers = []; _atTracks = []; _atFiltered = [];
+  const modal = document.getElementById('at-modal');
+  if (!modal) return;
+  try {
+    const [tResp, uResp, pResp] = await Promise.all([
+      fetch(`/api/projects/${pid}/assignable-tracks`).then(r => r.json()),
+      fetch(`/api/projects/${pid}/users`).then(r => r.json()),
+      fetch(`/api/projects/${pid}`).then(r => r.json()),
+    ]);
+    _atTracks = tResp.tracks || [];
+    _atAllUsers = uResp.users || [];
+
+    document.getElementById('at-track').innerHTML =
+      '<option value="">Pick a track…</option>' +
+      _atTracks.map(t => `<option value="${_esc(t.id)}">${_esc(t.title)}</option>`).join('');
+
+    const sSel = document.getElementById('at-site');
+    sSel.innerHTML = '<option value="">All sites</option>' +
+      (pResp.sites || []).map(s => `<option value="${_esc(s.id)}">${_esc(s.name)}</option>`).join('');
+
+    document.getElementById('at-roles').innerHTML =
+      ['Cashier','Site Manager','CN Director'].map(r =>
+        `<label><input type="checkbox" value="${_esc(r)}" checked onchange="atRefresh()"> ${_esc(r)}</label>`
+      ).join('');
+  } catch(_) {}
+  document.getElementById('at-search').value = '';
+  document.getElementById('at-due').value = '';
+  modal.hidden = false;
+  atRefresh();
+}
+
+function atClose() { const m = document.getElementById('at-modal'); if (m) m.hidden = true; }
+
+function atRefresh() {
+  const roles = new Set([...document.querySelectorAll('#at-roles input:checked')].map(e => e.value));
+  const siteId = document.getElementById('at-site')?.value || '';
+  const q = (document.getElementById('at-search')?.value || '').trim().toLowerCase();
+  const tid = document.getElementById('at-track')?.value || '';
+
+  _atFiltered = _atAllUsers.filter(u =>
+    (!roles.size || roles.has(u.role)) &&
+    (!siteId || u.site_id === siteId) &&
+    (!q || u.full_name.toLowerCase().includes(q))
+  ).map(u => u.id);
+
+  const n = _atFiltered.length;
+  const countEl = document.getElementById('at-count');
+  if (countEl) countEl.innerHTML = n
+    ? `<span class="at-count-badge">${n} user${n !== 1 ? 's' : ''} match</span>`
+    : `<span style="color:var(--muted-aa);font-size:13px;">No users match these filters.</span>`;
+  const btn = document.getElementById('at-btn');
+  if (btn) { btn.textContent = `Assign to ${n} user${n !== 1 ? 's' : ''}`; btn.disabled = n === 0 || !tid; }
+}
+
+async function atCommit() {
+  const pid = _atPid;
+  const tid = document.getElementById('at-track')?.value;
+  const due = document.getElementById('at-due')?.value || null;
+  if (!tid || !_atFiltered.length) return;
+  const btn = document.getElementById('at-btn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Assigning…'; }
+  try {
+    const r = await fetch(`/api/projects/${pid}/assignments`, {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({track_id: tid, user_ids: _atFiltered, due_date: due}),
+    });
+    if (!r.ok) throw 0;
+    atClose();
+    _renderAssignmentsSection(pid, document.getElementById('pjd-asn'));
+  } catch(_) {
+    const n = _atFiltered.length;
+    if (btn) { btn.disabled = false; btn.textContent = `Assign to ${n} user${n !== 1 ? 's' : ''}`; }
+    alert('Assignment failed — please try again.');
+  }
+}
+
+// ── Rule Builder modal ────────────────────────────────────────────────────────
+
+async function openRuleBuilder(pid) {
+  _rbPid = pid;
+  const modal = document.getElementById('rb-modal');
+  if (!modal) return;
+  try {
+    const [tResp, pResp] = await Promise.all([
+      fetch(`/api/projects/${pid}/assignable-tracks`).then(r => r.json()),
+      fetch(`/api/projects/${pid}`).then(r => r.json()),
+    ]);
+    document.getElementById('rb-track').innerHTML =
+      '<option value="">Pick a track…</option>' +
+      (tResp.tracks || []).map(t => `<option value="${_esc(t.id)}">${_esc(t.title)}</option>`).join('');
+
+    document.getElementById('rb-site').innerHTML =
+      '<option value="">All sites</option>' +
+      (pResp.sites || []).map(s => `<option value="${_esc(s.id)}">${_esc(s.name)}</option>`).join('');
+
+    document.getElementById('rb-roles').innerHTML =
+      ['Cashier','Site Manager','CN Director'].map(r =>
+        `<label><input type="checkbox" value="${_esc(r)}" onchange="rbPreview()"> ${_esc(r)}</label>`
+      ).join('');
+  } catch(_) {}
+  document.getElementById('rb-due').value = '';
+  document.getElementById('rb-preview').innerHTML = '';
+  const btn = document.getElementById('rb-btn');
+  if (btn) btn.disabled = true;
+  modal.hidden = false;
+}
+
+function rbClose() { const m = document.getElementById('rb-modal'); if (m) m.hidden = true; }
+
+async function rbPreview() {
+  const pid = _rbPid;
+  const roles = [...document.querySelectorAll('#rb-roles input:checked')].map(e => e.value);
+  const siteId = document.getElementById('rb-site')?.value || '';
+  const tid = document.getElementById('rb-track')?.value || '';
+  const prevEl = document.getElementById('rb-preview');
+  const btn = document.getElementById('rb-btn');
+  if (!roles.length) {
+    if (prevEl) prevEl.innerHTML = '<p style="color:var(--muted-aa);text-align:center;padding:12px 0;font-size:13px;">Select at least one role to see a preview.</p>';
+    if (btn) btn.disabled = true;
+    return;
+  }
+  if (prevEl) prevEl.innerHTML = '<p style="color:var(--muted-aa);text-align:center;padding:12px 0;font-size:13px;">Calculating…</p>';
+  try {
+    const r = await fetch(`/api/projects/${pid}/enrollment-rules/preview`, {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({role_filter: roles, site_filter: siteId ? [siteId] : []}),
+    });
+    const j = await r.json();
+    const n = j.preview_count;
+    if (prevEl) prevEl.innerHTML = `<div class="rb-preview"><div class="rb-preview-n">${n}</div><div class="rb-preview-lbl">user${n !== 1 ? 's' : ''} will be enrolled right now</div></div>`;
+    if (btn) btn.disabled = !tid;
+  } catch(_) {
+    if (prevEl) prevEl.innerHTML = '<p style="color:var(--muted-aa);text-align:center;padding:12px 0;">Preview unavailable.</p>';
+  }
+}
+
+async function rbCommit() {
+  const pid = _rbPid;
+  const tid = document.getElementById('rb-track')?.value || '';
+  const roles = [...document.querySelectorAll('#rb-roles input:checked')].map(e => e.value);
+  const siteId = document.getElementById('rb-site')?.value || '';
+  const due = document.getElementById('rb-due')?.value || null;
+  if (!tid || !roles.length) return;
+  const btn = document.getElementById('rb-btn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Saving…'; }
+  try {
+    const r = await fetch(`/api/projects/${pid}/enrollment-rules`, {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({track_id: tid, role_filter: roles, site_filter: siteId ? [siteId] : [], due_date: due}),
+    });
+    if (!r.ok) throw 0;
+    rbClose();
+    _renderAssignmentsSection(pid, document.getElementById('pjd-asn'));
+  } catch(_) {
+    if (btn) { btn.disabled = false; btn.textContent = 'Save Rule & Enroll'; }
+    alert('Failed to save rule — please try again.');
+  }
+}
 
 // First paint: stepper idle + status line shows "Ready when you are."
 setProgress(0);
