@@ -1466,6 +1466,10 @@
     /* Home — command center */
     .cmd-tiles { grid-template-columns: repeat(5, 1fr); }
     .home-tile.warn { border-color: var(--warn-border, #E0B574); background: var(--warn-soft, #FBF3E3); }
+    .kpi-trend { font-size: 11px; font-weight: 600; margin-top: 5px; }
+    .kpi-trend.tr-good { color: #2F7D4F; }
+    .kpi-trend.tr-bad { color: var(--amber-text, #8A5A12); }
+    .kpi-trend.tr-flat { color: var(--muted); font-weight: 500; }
     .cmd-grid { display: grid; grid-template-columns: 1.7fr 1fr; gap: var(--sp-4); margin: 0 30px var(--sp-6); align-items: start; }
     .cmd-main, .cmd-side { display: flex; flex-direction: column; gap: var(--sp-4); min-width: 0; }
     .cmd-card { background: #FFF; border: 1px solid var(--border); border-radius: var(--radius); padding: 15px 17px; }
@@ -1474,14 +1478,14 @@
     .cmd-sub { font-size: 12px; color: var(--muted); }
     .cmd-pill { font-size: 12px; font-weight: 650; color: var(--accent); background: var(--panel3); border-radius: 999px; padding: 1px 9px; }
     .attn-list { display: flex; flex-direction: column; gap: 8px; }
-    .attn-row { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); }
+    .attn-row { display: flex; align-items: center; gap: 12px; padding: 10px 12px; min-height: 56px; border: 1px solid var(--border); border-radius: var(--radius-sm); }
     .attn-row.attn-help { border-color: var(--amber-text, #8A5A12); background: var(--amber-soft, #FBF1E2); }
     .attn-row.attn-warn { border-color: var(--warn-border, #E0B574); background: var(--warn-soft, #FBF3E3); }
     .attn-ico { font-size: 17px; flex: none; width: 22px; text-align: center; }
     .attn-bd { flex: 1; min-width: 0; }
     .attn-title { font-size: 13.5px; font-weight: 650; color: var(--text); }
     .attn-desc { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .attn-row > .secondary { flex: none; }
+    .attn-row > .secondary { flex: none; min-width: 92px; text-align: center; }
     .attn-empty { font-size: 13px; color: var(--muted); padding: 8px 2px; }
     .proj-rows { display: flex; flex-direction: column; gap: 8px; }
     .proj-row { display: flex; align-items: center; gap: 12px; padding: 9px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; }
@@ -2393,8 +2397,18 @@ function renderHome(){
   const overdue = mine.reduce((a, d) => a + d.learners.filter(l => l.status === 'Overdue').length, 0);
   const helps = mine.filter(d => d.help_request && !_demoState.helpCleared[d.id]);
   // ── KPI signal strip ──
-  const tiles = [['My districts', mine.length, ''], ['Avg completion', avg + '%', ''], ['Active this week', activeWk, ''], ['Overdue learners', overdue, overdue ? ' warn' : ''], ['Help requests', helps.length, helps.length ? ' alert' : '']];
-  let h = '<div class="home-tiles cmd-tiles">' + tiles.map(t => `<div class="home-tile${t[2]}"><div class="n">${t[1]}</div><div class="l">${escapeHtml(t[0])}</div></div>`).join('') + '</div>';
+  // KPI strip — alert metrics LEAD from the left (F-pattern: strongest attention is top-left), each with a trend vs last week so the number shows direction, not just a point-in-time value.
+  const tiles = [
+    { label: 'Help requests', val: helps.length, cls: helps.length ? ' alert' : '', d: '+1', up: true, good: false, unit: ' vs last wk' },
+    { label: 'Overdue learners', val: overdue, cls: overdue ? ' warn' : '', d: '+2', up: true, good: false, unit: ' vs last wk' },
+    { label: 'Avg completion', val: avg + '%', cls: '', d: '+6', up: true, good: true, unit: ' pts vs last wk' },
+    { label: 'Active this week', val: activeWk, cls: '', d: '+3', up: true, good: true, unit: ' vs last wk' },
+    { label: 'My districts', val: mine.length, cls: '', flat: true },
+  ];
+  let h = '<div class="home-tiles cmd-tiles">' + tiles.map(t => {
+    const tr = t.flat ? '<div class="kpi-trend tr-flat">— no change</div>' : `<div class="kpi-trend ${t.good ? 'tr-good' : 'tr-bad'}">${t.up ? '▲' : '▼'} ${escapeHtml(t.d)}${escapeHtml(t.unit)}</div>`;
+    return `<div class="home-tile${t.cls}"><div class="n">${t.val}</div><div class="l">${escapeHtml(t.label)}</div>${tr}</div>`;
+  }).join('') + '</div>';
   // ── command-center grid ──
   h += '<div class="cmd-grid"><div class="cmd-main">';
   // Needs your attention — prioritized "what's next" feed (help > overdue > behind > approvals)
