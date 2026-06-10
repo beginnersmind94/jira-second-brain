@@ -2125,7 +2125,7 @@
     <div class="am-body">
       <label class="tb-l">Track name</label><input id="tbk-name" class="tb-in" placeholder="e.g. New Cashier Onboarding" autocomplete="off">
       <label class="tb-l">Role</label><select id="tbk-role" class="tb-in"><option>Cashier</option><option>Site Manager</option><option>CN Director</option></select>
-      <label class="tb-l">Product</label><select id="tbk-product" class="tb-in"><option>SchoolCafé</option><option>PrimeroEdge</option></select>
+      <label class="tb-l">Product</label><select id="tbk-product" class="tb-in"><option>SchoolCafé</option></select>
       <label class="am-row" style="margin-top:8px;"><input type="checkbox" id="tbk-sequential"> Sequential — courses unlock in order</label>
       <label class="tb-l">Courses</label><div id="tbk-courses"></div>
     </div>
@@ -2486,7 +2486,7 @@ const _DEMO = (() => {
     { id:'t-cashier', title:'New Cashier Onboarding', role:'Cashier', product:'SchoolCafé', due:DUE, instructor:'CB', courseIds:['c-pos'] },
     { id:'t-sitemgr', title:'Site Manager Essentials', role:'Site Manager', product:'SchoolCafé', sequential:true, due:DUE, instructor:'SM', courseIds:['c-item','c-inv'] },
     { id:'t-elig', title:'Eligibility Certification Prep', role:'CN Director', product:'SchoolCafé', due:DUE, instructor:'EL', courseIds:['c-elig'] },
-    { id:'t-pe', title:'PrimeroEdge Onboarding', role:'CN Director', product:'PrimeroEdge', due:DUE, instructor:'PE', courseIds:['c-elig','c-menu'] },
+    { id:'t-pe', title:'SchoolCafé Onboarding', role:'CN Director', product:'SchoolCafé', due:DUE, instructor:'SC', courseIds:['c-elig','c-menu'] },
   ];
   const districts = [
     { id:'houston-isd', name:'Houston ISD', trainer:'Dana Alvarez', last:'2 hours ago', logins30:412, sites:['Lamar HS','Pershing MS','Garden Oaks ES','Central Kitchen'] },
