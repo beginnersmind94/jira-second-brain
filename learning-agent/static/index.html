@@ -1981,7 +1981,7 @@
     /* ════════════════════════════════════════════════════════════════════
        TRACK BUILDER VIEW
        .src-badge: global shared component (spec: build once, use everywhere).
-       Layout/card/seq classes: scoped to #view-track-builder.
+       Layout/card/seq classes: scoped to .tb-shell.
        .tb-overlay/.tb-modal/.tb-toast: global (position:fixed, outside view section).
        ════════════════════════════════════════════════════════════════════ */
     .src-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 7px; border-radius: var(--radius-pill); font-size: 9.5px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; white-space: nowrap; }
@@ -1996,67 +1996,67 @@
     .tag-input-row { display: flex; gap: 6px; margin-top: 6px; }
     .tag-input-row input { flex: 1; min-width: 0; padding: 6px 10px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); font: inherit; font-size: 12.5px; background: var(--surface); color: var(--text); outline: none; }
     .tag-input-row input:focus { border-color: var(--accent); box-shadow: var(--ring); }
-    #view-track-builder .page { display: grid; grid-template-columns: 340px minmax(0,1fr); min-height: calc(100vh - 120px); align-items: stretch; }
-    #view-track-builder .lib-pane { display: flex; flex-direction: column; border-right: 1px solid var(--border); background: var(--panel); min-height: 0; overflow: hidden; }
-    #view-track-builder .lib-pane-head { padding: 14px 14px 0; background: var(--panel2); border-bottom: 1px solid var(--border); }
-    #view-track-builder .lib-pane-title { margin: 0 0 10px; font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); }
-    #view-track-builder .lib-search-row { display: flex; gap: 6px; margin-bottom: 8px; }
-    #view-track-builder .lib-search { flex: 1; min-width: 0; padding: 7px 10px; background: var(--surface); border: 1px solid var(--border-strong); border-radius: var(--radius-sm); font: inherit; font-size: 13px; color: var(--text); outline: none; }
-    #view-track-builder .lib-search:focus { border-color: var(--accent); box-shadow: var(--ring); }
-    #view-track-builder .lib-filter-row { display: flex; gap: 6px; flex-wrap: wrap; padding-bottom: 10px; }
-    #view-track-builder .lib-filter-select { padding: 5px 28px 5px 9px; background: var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236B6860' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 8px center; appearance: none; -webkit-appearance: none; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); font: inherit; font-size: 12px; color: var(--text); outline: none; cursor: pointer; flex: 1; min-width: 88px; }
-    #view-track-builder .lib-filter-select:focus { border-color: var(--accent); }
-    #view-track-builder .lib-count { padding: 6px 14px 4px; font-size: 11px; color: var(--muted); }
-    #view-track-builder .lib-scroll { flex: 1; overflow-y: auto; padding: 6px 10px 14px; }
-    #view-track-builder .lib-scroll::-webkit-scrollbar { width: 10px; }
-    #view-track-builder .lib-scroll::-webkit-scrollbar-thumb { background: #D4CDBE; border-radius: 999px; border: 2px solid transparent; background-clip: content-box; }
-    #view-track-builder .lib-scroll::-webkit-scrollbar-thumb:hover { background: #C2BAA8; background-clip: content-box; }
-    #view-track-builder .mod-card { display: flex; align-items: center; gap: 10px; padding: 10px 12px; margin-bottom: 5px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; transition: border-color .14s, box-shadow .14s, transform .12s; user-select: none; }
-    #view-track-builder .mod-card:hover { border-color: var(--accent); transform: translateY(-1px); box-shadow: var(--shadow-sm); }
-    #view-track-builder .mod-card.in-track { background: #F5F9F2; border-color: var(--green); }
-    #view-track-builder .mod-card-body { flex: 1; min-width: 0; }
-    #view-track-builder .mod-card-title { font-size: 13px; font-weight: 700; color: var(--text); margin: 0 0 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    #view-track-builder .mod-card-meta { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-    #view-track-builder .mod-card-module { font-size: 11px; color: var(--muted); font-family: var(--mono); }
-    #view-track-builder .mod-card-add { flex: none; width: 28px; height: 28px; border: 1px solid var(--border-strong); border-radius: 50%; background: var(--panel); color: var(--muted); font-size: 15px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background .14s, border-color .14s, color .14s; flex-shrink: 0; }
-    #view-track-builder .mod-card-add:hover { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
-    #view-track-builder .mod-card.in-track .mod-card-add { background: var(--green-soft); border-color: var(--green); color: var(--green-text); font-size: 12px; }
-    #view-track-builder .editor-pane { display: flex; flex-direction: column; gap: 18px; padding: 20px 24px 36px; overflow-y: auto; }
-    #view-track-builder .editor-pane::-webkit-scrollbar { width: 10px; }
-    #view-track-builder .editor-pane::-webkit-scrollbar-thumb { background: #D4CDBE; border-radius: 999px; border: 2px solid transparent; background-clip: content-box; }
-    #view-track-builder .track-switcher { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-    #view-track-builder .track-switcher-label { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
-    #view-track-builder .track-select { flex: 1; min-width: 200px; padding: 8px 32px 8px 11px; background: var(--panel) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236B6860' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 11px center; appearance: none; -webkit-appearance: none; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); font: inherit; font-size: 13px; color: var(--text); outline: none; cursor: pointer; }
-    #view-track-builder .track-select:focus { border-color: var(--accent); box-shadow: var(--ring); }
-    #view-track-builder .card { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
-    #view-track-builder .card-header { display: flex; align-items: center; gap: 10px; padding: 12px 18px; background: var(--panel2); border-bottom: 1px solid var(--border); font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); }
-    #view-track-builder .card-header-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
-    #view-track-builder .card-body { padding: 18px; }
-    #view-track-builder .track-modules { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 5px; min-height: 72px; }
-    #view-track-builder .track-mod-item { display: flex; align-items: center; gap: 10px; padding: 9px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: grab; transition: box-shadow .14s, border-color .14s; }
-    #view-track-builder .track-mod-item:active { cursor: grabbing; }
-    #view-track-builder .track-mod-item.dragging  { opacity: .45; cursor: grabbing; }
-    #view-track-builder .track-mod-item.drag-over { border-color: var(--accent); background: var(--accent-soft); box-shadow: var(--ring); }
-    #view-track-builder .track-mod-drag-handle { flex: none; color: var(--muted-soft); cursor: grab; font-size: 14px; line-height: 1; padding: 2px 0; user-select: none; }
-    #view-track-builder .track-mod-seq { flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--panel3); color: var(--text-soft); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
-    #view-track-builder .track-mod-body { flex: 1; min-width: 0; }
-    #view-track-builder .track-mod-title { font-size: 13px; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    #view-track-builder .track-mod-meta { display: flex; align-items: center; gap: 6px; margin-top: 3px; }
-    #view-track-builder .track-mod-remove { flex: none; border: 0; background: none; cursor: pointer; color: var(--muted); font-size: 15px; padding: 3px 5px; border-radius: 6px; line-height: 1; transition: background .14s, color .14s; }
-    #view-track-builder .track-mod-remove:hover { background: var(--red-soft); color: var(--red-text); }
-    #view-track-builder .track-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; min-height: 100px; padding: 22px; background: var(--surface); border: 1.5px dashed rgba(179,84,59,0.32); border-radius: var(--radius-sm); color: var(--muted); text-align: center; font-size: 13px; font-family: var(--serif); }
-    #view-track-builder .track-empty svg { width: 24px; height: 24px; stroke: var(--muted-soft); opacity: .8; margin-bottom: 2px; }
-    #view-track-builder .drop-hint { margin-top: 8px; font-size: 11.5px; color: var(--muted-aa); }
-    #view-track-builder .status-badge { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px; border-radius: var(--radius-pill); font-size: 10.5px; font-weight: 700; letter-spacing: 0.02em; text-transform: uppercase; }
-    #view-track-builder .status-badge::before { content: ""; width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
-    #view-track-builder .status-badge.draft     { background: var(--amber-soft); color: var(--amber-text); }
-    #view-track-builder .status-badge.draft::before { background: var(--amber-text); }
-    #view-track-builder .status-badge.published { background: var(--green-soft); color: var(--green-text); }
-    #view-track-builder .status-badge.published::before { background: var(--green); }
-    #view-track-builder .publish-strip { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--green-soft); border: 1px solid var(--green); border-radius: var(--radius-sm); font-size: 13px; color: var(--green-text); font-weight: 600; }
-    #view-track-builder .publish-strip[hidden] { display: none; }
-    #view-track-builder .lib-empty-state { padding: 28px 14px; text-align: center; color: var(--muted); font-size: 13px; font-family: var(--serif); line-height: 1.55; }
-    #view-track-builder .editor-empty    { padding: 20px 0; text-align: center; color: var(--muted); font-size: 13px; font-family: var(--serif); }
+    .tb-shell .page { display: grid; grid-template-columns: 340px minmax(0,1fr); min-height: calc(100vh - 120px); align-items: stretch; }
+    .tb-shell .lib-pane { display: flex; flex-direction: column; border-right: 1px solid var(--border); background: var(--panel); min-height: 0; overflow: hidden; }
+    .tb-shell .lib-pane-head { padding: 14px 14px 0; background: var(--panel2); border-bottom: 1px solid var(--border); }
+    .tb-shell .lib-pane-title { margin: 0 0 10px; font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); }
+    .tb-shell .lib-search-row { display: flex; gap: 6px; margin-bottom: 8px; }
+    .tb-shell .lib-search { flex: 1; min-width: 0; padding: 7px 10px; background: var(--surface); border: 1px solid var(--border-strong); border-radius: var(--radius-sm); font: inherit; font-size: 13px; color: var(--text); outline: none; }
+    .tb-shell .lib-search:focus { border-color: var(--accent); box-shadow: var(--ring); }
+    .tb-shell .lib-filter-row { display: flex; gap: 6px; flex-wrap: wrap; padding-bottom: 10px; }
+    .tb-shell .lib-filter-select { padding: 5px 28px 5px 9px; background: var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236B6860' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 8px center; appearance: none; -webkit-appearance: none; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); font: inherit; font-size: 12px; color: var(--text); outline: none; cursor: pointer; flex: 1; min-width: 88px; }
+    .tb-shell .lib-filter-select:focus { border-color: var(--accent); }
+    .tb-shell .lib-count { padding: 6px 14px 4px; font-size: 11px; color: var(--muted); }
+    .tb-shell .lib-scroll { flex: 1; overflow-y: auto; padding: 6px 10px 14px; }
+    .tb-shell .lib-scroll::-webkit-scrollbar { width: 10px; }
+    .tb-shell .lib-scroll::-webkit-scrollbar-thumb { background: #D4CDBE; border-radius: 999px; border: 2px solid transparent; background-clip: content-box; }
+    .tb-shell .lib-scroll::-webkit-scrollbar-thumb:hover { background: #C2BAA8; background-clip: content-box; }
+    .tb-shell .mod-card { display: flex; align-items: center; gap: 10px; padding: 10px 12px; margin-bottom: 5px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; transition: border-color .14s, box-shadow .14s, transform .12s; user-select: none; }
+    .tb-shell .mod-card:hover { border-color: var(--accent); transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+    .tb-shell .mod-card.in-track { background: #F5F9F2; border-color: var(--green); }
+    .tb-shell .mod-card-body { flex: 1; min-width: 0; }
+    .tb-shell .mod-card-title { font-size: 13px; font-weight: 700; color: var(--text); margin: 0 0 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .tb-shell .mod-card-meta { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .tb-shell .mod-card-module { font-size: 11px; color: var(--muted); font-family: var(--mono); }
+    .tb-shell .mod-card-add { flex: none; width: 28px; height: 28px; border: 1px solid var(--border-strong); border-radius: 50%; background: var(--panel); color: var(--muted); font-size: 15px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background .14s, border-color .14s, color .14s; flex-shrink: 0; }
+    .tb-shell .mod-card-add:hover { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+    .tb-shell .mod-card.in-track .mod-card-add { background: var(--green-soft); border-color: var(--green); color: var(--green-text); font-size: 12px; }
+    .tb-shell .editor-pane { display: flex; flex-direction: column; gap: 18px; padding: 20px 24px 36px; overflow-y: auto; }
+    .tb-shell .editor-pane::-webkit-scrollbar { width: 10px; }
+    .tb-shell .editor-pane::-webkit-scrollbar-thumb { background: #D4CDBE; border-radius: 999px; border: 2px solid transparent; background-clip: content-box; }
+    .tb-shell .track-switcher { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .tb-shell .track-switcher-label { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+    .tb-shell .track-select { flex: 1; min-width: 200px; padding: 8px 32px 8px 11px; background: var(--panel) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236B6860' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 11px center; appearance: none; -webkit-appearance: none; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); font: inherit; font-size: 13px; color: var(--text); outline: none; cursor: pointer; }
+    .tb-shell .track-select:focus { border-color: var(--accent); box-shadow: var(--ring); }
+    .tb-shell .card { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+    .tb-shell .card-header { display: flex; align-items: center; gap: 10px; padding: 12px 18px; background: var(--panel2); border-bottom: 1px solid var(--border); font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); }
+    .tb-shell .card-header-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+    .tb-shell .card-body { padding: 18px; }
+    .tb-shell .track-modules { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 5px; min-height: 72px; }
+    .tb-shell .track-mod-item { display: flex; align-items: center; gap: 10px; padding: 9px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: grab; transition: box-shadow .14s, border-color .14s; }
+    .tb-shell .track-mod-item:active { cursor: grabbing; }
+    .tb-shell .track-mod-item.dragging  { opacity: .45; cursor: grabbing; }
+    .tb-shell .track-mod-item.drag-over { border-color: var(--accent); background: var(--accent-soft); box-shadow: var(--ring); }
+    .tb-shell .track-mod-drag-handle { flex: none; color: var(--muted-soft); cursor: grab; font-size: 14px; line-height: 1; padding: 2px 0; user-select: none; }
+    .tb-shell .track-mod-seq { flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--panel3); color: var(--text-soft); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+    .tb-shell .track-mod-body { flex: 1; min-width: 0; }
+    .tb-shell .track-mod-title { font-size: 13px; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .tb-shell .track-mod-meta { display: flex; align-items: center; gap: 6px; margin-top: 3px; }
+    .tb-shell .track-mod-remove { flex: none; border: 0; background: none; cursor: pointer; color: var(--muted); font-size: 15px; padding: 3px 5px; border-radius: 6px; line-height: 1; transition: background .14s, color .14s; }
+    .tb-shell .track-mod-remove:hover { background: var(--red-soft); color: var(--red-text); }
+    .tb-shell .track-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; min-height: 100px; padding: 22px; background: var(--surface); border: 1.5px dashed rgba(179,84,59,0.32); border-radius: var(--radius-sm); color: var(--muted); text-align: center; font-size: 13px; font-family: var(--serif); }
+    .tb-shell .track-empty svg { width: 24px; height: 24px; stroke: var(--muted-soft); opacity: .8; margin-bottom: 2px; }
+    .tb-shell .drop-hint { margin-top: 8px; font-size: 11.5px; color: var(--muted-aa); }
+    .tb-shell .status-badge { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px; border-radius: var(--radius-pill); font-size: 10.5px; font-weight: 700; letter-spacing: 0.02em; text-transform: uppercase; }
+    .tb-shell .status-badge::before { content: ""; width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .tb-shell .status-badge.draft     { background: var(--amber-soft); color: var(--amber-text); }
+    .tb-shell .status-badge.draft::before { background: var(--amber-text); }
+    .tb-shell .status-badge.published { background: var(--green-soft); color: var(--green-text); }
+    .tb-shell .status-badge.published::before { background: var(--green); }
+    .tb-shell .publish-strip { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--green-soft); border: 1px solid var(--green); border-radius: var(--radius-sm); font-size: 13px; color: var(--green-text); font-weight: 600; }
+    .tb-shell .publish-strip[hidden] { display: none; }
+    .tb-shell .lib-empty-state { padding: 28px 14px; text-align: center; color: var(--muted); font-size: 13px; font-family: var(--serif); line-height: 1.55; }
+    .tb-shell .editor-empty    { padding: 20px 0; text-align: center; color: var(--muted); font-size: 13px; font-family: var(--serif); }
     .tb-overlay { position: fixed; inset: 0; z-index: 60; background: rgba(28,24,20,0.46); backdrop-filter: blur(2px); display: flex; align-items: center; justify-content: center; padding: 24px 16px; }
     .tb-overlay[hidden] { display: none; }
     .tb-modal { width: 100%; max-width: 480px; background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-lift); animation: tb-modal-in .18s ease; }
@@ -2075,14 +2075,62 @@
     .tb-toast-close { border: 0; background: none; color: inherit; cursor: pointer; font-size: 15px; margin-left: auto; padding: 2px 5px; opacity: 0.7; }
     .tb-toast-close:hover { opacity: 1; }
     @media (max-width: 860px) {
-      #view-track-builder .page { grid-template-columns: 1fr; }
-      #view-track-builder .lib-pane { border-right: 0; border-bottom: 1px solid var(--border); max-height: 42vh; }
+      .tb-shell .page { grid-template-columns: 1fr; }
+      .tb-shell .lib-pane { border-right: 0; border-bottom: 1px solid var(--border); max-height: 42vh; }
     }
     @media (max-width: 560px) {
-      #view-track-builder .editor-pane { padding: 14px 14px 24px; }
-      #view-track-builder .track-switcher { flex-direction: column; align-items: stretch; }
-      #view-track-builder .track-select { min-width: 0; }
+      .tb-shell .editor-pane { padding: 14px 14px 24px; }
+      .tb-shell .track-switcher { flex-direction: column; align-items: stretch; }
+      .tb-shell .track-select { min-width: 0; }
     }
+    /* ── Content Library (view-modules) ──────────────────────────── */
+    #view-modules .view-page { max-width: 1100px; margin: 0 auto; padding: 28px 28px 60px; }
+    #view-modules .view-head { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; flex-wrap: wrap; }
+    #view-modules .view-head h2 { font-family: var(--serif); font-size: 22px; font-weight: 650; color: var(--text); margin: 0; flex: none; }
+    #view-modules .ml-filters { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; flex: 1; }
+    #view-modules .ml-filters input[type=search] { flex: 1; min-width: 160px; max-width: 280px; }
+    #view-modules .ml-filters select { min-width: 140px; }
+    #view-modules .ml-count { font-size: 12px; color: var(--muted); font-family: var(--mono); white-space: nowrap; margin-left: auto; }
+    #view-modules .ml-table { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+    #view-modules .ml-table-head { display: grid; grid-template-columns: minmax(0,2.5fr) 110px 120px 130px 1fr; padding: 0 16px; background: var(--panel2); border-bottom: 1px solid var(--border); }
+    #view-modules .ml-table-head span { padding: 10px 8px; font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+    #view-modules .ml-list { list-style: none; margin: 0; padding: 0; }
+    #view-modules .ml-row { display: grid; grid-template-columns: minmax(0,2.5fr) 110px 120px 130px 1fr; padding: 0 16px; border-bottom: 1px solid var(--border); align-items: center; min-height: 52px; transition: background .12s; }
+    #view-modules .ml-row:last-child { border-bottom: none; }
+    #view-modules .ml-row:hover { background: var(--panel2); }
+    #view-modules .ml-cell { padding: 10px 8px; font-size: 13px; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    #view-modules .ml-title { font-weight: 700; }
+    #view-modules .ml-muted { color: var(--muted); font-family: var(--mono); font-size: 11.5px; }
+    #view-modules .ml-tags { display: flex; flex-wrap: wrap; gap: 4px; padding: 4px 8px; }
+    #view-modules .ml-tag  { font-size: 10px; padding: 2px 6px; border-radius: var(--radius-pill); background: var(--panel3); color: var(--muted); font-weight: 600; }
+    #view-modules .ml-empty { padding: 40px 20px; text-align: center; color: var(--muted); font-size: 13px; font-family: var(--serif); }
+    @media (max-width: 760px) {
+      #view-modules .ml-table-head { grid-template-columns: minmax(0,1fr) 110px 110px; }
+      #view-modules .ml-row { grid-template-columns: minmax(0,1fr) 110px 110px; }
+      #view-modules .ml-table-head span:nth-child(4), #view-modules .ml-table-head span:nth-child(5),
+      #view-modules .ml-row .ml-cell:nth-child(4), #view-modules .ml-row .ml-cell:nth-child(5) { display: none; }
+    }
+    /* ── Quiz Builder (view-quiz-builder) ────────────────────────── */
+    #view-quiz-builder .qb-page { max-width: 860px; margin: 0 auto; padding: 28px 28px 80px; }
+    #view-quiz-builder .qb-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; gap: 12px; flex-wrap: wrap; }
+    #view-quiz-builder .qb-head h2 { font-family: var(--serif); font-size: 22px; font-weight: 650; margin: 0; }
+    #view-quiz-builder .qb-meta { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 20px; padding: 18px 20px; display: flex; flex-direction: column; gap: 14px; }
+    #view-quiz-builder .qb-track-row { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: end; }
+    #view-quiz-builder .qb-questions { display: flex; flex-direction: column; gap: 14px; }
+    #view-quiz-builder .qb-q-card { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: 0 1px 3px rgba(0,0,0,0.06); overflow: hidden; }
+    #view-quiz-builder .qb-q-head { display: flex; align-items: center; gap: 10px; padding: 10px 16px; background: var(--panel2); border-bottom: 1px solid var(--border); font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); }
+    #view-quiz-builder .qb-q-num { width: 22px; height: 22px; border-radius: 50%; background: var(--panel3); color: var(--text-soft,var(--muted)); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+    #view-quiz-builder .qb-q-head-right { margin-left: auto; }
+    #view-quiz-builder .qb-q-body { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+    #view-quiz-builder .qb-opt-label { font-size: 11.5px; font-weight: 700; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 6px; display: block; }
+    #view-quiz-builder .qb-opt-row { display: grid; grid-template-columns: auto 1fr; gap: 9px; align-items: center; margin-bottom: 6px; }
+    #view-quiz-builder .qb-opt-row:last-child { margin-bottom: 0; }
+    #view-quiz-builder .qb-opt-row input[type=radio] { accent-color: var(--accent); width: 15px; height: 15px; cursor: pointer; margin: 0; flex: none; }
+    #view-quiz-builder .qb-opt-row input[type=text] { font-size: 13px; }
+    #view-quiz-builder .qb-add-q { display: flex; justify-content: center; margin-top: 10px; }
+    #view-quiz-builder .qb-footer { position: sticky; bottom: 0; background: var(--panel); border-top: 1px solid var(--border); padding: 13px 0; display: flex; align-items: center; gap: 10px; justify-content: flex-end; margin-top: 28px; }
+    #view-quiz-builder .qb-saved-badge { font-size: 12.5px; color: var(--green-text); font-weight: 600; margin-right: auto; }
+    #view-quiz-builder .qb-attach-note { font-size: 12px; color: var(--muted); }
   </style>
 </head>
 <body>
@@ -2137,7 +2185,8 @@
     <button id="tab-content" onclick="showView('content')">Catalog</button>
     <button id="tab-evals" onclick="showView('evals')">Quality</button>
     <button id="tab-tracks" onclick="showView('tracks')">Tracks</button>
-    <button id="tab-track-builder" onclick="showView('track-builder')">Track Builder</button>
+    <button id="tab-modules" onclick="showView('modules')">Modules</button>
+    <button id="tab-quiz-builder" onclick="showView('quiz-builder')">Quiz Builder</button>
     <button id="tab-myteam" onclick="showView('myteam')">My Team</button>
   </nav>
 </aside>
@@ -2167,21 +2216,128 @@
       <h1>Create</h1>
       <p>Two ways to build learning here: <strong>generate</strong> a new grounded guide from a transcript or Jira, or <strong>assemble</strong> already-approved guides into tracks. Every path keeps content traceable to its source.</p>
     </div>
-    <div class="lane-head">
-      <span class="lane-tag">Generate · AI-grounded authoring</span>
-      <h2>Generate a guide</h2>
-      <p>Turn a training transcript or verified Jira tickets into a new guide. Every claim is quoted from its source and checked before you can publish.</p>
+    <div class="seg" id="create-mode" role="tablist" style="margin-top:16px;margin-bottom:0;">
+      <button type="button" data-cmode="transcript" class="active">Upload transcript</button>
+      <button type="button" data-cmode="describe">Describe what you need</button>
+      <button type="button" data-cmode="studyset" id="cmode-studyset">Study set</button>
+      <button type="button" data-cmode="track">Build a track</button>
     </div>
+  </div>
+  <div id="mode-track" class="tb-shell" style="display:none;">
+  <div class="page">
+    <!-- LEFT PANE: Module library -->
+    <aside class="lib-pane" aria-label="Module library">
+      <div class="lib-pane-head">
+        <p class="lib-pane-title">Module library</p>
+        <div class="lib-search-row">
+          <input id="tb-lib-search" class="lib-search" type="search"
+                 placeholder="Search modules…" autocomplete="off" aria-label="Search modules">
+        </div>
+        <div class="lib-filter-row">
+          <select id="tb-lib-source" class="lib-filter-select" aria-label="Filter by source">
+            <option value="">All sources</option>
+            <option value="AI_TRANSCRIPT">AI-generated</option>
+            <option value="HUMAN_GUIDE">Cybersoft guide</option>
+            <option value="ICN_DOC">ICN / USDA</option>
+          </select>
+          <select id="tb-lib-product" class="lib-filter-select" aria-label="Filter by product">
+            <option value="">All products</option>
+            <option value="SchoolCafé">SchoolCafé</option>
+            <option value="Family Hub">Family Hub</option>
+          </select>
+        </div>
+      </div>
+      <div class="lib-count" id="tb-lib-count" aria-live="polite"></div>
+      <div class="lib-scroll" id="tb-lib-scroll"></div>
+    </aside>
+
+    <!-- RIGHT PANE: Track editor -->
+    <main class="editor-pane" aria-label="Track editor">
+      <div class="track-switcher">
+        <span class="track-switcher-label">Track</span>
+        <select id="tb-track-select" class="track-select" aria-label="Select a track to edit">
+          <option value="">— Select or create a track —</option>
+        </select>
+        <button class="primary" onclick="tbOpenNewTrackModal()">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor"
+               stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+          New track
+        </button>
+      </div>
+
+      <div class="publish-strip" id="tb-publish-strip" hidden role="status">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+        </svg>
+        <span id="tb-publish-strip-msg">Track published — learners can now access it.</span>
+      </div>
+
+      <div class="card" id="tb-meta-card">
+        <div class="card-header">
+          Track details
+          <div class="card-header-right" id="tb-track-status-badge"></div>
+        </div>
+        <div class="card-body" id="tb-meta-body">
+          <div class="editor-empty">Select a track from the dropdown above, or create a new one.</div>
+        </div>
+      </div>
+
+      <div class="card" id="tb-sequence-card">
+        <div class="card-header">
+          Module sequence
+          <div class="card-header-right" id="tb-mod-count-label"
+               style="font-size:11px;color:var(--muted);font-weight:500;letter-spacing:0;text-transform:none;"></div>
+        </div>
+        <div class="card-body">
+          <ul class="track-modules" id="tb-track-modules-list" role="list" aria-label="Modules in this track">
+            <li>
+              <div class="track-empty">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 2H8l-2 5h12z"/>
+                </svg>
+                No track selected — pick one above to start building.
+              </div>
+            </li>
+          </ul>
+          <p class="drop-hint" id="tb-drop-hint" hidden>
+            Click <strong>+</strong> on a module in the library to add it. Drag rows to reorder.
+          </p>
+        </div>
+      </div>
+
+      <div class="card" id="tb-actions-card" hidden>
+        <div class="card-body" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <button class="secondary danger" onclick="tbConfirmDeleteTrack()">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/>
+              <path d="M10 11v6M14 11v6M9 6V4h6v2"/>
+            </svg>
+            Delete track
+          </button>
+          <div style="margin-left:auto;display:flex;gap:8px;">
+            <button class="secondary" id="tb-save-meta-btn" onclick="tbSaveMeta()">Save changes</button>
+            <button class="primary" id="tb-publish-btn" onclick="tbPublishTrack()">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor"
+                   stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4z"/>
+              </svg>
+              Publish track
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
   </div>
   <div class="author">
     <div class="panel">
       <div class="panel-header"><span class="step-ord">1</span><span>Create a resource</span></div>
       <div class="panel-body">
-        <div class="seg" id="create-mode" role="tablist">
-          <button type="button" data-cmode="transcript" class="active">Upload transcript</button>
-          <button type="button" data-cmode="describe">Describe what you need</button>
-          <button type="button" data-cmode="studyset" id="cmode-studyset">Study set</button>
-        </div>
 
         <div id="mode-transcript">
           <div class="field">
@@ -2838,117 +2994,7 @@
 </section>
 
 <!-- ═══════════════════════════════════ TRACK BUILDER ═══════════════════════════════════ -->
-<section id="view-track-builder" class="view">
-  <div class="page">
-    <!-- LEFT PANE: Module library -->
-    <aside class="lib-pane" aria-label="Module library">
-      <div class="lib-pane-head">
-        <p class="lib-pane-title">Module library</p>
-        <div class="lib-search-row">
-          <input id="tb-lib-search" class="lib-search" type="search"
-                 placeholder="Search modules…" autocomplete="off" aria-label="Search modules">
-        </div>
-        <div class="lib-filter-row">
-          <select id="tb-lib-source" class="lib-filter-select" aria-label="Filter by source">
-            <option value="">All sources</option>
-            <option value="AI_TRANSCRIPT">AI-generated</option>
-            <option value="HUMAN_GUIDE">Cybersoft guide</option>
-            <option value="ICN_DOC">ICN / USDA</option>
-          </select>
-          <select id="tb-lib-product" class="lib-filter-select" aria-label="Filter by product">
-            <option value="">All products</option>
-            <option value="SchoolCafé">SchoolCafé</option>
-            <option value="Family Hub">Family Hub</option>
-          </select>
-        </div>
-      </div>
-      <div class="lib-count" id="tb-lib-count" aria-live="polite"></div>
-      <div class="lib-scroll" id="tb-lib-scroll"></div>
-    </aside>
-
-    <!-- RIGHT PANE: Track editor -->
-    <main class="editor-pane" aria-label="Track editor">
-      <div class="track-switcher">
-        <span class="track-switcher-label">Track</span>
-        <select id="tb-track-select" class="track-select" aria-label="Select a track to edit">
-          <option value="">— Select or create a track —</option>
-        </select>
-        <button class="primary" onclick="tbOpenNewTrackModal()">
-          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor"
-               stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
-          </svg>
-          New track
-        </button>
-      </div>
-
-      <div class="publish-strip" id="tb-publish-strip" hidden role="status">
-        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2"
-             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
-        </svg>
-        <span id="tb-publish-strip-msg">Track published — learners can now access it.</span>
-      </div>
-
-      <div class="card" id="tb-meta-card">
-        <div class="card-header">
-          Track details
-          <div class="card-header-right" id="tb-track-status-badge"></div>
-        </div>
-        <div class="card-body" id="tb-meta-body">
-          <div class="editor-empty">Select a track from the dropdown above, or create a new one.</div>
-        </div>
-      </div>
-
-      <div class="card" id="tb-sequence-card">
-        <div class="card-header">
-          Module sequence
-          <div class="card-header-right" id="tb-mod-count-label"
-               style="font-size:11px;color:var(--muted);font-weight:500;letter-spacing:0;text-transform:none;"></div>
-        </div>
-        <div class="card-body">
-          <ul class="track-modules" id="tb-track-modules-list" role="list" aria-label="Modules in this track">
-            <li>
-              <div class="track-empty">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
-                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 2H8l-2 5h12z"/>
-                </svg>
-                No track selected — pick one above to start building.
-              </div>
-            </li>
-          </ul>
-          <p class="drop-hint" id="tb-drop-hint" hidden>
-            Click <strong>+</strong> on a module in the library to add it. Drag rows to reorder.
-          </p>
-        </div>
-      </div>
-
-      <div class="card" id="tb-actions-card" hidden>
-        <div class="card-body" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-          <button class="secondary danger" onclick="tbConfirmDeleteTrack()">
-            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor"
-                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/>
-              <path d="M10 11v6M14 11v6M9 6V4h6v2"/>
-            </svg>
-            Delete track
-          </button>
-          <div style="margin-left:auto;display:flex;gap:8px;">
-            <button class="secondary" id="tb-save-meta-btn" onclick="tbSaveMeta()">Save changes</button>
-            <button class="primary" id="tb-publish-btn" onclick="tbPublishTrack()">
-              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor"
-                   stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4z"/>
-              </svg>
-              Publish track
-            </button>
-          </div>
-        </div>
-      </div>
-    </main>
-  </div>
-</section>
+<section id="view-track-builder" class="view tb-shell"></section>
 
 <!-- Track Builder — New Track Modal (fixed, outside hidden view so position:fixed works) -->
 <div class="tb-overlay" id="tb-new-track-overlay" hidden
@@ -3007,6 +3053,84 @@
   <span id="tb-toast-msg"></span>
   <button class="tb-toast-close" onclick="tbHideToast()" aria-label="Dismiss">✕</button>
 </div>
+
+<!-- ═══ Content Library ═══════════════════════════════════════════════════ -->
+<section id="view-modules" class="view">
+  <div class="view-page">
+    <div class="view-head">
+      <h2>Content Library</h2>
+      <div class="ml-filters">
+        <input type="search" id="ml-search" placeholder="Search modules…" autocomplete="off" aria-label="Search modules">
+        <select id="ml-source" aria-label="Filter by source">
+          <option value="">All sources</option>
+          <option value="AI_TRANSCRIPT">AI-generated</option>
+          <option value="HUMAN_GUIDE">Cybersoft guide</option>
+          <option value="ICN_DOC">ICN / USDA</option>
+        </select>
+        <select id="ml-product" aria-label="Filter by product">
+          <option value="">All products</option>
+          <option value="SchoolCafé">SchoolCafé</option>
+          <option value="Family Hub">Family Hub</option>
+        </select>
+      </div>
+      <span class="ml-count" id="ml-count"></span>
+    </div>
+    <div class="ml-table">
+      <div class="ml-table-head">
+        <span>Title</span>
+        <span>Source</span>
+        <span>Product</span>
+        <span>Module</span>
+        <span>Role tags</span>
+      </div>
+      <ul class="ml-list" id="ml-list" aria-label="Module list">
+        <li class="ml-empty">Loading…</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Quiz Builder ═══════════════════════════════════════════════════════ -->
+<section id="view-quiz-builder" class="view">
+  <div class="qb-page">
+    <div class="qb-head">
+      <h2>Quiz Builder</h2>
+      <div style="display:flex;gap:8px;">
+        <button class="secondary" onclick="qbReset()">Clear</button>
+        <button class="primary" id="qb-save-btn" onclick="qbSave()">Save quiz</button>
+      </div>
+    </div>
+
+    <div class="qb-meta">
+      <div class="field" style="margin:0;">
+        <label for="qb-title">Quiz title</label>
+        <input id="qb-title" type="text" placeholder="e.g. Item Management check" maxlength="120" autocomplete="off">
+      </div>
+      <div class="qb-track-row">
+        <div class="field" style="margin:0;">
+          <label for="qb-track">Attach to track <span style="font-weight:400;color:var(--muted);">(optional — save quiz first)</span></label>
+          <select id="qb-track" aria-label="Select track to attach quiz to">
+            <option value="">— Not attached —</option>
+          </select>
+        </div>
+        <button class="secondary" id="qb-attach-btn" onclick="qbAttach()" disabled>Attach</button>
+      </div>
+      <div id="qb-attach-status" class="qb-attach-note"></div>
+    </div>
+
+    <div class="qb-questions" id="qb-questions"></div>
+
+    <div class="qb-add-q">
+      <button class="secondary" id="qb-add-q-btn" onclick="qbAddQuestion()">+ Add question</button>
+    </div>
+
+    <div class="qb-footer">
+      <span class="qb-saved-badge" id="qb-status-msg"></span>
+      <button class="secondary" onclick="qbReset()">Clear</button>
+      <button class="primary" id="qb-save-btn2" onclick="qbSave()">Save quiz</button>
+    </div>
+  </div>
+</section>
 
 <script>
 // ─── State ─────────────────────────────────────────────────────────
@@ -3506,7 +3630,9 @@ function showView(name) {
   if (name === 'home') loadHome();
   if (name === 'myteam' && typeof loadMyTeam === 'function') loadMyTeam();
   if (name === 'tracks' && typeof loadTracks === 'function') loadTracks();
-  if (name === 'track-builder') loadTrackBuilder();
+  if (name === 'track-builder') { openTrackBuilder(); return; }
+  if (name === 'modules' && typeof loadModulesView === 'function') loadModulesView();
+  if (name === 'quiz-builder' && typeof loadQuizBuilder === 'function') loadQuizBuilder();
   if (name === 'projects' && typeof loadProjects === 'function') loadProjects();
   if (name === 'project-dashboard' && typeof renderProjectDashboard === 'function') renderProjectDashboard();
   if (name === 'csv-upload' && typeof renderCsvUpload === 'function') renderCsvUpload();
@@ -3571,8 +3697,8 @@ function renderHome(){
   h += `<section class="cmd-card"><div class="cmd-head"><h3>My projects</h3><span class="cmd-sub">${mine.length} districts</span></div><div class="proj-rows">`;
   h += mine.map(d => {
     const comp = _districtCompletion(d), flagged = d.help_request && !_demoState.helpCleared[d.id];
-    const st = flagged ? 'Needs help' : (comp >= 70 ? 'On track' : 'Behind'), stc = flagged ? 'needs-help' : (comp >= 70 ? 'ok' : 'behind');
-    return `<div class="proj-row" role="button" tabindex="0" onclick="openDistrictDrawer('${d.id}')"><span class="pr-name">${escapeHtml(d.name)}${flagged ? ' 🖐' : ''}</span><span class="r-prog pr-prog"><span class="r-bar"><span style="width:${comp}%"></span></span>${comp}%</span><span class="chip ${stc}">${st}</span></div>`;
+    const st = flagged ? 'Needs help' : (comp >= 70 ? 'On track' : 'Behind'), stc = flagged ? 'pill--attention' : (comp >= 70 ? 'pill--success' : 'pill--warning');
+    return `<div class="proj-row" role="button" tabindex="0" onclick="openDistrictDrawer('${d.id}')"><span class="pr-name">${escapeHtml(d.name)}${flagged ? ' 🖐' : ''}</span><span class="r-prog pr-prog"><span class="r-bar"><span style="width:${comp}%"></span></span>${comp}%</span><span class="pill ${stc}">${st}</span></div>`;
   }).join('') + '</div></section>';
   // My day — personal to-do list with times (add / check / delete)
   h += `<section class="cmd-card"><div class="cmd-head"><h3>My day</h3><span class="cmd-sub">Today</span></div>
@@ -3648,8 +3774,8 @@ function openDistrictDrawer(id){
   const d = _DEMO.districts.find(x => x.id === id); if (!d) return;
   _curISD = id;
   const comp = _districtCompletion(d), flagged = d.help_request && !_demoState.helpCleared[id];
-  const st = flagged ? 'Needs help' : (comp >= 70 ? 'On track' : 'Behind'), stc = flagged ? 'needs-help' : (comp >= 70 ? 'ok' : 'behind');
-  let html = `<div class="dr-sub"><span class="chip ${stc}">${st}</span> ${comp}% complete · ${d.learners.length} learners · Last activity: ${escapeHtml(d.last)}</div>`;
+  const st = flagged ? 'Needs help' : (comp >= 70 ? 'On track' : 'Behind'), stc = flagged ? 'pill--attention' : (comp >= 70 ? 'pill--success' : 'pill--warning');
+  let html = `<div class="dr-sub"><span class="pill ${stc}">${st}</span> ${comp}% complete · ${d.learners.length} learners · Last activity: ${escapeHtml(d.last)}</div>`;
   if (flagged) html += `<div class="home-help-msg"><span class="help-quote">&ldquo;${escapeHtml(d.help_msg)}&rdquo;</span> <button class="secondary" onclick="respondHelp('${id}'); closeDrawer()">Respond</button></div>`;
   html += `<h4 class="dr-h">Completion by track</h4>`;
   html += _DEMO.tracks.map(t => { const tc = _trackCompletionForDistrict(d, t.id); return `<div class="dr-track-row"><span>${escapeHtml(t.title)}</span><span class="r-prog"><span class="r-bar"><span style="width:${tc == null ? 0 : tc}%"></span></span>${tc == null ? '—' : tc + '%'}</span></div>`; }).join('');
@@ -3693,11 +3819,27 @@ function renderMyTeam() {
 }
 function nudgeOne(nk, name) { _demoState.nudged[nk] = true; alert('Reminder sent to ' + name + '.'); renderMyTeam(); }
 function nudgeAllOverdue() { const d = _curDistrict(); let c = 0; d.learners.forEach((l, gi) => { if (l.status === 'Overdue') { _demoState.nudged[d.id + ':' + gi] = true; c++; } }); alert('Reminders sent to ' + c + ' staff.'); renderMyTeam(); }
-function openAssign() {
-  const d = _curDistrict(); const tracks = _allDemoTracks(); _assignSel = { track: tracks[0] ? tracks[0].id : null, staff: {} };
-  const tw = document.getElementById('am-tracks'); if (tw) tw.innerHTML = tracks.map(t => `<label class="am-row"><input type="radio" name="am-tk" ${t.id === _assignSel.track ? 'checked' : ''} onclick="_assignSel.track='${t.id}'"> ${escapeHtml(t.title)} <span class="meta">${escapeHtml(t.role)}</span></label>`).join('');
-  const sw = document.getElementById('am-staff'); if (sw) sw.innerHTML = d.learners.map((l, gi) => `<label class="am-row"><input type="checkbox" onclick="_assignSel.staff[${gi}]=this.checked"> ${escapeHtml(l.name)} <span class="meta">${escapeHtml(l.role)} · ${escapeHtml(l.site)}</span></label>`).join('');
-  const m = document.getElementById('assign-modal'); if (m) m.hidden = false;
+async function openAssign() {
+  const d = _curDistrict();
+  const tw = document.getElementById('am-tracks');
+  const sw = document.getElementById('am-staff');
+  const m  = document.getElementById('assign-modal');
+  // Render staff immediately so the modal opens without waiting on the API
+  if (sw) sw.innerHTML = d.learners.map((l, gi) => `<label class="am-row"><input type="checkbox" onclick="_assignSel.staff[${gi}]=this.checked"> ${escapeHtml(l.name)} <span class="meta">${escapeHtml(l.role)} · ${escapeHtml(l.site)}</span></label>`).join('');
+  if (tw) tw.innerHTML = '<div style="padding:8px;color:var(--muted);font-size:13px;">Loading tracks…</div>';
+  _assignSel = { track: null, staff: {} };
+  if (m) m.hidden = false;
+  // Fetch real tracks from the API
+  let tracks = [];
+  try {
+    const r = await fetch('/api/tracks');
+    tracks = r.ok ? ((await r.json()).tracks || []) : [];
+  } catch (_) { /* fall through to demo data */ }
+  if (!tracks.length) tracks = _allDemoTracks();  // graceful fallback while tracks dir is empty
+  _assignSel.track = tracks[0] ? tracks[0].id : null;
+  if (tw) tw.innerHTML = tracks.length
+    ? tracks.map(t => `<label class="am-row"><input type="radio" name="am-tk" ${t.id === _assignSel.track ? 'checked' : ''} onclick="_assignSel.track='${t.id}'"> ${escapeHtml(t.title)}${t.status === 'published' ? ' <span class="meta">published</span>' : ''}</label>`).join('')
+    : '<div style="padding:8px;color:var(--muted);font-size:13px;">No tracks yet — build one in Track Builder.</div>';
 }
 function closeAssign() { const m = document.getElementById('assign-modal'); if (m) m.hidden = true; }
 function doAssign() {
@@ -3781,7 +3923,8 @@ function cbSave() {
   cbClose(); renderTrackList(); alert('Track “' + name + '” created — now available to add to a track.');
 }
 function openTrackBuilder() {
-  showView('track-builder');
+  showView('author');
+  _cmodeActivate('track');
 }
 function tbkClose() { document.getElementById('tbk-modal').hidden = true; }
 function tbkToggle(cid, on) { _tbk.courseIds = _tbk.courseIds || []; if (on) { if (!_tbk.courseIds.includes(cid)) _tbk.courseIds.push(cid); } else { _tbk.courseIds = _tbk.courseIds.filter(x => x !== cid); } }
@@ -4256,17 +4399,32 @@ function onDraftReady(d) {
   loadEvals();
 }
 
+// ─── Create-mode tab switcher ─────────────────────────────────────────────
+function _cmodeActivate(mode) {
+  const seg = document.getElementById('create-mode');
+  if (seg) seg.querySelectorAll('button').forEach(x => x.classList.toggle('active', x.dataset.cmode === mode));
+  const authorDiv  = document.querySelector('#view-author .author');
+  const modeTrack  = document.getElementById('mode-track');
+  if (mode === 'track') {
+    if (authorDiv) authorDiv.style.display = 'none';
+    if (modeTrack) modeTrack.style.display = '';
+    loadTrackBuilder();
+  } else {
+    if (modeTrack) modeTrack.style.display = 'none';
+    if (authorDiv) authorDiv.style.display = '';
+    document.getElementById('mode-transcript').style.display = mode === 'transcript' ? '' : 'none';
+    document.getElementById('mode-describe').style.display   = mode === 'describe'   ? '' : 'none';
+    document.getElementById('mode-studyset').style.display   = mode === 'studyset'   ? '' : 'none';
+    if (mode === 'studyset') initStudySet();
+  }
+}
 // ─── "Describe what you need" mode (intent-and-scope agent) ──────────────
 (function () {
   const seg = document.getElementById('create-mode');
   if (!seg) return;
   seg.addEventListener('click', e => {
     const b = e.target.closest('button[data-cmode]'); if (!b) return;
-    seg.querySelectorAll('button').forEach(x => x.classList.toggle('active', x === b));
-    document.getElementById('mode-transcript').style.display = b.dataset.cmode === 'transcript' ? '' : 'none';
-    document.getElementById('mode-describe').style.display = b.dataset.cmode === 'describe' ? '' : 'none';
-    document.getElementById('mode-studyset').style.display = b.dataset.cmode === 'studyset' ? '' : 'none';
-    if (b.dataset.cmode === 'studyset') initStudySet();
+    _cmodeActivate(b.dataset.cmode);
   });
 })();
 
@@ -6911,6 +7069,247 @@ async function loadTrackBuilder() {
     });
   }
   await Promise.all([tbLoadModules(), tbLoadTracks()]);
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// CONTENT LIBRARY (view-modules)
+// ═══════════════════════════════════════════════════════════════════════
+
+let _mlInitialized = false;
+
+async function loadModulesView() {
+  if (!_mlInitialized) {
+    _mlInitialized = true;
+    const search  = document.getElementById('ml-search');
+    const srcSel  = document.getElementById('ml-source');
+    const prodSel = document.getElementById('ml-product');
+    const debounced = tbDebounce(() => _mlFetch(search?.value, srcSel?.value, prodSel?.value), 260);
+    search?.addEventListener('input', debounced);
+    srcSel?.addEventListener('change',  () => _mlFetch(search?.value, srcSel.value, prodSel?.value));
+    prodSel?.addEventListener('change', () => _mlFetch(search?.value, srcSel?.value, prodSel.value));
+  }
+  await _mlFetch();
+}
+
+async function _mlFetch(q, source, product) {
+  q = q || ''; source = source || ''; product = product || '';
+  const list = document.getElementById('ml-list');
+  const cnt  = document.getElementById('ml-count');
+  if (!list) return;
+  list.innerHTML = '<li class="ml-empty">Loading…</li>';
+  const p = new URLSearchParams();
+  if (q)       p.set('q', q);
+  if (source)  p.set('source', source);
+  if (product) p.set('product', product);
+  try {
+    const r = await fetch('/api/modules?' + p.toString());
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const d = await r.json();
+    const mods = d.modules || [];
+    if (cnt) cnt.textContent = mods.length + ' module' + (mods.length === 1 ? '' : 's');
+    if (!mods.length) {
+      list.innerHTML = '<li class="ml-empty">No modules match the current filters.</li>';
+      return;
+    }
+    list.innerHTML = mods.map(m => {
+      const tags = (m.role_tags || []).map(t => '<span class="ml-tag">' + tbEsc(t) + '</span>').join('');
+      return '<li class="ml-row">'
+        + '<div class="ml-cell ml-title">' + tbEsc(m.title) + '</div>'
+        + '<div class="ml-cell">' + tbSrcBadge(m.source) + '</div>'
+        + '<div class="ml-cell ml-muted">' + tbEsc(m.product || '—') + '</div>'
+        + '<div class="ml-cell ml-muted">' + tbEsc(m.module || '—') + '</div>'
+        + '<div class="ml-cell"><div class="ml-tags">' + (tags || '<span class="ml-muted">—</span>') + '</div></div>'
+        + '</li>';
+    }).join('');
+  } catch (e) {
+    list.innerHTML = '<li class="ml-empty">Error loading modules: ' + tbEsc(e.message) + '</li>';
+    if (cnt) cnt.textContent = '';
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// QUIZ BUILDER (view-quiz-builder) — fully manual creation
+// ═══════════════════════════════════════════════════════════════════════
+
+let _qbQuestions   = [];
+let _qbQuizId      = null;
+let _qbTracks      = [];
+let _qbInitialized = false;
+
+async function loadQuizBuilder() {
+  if (!_qbInitialized) {
+    _qbInitialized = true;
+    document.getElementById('qb-track')?.addEventListener('change', function () {
+      const btn = document.getElementById('qb-attach-btn');
+      if (btn) btn.disabled = !this.value || !_qbQuizId;
+    });
+  }
+  try {
+    const r = await fetch('/api/tracks');
+    _qbTracks = r.ok ? ((await r.json()).tracks || []) : [];
+  } catch (_) { _qbTracks = []; }
+  _qbRebuildTrackSel();
+  if (!_qbQuestions.length) qbReset();
+}
+
+function _qbRebuildTrackSel() {
+  const sel = document.getElementById('qb-track');
+  if (!sel) return;
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">— Not attached —</option>'
+    + _qbTracks.map(t =>
+        '<option value="' + tbEsc(t.id) + '">' + tbEsc(t.title) + (t.status === 'published' ? ' ✓' : '') + '</option>'
+      ).join('');
+  if (_qbTracks.some(t => t.id === cur)) sel.value = cur;
+}
+
+function qbReset() {
+  _qbQuizId = null;
+  _qbQuestions = [_qbBlank(), _qbBlank(), _qbBlank()];
+  const titleEl = document.getElementById('qb-title');
+  if (titleEl) titleEl.value = '';
+  const btn = document.getElementById('qb-attach-btn');
+  if (btn) btn.disabled = true;
+  const msg = document.getElementById('qb-status-msg');
+  if (msg) msg.textContent = '';
+  const note = document.getElementById('qb-attach-status');
+  if (note) note.textContent = '';
+  const sel = document.getElementById('qb-track');
+  if (sel) sel.value = '';
+  _qbRender();
+}
+
+function _qbBlank() {
+  return { stem: '', options: ['', '', '', ''], answer_index: 0, explanation: '' };
+}
+
+function _qbRender() {
+  const container = document.getElementById('qb-questions');
+  if (!container) return;
+  const addBtn = document.getElementById('qb-add-q-btn');
+  if (addBtn) addBtn.disabled = _qbQuestions.length >= 10;
+  container.innerHTML = _qbQuestions.map(function(q, qi) {
+    var removeBtn = _qbQuestions.length > 3
+      ? '<button class="tb-modal-close" style="font-size:13px;" onclick="qbRemoveQuestion(' + qi + ')" aria-label="Remove question ' + (qi+1) + '">✕</button>'
+      : '';
+    var opts = q.options.map(function(opt, oi) {
+      return '<div class="qb-opt-row">'
+        + '<input type="radio" name="qb-ans-' + qi + '" id="qb-ans-' + qi + '-' + oi + '" title="Mark as correct"'
+        + (q.answer_index === oi ? ' checked' : '')
+        + ' onchange="_qbSync(' + qi + ',\'answer_index\',' + oi + ')">'
+        + '<input type="text" value="' + tbEsc(opt) + '" placeholder="Option ' + (oi+1) + '…"'
+        + ' oninput="_qbSync(' + qi + ',\'option\',{i:' + oi + ',v:this.value})">'
+        + '</div>';
+    }).join('');
+    return '<div class="qb-q-card" id="qb-q-card-' + qi + '">'
+      + '<div class="qb-q-head">'
+      + '<span class="qb-q-num">' + (qi+1) + '</span>'
+      + 'Question ' + (qi+1) + ' of ' + _qbQuestions.length
+      + '<span class="qb-q-head-right">' + removeBtn + '</span>'
+      + '</div>'
+      + '<div class="qb-q-body">'
+      + '<div class="field" style="margin:0;">'
+      + '<label for="qb-stem-' + qi + '">Question</label>'
+      + '<textarea id="qb-stem-' + qi + '" rows="2" placeholder="What should a site manager do when…"'
+      + ' oninput="_qbSync(' + qi + ',\'stem\',this.value)">' + tbEsc(q.stem) + '</textarea>'
+      + '</div>'
+      + '<div><span class="qb-opt-label">Answer choices — select the correct one</span>' + opts + '</div>'
+      + '<div class="field" style="margin:0;">'
+      + '<label for="qb-exp-' + qi + '">Explanation <span style="font-weight:400;color:var(--muted);">(optional)</span></label>'
+      + '<input id="qb-exp-' + qi + '" type="text" placeholder="Why is this the right answer?"'
+      + ' value="' + tbEsc(q.explanation) + '"'
+      + ' oninput="_qbSync(' + qi + ',\'explanation\',this.value)">'
+      + '</div>'
+      + '</div></div>';
+  }).join('');
+}
+
+function _qbSync(qi, field, val) {
+  if (!_qbQuestions[qi]) return;
+  if (field === 'stem')              _qbQuestions[qi].stem = val;
+  else if (field === 'answer_index') _qbQuestions[qi].answer_index = Number(val);
+  else if (field === 'explanation')  _qbQuestions[qi].explanation = val;
+  else if (field === 'option')       _qbQuestions[qi].options[val.i] = val.v;
+}
+
+function qbAddQuestion() {
+  if (_qbQuestions.length >= 10) return;
+  _qbQuestions.push(_qbBlank());
+  _qbRender();
+  var card = document.getElementById('qb-q-card-' + (_qbQuestions.length - 1));
+  if (card) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function qbRemoveQuestion(qi) {
+  if (_qbQuestions.length <= 3) return;
+  _qbQuestions.splice(qi, 1);
+  _qbRender();
+}
+
+async function qbSave() {
+  const titleEl = document.getElementById('qb-title');
+  const title = (titleEl?.value || '').trim();
+  if (!title) { titleEl?.focus(); tbShowToast('Enter a quiz title first.'); return; }
+  if (_qbQuestions.length < 3) { tbShowToast('Add at least 3 questions.'); return; }
+  const errs = [];
+  _qbQuestions.forEach(function(q, i) {
+    if (!q.stem.trim()) errs.push('Q' + (i+1) + ': question text is empty');
+    if (q.options.some(function(o) { return !o.trim(); })) errs.push('Q' + (i+1) + ': all 4 options must be filled');
+  });
+  if (errs.length) { tbShowToast(errs[0]); return; }
+
+  const saveBtns = ['qb-save-btn', 'qb-save-btn2'].map(function(id) { return document.getElementById(id); }).filter(Boolean);
+  saveBtns.forEach(function(b) { b.disabled = true; b.textContent = 'Saving…'; });
+  try {
+    if (!_qbQuizId) {
+      const cr = await fetch('/api/quizzes/create', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: title, n: _qbQuestions.length }),
+      });
+      if (!cr.ok) throw new Error('HTTP ' + cr.status);
+      _qbQuizId = (await cr.json()).id;
+    }
+    const ur = await fetch('/api/quizzes/' + _qbQuizId, {
+      method: 'PUT', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        title: title,
+        questions: _qbQuestions.map(function(q) {
+          return { stem: q.stem, options: q.options, answer_index: q.answer_index,
+                   explanation: q.explanation, source_quote: '', source_ref: '',
+                   provenance: 'manual_unverified', grounded: false, sme_verified: false };
+        }),
+      }),
+    });
+    if (!ur.ok) throw new Error('HTTP ' + ur.status);
+    const msg = document.getElementById('qb-status-msg');
+    if (msg) msg.textContent = 'Saved · ' + _qbQuestions.length + ' question' + (_qbQuestions.length === 1 ? '' : 's');
+    const attachBtn = document.getElementById('qb-attach-btn');
+    if (attachBtn) attachBtn.disabled = !document.getElementById('qb-track')?.value;
+    tbShowToast('Quiz saved!', 'success');
+  } catch (e) {
+    tbShowToast('Save failed: ' + e.message, 'error');
+  } finally {
+    saveBtns.forEach(function(b) { b.disabled = false; b.textContent = 'Save quiz'; });
+  }
+}
+
+async function qbAttach() {
+  const tid = document.getElementById('qb-track')?.value;
+  if (!tid)       { tbShowToast('Select a track first.'); return; }
+  if (!_qbQuizId) { tbShowToast('Save the quiz before attaching.'); return; }
+  try {
+    const r = await fetch('/api/tracks/' + tid + '/quiz', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ quiz_id: _qbQuizId }),
+    });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const track = _qbTracks.find(function(t) { return t.id === tid; });
+    const note = document.getElementById('qb-attach-status');
+    if (note) note.textContent = 'Attached to "' + (track ? track.title : tid) + '"';
+    tbShowToast('Quiz attached to track!', 'success');
+  } catch (e) {
+    tbShowToast('Attach failed: ' + e.message, 'error');
+  }
 }
 </script>
 </body>
