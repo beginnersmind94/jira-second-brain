@@ -1489,6 +1489,15 @@
     .trend-now { flex: none; display: flex; flex-direction: column; align-items: flex-end; }
     .trend-val { font-family: var(--serif); font-size: 22px; font-weight: 650; color: var(--text); line-height: 1; }
     .trend-now .kpi-trend { margin-top: 3px; }
+    /* Quick create — first-class entry to grounded generation from the cockpit */
+    .qc-row { display: flex; align-items: center; gap: 14px; margin: 0 30px var(--sp-4); }
+    .qc-label { font-family: var(--serif); font-size: 13px; font-weight: 650; color: var(--text); flex: none; }
+    .qc-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+    .qc-btn { border: 1px solid var(--border); background: var(--panel); color: var(--text); border-radius: var(--radius-sm); padding: 9px 14px; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
+    .qc-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .qc-btn.qc-primary { background: var(--accent); color: var(--accent-ink, #FFF); border-color: var(--accent); }
+    .qc-btn.qc-primary:hover { background: var(--accent-hover, var(--accent)); color: var(--accent-ink, #FFF); }
+    @media (max-width: 640px) { .qc-row { flex-direction: column; align-items: stretch; margin-left: 16px; margin-right: 16px; } .qc-btn { min-height: 44px; } }
     .attn-list { display: flex; flex-direction: column; gap: 8px; }
     .attn-row { display: flex; align-items: center; gap: 12px; padding: 10px 12px; min-height: 56px; border: 1px solid var(--border); border-radius: var(--radius-sm); }
     .attn-row.attn-help { border-color: var(--red, #B3543B); background: var(--red-soft, #F2E1D8); }
@@ -1752,6 +1761,7 @@
   </h1>
   <nav>
     <button id="tab-home" onclick="showView('home')">Home</button>
+    <button id="tab-manage" onclick="showView('manage')">Manage</button>
     <button id="tab-author" onclick="showView('author')">Create</button>
     <button id="tab-library" onclick="showView('library')">Library</button>
     <button id="tab-learn" onclick="showView('learn')">Learn</button>
@@ -1759,7 +1769,6 @@
     <button id="tab-evals" onclick="showView('evals')">Quality</button>
     <button id="tab-tracks" onclick="showView('tracks')">Tracks</button>
     <button id="tab-myteam" onclick="showView('myteam')">My Team</button>
-    <button id="tab-manage" onclick="showView('manage')">Manage</button>
   </nav>
   <div class="top-right">
     <span class="viewing-as">Viewing as</span>
@@ -1775,8 +1784,8 @@
       </button>
       <div class="isd-menu" id="isd-menu" hidden></div>
     </div>
-    <button class="inbox-btn" id="inbox-btn" onclick="openInboxDrawer()" title="Approved by the PM team" aria-label="Approved docs inbox">
-      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
+    <button class="inbox-btn" id="inbox-btn" onclick="openInboxDrawer()" title="Notifications — approvals &amp; activity" aria-label="Notifications">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
       <span class="inbox-badge" id="inbox-badge"></span>
     </button>
     <div class="ava-wrap">
@@ -2421,7 +2430,7 @@ function applyViewMode() {
   if (isdBtn) { isdBtn.style.pointerEvents = _viewMode === 'customer' ? 'none' : ''; isdBtn.style.opacity = _viewMode === 'customer' ? '.6' : ''; }
   const ava = document.getElementById('user-ava'); if (ava) ava.textContent = _viewMode === 'customer' ? 'DC' : 'DA';
   const ibtn = document.getElementById('inbox-btn'); if (ibtn) ibtn.hidden = _viewMode === 'customer';   // approvals inbox is a trainer concept
-  const ibadge = document.getElementById('inbox-badge'); if (ibadge) ibadge.textContent = _viewMode === 'customer' ? '' : String(_DEMO.inbox.length);
+  const ibadge = document.getElementById('inbox-badge'); if (ibadge) { const nHelp = _myDistricts().filter(d => d.help_request && !_demoState.helpCleared[d.id]).length; ibadge.textContent = _viewMode === 'customer' ? '' : String(_DEMO.inbox.length + nHelp); }
   // Loud, persistent customer-view signal so a screen-share is never mistaken for internal.
   document.body.classList.toggle('customer-view', _viewMode === 'customer');
   const cbn = document.getElementById('customer-banner'); if (cbn) cbn.hidden = _viewMode !== 'customer';
@@ -2479,6 +2488,8 @@ function renderHome(){
   // ── trend band: the inverted-pyramid "direction" layer — 6-week completion trajectory ──
   const sparkVals = [avg - 11, avg - 8, avg - 6, avg - 4, avg - 6, avg];
   h += `<section class="cmd-card trend-band"><div class="trend-meta"><h3>Completion trend</h3><span class="cmd-sub">last 6 weeks · all my districts</span></div>${_spark(sparkVals)}<div class="trend-now"><span class="trend-val">${avg}%</span><span class="kpi-trend tr-good">▲ +11 pts / 6 wks</span></div></section>`;
+  // ── quick create — kick off grounded AI generation straight from the cockpit (all routes are existing flows/modals) ──
+  h += `<section class="cmd-card qc-row"><span class="qc-label">Quick create</span><div class="qc-btns"><button class="qc-btn qc-primary" onclick="showView('author')">Generate a guide</button><button class="qc-btn" onclick="openQuizBuilder()">Build a quiz</button><button class="qc-btn" onclick="openCourseBuilder()">New course</button><button class="qc-btn" onclick="openTrackBuilder()">New track</button></div></section>`;
   // ── command-center grid ──
   h += '<div class="cmd-grid"><div class="cmd-main">';
   // Needs your attention — prioritized "what's next" feed (help > overdue > behind)
@@ -2558,8 +2569,16 @@ function closeDrawer(){
 }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
 function openInboxDrawer(){
-  const rows = _DEMO.inbox.map((it, i) => `<div class="dr-inbox-row"><div class="dr-inbox-bd"><div class="dr-inbox-title">${escapeHtml(it.title)}</div><div class="dr-inbox-meta">${escapeHtml(it.module)} · approved ${escapeHtml(it.date)}</div></div><div class="dr-inbox-act"><button class="secondary" onclick="inboxView(${i})">View</button><button class="secondary" onclick="inboxCatalog(${i}); closeDrawer()">Catalog</button></div></div>`).join('');
-  openDrawer(`Approved by PM team · ${_DEMO.inbox.length}`, `<p class="dr-intro">New guides the PM team approved — safe to assign or add to a track.</p>${rows}`);
+  // One notification center (mixed model): Activity (alerts) + Approvals, categorized in a single drawer.
+  const mine = _myDistricts();
+  const acts = [];
+  mine.filter(d => d.help_request && !_demoState.helpCleared[d.id]).forEach(d => acts.push(`<div class="dr-inbox-row"><div class="dr-inbox-bd"><div class="dr-inbox-title">🖐 ${escapeHtml(d.name)} raised a hand</div><div class="dr-inbox-meta">${escapeHtml(d.help_msg)}</div></div><div class="dr-inbox-act"><button class="secondary" onclick="respondHelp('${d.id}'); closeDrawer()">Respond</button></div></div>`));
+  const overdue = mine.reduce((a, d) => a + d.learners.filter(l => l.status === 'Overdue').length, 0);
+  if (overdue) acts.push(`<div class="dr-inbox-row"><div class="dr-inbox-bd"><div class="dr-inbox-title">⏰ ${overdue} learners overdue</div><div class="dr-inbox-meta">Across your ${mine.length} districts · due ${_DEMO.due}</div></div><div class="dr-inbox-act"><button class="secondary" onclick="showView('manage'); closeDrawer()">Review</button></div></div>`);
+  const apprs = _DEMO.inbox.map((it, i) => `<div class="dr-inbox-row"><div class="dr-inbox-bd"><div class="dr-inbox-title">${escapeHtml(it.title)}</div><div class="dr-inbox-meta">${escapeHtml(it.module)} · approved ${escapeHtml(it.date)}</div></div><div class="dr-inbox-act"><button class="secondary" onclick="inboxView(${i})">View</button><button class="secondary" onclick="inboxCatalog(${i}); closeDrawer()">Catalog</button></div></div>`).join('');
+  let html = `<h4 class="dr-h" style="margin-top:0;">Activity</h4>${acts.join('') || '<p class="dr-intro">Nothing needs you right now.</p>'}`;
+  html += `<h4 class="dr-h">Approved by PM team · ${_DEMO.inbox.length}</h4><p class="dr-intro">New guides the PM team approved — safe to assign or add to a track.</p>${apprs}`;
+  openDrawer('Notifications', html);
 }
 function openDistrictDrawer(id){
   const d = _DEMO.districts.find(x => x.id === id); if (!d) return;
