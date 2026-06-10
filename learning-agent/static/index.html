@@ -1546,6 +1546,8 @@
     .path-locked { font-size: 13px; color: var(--muted); display: inline-flex; align-items: center; gap: 6px; }
     .path-locked-row { opacity: .72; }
     .shared-tag { font-size: 10px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--accent); background: var(--accent-soft); border-radius: 4px; padding: 1px 6px; margin-left: 8px; }
+    .asn-people { display: flex; flex-direction: column; gap: 4px; max-height: 200px; overflow-y: auto; margin-top: 4px; }
+    .mg-asn .cmd-head { align-items: center; }
     .todo-add { display: flex; gap: 6px; margin: 0 0 10px; }
     .todo-in { padding: 7px 9px; border: 1px solid var(--border); border-radius: var(--radius-sm); font: inherit; font-size: 13px; background: #FFF; }
     .todo-time-in { flex: none; width: 96px; }
@@ -1831,6 +1833,18 @@
     <button id="tab-myteam" onclick="showView('myteam')">My Team</button>
   </nav>
 </aside>
+<div id="asn-modal" class="am-overlay" hidden><div class="am-modal" style="max-width:520px;">
+  <div class="am-head"><b>Create assignment</b><button class="lib-drawer-close" onclick="asnClose()">✕</button></div>
+  <div class="am-body">
+    <label class="tb-l">Content</label><select id="asn-content" class="tb-in"></select>
+    <label class="tb-l">Assign to</label>
+    <select id="asn-audtype" class="tb-in" onchange="asnAudChange()"><option value="org">Entire organization</option><option value="role">By role</option><option value="site">By site</option><option value="district">By district</option><option value="people">Specific people</option></select>
+    <div id="asn-audpick"></div>
+    <label class="tb-l">Due date</label><input id="asn-due" type="date" class="tb-in">
+    <label class="am-row" style="margin-top:8px;"><input type="checkbox" id="asn-dyn"> Dynamic — 7 days from when each learner joins</label>
+  </div>
+  <div class="am-foot"><span class="tb-note">Auto-enrolls matching learners; future joiners inherit it while active.</span><button class="primary" onclick="asnSave()">Create assignment</button></div>
+</div></div>
 <div id="drawer-overlay" class="drawer-overlay" hidden onclick="closeDrawer()"></div>
 <aside id="app-drawer" class="app-drawer" hidden role="dialog" aria-modal="true" aria-labelledby="drawer-title">
   <div class="drawer-head"><h3 id="drawer-title"></h3><button class="drawer-x" onclick="closeDrawer()" aria-label="Close">✕</button></div>
@@ -2443,7 +2457,7 @@ const _DEMO = (() => {
   return { due:DUE, stages:['Kickoff','Setup','Training','Pre-launch','Go-live'], courses, tracks, districts, inbox, smes, quality, studio, imported, rubric:['Grounding','Coverage','Clarity','Structure'] };
 })();
 // session-scoped mutations (reset on reload)
-let _demoState = { helpCleared:{}, nudged:{}, progress:{}, userTracks:[], approvedRids:null };
+let _demoState = { helpCleared:{}, nudged:{}, progress:{}, userTracks:[], approvedRids:null, assignments:null, asnSeq:0 };
 function _districtCompletion(d){ return d.learners && d.learners.length ? Math.round(d.learners.reduce((a,l)=>a+l.completion,0)/d.learners.length) : 0; }
 const _CURRENT_TRAINER = 'Dana Alvarez';   // the logged-in trainer (DA avatar) — a trainer only ever sees their OWN districts + content
 function _myDistricts(){ const m = _DEMO.districts.filter(d => d.trainer === _CURRENT_TRAINER); return m.length ? m : _DEMO.districts; }
@@ -4399,6 +4413,7 @@ function renderManage(){
     h += `<tr class="mg-expand" id="mg-exp-${d.id}" hidden><td colspan="6"><div class="mg-bd"><b>Completion by track</b>${_DEMO.tracks.map(t => { const tc = _trackCompletionForDistrict(d, t.id); return `<div class="mg-bd-row"><span>${escapeHtml(t.title)}</span><span class="r-prog"><span class="r-bar"><span style="width:${tc == null ? 0 : tc}%"></span></span>${tc == null ? '—' : tc + '%'}</span></div>`; }).join('')}</div></td></tr>`;
   });
   h += '</tbody></table></div>';
+  h += renderAssignments();
   if (body) body.innerHTML = h;
   if (_focusDistrict) {
     const ex = document.getElementById('mg-exp-' + _focusDistrict); if (ex) ex.hidden = false;
@@ -4406,6 +4421,60 @@ function renderManage(){
     if (row) { row.classList.add('mg-focus'); row.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
     _focusDistrict = '';
   }
+}
+// ── FR-LP-03/06/07/08: Assignments — assign a track/course to an audience (org / role / site / district / individuals) with a due date ──
+function _initAssignments(){
+  if (_demoState.assignments) return;
+  _demoState.assignments = [
+    { id:1, contentType:'track', contentId:'t-cashier', audType:'role', audVal:'Cashier', due:'7 days from join', created:'Jun 5', dyn:true },
+    { id:2, contentType:'track', contentId:'t-elig', audType:'district', audVal:'aldine-isd', due:'Jun 8', created:'Jun 3', dyn:false },
+    { id:3, contentType:'course', contentId:'c-inv', audType:'site', audVal:'Lamar HS', due:'Jul 15', created:'Jun 7', dyn:false },
+  ];
+  _demoState.asnSeq = 3;
+}
+function _dueIsPast(due){ const M={Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11}; const p=(due||'').split(' '); const m=M[p[0]], d=+p[1]; if(m==null||!d) return false; return m<5 || (m===5 && d<10); }   // today = Jun 10
+function _fmtDue(iso){ if(!iso) return ''; const M=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; const p=iso.split('-'); return (M[(+p[1])-1]||'')+' '+(+p[2]); }
+function _asnContent(a){ const t=_allDemoTracks().find(x=>x.id===a.contentId); if(t) return {title:t.title, type:'Track'}; const c=_courseById(a.contentId); return c?{title:c.title,type:'Course'}:{title:a.contentId,type:''}; }
+function _asnAudLabel(a){ if(a.audType==='org') return 'Entire organization'; if(a.audType==='role') return a.audVal+'s'; if(a.audType==='site') return a.audVal; if(a.audType==='district'){ const d=_DEMO.districts.find(x=>x.id===a.audVal); return d?d.name:a.audVal; } if(a.audType==='people') return (a.audVal||0)+' people'; return a.audVal||''; }
+function _asnCount(a){ const ds=_myDistricts(); if(a.audType==='org') return ds.reduce((s,d)=>s+d.learners.length,0); if(a.audType==='role') return ds.reduce((s,d)=>s+d.learners.filter(l=>l.role===a.audVal).length,0); if(a.audType==='site') return ds.reduce((s,d)=>s+d.learners.filter(l=>l.site===a.audVal).length,0); if(a.audType==='district'){ const d=_DEMO.districts.find(x=>x.id===a.audVal); return d?d.learners.length:0; } if(a.audType==='people') return +a.audVal||0; return 0; }
+function renderAssignments(){
+  _initAssignments();
+  const rows = _demoState.assignments.map(a=>{ const c=_asnContent(a), past=_dueIsPast(a.due); return `<tr><td>${escapeHtml(c.title)} <span class="chip behind" style="margin-left:4px;">${c.type}</span></td><td>${escapeHtml(_asnAudLabel(a))}${a.dyn?' · dynamic':''}</td><td>${_asnCount(a)}</td><td>Due ${escapeHtml(a.due)}</td><td><span class="chip ${past?'behind':'ok'}">${past?'Past due':'Active'}</span></td></tr>`; }).join('') || '<tr><td colspan="5" class="lib-empty">No assignments yet.</td></tr>';
+  return `<section class="mg-asn"><div class="cmd-head" style="margin-top:20px;"><h3>Assignments</h3><button class="secondary" onclick="openAssignmentModal()">+ Create assignment</button></div><div class="roster-table-wrap"><table class="roster-table"><thead><tr><th>Content</th><th>Assigned to</th><th>Learners</th><th>Due</th><th>Status</th></tr></thead><tbody>${rows}</tbody></table></div></section>`;
+}
+function openAssignmentModal(){
+  _initAssignments();
+  const sel=document.getElementById('asn-content');
+  if(sel) sel.innerHTML = _allDemoTracks().map(t=>`<option value="${t.id}">Track · ${escapeHtml(t.title)}</option>`).join('') + _allDemoCourses().map(c=>`<option value="${c.id}">Course · ${escapeHtml(c.title)}</option>`).join('');
+  const at=document.getElementById('asn-audtype'); if(at) at.value='role';
+  const du=document.getElementById('asn-due'); if(du) du.value='';
+  const dy=document.getElementById('asn-dyn'); if(dy) dy.checked=false;
+  asnAudChange();
+  document.getElementById('asn-modal').hidden=false;
+}
+function asnClose(){ const m=document.getElementById('asn-modal'); if(m) m.hidden=true; }
+function asnAudChange(){
+  const t=(document.getElementById('asn-audtype')||{}).value, w=document.getElementById('asn-audpick'); if(!w) return;
+  const ds=_myDistricts();
+  if(t==='role') w.innerHTML=`<select id="asn-audval" class="tb-in">${['Cashier','Site Manager','CN Director'].map(r=>`<option>${r}</option>`).join('')}</select>`;
+  else if(t==='site'){ const sites=[...new Set(ds.flatMap(d=>d.sites))]; w.innerHTML=`<select id="asn-audval" class="tb-in">${sites.map(s=>`<option>${escapeHtml(s)}</option>`).join('')}</select>`; }
+  else if(t==='district') w.innerHTML=`<select id="asn-audval" class="tb-in">${ds.map(d=>`<option value="${d.id}">${escapeHtml(d.name)}</option>`).join('')}</select>`;
+  else if(t==='people'){ const ls=(_curDistrict()||{learners:[]}).learners.slice(0,8); w.innerHTML=`<div class="asn-people">${ls.map((l,i)=>`<label class="am-row"><input type="checkbox" class="asn-person" ${i<3?'checked':''}> ${escapeHtml(l.name)} <span class="meta">${escapeHtml(l.role)}</span></label>`).join('')}</div>`; }
+  else w.innerHTML='<p class="tb-note">All learners across your districts.</p>';
+}
+function asnSave(){
+  _initAssignments();
+  const content=(document.getElementById('asn-content')||{}).value;
+  const t=(document.getElementById('asn-audtype')||{}).value;
+  const dyn=!!(document.getElementById('asn-dyn')||{}).checked;
+  let audVal='';
+  if(t==='people') audVal=String(document.querySelectorAll('.asn-person:checked').length);
+  else if(t!=='org') audVal=(document.getElementById('asn-audval')||{}).value;
+  const ct=_allDemoTracks().some(x=>x.id===content)?'track':'course';
+  const due = dyn ? '7 days from join' : (_fmtDue((document.getElementById('asn-due')||{}).value) || _DEMO.due);
+  _demoState.assignments.unshift({ id:++_demoState.asnSeq, contentType:ct, contentId:content, audType:t, audVal, due, created:'Today', dyn });
+  asnClose(); renderManage();
+  alert('Assignment created — ' + _asnCount(_demoState.assignments[0]) + ' learners enrolled.');
 }
 function doLogin() { const m = document.getElementById('login-modal'); if (m) m.hidden = true; try { sessionStorage.setItem('ls_demo_login', '1'); } catch (e) {} loadRoster(); }
 document.addEventListener('click', e => {
