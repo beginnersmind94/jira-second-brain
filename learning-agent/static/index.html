@@ -1842,6 +1842,7 @@
     <div id="asn-audpick"></div>
     <label class="tb-l">Due date</label><input id="asn-due" type="date" class="tb-in">
     <label class="am-row" style="margin-top:8px;"><input type="checkbox" id="asn-dyn"> Dynamic — 7 days from when each learner joins</label>
+    <label class="am-row" style="margin-top:6px;"><input type="checkbox" id="asn-drip"> Drip — release one course per week</label>
   </div>
   <div class="am-foot"><span class="tb-note">Auto-enrolls matching learners; future joiners inherit it while active.</span><button class="primary" onclick="asnSave()">Create assignment</button></div>
 </div></div>
@@ -4435,11 +4436,11 @@ function _initAssignments(){
 function _dueIsPast(due){ const M={Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11}; const p=(due||'').split(' '); const m=M[p[0]], d=+p[1]; if(m==null||!d) return false; return m<5 || (m===5 && d<10); }   // today = Jun 10
 function _fmtDue(iso){ if(!iso) return ''; const M=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; const p=iso.split('-'); return (M[(+p[1])-1]||'')+' '+(+p[2]); }
 function _asnContent(a){ const t=_allDemoTracks().find(x=>x.id===a.contentId); if(t) return {title:t.title, type:'Track'}; const c=_courseById(a.contentId); return c?{title:c.title,type:'Course'}:{title:a.contentId,type:''}; }
-function _asnAudLabel(a){ if(a.audType==='org') return 'Entire organization'; if(a.audType==='role') return a.audVal+'s'; if(a.audType==='site') return a.audVal; if(a.audType==='district'){ const d=_DEMO.districts.find(x=>x.id===a.audVal); return d?d.name:a.audVal; } if(a.audType==='people') return (a.audVal||0)+' people'; return a.audVal||''; }
-function _asnCount(a){ const ds=_myDistricts(); if(a.audType==='org') return ds.reduce((s,d)=>s+d.learners.length,0); if(a.audType==='role') return ds.reduce((s,d)=>s+d.learners.filter(l=>l.role===a.audVal).length,0); if(a.audType==='site') return ds.reduce((s,d)=>s+d.learners.filter(l=>l.site===a.audVal).length,0); if(a.audType==='district'){ const d=_DEMO.districts.find(x=>x.id===a.audVal); return d?d.learners.length:0; } if(a.audType==='people') return +a.audVal||0; return 0; }
+function _asnAudLabel(a){ const arr=Array.isArray(a.audVal)?a.audVal:[a.audVal]; if(a.audType==='org') return 'Entire organization'; if(a.audType==='role') return a.audVal+'s'; if(a.audType==='site') return arr.length>1?arr.length+' sites':arr[0]; if(a.audType==='district'){ const names=arr.map(id=>{const d=_DEMO.districts.find(x=>x.id===id);return d?d.name:id;}); return names.length>1?names.length+' districts':names[0]; } if(a.audType==='people') return (a.audVal||0)+' people'; return a.audVal||''; }
+function _asnCount(a){ const ds=_myDistricts(); const vals=Array.isArray(a.audVal)?a.audVal:[a.audVal]; if(a.audType==='org') return ds.reduce((s,d)=>s+d.learners.length,0); if(a.audType==='role') return ds.reduce((s,d)=>s+d.learners.filter(l=>l.role===a.audVal).length,0); if(a.audType==='site') return ds.reduce((s,d)=>s+d.learners.filter(l=>vals.includes(l.site)).length,0); if(a.audType==='district') return ds.filter(d=>vals.includes(d.id)).reduce((s,d)=>s+d.learners.length,0); if(a.audType==='people') return +a.audVal||0; return 0; }
 function renderAssignments(){
   _initAssignments();
-  const rows = _demoState.assignments.map(a=>{ const c=_asnContent(a), past=_dueIsPast(a.due); return `<tr><td>${escapeHtml(c.title)} <span class="chip behind" style="margin-left:4px;">${c.type}</span></td><td>${escapeHtml(_asnAudLabel(a))}${a.dyn?' · dynamic':''}</td><td>${_asnCount(a)}</td><td>Due ${escapeHtml(a.due)}</td><td><span class="chip ${past?'behind':'ok'}">${past?'Past due':'Active'}</span></td></tr>`; }).join('') || '<tr><td colspan="5" class="lib-empty">No assignments yet.</td></tr>';
+  const rows = _demoState.assignments.map(a=>{ const c=_asnContent(a), past=_dueIsPast(a.due); return `<tr><td>${escapeHtml(c.title)} <span class="chip behind" style="margin-left:4px;">${c.type}</span></td><td>${escapeHtml(_asnAudLabel(a))}${a.dyn?' · dynamic':''}${a.drip?' · drip':''}</td><td>${_asnCount(a)}</td><td>Due ${escapeHtml(a.due)}</td><td><span class="chip ${past?'behind':'ok'}">${past?'Past due':'Active'}</span></td></tr>`; }).join('') || '<tr><td colspan="5" class="lib-empty">No assignments yet.</td></tr>';
   return `<section class="mg-asn"><div class="cmd-head" style="margin-top:20px;"><h3>Assignments</h3><button class="secondary" onclick="openAssignmentModal()">+ Create assignment</button></div><div class="roster-table-wrap"><table class="roster-table"><thead><tr><th>Content</th><th>Assigned to</th><th>Learners</th><th>Due</th><th>Status</th></tr></thead><tbody>${rows}</tbody></table></div></section>`;
 }
 function openAssignmentModal(){
@@ -4449,6 +4450,7 @@ function openAssignmentModal(){
   const at=document.getElementById('asn-audtype'); if(at) at.value='role';
   const du=document.getElementById('asn-due'); if(du) du.value='';
   const dy=document.getElementById('asn-dyn'); if(dy) dy.checked=false;
+  const dp=document.getElementById('asn-drip'); if(dp) dp.checked=false;
   asnAudChange();
   document.getElementById('asn-modal').hidden=false;
 }
@@ -4457,8 +4459,8 @@ function asnAudChange(){
   const t=(document.getElementById('asn-audtype')||{}).value, w=document.getElementById('asn-audpick'); if(!w) return;
   const ds=_myDistricts();
   if(t==='role') w.innerHTML=`<select id="asn-audval" class="tb-in">${['Cashier','Site Manager','CN Director'].map(r=>`<option>${r}</option>`).join('')}</select>`;
-  else if(t==='site'){ const sites=[...new Set(ds.flatMap(d=>d.sites))]; w.innerHTML=`<select id="asn-audval" class="tb-in">${sites.map(s=>`<option>${escapeHtml(s)}</option>`).join('')}</select>`; }
-  else if(t==='district') w.innerHTML=`<select id="asn-audval" class="tb-in">${ds.map(d=>`<option value="${d.id}">${escapeHtml(d.name)}</option>`).join('')}</select>`;
+  else if(t==='site'){ const sites=[...new Set(ds.flatMap(d=>d.sites))]; w.innerHTML=`<div class="asn-people">${sites.map((s,i)=>`<label class="am-row"><input type="checkbox" class="asn-multi" value="${escAttr(s)}" ${i<2?'checked':''}> ${escapeHtml(s)}</label>`).join('')}</div><p class="tb-note">Bulk across multiple sites.</p>`; }
+  else if(t==='district') w.innerHTML=`<div class="asn-people">${ds.map((d,i)=>`<label class="am-row"><input type="checkbox" class="asn-multi" value="${d.id}" ${i<2?'checked':''}> ${escapeHtml(d.name)}</label>`).join('')}</div><p class="tb-note">Bulk across multiple districts (FSMC-style).</p>`;
   else if(t==='people'){ const ls=(_curDistrict()||{learners:[]}).learners.slice(0,8); w.innerHTML=`<div class="asn-people">${ls.map((l,i)=>`<label class="am-row"><input type="checkbox" class="asn-person" ${i<3?'checked':''}> ${escapeHtml(l.name)} <span class="meta">${escapeHtml(l.role)}</span></label>`).join('')}</div>`; }
   else w.innerHTML='<p class="tb-note">All learners across your districts.</p>';
 }
@@ -4469,10 +4471,12 @@ function asnSave(){
   const dyn=!!(document.getElementById('asn-dyn')||{}).checked;
   let audVal='';
   if(t==='people') audVal=String(document.querySelectorAll('.asn-person:checked').length);
+  else if(t==='site'||t==='district') audVal=[...document.querySelectorAll('.asn-multi:checked')].map(x=>x.value);
   else if(t!=='org') audVal=(document.getElementById('asn-audval')||{}).value;
+  const drip=!!(document.getElementById('asn-drip')||{}).checked;
   const ct=_allDemoTracks().some(x=>x.id===content)?'track':'course';
   const due = dyn ? '7 days from join' : (_fmtDue((document.getElementById('asn-due')||{}).value) || _DEMO.due);
-  _demoState.assignments.unshift({ id:++_demoState.asnSeq, contentType:ct, contentId:content, audType:t, audVal, due, created:'Today', dyn });
+  _demoState.assignments.unshift({ id:++_demoState.asnSeq, contentType:ct, contentId:content, audType:t, audVal, due, created:'Today', dyn, drip });
   asnClose(); renderManage();
   alert('Assignment created — ' + _asnCount(_demoState.assignments[0]) + ' learners enrolled.');
 }
