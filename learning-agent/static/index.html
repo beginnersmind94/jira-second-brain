@@ -1543,6 +1543,9 @@
     .pr-meta { font-size: 12px; color: var(--muted); flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .pr-prog { flex: none; }
     .proj-row .chip { flex: none; min-width: 84px; text-align: center; }
+    .path-locked { font-size: 13px; color: var(--muted); display: inline-flex; align-items: center; gap: 6px; }
+    .path-locked-row { opacity: .72; }
+    .shared-tag { font-size: 10px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--accent); background: var(--accent-soft); border-radius: 4px; padding: 1px 6px; margin-left: 8px; }
     .todo-add { display: flex; gap: 6px; margin: 0 0 10px; }
     .todo-in { padding: 7px 9px; border: 1px solid var(--border); border-radius: var(--radius-sm); font: inherit; font-size: 13px; background: #FFF; }
     .todo-time-in { flex: none; width: 96px; }
@@ -2358,16 +2361,17 @@ const _DEMO = (() => {
   // A COURSE is a sequence of lessons (guide / quiz / video) — this is what the builder makes.
   const courses = [
     { id:'c-pos', title:'POS Fundamentals', module:'POS', lessons:[{type:'guide',title:'POS Basics'},{type:'video',title:'Meal Service Walkthrough',dur:'6 min'},{type:'guide',title:'Counting Meals Correctly'},{type:'quiz',title:'POS Knowledge Check',n:5}] },
-    { id:'c-item', title:'Item Management Core', module:'Item Management', lessons:[{type:'guide',title:'Managing Item Categories'},{type:'guide',title:'Bulk Updates'},{type:'quiz',title:'Item Management Check',n:6}] },
-    { id:'c-inv', title:'Inventory Basics', module:'Inventory', lessons:[{type:'guide',title:'Inventory Overview'},{type:'video',title:'Receiving & Storage',dur:'8 min'},{type:'guide',title:'Physical Inventory Counts'}] },
-    { id:'c-elig', title:'Eligibility Core', module:'Eligibility', lessons:[{type:'guide',title:'Eligibility Overview'},{type:'guide',title:'Direct Certification Workflow'},{type:'guide',title:'Verification Rules'},{type:'quiz',title:'Eligibility Exam',n:8}] },
-    { id:'c-menu', title:'Menu Planning Essentials', module:'Menu Planning', lessons:[{type:'guide',title:'Cycle Menu Setup'},{type:'quiz',title:'Menu Planning Check',n:5}] },
+    { id:'c-item', title:'Item Management Core', module:'Item Management', milestone:'Training', lessons:[{type:'guide',title:'Managing Item Categories'},{type:'guide',title:'Bulk Updates'},{type:'quiz',title:'Item Management Check',n:6}] },
+    { id:'c-inv', title:'Inventory Basics', module:'Inventory', milestone:'Training', lessons:[{type:'guide',title:'Inventory Overview'},{type:'video',title:'Receiving & Storage',dur:'8 min'},{type:'guide',title:'Physical Inventory Counts'}] },
+    { id:'c-elig', title:'Eligibility Core', module:'Eligibility', milestone:'Pre-launch', lessons:[{type:'guide',title:'Eligibility Overview'},{type:'guide',title:'Direct Certification Workflow'},{type:'guide',title:'Verification Rules'},{type:'quiz',title:'Eligibility Exam',n:8}] },
+    { id:'c-menu', title:'Menu Planning Essentials', module:'Menu Planning', milestone:'Pre-launch', lessons:[{type:'guide',title:'Cycle Menu Setup'},{type:'quiz',title:'Menu Planning Check',n:5}] },
   ];
   // A TRACK is a sequence of COURSES (+ a certify step at the end).
   const tracks = [
-    { id:'t-cashier', title:'New Cashier Onboarding', role:'Cashier', due:DUE, instructor:'CB', courseIds:['c-pos'] },
-    { id:'t-sitemgr', title:'Site Manager Essentials', role:'Site Manager', due:DUE, instructor:'SM', courseIds:['c-item','c-inv'] },
-    { id:'t-elig', title:'Eligibility Certification Prep', role:'CN Director', due:DUE, instructor:'EL', courseIds:['c-elig'] },
+    { id:'t-cashier', title:'New Cashier Onboarding', role:'Cashier', product:'SchoolCafé', due:DUE, instructor:'CB', courseIds:['c-pos'] },
+    { id:'t-sitemgr', title:'Site Manager Essentials', role:'Site Manager', product:'SchoolCafé', sequential:true, due:DUE, instructor:'SM', courseIds:['c-item','c-inv'] },
+    { id:'t-elig', title:'Eligibility Certification Prep', role:'CN Director', product:'SchoolCafé', due:DUE, instructor:'EL', courseIds:['c-elig'] },
+    { id:'t-pe', title:'PrimeroEdge Onboarding', role:'CN Director', product:'PrimeroEdge', due:DUE, instructor:'PE', courseIds:['c-elig','c-menu'] },
   ];
   const districts = [
     { id:'houston-isd', name:'Houston ISD', trainer:'Dana Alvarez', last:'2 hours ago', logins30:412, sites:['Lamar HS','Pershing MS','Garden Oaks ES','Central Kitchen'] },
@@ -2383,6 +2387,7 @@ const _DEMO = (() => {
   const rng = (seed) => { let s = seed % 2147483647; if (s <= 0) s += 2147483646; return () => (s = s * 16807 % 2147483647) / 2147483647; };
   districts.forEach((d, di) => {
     const r = rng(di * 97 + 13), n = 10 + Math.floor(r() * 5);
+    d.stage = ['Training','Setup','Pre-launch','Go-live','Training','Kickoff'][di] || 'Go-live';   // FR-LP-05 implementation stage
     const forced = ['Complete','Complete','Overdue','Overdue','Not started','Not started'];   // guarantee every state per district
     d.learners = [];
     for (let i = 0; i < n; i++) {
@@ -2432,7 +2437,7 @@ const _DEMO = (() => {
     { title:'Allergen Management', module:'Food Safety', format:'Guide', origin:'Outside vendor' },
     { title:'Smart Snacks Standards', module:'Menu Planning', format:'Guide', origin:'Human-authored' },
   ];
-  return { due:DUE, courses, tracks, districts, inbox, smes, quality, studio, imported, rubric:['Grounding','Coverage','Clarity','Structure'] };
+  return { due:DUE, stages:['Kickoff','Setup','Training','Pre-launch','Go-live'], courses, tracks, districts, inbox, smes, quality, studio, imported, rubric:['Grounding','Coverage','Clarity','Structure'] };
 })();
 // session-scoped mutations (reset on reload)
 let _demoState = { helpCleared:{}, nudged:{}, progress:{}, userTracks:[], approvedRids:null };
@@ -4140,6 +4145,20 @@ function closePath() {
 function _allDemoCourses() { return _DEMO.courses.concat(_demoState.userCourses || []); }
 function _courseById(id) { return _allDemoCourses().find(c => c.id === id); }
 function _trackCourses(t) { return (t.courseIds || []).map(_courseById).filter(Boolean); }
+// FR-LP-04/05: a course is locked by go-live milestone (district hasn't reached its stage) or by sequencing (prior course incomplete in a sequential track)
+function _courseLockInfo(track, course, idxInTrack) {
+  const stages = _DEMO.stages || [];
+  if (course.milestone) {
+    const dStage = (_curDistrict() || {}).stage;
+    if (stages.indexOf(course.milestone) > stages.indexOf(dStage)) return { locked: true, reason: 'Unlocks at the ' + course.milestone + ' stage' };
+  }
+  if (track && track.sequential && idxInTrack > 0) {
+    const cs = _trackCourses(track), prior = cs[idxInTrack - 1];
+    if (prior && _coursePct(prior) < 100) return { locked: true, reason: 'Complete ' + prior.title + ' first' };
+  }
+  return { locked: false };
+}
+function _courseSharedCount(cid) { return _allDemoTracks().filter(t => (t.courseIds || []).includes(cid)).length; }   // FR-LP-02
 function _lessonIcon(type) { return type === 'quiz' ? '✎' : type === 'video' ? '▶' : type === 'certify' ? '🏅' : '📄'; }
 function _courseDoneSet(cid) { _demoState.courseDone = _demoState.courseDone || {}; return (_demoState.courseDone[cid] = _demoState.courseDone[cid] || new Set()); }
 function _courseScores() { _demoState.quizScore = _demoState.quizScore || {}; return _demoState.quizScore; }
@@ -4187,15 +4206,16 @@ function openTrack(tid) {
   const cs = _trackCourses(t), pct = _trackPct(t), certified = _trackCertified(t);
   const rows = cs.map((c, i) => {
     const cp = _coursePct(c), done = cp === 100;
-    return `<li class="path-mod" data-type="${done ? 'pdf' : 'web'}">
-        <span class="path-num">${done ? '✓' : i + 1}</span>
+    const lk = _courseLockInfo(t, c, i), shared = _courseSharedCount(c.id) > 1;
+    const action = lk.locked
+      ? `<span class="path-locked">🔒 ${escapeHtml(lk.reason)}</span>`
+      : `<button class="track-open" onclick="event.stopPropagation(); openCourse('${c.id}')">${cp > 0 ? 'Continue' : 'Start'} course →</button><span class="course-prog"><span class="r-bar"><span style="width:${cp}%"></span></span>${cp}%</span>`;
+    return `<li class="path-mod${lk.locked ? ' path-locked-row' : ''}" data-type="${done ? 'pdf' : 'web'}">
+        <span class="path-num">${lk.locked ? '🔒' : (done ? '✓' : i + 1)}</span>
         <div class="path-mod-main">
-          <div class="icn-type">📚 <span>course · ${escapeHtml(c.module || '')}</span></div>
+          <div class="icn-type">📚 <span>course · ${escapeHtml(c.module || '')}</span>${shared ? '<span class="shared-tag">shared</span>' : ''}</div>
           <div class="path-mod-title">${escapeHtml(c.title)}</div>
-          <div class="path-mod-actions">
-            <button class="track-open" onclick="event.stopPropagation(); openCourse('${c.id}')">${cp > 0 ? 'Continue' : 'Start'} course →</button>
-            <span class="course-prog"><span class="r-bar"><span style="width:${cp}%"></span></span>${cp}%</span>
-          </div>
+          <div class="path-mod-actions">${action}</div>
         </div></li>`;
   }).join('');
   const certRow = `<li class="path-mod" data-type="certify"><span class="path-num">${certified ? '🏅' : cs.length + 1}</span>
@@ -4205,7 +4225,7 @@ function openTrack(tid) {
   document.getElementById('track-detail').innerHTML = `
     <button class="path-back" onclick="renderLearnGrid()">← All tracks</button>
     <header class="path-hero">
-      <p class="path-eyebrow">${escapeHtml(t.role)} track</p>
+      <p class="path-eyebrow">${escapeHtml(t.product || '')}${t.product ? ' · ' : ''}${escapeHtml(t.role)} track${t.sequential ? ' · sequential' : ''}</p>
       <h1 class="path-title">${escapeHtml(t.title)}</h1>
       <div class="path-stats"><span><b>${cs.length}</b>courses</span><span><b>~${_trackEst(t)}</b></span><span><b>${pct}%</b>done</span><span>Due ${escapeHtml(t.due || _DEMO.due)}</span></div>
       ${certified ? '<span class="track-cert">🏅 Track complete — certified</span>' : '<span class="track-cert-todo">Complete all courses to certify</span>'}
