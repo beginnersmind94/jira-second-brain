@@ -1451,7 +1451,9 @@
     .home-tile { background: #FFF; border: 1px solid var(--border); border-radius: var(--radius); padding: var(--sp-4); }
     .home-tile .n { font-family: var(--serif); font-size: 30px; font-weight: 650; color: var(--text); }
     .home-tile .l { font-size: 12px; color: var(--muted); margin-top: 2px; }
-    .home-tile.alert { border-color: var(--amber-text, #8A5A12); background: var(--amber-soft, #F7ECDA); }
+    /* Severity tiers (research: reserve the hottest treatment for the single most-urgent signal).
+       Priority/terracotta = Help requests (a human is blocked, waiting on a person); Warning/amber = Overdue. */
+    .home-tile.alert { border-color: var(--red, #B3543B); background: var(--red-soft, #F2E1D8); }
     .home-h2 { font-family: var(--serif); font-size: 18px; margin: 0 30px var(--sp-3); color: var(--text); }
     .home-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--sp-4); margin: 0 30px var(--sp-6); align-items: start; }
     .home-card { display: flex; flex-direction: column; align-items: stretch; text-align: left; background: #FFF; border: 1px solid var(--border); border-radius: var(--radius); padding: var(--sp-4); cursor: pointer; font: inherit; }
@@ -1479,7 +1481,7 @@
     .cmd-pill { font-size: 12px; font-weight: 650; color: var(--accent); background: var(--panel3); border-radius: 999px; padding: 1px 9px; }
     .attn-list { display: flex; flex-direction: column; gap: 8px; }
     .attn-row { display: flex; align-items: center; gap: 12px; padding: 10px 12px; min-height: 56px; border: 1px solid var(--border); border-radius: var(--radius-sm); }
-    .attn-row.attn-help { border-color: var(--amber-text, #8A5A12); background: var(--amber-soft, #FBF1E2); }
+    .attn-row.attn-help { border-color: var(--red, #B3543B); background: var(--red-soft, #F2E1D8); }
     .attn-row.attn-warn { border-color: var(--warn-border, #E0B574); background: var(--warn-soft, #FBF3E3); }
     .attn-ico { font-size: 17px; flex: none; width: 22px; text-align: center; }
     .attn-bd { flex: 1; min-width: 0; }
@@ -2416,7 +2418,7 @@ function renderHome(){
   helps.forEach(d => attn.push({ p: 1, cls: 'attn-help', ico: '🖐', title: `${d.name} raised a hand`, desc: d.help_msg, act: `<button class="secondary" onclick="respondHelp('${d.id}')">Respond</button>` }));
   if (overdue) attn.push({ p: 2, cls: 'attn-warn', ico: '⏰', title: `${overdue} learner${overdue === 1 ? '' : 's'} overdue`, desc: `Across your ${mine.length} districts · due ${_DEMO.due}`, act: `<button class="secondary" onclick="showView('manage')">Review</button>` });
   mine.filter(d => !(d.help_request && !_demoState.helpCleared[d.id]) && _districtCompletion(d) < 70).forEach(d => attn.push({ p: 3, cls: '', ico: '📉', title: `${d.name} is behind`, desc: `${_districtCompletion(d)}% complete · due ${_DEMO.due}`, act: `<button class="secondary" onclick="openDistrictInManage('${d.id}')">Open</button>` }));
-  if (_DEMO.inbox.length) attn.push({ p: 4, cls: '', ico: '📥', title: `${_DEMO.inbox.length} new guides approved`, desc: 'From the PM team — ready to assign or add to a track', act: `<button class="secondary" onclick="showView('content')">Open Catalog</button>` });
+  // Approved guides are intentionally NOT in this priority feed — they live in the right-rail "Approved by PM team" card. Keeping the feed to genuine people/district actions (alert-fatigue research) also lifts "My projects" toward the fold.
   attn.sort((a, b) => a.p - b.p);
   h += `<section class="cmd-card"><div class="cmd-head"><h3>Needs your attention</h3><span class="cmd-pill">${attn.length}</span></div><div class="attn-list">`;
   h += attn.map(a => `<div class="attn-row ${a.cls}"><span class="attn-ico">${a.ico}</span><div class="attn-bd"><div class="attn-title">${escapeHtml(a.title)}</div><div class="attn-desc">${escapeHtml(a.desc)}</div></div>${a.act}</div>`).join('') || '<div class="attn-empty">All clear — nothing needs you right now.</div>';
