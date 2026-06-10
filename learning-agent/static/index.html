@@ -278,6 +278,64 @@
     .panel-body { padding: 20px; }
     .panel-body.scroll { overflow-y: auto; flex: 1; }
 
+    /* ───────────────────────── Create hub (Generate / Assemble lanes) ───────────────────────── */
+    .create-hub { padding: 24px 30px 0; }
+    .create-hub-head { margin-bottom: 4px; }
+    .create-hub-head h1 {
+      margin: 0 0 4px;
+      font-size: 22px;
+      font-weight: 750;
+      letter-spacing: -0.01em;
+      color: var(--text);
+    }
+    .create-hub-head p { margin: 0; color: var(--muted-aa); font-size: 13px; line-height: 1.5; }
+    .lane-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent-press);
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+    .lane-tag.assemble { background: var(--panel3); color: var(--label); }
+    .lane-head { margin: 22px 0 0; }
+    .lane-head h2 {
+      margin: 0 0 4px;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.005em;
+      color: var(--text);
+    }
+    .lane-head p { margin: 0; color: var(--muted-aa); font-size: 12.5px; line-height: 1.5; max-width: 62ch; }
+    /* Assemble lane sits in the page padding, below the Generate grid */
+    .assemble-lane { padding: 0 30px 32px; }
+    .assemble-panel .panel-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .assemble-card {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 18px;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+    }
+    .assemble-card h3 { margin: 0; font-size: 14px; font-weight: 700; color: var(--text); }
+    .assemble-card p { margin: 0; color: var(--muted-aa); font-size: 12.5px; line-height: 1.5; flex: 1; }
+    .assemble-card button { align-self: flex-start; }
+    @media (max-width: 760px) {
+      .assemble-panel .panel-body { grid-template-columns: 1fr; }
+    }
+
     /* ───────────────────────── Form controls ───────────────────────── */
     .field { margin-bottom: 18px; }
     .field:last-child { margin-bottom: 0; }
@@ -1385,10 +1443,15 @@
     .am-modal { width: 100%; max-width: 460px; max-height: 84vh; overflow: auto; background: var(--panel); border-radius: var(--radius); box-shadow: var(--shadow-lift); }
     .am-head { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; border-bottom: 1px solid var(--border); font-family: var(--serif); font-size: 16px; }
     .am-body { padding: 14px 16px; }
-    .am-foot { padding: 14px 16px; border-top: 1px solid var(--border); text-align: right; }
-    .tb-l { display: block; font-size: 11.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); margin: 12px 0 6px; }
-    .am-row { display: block; font-size: 13px; padding: 5px 0; cursor: pointer; }
-    .am-row .meta { color: var(--muted); font-size: 11.5px; }
+    .am-foot { padding: 14px 16px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .am-foot .primary { width: auto; flex: none; }
+    .am-foot .tb-note { margin: 0; }
+    .tb-l { display: block; font-size: 11.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); margin: 14px 0 6px; }
+    .tb-in { width: 100%; box-sizing: border-box; padding: 9px 11px; border: 1px solid var(--border); border-radius: var(--radius-sm); font: inherit; font-size: 13.5px; background: var(--panel); color: var(--text); }
+    .tb-in:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
+    .am-row { display: flex; align-items: center; gap: 10px; font-size: 13.5px; padding: 8px 2px; cursor: pointer; border-bottom: 1px solid var(--border); }
+    .am-row:last-child { border-bottom: 0; }
+    .am-row .meta { margin-left: auto; border: 0; padding: 0; background: none; text-transform: none; letter-spacing: 0; font-weight: 500; color: var(--muted); font-size: 12px; white-space: nowrap; }
     /* Manage expandable rows */
     .mg-row { cursor: pointer; }
     .mg-row:hover td { background: var(--panel3); }
@@ -1854,6 +1917,17 @@
 
 <!-- ═══════════════════════════════════ AUTHOR ═══════════════════════════════════ -->
 <section id="view-author" class="view active">
+  <div class="create-hub">
+    <div class="create-hub-head">
+      <h1>Create</h1>
+      <p>Two ways to build learning here: <strong>generate</strong> a new grounded guide from a transcript or Jira, or <strong>assemble</strong> already-approved guides into courses and tracks. Every path keeps content traceable to its source.</p>
+    </div>
+    <div class="lane-head">
+      <span class="lane-tag">Generate · AI-grounded authoring</span>
+      <h2>Generate a guide</h2>
+      <p>Turn a training transcript or verified Jira tickets into a new guide. Every claim is quoted from its source and checked before you can publish.</p>
+    </div>
+  </div>
   <div class="author">
     <div class="panel">
       <div class="panel-header"><span class="step-ord">1</span><span>Create a resource</span></div>
@@ -1980,6 +2054,29 @@
             <span id="eval-summary" class="eval-summary"></span>
           </div>
           <ul id="eval-checks" class="eval-checks"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="assemble-lane">
+    <div class="lane-head">
+      <span class="lane-tag assemble">Assemble · manual assembly of approved content</span>
+      <h2>Build a course or track</h2>
+      <p>Bundle guides that are <strong>already approved and grounded</strong> into a course, then sequence courses into a role-based track. This is assembly only — no new claims are written here, so grounding stays intact.</p>
+    </div>
+    <div class="panel assemble-panel" style="margin-top:14px;">
+      <div class="panel-header"><span>Assemble approved content</span></div>
+      <div class="panel-body">
+        <div class="assemble-card">
+          <h3>Build a course</h3>
+          <p>Group approved guides, quizzes and videos into a single course, optionally gated to a go-live milestone.</p>
+          <button class="primary" onclick="openCourseBuilder()">Build a course</button>
+        </div>
+        <div class="assemble-card">
+          <h3>Build a track</h3>
+          <p>Sequence existing courses into a role-based learning path for a product audience.</p>
+          <button class="primary" onclick="openTrackBuilder()">Build a track</button>
         </div>
       </div>
     </div>
@@ -4473,6 +4570,8 @@ function asnSave(){
   if(t==='people') audVal=String(document.querySelectorAll('.asn-person:checked').length);
   else if(t==='site'||t==='district') audVal=[...document.querySelectorAll('.asn-multi:checked')].map(x=>x.value);
   else if(t!=='org') audVal=(document.getElementById('asn-audval')||{}).value;
+  if((t==='site'||t==='district') && (!audVal || !audVal.length)){ alert('Pick at least one ' + (t==='site'?'site':'district') + '.'); return; }
+  if(t==='people' && !(+audVal)){ alert('Pick at least one person.'); return; }
   const drip=!!(document.getElementById('asn-drip')||{}).checked;
   const ct=_allDemoTracks().some(x=>x.id===content)?'track':'course';
   const due = dyn ? '7 days from join' : (_fmtDue((document.getElementById('asn-due')||{}).value) || _DEMO.due);

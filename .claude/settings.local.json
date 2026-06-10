@@ -213,7 +213,9 @@
       "mcp__Claude_in_Chrome__navigate",
       "mcp__Claude_in_Chrome__get_page_text",
       "mcp__Claude_in_Chrome__resize_window",
-      "mcp__Claude_in_Chrome__find"
+      "mcp__Claude_in_Chrome__find",
+      "mcp__Claude_in_Chrome__select_browser",
+      "mcp__Claude_in_Chrome__javascript_tool"
     ]
   }
 }
