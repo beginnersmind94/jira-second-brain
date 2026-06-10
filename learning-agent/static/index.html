@@ -2001,6 +2001,7 @@
     <div class="am-body">
       <label class="tb-l">Course name</label><input id="cb-name" class="tb-in" placeholder="e.g. Summer Refresher" autocomplete="off">
       <label class="tb-l">Module</label><input id="cb-module" class="tb-in" placeholder="e.g. POS" autocomplete="off">
+      <label class="tb-l">Go-live milestone</label><select id="cb-milestone" class="tb-in"><option value="">No gating — always available</option><option>Kickoff</option><option>Setup</option><option>Training</option><option>Pre-launch</option><option>Go-live</option></select>
       <label class="tb-l">Lessons</label><ol id="cb-lessons" class="cb-lessons"></ol>
       <div class="cb-add"><button class="secondary" onclick="cbAddGuide()">+ Guide</button><button class="secondary" onclick="cbAddQuiz()">+ Quiz</button><button class="secondary" onclick="cbAddVideo()">+ Video</button></div>
       <div id="cb-picker"></div>
@@ -2012,6 +2013,8 @@
     <div class="am-body">
       <label class="tb-l">Track name</label><input id="tbk-name" class="tb-in" placeholder="e.g. New Cashier Onboarding" autocomplete="off">
       <label class="tb-l">Role</label><select id="tbk-role" class="tb-in"><option>Cashier</option><option>Site Manager</option><option>CN Director</option></select>
+      <label class="tb-l">Product</label><select id="tbk-product" class="tb-in"><option>SchoolCafé</option><option>PrimeroEdge</option></select>
+      <label class="am-row" style="margin-top:8px;"><input type="checkbox" id="tbk-sequential"> Sequential — courses unlock in order</label>
       <label class="tb-l">Courses</label><div id="tbk-courses"></div>
     </div>
     <div class="am-foot"><span class="tb-note">A track is a sequence of courses.</span><button class="primary" onclick="tbkSave()">Create track</button></div>
@@ -2728,7 +2731,7 @@ function renderTrackList() {
   h += _allDemoCourses().map(c => `<div class="home-card"><div class="home-card-top"><b>${escapeHtml(c.title)}</b><span class="chip behind">${escapeHtml(c.module || '')}</span></div><div class="home-card-meta">${c.lessons.length} lessons</div></div>`).join('') + '</div>';
   body.innerHTML = h;
 }
-function openCourseBuilder() { _cb = { lessons: [] }; ['cb-name','cb-module'].forEach(id => { const e = document.getElementById(id); if (e) e.value = ''; }); document.getElementById('cb-picker').innerHTML = ''; cbRender(); document.getElementById('cb-modal').hidden = false; }
+function openCourseBuilder() { _cb = { lessons: [] }; ['cb-name','cb-module','cb-milestone'].forEach(id => { const e = document.getElementById(id); if (e) e.value = ''; }); document.getElementById('cb-picker').innerHTML = ''; cbRender(); document.getElementById('cb-modal').hidden = false; }
 function cbClose() { document.getElementById('cb-modal').hidden = true; }
 function cbRender() { const ol = document.getElementById('cb-lessons'); if (!ol) return; ol.innerHTML = _cb.lessons.map((l, i) => `<li class="cb-li"><span>${_lessonIcon(l.type)} ${escapeHtml(l.title)}${l.dur ? ' · ' + escapeHtml(l.dur) : ''}</span><span class="cb-li-act"><button onclick="cbMove(${i},-1)">↑</button><button onclick="cbMove(${i},1)">↓</button><button onclick="cbRemove(${i})">✕</button></span></li>`).join('') || '<li class="cb-empty">No lessons yet — add a guide, quiz, or video.</li>'; }
 function cbMove(i, d) { const j = i + d; if (j < 0 || j >= _cb.lessons.length) return; const a = _cb.lessons;[a[i], a[j]] = [a[j], a[i]]; cbRender(); }
@@ -2749,11 +2752,11 @@ function cbSave() {
   const name = (document.getElementById('cb-name').value || '').trim() || 'Untitled course', module = (document.getElementById('cb-module').value || '').trim();
   if (!_cb.lessons.length) { alert('Add at least one lesson.'); return; }
   _demoState.userCourses = _demoState.userCourses || [];
-  _demoState.userCourses.push({ id: 'u-c-' + (_demoState.userCourses.length + 1), title: name, module, lessons: _cb.lessons.slice() });
+  _demoState.userCourses.push({ id: 'u-c-' + (_demoState.userCourses.length + 1), title: name, module, milestone: (document.getElementById('cb-milestone') || {}).value || '', lessons: _cb.lessons.slice() });
   cbClose(); renderTrackList(); alert('Course “' + name + '” created — now available to add to a track.');
 }
 function openTrackBuilder() {
-  _tbk = { courseIds: [] }; const nm = document.getElementById('tbk-name'); if (nm) nm.value = '';
+  _tbk = { courseIds: [] }; const nm = document.getElementById('tbk-name'); if (nm) nm.value = ''; const pr = document.getElementById('tbk-product'); if (pr) pr.value = 'SchoolCafé'; const sq = document.getElementById('tbk-sequential'); if (sq) sq.checked = false;
   const cw = document.getElementById('tbk-courses'); if (cw) cw.innerHTML = _allDemoCourses().map(c => `<label class="am-row"><input type="checkbox" onclick="tbkToggle('${c.id}',this.checked)"> ${escapeHtml(c.title)} <span class="meta">${escapeHtml(c.module || '')} · ${c.lessons.length} lessons</span></label>`).join('');
   document.getElementById('tbk-modal').hidden = false;
 }
@@ -2763,7 +2766,7 @@ function tbkSave() {
   const name = (document.getElementById('tbk-name').value || '').trim() || 'Untitled track', role = document.getElementById('tbk-role').value;
   if (!_tbk.courseIds.length) { alert('Add at least one course.'); return; }
   _demoState.userTracks = _demoState.userTracks || [];
-  _demoState.userTracks.push({ id: 'u-t-' + (_demoState.userTracks.length + 1), title: name, role, instructor: (role[0] || 'T'), due: _DEMO.due, courseIds: _tbk.courseIds.slice() });
+  _demoState.userTracks.push({ id: 'u-t-' + (_demoState.userTracks.length + 1), title: name, role, product: (document.getElementById('tbk-product') || {}).value || 'SchoolCafé', sequential: !!(document.getElementById('tbk-sequential') || {}).checked, instructor: (role[0] || 'T'), due: _DEMO.due, courseIds: _tbk.courseIds.slice() });
   tbkClose(); renderTrackList(); alert('Track “' + name + '” created — it’s now live in Learn.');
 }
 // ─── Library (studio-produced, all statuses) + Catalog (ready-to-use, all origins) ───
