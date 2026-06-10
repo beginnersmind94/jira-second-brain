@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -1467,8 +1467,10 @@
     .pj-form-row { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
     .pj-form-row label { font-size: 11.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
     .pj-form-row .err { color: var(--red-text); font-size: 12px; margin-top: 2px; }
+    .pj-form-row .err::before { content: "\26A0  "; font-weight: 700; }
     .pj-form-row input, .pj-form-row select { width: 100%; box-sizing: border-box; padding: 9px 11px; border: 1px solid var(--border); border-radius: var(--radius-sm); font: inherit; font-size: 13.5px; background: var(--panel); color: var(--text); }
     .pj-form-row input:focus, .pj-form-row select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
+    .pj-form-row input.invalid, .pj-form-row select.invalid { border-color: var(--red-text); box-shadow: 0 0 0 2px var(--red-soft); }
     .pj-step { display: flex; gap: 6px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; color: var(--muted); font-size: 12.5px; }
     .pj-step .num { display:inline-flex; align-items:center; justify-content:center; width:22px; height:22px; border-radius:50%; background:var(--border); color:var(--text); font-weight:700; font-size:11.5px; }
     .pj-step .num.done { background: var(--accent); color: #fff; }
@@ -1476,22 +1478,37 @@
     .pj-step .sep { color: var(--border-strong); margin: 0 4px; }
     .pj-step .lbl { font-weight: 600; color: var(--text); }
     .pj-step .lbl.muted { color: var(--muted); font-weight: 500; }
-    .pj-drop { border: 2px dashed var(--border-strong); border-radius: var(--radius); padding: 28px 18px; text-align: center; background: var(--surface); transition: border-color .12s, background .12s; }
+    .pj-drop { display: block; border: 2px dashed var(--border-strong); border-radius: var(--radius); padding: 28px 18px; text-align: center; background: var(--surface); transition: border-color .12s, background .12s; cursor: pointer; }
     .pj-drop.over { border-color: var(--accent); background: var(--accent-soft); }
     .pj-drop p { margin: 6px 0; color: var(--muted); font-size: 13px; }
     .pj-drop .pj-drop-title { color: var(--text); font-weight: 600; font-size: 14.5px; }
     .pj-drop .pj-drop-fmt { color: var(--muted); font-size: 12px; }
     .pj-drop input[type=file] { display: none; }
+    /* Once a file is selected the dashed drop zone collapses into a compact file chip so its border can never bleed across the banner / preview below. */
+    .pj-drop.has-file { border: 1px solid var(--border); padding: 12px 14px; text-align: left; display: flex; align-items: center; gap: 10px; background: var(--panel); cursor: default; }
+    .pj-drop.has-file .pj-drop-title, .pj-drop.has-file .pj-drop-fmt { display: none; }
+    .pj-drop .pj-file-chip { display: none; align-items: center; gap: 8px; flex: 1; min-width: 0; }
+    .pj-drop.has-file .pj-file-chip { display: flex; }
+    .pj-drop .pj-file-chip svg { flex: 0 0 auto; color: var(--green-text, #1f6f43); }
+    .pj-drop .pj-file-chip .pj-file-name { font-weight: 600; color: var(--text); font-size: 13.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .pj-drop .pj-file-chip .pj-file-meta { color: var(--muted); font-size: 12px; white-space: nowrap; }
+    .pj-drop.has-file .pj-file-replace { margin-left: auto; background: none; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 5px 10px; font-size: 12px; cursor: pointer; color: var(--text); font: inherit; font-size: 12px; }
+    .pj-drop.has-file .pj-file-replace:hover { border-color: var(--accent); color: var(--accent); }
     .pj-banner { padding: 11px 14px; border-radius: var(--radius-sm); margin-bottom: 12px; font-size: 13px; }
     .pj-banner.err { background: var(--red-soft); color: var(--red-text); border: 1px solid var(--red-text); }
+    .pj-banner.err::before { content: "\26A0  "; font-weight: 700; margin-right: 2px; }
     .pj-banner.ok { background: var(--green-soft, #e3f1e6); color: var(--green-text, #1f6f43); border: 1px solid var(--green-text, #1f6f43); }
-    .pj-preview { overflow-x: auto; margin-top: 12px; }
+    .pj-preview { margin-top: 12px; }
+    /* Capped scroll container so a 60-row roster doesn't dump the column header off-screen. */
+    .pj-preview-scroll { max-height: 420px; overflow: auto; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--panel); }
     .pj-preview table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    .pj-preview th { text-align: left; padding: 8px 10px; background: var(--surface); border-bottom: 1px solid var(--border); font-size: 11.5px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); font-weight: 700; }
+    .pj-preview th { position: sticky; top: 0; z-index: 2; text-align: left; padding: 8px 10px; background: var(--surface); border-bottom: 1px solid var(--border); font-size: 11.5px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); font-weight: 700; box-shadow: 0 1px 0 var(--border); }
     .pj-preview td { padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
     .pj-preview tr.bad { background: var(--red-soft); }
     .pj-preview tr.bad td { color: var(--red-text); }
-    .pj-preview .row-errs { display: block; margin-top: 4px; font-size: 11.5px; color: var(--red-text); }
+    /* Full-width sub-row for inline errors — no more wrapping a 6-line error into a 50px # column. */
+    .pj-preview tr.row-err-sub td { background: var(--red-soft); color: var(--red-text); font-size: 12px; padding: 6px 12px 10px 64px; border-bottom: 1px solid var(--border); }
+    .pj-preview tr.row-err-sub td::before { content: "\26A0"; color: var(--red-text); margin-right: 8px; font-weight: 700; }
     .pj-preview td.row-num { color: var(--muted); width: 50px; }
     .pj-stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px; margin-bottom: 22px; }
     .pj-stat { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 16px; }
@@ -1771,6 +1788,21 @@
     .chip.ok { background: var(--green-soft); color: var(--green-text); }
     .chip.behind { background: var(--panel3); color: var(--text-soft); }
     .chip.needs-help, .chip.raised { background: var(--amber-soft, #F3E0C8); color: var(--amber-text, #8A5A12); cursor: pointer; }
+    /* ── Unified status pill — dot + label ── */
+    .pill { display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 10px; border-radius: var(--radius-pill); font-size: 11px; font-weight: inherit; white-space: nowrap; line-height: 24px; }
+    .pill::before { content: ""; width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .pill--success { background: #dcfce7; color: #14532d; }
+    .pill--success::before { background: #16a34a; }
+    .pill--info { background: #dbeafe; color: #1e3a8a; }
+    .pill--info::before { background: #2563eb; }
+    .pill--warning { background: #fef3c7; color: #78350f; }
+    .pill--warning::before { background: #d97706; }
+    .pill--attention { background: #ffedd5; color: #7c2d12; }
+    .pill--attention::before { background: #ea580c; }
+    .pill--urgent { background: #fee2e2; color: #7f1d1d; font-weight: 600; }
+    .pill--urgent::before { background: #dc2626; }
+    .pill--neutral { background: #f3f4f6; color: #1f2937; }
+    .pill--neutral::before { background: #6b7280; }
     .home-help-msg { margin-top: 10px; font-size: 12.5px; color: var(--text); background: #FFF; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 9px 10px; display: flex; gap: 8px; align-items: center; justify-content: space-between; }
     .home-inbox { margin: 0 30px var(--sp-8); background: #FFF; border: 1px solid var(--border); border-radius: var(--radius); }
     .home-inbox-head { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; border-bottom: 1px solid var(--border); font-size: 14px; }
@@ -2003,6 +2035,7 @@
     #view-track-builder .track-modules { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 5px; min-height: 72px; }
     #view-track-builder .track-mod-item { display: flex; align-items: center; gap: 10px; padding: 9px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: grab; transition: box-shadow .14s, border-color .14s; }
     #view-track-builder .track-mod-item:active { cursor: grabbing; }
+    #view-track-builder .track-mod-item.dragging  { opacity: .45; cursor: grabbing; }
     #view-track-builder .track-mod-item.drag-over { border-color: var(--accent); background: var(--accent-soft); box-shadow: var(--ring); }
     #view-track-builder .track-mod-drag-handle { flex: none; color: var(--muted-soft); cursor: grab; font-size: 14px; line-height: 1; padding: 2px 0; user-select: none; }
     #view-track-builder .track-mod-seq { flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--panel3); color: var(--text-soft); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
@@ -2117,7 +2150,7 @@
     <div id="asn-audpick"></div>
     <label class="tb-l">Due date</label><input id="asn-due" type="date" class="tb-in">
     <label class="am-row" style="margin-top:8px;"><input type="checkbox" id="asn-dyn"> Dynamic — 7 days from when each learner joins</label>
-    <label class="am-row" style="margin-top:6px;"><input type="checkbox" id="asn-drip"> Drip — release one course per week</label>
+    <label class="am-row" style="margin-top:6px;"><input type="checkbox" id="asn-drip"> Drip — release one track per week</label>
   </div>
   <div class="am-foot"><span class="tb-note">Auto-enrolls matching learners; future joiners inherit it while active.</span><button class="primary" onclick="asnSave()">Create assignment</button></div>
 </div></div>
@@ -2132,7 +2165,7 @@
   <div class="create-hub">
     <div class="create-hub-head">
       <h1>Create</h1>
-      <p>Two ways to build learning here: <strong>generate</strong> a new grounded guide from a transcript or Jira, or <strong>assemble</strong> already-approved guides into courses and tracks. Every path keeps content traceable to its source.</p>
+      <p>Two ways to build learning here: <strong>generate</strong> a new grounded guide from a transcript or Jira, or <strong>assemble</strong> already-approved guides into tracks. Every path keeps content traceable to its source.</p>
     </div>
     <div class="lane-head">
       <span class="lane-tag">Generate · AI-grounded authoring</span>
@@ -2274,20 +2307,20 @@
   <div class="assemble-lane">
     <div class="lane-head">
       <span class="lane-tag assemble">Assemble · manual assembly of approved content</span>
-      <h2>Build a course or track</h2>
-      <p>Bundle guides that are <strong>already approved and grounded</strong> into a course, then sequence courses into a role-based track. This is assembly only — no new claims are written here, so grounding stays intact.</p>
+      <h2>Build a track</h2>
+      <p>Bundle guides that are <strong>already approved and grounded</strong> into a track, then sequence tracks into a role-based learning path. This is assembly only — no new claims are written here, so grounding stays intact.</p>
     </div>
     <div class="panel assemble-panel" style="margin-top:14px;">
       <div class="panel-header"><span>Assemble approved content</span></div>
       <div class="panel-body">
         <div class="assemble-card">
-          <h3>Build a course</h3>
-          <p>Group approved guides, quizzes and videos into a single course, optionally gated to a go-live milestone.</p>
-          <button class="primary" onclick="openCourseBuilder()">Build a course</button>
+          <h3>Build a track</h3>
+          <p>Group approved guides, quizzes and videos into a single track, optionally gated to a go-live milestone.</p>
+          <button class="primary" onclick="openCourseBuilder()">Build a track</button>
         </div>
         <div class="assemble-card">
           <h3>Build a track</h3>
-          <p>Sequence existing courses into a role-based learning path for a product audience.</p>
+          <p>Sequence existing tracks into a role-based learning path for a product audience.</p>
           <button class="primary" onclick="openTrackBuilder()">Build a track</button>
         </div>
       </div>
@@ -2316,21 +2349,21 @@
 </section>
 <section id="view-tracks" class="view">
   <div class="roster-wrap">
-    <div class="roster-head"><div><h1 class="roster-title">Tracks</h1><p class="roster-sub">Build courses from approved content, then bundle them into tracks.</p></div>
-      <div style="display:flex;gap:8px;"><button class="secondary" onclick="openCourseBuilder()">+ New Course</button><button class="primary" onclick="openTrackBuilder()">+ New Track</button></div></div>
+    <div class="roster-head"><div><h1 class="roster-title">Tracks</h1><p class="roster-sub">Build tracks from approved content, then bundle them into learning paths.</p></div>
+      <div style="display:flex;gap:8px;align-items:center;"><span class="demo-tag">Demo data</span><button class="secondary" onclick="openCourseBuilder()">+ New Track</button><button class="primary" onclick="openTrackBuilder()">+ New Track</button></div></div>
     <div id="tracks-list-body"></div>
   </div>
   <div id="cb-modal" class="am-overlay" hidden><div class="am-modal" style="max-width:560px;">
-    <div class="am-head"><b>Build a course</b><button class="lib-drawer-close" onclick="cbClose()">✕</button></div>
+    <div class="am-head"><b>Build a track</b><button class="lib-drawer-close" onclick="cbClose()">✕</button></div>
     <div class="am-body">
-      <label class="tb-l">Course name</label><input id="cb-name" class="tb-in" placeholder="e.g. Summer Refresher" autocomplete="off">
+      <label class="tb-l">Track name</label><input id="cb-name" class="tb-in" placeholder="e.g. Summer Refresher" autocomplete="off">
       <label class="tb-l">Module</label><input id="cb-module" class="tb-in" placeholder="e.g. POS" autocomplete="off">
       <label class="tb-l">Go-live milestone</label><select id="cb-milestone" class="tb-in"><option value="">No gating — always available</option><option>Kickoff</option><option>Setup</option><option>Training</option><option>Pre-launch</option><option>Go-live</option></select>
       <label class="tb-l">Lessons</label><ol id="cb-lessons" class="cb-lessons"></ol>
       <div class="cb-add"><button class="secondary" onclick="cbAddGuide()">+ Guide</button><button class="secondary" onclick="cbAddQuiz()">+ Quiz</button><button class="secondary" onclick="cbAddVideo()">+ Video</button></div>
       <div id="cb-picker"></div>
     </div>
-    <div class="am-foot"><span class="tb-note">Assembly only — content stays grounded.</span><button class="primary" onclick="cbSave()">Save course</button></div>
+    <div class="am-foot"><span class="tb-note">Assembly only — content stays grounded.</span><button class="primary" onclick="cbSave()">Save track</button></div>
   </div></div>
   <div id="tbk-modal" class="am-overlay" hidden><div class="am-modal">
     <div class="am-head"><b>Build a track</b><button class="lib-drawer-close" onclick="tbkClose()">✕</button></div>
@@ -2338,10 +2371,10 @@
       <label class="tb-l">Track name</label><input id="tbk-name" class="tb-in" placeholder="e.g. New Cashier Onboarding" autocomplete="off">
       <label class="tb-l">Role</label><select id="tbk-role" class="tb-in"><option>Cashier</option><option>Site Manager</option><option>CN Director</option></select>
       <label class="tb-l">Product</label><select id="tbk-product" class="tb-in"><option>SchoolCafé</option></select>
-      <label class="am-row" style="margin-top:8px;"><input type="checkbox" id="tbk-sequential"> Sequential — courses unlock in order</label>
-      <label class="tb-l">Courses</label><div id="tbk-courses"></div>
+      <label class="am-row" style="margin-top:8px;"><input type="checkbox" id="tbk-sequential"> Sequential — tracks unlock in order</label>
+      <label class="tb-l">Tracks</label><div id="tbk-courses"></div>
     </div>
-    <div class="am-foot"><span class="tb-note">A track is a sequence of courses.</span><button class="primary" onclick="tbkSave()">Create track</button></div>
+    <div class="am-foot"><span class="tb-note">A track is a sequence of tracks.</span><button class="primary" onclick="tbkSave()">Create track</button></div>
   </div></div>
 </section>
 <!-- ── Projects: project_create / csv_upload / project_dashboard ───────── -->
@@ -2350,8 +2383,9 @@
     <div class="pj-head">
       <div>
         <h1>Projects</h1>
-        <p class="sub">A <strong>project</strong> is one district rollout. Create one to import sites and people, then assign learning content. <span class="demo-tag" style="margin-left:6px;">Demo data</span></p>
+        <p class="sub">A <strong>project</strong> is one district rollout. Create one to import sites and people, then assign learning content.</p>
       </div>
+      <span class="demo-tag">Demo data</span>
     </div>
     <div id="pj-signin" class="pj-signin-shell" hidden>
       <div class="pj-signin-card">
@@ -2408,7 +2442,12 @@
       <label class="pj-drop" id="csv-drop">
         <div class="pj-drop-title" id="csv-drop-title">Drop your sites CSV here, or click to browse</div>
         <p class="pj-drop-fmt" id="csv-drop-fmt">CSV with columns: site_name, address</p>
-        <p id="csv-filename" style="color:var(--text); font-weight:600;" hidden></p>
+        <span class="pj-file-chip">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><polyline points="9 14 11 16 15 12"/></svg>
+          <span class="pj-file-name" id="csv-filename"></span>
+          <span class="pj-file-meta" id="csv-filemeta"></span>
+        </span>
+        <button type="button" class="pj-file-replace" onclick="event.preventDefault(); csvReset(); document.getElementById('csv-file').click();">Replace file</button>
         <input type="file" id="csv-file" accept=".csv,text/csv" onchange="csvFileChosen()">
       </label>
       <div id="csv-preview" class="pj-preview"></div>
@@ -2635,7 +2674,7 @@
   <div class="panel" style="max-width:1140px;margin:0 auto;">
     <div class="panel-header">
       <span>Quality &amp; Trust</span>
-      <button class="secondary" style="float:right;margin-top:-4px;" onclick="loadEvals()">Refresh</button>
+      <span style="float:right;display:flex;gap:8px;align-items:center;margin-top:-4px;"><span class="demo-tag">Demo data</span><button class="secondary" onclick="loadEvals()">Refresh</button></span>
     </div>
     <div class="panel-body" id="evals-body" aria-busy="true">
       <div class="sk-hero skeleton"></div>
@@ -2797,6 +2836,177 @@
     </div>
   </div>
 </section>
+
+<!-- ═══════════════════════════════════ TRACK BUILDER ═══════════════════════════════════ -->
+<section id="view-track-builder" class="view">
+  <div class="page">
+    <!-- LEFT PANE: Module library -->
+    <aside class="lib-pane" aria-label="Module library">
+      <div class="lib-pane-head">
+        <p class="lib-pane-title">Module library</p>
+        <div class="lib-search-row">
+          <input id="tb-lib-search" class="lib-search" type="search"
+                 placeholder="Search modules…" autocomplete="off" aria-label="Search modules">
+        </div>
+        <div class="lib-filter-row">
+          <select id="tb-lib-source" class="lib-filter-select" aria-label="Filter by source">
+            <option value="">All sources</option>
+            <option value="AI_TRANSCRIPT">AI-generated</option>
+            <option value="HUMAN_GUIDE">Cybersoft guide</option>
+            <option value="ICN_DOC">ICN / USDA</option>
+          </select>
+          <select id="tb-lib-product" class="lib-filter-select" aria-label="Filter by product">
+            <option value="">All products</option>
+            <option value="SchoolCafé">SchoolCafé</option>
+            <option value="Family Hub">Family Hub</option>
+          </select>
+        </div>
+      </div>
+      <div class="lib-count" id="tb-lib-count" aria-live="polite"></div>
+      <div class="lib-scroll" id="tb-lib-scroll"></div>
+    </aside>
+
+    <!-- RIGHT PANE: Track editor -->
+    <main class="editor-pane" aria-label="Track editor">
+      <div class="track-switcher">
+        <span class="track-switcher-label">Track</span>
+        <select id="tb-track-select" class="track-select" aria-label="Select a track to edit">
+          <option value="">— Select or create a track —</option>
+        </select>
+        <button class="primary" onclick="tbOpenNewTrackModal()">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor"
+               stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+          New track
+        </button>
+      </div>
+
+      <div class="publish-strip" id="tb-publish-strip" hidden role="status">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+        </svg>
+        <span id="tb-publish-strip-msg">Track published — learners can now access it.</span>
+      </div>
+
+      <div class="card" id="tb-meta-card">
+        <div class="card-header">
+          Track details
+          <div class="card-header-right" id="tb-track-status-badge"></div>
+        </div>
+        <div class="card-body" id="tb-meta-body">
+          <div class="editor-empty">Select a track from the dropdown above, or create a new one.</div>
+        </div>
+      </div>
+
+      <div class="card" id="tb-sequence-card">
+        <div class="card-header">
+          Module sequence
+          <div class="card-header-right" id="tb-mod-count-label"
+               style="font-size:11px;color:var(--muted);font-weight:500;letter-spacing:0;text-transform:none;"></div>
+        </div>
+        <div class="card-body">
+          <ul class="track-modules" id="tb-track-modules-list" role="list" aria-label="Modules in this track">
+            <li>
+              <div class="track-empty">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 2H8l-2 5h12z"/>
+                </svg>
+                No track selected — pick one above to start building.
+              </div>
+            </li>
+          </ul>
+          <p class="drop-hint" id="tb-drop-hint" hidden>
+            Click <strong>+</strong> on a module in the library to add it. Drag rows to reorder.
+          </p>
+        </div>
+      </div>
+
+      <div class="card" id="tb-actions-card" hidden>
+        <div class="card-body" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <button class="secondary danger" onclick="tbConfirmDeleteTrack()">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/>
+              <path d="M10 11v6M14 11v6M9 6V4h6v2"/>
+            </svg>
+            Delete track
+          </button>
+          <div style="margin-left:auto;display:flex;gap:8px;">
+            <button class="secondary" id="tb-save-meta-btn" onclick="tbSaveMeta()">Save changes</button>
+            <button class="primary" id="tb-publish-btn" onclick="tbPublishTrack()">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor"
+                   stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4z"/>
+              </svg>
+              Publish track
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</section>
+
+<!-- Track Builder — New Track Modal (fixed, outside hidden view so position:fixed works) -->
+<div class="tb-overlay" id="tb-new-track-overlay" hidden
+     role="dialog" aria-modal="true" aria-labelledby="tb-nt-modal-title"
+     onclick="if(event.target===this)tbCloseNewTrackModal()">
+  <div class="tb-modal">
+    <div class="tb-modal-head">
+      <span id="tb-nt-modal-title">New track</span>
+      <button class="tb-modal-close" onclick="tbCloseNewTrackModal()" aria-label="Close">✕</button>
+    </div>
+    <div class="tb-modal-body">
+      <div class="field">
+        <label for="tb-nt-title">Track name <span style="color:var(--red-text)">*</span></label>
+        <input id="tb-nt-title" type="text" placeholder="e.g. New Cashier Onboarding"
+               autocomplete="off" maxlength="120">
+      </div>
+      <div class="field">
+        <label for="tb-nt-description">Description</label>
+        <textarea id="tb-nt-description" rows="2"
+                  placeholder="Briefly describe what learners will gain from this track."></textarea>
+      </div>
+      <div class="field-row">
+        <div class="field" style="margin-bottom:0;">
+          <label for="tb-nt-product">Product</label>
+          <select id="tb-nt-product">
+            <option value="SchoolCafé">SchoolCafé</option>
+            <option value="Family Hub">Family Hub</option>
+          </select>
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label>Role tags</label>
+          <div class="tag-row" id="tb-nt-tag-row"></div>
+          <div class="tag-input-row">
+            <input id="tb-nt-tag-input" type="text" placeholder="Add role…"
+                   autocomplete="off" maxlength="40"
+                   onkeydown="if(event.key==='Enter'||event.key===','){event.preventDefault();tbAddPendingTag();}">
+            <button class="secondary" style="padding:6px 10px;" onclick="tbAddPendingTag()">Add</button>
+          </div>
+          <p class="hint" style="margin-top:5px;font-size:12px;color:var(--muted-aa);">e.g. Cashier, Site Manager, CN Director</p>
+        </div>
+      </div>
+    </div>
+    <div class="tb-modal-foot">
+      <span class="tb-modal-note">Assembly only — content stays grounded.</span>
+      <button class="secondary" onclick="tbCloseNewTrackModal()">Cancel</button>
+      <button class="primary" id="tb-create-track-btn" onclick="tbCreateTrack()">
+        <span class="spinner" id="tb-create-spinner" hidden></span>
+        Create track
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Track Builder — Toast -->
+<div class="tb-toast" id="tb-toast" hidden role="alert" aria-live="assertive">
+  <span id="tb-toast-msg"></span>
+  <button class="tb-toast-close" onclick="tbHideToast()" aria-label="Dismiss">✕</button>
+</div>
 
 <script>
 // ─── State ─────────────────────────────────────────────────────────
@@ -2965,8 +3175,9 @@ const _STATUS_HINT = {
 };
 function _statusPill(status){
   const s = (status || 'PLANNING');
-  const cls = 'pj-status-' + s.toLowerCase();
-  return `<span class="pj-status ${cls}" title="${_esc(_STATUS_HINT[s]||'')}">${_esc(_STATUS_LABEL[s] || s)}</span>`;
+  const _pillMap = {PLANNING:'pill--neutral',ONBOARDING:'pill--info',LIVE:'pill--success',ARCHIVED:'pill--neutral'};
+  const cls = _pillMap[s] || 'pill--neutral';
+  return `<span class="pill ${cls}" title="${_esc(_STATUS_HINT[s]||'')}">${_esc(_STATUS_LABEL[s] || s)}</span>`;
 }
 function _statusChanger(pid, current){
   const items = ['PLANNING','ONBOARDING','LIVE','ARCHIVED'].map(s => `
@@ -3002,9 +3213,18 @@ async function setProjectStatus(pid, status){
     else loadProjects();
   } catch(_){ alert('Could not update status — try again.'); }
 }
-async function projCreate(){
-  ['name','product','go_live_date'].forEach(k=>{const e=document.getElementById('pj-err-'+k); if(e){e.hidden=true; e.textContent='';}});
+// Maps form-error keys → the input elements they highlight.
+const _PJ_FIELDS = {name:'pj-name', product:'pj-product', go_live_date:'pj-golive'};
+function _pjClearFieldErrors(){
+  ['name','product','go_live_date'].forEach(k=>{
+    const e=document.getElementById('pj-err-'+k); if(e){e.hidden=true; e.textContent='';}
+    const input=document.getElementById(_PJ_FIELDS[k]); if(input) input.classList.remove('invalid');
+  });
   const banner = document.getElementById('pj-create-banner'); if(banner) banner.innerHTML='';
+}
+async function projCreate(){
+  _pjClearFieldErrors();
+  const banner = document.getElementById('pj-create-banner');
   const payload = {
     name: (document.getElementById('pj-name')||{}).value || '',
     product: (document.getElementById('pj-product')||{}).value || '',
@@ -3014,11 +3234,18 @@ async function projCreate(){
   const j = await r.json();
   if(!r.ok){
     const errs = (j && j.detail && j.detail.errors) || {};
-    Object.keys(errs).forEach(k=>{ const e=document.getElementById('pj-err-'+k); if(e){ e.textContent=errs[k]; e.hidden=false; } });
+    Object.keys(errs).forEach(k=>{
+      const e=document.getElementById('pj-err-'+k); if(e){ e.textContent=errs[k]; e.hidden=false; }
+      const input=document.getElementById(_PJ_FIELDS[k]); if(input) input.classList.add('invalid');
+    });
     if(banner) banner.innerHTML = '<div class="pj-banner err">Fix the highlighted fields and try again.</div>';
     return;
   }
   _projState.currentPid = j.project.id;
+  // Reset form so navigating back doesn't show stale state.
+  const nameEl=document.getElementById('pj-name'); if(nameEl) nameEl.value='';
+  const d=new Date(); d.setDate(d.getDate()+60);
+  const gl=document.getElementById('pj-golive'); if(gl) gl.value = d.toISOString().slice(0,10);
   // Move on to sites import
   openCsvUpload(j.project.id, 'sites');
 }
@@ -3063,7 +3290,9 @@ function renderCsvUpload(){
 }
 function csvReset(){
   _projState.csvFile = null; _projState.csvPreview = null;
-  const fn = document.getElementById('csv-filename'); if(fn){ fn.hidden=true; fn.textContent=''; }
+  const drop = document.getElementById('csv-drop'); if(drop) drop.classList.remove('has-file');
+  const fn = document.getElementById('csv-filename'); if(fn) fn.textContent='';
+  const fm = document.getElementById('csv-filemeta'); if(fm) fm.textContent='';
   const fi = document.getElementById('csv-file'); if(fi) fi.value = '';
   const pv = document.getElementById('csv-preview'); if(pv) pv.innerHTML = '';
   const act = document.getElementById('csv-actions'); if(act) act.hidden = true;
@@ -3074,7 +3303,10 @@ async function csvFileChosen(){
   if(!fi || !fi.files || !fi.files.length) return;
   const file = fi.files[0];
   _projState.csvFile = file;
-  const fn = document.getElementById('csv-filename'); if(fn){ fn.textContent = file.name; fn.hidden=false; }
+  // Collapse the dashed drop zone to a compact file chip so its border can't bleed across the banner/preview.
+  const drop = document.getElementById('csv-drop'); if(drop) drop.classList.add('has-file');
+  const fn = document.getElementById('csv-filename'); if(fn) fn.textContent = file.name;
+  const fm = document.getElementById('csv-filemeta'); if(fm){ const kb = Math.max(1, Math.round(file.size/1024)); fm.textContent = `· ${kb} KB`; }
   // Immediately preview
   await csvPreview();
 }
@@ -3114,13 +3346,17 @@ function renderPreviewBody(j){
     } else { bn.innerHTML = ''; }
   }
   const head = ['#'].concat(cols).map(c=>`<th>${_esc(c)}</th>`).join('');
+  const colspan = cols.length + 1;
   const body = rows.map(r=>{
     const bad = (r._errors||[]).length>0;
     const cells = cols.map(c => `<td>${_esc(r[c])}</td>`).join('');
-    const errsHtml = bad ? `<span class="row-errs">${(r._errors||[]).map(_esc).join(' · ')}</span>` : '';
-    return `<tr class="${bad?'bad':''}"><td class="row-num">${r._row_num}${errsHtml}</td>${cells}</tr>`;
+    const dataRow = `<tr class="${bad?'bad':''}"><td class="row-num">${r._row_num}</td>${cells}</tr>`;
+    // Errors render as a full-width sub-row right under the bad data row — never crammed into the # column.
+    const errRow = bad ? `<tr class="row-err-sub"><td colspan="${colspan}">${(r._errors||[]).map(_esc).join(' · ')}</td></tr>` : '';
+    return dataRow + errRow;
   }).join('');
-  pv.innerHTML = `<table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>`;
+  // Capped, scrollable container with a sticky header so a 60-row roster keeps its column labels visible.
+  pv.innerHTML = `<div class="pj-preview-scroll"><table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
   if(act){
     act.hidden = false;
     if(btn){ btn.disabled = hasErr>0; btn.textContent = hasErr ? `Fix ${hasErr} row error${hasErr>1?'s':''} first` : `Commit ${rows.length} ${_projState.csvKind === 'sites' ? 'site' : 'user'}${rows.length===1?'':'s'}`; }
@@ -3179,7 +3415,7 @@ async function renderProjectDashboard(){
       <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">
         <div>
           <h2>Roster by site</h2>
-          <div class="pj-import-stamp">${p.users_imported_at?'Imported '+_fmtDate(p.users_imported_at)+' — ':''}<a href="javascript:void(0)" onclick="openCsvUpload('${pid}','users')">re-import to update</a></div>
+          <div class="pj-import-stamp">${p.users_imported_at?'Imported '+_fmtDate(p.users_imported_at):'Roster not yet imported'}</div>
         </div>
         <div style="display:flex;gap:8px;">
           <button class="secondary" onclick="openCsvUpload('${pid}','sites')">Re-import sites</button>
@@ -3196,8 +3432,35 @@ async function renderProjectDashboard(){
     <div id="pjd-asn" style="margin-top:18px;"></div>`;
   _renderAssignmentsSection(pid, document.getElementById('pjd-asn'));
 }
-// Refresh "Trainer Bob" pill on first load, regardless of which view boots first.
-window.addEventListener('DOMContentLoaded', () => { projRefreshMe(); });
+// ─── Hash-based view persistence — so Ctrl-R on the dashboard doesn't dump you back at Home.
+// Encoding scheme:
+//   #projects                  → projects list
+//   #project/{pid}             → project dashboard
+// CSV upload state is intentionally NOT persisted — that flow is too transient,
+// and refreshing mid-upload should land you on the project's dashboard.
+function _writeProjectsHash(name, pid){
+  let h = '';
+  if(name === 'projects') h = '#projects';
+  else if(name === 'project-dashboard' && pid) h = '#project/' + pid;
+  if(h && location.hash !== h){ history.replaceState(null, '', h); }
+}
+function _restoreFromHash(){
+  const h = (location.hash || '').replace(/^#/, '');
+  if(!h) return false;
+  if(h === 'projects'){ showView('projects'); return true; }
+  const m = h.match(/^project\/(p-[a-z0-9]+)$/i);
+  if(m){ _projState.currentPid = m[1]; showView('project-dashboard'); return true; }
+  return false;
+}
+window.addEventListener('popstate', () => { _restoreFromHash(); });
+
+// Refresh "Trainer Bob" pill on first load, regardless of which view boots first;
+// also restore Projects-flow view from the URL hash if present.
+window.addEventListener('DOMContentLoaded', () => {
+  projRefreshMe();
+  // Wait a tick so the initial showView() (run by setViewMode) doesn't clobber us.
+  setTimeout(() => { _restoreFromHash(); }, 0);
+});
 
 function setViewMode(m) {
   _viewMode = m;
@@ -3243,9 +3506,17 @@ function showView(name) {
   if (name === 'home') loadHome();
   if (name === 'myteam' && typeof loadMyTeam === 'function') loadMyTeam();
   if (name === 'tracks' && typeof loadTracks === 'function') loadTracks();
+  if (name === 'track-builder') loadTrackBuilder();
   if (name === 'projects' && typeof loadProjects === 'function') loadProjects();
   if (name === 'project-dashboard' && typeof renderProjectDashboard === 'function') renderProjectDashboard();
   if (name === 'csv-upload' && typeof renderCsvUpload === 'function') renderCsvUpload();
+  // Persist Projects-flow location in the URL so a refresh restores place (Ctrl-R no longer dumps to Home).
+  // We only WRITE the hash on the projects views; we never strip it on other views,
+  // because the strip would race the boot-time restore (showView('home') would clear
+  // the hash before DOMContentLoaded's _restoreFromHash could read it).
+  if (typeof _writeProjectsHash === 'function' && (name === 'projects' || name === 'project-dashboard')) {
+    _writeProjectsHash(name, (typeof _projState === 'object' && _projState) ? _projState.currentPid : null);
+  }
 }
 function toggleAvaMenu(e){ if (e) e.stopPropagation(); const m = document.getElementById('ava-menu'); if (m) m.hidden = !m.hidden; }
 function closeAvaMenu(){ const m = document.getElementById('ava-menu'); if (m) m.hidden = true; }
@@ -3282,7 +3553,7 @@ function renderHome(){
   const sparkVals = [avg - 11, avg - 8, avg - 6, avg - 4, avg - 6, avg];
   h += `<section class="cmd-card trend-band"><div class="trend-meta"><h3>Completion trend</h3><span class="cmd-sub">last 6 weeks · all my districts</span></div>${_spark(sparkVals)}<div class="trend-now"><span class="trend-val">${avg}%</span><span class="kpi-trend tr-good">▲ +11 pts / 6 wks</span></div></section>`;
   // ── quick create — kick off grounded AI generation straight from the cockpit (all routes are existing flows/modals) ──
-  h += `<section class="cmd-card qc-row"><span class="qc-label">Quick create</span><div class="qc-btns"><button class="qc-btn qc-primary" onclick="showView('author')">Generate a guide</button><button class="qc-btn" onclick="openQuizBuilder()">Build a quiz</button><button class="qc-btn" onclick="openCourseBuilder()">New course</button><button class="qc-btn" onclick="openTrackBuilder()">New track</button></div></section>`;
+  h += `<section class="cmd-card qc-row"><span class="qc-label">Quick create</span><div class="qc-btns"><button class="qc-btn qc-primary" onclick="showView('author')">Generate a guide</button><button class="qc-btn" onclick="openQuizBuilder()">Build a quiz</button><button class="qc-btn" onclick="openCourseBuilder()">New track</button><button class="qc-btn" onclick="openTrackBuilder()">New track</button></div></section>`;
   // ── command-center grid ──
   h += '<div class="cmd-grid"><div class="cmd-main">';
   // Needs your attention — prioritized "what's next" feed (help > overdue > behind)
@@ -3378,7 +3649,7 @@ function openDistrictDrawer(id){
   _curISD = id;
   const comp = _districtCompletion(d), flagged = d.help_request && !_demoState.helpCleared[id];
   const st = flagged ? 'Needs help' : (comp >= 70 ? 'On track' : 'Behind'), stc = flagged ? 'needs-help' : (comp >= 70 ? 'ok' : 'behind');
-  let html = `<div class="dr-sub"><span class="chip ${stc}">${st}</span> ${comp}% complete · ${d.learners.length} learners · ${d.logins30} logins (30d) · ${escapeHtml(d.last)}</div>`;
+  let html = `<div class="dr-sub"><span class="chip ${stc}">${st}</span> ${comp}% complete · ${d.learners.length} learners · Last activity: ${escapeHtml(d.last)}</div>`;
   if (flagged) html += `<div class="home-help-msg"><span class="help-quote">&ldquo;${escapeHtml(d.help_msg)}&rdquo;</span> <button class="secondary" onclick="respondHelp('${id}'); closeDrawer()">Respond</button></div>`;
   html += `<h4 class="dr-h">Completion by track</h4>`;
   html += _DEMO.tracks.map(t => { const tc = _trackCompletionForDistrict(d, t.id); return `<div class="dr-track-row"><span>${escapeHtml(t.title)}</span><span class="r-prog"><span class="r-bar"><span style="width:${tc == null ? 0 : tc}%"></span></span>${tc == null ? '—' : tc + '%'}</span></div>`; }).join('');
@@ -3409,11 +3680,11 @@ function renderMyTeam() {
     h += `<tr class="lib-group-row"><td colspan="7">${escapeHtml(site)}</td></tr>`;
     sites[site].forEach(l => {
       const nk = d.id + ':' + l._gi, nudged = _demoState.nudged[nk];
-      const sc = l.status === 'Complete' ? 'done' : l.status === 'Overdue' ? 'over' : l.status === 'Not started' ? 'none' : 'prog';
+      const sc = l.status === 'Complete' ? 'pill--success' : l.status === 'Overdue' ? 'pill--urgent' : l.status === 'Not started' ? 'pill--neutral' : 'pill--info';
       const tnames = (l.tracks || []).map(tid => (_allDemoTracks().find(t => t.id === tid) || {}).title).filter(Boolean).join(', ');
       h += `<tr><td><div class="r-name">${escapeHtml(l.name)}</div></td><td>${escapeHtml(l.role)}</td><td>${escapeHtml(tnames || '—')}</td>
         <td><span class="r-prog"><span class="r-bar"><span style="width:${l.completion}%"></span></span>${l.completion}%</span></td>
-        <td>${escapeHtml(l.last_active)}</td><td><span class="r-status ${sc}">${escapeHtml(l.status)}</span>${nudged ? ' <span class="nudged">Nudged today</span>' : ''}</td>
+        <td>${escapeHtml(l.last_active)}</td><td><span class="pill ${sc}">${escapeHtml(l.status)}</span>${nudged ? ' <span class="nudged">Nudged today</span>' : ''}</td>
         <td>${l.status === 'Complete' ? '' : `<button class="secondary sm" onclick="nudgeOne('${escAttr(nk)}','${escAttr(l.name)}')">Nudge</button>`}</td></tr>`;
     });
   });
@@ -3445,10 +3716,10 @@ function renderQuality(){
   h += '<div class="roster-table-wrap"><table class="roster-table"><thead><tr><th>Item</th><th>Module</th><th>Format</th>' + _DEMO.rubric.map(r => `<th>${escapeHtml(r)}</th>`).join('') + '<th>Result</th><th>SME approval</th></tr></thead><tbody>';
   h += items.map((it, idx) => {
     const sme = it.sme ? `Approved · ${escapeHtml(it.sme)} · ${escapeHtml(it.sme_date)}` : (it.scores ? 'Pending SME review' : 'Not yet evaluated');
-    const smeC = it.sme ? 'done' : it.scores ? 'prog' : 'none';
+    const smeC = it.sme ? 'pill--success' : it.scores ? 'pill--info' : 'pill--neutral';
     const scoreCells = _DEMO.rubric.map((r, ri) => it.scores ? `<td><span class="ql-score">${it.scores[ri]}</span></td>` : '<td>—</td>').join('');
-    const result = it.verdict ? `<span class="r-status ${it.verdict === 'Pass' ? 'done' : 'over'}">${it.verdict}</span>` : '<span class="r-status none">—</span>';
-    return `<tr class="ql-row" onclick="qualityDetail(${idx})"><td>${escapeHtml(it.title)}</td><td>${escapeHtml(it.module)}</td><td>${escapeHtml(it.format)}</td>${scoreCells}<td>${result}</td><td><span class="r-status ${smeC}" style="white-space:nowrap;">${sme}</span></td></tr>`;
+    const result = it.verdict ? `<span class="pill ${it.verdict === 'Pass' ? 'pill--success' : 'pill--urgent'}">${it.verdict}</span>` : '<span class="pill pill--neutral">—</span>';
+    return `<tr class="ql-row" onclick="qualityDetail(${idx})"><td>${escapeHtml(it.title)}</td><td>${escapeHtml(it.module)}</td><td>${escapeHtml(it.format)}</td>${scoreCells}<td>${result}</td><td><span class="pill ${smeC}" style="white-space:nowrap;">${sme}</span></td></tr>`;
   }).join('') + '</tbody></table></div><div id="ql-detail"></div>';
   el.innerHTML = h;
 }
@@ -3472,16 +3743,16 @@ function renderTrackList() {
   const tracks = _allDemoTracks();
   const order = ['Cashier', 'Site Manager', 'CN Director'];
   const roles = order.concat([...new Set(tracks.map(t => t.role))].filter(r => r && !order.includes(r)));
-  let h = '<p class="tracks-hint">Learning content grouped by the staff role it trains. Each track is a sequence of courses; each course is built from approved, source-cited guides.</p>';
+  let h = '<p class="tracks-hint">Learning content grouped by the staff role it trains. Each track is built from approved, source-cited guides.</p>';
   roles.forEach(role => {
     const rt = tracks.filter(t => t.role === role);
     if (!rt.length) return;
     const nC = rt.reduce((a, t) => a + _trackCourses(t).length, 0);
-    h += `<section class="role-group"><div class="role-head"><span class="role-badge">${escapeHtml(role)}</span><span class="role-sub">${rt.length} track${rt.length === 1 ? '' : 's'} · ${nC} course${nC === 1 ? '' : 's'}</span></div><div class="home-cards" style="margin:0;">`;
-    h += rt.map(t => { const cs = _trackCourses(t); return `<div class="home-card"><div class="home-card-top"><b>${escapeHtml(t.title)}</b><span class="chip ok">${cs.length} course${cs.length === 1 ? '' : 's'}</span></div><div class="home-card-meta">${cs.map(c => escapeHtml(c.title)).join(' · ') || 'No courses yet'}</div><div class="home-card-meta">~${_trackEst(t)} · Due ${escapeHtml(t.due || _DEMO.due)}</div></div>`; }).join('');
+    h += `<section class="role-group"><div class="role-head"><span class="role-badge">${escapeHtml(role)}</span><span class="role-sub">${rt.length} track${rt.length === 1 ? '' : 's'} · ${nC} track${nC === 1 ? '' : 's'}</span></div><div class="home-cards" style="margin:0;">`;
+    h += rt.map(t => { const cs = _trackCourses(t); return `<div class="home-card"><div class="home-card-top"><b>${escapeHtml(t.title)}</b><span class="chip ok">${cs.length} track${cs.length === 1 ? '' : 's'}</span></div><div class="home-card-meta">${cs.map(c => escapeHtml(c.title)).join(' · ') || 'No tracks yet'}</div><div class="home-card-meta">~${_trackEst(t)} · Due ${escapeHtml(t.due || _DEMO.due)}</div></div>`; }).join('');
     h += '</div></section>';
   });
-  h += '<h2 class="home-h2" style="margin:18px 0 12px;">Course library</h2><p class="tracks-hint" style="margin:0 0 12px;">Reusable building blocks — assemble these into the role tracks above.</p><div class="home-cards" style="margin:0 0 24px;">';
+  h += '<h2 class="home-h2" style="margin:18px 0 12px;">Track library</h2><p class="tracks-hint" style="margin:0 0 12px;">Reusable building blocks — assemble these into the role tracks above.</p><div class="home-cards" style="margin:0 0 24px;">';
   h += _allDemoCourses().map(c => `<div class="home-card"><div class="home-card-top"><b>${escapeHtml(c.title)}</b><span class="chip behind">${escapeHtml(c.module || '')}</span></div><div class="home-card-meta">${c.lessons.length} lessons</div></div>`).join('') + '</div>';
   body.innerHTML = h;
 }
@@ -3503,22 +3774,20 @@ async function cbGenQuiz() {
 function cbAddVideo() { document.getElementById('cb-picker').innerHTML = `<div class="cb-pick"><label class="tb-l">Video title</label><input id="cb-vid-t" class="tb-in" placeholder="e.g. Receiving &amp; Storage" autocomplete="off"><label class="tb-l">Duration</label><input id="cb-vid-d" class="tb-in" placeholder="e.g. 6 min" autocomplete="off"><button class="secondary" onclick="cbAddVideoDo()">Add video</button></div>`; }
 function cbAddVideoDo() { const t = (document.getElementById('cb-vid-t').value || 'Video lesson'), d = (document.getElementById('cb-vid-d').value || '5 min'); _cb.lessons.push({ type: 'video', title: t, dur: d }); document.getElementById('cb-picker').innerHTML = ''; cbRender(); }
 function cbSave() {
-  const name = (document.getElementById('cb-name').value || '').trim() || 'Untitled course', module = (document.getElementById('cb-module').value || '').trim();
+  const name = (document.getElementById('cb-name').value || '').trim() || 'Untitled track', module = (document.getElementById('cb-module').value || '').trim();
   if (!_cb.lessons.length) { alert('Add at least one lesson.'); return; }
   _demoState.userCourses = _demoState.userCourses || [];
   _demoState.userCourses.push({ id: 'u-c-' + (_demoState.userCourses.length + 1), title: name, module, milestone: (document.getElementById('cb-milestone') || {}).value || '', lessons: _cb.lessons.slice() });
-  cbClose(); renderTrackList(); alert('Course “' + name + '” created — now available to add to a track.');
+  cbClose(); renderTrackList(); alert('Track “' + name + '” created — now available to add to a track.');
 }
 function openTrackBuilder() {
-  _tbk = { courseIds: [] }; const nm = document.getElementById('tbk-name'); if (nm) nm.value = ''; const pr = document.getElementById('tbk-product'); if (pr) pr.value = 'SchoolCafé'; const sq = document.getElementById('tbk-sequential'); if (sq) sq.checked = false;
-  const cw = document.getElementById('tbk-courses'); if (cw) cw.innerHTML = _allDemoCourses().map(c => `<label class="am-row"><input type="checkbox" onclick="tbkToggle('${c.id}',this.checked)"> ${escapeHtml(c.title)} <span class="meta">${escapeHtml(c.module || '')} · ${c.lessons.length} lessons</span></label>`).join('');
-  document.getElementById('tbk-modal').hidden = false;
+  showView('track-builder');
 }
 function tbkClose() { document.getElementById('tbk-modal').hidden = true; }
 function tbkToggle(cid, on) { _tbk.courseIds = _tbk.courseIds || []; if (on) { if (!_tbk.courseIds.includes(cid)) _tbk.courseIds.push(cid); } else { _tbk.courseIds = _tbk.courseIds.filter(x => x !== cid); } }
 function tbkSave() {
   const name = (document.getElementById('tbk-name').value || '').trim() || 'Untitled track', role = document.getElementById('tbk-role').value;
-  if (!_tbk.courseIds.length) { alert('Add at least one course.'); return; }
+  if (!_tbk.courseIds.length) { alert('Add at least one track.'); return; }
   _demoState.userTracks = _demoState.userTracks || [];
   _demoState.userTracks.push({ id: 'u-t-' + (_demoState.userTracks.length + 1), title: name, role, product: (document.getElementById('tbk-product') || {}).value || 'SchoolCafé', sequential: !!(document.getElementById('tbk-sequential') || {}).checked, instructor: (role[0] || 'T'), due: _DEMO.due, courseIds: _tbk.courseIds.slice() });
   tbkClose(); renderTrackList(); alert('Track “' + name + '” created — it’s now live in Learn.');
@@ -3527,7 +3796,7 @@ function tbkSave() {
 function _originBadge(o){ const c = o === 'AI-generated' ? 'og-ai' : o === 'Human-authored' ? 'og-hum' : 'og-vendor'; return `<span class="og ${c}">${escapeHtml(o)}</span>`; }
 function _statusChip(s){ const c = s === 'Approved' ? 'approved' : s === 'In review' ? 'pending' : 'draft'; return `<span class="badge ${c}">${escapeHtml(s)}</span>`; }
 function _userStudioItems(){
-  const cs = (_demoState.userCourses || []).map(c => ({ title: c.title, module: c.module || '—', format: 'Course', status: 'Draft', created: 'Today', origin: 'Human-authored' }));
+  const cs = (_demoState.userCourses || []).map(c => ({ title: c.title, module: c.module || '—', format: 'Track', status: 'Draft', created: 'Today', origin: 'Human-authored' }));
   const ts = (_demoState.userTracks || []).map(t => ({ title: t.title, module: '—', format: 'Track', status: 'Draft', created: 'Today', origin: 'Human-authored' }));
   return cs.concat(ts);
 }
@@ -4831,7 +5100,7 @@ async function loadContent() {
   if (ts.options.length <= 1) _icnData.topics.forEach(x => ts.add(new Option(x, x)));
   // learning paths
   const pe = document.getElementById('icn-paths');
-  if (pe) pe.innerHTML = '<h4>Suggested course paths</h4>' + (_icnData.paths||[]).map((p, i) =>
+  if (pe) pe.innerHTML = '<h4>Suggested track paths</h4>' + (_icnData.paths||[]).map((p, i) =>
     `<div class="icn-path" role="button" tabindex="0" onclick="openPath(${i})" onkeydown="if(event.key==='Enter')openPath(${i})">
       <div class="ip-title">${escapeHtml(p.title||'')}</div>
       <div class="ip-meta">${escapeHtml(p.description||'')}<br>${(p.modules||[]).length} module${(p.modules||[]).length===1?'':'s'} · view path →</div></div>`).join('');
@@ -4867,7 +5136,7 @@ function openPath(i) {
   document.getElementById('path-detail').innerHTML = `
     <button class="path-back" onclick="closePath()">← All content</button>
     <header class="path-hero">
-      <p class="path-eyebrow">Course path${p.role ? ' · ' + escapeHtml(p.role) : ''}</p>
+      <p class="path-eyebrow">Track path${p.role ? ' · ' + escapeHtml(p.role) : ''}</p>
       <h1 class="path-title">${escapeHtml(p.title || '')}</h1>
       <p class="path-desc">${escapeHtml(p.description || '')}</p>
       <div class="path-stats"><span><b>${mods.length}</b>modules</span><span><b>${quizzable}</b>quizzable</span><span>✓ every claim cited</span></div>
@@ -4951,7 +5220,7 @@ function renderLearnGrid() {
       <div class="track-main">
         <div class="track-role">${escapeHtml(t.role)} track</div>
         <div class="track-title">${escapeHtml(t.title)}</div>
-        <div class="track-meta"><span>${cs.length} course${cs.length === 1 ? '' : 's'}</span><span>·</span><span>~${_trackEst(t)}</span><span>·</span><span>Due ${escapeHtml(t.due || _DEMO.due)}</span></div>
+        <div class="track-meta"><span>${cs.length} track${cs.length === 1 ? '' : 's'}</span><span>·</span><span>~${_trackEst(t)}</span><span>·</span><span>Due ${escapeHtml(t.due || _DEMO.due)}</span></div>
         <div class="track-prog"><div class="track-prog-bar" style="width:${pct}%"></div></div>
         <div class="track-prog-lbl">${pct}% complete</div>
       </div></button>`;
@@ -4966,32 +5235,32 @@ function openTrack(tid) {
     const lk = _courseLockInfo(t, c, i), shared = _courseSharedCount(c.id) > 1;
     const action = lk.locked
       ? `<span class="path-locked">🔒 ${escapeHtml(lk.reason)}</span>`
-      : `<button class="track-open" onclick="event.stopPropagation(); openCourse('${c.id}')">${cp > 0 ? 'Continue' : 'Start'} course →</button><span class="course-prog"><span class="r-bar"><span style="width:${cp}%"></span></span>${cp}%</span>`;
+      : `<button class="track-open" onclick="event.stopPropagation(); openCourse('${c.id}')">${cp > 0 ? 'Continue' : 'Start'} track →</button><span class="course-prog"><span class="r-bar"><span style="width:${cp}%"></span></span>${cp}%</span>`;
     return `<li class="path-mod${lk.locked ? ' path-locked-row' : ''}" data-type="${done ? 'pdf' : 'web'}">
         <span class="path-num">${lk.locked ? '🔒' : (done ? '✓' : i + 1)}</span>
         <div class="path-mod-main">
-          <div class="icn-type">📚 <span>course · ${escapeHtml(c.module || '')}</span>${shared ? '<span class="shared-tag">shared</span>' : ''}</div>
+          <div class="icn-type">📚 <span>track · ${escapeHtml(c.module || '')}</span>${shared ? '<span class="shared-tag">shared</span>' : ''}</div>
           <div class="path-mod-title">${escapeHtml(c.title)}</div>
           <div class="path-mod-actions">${action}</div>
         </div></li>`;
   }).join('');
   const certRow = `<li class="path-mod" data-type="certify"><span class="path-num">${certified ? '🏅' : cs.length + 1}</span>
       <div class="path-mod-main"><div class="icn-type">🏅 <span>certify</span></div><div class="path-mod-title">Track certificate</div>
-        <div class="path-mod-actions">${certified ? `<button class="track-open" onclick="event.stopPropagation(); showCertificate('${tid}')">View certificate</button>` : '<span class="track-soon">Finish every course to unlock</span>'}</div>
+        <div class="path-mod-actions">${certified ? `<button class="track-open" onclick="event.stopPropagation(); showCertificate('${tid}')">View certificate</button>` : '<span class="track-soon">Finish every track to unlock</span>'}</div>
       </div></li>`;
   document.getElementById('track-detail').innerHTML = `
     <button class="path-back" onclick="renderLearnGrid()">← All tracks</button>
     <header class="path-hero">
       <p class="path-eyebrow">${escapeHtml(t.product || '')}${t.product ? ' · ' : ''}${escapeHtml(t.role)} track${t.sequential ? ' · sequential' : ''}</p>
       <h1 class="path-title">${escapeHtml(t.title)}</h1>
-      <div class="path-stats"><span><b>${cs.length}</b>courses</span><span><b>~${_trackEst(t)}</b></span><span><b>${pct}%</b>done</span><span>Due ${escapeHtml(t.due || _DEMO.due)}</span></div>
-      ${certified ? '<span class="track-cert">🏅 Track complete — certified</span>' : '<span class="track-cert-todo">Complete all courses to certify</span>'}
+      <div class="path-stats"><span><b>${cs.length}</b>tracks</span><span><b>~${_trackEst(t)}</b></span><span><b>${pct}%</b>done</span><span>Due ${escapeHtml(t.due || _DEMO.due)}</span></div>
+      ${certified ? '<span class="track-cert">🏅 Track complete — certified</span>' : '<span class="track-cert-todo">Complete all tracks to certify</span>'}
     </header>
     <div class="path-layout">
       <ol class="path-modules">${rows}${certRow}</ol>
       <aside class="path-aside">
         <h4>About this track</h4>
-        <p class="path-aside-note">A track is a sequence of courses; each course is built from approved, source-cited guides and a grounded quiz.</p>
+        <p class="path-aside-note">A track is built from approved, source-cited guides and a grounded quiz.</p>
       </aside>
     </div>`;
   document.getElementById('tracks-hero').hidden = true;
@@ -5022,13 +5291,13 @@ function openCourse(cid) {
   document.getElementById('track-detail').innerHTML = `
     <button class="path-back" onclick="openTrack('${_curTrack}')">← Back to track</button>
     <header class="path-hero">
-      <p class="path-eyebrow">Course · ${escapeHtml(c.module || '')}</p>
+      <p class="path-eyebrow">Track · ${escapeHtml(c.module || '')}</p>
       <h1 class="path-title">${escapeHtml(c.title)}</h1>
       <div class="path-stats"><span><b>${c.lessons.length}</b>lessons</span><span><b>${_coursePct(c)}%</b>done</span><span>✓ every claim cited</span></div>
     </header>
     <div class="path-layout">
       <ol class="path-modules">${rows}</ol>
-      <aside class="path-aside"><h4>About this course</h4><p class="path-aside-note">Lessons draw on approved, source-cited guides. The quiz is grounded in the guide text — pass at 80%.</p></aside>
+      <aside class="path-aside"><h4>About this track</h4><p class="path-aside-note">Lessons draw on approved, source-cited guides. The quiz is grounded in the guide text — pass at 80%.</p></aside>
     </div>`;
   document.getElementById('tracks-hero').hidden = true;
   document.getElementById('tracks-grid').hidden = true;
@@ -5095,14 +5364,14 @@ function renderRoster() {
   const stats = document.getElementById('roster-stats');
   if (stats) stats.innerHTML = [['Learners', d.roster.length], ['Completed', done], ['Avg. progress', avg + '%'], ['Districts', d.districts.length]]
     .map(([l, n]) => `<div class="roster-stat"><div class="n">${n}</div><div class="l">${escapeHtml(l)}</div></div>`).join('');
-  const cls = s => s === 'Completed' ? 'done' : (s === 'In progress' ? 'prog' : 'none');
+  const cls = s => s === 'Completed' ? 'pill--success' : (s === 'In progress' ? 'pill--info' : 'pill--neutral');
   const body = document.getElementById('roster-body');
   if (body) body.innerHTML = rows.map(l => `<tr>
       <td><div class="r-name">${escapeHtml(l.name)}</div><div class="r-email">${escapeHtml(l.email)}</div></td>
       <td>${escapeHtml(l.role)}</td>
       <td>${escapeHtml(l.assigned)}</td>
       <td><span class="r-prog"><span class="r-bar"><span style="width:${l.progress}%"></span></span>${l.progress}%</span></td>
-      <td><span class="r-status ${cls(l.status)}">${escapeHtml(l.status)}</span></td>
+      <td><span class="pill ${cls(l.status)}">${escapeHtml(l.status)}</span></td>
       <td>${escapeHtml(l.last_active)}</td></tr>`).join('')
     || '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:24px;">No learners match.</td></tr>';
 }
@@ -5145,11 +5414,11 @@ function renderManage(){
   let h = '';
   if (helps.length) { const hd = helps[0]; h += `<div class="mg-help">🖐 <b>${escapeHtml(helps.map(x => x.name).join(', '))}</b> raised a hand — &ldquo;${escapeHtml(hd.help_msg)}&rdquo; <button class="track-open" onclick="respondHelp('${hd.id}')">Respond</button></div>`; }
   h += '<div class="roster-cards">' + [['Districts', ds.length], ['Avg completion', avg + '%'], ['Active this week', activeWk], ['Help requests', helps.length]].map(t => `<div class="roster-stat"><div class="n">${t[1]}</div><div class="l">${escapeHtml(t[0])}</div></div>`).join('') + '</div>';
-  h += '<div class="roster-table-wrap"><table class="roster-table"><thead><tr><th>District</th><th>Trainer</th><th>Learners</th><th>Completion</th><th>Logins (30d)</th><th>Status</th></tr></thead><tbody>';
+  h += '<div class="roster-table-wrap"><table class="roster-table"><thead><tr><th>District</th><th>Trainer</th><th>Learners</th><th>Completion</th><th>Last activity</th><th>Status</th></tr></thead><tbody>';
   ds.forEach(d => {
     const flagged = d.help_request && !_demoState.helpCleared[d.id], comp = _districtCompletion(d), st = _districtStatus(d);
-    const stc = st === 'Needs help' ? 'needs-help' : st === 'On track' ? 'ok' : 'behind';
-    h += `<tr class="mg-row${flagged ? ' mg-flag' : ''}" id="mg-row-${d.id}" onclick="toggleManageRow('${d.id}')"><td>${escapeHtml(d.name)}${flagged ? ' 🖐' : ''}</td><td>${escapeHtml(d.trainer)}</td><td>${d.learners.length}</td><td><span class="r-prog"><span class="r-bar"><span style="width:${comp}%"></span></span>${comp}%</span></td><td>${d.logins30}</td><td><span class="chip ${stc}">${escapeHtml(st)}</span></td></tr>`;
+    const stc = st === 'Needs help' ? 'pill--attention' : st === 'On track' ? 'pill--success' : 'pill--warning';
+    h += `<tr class="mg-row${flagged ? ' mg-flag' : ''}" id="mg-row-${d.id}" onclick="toggleManageRow('${d.id}')"><td>${escapeHtml(d.name)}${flagged ? ' 🖐' : ''}</td><td>${escapeHtml(d.trainer)}</td><td>${d.learners.length}</td><td><span class="r-prog"><span class="r-bar"><span style="width:${comp}%"></span></span>${comp}%</span></td><td style="text-align:right">${escapeHtml(d.last)}</td><td><span class="pill ${stc}">${escapeHtml(st)}</span></td></tr>`;
     h += `<tr class="mg-expand" id="mg-exp-${d.id}" hidden><td colspan="6"><div class="mg-bd"><b>Completion by track</b>${_DEMO.tracks.map(t => { const tc = _trackCompletionForDistrict(d, t.id); return `<div class="mg-bd-row"><span>${escapeHtml(t.title)}</span><span class="r-prog"><span class="r-bar"><span style="width:${tc == null ? 0 : tc}%"></span></span>${tc == null ? '—' : tc + '%'}</span></div>`; }).join('')}</div></td></tr>`;
   });
   h += '</tbody></table></div>';
@@ -5174,18 +5443,18 @@ function _initAssignments(){
 }
 function _dueIsPast(due){ const M={Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11}; const p=(due||'').split(' '); const m=M[p[0]], d=+p[1]; if(m==null||!d) return false; return m<5 || (m===5 && d<10); }   // today = Jun 10
 function _fmtDue(iso){ if(!iso) return ''; const M=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; const p=iso.split('-'); return (M[(+p[1])-1]||'')+' '+(+p[2]); }
-function _asnContent(a){ const t=_allDemoTracks().find(x=>x.id===a.contentId); if(t) return {title:t.title, type:'Track'}; const c=_courseById(a.contentId); return c?{title:c.title,type:'Course'}:{title:a.contentId,type:''}; }
+function _asnContent(a){ const t=_allDemoTracks().find(x=>x.id===a.contentId); if(t) return {title:t.title, type:'Track'}; const c=_courseById(a.contentId); return c?{title:c.title,type:'Track'}:{title:a.contentId,type:''}; }
 function _asnAudLabel(a){ const arr=Array.isArray(a.audVal)?a.audVal:[a.audVal]; if(a.audType==='org') return 'Entire organization'; if(a.audType==='role') return a.audVal+'s'; if(a.audType==='site') return arr.length>1?arr.length+' sites':arr[0]; if(a.audType==='district'){ const names=arr.map(id=>{const d=_DEMO.districts.find(x=>x.id===id);return d?d.name:id;}); return names.length>1?names.length+' districts':names[0]; } if(a.audType==='people') return (a.audVal||0)+' people'; return a.audVal||''; }
 function _asnCount(a){ const ds=_myDistricts(); const vals=Array.isArray(a.audVal)?a.audVal:[a.audVal]; if(a.audType==='org') return ds.reduce((s,d)=>s+d.learners.length,0); if(a.audType==='role') return ds.reduce((s,d)=>s+d.learners.filter(l=>l.role===a.audVal).length,0); if(a.audType==='site') return ds.reduce((s,d)=>s+d.learners.filter(l=>vals.includes(l.site)).length,0); if(a.audType==='district') return ds.filter(d=>vals.includes(d.id)).reduce((s,d)=>s+d.learners.length,0); if(a.audType==='people') return +a.audVal||0; return 0; }
 function renderAssignments(){
   _initAssignments();
-  const rows = _demoState.assignments.map(a=>{ const c=_asnContent(a), past=_dueIsPast(a.due); return `<tr><td>${escapeHtml(c.title)} <span class="chip behind" style="margin-left:4px;">${c.type}</span></td><td>${escapeHtml(_asnAudLabel(a))}${a.dyn?' · dynamic':''}${a.drip?' · drip':''}</td><td>${_asnCount(a)}</td><td>Due ${escapeHtml(a.due)}</td><td><span class="chip ${past?'behind':'ok'}">${past?'Past due':'Active'}</span></td></tr>`; }).join('') || '<tr><td colspan="5" class="lib-empty">No assignments yet.</td></tr>';
+  const rows = _demoState.assignments.map(a=>{ const c=_asnContent(a), past=_dueIsPast(a.due); return `<tr><td>${escapeHtml(c.title)} <span class="chip behind" style="margin-left:4px;">${c.type}</span></td><td>${escapeHtml(_asnAudLabel(a))}${a.dyn?' · dynamic':''}${a.drip?' · drip':''}</td><td>${_asnCount(a)}</td><td>Due ${escapeHtml(a.due)}</td><td><span class="pill ${past?'pill--urgent':'pill--success'}">${past?'Past due':'Active'}</span></td></tr>`; }).join('') || '<tr><td colspan="5" class="lib-empty">No assignments yet.</td></tr>';
   return `<section class="mg-asn"><div class="cmd-head" style="margin-top:20px;"><h3>Assignments</h3><button class="secondary" onclick="openAssignmentModal()">+ Create assignment</button></div><div class="roster-table-wrap"><table class="roster-table"><thead><tr><th>Content</th><th>Assigned to</th><th>Learners</th><th>Due</th><th>Status</th></tr></thead><tbody>${rows}</tbody></table></div></section>`;
 }
 function openAssignmentModal(){
   _initAssignments();
   const sel=document.getElementById('asn-content');
-  if(sel) sel.innerHTML = _allDemoTracks().map(t=>`<option value="${t.id}">Track · ${escapeHtml(t.title)}</option>`).join('') + _allDemoCourses().map(c=>`<option value="${c.id}">Course · ${escapeHtml(c.title)}</option>`).join('');
+  if(sel) sel.innerHTML = _allDemoTracks().map(t=>`<option value="${t.id}">Track · ${escapeHtml(t.title)}</option>`).join('') + _allDemoCourses().map(c=>`<option value="${c.id}">Track · ${escapeHtml(c.title)}</option>`).join('');
   const at=document.getElementById('asn-audtype'); if(at) at.value='role';
   const du=document.getElementById('asn-due'); if(du) du.value='';
   const dy=document.getElementById('asn-dyn'); if(dy) dy.checked=false;
@@ -5221,7 +5490,7 @@ function asnSave(){
   asnClose(); renderManage();
   alert('Assignment created — ' + _asnCount(_demoState.assignments[0]) + ' learners enrolled.');
 }
-function doLogin() { const m = document.getElementById('login-modal'); if (m) m.hidden = true; try { sessionStorage.setItem('ls_demo_login', '1'); } catch (e) {} loadRoster(); }
+function doLogin() { const m = document.getElementById('login-modal'); if (m) m.hidden = true; try { sessionStorage.setItem('ls_demo_login', '1'); } catch (e) {} loadRoster(); /* If a Projects-flow URL hash is present, take the user there after sign-in (so Ctrl-R survives). */ if (typeof _restoreFromHash === 'function') _restoreFromHash(); }
 document.addEventListener('click', e => {
   const sw = document.querySelector('.isd-switch');
   if (sw && !sw.contains(e.target)) { const m = document.getElementById('isd-menu'); if (m) m.hidden = true; }
@@ -6203,6 +6472,446 @@ async function rbCommit() {
 // First paint: stepper idle + status line shows "Ready when you are."
 setProgress(0);
 setStatus('Ready when you are.', '');
+
+// ═══════════════════════════════════════════════════════════════════════
+// TRACK BUILDER — integrated from track_builder_view.html
+// All identifiers prefixed "tb" to avoid collisions with existing SPA globals.
+// API: GET /api/modules, GET/POST/PUT/DELETE /api/tracks (contract in CLAUDE.md).
+// ═══════════════════════════════════════════════════════════════════════
+
+let _tbModules      = [];
+let _tbTracks       = [];
+let _tbCurrentTrack = null;
+let _tbPendingTags  = [];
+let _tbDragSrcIdx   = null;
+let _tbToastTimer   = null;
+let _tbInitialized  = false;
+
+function tbEsc(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function tbSrcLabel(src) {
+  if (src === 'AI_TRANSCRIPT') return 'AI-generated';
+  if (src === 'HUMAN_GUIDE')   return 'Cybersoft';
+  if (src === 'ICN_DOC')       return 'ICN / USDA';
+  return src || '';
+}
+function tbSrcClass(src) {
+  if (src === 'AI_TRANSCRIPT') return 'src-badge--ai';
+  if (src === 'ICN_DOC')       return 'src-badge--icn';
+  return 'src-badge--guide';
+}
+function tbSrcBadge(src) {
+  if (!src) return '';
+  return `<span class="src-badge ${tbSrcClass(src)}">${tbEsc(tbSrcLabel(src))}</span>`;
+}
+function tbDebounce(fn, ms) {
+  let t; return function(...a) { clearTimeout(t); t = setTimeout(() => fn(...a), ms); };
+}
+
+// ── Toast ──
+function tbShowToast(msg, type) {
+  const el = document.getElementById('tb-toast');
+  const m  = document.getElementById('tb-toast-msg');
+  el.className = 'tb-toast' + (type ? ' ' + type : '');
+  m.textContent = msg;
+  el.hidden = false;
+  clearTimeout(_tbToastTimer);
+  _tbToastTimer = setTimeout(tbHideToast, 4500);
+}
+function tbHideToast() { document.getElementById('tb-toast').hidden = true; }
+
+// ── Module library ──
+async function tbLoadModules(q, source, product) {
+  q = q || ''; source = source || ''; product = product || '';
+  const container = document.getElementById('tb-lib-scroll');
+  if (!container) return;
+  container.innerHTML = '<div style="padding:8px;display:flex;flex-direction:column;gap:6px;">'
+    + Array.from({length:7}, () => '<div class="skeleton" style="height:52px;"></div>').join('') + '</div>';
+  const p = new URLSearchParams();
+  if (q)       p.set('q',       q);
+  if (source)  p.set('source',  source);
+  if (product) p.set('product', product);
+  try {
+    const r = await fetch('/api/modules?' + p.toString());
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const d = await r.json();
+    _tbModules = d.modules || [];
+    const cnt = document.getElementById('tb-lib-count');
+    if (cnt) cnt.textContent = _tbModules.length + ' module' + (_tbModules.length === 1 ? '' : 's');
+    tbRenderLibrary();
+  } catch (e) {
+    container.innerHTML = `<div class="lib-empty-state">Could not load modules — ${tbEsc(e.message)}</div>`;
+  }
+}
+
+function tbRenderLibrary() {
+  const container = document.getElementById('tb-lib-scroll');
+  if (!container) return;
+  if (!_tbModules.length) {
+    container.innerHTML = '<div class="lib-empty-state">No approved modules match the current filters.</div>';
+    return;
+  }
+  const inTrack = new Set((_tbCurrentTrack && _tbCurrentTrack.module_ids) || []);
+  container.innerHTML = _tbModules.map(m => {
+    const in_t = inTrack.has(m.id);
+    return `<div class="mod-card${in_t ? ' in-track' : ''}" tabindex="0" role="button"
+        aria-label="${tbEsc(m.title)}${in_t ? ' (already in track)' : ' — click to add'}"
+        onclick="tbAddModuleToTrack('${tbEsc(m.id)}')"
+        onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();tbAddModuleToTrack('${tbEsc(m.id)}')}">
+      <div class="mod-card-body">
+        <div class="mod-card-title">${tbEsc(m.title)}</div>
+        <div class="mod-card-meta">
+          ${tbSrcBadge(m.source)}
+          ${m.module ? `<span class="mod-card-module">${tbEsc(m.module)}</span>` : ''}
+          ${m.duration_min ? `<span class="mod-card-module">${tbEsc(m.duration_min + ' min')}</span>` : ''}
+        </div>
+      </div>
+      <div class="mod-card-add" aria-hidden="true">${in_t ? '✓' : '+'}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── Track list ──
+async function tbLoadTracks() {
+  try {
+    const r = await fetch('/api/tracks');
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const d = await r.json();
+    _tbTracks = d.tracks || [];
+    tbRebuildTrackSelect();
+  } catch (e) {
+    tbShowToast('Could not load tracks: ' + e.message, 'error');
+  }
+}
+
+function tbRebuildTrackSelect() {
+  const sel = document.getElementById('tb-track-select');
+  if (!sel) return;
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">— Select or create a track —</option>'
+    + _tbTracks.map(t =>
+        `<option value="${tbEsc(t.id)}">${tbEsc(t.title)}${t.status === 'published' ? ' ✓' : ''}</option>`
+      ).join('');
+  if (cur && _tbTracks.some(t => t.id === cur)) sel.value = cur;
+}
+
+// ── Load a track into the editor ──
+async function tbSelectTrack(tid) {
+  if (!tid) { _tbCurrentTrack = null; tbRenderEditor(); return; }
+  try {
+    const r = await fetch('/api/tracks/' + tid);
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    _tbCurrentTrack = await r.json();
+    tbRenderEditor();
+    tbRenderLibrary();
+  } catch (e) {
+    tbShowToast('Could not load track: ' + e.message, 'error');
+  }
+}
+
+// ── Render the editor pane ──
+function tbRenderEditor() {
+  const t             = _tbCurrentTrack;
+  const metaBody      = document.getElementById('tb-meta-body');
+  const modulesList   = document.getElementById('tb-track-modules-list');
+  const statusBadgeEl = document.getElementById('tb-track-status-badge');
+  const actionsCard   = document.getElementById('tb-actions-card');
+  const publishStrip  = document.getElementById('tb-publish-strip');
+  const dropHint      = document.getElementById('tb-drop-hint');
+  const modCountLabel = document.getElementById('tb-mod-count-label');
+  if (!metaBody) return;
+
+  if (!t) {
+    metaBody.innerHTML = '<div class="editor-empty">Select a track from the dropdown above, or create a new one.</div>';
+    modulesList.innerHTML = '<li><div class="track-empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 2H8l-2 5h12z"/></svg>No track selected — pick one above to start building.</div></li>';
+    statusBadgeEl.innerHTML = '';
+    actionsCard.hidden = true;
+    publishStrip.hidden = true;
+    dropHint.hidden = true;
+    modCountLabel.textContent = '';
+    return;
+  }
+
+  const pub = t.status === 'published';
+  statusBadgeEl.innerHTML = `<span class="status-badge ${pub ? 'published' : 'draft'}">${pub ? 'Published' : 'Draft'}</span>`;
+  publishStrip.hidden = !pub;
+
+  const publishBtn = document.getElementById('tb-publish-btn');
+  if (publishBtn) {
+    publishBtn.disabled = pub;
+    publishBtn.innerHTML = pub ? 'Published'
+      : `<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4z"/></svg> Publish track`;
+  }
+
+  const tags = t.role_tags || [];
+  metaBody.innerHTML = `
+    <div class="field">
+      <label for="tb-ed-title">Track name</label>
+      <input id="tb-ed-title" type="text" value="${tbEsc(t.title)}" maxlength="120" autocomplete="off">
+    </div>
+    <div class="field">
+      <label for="tb-ed-description">Description</label>
+      <textarea id="tb-ed-description" rows="2">${tbEsc(t.description || '')}</textarea>
+    </div>
+    <div class="field-row">
+      <div class="field" style="margin-bottom:0;">
+        <label for="tb-ed-product">Product</label>
+        <select id="tb-ed-product">
+          <option${t.product === 'SchoolCafé' ? ' selected' : ''} value="SchoolCafé">SchoolCafé</option>
+          <option${t.product === 'Family Hub' ? ' selected' : ''} value="Family Hub">Family Hub</option>
+        </select>
+      </div>
+      <div class="field" style="margin-bottom:0;">
+        <label>Role tags</label>
+        <div class="tag-row" id="tb-ed-tag-row">
+          ${tags.map((tg,i) => `<span class="tag-chip">${tbEsc(tg)}<button onclick="tbRemoveEdTag(${i})" aria-label="Remove ${tbEsc(tg)}">×</button></span>`).join('')}
+        </div>
+        <div class="tag-input-row">
+          <input id="tb-ed-tag-input" type="text" placeholder="Add role…" autocomplete="off" maxlength="40"
+                 onkeydown="if(event.key==='Enter'||event.key===','){event.preventDefault();tbAddEdTag();}">
+          <button class="secondary" style="padding:6px 10px;" onclick="tbAddEdTag()">Add</button>
+        </div>
+      </div>
+    </div>`;
+
+  const mods = t.modules || [];
+  modCountLabel.textContent = mods.length + ' module' + (mods.length === 1 ? '' : 's');
+  if (!mods.length) {
+    modulesList.innerHTML = `<li><div class="track-empty">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 2H8l-2 5h12z"/>
+      </svg>
+      No modules yet — click <strong>+</strong> on a module in the library to add it here.
+    </div></li>`;
+  } else {
+    modulesList.innerHTML = mods.map((m,i) =>
+      `<li class="track-mod-item" draggable="true" data-idx="${i}"
+          ondragstart="tbDragStart(event,${i})" ondragover="tbDragOver(event,${i})"
+          ondrop="tbDragDrop(event,${i})" ondragend="tbDragEnd(event)"
+          role="listitem" aria-label="Module ${i+1}: ${tbEsc(m.title)}">
+        <span class="track-mod-drag-handle" aria-hidden="true">&#8942;&#8942;</span>
+        <span class="track-mod-seq">${i+1}</span>
+        <div class="track-mod-body">
+          <div class="track-mod-title">${tbEsc(m.title)}</div>
+          <div class="track-mod-meta">
+            ${tbSrcBadge(m.source)}
+            ${m.module ? `<span style="font-size:11px;color:var(--muted);font-family:var(--mono);">${tbEsc(m.module)}</span>` : ''}
+          </div>
+        </div>
+        <button class="track-mod-remove" onclick="tbRemoveModuleAt(${i})" aria-label="Remove ${tbEsc(m.title)} from track">✕</button>
+      </li>`
+    ).join('');
+  }
+  dropHint.hidden = false;
+  actionsCard.hidden = false;
+}
+
+// ── Add / remove modules ──
+async function tbAddModuleToTrack(mid) {
+  if (!_tbCurrentTrack) { tbShowToast('Select or create a track first.'); return; }
+  if ((_tbCurrentTrack.module_ids || []).includes(mid)) { tbShowToast('Already in this track.'); return; }
+  await tbSetTrackModules([...(_tbCurrentTrack.module_ids || []), mid]);
+}
+async function tbRemoveModuleAt(idx) {
+  if (!_tbCurrentTrack) return;
+  await tbSetTrackModules((_tbCurrentTrack.module_ids || []).filter((_,i) => i !== idx));
+}
+async function tbSetTrackModules(moduleIds) {
+  try {
+    const r = await fetch('/api/tracks/' + _tbCurrentTrack.id + '/modules', {
+      method: 'PUT', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({module_ids: moduleIds}),
+    });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    _tbCurrentTrack = await r.json();
+    tbRenderEditor(); tbRenderLibrary();
+  } catch (e) { tbShowToast('Could not update modules: ' + e.message, 'error'); }
+}
+
+// ── Drag-and-drop reordering ──
+function tbDragStart(ev, idx) {
+  _tbDragSrcIdx = idx; ev.dataTransfer.effectAllowed = 'move';
+  ev.currentTarget.classList.add('dragging');
+}
+function tbDragOver(ev, idx) {
+  ev.preventDefault(); ev.dataTransfer.dropEffect = 'move';
+  document.querySelectorAll('#tb-track-modules-list .track-mod-item').forEach(el => el.classList.remove('drag-over'));
+  if (idx !== _tbDragSrcIdx) ev.currentTarget.classList.add('drag-over');
+}
+function tbDragDrop(ev, toIdx) {
+  ev.preventDefault();
+  if (_tbDragSrcIdx === null || _tbDragSrcIdx === toIdx) return;
+  const ids = [...(_tbCurrentTrack.module_ids || [])];
+  const [moved] = ids.splice(_tbDragSrcIdx, 1);
+  ids.splice(toIdx, 0, moved);
+  _tbDragSrcIdx = null;
+  tbSetTrackModules(ids);
+}
+function tbDragEnd() {
+  _tbDragSrcIdx = null;
+  document.querySelectorAll('#tb-track-modules-list .track-mod-item')
+    .forEach(el => el.classList.remove('dragging','drag-over'));
+}
+
+// ── Save metadata ──
+async function tbSaveMeta() {
+  if (!_tbCurrentTrack) return;
+  const title       = (document.getElementById('tb-ed-title')?.value || '').trim();
+  const description = document.getElementById('tb-ed-description')?.value || '';
+  const product     = document.getElementById('tb-ed-product')?.value || 'SchoolCafé';
+  if (!title) { tbShowToast('Track name is required.'); return; }
+  const tagChips = document.querySelectorAll('#tb-ed-tag-row .tag-chip');
+  const role_tags = Array.from(tagChips).map(c => c.firstChild?.textContent?.trim() || '').filter(Boolean);
+  const btn = document.getElementById('tb-save-meta-btn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Saving…'; }
+  try {
+    const r = await fetch('/api/tracks/' + _tbCurrentTrack.id, {
+      method: 'PUT', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({title, description, product, role_tags}),
+    });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    _tbCurrentTrack = await r.json();
+    const opt = document.querySelector(`#tb-track-select option[value="${CSS.escape(_tbCurrentTrack.id)}"]`);
+    if (opt) opt.textContent = _tbCurrentTrack.title + (_tbCurrentTrack.status === 'published' ? ' ✓' : '');
+    tbShowToast('Track saved.', 'success'); tbRenderEditor();
+  } catch (e) { tbShowToast('Save failed: ' + e.message, 'error'); }
+  finally { if (btn) { btn.disabled = false; btn.textContent = 'Save changes'; } }
+}
+
+// ── Publish ──
+async function tbPublishTrack() {
+  if (!_tbCurrentTrack) return;
+  if (!(_tbCurrentTrack.module_ids?.length)) { tbShowToast('Add at least one module before publishing.'); return; }
+  if (!confirm('Publish "' + _tbCurrentTrack.title + '"? It will become visible to learners.')) return;
+  const btn = document.getElementById('tb-publish-btn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Publishing…'; }
+  try {
+    const r = await fetch('/api/tracks/' + _tbCurrentTrack.id + '/publish', {method:'POST'});
+    if (!r.ok) { const err = await r.json().catch(()=>({})); throw new Error((err.detail?.message) || err.message || 'HTTP '+r.status); }
+    _tbCurrentTrack = await r.json();
+    const opt = document.querySelector(`#tb-track-select option[value="${CSS.escape(_tbCurrentTrack.id)}"]`);
+    if (opt) opt.textContent = _tbCurrentTrack.title + ' ✓';
+    tbShowToast('Track published!', 'success'); tbRenderEditor();
+  } catch (e) {
+    tbShowToast('Publish failed: ' + e.message, 'error');
+    if (btn) { btn.disabled = false; btn.innerHTML = `<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4z"/></svg> Publish track`; }
+  }
+}
+
+// ── Delete track ──
+async function tbConfirmDeleteTrack() {
+  if (!_tbCurrentTrack) return;
+  if (!confirm('Delete "' + _tbCurrentTrack.title + '"? This cannot be undone.')) return;
+  try {
+    const r = await fetch('/api/tracks/' + _tbCurrentTrack.id, {method:'DELETE'});
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    tbShowToast('Track deleted.');
+    _tbTracks = _tbTracks.filter(t => t.id !== _tbCurrentTrack.id);
+    _tbCurrentTrack = null;
+    tbRebuildTrackSelect();
+    const sel = document.getElementById('tb-track-select'); if (sel) sel.value = '';
+    tbRenderEditor(); tbRenderLibrary();
+  } catch (e) { tbShowToast('Delete failed: ' + e.message, 'error'); }
+}
+
+// ── New-track modal ──
+function tbOpenNewTrackModal() {
+  _tbPendingTags = [];
+  const f = id => document.getElementById(id);
+  if (f('tb-nt-title')) f('tb-nt-title').value = '';
+  if (f('tb-nt-description')) f('tb-nt-description').value = '';
+  if (f('tb-nt-product')) f('tb-nt-product').value = 'SchoolCafé';
+  tbRenderPendingTags();
+  f('tb-new-track-overlay').hidden = false;
+  if (f('tb-nt-title')) f('tb-nt-title').focus();
+}
+function tbCloseNewTrackModal() {
+  const el = document.getElementById('tb-new-track-overlay'); if (el) el.hidden = true;
+}
+function tbRenderPendingTags() {
+  const row = document.getElementById('tb-nt-tag-row'); if (!row) return;
+  row.innerHTML = _tbPendingTags.map((tg,i) =>
+    `<span class="tag-chip">${tbEsc(tg)}<button onclick="tbRemovePendingTag(${i})" aria-label="Remove ${tbEsc(tg)}">×</button></span>`
+  ).join('');
+}
+function tbAddPendingTag() {
+  const inp = document.getElementById('tb-nt-tag-input'); if (!inp) return;
+  const val = inp.value.trim().replace(/,/g,'');
+  if (val && !_tbPendingTags.includes(val)) { _tbPendingTags.push(val); tbRenderPendingTags(); }
+  inp.value = ''; inp.focus();
+}
+function tbRemovePendingTag(i) { _tbPendingTags.splice(i,1); tbRenderPendingTags(); }
+
+async function tbCreateTrack() {
+  const title       = (document.getElementById('tb-nt-title')?.value || '').trim();
+  const description = document.getElementById('tb-nt-description')?.value || '';
+  const product     = document.getElementById('tb-nt-product')?.value || 'SchoolCafé';
+  const role_tags   = _tbPendingTags.slice();
+  if (!title) { document.getElementById('tb-nt-title')?.focus(); tbShowToast('Track name is required.'); return; }
+  const spinner = document.getElementById('tb-create-spinner');
+  const btn     = document.getElementById('tb-create-track-btn');
+  if (spinner) spinner.hidden = false;
+  if (btn) btn.disabled = true;
+  try {
+    const r = await fetch('/api/tracks', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({title,description,product,role_tags})});
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const track = await r.json();
+    _tbTracks.push(track);
+    tbRebuildTrackSelect();
+    const sel = document.getElementById('tb-track-select'); if (sel) sel.value = track.id;
+    tbCloseNewTrackModal();
+    await tbSelectTrack(track.id);
+    tbShowToast('Track "' + title + '" created.', 'success');
+  } catch (e) { tbShowToast('Create failed: ' + e.message, 'error'); }
+  finally { if (spinner) spinner.hidden = true; if (btn) btn.disabled = false; }
+}
+
+// ── Editor tag helpers ──
+function tbAddEdTag() {
+  const inp = document.getElementById('tb-ed-tag-input'); if (!inp) return;
+  const val = inp.value.trim().replace(/,/g,'');
+  if (!val) { inp.focus(); return; }
+  const row = document.getElementById('tb-ed-tag-row'); if (!row) return;
+  const existing = Array.from(row.querySelectorAll('.tag-chip')).map(c => c.firstChild?.textContent?.trim() || '');
+  if (existing.includes(val)) { inp.value = ''; inp.focus(); return; }
+  const chip = document.createElement('span');
+  chip.className = 'tag-chip';
+  chip.innerHTML = `${tbEsc(val)}<button onclick="tbRemoveEdTag(${existing.length})" aria-label="Remove ${tbEsc(val)}">×</button>`;
+  row.appendChild(chip); inp.value = ''; inp.focus(); tbRenumberEdTags();
+}
+function tbRemoveEdTag(idx) {
+  const row = document.getElementById('tb-ed-tag-row'); if (!row) return;
+  const chips = Array.from(row.querySelectorAll('.tag-chip'));
+  if (chips[idx]) chips[idx].remove(); tbRenumberEdTags();
+}
+function tbRenumberEdTags() {
+  const row = document.getElementById('tb-ed-tag-row'); if (!row) return;
+  row.querySelectorAll('.tag-chip').forEach((chip,i) => {
+    const b = chip.querySelector('button'); if (b) b.setAttribute('onclick',`tbRemoveEdTag(${i})`);
+  });
+}
+
+// ── Bootstrap — called by showView('track-builder') ──
+async function loadTrackBuilder() {
+  if (!_tbInitialized) {
+    _tbInitialized = true;
+    const search  = document.getElementById('tb-lib-search');
+    const srcSel  = document.getElementById('tb-lib-source');
+    const prodSel = document.getElementById('tb-lib-product');
+    const trackSel = document.getElementById('tb-track-select');
+    if (search)   search.addEventListener('input', tbDebounce(() => tbLoadModules(search.value, srcSel?.value, prodSel?.value), 260));
+    if (srcSel)   srcSel.addEventListener('change', () => tbLoadModules(search?.value, srcSel.value, prodSel?.value));
+    if (prodSel)  prodSel.addEventListener('change', () => tbLoadModules(search?.value, srcSel?.value, prodSel.value));
+    if (trackSel) trackSel.addEventListener('change', function(){ tbSelectTrack(this.value); });
+    document.addEventListener('keydown', e => {
+      const ov = document.getElementById('tb-new-track-overlay');
+      if (e.key === 'Escape' && ov && !ov.hidden) tbCloseNewTrackModal();
+    });
+  }
+  await Promise.all([tbLoadModules(), tbLoadTracks()]);
+}
 </script>
 </body>
 </html>
