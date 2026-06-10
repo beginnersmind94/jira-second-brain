@@ -1749,6 +1749,42 @@
     .manage-nav button { border: none; background: transparent; padding: 7px 16px; border-radius: calc(var(--radius) - 2px); font-size: 13px; font-weight: 600; color: var(--muted); cursor: pointer; transition: all .15s; font-family: var(--sans); }
     .manage-nav button:hover { color: var(--text); background: var(--surface); }
     .manage-nav button.active { background: var(--surface); color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+    /* Rollout command center — KPI strip at the top of the Manage › Projects page */
+    .pj-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; margin: 4px 0 20px; }
+    .pj-kpis:empty { display: none; }
+    .pj-kpi { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; box-shadow: var(--shadow); }
+    .pj-kpi .n { font-size: 26px; font-weight: 750; color: var(--text); line-height: 1.05; font-family: var(--serif); }
+    .pj-kpi .l { font-size: 11.5px; font-weight: 600; letter-spacing: .03em; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
+    .pj-kpi.alert .n { color: var(--accent); }
+    /* Content-format viewers (FR-CP simulations in the Learn player) */
+    .fmt-view { padding: 18px 20px; }
+    .fmt-tagrow { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+    .fmt-tag { font-size: 12px; font-weight: 700; color: var(--text); background: var(--panel2); border: 1px solid var(--border); border-radius: var(--radius-pill); padding: 4px 12px; }
+    .fmt-v2 { font-size: 10px; font-weight: 700; letter-spacing: .04em; color: var(--muted); background: var(--panel3); border-radius: var(--radius-pill); padding: 3px 9px; }
+    .fmt-note { font-size: 12px; color: var(--muted); margin: 14px 0 0; }
+    .fmt-slide-stage, .fmt-video-stage, .fmt-demo-body { background: var(--panel2); border: 1px solid var(--border); border-radius: 10px; }
+    .fmt-slide-stage { height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; font-size: 46px; color: var(--muted); }
+    .fmt-slide-stage span { font-size: 12px; font-weight: 600; }
+    .fmt-slide-cap { font-weight: 700; margin: 10px 0 4px; }
+    .fmt-slide-dots { color: var(--border-strong, #cdbfa6); letter-spacing: 4px; }
+    .fmt-video-stage { height: 200px; display: flex; align-items: center; justify-content: center; font-size: 46px; color: #fff; background: #2c2620; }
+    .fmt-bar { height: 6px; background: var(--panel3); border-radius: 999px; overflow: hidden; margin: 12px 0 6px; }
+    .fmt-bar span { display: block; height: 100%; background: var(--accent); }
+    .fmt-video-meta { font-size: 12px; color: var(--muted); }
+    .fmt-demo-frame { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    .fmt-demo-chrome { display: flex; align-items: center; gap: 6px; padding: 7px 12px; background: var(--panel2); border-bottom: 1px solid var(--border); font-size: 11px; color: var(--muted); }
+    .fmt-demo-chrome i { width: 9px; height: 9px; border-radius: 50%; background: var(--border-strong, #cdbfa6); }
+    .fmt-demo-body { border: none; border-radius: 0; padding: 36px 20px; text-align: center; font-size: 15px; color: var(--text); line-height: 1.7; }
+    .fmt-demo-body small { color: var(--muted); font-size: 12.5px; }
+    .fmt-tasks { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+    .fmt-tasks li label { display: flex; align-items: center; gap: 10px; padding: 11px 12px; border: 1px solid var(--border); border-radius: 9px; font-size: 13.5px; cursor: pointer; }
+    .fmt-tasks li label:hover { border-color: var(--accent); }
+    .fmt-tasks input { width: 17px; height: 17px; }
+    .fmt-pkg { display: flex; gap: 14px; align-items: flex-start; padding: 18px; border: 1px solid var(--border); border-radius: 10px; background: var(--panel2); }
+    .fmt-pkg-ico { font-size: 34px; }
+    .fmt-pkg-body { flex: 1; min-width: 0; }
+    .fmt-pkg-body small { color: var(--muted); font-size: 12px; }
+    .fmt-xapi { display: block; background: #2c2620; color: #e9dcc6; border-radius: 7px; padding: 9px 11px; font-size: 11.5px; margin: 8px 0; white-space: pre-wrap; word-break: break-word; }
     /* Side drawer — slide-over for detail / tertiary content (keeps the primary view in context) */
     .drawer-overlay { position: fixed; inset: 0; background: rgba(40,33,26,.34); z-index: 90; }
     .app-drawer { position: fixed; top: 0; right: 0; height: 100vh; width: 420px; max-width: 92vw; background: var(--surface, #FFF); border-left: 1px solid var(--border); box-shadow: -8px 0 28px rgba(0,0,0,.14); z-index: 91; transform: translateX(100%); transition: transform .24s ease; display: flex; flex-direction: column; }
@@ -2190,7 +2226,7 @@
     <button id="tab-home" onclick="showView('home')">Home</button>
     <button id="tab-author" onclick="showView('author')">Create</button>
     <button id="tab-library" onclick="openLibraryTab()">Library</button>
-    <button id="tab-manage" onclick="showView('manage')">Manage</button>
+    <button id="tab-manage" onclick="showView('projects')">Manage</button>
     <button id="tab-learn" onclick="showView('learn')">Learn</button>
     <button id="tab-myteam" onclick="showView('myteam')">My Team</button>
   </nav>
@@ -2527,9 +2563,10 @@
       <span class="demo-tag">Demo data</span>
     </div>
     <div class="manage-nav" role="tablist" aria-label="Manage sections">
-      <button role="tab" aria-selected="false" onclick="showView('manage')">Overview</button>
       <button class="active" role="tab" aria-selected="true" onclick="showView('projects')">Projects</button>
+      <button role="tab" aria-selected="false" onclick="showView('manage')">Overview</button>
     </div>
+    <div id="pj-kpis" class="pj-kpis" aria-label="Rollout command center"></div>
     <div id="pj-signin" class="pj-signin-shell" hidden>
       <div class="pj-signin-card">
         <h2>Sign in to manage projects</h2>
@@ -2871,8 +2908,8 @@
       <div style="display:flex; gap:8px; align-items:center;"><button class="secondary" onclick="showView('roster')">Roster ↗</button><span class="demo-tag">Demo data</span></div>
     </div>
     <div class="manage-nav" role="tablist" aria-label="Manage sections">
-      <button class="active" role="tab" aria-selected="true" onclick="showView('manage')">Overview</button>
       <button role="tab" aria-selected="false" onclick="showView('projects')">Projects</button>
+      <button class="active" role="tab" aria-selected="true" onclick="showView('manage')">Overview</button>
     </div>
     <div id="manage-body"></div>
   </div>
@@ -3159,6 +3196,18 @@ const _DEMO = (() => {
     { id:'c-inv', title:'Inventory Basics', module:'Inventory', milestone:'Training', lessons:[{type:'guide',title:'Inventory Overview'},{type:'video',title:'Receiving & Storage',dur:'8 min'},{type:'guide',title:'Physical Inventory Counts'}] },
     { id:'c-elig', title:'Eligibility Core', module:'Eligibility', milestone:'Pre-launch', lessons:[{type:'guide',title:'Eligibility Overview'},{type:'guide',title:'Direct Certification Workflow'},{type:'guide',title:'Verification Rules'},{type:'quiz',title:'Eligibility Exam',n:8}] },
     { id:'c-menu', title:'Menu Planning Essentials', module:'Menu Planning', milestone:'Pre-launch', lessons:[{type:'guide',title:'Cycle Menu Setup'},{type:'quiz',title:'Menu Planning Check',n:5}] },
+    // Showcase course — one lesson per content-player format so every FR-CP type is demonstrable in Learn.
+    { id:'c-formats', title:'Every content format', module:'Content Player', lessons:[
+      {type:'guide',title:'Text & slide lesson — Reading the POS screen'},
+      {type:'slides',title:'Slide deck — Meal components at a glance',dur:'10 slides'},
+      {type:'video',title:'Native video — Serving-line walkthrough',dur:'6 min'},
+      {type:'demo',title:'Embedded product demo — Ring up a reimbursable meal'},
+      {type:'task',title:'Task & checklist — Opening the register'},
+      {type:'quiz',title:'Knowledge check — Meal counting',n:4},
+      {type:'scorm12',title:'SCORM 1.2 package — Allergen awareness'},
+      {type:'scorm2004',title:'SCORM 2004 package — Food safety basics'},
+      {type:'xapi',title:'xAPI / Tin Can — Hand-washing (reports to LRS)'},
+    ] },
   ];
   // A TRACK is a sequence of COURSES (+ a certify step at the end).
   const tracks = [
@@ -3166,6 +3215,7 @@ const _DEMO = (() => {
     { id:'t-sitemgr', title:'Site Manager Essentials', role:'Site Manager', product:'SchoolCafé', sequential:true, due:DUE, instructor:'SM', courseIds:['c-item','c-inv'] },
     { id:'t-elig', title:'Eligibility Certification Prep', role:'CN Director', product:'SchoolCafé', due:DUE, instructor:'EL', courseIds:['c-elig'] },
     { id:'t-pe', title:'SchoolCafé Onboarding', role:'CN Director', product:'SchoolCafé', due:DUE, instructor:'SC', courseIds:['c-elig','c-menu'] },
+    { id:'t-formats', title:'Content Formats Showcase', role:'All staff', product:'SchoolCafé', due:DUE, instructor:'CF', courseIds:['c-formats'] },
   ];
   const districts = [
     { id:'houston-isd', name:'Houston ISD', trainer:'Dana Alvarez', last:'2 hours ago', logins30:412, sites:['Lamar HS','Pershing MS','Garden Oaks ES','Central Kitchen'] },
@@ -3272,6 +3322,7 @@ async function loadProjects(){
   if(gl && !gl.value){ const d=new Date(); d.setDate(d.getDate()+60); gl.value = d.toISOString().slice(0,10); }
   let body = {projects:[]};
   try{ const r = await fetch('/api/projects'); body = await r.json(); } catch(_){}
+  _renderProjectKpis(body.projects || []);
   const list = document.getElementById('pj-list');
   if(!list) return;
   if(!body.projects.length){
@@ -3288,6 +3339,22 @@ async function loadProjects(){
     </div>`).join('');
 }
 function _esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+// Rollout command center — high-level KPIs across all district projects, shown above the table.
+function _renderProjectKpis(projects){
+  const el = document.getElementById('pj-kpis'); if(!el) return;
+  const by = s => projects.filter(p => (p.status||'PLANNING') === s).length;
+  const sites = projects.reduce((a,p)=>a+(p.site_count||0),0);
+  const people = projects.reduce((a,p)=>a+(p.user_count||0),0);
+  const live = by('LIVE'), onb = by('ONBOARDING');
+  const tiles = [
+    { n: projects.length, l: 'Projects' },
+    { n: onb, l: 'Onboarding', cls: onb ? ' alert' : '' },
+    { n: live, l: 'Live' },
+    { n: sites, l: 'Sites' },
+    { n: people.toLocaleString(), l: 'People' },
+  ];
+  el.innerHTML = tiles.map(t => `<div class="pj-kpi${t.cls||''}"><div class="n">${t.n}</div><div class="l">${_esc(t.l)}</div></div>`).join('');
+}
 // Status pill + change-status menu — color-coded, icon+text, not color-alone.
 const _STATUS_LABEL = { PLANNING:'Planning', ONBOARDING:'Onboarding', LIVE:'Live', ARCHIVED:'Archived' };
 const _STATUS_HINT = {
@@ -5356,7 +5423,7 @@ function _courseLockInfo(track, course, idxInTrack) {
   return { locked: false };
 }
 function _courseSharedCount(cid) { return _allDemoTracks().filter(t => (t.courseIds || []).includes(cid)).length; }   // FR-LP-02
-function _lessonIcon(type) { return type === 'quiz' ? '✎' : type === 'video' ? '▶' : type === 'certify' ? '🏅' : '📄'; }
+function _lessonIcon(type) { return ({ quiz:'✎', video:'▶', certify:'🏅', slides:'🖼', demo:'🖥', task:'☑', scorm12:'📦', scorm2004:'📦', xapi:'🛰' })[type] || '📄'; }
 function _courseDoneSet(cid) { _demoState.courseDone = _demoState.courseDone || {}; return (_demoState.courseDone[cid] = _demoState.courseDone[cid] || new Set()); }
 function _courseScores() { _demoState.quizScore = _demoState.quizScore || {}; return _demoState.quizScore; }
 function _coursePct(c) { const n = c.lessons.length; return n ? Math.round(100 * _courseDoneSet(c.id).size / n) : 0; }
@@ -5444,11 +5511,12 @@ function openCourse(cid) {
   const done = _courseDoneSet(cid), scores = _courseScores();
   const rows = c.lessons.map((l, idx) => {
     const isDone = done.has(idx), sk = cid + ':' + idx, sc = scores[sk];
+    const _playLabel = { slides:'View slides', video:'Play ▶', demo:'Open demo', task:'Open checklist', scorm12:'Launch', scorm2004:'Launch', xapi:'Launch' };
     const act = l.type === 'guide'
       ? `<button class="track-open" onclick="event.stopPropagation(); openGuideLesson('${cid}',${idx})">Open guide ↗</button>`
       : l.type === 'quiz'
         ? `<button class="track-open" onclick="event.stopPropagation(); courseQuiz('${cid}',${idx})">${sc != null ? 'Retake' : 'Take quiz'}</button>${sc != null ? `<span class="quiz-score ${sc >= 80 ? 'pass' : 'fail'}">${sc >= 80 ? 'Passed' : 'Try again'} · ${sc}%</span>` : ''}`
-        : l.type === 'video' ? `<button class="track-open" onclick="event.stopPropagation(); openVideoLesson('${cid}',${idx})">Play ▶</button>` : '';
+        : `<button class="track-open" onclick="event.stopPropagation(); openFormatLesson('${cid}',${idx})">${_playLabel[l.type] || 'Open'}</button>`;
     return `<li class="path-mod" data-type="${l.type}">
         <span class="path-num">${isDone ? '✓' : idx + 1}</span>
         <div class="path-mod-main">
@@ -5478,7 +5546,47 @@ function openCourse(cid) {
 function toggleLesson(cid, idx) { const s = _courseDoneSet(cid); if (s.has(idx)) s.delete(idx); else s.add(idx); openCourse(cid); }
 function _lessonRid(cid, idx) { const ids = _demoState.approvedRids || []; return ids.length ? ids[(idx + cid.length) % ids.length] : null; }
 function openGuideLesson(cid, idx) { const rid = _lessonRid(cid, idx); if (rid) window.open('/resources/' + encodeURIComponent(rid) + '/pdf', '_blank'); _courseDoneSet(cid).add(idx); openCourse(cid); }
-function openVideoLesson(cid, idx) { const l = _courseById(cid).lessons[idx]; alert('▶ ' + l.title + (l.dur ? ' (' + l.dur + ')' : '') + '\n\n(video player — demo placeholder)'); _courseDoneSet(cid).add(idx); openCourse(cid); }
+// ── Content-player formats (FR-CP) — simulated viewers for the demo. Each opens in the shared
+// modal and confirms completion. Real video/SCORM/xAPI runtimes are V2; here we demonstrate the
+// learner experience plus the completion / progress-reporting hooks.
+const _FMT_META = {
+  slides:    { tag:'Slides',           note:'Slide-based lesson · progress auto-saved' },
+  video:     { tag:'Video',            note:'Native playback · progress tracked' },
+  demo:      { tag:'Embedded demo',    note:'Interactive product walkthrough (iframe / guided)' },
+  task:      { tag:'Task & checklist', note:'Confirm each step to complete' },
+  scorm12:   { tag:'SCORM 1.2',        note:'Packaged course · reports score + completion to the LMS', v2:true },
+  scorm2004: { tag:'SCORM 2004',       note:'Packaged course · sequencing + completion to the LMS', v2:true },
+  xapi:      { tag:'xAPI · Tin Can',   note:'Statements posted to the configured LRS endpoint', v2:true },
+};
+function openFormatLesson(cid, idx){
+  const l = (_courseById(cid)||{lessons:[]}).lessons[idx]; if(!l) return;
+  const meta = _FMT_META[l.type] || { tag:l.type, note:'' };
+  const m=document.getElementById('quiz-modal'), body=document.getElementById('quiz-body'),
+        foot=document.getElementById('quiz-foot'), ttl=document.getElementById('quiz-title');
+  if(!m) return; m.hidden=false; if(ttl) ttl.textContent=l.title;
+  body.innerHTML = `<div class="fmt-view">
+      <div class="fmt-tagrow"><span class="fmt-tag">${_lessonIcon(l.type)} ${escapeHtml(meta.tag)}</span>${meta.v2?'<span class="fmt-v2">V2</span>':''}</div>
+      ${_fmtViewerBody(l)}
+      <p class="fmt-note">${escapeHtml(meta.note)}</p>
+    </div>`;
+  const gated = l.type === 'task';
+  foot.innerHTML = `<span class="qb-srclabel">Demo simulation</span>
+    <button class="primary" id="fmt-done" ${gated?'disabled':''} onclick="formatComplete('${cid}',${idx})">${gated?'Confirm completion':'Mark complete'}</button>`;
+}
+function _fmtViewerBody(l){
+  switch(l.type){
+    case 'slides': return `<div class="fmt-slide"><div class="fmt-slide-stage">🖼<span>Slide 1 / 10</span></div><div class="fmt-slide-cap">${escapeHtml(l.title)}</div><div class="fmt-slide-dots">${'•'.repeat(10)}</div></div>`;
+    case 'video': return `<div class="fmt-video"><div class="fmt-video-stage">▶</div><div class="fmt-bar"><span style="width:100%"></span></div><div class="fmt-video-meta">${escapeHtml(l.dur||'6 min')} · watched 100%</div></div>`;
+    case 'demo': return `<div class="fmt-demo"><div class="fmt-demo-frame"><div class="fmt-demo-chrome"><i></i><i></i><i></i> app.schoolcafe.com/sandbox</div><div class="fmt-demo-body">🖥 Embedded SchoolCafé sandbox — guided walkthrough<br><small>Step 1 of 4 · Select the student, then ring the meal</small></div></div></div>`;
+    case 'task': { const steps=['Count the opening cash drawer','Sign in to the POS','Confirm today’s menu loaded','Verify the meal-status roster synced']; return `<ul class="fmt-tasks">${steps.map(s=>`<li><label><input type="checkbox" class="fmt-chk" onchange="_fmtTaskGate()"> ${escapeHtml(s)}</label></li>`).join('')}</ul>`; }
+    case 'scorm12':
+    case 'scorm2004': return `<div class="fmt-pkg"><div class="fmt-pkg-ico">📦</div><div class="fmt-pkg-body"><b>${l.type==='scorm12'?'SCORM 1.2':'SCORM 2004'} package</b><div class="fmt-bar"><span style="width:100%"></span></div><small>Launched in the player · lesson_status = completed, score reported to the LMS</small></div></div>`;
+    case 'xapi': return `<div class="fmt-pkg"><div class="fmt-pkg-ico">🛰</div><div class="fmt-pkg-body"><b>xAPI / Tin Can module</b><code class="fmt-xapi">{ "actor": "Demo Learner", "verb": "completed", "object": "${escapeHtml(l.title)}" }</code><small>Statement sent to the LRS endpoint</small></div></div>`;
+    default: return `<div class="fmt-demo-body">${escapeHtml(l.title)}</div>`;
+  }
+}
+function _fmtTaskGate(){ const all=[...document.querySelectorAll('.fmt-chk')]; const done=all.length && all.every(c=>c.checked); const b=document.getElementById('fmt-done'); if(b) b.disabled=!done; }
+function formatComplete(cid, idx){ _courseDoneSet(cid).add(idx); closeQuiz(); openCourse(cid); }
 async function courseQuiz(cid, idx) {
   const rid = _lessonRid(cid, idx);
   const m = document.getElementById('quiz-modal'), body = document.getElementById('quiz-body'), foot = document.getElementById('quiz-foot');
