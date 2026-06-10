@@ -74,7 +74,8 @@
     body {
       margin: 0;
       min-height: 100vh;
-      padding-left: 240px;
+      padding-left: 230px;
+      padding-top: 60px;
       box-sizing: border-box;
       font-family: var(--font);
       font-size: 14px;
@@ -106,30 +107,36 @@
       position: fixed;
       top: 0;
       left: 0;
-      z-index: 30;
+      right: 0;
+      z-index: 40;
       display: flex;
-      flex-direction: column;
-      align-items: stretch;
-      gap: 0;
-      width: 240px;
-      height: 100vh;
-      padding: 14px 12px;
+      align-items: center;
+      gap: 20px;
+      height: 60px;
+      padding: 0 24px;
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--border);
+      box-sizing: border-box;
+    }
+    .sidebar {
+      position: fixed;
+      top: 60px;
+      left: 0;
+      bottom: 0;
+      width: 230px;
+      z-index: 30;
       background: #241D16;
-      border-right: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 16px 0;
       box-sizing: border-box;
       overflow-y: auto;
     }
     header.top h1 {
       display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 5px;
-      margin: 2px 0 14px;
-      padding: 0 10px;
+      align-items: center;
+      gap: 12px;
+      margin: 0;
     }
     header.top .brand-logo { height: 26px; }
-    header.top .brand-product { color: rgba(255, 255, 255, 0.74); }
-    header.top .brand-divider { display: none; }
     .brand-logo {
       height: 30px;
       width: auto;
@@ -154,9 +161,9 @@
       display: flex;
       flex-direction: column;
       align-items: stretch;
-      gap: 2px;
+      gap: 1px;
       padding: 0;
-      margin-top: 14px;
+      margin: 0;
       background: transparent;
       border: 0;
       border-radius: 0;
@@ -165,22 +172,25 @@
       min-width: 0;
       width: 100%;
       text-align: left;
-      padding: 9px 10px;
+      height: 36px;
+      padding: 0 16px;
       border: 0;
-      border-radius: 8px;
+      border-left: 3px solid transparent;
+      border-radius: 0;
       background: transparent;
-      color: rgba(255, 255, 255, 0.70);
+      color: rgba(255, 255, 255, 0.92);
       font-family: inherit;
-      font-size: 13.5px;
-      font-weight: 600;
+      font-size: 14px;
+      font-weight: 400;
       cursor: pointer;
-      transition: color .15s ease, background .15s ease;
+      transition: background .12s ease;
     }
-    nav button:hover { color: #FFF; background: rgba(255, 255, 255, 0.07); }
+    nav button:hover { background: rgba(255, 255, 255, 0.06); }
     nav button.active {
-      background: var(--accent);
+      background: rgba(255, 255, 255, 0.04);
       color: #FFF;
-      border-color: transparent;
+      font-weight: 800;
+      border-left-color: var(--accent);
       box-shadow: none;
     }
     .meta {
@@ -1064,12 +1074,12 @@
       .library { min-height: 0; }
     }
     @media (max-width: 720px) {
-      body { padding-left: 0; }
-      header.top { position: static; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 12px; width: auto; height: auto; min-height: 0; padding: 12px 16px; border-right: 0; border-bottom: 1px solid rgba(255,255,255,0.08); overflow: visible; }
-      header.top h1 { margin: 0; }
-      header.top nav { flex-direction: row; order: 4; width: 100%; overflow-x: auto; flex-wrap: nowrap; margin-top: 0; }
-      nav button { min-width: 0; width: auto; flex: 1 0 auto; text-align: center; }
-      .top-right { flex-direction: row; align-items: center; margin-top: 0; padding-top: 0; border-top: 0; }
+      body { padding-left: 0; padding-top: 104px; }
+      header.top { height: 56px; padding: 0 14px; gap: 10px; }
+      .sidebar { top: 56px; bottom: auto; width: 100%; height: 48px; padding: 0; overflow-x: auto; overflow-y: hidden; border-bottom: 1px solid rgba(255,255,255,0.08); }
+      .sidebar nav { flex-direction: row; height: 48px; flex-wrap: nowrap; }
+      nav button { width: auto; height: 48px; border-left: 0; border-bottom: 3px solid transparent; flex: 0 0 auto; text-align: center; }
+      nav button.active { border-left-color: transparent; border-bottom-color: var(--accent); }
       .meta { order: 3; margin-left: 0; }
       .author, .library { padding: 16px; gap: 16px; }
       .preview { padding: 22px 18px; font-size: 15px; }
@@ -1423,14 +1433,7 @@
     .cat-meta { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
 
     /* ── Header right: district switcher + user (demo shell) ── */
-    .top-right { margin-top: auto; margin-left: 0; display: flex; flex-direction: column; align-items: stretch; gap: 9px; padding-top: 14px; border-top: 1px solid rgba(255, 255, 255, 0.08); }
-    .top-right .viewing-as { color: rgba(255, 255, 255, 0.5); padding-left: 10px; }
-    .top-right .view-toggle { background: rgba(255, 255, 255, 0.07); border-color: rgba(255, 255, 255, 0.14); }
-    .top-right .view-toggle button { color: rgba(255, 255, 255, 0.62); }
-    .top-right .isd-switch { width: 100%; }
-    .top-right .isd-btn { width: 100%; justify-content: flex-start; background: rgba(255, 255, 255, 0.07); border-color: rgba(255, 255, 255, 0.14); color: rgba(255, 255, 255, 0.85); }
-    .top-right .inbox-btn { background: rgba(255, 255, 255, 0.07); border-color: rgba(255, 255, 255, 0.14); color: rgba(255, 255, 255, 0.85); }
-    .top-right .ava-wrap { align-self: flex-start; }
+    .top-right { margin-left: auto; display: flex; align-items: center; gap: var(--sp-3); }
     .isd-switch { position: relative; }
     .isd-btn { display: inline-flex; align-items: center; gap: 7px; background: var(--surface); border: 1px solid var(--border);
                border-radius: var(--radius-pill); padding: 6px 13px; cursor: pointer; font-family: var(--font); font-size: 12px; font-weight: 650; color: var(--text); }
@@ -1720,7 +1723,8 @@
     /* Customer view-state — a loud, persistent signal so a trainer never screen-shares
        internal content thinking it's the customer view (the "hot seat" safety fix). */
     .customer-banner { background:#1f6f43; color:#fff; text-align:center; font:700 13px/1.4 var(--font); letter-spacing:.01em; padding:9px 16px; }
-    body.customer-view header.top { box-shadow: inset 4px 0 0 #1f6f43; }
+    body.customer-view header.top { box-shadow: inset 0 -3px 0 #1f6f43; }
+    body.customer-view .sidebar { box-shadow: inset 3px 0 0 #1f6f43; }
     body.customer-view .brand-product::after { content:' · Customer view'; color:#1f6f43; font-weight:700; }
     .qb-modes { display:inline-flex; gap:4px; background:var(--panel3); padding:4px; border-radius:10px; align-self:flex-start; flex-wrap:wrap; }
     .qb-modes button { border:0; background:transparent; padding:7px 13px; border-radius:7px; font-weight:600; font-size:12.5px; color:var(--muted); cursor:pointer; }
@@ -1784,17 +1788,6 @@
     <span class="brand-divider" aria-hidden="true"></span>
     <span class="brand-product">Learning Studio</span>
   </h1>
-  <nav>
-    <button id="tab-home" onclick="showView('home')">Home</button>
-    <button id="tab-manage" onclick="showView('manage')">Manage</button>
-    <button id="tab-author" onclick="showView('author')">Create</button>
-    <button id="tab-library" onclick="showView('library')">Library</button>
-    <button id="tab-learn" onclick="showView('learn')">Learn</button>
-    <button id="tab-content" onclick="showView('content')">Catalog</button>
-    <button id="tab-evals" onclick="showView('evals')">Quality</button>
-    <button id="tab-tracks" onclick="showView('tracks')">Tracks</button>
-    <button id="tab-myteam" onclick="showView('myteam')">My Team</button>
-  </nav>
   <div class="top-right">
     <span class="viewing-as">Viewing as</span>
     <div class="view-toggle" id="persona-toggle" role="tablist" title="Switch between the internal trainer workspace and the customer-facing view">
@@ -1822,6 +1815,19 @@
     </div>
   </div>
 </header>
+<aside class="sidebar" id="sidebar">
+  <nav>
+    <button id="tab-home" onclick="showView('home')">Home</button>
+    <button id="tab-manage" onclick="showView('manage')">Manage</button>
+    <button id="tab-author" onclick="showView('author')">Create</button>
+    <button id="tab-library" onclick="showView('library')">Library</button>
+    <button id="tab-learn" onclick="showView('learn')">Learn</button>
+    <button id="tab-content" onclick="showView('content')">Catalog</button>
+    <button id="tab-evals" onclick="showView('evals')">Quality</button>
+    <button id="tab-tracks" onclick="showView('tracks')">Tracks</button>
+    <button id="tab-myteam" onclick="showView('myteam')">My Team</button>
+  </nav>
+</aside>
 <div id="drawer-overlay" class="drawer-overlay" hidden onclick="closeDrawer()"></div>
 <aside id="app-drawer" class="app-drawer" hidden role="dialog" aria-modal="true" aria-labelledby="drawer-title">
   <div class="drawer-head"><h3 id="drawer-title"></h3><button class="drawer-x" onclick="closeDrawer()" aria-label="Close">✕</button></div>
