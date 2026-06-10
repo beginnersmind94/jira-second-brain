@@ -1526,6 +1526,32 @@
     .imr-title { font-size: 13px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .imr-meta { font-size: 11.5px; color: var(--muted); }
     .inbox-mini-row > .secondary { flex: none; }
+    /* Top-bar inbox icon — progressive disclosure: approvals live behind a glanceable badge */
+    .inbox-btn { position: relative; border: 1px solid var(--border); background: var(--panel); border-radius: 10px; width: 38px; height: 34px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text); }
+    .inbox-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .inbox-badge { position: absolute; top: -6px; right: -6px; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 999px; background: var(--accent); color: #FFF; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; line-height: 1; }
+    .inbox-badge:empty { display: none; }
+    /* Side drawer — slide-over for detail / tertiary content (keeps the primary view in context) */
+    .drawer-overlay { position: fixed; inset: 0; background: rgba(40,33,26,.34); z-index: 90; }
+    .app-drawer { position: fixed; top: 0; right: 0; height: 100vh; width: 420px; max-width: 92vw; background: var(--surface, #FFF); border-left: 1px solid var(--border); box-shadow: -8px 0 28px rgba(0,0,0,.14); z-index: 91; transform: translateX(100%); transition: transform .24s ease; display: flex; flex-direction: column; }
+    .app-drawer.open { transform: translateX(0); }
+    .drawer-head { display: flex; align-items: center; justify-content: space-between; padding: 15px 18px; border-bottom: 1px solid var(--border); }
+    .drawer-head h3 { font-family: var(--serif); font-size: 18px; font-weight: 650; margin: 0; }
+    .drawer-x { border: 0; background: none; font-size: 15px; cursor: pointer; color: var(--muted); padding: 6px 8px; border-radius: 8px; line-height: 1; }
+    .drawer-x:hover { background: var(--panel3); color: var(--text); }
+    .drawer-body { padding: 16px 18px; overflow-y: auto; flex: 1; }
+    .dr-intro, .dr-sub { font-size: 12.5px; color: var(--muted); margin: 0 0 12px; }
+    .dr-h { font-family: var(--serif); font-size: 13px; font-weight: 650; margin: 16px 0 8px; color: var(--text); }
+    .dr-track-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 12.5px; padding: 5px 0; }
+    .dr-sites { display: flex; flex-wrap: wrap; gap: 6px; }
+    .dr-site { font-size: 12px; padding: 4px 9px; border: 1px solid var(--border); border-radius: 999px; color: var(--muted); }
+    .dr-actions { margin-top: 18px; }
+    .dr-inbox-row { display: flex; align-items: center; gap: 10px; padding: 11px 0; border-bottom: 1px solid var(--border); }
+    .dr-inbox-row:last-child { border-bottom: 0; }
+    .dr-inbox-bd { flex: 1; min-width: 0; }
+    .dr-inbox-title { font-size: 13.5px; font-weight: 600; }
+    .dr-inbox-meta { font-size: 11.5px; color: var(--muted); }
+    .dr-inbox-act { display: flex; gap: 6px; flex: none; }
     @media (max-width: 1100px) { .cmd-grid { grid-template-columns: 1fr; } .cmd-tiles { grid-template-columns: repeat(2, 1fr); } .trend-meta { width: 150px; } }
     /* Phone (research: single-column stack, ≥44px touch targets per WCAG 2.5.5 / Apple, wrap dense rows) */
     @media (max-width: 640px) {
@@ -1749,6 +1775,10 @@
       </button>
       <div class="isd-menu" id="isd-menu" hidden></div>
     </div>
+    <button class="inbox-btn" id="inbox-btn" onclick="openInboxDrawer()" title="Approved by the PM team" aria-label="Approved docs inbox">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
+      <span class="inbox-badge" id="inbox-badge"></span>
+    </button>
     <div class="ava-wrap">
       <span class="user-ava" id="user-ava" title="Account menu" onclick="toggleAvaMenu(event)">DA</span>
       <div class="ava-menu" id="ava-menu" hidden>
@@ -1758,6 +1788,11 @@
     </div>
   </div>
 </header>
+<div id="drawer-overlay" class="drawer-overlay" hidden onclick="closeDrawer()"></div>
+<aside id="app-drawer" class="app-drawer" hidden role="dialog" aria-modal="true" aria-labelledby="drawer-title">
+  <div class="drawer-head"><h3 id="drawer-title"></h3><button class="drawer-x" onclick="closeDrawer()" aria-label="Close">✕</button></div>
+  <div id="drawer-body" class="drawer-body"></div>
+</aside>
 
 <!-- ═══════════════════════════════════ AUTHOR ═══════════════════════════════════ -->
 <section id="view-author" class="view active">
@@ -2385,6 +2420,8 @@ function applyViewMode() {
   const isdBtn = document.getElementById('isd-btn');
   if (isdBtn) { isdBtn.style.pointerEvents = _viewMode === 'customer' ? 'none' : ''; isdBtn.style.opacity = _viewMode === 'customer' ? '.6' : ''; }
   const ava = document.getElementById('user-ava'); if (ava) ava.textContent = _viewMode === 'customer' ? 'DC' : 'DA';
+  const ibtn = document.getElementById('inbox-btn'); if (ibtn) ibtn.hidden = _viewMode === 'customer';   // approvals inbox is a trainer concept
+  const ibadge = document.getElementById('inbox-badge'); if (ibadge) ibadge.textContent = _viewMode === 'customer' ? '' : String(_DEMO.inbox.length);
   // Loud, persistent customer-view signal so a screen-share is never mistaken for internal.
   document.body.classList.toggle('customer-view', _viewMode === 'customer');
   const cbn = document.getElementById('customer-banner'); if (cbn) cbn.hidden = _viewMode !== 'customer';
@@ -2444,31 +2481,28 @@ function renderHome(){
   h += `<section class="cmd-card trend-band"><div class="trend-meta"><h3>Completion trend</h3><span class="cmd-sub">last 6 weeks · all my districts</span></div>${_spark(sparkVals)}<div class="trend-now"><span class="trend-val">${avg}%</span><span class="kpi-trend tr-good">▲ +11 pts / 6 wks</span></div></section>`;
   // ── command-center grid ──
   h += '<div class="cmd-grid"><div class="cmd-main">';
-  // Needs your attention — prioritized "what's next" feed (help > overdue > behind > approvals)
+  // Needs your attention — prioritized "what's next" feed (help > overdue > behind)
   const attn = [];
   helps.forEach(d => attn.push({ p: 1, cls: 'attn-help', ico: '🖐', title: `${d.name} raised a hand`, desc: d.help_msg, act: `<button class="secondary" onclick="respondHelp('${d.id}')">Respond</button>` }));
   if (overdue) attn.push({ p: 2, cls: 'attn-warn', ico: '⏰', title: `${overdue} learner${overdue === 1 ? '' : 's'} overdue`, desc: `Across your ${mine.length} districts · due ${_DEMO.due}`, act: `<button class="secondary" onclick="showView('manage')">Review</button>` });
-  mine.filter(d => !(d.help_request && !_demoState.helpCleared[d.id]) && _districtCompletion(d) < 70).forEach(d => attn.push({ p: 3, cls: '', ico: '📉', title: `${d.name} is behind`, desc: `${_districtCompletion(d)}% complete · due ${_DEMO.due}`, act: `<button class="secondary" onclick="openDistrictInManage('${d.id}')">Open</button>` }));
-  // Approved guides are intentionally NOT in this priority feed — they live in the right-rail "Approved by PM team" card. Keeping the feed to genuine people/district actions (alert-fatigue research) also lifts "My projects" toward the fold.
+  mine.filter(d => !(d.help_request && !_demoState.helpCleared[d.id]) && _districtCompletion(d) < 70).forEach(d => attn.push({ p: 3, cls: '', ico: '📉', title: `${d.name} is behind`, desc: `${_districtCompletion(d)}% complete · due ${_DEMO.due}`, act: `<button class="secondary" onclick="openDistrictDrawer('${d.id}')">Open</button>` }));
+  // Approved guides live behind the top-bar inbox icon (progressive disclosure) — not in this feed, which stays genuine people/district actions.
   attn.sort((a, b) => a.p - b.p);
   h += `<section class="cmd-card"><div class="cmd-head"><h3>Needs your attention</h3><span class="cmd-pill">${attn.length}</span></div><div class="attn-list">`;
   h += attn.map(a => `<div class="attn-row ${a.cls}"><span class="attn-ico">${a.ico}</span><div class="attn-bd"><div class="attn-title">${escapeHtml(a.title)}</div><div class="attn-desc">${escapeHtml(a.desc)}</div></div>${a.act}</div>`).join('') || '<div class="attn-empty">All clear — nothing needs you right now.</div>';
   h += '</div></section>';
-  // My projects — compact, scannable rows
+  h += '</div><aside class="cmd-side">';
+  // My projects — compact rows; click opens a detail DRAWER (stay on Home). Top-right so it's above the fold.
   h += `<section class="cmd-card"><div class="cmd-head"><h3>My projects</h3><span class="cmd-sub">${mine.length} districts</span></div><div class="proj-rows">`;
   h += mine.map(d => {
     const comp = _districtCompletion(d), flagged = d.help_request && !_demoState.helpCleared[d.id];
     const st = flagged ? 'Needs help' : (comp >= 70 ? 'On track' : 'Behind'), stc = flagged ? 'needs-help' : (comp >= 70 ? 'ok' : 'behind');
-    return `<div class="proj-row" role="button" tabindex="0" onclick="openDistrictInManage('${d.id}')"><span class="pr-name">${escapeHtml(d.name)}${flagged ? ' 🖐' : ''}</span><span class="pr-meta">${_DEMO.tracks.length} tracks · ${d.learners.length} learners · ${escapeHtml(d.last)}</span><span class="r-prog pr-prog"><span class="r-bar"><span style="width:${comp}%"></span></span>${comp}%</span><span class="chip ${stc}">${st}</span></div>`;
+    return `<div class="proj-row" role="button" tabindex="0" onclick="openDistrictDrawer('${d.id}')"><span class="pr-name">${escapeHtml(d.name)}${flagged ? ' 🖐' : ''}</span><span class="pr-meta">${_DEMO.tracks.length} tracks · ${d.learners.length} learners · ${escapeHtml(d.last)}</span><span class="r-prog pr-prog"><span class="r-bar"><span style="width:${comp}%"></span></span>${comp}%</span><span class="chip ${stc}">${st}</span></div>`;
   }).join('') + '</div></section>';
-  h += '</div><aside class="cmd-side">';
   // My day — personal to-do list with times (add / check / delete)
   h += `<section class="cmd-card"><div class="cmd-head"><h3>My day</h3><span class="cmd-sub">Today</span></div>
     <div class="todo-add"><input id="todo-time" type="time" value="09:00" class="todo-in todo-time-in" aria-label="Task time"><input id="todo-text" type="text" class="todo-in todo-text-in" placeholder="Add a task…" autocomplete="off" onkeydown="if(event.key==='Enter')addTodo()"><button class="secondary" onclick="addTodo()">Add</button></div>
     <ul id="todo-list" class="todo-list"></ul></section>`;
-  // Approvals feed — compact
-  h += `<section class="cmd-card"><div class="cmd-head"><h3>Approved by PM team</h3><span class="cmd-pill">${_DEMO.inbox.length}</span></div><div class="inbox-mini">`;
-  h += _DEMO.inbox.map((it, i) => `<div class="inbox-mini-row"><div class="imr-bd"><div class="imr-title">${escapeHtml(it.title)}</div><div class="imr-meta">${escapeHtml(it.module)} · ${escapeHtml(it.date)}</div></div><button class="secondary" onclick="inboxCatalog(${i})">Catalog</button></div>`).join('') + '</div></section>';
   h += '</aside></div>';
   body.innerHTML = h;
   renderTodos();
@@ -2507,6 +2541,39 @@ function addTodo(){
 }
 function toggleTodo(id){ _initTodos(); const t = _demoState.todos.find(x => x.id === id); if (t) t.done = !t.done; renderTodos(); }
 function removeTodo(id){ _initTodos(); _demoState.todos = _demoState.todos.filter(x => x.id !== id); renderTodos(); }
+// ── Side drawers (research: keep context for detail/tertiary content; dim overlay; dismiss via overlay / ✕ / Esc) ──
+function openDrawer(title, html){
+  const d = document.getElementById('app-drawer'), o = document.getElementById('drawer-overlay');
+  if (!d || !o) return;
+  document.getElementById('drawer-title').textContent = title;
+  document.getElementById('drawer-body').innerHTML = html;
+  o.hidden = false; d.hidden = false; d.setAttribute('aria-hidden', 'false');
+  requestAnimationFrame(() => d.classList.add('open'));
+}
+function closeDrawer(){
+  const d = document.getElementById('app-drawer'), o = document.getElementById('drawer-overlay');
+  if (!d || d.hidden) return;
+  d.classList.remove('open'); d.setAttribute('aria-hidden', 'true');
+  setTimeout(() => { d.hidden = true; if (o) o.hidden = true; }, 240);
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
+function openInboxDrawer(){
+  const rows = _DEMO.inbox.map((it, i) => `<div class="dr-inbox-row"><div class="dr-inbox-bd"><div class="dr-inbox-title">${escapeHtml(it.title)}</div><div class="dr-inbox-meta">${escapeHtml(it.module)} · approved ${escapeHtml(it.date)}</div></div><div class="dr-inbox-act"><button class="secondary" onclick="inboxView(${i})">View</button><button class="secondary" onclick="inboxCatalog(${i}); closeDrawer()">Catalog</button></div></div>`).join('');
+  openDrawer(`Approved by PM team · ${_DEMO.inbox.length}`, `<p class="dr-intro">New guides the PM team approved — safe to assign or add to a track.</p>${rows}`);
+}
+function openDistrictDrawer(id){
+  const d = _DEMO.districts.find(x => x.id === id); if (!d) return;
+  _curISD = id;
+  const comp = _districtCompletion(d), flagged = d.help_request && !_demoState.helpCleared[id];
+  const st = flagged ? 'Needs help' : (comp >= 70 ? 'On track' : 'Behind'), stc = flagged ? 'needs-help' : (comp >= 70 ? 'ok' : 'behind');
+  let html = `<div class="dr-sub"><span class="chip ${stc}">${st}</span> ${comp}% complete · ${d.learners.length} learners · ${d.logins30} logins (30d) · ${escapeHtml(d.last)}</div>`;
+  if (flagged) html += `<div class="home-help-msg"><span class="help-quote">&ldquo;${escapeHtml(d.help_msg)}&rdquo;</span> <button class="secondary" onclick="respondHelp('${id}'); closeDrawer()">Respond</button></div>`;
+  html += `<h4 class="dr-h">Completion by track</h4>`;
+  html += _DEMO.tracks.map(t => { const tc = _trackCompletionForDistrict(d, t.id); return `<div class="dr-track-row"><span>${escapeHtml(t.title)}</span><span class="r-prog"><span class="r-bar"><span style="width:${tc == null ? 0 : tc}%"></span></span>${tc == null ? '—' : tc + '%'}</span></div>`; }).join('');
+  html += `<h4 class="dr-h">Sites</h4><div class="dr-sites">${d.sites.map(s => `<span class="dr-site">${escapeHtml(s)}</span>`).join('')}</div>`;
+  html += `<div class="dr-actions"><button class="primary" onclick="openDistrictInManage('${id}'); closeDrawer()">View full roster →</button></div>`;
+  openDrawer(d.name, html);
+}
 function showHelpPanel(id){ const d = _DEMO.districts.find(x => x.id === id); if (d) alert('🖐 ' + d.name + ' raised a hand:\n\n“' + d.help_msg + '”'); }
 function respondHelp(id){ _demoState.helpCleared[id] = true; const d = _DEMO.districts.find(x => x.id === id); alert('Reply sent to ' + (d ? d.name : 'district') + '.'); renderHome(); const av = (document.querySelector('.view.active') || {}).id; if (av === 'view-manage' && typeof renderManage === 'function') renderManage(); }
 function inboxView(i){ const ids = _demoState.approvedRids || []; if (ids.length) window.open('/resources/' + encodeURIComponent(ids[i % ids.length]) + '/pdf', '_blank'); else alert('Opening “' + _DEMO.inbox[i].title + '” (demo).'); }
