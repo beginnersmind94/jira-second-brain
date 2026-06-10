@@ -4,7 +4,7 @@
     {
       "name": "learning-studio",
       "runtimeExecutable": "C:\\Users\\rahul.mehta\\Downloads\\Financials-Documentation-KT\\learning-agent\\.venv\\Scripts\\python.exe",
-      "runtimeArgs": ["C:\\Users\\rahul.mehta\\Downloads\\Financials-Documentation-KT\\learning-agent\\demo_app.py"],
+      "runtimeArgs": ["C:\\Users\\rahul.mehta\\Downloads\\Financials-Documentation-KT\\jira-brain\\learning-agent\\demo_app.py"],
       "port": 8001
     }
   ]

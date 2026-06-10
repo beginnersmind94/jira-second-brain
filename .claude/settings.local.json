@@ -210,7 +210,10 @@
       "WebFetch(domain:www.schoolcafe.com)",
       "mcp__Claude_in_Chrome__browser_batch",
       "mcp__Claude_in_Chrome__read_console_messages",
-      "mcp__Claude_in_Chrome__navigate"
+      "mcp__Claude_in_Chrome__navigate",
+      "mcp__Claude_in_Chrome__get_page_text",
+      "mcp__Claude_in_Chrome__resize_window",
+      "mcp__Claude_in_Chrome__find"
     ]
   }
 }
