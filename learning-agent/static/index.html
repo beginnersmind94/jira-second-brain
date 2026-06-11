@@ -2339,7 +2339,7 @@
   <div class="am-body">
     <label class="tb-l">Content</label><select id="asn-content" class="tb-in"></select>
     <label class="tb-l">Assign to</label>
-    <select id="asn-audtype" class="tb-in" onchange="asnAudChange()"><option value="org">Entire organization</option><option value="role">By role</option><option value="site">By site</option><option value="district">By district</option><option value="people">Specific people</option></select>
+    <select id="asn-audtype" class="tb-in" onchange="asnAudChange()"><option value="role">By role</option><option value="site">By site</option><option value="org">Entire district</option><option value="people">Specific people</option></select>
     <div id="asn-audpick"></div>
     <label class="tb-l">Due date</label><input id="asn-due" type="date" class="tb-in">
     <label class="am-row" style="margin-top:8px;"><input type="checkbox" id="asn-dyn"> Dynamic — 7 days from when each learner joins</label>
@@ -6267,8 +6267,8 @@ function _initAssignments(){
 function _dueIsPast(due){ const M={Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11}; const p=(due||'').split(' '); const m=M[p[0]], d=+p[1]; if(m==null||!d) return false; return m<5 || (m===5 && d<10); }   // today = Jun 10
 function _fmtDue(iso){ if(!iso) return ''; const M=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; const p=iso.split('-'); return (M[(+p[1])-1]||'')+' '+(+p[2]); }
 function _asnContent(a){ if(a.contentId && String(a.contentId).startsWith('real:')){ const id=a.contentId.slice(5); const rt=(_asnRealTracks||[]).find(x=>x.id===id); return {title: rt?rt.title:'Published track', type:'Track'}; } const t=_allDemoTracks().find(x=>x.id===a.contentId); if(t) return {title:t.title, type:'Track'}; const c=_courseById(a.contentId); return c?{title:c.title,type:'Course'}:{title:a.contentId,type:''}; }
-function _asnAudLabel(a){ const arr=Array.isArray(a.audVal)?a.audVal:[a.audVal]; if(a.audType==='org') return 'Entire organization'; if(a.audType==='role') return a.audVal+'s'; if(a.audType==='site') return arr.length>1?arr.length+' sites':arr[0]; if(a.audType==='district'){ const names=arr.map(id=>{const d=_unifiedDistricts().find(x=>x.id===id);return d?d.name:id;}); return names.length>1?names.length+' districts':names[0]; } if(a.audType==='people') return (a.audVal||0)+' people'; return a.audVal||''; }
-function _asnCount(a){ const ds=_unifiedDistricts(); const vals=Array.isArray(a.audVal)?a.audVal:[a.audVal]; if(a.audType==='org') return ds.reduce((s,d)=>s+_districtPeople(d),0); if(a.audType==='role') return ds.reduce((s,d)=>s+d.learners.filter(l=>l.role===a.audVal).length,0); if(a.audType==='site') return ds.reduce((s,d)=>s+d.learners.filter(l=>vals.includes(l.site)).length,0); if(a.audType==='district') return ds.filter(d=>vals.includes(d.id)).reduce((s,d)=>s+_districtPeople(d),0); if(a.audType==='people') return +a.audVal||0; return 0; }
+function _asnAudLabel(a){ const arr=Array.isArray(a.audVal)?a.audVal:[a.audVal]; if(a.audType==='org') return 'Entire district'; if(a.audType==='role') return a.audVal+'s'; if(a.audType==='site') return arr.length>1?arr.length+' sites':arr[0]; if(a.audType==='people') return (a.audVal||0)+' people'; return a.audVal||''; }
+function _asnCount(a){ const d=_curDistrict()||{}; const ls=d.learners||[]; const vals=Array.isArray(a.audVal)?a.audVal:[a.audVal]; if(a.audType==='org') return _districtPeople(d); if(a.audType==='role') return ls.filter(l=>l.role===a.audVal).length; if(a.audType==='site') return ls.filter(l=>vals.includes(l.site)).length; if(a.audType==='people') return +a.audVal||0; return 0; }
 // Does assignment `a` apply to district `d`? (for the per-district "Assigned training" list)
 function _asnAppliesTo(a, d){ const vals=Array.isArray(a.audVal)?a.audVal:[a.audVal]; if(a.audType==='org') return true; if(a.audType==='district') return vals.includes(d.id); if(a.audType==='role') return (d.learners||[]).some(l=>l.role===a.audVal) || d.source==='created'; if(a.audType==='site') return (d.sites||[]).some(s=>vals.includes(s)); return false; }
 function renderAssignments(){
@@ -6289,24 +6289,26 @@ async function openAssignmentModal(preDistrictId){
       _asnRealTracks.map(t=>`<option value="real:${t.id}">Track · ${escapeHtml(t.title)} (published)</option>`).join('')
     + _allDemoTracks().map(t=>`<option value="${t.id}">Track · ${escapeHtml(t.title)}</option>`).join('')
     + _allDemoCourses().map(c=>`<option value="${c.id}">Course · ${escapeHtml(c.title)}</option>`).join('');
-  const at=document.getElementById('asn-audtype'); if(at) at.value = preDistrictId ? 'district' : 'role';
+  const at=document.getElementById('asn-audtype'); if(at) at.value = 'role';
   const du=document.getElementById('asn-due'); if(du) du.value='';
   const dy=document.getElementById('asn-dyn'); if(dy) dy.checked=false;
   const dp=document.getElementById('asn-drip'); if(dp) dp.checked=false;
   asnAudChange(preDistrictId);
   const ttl=document.querySelector('#asn-modal .am-head b');
-  if(ttl){ const d = preDistrictId && _unifiedDistricts().find(x=>x.id===preDistrictId); ttl.textContent = d ? ('Assign training — ' + d.name) : 'Assign training'; }
+  if(ttl){ const d = (preDistrictId && _unifiedDistricts().find(x=>x.id===preDistrictId)) || _curDistrict(); ttl.textContent = (d && d.name) ? ('Assign training — ' + d.name) : 'Assign training'; }
   document.getElementById('asn-modal').hidden=false;
 }
 function asnClose(){ const m=document.getElementById('asn-modal'); if(m) m.hidden=true; }
 function asnAudChange(preDistrictId){
   const t=(document.getElementById('asn-audtype')||{}).value, w=document.getElementById('asn-audpick'); if(!w) return;
-  const ds=_unifiedDistricts();
-  if(t==='role') w.innerHTML=`<select id="asn-audval" class="tb-in">${['Cashier','Site Manager','CN Director'].map(r=>`<option>${r}</option>`).join('')}</select>`;
-  else if(t==='site'){ const sites=[...new Set(ds.flatMap(d=>(d.sites||[]).filter(s=>typeof s==='string')))]; w.innerHTML=`<div class="asn-people">${sites.map((s,i)=>`<label class="am-row"><input type="checkbox" class="asn-multi" value="${escAttr(s)}" ${i<2?'checked':''}> ${escapeHtml(s)}</label>`).join('')}</div><p class="tb-note">Bulk across multiple sites.</p>`; }
-  else if(t==='district') w.innerHTML=`<div class="asn-people">${ds.map((d,i)=>`<label class="am-row"><input type="checkbox" class="asn-multi" value="${d.id}" ${(preDistrictId? d.id===preDistrictId : i<2)?'checked':''}> ${escapeHtml(d.name)}</label>`).join('')}</div><p class="tb-note">Pick one or more districts.</p>`;
-  else if(t==='people'){ const ls=(_curDistrict()||{learners:[]}).learners.slice(0,8); w.innerHTML=`<div class="asn-people">${ls.map((l,i)=>`<label class="am-row"><input type="checkbox" class="asn-person" ${i<3?'checked':''}> ${escapeHtml(l.name)} <span class="meta">${escapeHtml(l.role)}</span></label>`).join('')}</div>`; }
-  else w.innerHTML='<p class="tb-note">All learners across your districts.</p>';
+  // Single-district scope (V1): the customer IS the district. Every audience is WITHIN one district —
+  // the one passed in, or the currently-selected client. No cross-district / state hierarchy (that's V2).
+  const dist=(preDistrictId && _unifiedDistricts().find(d=>d.id===preDistrictId)) || _curDistrict() || {sites:[],learners:[]};
+  const dn=escapeHtml(dist.name||'this district');
+  if(t==='role') w.innerHTML=`<select id="asn-audval" class="tb-in">${['Cashier','Site Manager','CN Director'].map(r=>`<option>${r}</option>`).join('')}</select><p class="tb-note">Everyone in this role across all of ${dn}’s sites.</p>`;
+  else if(t==='site'){ const sites=(dist.sites||[]).filter(s=>typeof s==='string'); w.innerHTML = sites.length ? `<div class="asn-people">${sites.map((s,i)=>`<label class="am-row"><input type="checkbox" class="asn-multi" value="${escAttr(s)}" ${i<2?'checked':''}> ${escapeHtml(s)}</label>`).join('')}</div><p class="tb-note">Pick one or more sites in ${dn}.</p>` : `<p class="tb-note">No sites imported for ${dn} yet.</p>`; }
+  else if(t==='people'){ const ls=(dist.learners||[]).slice(0,8); w.innerHTML = ls.length ? `<div class="asn-people">${ls.map((l,i)=>`<label class="am-row"><input type="checkbox" class="asn-person" ${i<3?'checked':''}> ${escapeHtml(l.name)} <span class="meta">${escapeHtml(l.role)}</span></label>`).join('')}</div>` : `<p class="tb-note">No individual learners loaded for ${dn}.</p>`; }
+  else w.innerHTML=`<p class="tb-note">Everyone in ${dn}.</p>`;
 }
 async function asnSave(){
   _initAssignments();
@@ -6315,9 +6317,9 @@ async function asnSave(){
   const dyn=!!(document.getElementById('asn-dyn')||{}).checked;
   let audVal='';
   if(t==='people') audVal=String(document.querySelectorAll('.asn-person:checked').length);
-  else if(t==='site'||t==='district') audVal=[...document.querySelectorAll('.asn-multi:checked')].map(x=>x.value);
+  else if(t==='site') audVal=[...document.querySelectorAll('.asn-multi:checked')].map(x=>x.value);
   else if(t!=='org') audVal=(document.getElementById('asn-audval')||{}).value;
-  if((t==='site'||t==='district') && (!audVal || !audVal.length)){ alert('Pick at least one ' + (t==='site'?'site':'district') + '.'); return; }
+  if(t==='site' && (!audVal || !audVal.length)){ alert('Pick at least one site.'); return; }
   if(t==='people' && !(+audVal)){ alert('Pick at least one person.'); return; }
   const drip=!!(document.getElementById('asn-drip')||{}).checked;
   const isReal = content && content.startsWith('real:');
