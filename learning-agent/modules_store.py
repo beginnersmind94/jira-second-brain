@@ -178,6 +178,8 @@ def _load_icn_modules(icn_dir: Path) -> list[dict]:
             "duration_min": None,
             "status": "approved",
             "created_at": "",
+            # source_url lets the learner open the credited ICN reference (link-out, never reproduced).
+            "source_url": c.get("source_url") or a.get("source_url") or a.get("url") or "",
         })
     return out
 

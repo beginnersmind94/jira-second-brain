@@ -265,7 +265,8 @@ import quiz_store as _qs
 
 @app.get("/api/modules")
 async def api_list_modules(source: str = "", product: str = "", role: str = "", q: str = ""):
-    return _ms.list_modules(source=source, product=product, role=role, q=q)
+    # icn_dir wired in so ICN_DOC modules are real and addable to a track (Seam C).
+    return _ms.list_modules(source=source, product=product, role=role, q=q, icn_dir=_ICN_DIR)
 
 
 @app.get("/api/tracks")
@@ -289,7 +290,8 @@ async def api_get_track(tid: str):
     track = _ms.load_track(tid)
     if not track:
         raise HTTPException(404, "track not found")
-    return _ms.expand_track(track)
+    # icn_dir so ICN_DOC modules expand inside a track (learner sees the mixed track).
+    return _ms.expand_track(track, icn_dir=_ICN_DIR)
 
 
 @app.put("/api/tracks/{tid}/modules")

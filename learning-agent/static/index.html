@@ -4149,7 +4149,29 @@ function _userStudioItems(){
   const ts = (_demoState.userTracks || []).map(t => ({ title: t.title, module: '—', format: 'Track', status: 'Draft', created: 'Today', origin: 'Human-authored' }));
   return cs.concat(ts);
 }
-function loadLibraryDemo(){ renderLibraryDemo(); }
+// Studio worklist now reads the REAL backend: every resource (drafts + approved) from /resources
+// plus real published tracks. Falls back to the seeded set only if the fetch fails.
+let _realStudio = null;
+const _FMT_PRETTY = t => ({ 'long-form':'Long-form','micro':'Micro','micro-guide':'Micro','tldr':'TLDR','quick-guide':'Quick guide','quick guide':'Quick guide' })[String(t||'').toLowerCase()] || (t ? (t[0].toUpperCase()+t.slice(1)) : 'Guide');
+async function loadLibraryDemo(){
+  try {
+    const [rs, tr] = await Promise.all([
+      fetch('/resources').then(r=>r.json()),
+      fetch('/api/tracks').then(r=>r.json()),
+    ]);
+    const items = (rs||[]).map(r=>({
+      title: r.title || r.id, module: r.module || '',
+      format: r.template ? _FMT_PRETTY(r.template) : 'Guide',
+      status: inLibrary(r) ? 'Approved' : (r.status==='pending_sme_review' ? 'In review' : 'Draft'),
+      created: _fmtDate(r.created_at) || '', origin: r.origin==='internal' ? 'Human-authored' : 'AI-generated',
+    }));
+    const trks = (tr.tracks||[]).filter(t=>t.status==='published').map(t=>({
+      title:t.title, module:(t.role_tags||[])[0]||'All staff', format:'Track', status:'Approved', created:'', origin:'Human-authored',
+    }));
+    _realStudio = trks.concat(items);
+  } catch(e) { _realStudio = null; }
+  renderLibraryDemo();
+}
 let _libDemoItems = [];
 // Populate Module + Format option lists once, from the actual studio set (no invented values).
 function _libPopulateFilters(items){
@@ -4161,7 +4183,7 @@ function _libPopulateFilters(items){
 // awaiting item an explicit Review action. Approved items read as done.
 function renderLibraryDemo(){
   const grid = document.getElementById('lib-grid'); if (!grid) return; grid.removeAttribute('aria-busy');
-  const all = _DEMO.studio.concat(_userStudioItems());
+  const all = (_realStudio || _DEMO.studio).concat(_userStudioItems());
   _libPopulateFilters(all);
   const mod = (document.getElementById('lib-module') || {}).value || '';
   const fmt = (document.getElementById('lib-template') || {}).value || '';
@@ -4218,7 +4240,12 @@ function reviewDemoItem(idx){
     </div>`;
   if (typeof openLibDrawer === 'function') openLibDrawer();
 }
+// Catalog reads the REAL backend: approved modules (AI guides + Cybersoft guides + ICN/USDA)
+// and real published tracks. This also makes the hero's "Cybersoft + ICN/USDA" claim TRUE
+// (ICN is now wired in via /api/modules), not over-claimed. Falls back to seeded data on error.
+let _realCatalog = null;
 function _catalogItems(){
+  if (_realCatalog) return _realCatalog;
   const sa = _DEMO.studio.filter(i => i.status === 'Approved').map(i => ({ title: i.title, module: i.module, type: i.format === 'Quiz' ? 'Quiz' : i.format === 'Track' ? 'Track' : 'Guide', origin: i.origin }));
   const im = _DEMO.imported.map(i => ({ title: i.title, module: i.module, type: 'Guide', origin: i.origin }));
   const tr = _allDemoTracks().map(t => ({ title: t.title, module: t.role, type: 'Track', origin: 'Human-authored' }));
@@ -4226,7 +4253,20 @@ function _catalogItems(){
   const seen = {}, out = []; sa.concat(im, tr, qz).forEach(x => { if (!seen[x.title]) { seen[x.title] = 1; out.push(x); } });
   return out;
 }
-function loadCatalogDemo(){ renderCatalogDemo(); }
+async function loadCatalogDemo(){
+  try {
+    const [mr, tr] = await Promise.all([
+      fetch('/api/modules').then(r=>r.json()),
+      fetch('/api/tracks').then(r=>r.json()),
+    ]);
+    const srcOrigin = s => s==='ICN_DOC' ? 'Outside vendor' : s==='HUMAN_GUIDE' ? 'Human-authored' : 'AI-generated';
+    const mods = (mr.modules||[]).map(m=>({ title:m.title, module:m.module||'', type:'Guide', origin:srcOrigin(m.source) }));
+    const trks = (tr.tracks||[]).filter(t=>t.status==='published').map(t=>({ title:t.title, module:(t.role_tags||[])[0]||'All staff', type:'Track', origin:'Human-authored' }));
+    const seen={}, out=[]; trks.concat(mods).forEach(x=>{ if(!seen[x.title]){ seen[x.title]=1; out.push(x); } });
+    _realCatalog = out;
+  } catch(e) { _realCatalog = null; }
+  renderCatalogDemo();
+}
 let _catDemoItems = [];
 // Catalog card → detail/preview (reuses the shared app drawer). Turns a browse card into something
 // the user can inspect: what it is, how it's sourced, and what they can do with it.
@@ -5699,12 +5739,25 @@ function _seedLearnProgress() {
 }
 // _curTrack, _curCourse declared near the top (avoids TDZ at boot)
 
+// Real published tracks (from /api/tracks) the learner can actually see — built + assigned-by-role
+// in this session. role_tags drives visibility: a track tagged "Cashier" shows for a Cashier;
+// an untagged track shows for everyone (so a freshly built track is never invisible).
+let _realTracks = null;
+const _LEARN_ROLES = ['Cashier', 'Site Manager', 'CN Director'];
+function _learnRole() { return _demoState.learnRole || 'Cashier'; }
+function _realTracksForRole(role) {
+  return (_realTracks || []).filter(t => { const rt = t.role_tags || []; return rt.length === 0 || rt.includes(role); });
+}
 async function loadLearn() {
   _seedLearnProgress();
   renderLearnGrid();                                   // render immediately — cards don't need the fetch
   if (_demoState.approvedRids === null) {
     try { const rs = await (await fetch('/resources')).json(); _demoState.approvedRids = (rs || []).filter(inLibrary).map(r => r.id); } catch (e) { _demoState.approvedRids = []; }
   }
+  // Pull the REAL published tracks so a track built + assigned this session appears here (Seam B).
+  try { const d = await (await fetch('/api/tracks')).json(); _realTracks = (d.tracks || []).filter(t => t.status === 'published'); }
+  catch (e) { _realTracks = []; }
+  renderLearnGrid();
 }
 function renderLearnGrid() {
   _curTrack = null; _curCourse = null;
@@ -5712,7 +5765,31 @@ function renderLearnGrid() {
   document.getElementById('track-detail').hidden = true;
   document.getElementById('tracks-hero').hidden = false;
   grid.hidden = false;
-  grid.innerHTML = _allDemoTracks().map(t => {
+  const role = _learnRole();
+  const who = { 'Cashier': 'e.g. John Doe · ABC ISD', 'CN Director': 'e.g. Dana · ABC ISD', 'Site Manager': '' }[role] || '';
+  // "Viewing as" — the role decides which assigned tracks a learner sees (FR-LP-03/07).
+  const roleBar = `<div class="learn-rolebar" style="grid-column:1/-1;display:flex;align-items:center;gap:10px;margin:0 0 6px;">
+      <span style="font-size:12.5px;color:var(--muted);">Viewing as</span>
+      <select id="learn-role" class="tb-in" style="max-width:190px;" onchange="_demoState.learnRole=this.value;renderLearnGrid();">
+        ${_LEARN_ROLES.map(r => `<option ${r === role ? 'selected' : ''}>${r}</option>`).join('')}
+      </select>
+      ${who ? `<span style="font-size:12px;color:var(--muted);">${who}</span>` : ''}
+    </div>`;
+  // Real, published tracks assigned to this role — built live this session (Seam B).
+  const realCards = _realTracksForRole(role).map(t => {
+    const n = (t.module_ids || []).length, rt = t.role_tags || [];
+    return `<button class="track-card" onclick="openRealTrack('${t.id}')">
+      <div class="track-ava">★</div>
+      <div class="track-main">
+        <div class="track-role">${escapeHtml(rt[0] || 'All staff')} track <span class="src-badge src-badge--ai" style="margin-left:6px;">Assigned</span></div>
+        <div class="track-title">${escapeHtml(t.title)}</div>
+        <div class="track-meta"><span>${n} module${n === 1 ? '' : 's'}</span><span>·</span><span>Published</span></div>
+        <div class="track-prog"><div class="track-prog-bar" style="width:0%"></div></div>
+        <div class="track-prog-lbl">Not started</div>
+      </div></button>`;
+  }).join('');
+  // Seeded demo tracks for this role (kept so the grid is rich for every role).
+  const demoCards = _allDemoTracks().filter(t => t.role === role || t.role === 'All staff').map(t => {
     const cs = _trackCourses(t), pct = _trackPct(t);
     return `<button class="track-card" onclick="openTrack('${t.id}')">
       <div class="track-ava">${escapeHtml(t.instructor || 'T')}</div>
@@ -5724,6 +5801,58 @@ function renderLearnGrid() {
         <div class="track-prog-lbl">${pct}% complete</div>
       </div></button>`;
   }).join('');
+  grid.innerHTML = roleBar + realCards + demoCards;
+}
+// A REAL published track (built + assigned this session). Lists its mixed modules — AI-grounded
+// guide (opens its PDF), Cybersoft guide, and credited ICN/USDA reference (links out). Guides
+// offer a grounded quiz. This is the learner end of the build → assign → learn pipe.
+async function openRealTrack(tid) {
+  let t; try { t = await (await fetch('/api/tracks/' + encodeURIComponent(tid))).json(); } catch (e) { return; }
+  if (!t || t.error) return;
+  _curTrack = null; _curCourse = null;
+  const mods = t.modules || [], rt = t.role_tags || [];
+  const rows = mods.map((m, i) => {
+    const isGuide = m.source === 'AI_TRANSCRIPT' || m.source === 'HUMAN_GUIDE';
+    const open = m.source === 'ICN_DOC'
+      ? (m.source_url ? `<a class="track-open" href="${escapeHtml(m.source_url)}" target="_blank" rel="noopener noreferrer">Open reference ↗</a>` : '<span class="track-soon">Credited reference</span>')
+      : `<button class="track-open" onclick="event.stopPropagation(); window.open('/resources/' + encodeURIComponent('${m.id}') + '/pdf','_blank')">Open guide ↗</button>`;
+    const quiz = isGuide ? `<button class="track-open" onclick="event.stopPropagation(); realQuiz('${m.id}')">Take quiz</button>` : '';
+    return `<li class="path-mod" data-type="${m.source === 'ICN_DOC' ? 'demo' : 'pdf'}">
+        <span class="path-num">${i + 1}</span>
+        <div class="path-mod-main">
+          <div class="icn-type">📄 <span>${escapeHtml(m.module || '')}</span> ${tbSrcBadge(m.source)}</div>
+          <div class="path-mod-title">${escapeHtml(m.title)}</div>
+          <div class="path-mod-actions">${open}${quiz}</div>
+        </div></li>`;
+  }).join('');
+  document.getElementById('track-detail').innerHTML = `
+    <button class="path-back" onclick="renderLearnGrid()">← All tracks</button>
+    <header class="path-hero">
+      <p class="path-eyebrow">${escapeHtml(t.product || 'SchoolCafé')} · ${escapeHtml(rt[0] || 'All staff')} track</p>
+      <h1 class="path-title">${escapeHtml(t.title)}</h1>
+      <div class="path-stats"><span><b>${mods.length}</b>modules</span><span>✓ every claim cited</span></div>
+    </header>
+    <div class="path-layout">
+      <ol class="path-modules">${rows || '<li class="path-empty">No modules in this track yet.</li>'}</ol>
+      <aside class="path-aside"><h4>About this track</h4><p class="path-aside-note">Mixes approved AI-grounded guides, your Cybersoft guides, and credited ICN / USDA references — assigned to the ${escapeHtml(rt[0] || 'staff')} role. ICN content links to its source; nothing here is reproduced or invented.</p></aside>
+    </div>`;
+  document.getElementById('tracks-hero').hidden = true;
+  document.getElementById('tracks-grid').hidden = true;
+  document.getElementById('track-detail').hidden = false;
+  window.scrollTo(0, 0);
+}
+// Grounded quiz from a real module/guide (same engine as the demo course quiz).
+async function realQuiz(rid) {
+  const m = document.getElementById('quiz-modal'), body = document.getElementById('quiz-body'), foot = document.getElementById('quiz-foot');
+  if (m) m.hidden = false;
+  if (body) body.innerHTML = '<div style="padding:22px; color:var(--muted);">Generating a grounded quiz…</div>';
+  if (foot) foot.innerHTML = '';
+  try {
+    const q = await (await fetch('/api/quizzes/generate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ source_type: 'resource', source_id: rid, n: 5 }) })).json();
+    openTaker(q.title || 'Knowledge check', (q && q.questions) || [], { attribution: q.source_label || '' });
+  } catch (e) {
+    if (body) body.innerHTML = '<div class="async-error"><p class="ae-title">Couldn’t generate the quiz</p><p>Please try again in a moment.</p></div>';
+  }
 }
 function openTrack(tid) {
   const t = _allDemoTracks().find(x => x.id === tid); if (!t) return;
@@ -6137,7 +6266,7 @@ function _initAssignments(){
 }
 function _dueIsPast(due){ const M={Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11}; const p=(due||'').split(' '); const m=M[p[0]], d=+p[1]; if(m==null||!d) return false; return m<5 || (m===5 && d<10); }   // today = Jun 10
 function _fmtDue(iso){ if(!iso) return ''; const M=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; const p=iso.split('-'); return (M[(+p[1])-1]||'')+' '+(+p[2]); }
-function _asnContent(a){ const t=_allDemoTracks().find(x=>x.id===a.contentId); if(t) return {title:t.title, type:'Track'}; const c=_courseById(a.contentId); return c?{title:c.title,type:'Course'}:{title:a.contentId,type:''}; }
+function _asnContent(a){ if(a.contentId && String(a.contentId).startsWith('real:')){ const id=a.contentId.slice(5); const rt=(_asnRealTracks||[]).find(x=>x.id===id); return {title: rt?rt.title:'Published track', type:'Track'}; } const t=_allDemoTracks().find(x=>x.id===a.contentId); if(t) return {title:t.title, type:'Track'}; const c=_courseById(a.contentId); return c?{title:c.title,type:'Course'}:{title:a.contentId,type:''}; }
 function _asnAudLabel(a){ const arr=Array.isArray(a.audVal)?a.audVal:[a.audVal]; if(a.audType==='org') return 'Entire organization'; if(a.audType==='role') return a.audVal+'s'; if(a.audType==='site') return arr.length>1?arr.length+' sites':arr[0]; if(a.audType==='district'){ const names=arr.map(id=>{const d=_unifiedDistricts().find(x=>x.id===id);return d?d.name:id;}); return names.length>1?names.length+' districts':names[0]; } if(a.audType==='people') return (a.audVal||0)+' people'; return a.audVal||''; }
 function _asnCount(a){ const ds=_unifiedDistricts(); const vals=Array.isArray(a.audVal)?a.audVal:[a.audVal]; if(a.audType==='org') return ds.reduce((s,d)=>s+_districtPeople(d),0); if(a.audType==='role') return ds.reduce((s,d)=>s+d.learners.filter(l=>l.role===a.audVal).length,0); if(a.audType==='site') return ds.reduce((s,d)=>s+d.learners.filter(l=>vals.includes(l.site)).length,0); if(a.audType==='district') return ds.filter(d=>vals.includes(d.id)).reduce((s,d)=>s+_districtPeople(d),0); if(a.audType==='people') return +a.audVal||0; return 0; }
 // Does assignment `a` apply to district `d`? (for the per-district "Assigned training" list)
@@ -6149,10 +6278,17 @@ function renderAssignments(){
 }
 // ONE assignment surface. Called with no arg from the portfolio header (cross-district) or with a
 // districtId from a district detail (pre-filtered to that district). Same modal, same model.
-function openAssignmentModal(preDistrictId){
+let _asnRealTracks = [];
+async function openAssignmentModal(preDistrictId){
   _initAssignments();
+  // Pull REAL published tracks so you can assign the one you just built (Seam A).
+  try { const d = await (await fetch('/api/tracks')).json(); _asnRealTracks = (d.tracks||[]).filter(t=>t.status==='published'); }
+  catch(e){ _asnRealTracks = []; }
   const sel=document.getElementById('asn-content');
-  if(sel) sel.innerHTML = _allDemoTracks().map(t=>`<option value="${t.id}">Track · ${escapeHtml(t.title)}</option>`).join('') + _allDemoCourses().map(c=>`<option value="${c.id}">Course · ${escapeHtml(c.title)}</option>`).join('');
+  if(sel) sel.innerHTML =
+      _asnRealTracks.map(t=>`<option value="real:${t.id}">Track · ${escapeHtml(t.title)} (published)</option>`).join('')
+    + _allDemoTracks().map(t=>`<option value="${t.id}">Track · ${escapeHtml(t.title)}</option>`).join('')
+    + _allDemoCourses().map(c=>`<option value="${c.id}">Course · ${escapeHtml(c.title)}</option>`).join('');
   const at=document.getElementById('asn-audtype'); if(at) at.value = preDistrictId ? 'district' : 'role';
   const du=document.getElementById('asn-due'); if(du) du.value='';
   const dy=document.getElementById('asn-dyn'); if(dy) dy.checked=false;
@@ -6172,7 +6308,7 @@ function asnAudChange(preDistrictId){
   else if(t==='people'){ const ls=(_curDistrict()||{learners:[]}).learners.slice(0,8); w.innerHTML=`<div class="asn-people">${ls.map((l,i)=>`<label class="am-row"><input type="checkbox" class="asn-person" ${i<3?'checked':''}> ${escapeHtml(l.name)} <span class="meta">${escapeHtml(l.role)}</span></label>`).join('')}</div>`; }
   else w.innerHTML='<p class="tb-note">All learners across your districts.</p>';
 }
-function asnSave(){
+async function asnSave(){
   _initAssignments();
   const content=(document.getElementById('asn-content')||{}).value;
   const t=(document.getElementById('asn-audtype')||{}).value;
@@ -6184,13 +6320,24 @@ function asnSave(){
   if((t==='site'||t==='district') && (!audVal || !audVal.length)){ alert('Pick at least one ' + (t==='site'?'site':'district') + '.'); return; }
   if(t==='people' && !(+audVal)){ alert('Pick at least one person.'); return; }
   const drip=!!(document.getElementById('asn-drip')||{}).checked;
-  const ct=_allDemoTracks().some(x=>x.id===content)?'track':'course';
+  const isReal = content && content.startsWith('real:');
+  const ct = (isReal || _allDemoTracks().some(x=>x.id===content)) ? 'track' : 'course';
+  // Real track → PERSIST the assignment as the track's role_tags (what the learner view reads). Seam A→B.
+  if(isReal){
+    const tid=content.slice(5);
+    const tags = t==='role' ? [(document.getElementById('asn-audval')||{}).value] : [];   // non-role audience → visible to all
+    try{ const r=await fetch('/api/tracks/'+encodeURIComponent(tid),{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({role_tags:tags})}); if(!r.ok) throw new Error('HTTP '+r.status); _realTracks=null; }
+    catch(e){ alert('Could not save the assignment: '+e.message); return; }
+  }
   const due = dyn ? '7 days from join' : (_fmtDue((document.getElementById('asn-due')||{}).value) || _DEMO.due);
   _demoState.assignments.unshift({ id:++_demoState.asnSeq, contentType:ct, contentId:content, audType:t, audVal, due, created:'Today', dyn, drip });
   asnClose();
   const _av=(document.querySelector('.view.active')||{}).id;
   if(_av==='view-district') loadDistrict(); else if(_av==='view-myteam') renderMyTeam(); else renderManage();
-  alert('Assignment created — ' + _asnCount(_demoState.assignments[0]) + ' learners enrolled.');
+  const n=_asnCount(_demoState.assignments[0]);
+  alert(isReal && t==='role'
+    ? `Assigned to all ${audVal}s — they’ll see it in their Learn tab (${n} learner${n===1?'':'s'}).`
+    : 'Assignment created — ' + n + ' learners enrolled.');
 }
 function doLogin() { const m = document.getElementById('login-modal'); if (m) m.hidden = true; try { sessionStorage.setItem('ls_demo_login', '1'); } catch (e) {} _demoISDInit(); /* prime the district switcher from the unified list (not the legacy /api/roster ghosts) */ /* If a Projects-flow URL hash is present, take the user there after sign-in (so Ctrl-R survives). */ if (typeof _restoreFromHash === 'function') _restoreFromHash(); }
 document.addEventListener('click', e => {
