@@ -1,0 +1,61 @@
+employee_id,full_name,email,role,site_name
+E1001,Maria Garcia,maria.garcia@demoisd.org,CN Director,Hamilton High School
+E1002,James Nguyen,james.nguyen@demoisd.org,CN Director,Hamilton High School
+E1003,Aisha Brown,aisha.brown@demoisd.org,CN Director,Hamilton High School
+E1004,Carlos Davis,carlos.davis@demoisd.org,Site Manager,Lincoln Elementary
+E1005,Linda Wilson,linda.wilson@demoisd.org,Site Manager,Roosevelt Elementary
+E1006,Wei Okafor,wei.okafor@demoisd.org,Site Manager,Jefferson Middle School
+E1007,Diego Flores,diego.flores@demoisd.org,Site Manager,Madison Middle School
+E1008,Sarah Young,sarah.young@demoisd.org,Site Manager,Hamilton High School
+E1009,Robert Hernandez,robert.hernandez@demoisd.org,Site Manager,Hamilton High School
+E1010,Priya Mitchell,priya.mitchell@demoisd.org,Site Manager,Franklin High School
+E1011,Kenji Perez,kenji.perez@demoisd.org,Site Manager,Adams K-8 Academy
+E1012,Grace Ali,grace.ali@demoisd.org,Site Manager,Carver Early Learning Center
+E1013,Marcus Adams,marcus.adams@demoisd.org,Cashier,Lincoln Elementary
+E1014,Elena Bailey,elena.bailey@demoisd.org,Cashier,Lincoln Elementary
+E1015,Tyler Bennett,tyler.bennett@demoisd.org,Cashier,Lincoln Elementary
+E1016,Fatima Brooks,fatima.brooks@demoisd.org,Cashier,Lincoln Elementary
+E1017,Rosa Russell,rosa.russell@demoisd.org,Cashier,Roosevelt Elementary
+E1018,Andre Romero,andre.romero@demoisd.org,Cashier,Roosevelt Elementary
+E1019,Nia Long,nia.long@demoisd.org,Cashier,Roosevelt Elementary
+E1020,Hector Stone,hector.stone@demoisd.org,Cashier,Roosevelt Elementary
+E1021,Joy Garcia,joy.garcia@demoisd.org,Cashier,Jefferson Middle School
+E1022,Samuel Nguyen,samuel.nguyen@demoisd.org,Cashier,Jefferson Middle School
+E1023,Lucia Brown,lucia.brown@demoisd.org,Cashier,Jefferson Middle School
+E1024,Omar Davis,omar.davis@demoisd.org,Cashier,Jefferson Middle School
+E1025,Beth Wilson,beth.wilson@demoisd.org,Cashier,Jefferson Middle School
+E1026,Trang Okafor,trang.okafor@demoisd.org,Cashier,Madison Middle School
+E1027,Carl Flores,carl.flores@demoisd.org,Cashier,Madison Middle School
+E1028,Imani Young,imani.young@demoisd.org,Cashier,Madison Middle School
+E1029,Naomi Hernandez,naomi.hernandez@demoisd.org,Cashier,Madison Middle School
+E1030,Liam Mitchell,liam.mitchell@demoisd.org,Cashier,Madison Middle School
+E1031,Sofia Perez,sofia.perez@demoisd.org,Cashier,Hamilton High School
+E1032,Eli Ali,eli.ali@demoisd.org,Cashier,Hamilton High School
+E1033,Maya Adams,maya.adams@demoisd.org,Cashier,Hamilton High School
+E1034,Jorge Bailey,jorge.bailey@demoisd.org,Cashier,Hamilton High School
+E1035,Hannah Bennett,hannah.bennett@demoisd.org,Cashier,Hamilton High School
+E1036,Vikram Brooks,vikram.brooks@demoisd.org,Cashier,Hamilton High School
+E1037,Adaeze Russell,adaeze.russell@demoisd.org,Cashier,Hamilton High School
+E1038,Cole Romero,cole.romero@demoisd.org,Cashier,Hamilton High School
+E1039,Mei Long,mei.long@demoisd.org,Cashier,Hamilton High School
+E1040,Yara Stone,yara.stone@demoisd.org,Cashier,Franklin High School
+E1041,Brandon Garcia,brandon.garcia@demoisd.org,Cashier,Franklin High School
+E1042,Theo Nguyen,theo.nguyen@demoisd.org,Cashier,Franklin High School
+E1043,Renee Brown,renee.brown@demoisd.org,Cashier,Franklin High School
+E1044,Kofi Davis,kofi.davis@demoisd.org,Cashier,Franklin High School
+E1045,Sabrina Wilson,sabrina.wilson@demoisd.org,Cashier,Franklin High School
+E1046,Daniel Okafor,daniel.okafor@demoisd.org,Cashier,Franklin High School
+E1047,Mira Flores,mira.flores@demoisd.org,Cashier,Franklin High School
+E1048,Connor Young,connor.young@demoisd.org,Cashier,Adams K-8 Academy
+E1049,Olive Hernandez,olive.hernandez@demoisd.org,Cashier,Adams K-8 Academy
+E1050,Aaron Mitchell,aaron.mitchell@demoisd.org,Cashier,Adams K-8 Academy
+E1051,Riya Perez,riya.perez@demoisd.org,Cashier,Adams K-8 Academy
+E1052,Chen Ali,chen.ali@demoisd.org,Cashier,Adams K-8 Academy
+E1053,Esther Adams,esther.adams@demoisd.org,Cashier,Adams K-8 Academy
+E1054,Hugo Bailey,hugo.bailey@demoisd.org,Cashier,Adams K-8 Academy
+E1055,Ines Bennett,ines.bennett@demoisd.org,Cashier,Carver Early Learning Center
+E1056,Felix Brooks,felix.brooks@demoisd.org,Cashier,Carver Early Learning Center
+E1057,Lila Russell,lila.russell@demoisd.org,Cashier,Carver Early Learning Center
+E1058,Owen Romero,owen.romero@demoisd.org,Cashier,Carver Early Learning Center
+E1059,Ada Long,ada.long@demoisd.org,Cashier,Carver Early Learning Center
+E1060,Jonah Stone,jonah.stone@demoisd.org,Cashier,Carver Early Learning Center

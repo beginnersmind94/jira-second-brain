@@ -58,6 +58,17 @@ draft can't be reviewed until every citation is verbatim and correctly-tiered); 
 **human approval** is the floor INTO the Library. Unapproved drafts never appear in
 the Library — they live in its "Awaiting review" queue. See "Review & approve" below.
 
+**Grounding source (Create form toggle).** Every claim is verbatim-cited, but you
+choose what it's cited *to*:
+- **Jira tickets** (default) — claims cite live NXT tickets at their trust tier
+  (AC > RN > Description). Requires a captured module fixture.
+- **Transcript only** — claims cite **verbatim spans of the uploaded transcript**
+  (`[[TRANSCRIPT:T####]] "the SME's words"`), no Jira. Same grounding-by-construction
+  guarantee (the gate re-verifies each quote against the transcript). For the
+  navigation/procedure an SME demos live that Jira — behavior-only — never records,
+  and for modules with no fixture. The module field then accepts any label
+  (e.g. **Financials**) since no fixture is needed.
+
 ## Review & approve (human-in-the-loop)
 
 After a draft passes the grounding gate, a human reviews it and either approves it
@@ -128,10 +139,34 @@ python -m uvicorn app:app --host 127.0.0.1 --port 8000
 
 # 6b. For the offline demo WITH the review/approve + AI-edit UI, run the demo
 #     server instead (pre-cached Jira fixtures, no network, port 8001):
-#         python -m uvicorn demo_app:app --host 127.0.0.1 --port 8001
+#         python demo_app.py
+#     ^ On Windows you MUST launch the demo server this way (NOT
+#       `python -m uvicorn demo_app:app`). See "Windows: event loop" below —
+#       the wrong launcher silently breaks all generation with a misleading
+#       "Claude Code not found" error.
 
 # 7. Open http://127.0.0.1:8000/ (or :8001 for the demo) in Chrome
 ```
+
+> **⚠️ Windows: event loop (READ THIS — it will save you an hour).**
+> The Claude Agent SDK spawns the `claude` CLI as a **subprocess**. On Windows
+> that requires asyncio's **`ProactorEventLoop`**; the **`SelectorEventLoop`
+> cannot spawn subprocesses**. uvicorn can land on Selector, and when it does,
+> *every* generation fails with the misleading error
+> `planning failed: Claude Code not found at: ...\_bundled\claude.exe`
+> — even though `claude.exe` exists and runs fine from a terminal.
+>
+> `demo_app.py`'s `__main__` forces `WindowsProactorEventLoopPolicy()` and runs
+> the server via `asyncio.run(uvicorn.Server(config).serve())`, so **always start
+> it with `python demo_app.py`**. To check the live loop, hit any endpoint and
+> log `type(asyncio.get_running_loop()).__name__` — it must say `ProactorEventLoop`.
+>
+> **Corollary — never inline large text into `system_prompt`.** The SDK passes
+> `system_prompt` as a CLI argument (`--system-prompt <text>`), which is bounded
+> by Windows' ~32 KB command-line limit. Inlining a full transcript/ticket dump
+> there makes `CreateProcess` fail with the *same* "not found" error. Put large
+> content in the **user prompt** (delivered over stdin — no length limit) and keep
+> the system prompt small.
 
 ## .env configuration
 
@@ -282,7 +317,9 @@ below), and this section documents that enforcement.
 | `401 Invalid authentication credentials` | Claude Code is not logged in, or a stale API key/token is taking precedence | Run `/login` in Claude Code for local use, or set a fresh `CLAUDE_CODE_OAUTH_TOKEN` from `claude setup-token` for scripts/CI |
 | `match_tickets` returns "No tickets matched" for everything | Phrase is too specific | Use 2-4 word queries: "Income Survey wizard", not "Income Survey wizard with 7 steps" |
 | Agent uses `Read` / `Glob` / `Bash` mid-run | `disallowed_tools` regression | Verify `agent_sdk.py:build_options()` still passes `tools=[]` + `disallowed_tools=[...]` |
-| Server fails to bind on port 8000 | Orphan uvicorn from previous run | `netstat -ano \| findstr :8000`, then `Stop-Process -Id <pid> -Force` |
+| Server fails to bind on port 8000/8001 | Orphan uvicorn from previous run still holds the port (and silently serves OLD code) | `netstat -ano \| findstr :8001`, then `Stop-Process -Id <pid> -Force` (from git-bash, `taskkill //PID` gets mangled — use PowerShell `Stop-Process`) |
+| `planning failed: Claude Code not found at: ...\_bundled\claude.exe` (but `claude.exe` runs fine directly) | Server is on Windows `SelectorEventLoop`, which can't spawn subprocesses | Launch the demo with `python demo_app.py` (forces `ProactorEventLoop`), NOT `python -m uvicorn demo_app:app`. See "Windows: event loop" above |
+| Same "Claude Code not found" error, but only for one specific generation path | Large text inlined into `system_prompt` (passed as a CLI arg) exceeds Windows' ~32 KB command-line limit | Move the large content (transcript spans, ticket dumps) into the **user prompt** (stdin); keep `system_prompt` small |
 | Draft HTML starts with planning preamble instead of `<h1>` | Server-side strip in `app.py:_stream_generation` not running | Confirm the `re.search(r"<h[1-2]\b", ...)` block is in `app.py` |
 | Evaluator says "Could not parse evaluator output as JSON" | Model emitted prose around the JSON | Re-run; if recurring, tighten `evaluator_sdk.py:EVALUATOR_PROMPT` |
 

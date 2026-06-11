@@ -24,6 +24,23 @@ from pathlib import Path
 
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
+# Self-heal: the Claude Agent SDK spawns the `claude` CLI from PATH. When this server
+# is launched from a shell whose PATH lacks the CLI dir (common when an agent/tool
+# relaunches it rather than your terminal), spawning fails with FileNotFoundError even
+# though the binary exists. Ensure the CLI dir is on PATH at import — no-op if already
+# resolvable. (Windows: ~/.local/bin and the Claude Desktop claude-code install.)
+import os as _os, shutil as _shutil
+if not (_shutil.which("claude") or _shutil.which("claude.exe")):
+    import glob as _glob
+    _cands = [_os.path.expanduser(r"~\.local\bin"), _os.path.expanduser("~/.local/bin")]
+    _appdata = _os.environ.get("APPDATA")
+    if _appdata:
+        _cands += sorted(_glob.glob(_os.path.join(_appdata, "Claude", "claude-code", "*")), reverse=True)
+    for _d in _cands:
+        if _os.path.isfile(_os.path.join(_d, "claude.exe")) or _os.path.isfile(_os.path.join(_d, "claude")):
+            _os.environ["PATH"] = _d + _os.pathsep + _os.environ.get("PATH", "")
+            break
+
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Query, UploadFile
 from fastapi.responses import FileResponse, HTMLResponse, JSONResponse
@@ -184,16 +201,30 @@ async def upload_transcript(file: UploadFile, module: str | None = None):
     if not file.filename:
         raise HTTPException(400, "filename missing")
     suffix = Path(file.filename).suffix.lower()
-    if suffix not in (".md", ".txt"):
-        raise HTTPException(400, "only .md and .txt accepted in V1")
+    if suffix not in (".md", ".txt", ".pdf"):
+        raise HTTPException(400, "only .md, .txt, and .pdf accepted")
     if module and module not in VALID_MODULES:
         raise HTTPException(400, f"unknown module: {module}")
 
     body = await file.read()
-    try:
-        text = body.decode("utf-8")
-    except UnicodeDecodeError:
-        text = body.decode("utf-8", errors="replace")
+    pdf_warnings: list[str] = []
+    converted_from_pdf = False
+    if suffix == ".pdf":
+        # Intermediate step: convert the PDF to markdown for our pipeline. Word-export-fast
+        # (<30s), pitfall-aware (reuses guide_text_cleanup); stored as .md like any upload.
+        import pdf_to_md
+        try:
+            res = pdf_to_md.convert(body, title=Path(file.filename).stem)
+        except pdf_to_md.PdfConversionError as e:
+            raise HTTPException(422, str(e))
+        text = res["markdown"]
+        pdf_warnings = res["warnings"]
+        converted_from_pdf = True
+    else:
+        try:
+            text = body.decode("utf-8")
+        except UnicodeDecodeError:
+            text = body.decode("utf-8", errors="replace")
 
     transcript_id = f"{_now_id()}-{_slug(module or 'unscoped')}-{_slug(file.filename)}"
     transcript_path = TRANSCRIPTS / f"{transcript_id}.md"
@@ -206,6 +237,8 @@ async def upload_transcript(file: UploadFile, module: str | None = None):
         "uploaded_at": datetime.now().isoformat(timespec="seconds"),
         "char_count": len(text),
         "path": str(transcript_path.relative_to(BASE)),
+        "converted_from_pdf": converted_from_pdf,
+        "pdf_warnings": pdf_warnings,
     }
     (TRANSCRIPT_META / f"{transcript_id}.json").write_text(
         json.dumps(meta, indent=2), encoding="utf-8"

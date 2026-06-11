@@ -1,0 +1,157 @@
+{
+  "pos_cashier_basics": {
+    "display_name": "POS Cashier Basics",
+    "target_role": "cashier",
+    "suggested_modules": [
+      {
+        "module_title": "What Happens at Point of Service",
+        "asset_ids": [
+          "msde-school-nutrition-training-point-of-service-duty"
+        ],
+        "mockup_use": "Intro card, embed-only video metadata, and short scenario launch point",
+        "content_gap": "Need PrimeroEdge-specific POS screenshots and district-specific serving workflows."
+      },
+      {
+        "module_title": "Meal or No Meal?",
+        "asset_ids": [
+          "msde-school-nutrition-training-point-of-service-duty",
+          "icn-sodium-reduction-vilt-series-identifying-low-sodium-food-products-and-menu-planning-str-127831-identifying-low-sodium-f",
+          "icn-sodium-reduction-vilt-series-identifying-low-sodium-food-products-and-menu-planning-str-127830-identifying-low-sodium-f",
+          "icn-planning-reimbursable-school-meals-planning-reimbursable-school-meals-for-menu-planners-participant-workbook",
+          "icn-planning-reimbursable-school-meals-planning-reimbursable-school-meals-for-menu-planners-instructor-manual"
+        ],
+        "mockup_use": "Scenario cards with reimbursable meal decisions",
+        "content_gap": "Need tray photos or synthetic tray examples aligned to PrimeroEdge UI choices."
+      }
+    ]
+  },
+  "cafeteria_manager_food_safety": {
+    "display_name": "Cafeteria Manager Food Safety Refresher",
+    "target_role": "cafeteria_manager",
+    "suggested_modules": [
+      {
+        "module_title": "Food Safety Program Overview",
+        "asset_ids": [
+          "icn-food-safety-in-schools-pre-post-assessment-answer-key",
+          "icn-food-safety-in-schools-pre-assessment",
+          "icn-food-safety-in-schools-post-assessment",
+          "icn-food-safety-in-schools-participant-s-workbook",
+          "icn-food-safety-in-schools-instructor-s-manual",
+          "icn-food-safety-basics-food-safety-basics-pre-post-assessment-answers",
+          "icn-food-safety-basics-food-safety-basics-pre-assessment",
+          "icn-food-safety-basics-food-safety-basics-post-assessment"
+        ],
+        "mockup_use": "PDF viewer, manager checklist card, and source-backed lesson outline",
+        "content_gap": "Need local SOP examples and district-specific escalation paths."
+      },
+      {
+        "module_title": "Train Your Team",
+        "asset_ids": [
+          "icn-sodium-reduction-vilt-series-staff-training-and-engagement-for-sodium-reduction-success-instructor-manual",
+          "icn-sodium-reduction-vilt-series-staff-training-and-engagement-for-sodium-reduction-success-127839-staff-training-and-engag",
+          "icn-sodium-reduction-vilt-series-procurement-of-lower-sodium-foods-participant-workbook",
+          "icn-sodium-reduction-vilt-series-procurement-of-lower-sodium-foods-instructor-manual",
+          "icn-sodium-reduction-vilt-series-maintaining-student-acceptability-of-lower-sodium-meals-participant-workbook",
+          "icn-sodium-reduction-vilt-series-maintaining-student-acceptability-of-lower-sodium-meals-instructor-manual",
+          "icn-sodium-reduction-vilt-series-identifying-low-sodium-food-products-and-menu-planning-str-127831-identifying-low-sodium-f",
+          "icn-sodium-reduction-vilt-series-identifying-low-sodium-food-products-and-menu-planning-str-127830-identifying-low-sodium-f"
+        ],
+        "mockup_use": "Manager-led training deck and workbook references",
+        "content_gap": "Need PrimeroEdge completion tracking and certification language for the future mockup."
+      }
+    ]
+  },
+  "frontline_food_safety_skills": {
+    "display_name": "Frontline Food Safety Skills",
+    "target_role": "frontline_cafeteria_staff",
+    "suggested_modules": [
+      {
+        "module_title": "Handwashing and Personal Hygiene",
+        "asset_ids": [
+          "icn-food-safety-in-schools-video-clip-wash-your-hands-educating-the-school-community",
+          "icn-food-safety-in-schools-pre-post-assessment-answer-key",
+          "icn-food-safety-in-schools-pre-assessment",
+          "icn-food-safety-in-schools-post-assessment",
+          "icn-food-safety-in-schools-participant-s-workbook",
+          "icn-food-safety-in-schools-instructor-s-manual",
+          "icn-food-safety-basics-icn-handwashing-short",
+          "icn-food-safety-basics-food-safety-basics-pre-post-assessment-answers"
+        ],
+        "mockup_use": "Video clip card, PDF reference, and quick refresher screen",
+        "content_gap": "Need short operational checklist and site-specific handwashing station examples."
+      },
+      {
+        "module_title": "Temperatures, Thermometers, and Cooling",
+        "asset_ids": [
+          "icn-sodium-reduction-vilt-series-staff-training-and-engagement-for-sodium-reduction-success-instructor-manual",
+          "icn-sodium-reduction-vilt-series-staff-training-and-engagement-for-sodium-reduction-success-127839-staff-training-and-engag",
+          "icn-food-safety-videos-using-thermometers-360p",
+          "icn-food-safety-videos-cool-it-methods-for-cooling-food-safely",
+          "icn-food-safety-in-schools-video-clip-using-thermometers",
+          "icn-food-safety-in-schools-video-clip-cooling-food",
+          "icn-food-safety-in-schools-video-clip-calibrating-thermometers",
+          "icn-food-safety-in-schools-pre-post-assessment-answer-key"
+        ],
+        "mockup_use": "Skills demonstration cards with downloadable ICN video clips",
+        "content_gap": "Need practice interactions and local equipment screenshots."
+      }
+    ]
+  },
+  "district_admin_training_library": {
+    "display_name": "District Admin Training Library",
+    "target_role": "district_admin",
+    "suggested_modules": [
+      {
+        "module_title": "Assigning Training by Role",
+        "asset_ids": [
+          "icn-sodium-reduction-vilt-series-procurement-of-lower-sodium-foods-participant-workbook",
+          "icn-sodium-reduction-vilt-series-procurement-of-lower-sodium-foods-instructor-manual",
+          "icn-sodium-reduction-vilt-series-identifying-low-sodium-food-products-and-menu-planning-str-127831-identifying-low-sodium-f",
+          "icn-sodium-reduction-vilt-series-identifying-low-sodium-food-products-and-menu-planning-str-127830-identifying-low-sodium-f",
+          "icn-planning-reimbursable-school-meals-planning-reimbursable-school-meals-for-menu-planners-participant-workbook",
+          "icn-planning-reimbursable-school-meals-planning-reimbursable-school-meals-for-menu-planners-instructor-manual",
+          "icn-food-safety-basics-food-safety-basics-pre-post-assessment-answers",
+          "icn-food-safety-basics-food-safety-basics-pre-assessment"
+        ],
+        "mockup_use": "Admin library cards and suggested learning path management",
+        "content_gap": "Need PrimeroEdge admin screens, assignment rules, and reporting requirements."
+      }
+    ]
+  },
+  "district_admin_menu_planning": {
+    "display_name": "District Admin Menu Planning",
+    "target_role": "district_admin",
+    "suggested_modules": [
+      {
+        "module_title": "Plan Reimbursable Menus",
+        "asset_ids": [
+          "icn-sodium-reduction-vilt-series-identifying-low-sodium-food-products-and-menu-planning-str-127831-identifying-low-sodium-f",
+          "icn-sodium-reduction-vilt-series-identifying-low-sodium-food-products-and-menu-planning-str-127830-identifying-low-sodium-f",
+          "icn-planning-reimbursable-school-meals-planning-reimbursable-school-meals-for-menu-planners-participant-workbook",
+          "icn-planning-reimbursable-school-meals-planning-reimbursable-school-meals-for-menu-planners-instructor-manual",
+          "icn-sodium-reduction-vilt-series-identifying-low-sodium-food-products-and-menu-planning-strategies-to-meet-meal-pattern-req",
+          "icn-planning-reimbursable-school-meals-planning-reimbursable-school-meals-for-menu-planners-slides",
+          "icn-cmenu-planning-tools-managers-corner-cycle-menus",
+          "icn-sodium-reduction-vilt-series-procurement-of-lower-sodium-foods-participant-workbook"
+        ],
+        "mockup_use": "Menu planner reference cards, downloadable workbook/manual, and future scenario prompts",
+        "content_gap": "Need PrimeroEdge menu planning screenshots, local cycle menu examples, and district-specific meal pattern rules."
+      },
+      {
+        "module_title": "Forecasting and Production Records",
+        "asset_ids": [
+          "icn-sodium-reduction-vilt-series-procurement-of-lower-sodium-foods-participant-workbook",
+          "icn-sodium-reduction-vilt-series-procurement-of-lower-sodium-foods-instructor-manual",
+          "icn-cmenu-planning-tools-managers-corner-forecasting",
+          "icn-sodium-reduction-vilt-series-procurement-of-lower-sodium-foods-presentation",
+          "icn-sodium-reduction-vilt-series-identifying-low-sodium-food-products-and-menu-planning-str-127831-identifying-low-sodium-f",
+          "icn-sodium-reduction-vilt-series-identifying-low-sodium-food-products-and-menu-planning-str-127830-identifying-low-sodium-f",
+          "icn-planning-reimbursable-school-meals-planning-reimbursable-school-meals-for-menu-planners-participant-workbook",
+          "icn-planning-reimbursable-school-meals-planning-reimbursable-school-meals-for-menu-planners-instructor-manual"
+        ],
+        "mockup_use": "Reference cards for cycle menus, forecasting, and production records",
+        "content_gap": "Need PrimeroEdge production record and forecasting UI examples."
+      }
+    ]
+  }
+}

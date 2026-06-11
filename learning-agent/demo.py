@@ -241,9 +241,46 @@ async def match_tickets(args):
     {"query": str},
 )
 async def search_kb(args):
-    # KB is disabled in the demo — tickets+transcript carry the show.
-    query_str = (args.get("query") or "").strip()
-    return _ok(f'No KB matches for: "{query_str}"  (KB disabled in demo)')
+    # LIVE KB search over the SME-curated guide markdown + wiki concepts/workflows
+    # (reuses the production tools_sdk implementation). A Task-3 navigation cross-check —
+    # guides are navigation-authoritative; this never becomes a citation source (citations
+    # stay Jira/transcript verbatim spans), so grounding-by-construction is unchanged.
+    query = (args.get("query") or "").strip()
+    if len(query) < 3:
+        return _ok("ERROR: query too short — pass a multi-word phrase.")
+    terms = [t.lower() for t in query.split() if len(t) > 2]
+    if not terms:
+        return _ok("ERROR: no usable terms in query.")
+    try:
+        from tools_sdk import _kb_files, JIRA_BRAIN
+    except Exception as e:
+        return _ok(f'No KB matches for: "{query}"  (KB unavailable: {e})')
+    scored = []
+    for path in _kb_files():
+        try:
+            text = path.read_text(encoding="utf-8")
+        except (UnicodeDecodeError, OSError):
+            continue
+        lower = text.lower()
+        score = sum(lower.count(t) for t in terms)
+        if score == 0:
+            continue
+        idx = next((lower.find(t) for t in terms if lower.find(t) >= 0), 0)
+        start, end = max(0, idx - 100), min(len(text), idx + 300)
+        snippet = text[start:end].replace("\n", " ")
+        if start > 0:
+            snippet = "…" + snippet
+        if end < len(text):
+            snippet = snippet + "…"
+        scored.append((score, path, snippet))
+    if not scored:
+        return _ok(f'No KB matches for: "{query}"')
+    scored.sort(key=lambda x: x[0], reverse=True)
+    lines = [f"[KB top {min(5, len(scored))} hits for: {query}]"]
+    for score, path, snippet in scored[:5]:
+        rel = path.relative_to(JIRA_BRAIN) if path.is_relative_to(JIRA_BRAIN) else path
+        lines.append(f"\n--- {rel} (score {score}) ---\n{snippet[:400]}")
+    return _ok("\n".join(lines))
 
 
 @tool(
@@ -593,6 +630,10 @@ SOURCE_COMMENT_RE = re.compile(r"<!--\s*Source:[\s\S]*?-->")
 # Re-checks every [[NXT-####:TIER]] token against the real fixture field. No LLM:
 # string-matching against ground truth is strictly better for exact-quote tiering.
 _TOKEN_RE = re.compile(r"\[\[(NXT-\d+):(AC|RN|RNINT|DESC)\]\]")
+# Transcript-only mode: the source is a verbatim span of the SME transcript, not a
+# Jira field. The token carries the span index (T####); the gate re-verifies the
+# quote appears verbatim in the transcript text (passed by the caller).
+_TRANSCRIPT_TOKEN_RE = re.compile(r"\[\[(TRANSCRIPT):(T\d+)\]\]")
 _QUOTE_RE = re.compile(r"[\"“]([^\"”]{6,})[\"”]")
 _FIELD_BY_TIER = {"AC": "ac", "RN": "rn", "RNINT": "rn_internal", "DESC": "desc"}
 
@@ -601,12 +642,52 @@ def _norm(s: str) -> str:
     return re.sub(r"\s+", " ", s or "").strip().lower()
 
 
-def validate_citations(html: str) -> dict:
-    """Verify every tier token against ground-truth fields. Returns an integrity report."""
+def sanitize_span(s: str) -> str:
+    """Make a raw source span safe to embed inside an HTML `<!-- Source: "…" -->`
+    comment and inside a double-quoted citation. Collapses internal newlines,
+    neutralizes double/smart quotes (so _QUOTE_RE can't be truncated) and any
+    `-->` that would prematurely close the comment. Applied IDENTICALLY at
+    registry-build time and at verify time, so the verbatim check stays exact."""
+    s = re.sub(r"\s*\n\s*", " ", (s or "").strip())
+    s = s.replace("“", "'").replace("”", "'").replace('"', "'")
+    s = s.replace("-->", "—>")
+    return s
+
+
+def _norm_span(s: str) -> str:
+    """Normalize a span the same way on both sides of the transcript verbatim check."""
+    return _norm(sanitize_span(s))
+
+
+def validate_citations(html: str, transcript_text: str = "") -> dict:
+    """Verify every tier token against ground-truth fields. Returns an integrity report.
+
+    Jira tokens ([[NXT-####:TIER]]) are checked against the fixture field for that
+    tier. Transcript tokens ([[TRANSCRIPT:T####]], emitted only in transcript-only
+    mode) are checked verbatim against `transcript_text` — pass the uploaded
+    transcript so they can be verified; absent it they fail closed (quote_not_found),
+    never silently pass."""
     rpt = {"total": 0, "tokened": 0, "ok": 0, "tier_lie": 0, "quote_not_found": 0,
            "untokened_ticket": 0, "transcript": 0, "violations": []}
+    hay = _norm_span(transcript_text) if transcript_text else ""
     for cm in re.findall(r"<!--\s*Source:([\s\S]*?)-->", html):
         rpt["total"] += 1
+        # Transcript-only source: verbatim span of the uploaded transcript.
+        ttok = _TRANSCRIPT_TOKEN_RE.search(cm)
+        if ttok:
+            rpt["tokened"] += 1
+            rpt["transcript"] += 1
+            qm = _QUOTE_RE.search(cm)
+            if not qm:
+                rpt["violations"].append(("TRANSCRIPT", ttok.group(2), "no-quote", ""))
+                continue
+            quote = _norm_span(qm.group(1))
+            if quote and hay and quote in hay:
+                rpt["ok"] += 1
+            else:
+                rpt["quote_not_found"] += 1
+                rpt["violations"].append(("TRANSCRIPT", ttok.group(2), "quote_not_found", qm.group(1)[:60]))
+            continue
         tok = _TOKEN_RE.search(cm)
         if not tok:
             if re.search(r"transcript", cm, re.I):

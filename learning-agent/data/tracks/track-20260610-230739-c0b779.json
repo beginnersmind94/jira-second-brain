@@ -1,0 +1,17 @@
+{
+  "id": "track-20260610-230739-c0b779",
+  "title": "Cashier Onboarding",
+  "description": "",
+  "product": "SchoolCafé",
+  "role_tags": [
+    "Cashier"
+  ],
+  "module_ids": [
+    "20260603-124709-item-management-long-form-68d6de",
+    "GUIDE-001",
+    "icn-icn-food-safety-videos-a-flash-of-food-safety-1-eng"
+  ],
+  "quiz_id": null,
+  "status": "published",
+  "created_at": "2026-06-10T23:07:39"
+}

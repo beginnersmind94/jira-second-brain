@@ -1,6 +1,7 @@
 {
   "id": "20260603-151307-eligibility-long-form-195c99",
-  "status": "draft",
+  "status": "approved",
+  "approved": true,
   "module": "Eligibility",
   "template": "long-form",
   "transcript_id": "20260603-151307-eligibility-2026-05-22-eligibility-applications-verification",

@@ -105,6 +105,76 @@ def build_registry(ticket_keys: list[str]) -> tuple[dict, dict]:
 
 
 # ============================================================================
+# Transcript-only registry — built from VERBATIM transcript spans (NO Jira).
+# Same grounding-by-construction contract as the Jira path: the section writer
+# emits [CITE:T####] ids only; assemble() renders the exact transcript span; the
+# gate (validate_citations(html, transcript_text=…)) re-verifies each span appears
+# verbatim in the transcript. Use case: the navigation/procedure an SME demos live
+# that Jira (behavior-only) never records, and modules with no captured fixture.
+# ============================================================================
+_T_MIN_SPAN = 25  # ignore trivially short lines (speaker tags, "OK", bare timestamps)
+
+
+def split_transcript_spans(text: str) -> list[str]:
+    """Split a transcript into verbatim, citable spans at the blank-line (utterance)
+    boundary. Each span is sanitized identically to how the gate will verify it."""
+    spans: list[str] = []
+    for block in re.split(r"\n\s*\n", text or ""):
+        s = demo.sanitize_span(block)
+        if len(s) >= _T_MIN_SPAN:
+            spans.append(s)
+    return spans
+
+
+def build_transcript_registry(text: str) -> tuple[dict, dict, list[str]]:
+    """Return (registry, by_span, ids). registry[id] = {issue:'TRANSCRIPT',
+    tier:'T####', span}. by_span mirrors by_ticket so write_section/_citation_menu
+    work unchanged (each span id maps to itself)."""
+    registry: dict[str, dict] = {}
+    by_span: dict[str, list[str]] = {}
+    ids: list[str] = []
+    for i, span in enumerate(split_transcript_spans(text), 1):
+        cid = f"T:{i:04d}"
+        registry[cid] = {"issue": "TRANSCRIPT", "tier": f"T{i:04d}", "span": span}
+        by_span[cid] = [cid]
+        ids.append(cid)
+    return registry, by_span, ids
+
+
+def transcript_span_menu(registry: dict, ids: list[str]) -> str:
+    """The numbered span list the planner reads to assign spans to sections."""
+    return "\n".join(f"[{cid}] {registry[cid]['span']}" for cid in ids)
+
+
+_T_PLAN_TEMPLATE = """You are the PLANNER for a __LABEL__ on the `__MODULE__` module, grounded ONLY in a training transcript. There is NO Jira here — every claim the writers make MUST quote the transcript verbatim, so plan only what the transcript actually supports.
+
+The user message contains the transcript split into numbered verbatim spans [T:0001]…[T:NNNN]. You do NOT write the guide; you produce a SECTION PLAN as JSON and assign to each section the span ids whose content supports it.
+
+__SPEC__
+   Do NOT include a "Sources" section — it is generated automatically from the citations.
+   Assign to each section's "span_ids" ONLY ids that appear in the provided list and that genuinely back that section. A purely structural section (e.g. "Related Content") may have [].
+   Do NOT invent span ids. Do NOT plan a section the transcript spans cannot support.
+
+OUTPUT — your FINAL message must be ONLY this JSON object, no prose, no fence:
+{
+  "sections": [
+    {"id": "s1", "title": "...", "scope": "1-2 sentence description", "span_ids": ["T:0001"]}
+  ]
+}"""
+
+
+def transcript_plan_system_prompt(module: str, fmt: str) -> str:
+    # NOTE: keep this SMALL. The SDK passes system_prompt as a CLI argument
+    # (--system-prompt), which is subject to the OS command-line length limit
+    # (~32KB on Windows). The (potentially large) numbered span list is passed in
+    # the USER prompt instead (delivered over stdin, no length limit).
+    return (_T_PLAN_TEMPLATE
+            .replace("__LABEL__", _FORMAT_LABEL.get(fmt, fmt))
+            .replace("__MODULE__", module)
+            .replace("__SPEC__", _FORMAT_SPEC.get(fmt, _FORMAT_SPEC["long-form"])))
+
+
+# ============================================================================
 # Stage 1 — Plan (research with tools, emit JSON section plan, NO writing).
 # Format-parameterized: all three formats use the SAME registry + CITE-ID +
 # deterministic pipeline; only the required section list and budgets differ.
@@ -176,7 +246,7 @@ _FORMAT_BUDGET = {
 
 _PLAN_TEMPLATE = """You are the PLANNER for a __LABEL__ on the `__MODULE__` module. You do research, then output a SECTION PLAN as JSON. You do NOT write the guide.
 
-Tools (call in parallel where you can): parse_transcript, match_tickets, read_epic, read_ticket. Caps: ≤6 match_tickets, ≤4 read_epic, ≤8 read_ticket.
+Tools (call in parallel where you can): parse_transcript, match_tickets, read_epic, read_ticket, search_kb. Caps: ≤6 match_tickets, ≤4 read_epic, ≤8 read_ticket, ≤4 search_kb.
 
 Steps:
 1. parse_transcript on the given path.
@@ -188,6 +258,7 @@ Steps:
      - Tech-Debt tickets  -> "Known limitations" / caveats
      - Epics              -> the theme and section grouping
    Deliberately pull the right ticket TYPE for the right section, and assign those keys to that section's ticket_keys.
+3b. For navigation, menu paths, UI labels, or customer-facing step order, you MAY call search_kb to cross-check against the SME-curated guides (guides are navigation-authoritative; tickets are behavior-authoritative). This informs section scope only — it does NOT add citations; every written claim still cites Jira/transcript.
 4. Produce a SECTION PLAN:
 __SPEC__
    Do NOT include a "Sources" section — it is generated automatically from the citations.
@@ -238,12 +309,28 @@ LENGTH: keep this section tight — {budget}. Prefer short paragraphs, lists, an
 
 OUTPUT: an HTML fragment for THIS section only, starting with <h2>{title}</h2>. Semantic tags only. No <h1>, no wrapper text, no preamble."""
 
+# Transcript-only mode: the transcript IS the source of truth (not a voice-only
+# aside), so the contract is identical but the citations are verbatim transcript
+# spans. The writer still emits [CITE:id] markers ONLY and never types quote text.
+SECTION_SYSTEM_PROMPT_TRANSCRIPT = """You are writing ONE section of a learning guide for the `{module}` module. You have NO tools. This guide is grounded ONLY in the training transcript — there is no Jira, so the transcript is your single source of truth.
 
-def build_section_options(module: str, title: str, budget: str) -> ClaudeAgentOptions:
+THE CITATION CONTRACT — this is the whole point:
+- You may NOT type quote text, source labels, or <!-- Source --> comments.
+- To support a claim, append a marker [CITE:<id>] immediately after the sentence, using ONLY ids from the AVAILABLE CITATIONS list below. A deterministic assembler replaces each marker with the exact verbatim transcript span — that is not your job.
+- If a claim has no supporting id in the list, CUT it. Do not assert anything the transcript spans do not say — no Jira knowledge, no product behavior the presenter did not demonstrate, no invented specifics.
+- Write what the presenter actually taught: navigation, menu paths, the order of steps, what they clicked and said.
+
+LENGTH: keep this section tight — {budget}. Prefer short paragraphs, lists, and one compact table over prose.
+
+OUTPUT: an HTML fragment for THIS section only, starting with <h2>{title}</h2>. Semantic tags only. No <h1>, no wrapper text, no preamble."""
+
+
+def build_section_options(module: str, title: str, budget: str,
+                          system_tmpl: str = SECTION_SYSTEM_PROMPT) -> ClaudeAgentOptions:
     return ClaudeAgentOptions(
         model="claude-sonnet-4-6",
         effort="medium",
-        system_prompt=SECTION_SYSTEM_PROMPT.format(module=module, title=title, budget=budget),
+        system_prompt=system_tmpl.format(module=module, title=title, budget=budget),
         allowed_tools=[],
         disallowed_tools=_DISALLOWED,
         tools=[],
@@ -294,11 +381,21 @@ def _section_ok(frag: str) -> bool:
 
 async def write_section(sec: dict, registry: dict, by_ticket: dict, module: str,
                         sem: asyncio.Semaphore, budget: str = "120–350 words",
-                        max_attempts: int = 3) -> dict:
+                        max_attempts: int = 3, directive: str = "",
+                        section_tmpl: str = SECTION_SYSTEM_PROMPT) -> dict:
     title = sec.get("title", "Section")
-    menu = _citation_menu(by_ticket, registry, sec.get("ticket_keys", []))
+    # In transcript-only mode the plan carries span_ids instead of ticket_keys;
+    # both resolve through the same by_ticket/registry menu lookup.
+    cite_keys = sec.get("ticket_keys") or sec.get("span_ids", [])
+    menu = _citation_menu(by_ticket, registry, cite_keys)
+    # Optional authoring directive (audience/tone/emphasis) — FRAMING ONLY, never facts.
+    directive_line = (
+        f"\nAUTHORING DIRECTIVE (shape tone/audience/emphasis ONLY — never invent facts "
+        f"or audience-specific claims; every statement still comes from the citations above): "
+        f"{directive.strip()}\n" if directive and directive.strip() else ""
+    )
     prompt = (
-        f"Section: {title}\nScope: {sec.get('scope', '')}\n\n"
+        f"Section: {title}\nScope: {sec.get('scope', '')}\n{directive_line}\n"
         f"AVAILABLE CITATIONS (use ONLY these ids; emit [CITE:id], never the quote text):\n{menu}\n\n"
         f"Write the <h2>{title}</h2> section now."
     )
@@ -306,7 +403,7 @@ async def write_section(sec: dict, registry: dict, by_ticket: dict, module: str,
     last_frag = ""
     async with sem:
         for attempt in range(1, max_attempts + 1):
-            r = await _run(prompt, build_section_options(module, title, budget))
+            r = await _run(prompt, build_section_options(module, title, budget, system_tmpl=section_tmpl))
             total_secs += r["secs"]
             frag = r["text"].strip()
             frag = re.sub(r"^```html\s*", "", frag, flags=re.I)
@@ -359,6 +456,10 @@ def assemble(title: str, sections: list[dict], registry: dict) -> tuple[str, dic
     if report["issues"]:
         items = []
         for k in sorted(report["issues"]):
+            if k == "TRANSCRIPT":  # transcript-only mode — one verbatim source
+                items.append("  <li><code>TRANSCRIPT</code> — uploaded training session "
+                             "(every claim quoted verbatim from the recording)</li>")
+                continue
             rec = demo._FIX["tickets"].get(k) or demo._FIX["epics"].get(k) or {}
             items.append(f"  <li><code>{k}</code> — {rec.get('summary', '')}</li>")
         sources_html = "\n\n<h2>Sources</h2>\n<ul>\n" + "\n".join(items) + "\n</ul>"

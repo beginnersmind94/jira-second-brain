@@ -1,0 +1,1459 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Track Builder — Learning Studio</title>
+  <style>
+    /* ════════════════════════════════════════════════════════════════════
+       LEARNING STUDIO — CANONICAL DESIGN SYSTEM (same tokens as index.html)
+       ════════════════════════════════════════════════════════════════════ */
+    :root {
+      --bg:            #EBE4D6;
+      --bg-grad-top:   #E4DBC9;
+      --surface:       #FBF8F1;
+      --panel:         #FFFFFF;
+      --panel2:        #F6F1E7;
+      --panel3:        #ECE5D7;
+      --border:        #E3DCCC;
+      --border-strong: #D6CDB9;
+      --text:          #1C1814;
+      --text-soft:     #423B33;
+      --muted:         #6B6258;
+      --muted-soft:    #948A7C;
+      --muted-aa:      #5E5B53;
+      --label:         #524A3F;
+      --accent:        #B3543B;
+      --accent-hover:  #9D4732;
+      --accent-press:  #8A3D2B;
+      --warn-text:     #8A4A12;
+      --warn-soft:     #FBEAD2;
+      --warn-border:   #D98324;
+      --accent-soft:   #F3E2D9;
+      --accent-ink:    #FBF8F1;
+      --green:         #4F7A4E;
+      --green-soft:    #E4EBD7;
+      --green-text:    #3A5639;
+      --teal:          #4F7C74;
+      --amber:         #9A6A18; --amber-soft:#F3E7CD; --amber-text:#6E4A12;
+      --red:           #B3543B; --red-soft:#F2E1D8;   --red-text:#8E3E2A;
+      --radius:        12px;
+      --radius-sm:     8px;
+      --radius-pill:   999px;
+      --shadow-sm:   0 1px 2px rgba(28,24,20,0.05);
+      --shadow:      0 2px 4px rgba(28,24,20,0.04), 0 12px 24px rgba(28,24,20,0.06);
+      --shadow-lift: 0 4px 8px rgba(28,24,20,0.06), 0 18px 38px rgba(28,24,20,0.10);
+      --ring:        0 0 0 3px rgba(179,84,59,0.32);
+      --font:  ui-sans-serif, system-ui, "Inter", -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --mono:  ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+      --serif: Georgia, "Times New Roman", "Iowan Old Style", serif;
+      --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 24px; --sp-6: 32px;
+      --cfs-micro: 10.5px; --cfs-meta: 11.5px; --cfs-body: 13.5px; --cfs-title: 17px;
+    }
+
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font);
+      font-size: 14px;
+      color: var(--text);
+      background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E"),
+        radial-gradient(1100px 420px at 82% -140px, rgba(179,84,59,0.07), transparent 60%),
+        linear-gradient(180deg, var(--bg-grad-top) 0, rgba(228,219,201,0) 360px),
+        var(--bg);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    ::selection { background: rgba(20,18,15,0.14); }
+
+    /* ── Top header ── */
+    .top-bar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      height: 56px;
+      padding: 0 24px;
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--border);
+    }
+    .top-bar-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 13px;
+      font-weight: 650;
+      color: var(--muted-aa);
+      text-decoration: none;
+      border: 0;
+      background: none;
+      cursor: pointer;
+      padding: 5px 0;
+      border-radius: 6px;
+    }
+    .top-bar-back:hover { color: var(--accent); }
+    .top-bar-sep { color: var(--border-strong); font-size: 17px; font-weight: 300; }
+    .top-bar-title { font-size: 14px; font-weight: 700; color: var(--text); }
+    .top-bar-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+
+    /* ── Page two-pane ── */
+    .page {
+      display: grid;
+      grid-template-columns: 340px minmax(0, 1fr);
+      min-height: calc(100vh - 56px);
+      align-items: stretch;
+    }
+
+    /* ── Left pane: module library ── */
+    .lib-pane {
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid var(--border);
+      background: var(--panel);
+      min-height: 0;
+      overflow: hidden;
+    }
+    .lib-pane-head {
+      padding: 14px 14px 0;
+      background: var(--panel2);
+      border-bottom: 1px solid var(--border);
+    }
+    .lib-pane-title {
+      margin: 0 0 10px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .lib-search-row { display: flex; gap: 6px; margin-bottom: 8px; }
+    .lib-search {
+      flex: 1;
+      min-width: 0;
+      padding: 7px 10px;
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+      font: inherit;
+      font-size: 13px;
+      color: var(--text);
+      outline: none;
+    }
+    .lib-search:focus { border-color: var(--accent); box-shadow: var(--ring); }
+    .lib-filter-row { display: flex; gap: 6px; flex-wrap: wrap; padding-bottom: 10px; }
+    .lib-filter-select {
+      padding: 5px 28px 5px 9px;
+      background: var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236B6860' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 8px center;
+      appearance: none;
+      -webkit-appearance: none;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+      font: inherit;
+      font-size: 12px;
+      color: var(--text);
+      outline: none;
+      cursor: pointer;
+      flex: 1;
+      min-width: 88px;
+    }
+    .lib-filter-select:focus { border-color: var(--accent); }
+    .lib-count {
+      padding: 6px 14px 4px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .lib-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 6px 10px 14px;
+    }
+    .lib-scroll::-webkit-scrollbar { width: 10px; }
+    .lib-scroll::-webkit-scrollbar-thumb { background: #D4CDBE; border-radius: 999px; border: 2px solid transparent; background-clip: content-box; }
+    .lib-scroll::-webkit-scrollbar-thumb:hover { background: #C2BAA8; background-clip: content-box; }
+
+    /* ── Source badge — shared component (CLAUDE.md: build once, use in library + editor + learner view) ── */
+    .src-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 7px;
+      border-radius: var(--radius-pill);
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .src-badge--ai    { background: #E4ECF5; color: #2B4A6F; }
+    .src-badge--guide { background: var(--green-soft); color: var(--green-text); }
+    .src-badge--icn   { background: var(--amber-soft); color: var(--amber-text); }
+
+    /* ── Module card in library ── */
+    .mod-card {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      margin-bottom: 5px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: border-color .14s, box-shadow .14s, transform .12s;
+      user-select: none;
+    }
+    .mod-card:hover { border-color: var(--accent); transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+    .mod-card.in-track { background: #F5F9F2; border-color: var(--green); }
+    .mod-card-body { flex: 1; min-width: 0; }
+    .mod-card-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      margin: 0 0 4px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .mod-card-meta { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .mod-card-module { font-size: 11px; color: var(--muted); font-family: var(--mono); }
+    .mod-card-add {
+      flex: none;
+      width: 28px;
+      height: 28px;
+      border: 1px solid var(--border-strong);
+      border-radius: 50%;
+      background: var(--panel);
+      color: var(--muted);
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background .14s, border-color .14s, color .14s;
+      flex-shrink: 0;
+    }
+    .mod-card-add:hover { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+    .mod-card.in-track .mod-card-add {
+      background: var(--green-soft);
+      border-color: var(--green);
+      color: var(--green-text);
+      font-size: 12px;
+    }
+
+    /* ── Right pane: track editor ── */
+    .editor-pane {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      padding: 20px 24px 36px;
+      overflow-y: auto;
+    }
+    .editor-pane::-webkit-scrollbar { width: 10px; }
+    .editor-pane::-webkit-scrollbar-thumb { background: #D4CDBE; border-radius: 999px; border: 2px solid transparent; background-clip: content-box; }
+
+    /* Track switcher row */
+    .track-switcher { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .track-switcher-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .track-select {
+      flex: 1;
+      min-width: 200px;
+      padding: 8px 32px 8px 11px;
+      background: var(--panel) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236B6860' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 11px center;
+      appearance: none;
+      -webkit-appearance: none;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+      font: inherit;
+      font-size: 13px;
+      color: var(--text);
+      outline: none;
+      cursor: pointer;
+    }
+    .track-select:focus { border-color: var(--accent); box-shadow: var(--ring); }
+
+    /* ── Card / panel ── */
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 18px;
+      background: var(--panel2);
+      border-bottom: 1px solid var(--border);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .card-header-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+    .card-body { padding: 18px; }
+
+    /* ── Form controls ── */
+    .field { margin-bottom: 15px; }
+    .field:last-child { margin-bottom: 0; }
+    .field label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--label);
+    }
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      padding: 9px 11px;
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+      font: inherit;
+      font-size: 13.5px;
+      color: var(--text);
+      outline: none;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .field select {
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236B6860' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 11px center;
+      padding-right: 32px;
+    }
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus { border-color: var(--accent); box-shadow: var(--ring); }
+    .field textarea { resize: vertical; min-height: 64px; }
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .field .hint { margin-top: 5px; font-size: 12px; color: var(--muted-aa); }
+
+    /* Tag chips */
+    .tag-row { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 5px; min-height: 22px; }
+    .tag-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 9px;
+      background: var(--panel3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-pill);
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--text-soft);
+    }
+    .tag-chip button {
+      background: none;
+      border: 0;
+      cursor: pointer;
+      color: var(--muted);
+      font-size: 12px;
+      padding: 0 1px;
+      line-height: 1;
+      border-radius: 3px;
+    }
+    .tag-chip button:hover { color: var(--red-text); }
+    .tag-input-row { display: flex; gap: 6px; margin-top: 6px; }
+    .tag-input-row input {
+      flex: 1;
+      min-width: 0;
+      padding: 6px 10px;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+      font: inherit;
+      font-size: 12.5px;
+      background: var(--surface);
+      color: var(--text);
+      outline: none;
+    }
+    .tag-input-row input:focus { border-color: var(--accent); box-shadow: var(--ring); }
+
+    /* ── Track module sequence list ── */
+    .track-modules {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      min-height: 72px;
+    }
+    .track-mod-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: grab;
+      transition: box-shadow .14s, border-color .14s;
+    }
+    .track-mod-item:active { cursor: grabbing; }
+    .track-mod-item.drag-over { border-color: var(--accent); background: var(--accent-soft); box-shadow: var(--ring); }
+    .track-mod-drag-handle {
+      flex: none;
+      color: var(--muted-soft);
+      cursor: grab;
+      font-size: 14px;
+      line-height: 1;
+      padding: 2px 0;
+      user-select: none;
+    }
+    .track-mod-seq {
+      flex: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--panel3);
+      color: var(--text-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .track-mod-body { flex: 1; min-width: 0; }
+    .track-mod-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .track-mod-meta { display: flex; align-items: center; gap: 6px; margin-top: 3px; }
+    .track-mod-remove {
+      flex: none;
+      border: 0;
+      background: none;
+      cursor: pointer;
+      color: var(--muted);
+      font-size: 15px;
+      padding: 3px 5px;
+      border-radius: 6px;
+      line-height: 1;
+      transition: background .14s, color .14s;
+    }
+    .track-mod-remove:hover { background: var(--red-soft); color: var(--red-text); }
+    .track-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 100px;
+      padding: 22px;
+      background: var(--surface);
+      border: 1.5px dashed rgba(179,84,59,0.32);
+      border-radius: var(--radius-sm);
+      color: var(--muted);
+      text-align: center;
+      font-size: 13px;
+      font-family: var(--serif);
+    }
+    .track-empty svg { width: 24px; height: 24px; stroke: var(--muted-soft); opacity: .8; margin-bottom: 2px; }
+    .drop-hint {
+      margin-top: 8px;
+      font-size: 11.5px;
+      color: var(--muted-aa);
+    }
+
+    /* ── Status badge ── */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 9px;
+      border-radius: var(--radius-pill);
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+    .status-badge::before {
+      content: "";
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .status-badge.draft     { background: var(--amber-soft); color: var(--amber-text); }
+    .status-badge.draft::before { background: var(--amber-text); }
+    .status-badge.published { background: var(--green-soft); color: var(--green-text); }
+    .status-badge.published::before { background: var(--green); }
+
+    /* ── Buttons ── */
+    button.primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 18px;
+      border: 0;
+      border-radius: var(--radius-sm);
+      background: var(--accent);
+      color: var(--accent-ink);
+      font: 700 13.5px/1 var(--font);
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      white-space: nowrap;
+      transition: background .15s, transform .12s, box-shadow .15s;
+    }
+    button.primary:hover:not(:disabled) { background: var(--accent-hover); transform: translateY(-1px); box-shadow: var(--shadow); }
+    button.primary:active:not(:disabled) { background: var(--accent-press); transform: translateY(0); }
+    button.primary:disabled { background: var(--panel3); color: #6F6B62; box-shadow: none; cursor: not-allowed; }
+
+    button.secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      background: var(--panel);
+      color: var(--text-soft);
+      border: 1px solid var(--border-strong);
+      font: 650 13.5px/1 var(--font);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: border-color .15s, background .15s, color .15s;
+    }
+    button.secondary:hover:not(:disabled) { border-color: var(--muted); background: var(--surface); color: var(--text); }
+    button.secondary:disabled { color: #6F6B62; border-color: var(--border); background: transparent; cursor: not-allowed; }
+    button.secondary.danger { color: var(--red-text); border-color: transparent; background: transparent; }
+    button.secondary.danger:hover:not(:disabled) { background: var(--red-soft); border-color: var(--red); }
+
+    /* ── Publish success strip ── */
+    .publish-strip {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: var(--green-soft);
+      border: 1px solid var(--green);
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      color: var(--green-text);
+      font-weight: 600;
+    }
+    .publish-strip[hidden] { display: none; }
+
+    /* ── Modal overlay ── */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      background: rgba(28,24,20,0.46);
+      backdrop-filter: blur(2px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+    }
+    .overlay[hidden] { display: none; }
+    .modal {
+      width: 100%;
+      max-width: 480px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lift);
+      animation: modal-in .18s ease;
+    }
+    @keyframes modal-in { from { transform: translateY(8px); opacity: 0; } to { transform: none; opacity: 1; } }
+    .modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      font-family: var(--serif);
+      font-size: 17px;
+      font-weight: 650;
+    }
+    .modal-close {
+      border: 0;
+      background: none;
+      color: var(--muted);
+      font-size: 17px;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: var(--radius-sm);
+      line-height: 1;
+    }
+    .modal-close:hover { background: var(--panel3); color: var(--text); }
+    .modal-body { padding: 18px 20px; }
+    .modal-foot {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      padding: 13px 20px;
+      border-top: 1px solid var(--border);
+      background: var(--panel2);
+    }
+    .modal-note { font-size: 12px; color: var(--muted); margin-right: auto; }
+
+    /* ── Toast ── */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 80;
+      min-width: 260px;
+      max-width: 380px;
+      padding: 12px 16px;
+      background: var(--text);
+      color: #FBF8F1;
+      border-radius: var(--radius-sm);
+      box-shadow: var(--shadow-lift);
+      font-size: 13.5px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: toast-in .22s ease;
+    }
+    .toast.success { background: #3A5A39; }
+    .toast.error   { background: #8A3D2B; }
+    @keyframes toast-in { from { transform: translateY(10px); opacity: 0; } to { transform: none; opacity: 1; } }
+    .toast[hidden] { display: none; }
+    .toast-close { border: 0; background: none; color: inherit; cursor: pointer; font-size: 15px; margin-left: auto; padding: 2px 5px; opacity: 0.7; }
+    .toast-close:hover { opacity: 1; }
+
+    /* ── Skeleton shimmer ── */
+    .skeleton { position: relative; background: var(--panel3); border-radius: var(--radius-sm); overflow: hidden; }
+    .skeleton::after { content: ""; position: absolute; inset: 0; transform: translateX(-100%); background: linear-gradient(90deg, transparent 0, rgba(255,255,255,0.55) 50%, transparent 100%); animation: shimmer 1.25s ease-in-out infinite; }
+    @keyframes shimmer { 100% { transform: translateX(100%); } }
+
+    /* ── Spinner ── */
+    .spinner { display: inline-block; width: 14px; height: 14px; vertical-align: -2px; border: 2px solid rgba(251,248,241,0.35); border-top-color: #FBF8F1; border-radius: 50%; animation: spin .7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Empty states ── */
+    .lib-empty-state { padding: 28px 14px; text-align: center; color: var(--muted); font-size: 13px; font-family: var(--serif); line-height: 1.55; }
+    .editor-empty    { padding: 20px 0; text-align: center; color: var(--muted); font-size: 13px; font-family: var(--serif); }
+
+    /* ── Focus rings ── */
+    a:focus-visible, button:focus-visible, select:focus-visible,
+    input:focus-visible, textarea:focus-visible, .mod-card:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+      border-radius: 6px;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 860px) {
+      .page { grid-template-columns: 1fr; }
+      .lib-pane { border-right: 0; border-bottom: 1px solid var(--border); max-height: 42vh; }
+    }
+    @media (max-width: 560px) {
+      .top-bar { padding: 0 14px; }
+      .editor-pane { padding: 14px 14px 24px; }
+      .field-row { grid-template-columns: 1fr; }
+      .track-switcher { flex-direction: column; align-items: stretch; }
+      .track-select { min-width: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Top bar ── -->
+<header class="top-bar" role="banner">
+  <a class="top-bar-back" href="/" title="Return to Learning Studio">
+    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2"
+         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M19 12H5M12 5l-7 7 7 7"/>
+    </svg>
+    Learning Studio
+  </a>
+  <span class="top-bar-sep" aria-hidden="true">/</span>
+  <span class="top-bar-title">Track Builder</span>
+  <div class="top-bar-right" id="top-bar-right" aria-live="polite"></div>
+</header>
+
+<!-- ── Two-pane layout ── -->
+<div class="page">
+
+  <!-- ══ LEFT PANE: Module library ══ -->
+  <aside class="lib-pane" aria-label="Module library">
+    <div class="lib-pane-head">
+      <p class="lib-pane-title">Module library</p>
+      <div class="lib-search-row">
+        <input id="lib-search" class="lib-search" type="search"
+               placeholder="Search modules…" autocomplete="off" aria-label="Search modules">
+      </div>
+      <div class="lib-filter-row">
+        <select id="lib-source" class="lib-filter-select" aria-label="Filter by source">
+          <option value="">All sources</option>
+          <option value="AI_TRANSCRIPT">AI-generated</option>
+          <option value="HUMAN_GUIDE">Cybersoft guide</option>
+          <option value="ICN_DOC">ICN / USDA</option>
+        </select>
+        <select id="lib-product" class="lib-filter-select" aria-label="Filter by product">
+          <option value="">All products</option>
+          <option value="SchoolCafé">SchoolCafé</option>
+          <option value="Family Hub">Family Hub</option>
+        </select>
+      </div>
+    </div>
+    <div class="lib-count" id="lib-count" aria-live="polite"></div>
+    <div class="lib-scroll" id="lib-scroll"></div>
+  </aside>
+
+  <!-- ══ RIGHT PANE: Track editor ══ -->
+  <main class="editor-pane" aria-label="Track editor">
+
+    <!-- Track selector row -->
+    <div class="track-switcher">
+      <span class="track-switcher-label">Track</span>
+      <select id="track-select" class="track-select" aria-label="Select a track to edit">
+        <option value="">— Select or create a track —</option>
+      </select>
+      <button class="primary" onclick="openNewTrackModal()">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor"
+             stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+        </svg>
+        New track
+      </button>
+    </div>
+
+    <!-- Publish success strip (only visible once published) -->
+    <div class="publish-strip" id="publish-strip" hidden role="status">
+      <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+        <polyline points="22 4 12 14.01 9 11.01"/>
+      </svg>
+      <span id="publish-strip-msg">Track published — learners can now access it.</span>
+    </div>
+
+    <!-- Track metadata card -->
+    <div class="card" id="meta-card">
+      <div class="card-header">
+        Track details
+        <div class="card-header-right" id="track-status-badge"></div>
+      </div>
+      <div class="card-body" id="meta-body">
+        <div class="editor-empty">
+          Select a track from the dropdown above, or create a new one.
+        </div>
+      </div>
+    </div>
+
+    <!-- Module sequence card -->
+    <div class="card" id="sequence-card">
+      <div class="card-header">
+        Module sequence
+        <div class="card-header-right" id="mod-count-label"
+             style="font-size:11px;color:var(--muted);font-weight:500;letter-spacing:0;text-transform:none;"></div>
+      </div>
+      <div class="card-body">
+        <ul class="track-modules" id="track-modules-list" role="list" aria-label="Modules in this track">
+          <li>
+            <div class="track-empty">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="2" y="7" width="20" height="14" rx="2"/>
+                <path d="M16 2H8l-2 5h12z"/>
+              </svg>
+              No track selected — pick one above to start building.
+            </div>
+          </li>
+        </ul>
+        <p class="drop-hint" id="drop-hint" hidden>
+          Click <strong>+</strong> on a module in the library to add it. Drag rows to reorder.
+        </p>
+      </div>
+    </div>
+
+    <!-- Actions card -->
+    <div class="card" id="actions-card" hidden>
+      <div class="card-body" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+        <button class="secondary danger" id="delete-track-btn" onclick="confirmDeleteTrack()">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="3 6 5 6 21 6"/>
+            <path d="M19 6l-1 14H6L5 6"/>
+            <path d="M10 11v6M14 11v6M9 6V4h6v2"/>
+          </svg>
+          Delete track
+        </button>
+        <div style="margin-left:auto;display:flex;gap:8px;">
+          <button class="secondary" id="save-meta-btn" onclick="saveMeta()">Save changes</button>
+          <button class="primary" id="publish-btn" onclick="publishTrack()">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor"
+                 stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4z"/>
+            </svg>
+            Publish track
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ══ New-track modal ══ -->
+<div class="overlay" id="new-track-overlay" hidden
+     role="dialog" aria-modal="true" aria-labelledby="nt-modal-title"
+     onclick="if(event.target===this)closeNewTrackModal()">
+  <div class="modal">
+    <div class="modal-head">
+      <span id="nt-modal-title">New track</span>
+      <button class="modal-close" onclick="closeNewTrackModal()" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="field">
+        <label for="nt-title">Track name <span style="color:var(--red-text);">*</span></label>
+        <input id="nt-title" type="text" placeholder="e.g. New Cashier Onboarding"
+               autocomplete="off" maxlength="120">
+      </div>
+      <div class="field">
+        <label for="nt-description">Description</label>
+        <textarea id="nt-description" rows="2"
+                  placeholder="Briefly describe what learners will gain from this track."></textarea>
+      </div>
+      <div class="field-row">
+        <div class="field" style="margin-bottom:0;">
+          <label for="nt-product">Product</label>
+          <select id="nt-product">
+            <option value="SchoolCafé">SchoolCafé</option>
+            <option value="Family Hub">Family Hub</option>
+          </select>
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label>Role tags</label>
+          <div class="tag-row" id="nt-tag-row"></div>
+          <div class="tag-input-row">
+            <input id="nt-tag-input" type="text" placeholder="Add role…"
+                   autocomplete="off" maxlength="40"
+                   onkeydown="if(event.key==='Enter'||event.key===','){event.preventDefault();addPendingTag();}">
+            <button class="secondary" style="padding:6px 10px;" onclick="addPendingTag()">Add</button>
+          </div>
+          <p class="hint">e.g. Cashier, Site Manager, CN Director</p>
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <span class="modal-note">Assembly only — content stays grounded.</span>
+      <button class="secondary" onclick="closeNewTrackModal()">Cancel</button>
+      <button class="primary" id="create-track-btn" onclick="createTrack()">
+        <span class="spinner" id="create-spinner" hidden></span>
+        Create track
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ Toast notification ══ -->
+<div class="toast" id="toast" hidden role="alert" aria-live="assertive">
+  <span id="toast-msg"></span>
+  <button class="toast-close" onclick="hideToast()" aria-label="Dismiss">✕</button>
+</div>
+
+<script>
+/* ════════════════════════════════════════════════════════════════════════
+   TRACK BUILDER — track_builder_view.html
+   API contract (from CLAUDE.md):
+     GET  /api/modules?source=&product=&q=   → { modules, total, sources }
+     GET  /api/tracks                         → { tracks }
+     POST /api/tracks                         → Track
+     GET  /api/tracks/:id                     → Track + modules[]
+     PUT  /api/tracks/:id                     → Track (metadata update)
+     PUT  /api/tracks/:id/modules             → Track (module_ids reorder)
+     POST /api/tracks/:id/publish             → Track (status: published)
+     DELETE /api/tracks/:id                   → { deleted: bool }
+   ════════════════════════════════════════════════════════════════════════ */
+
+// ── State ────────────────────────────────────────────────
+let _modules     = [];    // library cache
+let _tracks      = [];    // track list cache
+let _currentTrack = null; // full expanded track from GET /api/tracks/:id
+let _pendingTags  = [];   // tags in the "new track" modal
+let _dragSrcIdx   = null; // drag-and-drop state
+
+// ── Utilities ────────────────────────────────────────────
+function esc(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function escAttr(s) { return esc(s); }
+
+function srcLabel(src) {
+  if (src === 'AI_TRANSCRIPT') return 'AI-generated';
+  if (src === 'HUMAN_GUIDE')   return 'Cybersoft';
+  if (src === 'ICN_DOC')       return 'ICN / USDA';
+  return src || '';
+}
+function srcClass(src) {
+  if (src === 'AI_TRANSCRIPT') return 'src-badge--ai';
+  if (src === 'ICN_DOC')       return 'src-badge--icn';
+  return 'src-badge--guide';
+}
+
+/** src-badge shared component — used in library left pane, track editor right pane */
+function srcBadge(src) {
+  if (!src) return '';
+  return `<span class="src-badge ${srcClass(src)}">${esc(srcLabel(src))}</span>`;
+}
+
+function debounce(fn, ms) {
+  let t;
+  return function(...a) { clearTimeout(t); t = setTimeout(() => fn(...a), ms); };
+}
+
+// ── Toast ─────────────────────────────────────────────────
+let _toastTimer = null;
+function showToast(msg, type) {
+  const t = document.getElementById('toast');
+  const m = document.getElementById('toast-msg');
+  t.className = 'toast' + (type ? ' ' + type : '');
+  m.textContent = msg;
+  t.hidden = false;
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(hideToast, 4500);
+}
+function hideToast() {
+  document.getElementById('toast').hidden = true;
+}
+
+// ── Module library ────────────────────────────────────────
+async function loadModules(q, source, product) {
+  q       = q       || '';
+  source  = source  || '';
+  product = product || '';
+
+  const container = document.getElementById('lib-scroll');
+  // Skeleton placeholder
+  container.innerHTML = '<div style="padding:8px;display:flex;flex-direction:column;gap:6px;">'
+    + Array.from({length:7}, () => '<div class="skeleton" style="height:52px;"></div>').join('')
+    + '</div>';
+
+  const p = new URLSearchParams();
+  if (q)       p.set('q',       q);
+  if (source)  p.set('source',  source);
+  if (product) p.set('product', product);
+
+  try {
+    const r = await fetch('/api/modules?' + p.toString());
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const d = await r.json();
+    _modules = d.modules || [];
+    const cnt = document.getElementById('lib-count');
+    if (cnt) cnt.textContent = _modules.length
+      + ' module' + (_modules.length === 1 ? '' : 's');
+    renderLibrary();
+  } catch (e) {
+    container.innerHTML = `<div class="lib-empty-state">Could not load modules — ${esc(e.message)}</div>`;
+  }
+}
+
+function renderLibrary() {
+  const container = document.getElementById('lib-scroll');
+  if (!_modules.length) {
+    container.innerHTML = '<div class="lib-empty-state">No approved modules match the current filters.</div>';
+    return;
+  }
+  const inTrack = new Set((_currentTrack && _currentTrack.module_ids) || []);
+
+  container.innerHTML = _modules.map(m => {
+    const in_t = inTrack.has(m.id);
+    return `<div class="mod-card${in_t ? ' in-track' : ''}"
+        tabindex="0" role="button"
+        aria-label="${esc(m.title)}${in_t ? ' (already in track)' : ' — click to add'}"
+        data-mid="${escAttr(m.id)}"
+        onclick="addModuleToTrack('${escAttr(m.id)}')"
+        onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();addModuleToTrack('${escAttr(m.id)}')}">
+      <div class="mod-card-body">
+        <div class="mod-card-title">${esc(m.title)}</div>
+        <div class="mod-card-meta">
+          ${srcBadge(m.source)}
+          ${m.module ? `<span class="mod-card-module">${esc(m.module)}</span>` : ''}
+          ${m.duration_min ? `<span class="mod-card-module">${esc(m.duration_min + ' min')}</span>` : ''}
+        </div>
+      </div>
+      <div class="mod-card-add" aria-hidden="true">${in_t ? '✓' : '+'}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── Track list ────────────────────────────────────────────
+async function loadTracks() {
+  try {
+    const r = await fetch('/api/tracks');
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const d = await r.json();
+    _tracks = d.tracks || [];
+    rebuildTrackSelect();
+  } catch (e) {
+    showToast('Could not load tracks: ' + e.message, 'error');
+  }
+}
+
+function rebuildTrackSelect() {
+  const sel = document.getElementById('track-select');
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">— Select or create a track —</option>'
+    + _tracks.map(t =>
+        `<option value="${escAttr(t.id)}">${esc(t.title)}${t.status === 'published' ? ' ✓' : ''}</option>`
+      ).join('');
+  if (cur && _tracks.some(t => t.id === cur)) sel.value = cur;
+}
+
+// ── Load a track into the editor ──────────────────────────
+async function selectTrack(tid) {
+  if (!tid) { _currentTrack = null; renderEditor(); return; }
+  try {
+    const r = await fetch('/api/tracks/' + tid);
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    _currentTrack = await r.json();
+    renderEditor();
+    renderLibrary(); // refresh in-track markers
+  } catch (e) {
+    showToast('Could not load track: ' + e.message, 'error');
+  }
+}
+
+// ── Render the full editor pane ───────────────────────────
+function renderEditor() {
+  const t = _currentTrack;
+
+  const metaBody      = document.getElementById('meta-body');
+  const modulesList   = document.getElementById('track-modules-list');
+  const statusBadgeEl = document.getElementById('track-status-badge');
+  const actionsCard   = document.getElementById('actions-card');
+  const publishStrip  = document.getElementById('publish-strip');
+  const dropHint      = document.getElementById('drop-hint');
+  const modCountLabel = document.getElementById('mod-count-label');
+  const topBarRight   = document.getElementById('top-bar-right');
+
+  if (!t) {
+    metaBody.innerHTML = '<div class="editor-empty">Select a track from the dropdown above, or create a new one.</div>';
+    modulesList.innerHTML = '<li><div class="track-empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 2H8l-2 5h12z"/></svg>No track selected — pick one above to start building.</div></li>';
+    statusBadgeEl.innerHTML = '';
+    actionsCard.hidden = true;
+    publishStrip.hidden = true;
+    dropHint.hidden = true;
+    modCountLabel.textContent = '';
+    topBarRight.innerHTML = '';
+    return;
+  }
+
+  const pub = t.status === 'published';
+
+  // Status badge
+  const badge = `<span class="status-badge ${pub ? 'published' : 'draft'}">${pub ? 'Published' : 'Draft'}</span>`;
+  statusBadgeEl.innerHTML = badge;
+  topBarRight.innerHTML   = badge;
+
+  // Publish strip
+  publishStrip.hidden = !pub;
+
+  // Publish button
+  const publishBtn = document.getElementById('publish-btn');
+  if (publishBtn) {
+    publishBtn.disabled = pub;
+    publishBtn.innerHTML = pub
+      ? 'Published'
+      : `<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4z"/></svg> Publish track`;
+  }
+
+  // Metadata form — built fresh every render so tags stay live
+  const tags = t.role_tags || [];
+  metaBody.innerHTML = `
+    <div class="field">
+      <label for="ed-title">Track name</label>
+      <input id="ed-title" type="text" value="${esc(t.title)}" maxlength="120" autocomplete="off">
+    </div>
+    <div class="field">
+      <label for="ed-description">Description</label>
+      <textarea id="ed-description" rows="2">${esc(t.description || '')}</textarea>
+    </div>
+    <div class="field-row">
+      <div class="field" style="margin-bottom:0;">
+        <label for="ed-product">Product</label>
+        <select id="ed-product">
+          <option${t.product === 'SchoolCafé' ? ' selected' : ''} value="SchoolCafé">SchoolCafé</option>
+          <option${t.product === 'Family Hub' ? ' selected' : ''} value="Family Hub">Family Hub</option>
+        </select>
+      </div>
+      <div class="field" style="margin-bottom:0;">
+        <label>Role tags</label>
+        <div class="tag-row" id="ed-tag-row">
+          ${tags.map((tg, i) =>
+            `<span class="tag-chip">${esc(tg)}<button onclick="removeEdTag(${i})" aria-label="Remove ${esc(tg)}">×</button></span>`
+          ).join('')}
+        </div>
+        <div class="tag-input-row">
+          <input id="ed-tag-input" type="text" placeholder="Add role…"
+                 autocomplete="off" maxlength="40"
+                 onkeydown="if(event.key==='Enter'||event.key===','){event.preventDefault();addEdTag();}">
+          <button class="secondary" style="padding:6px 10px;" onclick="addEdTag()">Add</button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Module sequence
+  const mods = t.modules || [];
+  modCountLabel.textContent = mods.length + ' module' + (mods.length === 1 ? '' : 's');
+
+  if (!mods.length) {
+    modulesList.innerHTML = `<li><div class="track-empty">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="2" y="7" width="20" height="14" rx="2"/>
+        <path d="M16 2H8l-2 5h12z"/>
+      </svg>
+      No modules yet — click <strong>+</strong> on a module in the library to add it here.
+    </div></li>`;
+  } else {
+    modulesList.innerHTML = mods.map((m, i) =>
+      `<li class="track-mod-item"
+          draggable="true"
+          data-idx="${i}"
+          ondragstart="dragStart(event,${i})"
+          ondragover="dragOver(event,${i})"
+          ondrop="dragDrop(event,${i})"
+          ondragend="dragEnd(event)"
+          role="listitem"
+          aria-label="Module ${i+1}: ${esc(m.title)}">
+        <span class="track-mod-drag-handle" aria-hidden="true">&#8942;&#8942;</span>
+        <span class="track-mod-seq">${i+1}</span>
+        <div class="track-mod-body">
+          <div class="track-mod-title">${esc(m.title)}</div>
+          <div class="track-mod-meta">
+            ${srcBadge(m.source)}
+            ${m.module ? `<span style="font-size:11px;color:var(--muted);font-family:var(--mono);">${esc(m.module)}</span>` : ''}
+          </div>
+        </div>
+        <button class="track-mod-remove" onclick="removeModuleAt(${i})"
+                aria-label="Remove ${esc(m.title)} from track">✕</button>
+      </li>`
+    ).join('');
+  }
+
+  dropHint.hidden = false;
+  actionsCard.hidden = false;
+}
+
+// ── Add / remove modules ──────────────────────────────────
+async function addModuleToTrack(mid) {
+  if (!_currentTrack) { showToast('Select or create a track first.'); return; }
+  if ((_currentTrack.module_ids || []).includes(mid)) {
+    showToast('This module is already in the track.'); return;
+  }
+  await setTrackModules([...(_currentTrack.module_ids || []), mid]);
+}
+
+async function removeModuleAt(idx) {
+  if (!_currentTrack) return;
+  await setTrackModules((_currentTrack.module_ids || []).filter((_, i) => i !== idx));
+}
+
+async function setTrackModules(moduleIds) {
+  try {
+    const r = await fetch('/api/tracks/' + _currentTrack.id + '/modules', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ module_ids: moduleIds }),
+    });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    _currentTrack = await r.json();
+    renderEditor();
+    renderLibrary();
+  } catch (e) {
+    showToast('Could not update modules: ' + e.message, 'error');
+  }
+}
+
+// ── Drag-and-drop reordering ──────────────────────────────
+function dragStart(ev, idx) {
+  _dragSrcIdx = idx;
+  ev.dataTransfer.effectAllowed = 'move';
+  ev.currentTarget.classList.add('dragging');
+}
+function dragOver(ev, idx) {
+  ev.preventDefault();
+  ev.dataTransfer.dropEffect = 'move';
+  document.querySelectorAll('.track-mod-item').forEach(el => el.classList.remove('drag-over'));
+  if (idx !== _dragSrcIdx) ev.currentTarget.classList.add('drag-over');
+}
+function dragDrop(ev, toIdx) {
+  ev.preventDefault();
+  if (_dragSrcIdx === null || _dragSrcIdx === toIdx) return;
+  const ids = [...(_currentTrack.module_ids || [])];
+  const [moved] = ids.splice(_dragSrcIdx, 1);
+  ids.splice(toIdx, 0, moved);
+  _dragSrcIdx = null;
+  setTrackModules(ids);
+}
+function dragEnd() {
+  _dragSrcIdx = null;
+  document.querySelectorAll('.track-mod-item').forEach(el =>
+    el.classList.remove('dragging', 'drag-over'));
+}
+
+// ── Save metadata ─────────────────────────────────────────
+async function saveMeta() {
+  if (!_currentTrack) return;
+  const title       = (document.getElementById('ed-title')?.value || '').trim();
+  const description = document.getElementById('ed-description')?.value || '';
+  const product     = document.getElementById('ed-product')?.value || 'SchoolCafé';
+  if (!title) { showToast('Track name is required.'); return; }
+
+  // Collect tags from rendered tag-row
+  const tagChips = document.querySelectorAll('#ed-tag-row .tag-chip');
+  const role_tags = Array.from(tagChips)
+    .map(c => c.firstChild?.textContent?.trim() || '')
+    .filter(Boolean);
+
+  const btn = document.getElementById('save-meta-btn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Saving…'; }
+  try {
+    const r = await fetch('/api/tracks/' + _currentTrack.id, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ title, description, product, role_tags }),
+    });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    _currentTrack = await r.json();
+    // Update option text in the select
+    const opt = document.querySelector(`#track-select option[value="${CSS.escape(_currentTrack.id)}"]`);
+    if (opt) opt.textContent = _currentTrack.title + (_currentTrack.status === 'published' ? ' ✓' : '');
+    showToast('Track saved.', 'success');
+    renderEditor();
+  } catch (e) {
+    showToast('Save failed: ' + e.message, 'error');
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = 'Save changes'; }
+  }
+}
+
+// ── Publish ───────────────────────────────────────────────
+async function publishTrack() {
+  if (!_currentTrack) return;
+  if (!(_currentTrack.module_ids?.length)) {
+    showToast('Add at least one module before publishing.'); return;
+  }
+  if (!confirm('Publish "' + _currentTrack.title + '"? It will become visible to learners.')) return;
+  const btn = document.getElementById('publish-btn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Publishing…'; }
+  try {
+    const r = await fetch('/api/tracks/' + _currentTrack.id + '/publish', { method: 'POST' });
+    if (!r.ok) {
+      const err = await r.json().catch(() => ({}));
+      throw new Error((err.detail && err.detail.message) || err.message || 'HTTP ' + r.status);
+    }
+    _currentTrack = await r.json();
+    const opt = document.querySelector(`#track-select option[value="${CSS.escape(_currentTrack.id)}"]`);
+    if (opt) opt.textContent = _currentTrack.title + ' ✓';
+    showToast('Track published!', 'success');
+    renderEditor();
+  } catch (e) {
+    showToast('Publish failed: ' + e.message, 'error');
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = `<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4z"/></svg> Publish track`;
+    }
+  }
+}
+
+// ── Delete track ──────────────────────────────────────────
+async function confirmDeleteTrack() {
+  if (!_currentTrack) return;
+  if (!confirm('Delete "' + _currentTrack.title + '"? This cannot be undone.')) return;
+  try {
+    const r = await fetch('/api/tracks/' + _currentTrack.id, { method: 'DELETE' });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    showToast('Track deleted.');
+    _tracks = _tracks.filter(t => t.id !== _currentTrack.id);
+    _currentTrack = null;
+    rebuildTrackSelect();
+    document.getElementById('track-select').value = '';
+    renderEditor();
+    renderLibrary();
+  } catch (e) {
+    showToast('Delete failed: ' + e.message, 'error');
+  }
+}
+
+// ── New-track modal ───────────────────────────────────────
+function openNewTrackModal() {
+  _pendingTags = [];
+  document.getElementById('nt-title').value       = '';
+  document.getElementById('nt-description').value = '';
+  document.getElementById('nt-product').value     = 'SchoolCafé';
+  renderPendingTags();
+  document.getElementById('new-track-overlay').hidden = false;
+  document.getElementById('nt-title').focus();
+}
+function closeNewTrackModal() {
+  document.getElementById('new-track-overlay').hidden = true;
+}
+
+function renderPendingTags() {
+  const row = document.getElementById('nt-tag-row');
+  if (!row) return;
+  row.innerHTML = _pendingTags.map((tg, i) =>
+    `<span class="tag-chip">${esc(tg)}<button onclick="removePendingTag(${i})" aria-label="Remove ${esc(tg)}">×</button></span>`
+  ).join('');
+}
+function addPendingTag() {
+  const inp = document.getElementById('nt-tag-input');
+  if (!inp) return;
+  const val = inp.value.trim().replace(/,/g, '');
+  if (val && !_pendingTags.includes(val)) { _pendingTags.push(val); renderPendingTags(); }
+  inp.value = '';
+  inp.focus();
+}
+function removePendingTag(i) {
+  _pendingTags.splice(i, 1);
+  renderPendingTags();
+}
+
+async function createTrack() {
+  const title       = (document.getElementById('nt-title')?.value || '').trim();
+  const description = document.getElementById('nt-description')?.value || '';
+  const product     = document.getElementById('nt-product')?.value || 'SchoolCafé';
+  const role_tags   = _pendingTags.slice();
+  if (!title) {
+    document.getElementById('nt-title').focus();
+    showToast('Track name is required.');
+    return;
+  }
+  const spinner = document.getElementById('create-spinner');
+  const btn     = document.getElementById('create-track-btn');
+  if (spinner) spinner.hidden = false;
+  if (btn)     btn.disabled   = true;
+  try {
+    const r = await fetch('/api/tracks', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ title, description, product, role_tags }),
+    });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const track = await r.json();
+    _tracks.push(track);
+    rebuildTrackSelect();
+    document.getElementById('track-select').value = track.id;
+    closeNewTrackModal();
+    await selectTrack(track.id);
+    showToast('Track "' + title + '" created.', 'success');
+  } catch (e) {
+    showToast('Create failed: ' + e.message, 'error');
+  } finally {
+    if (spinner) spinner.hidden = true;
+    if (btn)     btn.disabled   = false;
+  }
+}
+
+// ── Editor tag helpers ────────────────────────────────────
+function addEdTag() {
+  const inp = document.getElementById('ed-tag-input');
+  if (!inp) return;
+  const val = inp.value.trim().replace(/,/g, '');
+  if (!val) { inp.focus(); return; }
+  const row = document.getElementById('ed-tag-row');
+  if (!row) return;
+  const existing = Array.from(row.querySelectorAll('.tag-chip'))
+    .map(c => c.firstChild?.textContent?.trim() || '');
+  if (existing.includes(val)) { inp.value = ''; inp.focus(); return; }
+  const i = existing.length;
+  const chip = document.createElement('span');
+  chip.className = 'tag-chip';
+  chip.innerHTML = `${esc(val)}<button onclick="removeEdTag(${i})" aria-label="Remove ${esc(val)}">×</button>`;
+  row.appendChild(chip);
+  inp.value = '';
+  inp.focus();
+  // Re-index all buttons
+  renumberEdTags();
+}
+function removeEdTag(idx) {
+  const row = document.getElementById('ed-tag-row');
+  if (!row) return;
+  const chips = Array.from(row.querySelectorAll('.tag-chip'));
+  if (chips[idx]) chips[idx].remove();
+  renumberEdTags();
+}
+function renumberEdTags() {
+  const row = document.getElementById('ed-tag-row');
+  if (!row) return;
+  row.querySelectorAll('.tag-chip').forEach((chip, i) => {
+    const btn = chip.querySelector('button');
+    if (btn) btn.setAttribute('onclick', `removeEdTag(${i})`);
+  });
+}
+
+// ── Wire up filters and track selector ───────────────────
+document.getElementById('lib-search').addEventListener('input', debounce(() => {
+  loadModules(
+    document.getElementById('lib-search').value,
+    document.getElementById('lib-source').value,
+    document.getElementById('lib-product').value
+  );
+}, 260));
+
+['lib-source','lib-product'].forEach(id => {
+  document.getElementById(id).addEventListener('change', () => {
+    loadModules(
+      document.getElementById('lib-search').value,
+      document.getElementById('lib-source').value,
+      document.getElementById('lib-product').value
+    );
+  });
+});
+
+document.getElementById('track-select').addEventListener('change', function() {
+  selectTrack(this.value);
+});
+
+// Close modal on Escape
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && !document.getElementById('new-track-overlay').hidden) {
+    closeNewTrackModal();
+  }
+});
+
+// ── Bootstrap ─────────────────────────────────────────────
+(async () => {
+  await Promise.all([loadModules(), loadTracks()]);
+  // Auto-select if ?track=<id> is in the URL
+  const sp = new URLSearchParams(window.location.search);
+  const presel = sp.get('track');
+  if (presel && _tracks.some(t => t.id === presel)) {
+    document.getElementById('track-select').value = presel;
+    selectTrack(presel);
+  }
+})();
+</script>
+</body>
+</html>
