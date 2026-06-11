@@ -102,6 +102,9 @@
     .activity::-webkit-scrollbar-thumb:hover,
     .preview::-webkit-scrollbar-thumb:hover { background: #C2BAA8; background-clip: content-box; }
 
+    /* Honour the HTML hidden attribute even when a component rule sets display:flex/inline-flex */
+    [hidden] { display: none !important; }
+
     /* ───────────────────────── Header ───────────────────────── */
     header.top {
       position: fixed;
@@ -1412,7 +1415,7 @@
 
     /* ── Learn: DataCamp-style track cards (detail reuses .path-* above) ── */
     .tracks-hero { margin: var(--sp-5) 30px var(--sp-4); }
-    .tracks-eyebrow { font-size: var(--cfs-micro); font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0 0 6px; }
+    .tracks-eyebrow { font-size: var(--cfs-micro); font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--accent-hover); margin: 0 0 6px; }
     .tracks-h1 { font-family: var(--serif); font-size: 30px; font-weight: 600; margin: 0 0 6px; color: var(--text); }
     .tracks-sub { color: var(--text-soft); font-size: var(--cfs-body); margin: 0; max-width: 640px; }
     .tracks-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: var(--sp-4); margin: 0 30px var(--sp-8); }
@@ -1439,6 +1442,11 @@
     .quiz-score { font-size: 11.5px; font-weight: 700; padding: 2px 8px; border-radius: var(--radius-pill); margin-left: 6px; }
     .quiz-score.pass { background: var(--green-soft); color: var(--green-text); }
     .quiz-score.fail { background: var(--amber-soft, #F3E0C8); color: var(--amber-text, #8A5A12); }
+    /* WCAG 2.1 AA: learner-view minimum body font ≥ 12px (cafeteria staff on phones) */
+    #view-learn .track-role,
+    #view-learn .track-meta,
+    #view-learn .track-prog-lbl,
+    #view-learn .track-blurb { font-size: 12px; }
     .cert-card { text-align: center; padding: 30px 24px; border: 2px solid var(--accent); border-radius: var(--radius); background: linear-gradient(135deg, #FFFDF8, #F3ECE0); }
     .cert-seal { font-size: 42px; }
     .cert-h { font-family: var(--serif); font-size: 13px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-top: 8px; }
@@ -1565,8 +1573,8 @@
     .pj-status-menu button[aria-current="true"] { font-weight: 700; background: var(--accent-soft); }
     .pj-status-menu .pj-status-menu-sub { font-size: 11px; color: var(--muted); font-weight: 400; margin-top: 2px; line-height: 1.35; }
     .tb-l { display: block; font-size: 11.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); margin: 14px 0 6px; }
-    .tb-in { width: 100%; box-sizing: border-box; padding: 9px 11px; border: 1px solid var(--border); border-radius: var(--radius-sm); font: inherit; font-size: 13.5px; background: var(--panel); color: var(--text); }
-    .tb-in:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
+    .tb-in { width: 100%; box-sizing: border-box; padding: 9px 11px; min-height: 44px; border: 1px solid var(--border); border-radius: var(--radius-sm); font: inherit; font-size: 13.5px; background: var(--panel); color: var(--text); }
+    .tb-in:focus { outline: none; border-color: var(--accent); box-shadow: var(--ring); }
     .am-row { display: flex; align-items: center; gap: 10px; font-size: 13.5px; padding: 8px 2px; cursor: pointer; border-bottom: 1px solid var(--border); }
     .am-row:last-child { border-bottom: 0; }
     .am-row .meta { margin-left: auto; border: 0; padding: 0; background: none; text-transform: none; letter-spacing: 0; font-weight: 500; color: var(--muted); font-size: 12px; white-space: nowrap; }
@@ -1680,6 +1688,7 @@
     .og-ai { background: #E4ECF5; color: #2B4A6F; }
     .og-hum { background: var(--green-soft); color: var(--green-text); }
     .og-vendor { background: var(--amber-soft, #F3E0C8); color: var(--amber-text, #8A5A12); }
+    .og-mixed { background: #ECE6F5; color: #574A78; }
     .cat-filters { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-bottom: 6px; }
     .cat-fl { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin: 0 2px 0 8px; }
     .cat-fl:first-child { margin-left: 0; }
@@ -1707,6 +1716,9 @@
     .isd-btn { display: inline-flex; align-items: center; gap: 7px; background: var(--surface); border: 1px solid var(--border);
                border-radius: var(--radius-pill); padding: 6px 13px; cursor: pointer; font-family: var(--font); font-size: 12px; font-weight: 650; color: var(--text); }
     .isd-btn:hover { border-color: var(--accent); color: var(--accent); }
+    /* Non-interactive district label shown in customer view instead of the switcher */
+    .cust-district-label { display: inline-flex; align-items: center; gap: 6px; background: var(--surface); border: 1px solid var(--border);
+                           border-radius: var(--radius-pill); padding: 6px 13px; font-family: var(--font); font-size: 12px; font-weight: 650; color: var(--text); white-space: nowrap; }
     .isd-menu { position: absolute; right: 0; top: calc(100% + 6px); background: var(--panel); border: 1px solid var(--border);
                 border-radius: var(--radius); box-shadow: var(--shadow-lift); min-width: 230px; padding: 6px; z-index: 40; }
     .isd-menu[hidden] { display: none; }
@@ -2059,6 +2071,11 @@
     body.customer-view header.top { box-shadow: inset 0 -3px 0 #1f6f43; }
     body.customer-view .sidebar { box-shadow: inset 3px 0 0 #1f6f43; }
     body.customer-view .brand-product::after { content:' · Customer view'; color:#1f6f43; font-weight:700; }
+    /* Responsive header: wrap to two rows in customer view at mobile so no control overflows */
+    @media (max-width: 768px) {
+      body.customer-view header.top { flex-wrap: wrap; height: auto; min-height: 56px; padding: 8px 14px; gap: 6px; align-content: center; }
+      body.customer-view .top-right { width: 100%; margin-left: 0; justify-content: flex-end; gap: 8px; }
+    }
     .qb-modes { display:inline-flex; gap:4px; background:var(--panel3); padding:4px; border-radius:10px; align-self:flex-start; flex-wrap:wrap; }
     .qb-modes button { border:0; background:transparent; padding:7px 13px; border-radius:7px; font-weight:600; font-size:12.5px; color:var(--muted); cursor:pointer; }
     .qb-modes button.on { background:var(--panel); color:var(--text); box-shadow:0 1px 2px rgba(0,0,0,.07); }
@@ -2110,6 +2127,8 @@
     .ava-menu button { display: block; width: 100%; text-align: left; background: none; border: 0; padding: 9px 11px; border-radius: var(--radius-sm); cursor: pointer; font: inherit; font-size: 12.5px; color: var(--text); }
     .ava-menu button:hover { background: var(--panel3); }
     body.customer-view #ava-menu .ava-qa { display: none; }   /* Quality is trainer-only — no dead click for customers */
+    body.customer-view .lib-subnav { display: none; }         /* Studio tab — authoring workspace, trainer-only */
+    body.customer-view .cat-quiz-btn { display: none; }       /* + Quiz button — build action, trainer-only */
 
     /* ── Track Assignment table + modals (Task 3) ─────────────────────────── */
     .asn-tbl { width:100%; border-collapse:collapse; font-size:13px; }
@@ -2131,7 +2150,7 @@
        Layout/card/seq classes: scoped to .tb-shell.
        .tb-overlay/.tb-modal/.tb-toast: global (position:fixed, outside view section).
        ════════════════════════════════════════════════════════════════════ */
-    .src-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 7px; border-radius: var(--radius-pill); font-size: 9.5px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; white-space: nowrap; }
+    .src-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 7px; border-radius: var(--radius-pill); font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; white-space: nowrap; }
     .src-badge--ai    { background: #E4ECF5; color: #2B4A6F; }
     .src-badge--guide { background: var(--green-soft); color: var(--green-text); }
     .src-badge--icn   { background: var(--amber-soft); color: var(--amber-text); }
@@ -2152,7 +2171,7 @@
     .tb-shell .lib-search:focus { border-color: var(--accent); box-shadow: var(--ring); }
     .tb-shell .lib-filter-row { display: flex; gap: 6px; flex-wrap: wrap; padding-bottom: 10px; }
     .tb-shell .lib-filter-select { padding: 5px 28px 5px 9px; background: var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236B6860' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 8px center; appearance: none; -webkit-appearance: none; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); font: inherit; font-size: 12px; color: var(--text); outline: none; cursor: pointer; flex: 1; min-width: 88px; }
-    .tb-shell .lib-filter-select:focus { border-color: var(--accent); }
+    .tb-shell .lib-filter-select:focus { border-color: var(--accent); box-shadow: var(--ring); outline: none; }
     .tb-shell .lib-count { padding: 6px 14px 4px; font-size: 11px; color: var(--muted); }
     .tb-shell .lib-scroll { flex: 1; overflow-y: auto; padding: 6px 10px 14px; }
     .tb-shell .lib-scroll::-webkit-scrollbar { width: 10px; }
@@ -2304,6 +2323,7 @@
       </button>
       <div class="isd-menu" id="isd-menu" hidden></div>
     </div>
+    <span class="cust-district-label" id="cust-district-label" hidden></span>
     <button class="quality-btn" id="quality-btn" onclick="showView('evals')" title="Quality — grounding checks &amp; every claim cited" aria-label="Quality dashboard">
       <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
     </button>
@@ -2889,11 +2909,11 @@
   </header>
   <div class="lib-filterbar cat-filterbar">
     <div class="fb-field"><label for="cat-type">Type</label><select id="cat-type" onchange="renderCatalogDemo()"><option value="">All</option><option value="Guide">Guide</option><option value="Quiz">Quiz</option><option value="Track">Track</option></select></div>
-    <div class="fb-field"><label for="cat-source">Source</label><select id="cat-source" onchange="renderCatalogDemo()"><option value="">All sources</option><option value="internal">Cybersoft</option><option value="vendor">Outside vendor</option></select></div>
+    <div class="fb-field"><label for="cat-source">Source</label><select id="cat-source" onchange="renderCatalogDemo()"><option value="">All sources</option><option value="ai">AI-built</option><option value="internal">Cybersoft guide</option><option value="vendor">Outside vendor</option></select></div>
     <div class="fb-field"><label for="cat-module">Module</label><select id="cat-module" onchange="renderCatalogDemo()"><option value="">All</option></select></div>
     <div class="fb-field"><label for="cat-sort">Sort by</label><select id="cat-sort" onchange="renderCatalogDemo()"><option value="title">Title A–Z</option><option value="type">Type</option><option value="module">Module A–Z</option></select></div>
     <div class="fb-field fb-search"><label for="cat-search">Search</label><input id="cat-search" type="text" placeholder="title, module, source…" autocomplete="off" oninput="renderCatalogDemo()" /></div>
-    <button class="secondary" style="margin-left:auto;" onclick="openQuizBuilder()" title="Build a grounded quiz from a guide or content asset">+ Quiz</button>
+    <button class="secondary cat-quiz-btn" style="margin-left:auto;" onclick="openQuizBuilder()" title="Build a grounded quiz from a guide or content asset">+ Quiz</button>
   </div>
   <div class="cat-wrap">
     <div class="panel" style="min-width:0;">
@@ -2908,7 +2928,7 @@
   <div class="quiz-sheet" role="dialog" aria-modal="true" aria-labelledby="quiz-title">
     <div class="quiz-head">
       <div>
-        <div class="quiz-kicker">Auto-generated quiz</div>
+        <div class="quiz-kicker" id="quiz-kicker">Auto-generated quiz</div>
         <h3 id="quiz-title">Quiz</h3>
       </div>
       <button class="quiz-close" onclick="closeQuiz()" aria-label="Close">✕</button>
@@ -2991,7 +3011,7 @@
         <div id="district-stage-row" class="district-stage-row"></div>
         <p class="roster-sub" id="district-sub"></p>
       </div>
-      <button class="secondary" onclick="showView('manage')">← All districts</button>
+      <div style="display:flex;gap:8px;align-items:center;"><span class="demo-tag">Demo data</span><button class="secondary" onclick="showView('manage')">← All districts</button></div>
     </div>
     <div id="district-body"></div>
   </div>
@@ -3350,7 +3370,7 @@ const _DEMO = (() => {
     { title:'Inventory Distribution', module:'Inventory', format:'Long-form', status:'In review', created:'Jun 7', origin:'AI-generated' },
     { title:'Cycle Menu Setup', module:'Menu Planning', format:'Micro', status:'Approved', created:'Jun 5', origin:'AI-generated' },
     { title:'Summer Meal Service Notes', module:'POS', format:'TLDR', status:'Draft', created:'Jun 9', origin:'AI-generated' },
-    { title:'New Cashier Onboarding', module:'POS', format:'Track', status:'Approved', created:'Jun 4', origin:'Human-authored' },
+    { title:'New Cashier Onboarding', module:'POS', format:'Track', status:'Approved', created:'Jun 4', origin:'Mixed sources' },
     { title:'Direct Certification Workflow', module:'Eligibility', format:'Long-form', status:'Approved', created:'Jun 7', origin:'AI-generated' },
     { title:'Verification Rules', module:'Eligibility', format:'Long-form', status:'Draft', created:'Jun 9', origin:'AI-generated' },
     { title:'POS Knowledge Check', module:'POS', format:'Quiz', status:'In review', created:'Jun 6', origin:'AI-generated' },
@@ -3781,10 +3801,27 @@ function applyViewMode() {
   // Catalog, so hide the Studio/Catalog sub-tab strip for them.
   document.querySelectorAll('.lib-subnav').forEach(el => { el.hidden = _viewMode === 'customer'; });
   show('cmode-studyset', _extLearning && _viewMode === 'trainer');
-  // district switcher: trainers can switch ISDs; a customer is locked to their own
-  const isdBtn = document.getElementById('isd-btn');
-  if (isdBtn) { isdBtn.style.pointerEvents = _viewMode === 'customer' ? 'none' : ''; isdBtn.style.opacity = _viewMode === 'customer' ? '.6' : ''; }
-  const ava = document.getElementById('user-ava'); if (ava) ava.textContent = _viewMode === 'customer' ? 'DC' : 'SR';
+  // district switcher: hide entirely in customer view (no tenant-hopping); show a static label instead
+  const isdSwitch = document.querySelector('.isd-switch');
+  if (isdSwitch) isdSwitch.hidden = _viewMode === 'customer';
+  const custLabel = document.getElementById('cust-district-label');
+  if (custLabel) {
+    custLabel.hidden = _viewMode !== 'customer';
+    if (_viewMode === 'customer') {
+      const d = typeof _curDistrict === 'function' ? _curDistrict() : null;
+      custLabel.textContent = d ? d.name : (document.getElementById('isd-name') || {}).textContent || 'Your district';
+    }
+  }
+  // avatar: trainer initials in trainer view; district initials in customer view
+  const ava = document.getElementById('user-ava');
+  if (ava) {
+    if (_viewMode === 'customer') {
+      const d = typeof _curDistrict === 'function' ? _curDistrict() : null;
+      ava.textContent = d ? d.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase() : 'DC';
+    } else {
+      ava.textContent = 'SR';
+    }
+  }
   const ibtn = document.getElementById('inbox-btn'); if (ibtn) ibtn.hidden = _viewMode === 'customer';   // approvals inbox is a trainer concept
   const ibadge = document.getElementById('inbox-badge'); if (ibadge) { const nHelp = _myDistricts().filter(d => d.help_request && !_demoState.helpCleared[d.id]).length; ibadge.textContent = _viewMode === 'customer' ? '' : String(_DEMO.inbox.length + nHelp); }
   // Loud, persistent customer-view signal so a screen-share is never mistaken for internal.
@@ -4142,11 +4179,12 @@ function tbkSave() {
   tbkClose(); renderTrackList(); alert('Track “' + name + '” created — it’s now live in Learn.');
 }
 // ─── Library (studio-produced, all statuses) + Catalog (ready-to-use, all origins) ───
-function _originBadge(o){ const c = o === 'AI-generated' ? 'og-ai' : o === 'Human-authored' ? 'og-hum' : 'og-vendor'; return `<span class="og ${c}">${escapeHtml(o)}</span>`; }
+const _ORIGIN_LABELS = { 'AI-generated': 'AI-built', 'Human-authored': 'Cybersoft guide' };
+function _originBadge(o){ const label = _ORIGIN_LABELS[o] || o; const c = o === 'AI-generated' ? 'og-ai' : o === 'Human-authored' ? 'og-hum' : o === 'Mixed sources' ? 'og-mixed' : 'og-vendor'; return `<span class="og ${c}">${escapeHtml(label)}</span>`; }
 function _statusChip(s){ const c = s === 'Approved' ? 'approved' : s === 'In review' ? 'pending' : 'draft'; return `<span class="badge ${c}">${escapeHtml(s)}</span>`; }
 function _userStudioItems(){
-  const cs = (_demoState.userCourses || []).map(c => ({ title: c.title, module: c.module || '—', format: 'Track', status: 'Draft', created: 'Today', origin: 'Human-authored' }));
-  const ts = (_demoState.userTracks || []).map(t => ({ title: t.title, module: '—', format: 'Track', status: 'Draft', created: 'Today', origin: 'Human-authored' }));
+  const cs = (_demoState.userCourses || []).map(c => ({ title: c.title, module: c.module || '—', format: 'Track', status: 'Draft', created: 'Today', origin: 'Mixed sources' }));
+  const ts = (_demoState.userTracks || []).map(t => ({ title: t.title, module: '—', format: 'Track', status: 'Draft', created: 'Today', origin: 'Mixed sources' }));
   return cs.concat(ts);
 }
 // Studio worklist now reads the REAL backend: every resource (drafts + approved) from /resources
@@ -4159,14 +4197,9 @@ async function loadLibraryDemo(){
       fetch('/resources').then(r=>r.json()),
       fetch('/api/tracks').then(r=>r.json()),
     ]);
-    const items = (rs||[]).map(r=>({
-      title: r.title || r.id, module: r.module || '',
-      format: r.template ? _FMT_PRETTY(r.template) : 'Guide',
-      status: inLibrary(r) ? 'Approved' : (r.status==='pending_sme_review' ? 'In review' : 'Draft'),
-      created: _fmtDate(r.created_at) || '', origin: r.origin==='internal' ? 'Human-authored' : 'AI-generated',
-    }));
+    const items = (rs||[]).map(r=>{ const rawT=r.title||r.id||''; const isSlug=/^\d{8}-/.test(rawT); const fmt=r.template?_FMT_PRETTY(r.template):'Guide'; return { title:isSlug?`${r.module||'Guide'} · ${fmt}`:rawT, slug:isSlug?rawT:null, module:r.module||'', format:fmt, status:inLibrary(r)?'Approved':(r.status==='pending_sme_review'?'In review':'Draft'), created:_fmtDate(r.created_at)||'', origin:r.origin==='internal'?'Human-authored':'AI-generated' }; });
     const trks = (tr.tracks||[]).filter(t=>t.status==='published').map(t=>({
-      title:t.title, module:(t.role_tags||[])[0]||'All staff', format:'Track', status:'Approved', created:'', origin:'Human-authored',
+      title:t.title, module:(t.role_tags||[])[0]||'All staff', format:'Track', status:'Approved', created:'', origin:'Mixed sources',
     }));
     _realStudio = trks.concat(items);
   } catch(e) { _realStudio = null; }
@@ -4219,7 +4252,10 @@ function renderLibraryDemo(){
     const action = i.status === 'Approved'
       ? '<button class="lib-open-btn" onclick="event.stopPropagation();reviewDemoItem(' + idx + ')">View</button>'
       : `<button class="lib-review-btn" onclick="event.stopPropagation();reviewDemoItem(${idx})">Review →</button>`;
-    return `<tr class="lib-row" data-state="${st}" role="button" tabindex="0" onclick="reviewDemoItem(${idx})" onkeydown="if(event.key==='Enter'){event.preventDefault();reviewDemoItem(${idx});}"><td class="lib-c-title">${escapeHtml(i.title)}</td><td>${escapeHtml(i.module)}</td><td>${escapeHtml(i.format)}</td><td>${_statusChip(i.status)}</td><td>${escapeHtml(i.created)}</td><td>${_originBadge(i.origin)}</td><td class="lib-c-action">${action}</td></tr>`;
+    const titleCell = i.slug
+      ? `<td class="lib-c-title">${escapeHtml(i.title)}<br><span style="font-size:11px;font-weight:400;color:var(--muted);letter-spacing:0;">${escapeHtml(i.slug)}</span></td>`
+      : `<td class="lib-c-title">${escapeHtml(i.title)}</td>`;
+    return `<tr class="lib-row" data-state="${st}" role="button" tabindex="0" onclick="reviewDemoItem(${idx})" onkeydown="if(event.key==='Enter'){event.preventDefault();reviewDemoItem(${idx});}">` + titleCell + `<td>${escapeHtml(i.module)}</td><td>${escapeHtml(i.format)}</td><td>${_statusChip(i.status)}</td><td>${escapeHtml(i.created)}</td><td>${_originBadge(i.origin)}</td><td class="lib-c-action">${action}</td></tr>`;
   }).join('') || '<tr><td colspan="7" class="lib-empty">Nothing in this view — switch to “All” or create content in Create.</td></tr>';
   h += '</tbody></table>';
   grid.innerHTML = h;
@@ -4248,21 +4284,24 @@ function _catalogItems(){
   if (_realCatalog) return _realCatalog;
   const sa = _DEMO.studio.filter(i => i.status === 'Approved').map(i => ({ title: i.title, module: i.module, type: i.format === 'Quiz' ? 'Quiz' : i.format === 'Track' ? 'Track' : 'Guide', origin: i.origin }));
   const im = _DEMO.imported.map(i => ({ title: i.title, module: i.module, type: 'Guide', origin: i.origin }));
-  const tr = _allDemoTracks().map(t => ({ title: t.title, module: t.role, type: 'Track', origin: 'Human-authored' }));
+  const tr = _allDemoTracks().map(t => ({ title: t.title, module: t.role, type: 'Track', origin: 'Mixed sources' }));
   const qz = _DEMO.quality.filter(q => q.format === 'Quiz').map(q => ({ title: q.title, module: q.module, type: 'Quiz', origin: 'AI-generated' }));
   const seen = {}, out = []; sa.concat(im, tr, qz).forEach(x => { if (!seen[x.title]) { seen[x.title] = 1; out.push(x); } });
   return out;
 }
 async function loadCatalogDemo(){
   try {
-    const [mr, tr] = await Promise.all([
+    const [mr, tr, qr] = await Promise.all([
       fetch('/api/modules').then(r=>r.json()),
       fetch('/api/tracks').then(r=>r.json()),
+      fetch('/api/quizzes').then(r=>r.json()).catch(()=>({quizzes:[]})),
     ]);
     const srcOrigin = s => s==='ICN_DOC' ? 'Outside vendor' : s==='HUMAN_GUIDE' ? 'Human-authored' : 'AI-generated';
-    const mods = (mr.modules||[]).map(m=>({ title:m.title, module:m.module||'', type:'Guide', origin:srcOrigin(m.source) }));
-    const trks = (tr.tracks||[]).filter(t=>t.status==='published').map(t=>({ title:t.title, module:(t.role_tags||[])[0]||'All staff', type:'Track', origin:'Human-authored' }));
-    const seen={}, out=[]; trks.concat(mods).forEach(x=>{ if(!seen[x.title]){ seen[x.title]=1; out.push(x); } });
+    const mods = (mr.modules||[]).map(m=>({ title: m.source==='ICN_DOC' ? _cleanIcnTitle(m.title) : (m.title||m.id), module:m.module||'', type:'Guide', origin:srcOrigin(m.source) }));
+    const trks = (tr.tracks||[]).filter(t=>t.status==='published').map(t=>({ title:t.title, module:(t.role_tags||[])[0]||'All staff', type:'Track', origin:'Mixed sources' }));
+    // Approved, grounded quizzes are ready-to-use too — show them in the catalog (and make them takeable).
+    const qzs = ((qr&&qr.quizzes)||[]).filter(q=>q.status==='approved').map(q=>({ title:q.title||'Knowledge check', module:(q.source_label||'Quiz'), type:'Quiz', origin:'AI-generated', quizId:q.id }));
+    const seen={}, out=[]; trks.concat(qzs, mods).forEach(x=>{ if(!seen[x.title]){ seen[x.title]=1; out.push(x); } });
     _realCatalog = out;
   } catch(e) { _realCatalog = null; }
   renderCatalogDemo();
@@ -4273,8 +4312,9 @@ let _catDemoItems = [];
 function openCatalogDetail(i){
   const x = (_catDemoItems || [])[i]; if (!x) return;
   const kind = (x.type || 'asset').toLowerCase();
-  const quizable = x.type !== 'Track';
-  const quizBtn = quizable ? `<button class="primary" onclick="closeDrawer();openQuizBuilder()">Build a quiz from this</button>` : '';
+  const actionBtn = (x.type === 'Quiz' && x.quizId)
+    ? `<button class="primary" onclick="closeDrawer();takeCatalogQuiz('${escAttr(x.quizId)}')">Take this quiz</button>`
+    : (x.type !== 'Track' ? `<button class="primary" onclick="closeDrawer();openQuizBuilder()">Build a quiz from this</button>` : '');
   const html = `<div class="cat-detail">
       <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
         <span class="cat-type" style="color:var(--accent);">${escapeHtml(x.type)}</span>${_originBadge(x.origin)}
@@ -4283,9 +4323,18 @@ function openCatalogDetail(i){
       <div class="cat-detail-note">
         <strong>Cited &amp; attributed.</strong> Every claim in this ${escapeHtml(kind)} traces to its source — an internal Cybersoft guide, an approved AI-built draft, or credited outside-vendor training. Nothing here is invented.
       </div>
-      <div class="cat-detail-actions">${quizBtn}<button class="secondary" onclick="closeDrawer()">Close</button></div>
+      <div class="cat-detail-actions">${actionBtn}<button class="secondary" onclick="closeDrawer()">Close</button></div>
     </div>`;
   openDrawer(x.title, html);
+}
+// Take an approved quiz straight from a catalog card (loads the persisted, grounded quiz).
+async function takeCatalogQuiz(qid){
+  const m=document.getElementById('quiz-modal'), body=document.getElementById('quiz-body'), foot=document.getElementById('quiz-foot');
+  if(m) m.hidden=false; if(body) body.innerHTML='<div style="padding:22px;color:var(--muted);">Loading…</div>'; if(foot) foot.innerHTML='';
+  try{
+    const q=await (await fetch('/api/quizzes/'+encodeURIComponent(qid))).json();
+    openTaker(q.title||'Knowledge check', q.questions||[], { attribution: q.source_label||'' });
+  }catch(e){ _quizFallback(()=>takeCatalogQuiz(qid), false); }
 }
 function _catPopulate(items){
   const mSel = document.getElementById('cat-module');
@@ -4305,7 +4354,8 @@ function renderCatalogDemo(){
   let items = all.slice();
   if (cf) items = items.filter(x => x.title.toLowerCase().includes(cf.toLowerCase()));
   if (type) items = items.filter(x => x.type === type);
-  if (source === 'internal') items = items.filter(x => !_catIsVendor(x.origin));
+  if (source === 'ai') items = items.filter(x => x.origin === 'AI-generated');
+  else if (source === 'internal') items = items.filter(x => x.origin === 'Human-authored');
   else if (source === 'vendor') items = items.filter(x => _catIsVendor(x.origin));
   if (mod) items = items.filter(x => x.module === mod);
   if (q) items = items.filter(x => (`${x.title} ${x.module || ''} ${x.origin}`).toLowerCase().includes(q));
@@ -5525,6 +5575,10 @@ function _icnTypeKey(t) {
   if (t.includes('ppt') || t.includes('slide') || t.includes('present')) return 'ppt';
   return 'web';
 }
+// Strip raw filename noise from ICN asset titles (_eng, _N_eng suffixes; underscores to spaces).
+function _cleanIcnTitle(t) {
+  return (t||'Untitled').replace(/_\d+_eng$/i,'').replace(/_eng$/i,'').replace(/_/g,' ').replace(/\s{2,}/g,' ').trim()||'Untitled';
+}
 function _icnCard(c) {
   const lic = c._source === 'internal' ? { cls: 'cyber', label: 'Cybersoft' } : _icnLic(c.license_posture);
   const href = (c.license_posture === 'embed_only' ? c.embed_url : c.source_url) || c.source_url || '#';
@@ -5544,7 +5598,7 @@ function _icnCard(c) {
     : '';
   return `<article class="icn-card" data-type="${escapeHtml(typeKey)}">${thumb}<div class="icn-body">
       <div class="icn-type">${_icnGlyph(c.asset_type)}<span>${escapeHtml(c.asset_type || 'Resource')}</span></div>
-      <h3 class="icn-title">${escapeHtml(c.title||'Untitled')}</h3>
+      <h3 class="icn-title">${escapeHtml(_cleanIcnTitle(c.title))}</h3>
       <div class="icn-chips">${chips}</div>
       <div class="icn-bottom">
         <div class="icn-meta">
@@ -5566,7 +5620,7 @@ function renderICN() {
     (!source || c._source === source) &&
     (!role || (c.roles||[]).includes(role)) &&
     (!topic || (c.topics||[]).includes(topic)) &&
-    (!q || (c.title+' '+(c.topics||[]).join(' ')+' '+(c.source_label||'')).toLowerCase().includes(q)));
+    (!q || (_cleanIcnTitle(c.title)+' '+(c.topics||[]).join(' ')+' '+(c.source_label||'')).toLowerCase().includes(q)));
   const licRank = {download_allowed:0, embed_only:1, link_only:2};
   cards.sort((a, b) => {
     if (sort === 'type') return (a.asset_type||'').localeCompare(b.asset_type||'') || (a.title||'').localeCompare(b.title||'');
@@ -5678,7 +5732,7 @@ function openPath(i) {
       <p class="path-eyebrow">Track path${p.role ? ' · ' + escapeHtml(p.role) : ''}</p>
       <h1 class="path-title">${escapeHtml(p.title || '')}</h1>
       <p class="path-desc">${escapeHtml(p.description || '')}</p>
-      <div class="path-stats"><span><b>${mods.length}</b>modules</span><span><b>${quizzable}</b>quizzable</span><span>✓ every claim cited</span></div>
+      <div class="path-stats"><span><b>${mods.length}</b>modules</span><span><b>${quizzable}</b>quizzable</span><span>✓ sources cited &amp; credited</span></div>
       ${cta}
     </header>
     <div class="path-layout">
@@ -5766,7 +5820,8 @@ function renderLearnGrid() {
   document.getElementById('tracks-hero').hidden = false;
   grid.hidden = false;
   const role = _learnRole();
-  const who = { 'Cashier': 'e.g. John Doe · ABC ISD', 'CN Director': 'e.g. Dana · ABC ISD', 'Site Manager': '' }[role] || '';
+  const _isdName = (_curDistrict() || {}).name || 'your district';
+  const who = { 'Cashier': `e.g. John Doe · ${_isdName}`, 'CN Director': `e.g. Dana · ${_isdName}`, 'Site Manager': '' }[role] || '';
   // "Viewing as" — the role decides which assigned tracks a learner sees (FR-LP-03/07).
   const roleBar = `<div class="learn-rolebar" style="grid-column:1/-1;display:flex;align-items:center;gap:10px;margin:0 0 6px;">
       <span style="font-size:12.5px;color:var(--muted);">Viewing as</span>
@@ -5777,15 +5832,15 @@ function renderLearnGrid() {
     </div>`;
   // Real, published tracks assigned to this role — built live this session (Seam B).
   const realCards = _realTracksForRole(role).map(t => {
-    const n = (t.module_ids || []).length, rt = t.role_tags || [];
+    const n = (t.module_ids || []).length, rt = t.role_tags || [], pct = _rtPct(t);
     return `<button class="track-card" onclick="openRealTrack('${t.id}')">
       <div class="track-ava">★</div>
       <div class="track-main">
         <div class="track-role">${escapeHtml(rt[0] || 'All staff')} track <span class="src-badge src-badge--ai" style="margin-left:6px;">Assigned</span></div>
         <div class="track-title">${escapeHtml(t.title)}</div>
         <div class="track-meta"><span>${n} module${n === 1 ? '' : 's'}</span><span>·</span><span>Published</span></div>
-        <div class="track-prog"><div class="track-prog-bar" style="width:0%"></div></div>
-        <div class="track-prog-lbl">Not started</div>
+        <div class="track-prog"><div class="track-prog-bar" style="width:${pct}%"></div></div>
+        <div class="track-prog-lbl">${pct ? pct + '% complete' : 'Not started'}</div>
       </div></button>`;
   }).join('');
   // Seeded demo tracks for this role (kept so the grid is rich for every role).
@@ -5794,7 +5849,7 @@ function renderLearnGrid() {
     return `<button class="track-card" onclick="openTrack('${t.id}')">
       <div class="track-ava">${escapeHtml(t.instructor || 'T')}</div>
       <div class="track-main">
-        <div class="track-role">${escapeHtml(t.role)} track</div>
+        <div class="track-role">${escapeHtml(t.role)} track <span class="demo-tag" style="margin-left:6px;">Demo</span></div>
         <div class="track-title">${escapeHtml(t.title)}</div>
         <div class="track-meta"><span>${cs.length} track${cs.length === 1 ? '' : 's'}</span><span>·</span><span>~${_trackEst(t)}</span><span>·</span><span>Due ${escapeHtml(t.due || _DEMO.due)}</span></div>
         <div class="track-prog"><div class="track-prog-bar" style="width:${pct}%"></div></div>
@@ -5803,37 +5858,56 @@ function renderLearnGrid() {
   }).join('');
   grid.innerHTML = roleBar + realCards + demoCards;
 }
+// Learner completion for a REAL track (demo-session state, keyed by track id → completed module ids).
+function _rtDoneSet(tid) { _demoState.rtDone = _demoState.rtDone || {}; return (_demoState.rtDone[tid] = _demoState.rtDone[tid] || new Set()); }
+function _rtPct(t) { const ids = (t && t.module_ids) || []; const s = _rtDoneSet(t.id); const done = ids.filter(id => s.has(id)).length; return ids.length ? Math.round(100 * done / ids.length) : 0; }
+function _rtToggle(tid, mid) { const s = _rtDoneSet(tid); if (s.has(mid)) s.delete(mid); else s.add(mid); if (_curRealTrack && _curRealTrack.id === tid) _renderRealTrack(_curRealTrack); }
 // A REAL published track (built + assigned this session). Lists its mixed modules — AI-grounded
 // guide (opens its PDF), Cybersoft guide, and credited ICN/USDA reference (links out). Guides
-// offer a grounded quiz. This is the learner end of the build → assign → learn pipe.
+// offer a grounded quiz; finishing every module unlocks a downloadable completion certificate.
+// This is the learner end of the build → assign → learn → certify pipe.
+let _curRealTrack = null;
 async function openRealTrack(tid) {
   let t; try { t = await (await fetch('/api/tracks/' + encodeURIComponent(tid))).json(); } catch (e) { return; }
   if (!t || t.error) return;
-  _curTrack = null; _curCourse = null;
-  const mods = t.modules || [], rt = t.role_tags || [];
+  _curTrack = null; _curCourse = null; _curRealTrack = t;
+  _renderRealTrack(t);
+}
+function _renderRealTrack(t) {
+  const mods = t.modules || [], rt = t.role_tags || [], doneSet = _rtDoneSet(t.id);
   const rows = mods.map((m, i) => {
     const isGuide = m.source === 'AI_TRANSCRIPT' || m.source === 'HUMAN_GUIDE';
+    const done = doneSet.has(m.id);
     const open = m.source === 'ICN_DOC'
       ? (m.source_url ? `<a class="track-open" href="${escapeHtml(m.source_url)}" target="_blank" rel="noopener noreferrer">Open reference ↗</a>` : '<span class="track-soon">Credited reference</span>')
       : `<button class="track-open" onclick="event.stopPropagation(); window.open('/resources/' + encodeURIComponent('${m.id}') + '/pdf','_blank')">Open guide ↗</button>`;
     const quiz = isGuide ? `<button class="track-open" onclick="event.stopPropagation(); realQuiz('${m.id}')">Take quiz</button>` : '';
+    const mark = `<button class="track-done ${done ? 'is-done' : ''}" onclick="event.stopPropagation(); _rtToggle('${t.id}','${escAttr(m.id)}')">${done ? 'Completed' : 'Mark complete'}</button>`;
     return `<li class="path-mod" data-type="${m.source === 'ICN_DOC' ? 'demo' : 'pdf'}">
-        <span class="path-num">${i + 1}</span>
+        <span class="path-num">${done ? '✓' : i + 1}</span>
         <div class="path-mod-main">
           <div class="icn-type">📄 <span>${escapeHtml(m.module || '')}</span> ${tbSrcBadge(m.source)}</div>
           <div class="path-mod-title">${escapeHtml(m.title)}</div>
-          <div class="path-mod-actions">${open}${quiz}</div>
+          <div class="path-mod-actions">${open}${quiz}${mark}</div>
         </div></li>`;
   }).join('');
+  const pct = _rtPct(t), allDone = mods.length > 0 && pct === 100;
+  const certRow = `<li class="path-mod" data-type="certify"><span class="path-num">${allDone ? '🏅' : mods.length + 1}</span>
+      <div class="path-mod-main"><div class="icn-type">🏅 <span>certify</span></div><div class="path-mod-title">Track certificate</div>
+        <div class="path-mod-actions">${allDone
+          ? `<button class="track-open" onclick="event.stopPropagation(); issueTrackCertificate('${t.id}')">Get certificate</button>`
+          : '<span class="track-soon">Complete every module to unlock</span>'}</div>
+      </div></li>`;
   document.getElementById('track-detail').innerHTML = `
     <button class="path-back" onclick="renderLearnGrid()">← All tracks</button>
     <header class="path-hero">
       <p class="path-eyebrow">${escapeHtml(t.product || 'SchoolCafé')} · ${escapeHtml(rt[0] || 'All staff')} track</p>
       <h1 class="path-title">${escapeHtml(t.title)}</h1>
-      <div class="path-stats"><span><b>${mods.length}</b>modules</span><span>✓ every claim cited</span></div>
+      <div class="path-stats"><span><b>${mods.length}</b>modules</span><span><b>${pct}%</b>done</span><span>${mods.length && mods.every(m => m.source === 'AI_TRANSCRIPT') ? '✓ every claim cited' : '✓ sources cited &amp; credited'}</span></div>
+      ${allDone ? '<span class="track-cert">🏅 Track complete — ready to certify</span>' : ''}
     </header>
     <div class="path-layout">
-      <ol class="path-modules">${rows || '<li class="path-empty">No modules in this track yet.</li>'}</ol>
+      <ol class="path-modules">${rows || '<li class="path-empty">No modules in this track yet.</li>'}${mods.length ? certRow : ''}</ol>
       <aside class="path-aside"><h4>About this track</h4><p class="path-aside-note">Mixes approved AI-grounded guides, your Cybersoft guides, and credited ICN / USDA references — assigned to the ${escapeHtml(rt[0] || 'staff')} role. ICN content links to its source; nothing here is reproduced or invented.</p></aside>
     </div>`;
   document.getElementById('tracks-hero').hidden = true;
@@ -5841,19 +5915,71 @@ async function openRealTrack(tid) {
   document.getElementById('track-detail').hidden = false;
   window.scrollTo(0, 0);
 }
-// Grounded quiz from a real module/guide (same engine as the demo course quiz).
-async function realQuiz(rid) {
-  const m = document.getElementById('quiz-modal'), body = document.getElementById('quiz-body'), foot = document.getElementById('quiz-foot');
+// Issue a real, persisted completion certificate (FR-CP-08) for a finished track, then show it
+// as a downloadable card. The server records who completed what and when.
+async function issueTrackCertificate(tid) {
+  const m = document.getElementById('quiz-modal'), body = document.getElementById('quiz-body'), foot = document.getElementById('quiz-foot'), ttl = document.getElementById('quiz-title');
   if (m) m.hidden = false;
-  if (body) body.innerHTML = '<div style="padding:22px; color:var(--muted);">Generating a grounded quiz…</div>';
+  if (ttl) ttl.textContent = 'Certificate';
+  if (body) body.innerHTML = '<div style="padding:22px; color:var(--muted);">Issuing your certificate…</div>';
   if (foot) foot.innerHTML = '';
   try {
-    const q = await (await fetch('/api/quizzes/generate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ source_type: 'resource', source_id: rid, n: 5 }) })).json();
-    openTaker(q.title || 'Knowledge check', (q && q.questions) || [], { attribution: q.source_label || '' });
+    const r = await fetch('/api/certificates', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ track_id: tid, learner_name: 'Demo Learner' }) });
+    if (!r.ok) throw new Error('issue failed');
+    _renderCertificate(await r.json());
   } catch (e) {
-    if (body) body.innerHTML = '<div class="async-error"><p class="ae-title">Couldn’t generate the quiz</p><p>Please try again in a moment.</p></div>';
+    if (body) body.innerHTML = '<div class="async-error" style="padding:26px;"><p class="ae-title">Couldn’t issue the certificate</p><p>Please try again in a moment.</p></div>';
   }
 }
+function _renderCertificate(c) {
+  const body = document.getElementById('quiz-body'), foot = document.getElementById('quiz-foot'), ttl = document.getElementById('quiz-title');
+  if (ttl) ttl.textContent = 'Certificate';
+  const k = document.getElementById('quiz-kicker'); if (k) k.textContent = 'Track completion';
+  const date = (c.issued_at || '').slice(0, 10);
+  if (body) body.innerHTML = `<div class="cert-card"><div class="cert-seal">🏅</div><div class="cert-h">Certificate of Completion</div><div class="cert-name">${escapeHtml(c.learner_name || 'Demo Learner')}</div><div class="cert-sub">has completed</div><div class="cert-track">${escapeHtml(c.track_title || '')}</div><div class="cert-date">${escapeHtml(date)} · ${escapeHtml(c.product || 'SchoolCafé')} Learning Studio</div><div class="cert-id" style="margin-top:10px;font-size:10.5px;color:var(--muted);letter-spacing:.04em;">Certificate ID: ${escapeHtml(c.id || '')}</div></div>`;
+  if (foot) foot.innerHTML = '<button class="primary" onclick="window.print()">Download</button>';
+}
+// Grounded quiz for a guide/module. Trust-first + demo-safe:
+//   1) prefer a pre-APPROVED, persisted quiz for this resource (no live LLM at showtime —
+//      every answer already traces verbatim to the guide, re-verified server-side);
+//   2) else generate live;
+//   3) never dead-end — a failed or zero-verified result shows a friendly retry, not a blank
+//      "no questions" panel. Grounding is never lowered: a zero-verified live run just retries.
+let _quizRetry = null;
+function _quizFallback(onRetry, zeroVerified) {
+  _quizRetry = onRetry || null;
+  const body = document.getElementById('quiz-body'), foot = document.getElementById('quiz-foot'), ttl = document.getElementById('quiz-title');
+  if (ttl) ttl.textContent = 'Knowledge check';
+  if (body) body.innerHTML = `<div class="async-error" style="padding:26px;">
+      <p class="ae-title">Quiz isn’t ready just yet</p>
+      <p>${zeroVerified
+        ? 'We only keep questions whose answer can be traced word-for-word to the guide — none cleared that check on this run.'
+        : 'We couldn’t reach the quiz generator just now.'} Give it another try.</p></div>`;
+  if (foot) foot.innerHTML = _quizRetry ? '<button class="primary" onclick="_quizRetry && _quizRetry()">Try again</button>' : '';
+}
+async function runResourceQuiz(rid, title, meta) {
+  meta = meta || {};
+  const m = document.getElementById('quiz-modal'), body = document.getElementById('quiz-body'), foot = document.getElementById('quiz-foot');
+  if (m) m.hidden = false;
+  if (body) body.innerHTML = '<div style="padding:22px; color:var(--muted);">Loading a grounded quiz…</div>';
+  if (foot) foot.innerHTML = '';
+  const retry = () => runResourceQuiz(rid, title, meta);
+  const show = q => openTaker(q.title || title || 'Knowledge check', q.questions || [], Object.assign({ attribution: q.source_label || '' }, meta));
+  // 1) Pre-approved, persisted quiz (deterministic — survives a flaky/offline generator).
+  try {
+    const r = await fetch('/api/resources/' + encodeURIComponent(rid) + '/approved-quiz');
+    if (r.ok) { const q = await r.json(); if (q && (q.questions || []).length) { show(q); return; } }
+  } catch (e) {}
+  // 2) Live generation.
+  try {
+    const q = await (await fetch('/api/quizzes/generate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ source_type: 'resource', source_id: rid, n: 5 }) })).json();
+    if (q && (q.questions || []).length) { show(q); return; }
+    _quizFallback(retry, true);     // generator ran but nothing cleared the grounding gate
+  } catch (e) {
+    _quizFallback(retry, false);    // generator unreachable
+  }
+}
+async function realQuiz(rid) { return runResourceQuiz(rid, 'Knowledge check', {}); }
 function openTrack(tid) {
   const t = _allDemoTracks().find(x => x.id === tid); if (!t) return;
   _curTrack = tid; _curCourse = null;
@@ -5922,7 +6048,7 @@ function openCourse(cid) {
     <header class="path-hero">
       <p class="path-eyebrow">Track · ${escapeHtml(c.module || '')}</p>
       <h1 class="path-title">${escapeHtml(c.title)}</h1>
-      <div class="path-stats"><span><b>${c.lessons.length}</b>lessons</span><span><b>${_coursePct(c)}%</b>done</span><span>✓ every claim cited</span></div>
+      <div class="path-stats"><span><b>${c.lessons.length}</b>lessons</span><span><b>${_coursePct(c)}%</b>done</span><span>✓ sources cited &amp; credited</span></div>
     </header>
     <div class="path-layout">
       <ol class="path-modules">${rows}</ol>
@@ -5979,26 +6105,17 @@ function _fmtTaskGate(){ const all=[...document.querySelectorAll('.fmt-chk')]; c
 function formatComplete(cid, idx){ _courseDoneSet(cid).add(idx); closeQuiz(); openCourse(cid); }
 async function courseQuiz(cid, idx) {
   const rid = _lessonRid(cid, idx);
-  const m = document.getElementById('quiz-modal'), body = document.getElementById('quiz-body'), foot = document.getElementById('quiz-foot');
-  if (m) m.hidden = false;
-  if (body) body.innerHTML = '<div style="padding:22px; color:var(--muted);">Generating a grounded quiz…</div>';
-  if (foot) foot.innerHTML = '';
-  try {
-    if (!rid) throw new Error('no source');
-    const q = await (await fetch('/api/quizzes/generate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ source_type: 'resource', source_id: rid, n: 5 }) })).json();
-    openTaker(q.title || 'Knowledge check', (q && q.questions) || [], {
-      attribution: q.source_label || '',
-      onDone: pct => { _courseScores()[cid + ':' + idx] = pct; if (pct >= 80) _courseDoneSet(cid).add(idx); else _courseDoneSet(cid).delete(idx); openCourse(cid); }
-    });
-  } catch (e) {
-    if (body) body.innerHTML = '<div class="async-error"><p class="ae-title">Couldn’t generate the quiz</p><p>Please try again in a moment.</p></div>';
-  }
+  const onDone = pct => { _courseScores()[cid + ':' + idx] = pct; if (pct >= 80) _courseDoneSet(cid).add(idx); else _courseDoneSet(cid).delete(idx); openCourse(cid); };
+  if (!rid) { const m = document.getElementById('quiz-modal'); if (m) m.hidden = false; _quizFallback(() => courseQuiz(cid, idx), false); return; }
+  return runResourceQuiz(rid, 'Knowledge check', { onDone });
 }
 function showCertificate(tid) {
   const t = _allDemoTracks().find(x => x.id === tid); if (!t) return;
-  const m = document.getElementById('quiz-modal'), body = document.getElementById('quiz-body'), foot = document.getElementById('quiz-foot');
+  const m = document.getElementById('quiz-modal'), body = document.getElementById('quiz-body'), foot = document.getElementById('quiz-foot'), ttl = document.getElementById('quiz-title');
   if (!m) return; m.hidden = false;
-  if (body) body.innerHTML = `<div class="cert-card"><div class="cert-seal">🏅</div><div class="cert-h">Certificate of Completion</div><div class="cert-name">${_viewMode === 'customer' ? 'Demo Learner' : 'Demo Learner'}</div><div class="cert-sub">has completed</div><div class="cert-track">${escapeHtml(t.title)}</div><div class="cert-date">${_DEMO.due}, 2026 · SchoolCafé Learning Studio</div></div>`;
+  if (ttl) ttl.textContent = 'Certificate';
+  const k = document.getElementById('quiz-kicker'); if (k) k.textContent = 'Track completion';
+  if (body) body.innerHTML = `<div class="cert-card"><div class="cert-seal">🏅</div><div class="cert-h">Certificate of Completion</div><div class="cert-name">Demo Learner</div><div class="cert-sub">has completed</div><div class="cert-track">${escapeHtml(t.title)}</div><div class="cert-date">${_DEMO.due}, 2026 · SchoolCafé Learning Studio</div></div>`;
   if (foot) foot.innerHTML = '<button class="primary" onclick="window.print()">Download</button>';
 }
 
@@ -6370,6 +6487,7 @@ function openTaker(title, questions, meta){
   const m=document.getElementById('quiz-modal'), body=document.getElementById('quiz-body'),
         foot=document.getElementById('quiz-foot'), ttl=document.getElementById('quiz-title');
   m.hidden=false; ttl.textContent=_taker.title;
+  { const k=document.getElementById('quiz-kicker'); if(k) k.textContent='Auto-generated quiz'; }
   if(!_taker.questions.length){ body.innerHTML=`<div class="async-error"><p class="ae-title">No verifiable questions</p><p>Every draft question failed source verification, so none were kept.</p></div>`; foot.innerHTML=''; return; }
   body.innerHTML=_taker.questions.map((q,i)=>`<div class="quiz-q"><div class="stem"><span class="qn">${i+1}.</span>${escapeHtml(q.stem)}</div><div class="opts">${(q.options||[]).map((o,oi)=>`<button class="quiz-opt" data-qi="${i}" data-oi="${oi}" onclick="takerPick(${i},${oi})">${escapeHtml(o)}</button>`).join('')}</div></div>`).join('');
   foot.innerHTML=`<span>${_taker.questions.length} question${_taker.questions.length===1?'':'s'} · pick an answer for each</span><button class="primary" onclick="takerSubmit()">Submit</button>`;

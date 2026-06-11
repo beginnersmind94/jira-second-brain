@@ -26,3 +26,6 @@ published/
 
 # Runtime quiz-store output
 quizzes/
+
+# Runtime certificate output (FR-CP-08) — issued per completion, regenerable
+certificates/

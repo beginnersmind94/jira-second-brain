@@ -29,6 +29,7 @@ import os
 import re
 import sys
 import time
+import uuid
 from datetime import datetime
 from pathlib import Path
 
@@ -1206,6 +1207,75 @@ async def quizzes_score(qid: str, payload: dict = Body(...)):
 @app.delete("/api/quizzes/{qid}")
 async def quizzes_delete(qid: str):
     return JSONResponse({"deleted": quiz_store.delete_quiz(qid)})
+
+
+@app.get("/api/resources/{rid}/approved-quiz")
+async def resource_approved_quiz(rid: str):
+    """Return the most-recent APPROVED quiz built from this resource, re-verified
+    against the CURRENT source so a drifted/ungrounded quiz is never served. This is
+    the learner 'Take quiz' deterministic path — a known-good, source-cited quiz that
+    needs no live LLM call. 404 when no approved, still-grounded quiz exists for the
+    resource (the caller then falls back to live generation). Grounding is NOT
+    weakened: qa_gate is the same authority the approve gate uses."""
+    best = None
+    for row in quiz_store.list_quizzes():
+        if row.get("source_id") != rid or row.get("status") != "approved":
+            continue
+        quiz = quiz_store.load_quiz(row["id"])
+        if not quiz:
+            continue
+        report = quiz_store.qa_gate(quiz, _quiz_source_text(quiz))  # re-grounds in memory
+        if not report["ok"]:
+            continue
+        if best is None or (quiz.get("approved_at") or "") > (best.get("approved_at") or ""):
+            best = quiz
+    if not best:
+        raise HTTPException(404, "no approved quiz for this resource")
+    return JSONResponse(best)
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Certificates (FR-CP-08) — a learner who completes a track can be issued a
+# completion certificate. Minimal + persisted: the record proves who completed
+# what and when; the client renders it as a downloadable/printable certificate.
+# ─────────────────────────────────────────────────────────────────────────────
+CERTS = Path(__file__).resolve().parent / "certificates"
+
+
+@app.post("/api/certificates")
+async def issue_certificate(payload: dict = Body(default={})):
+    """Issue + persist a completion certificate for a track. Validates the track
+    exists; records the learner, track, and issue time. Returns the certificate."""
+    track_id = (payload.get("track_id") or "").strip()
+    if not track_id:
+        raise HTTPException(400, "track_id is required")
+    track = _ms.load_track(track_id)
+    if not track:
+        raise HTTPException(404, "track not found")
+    learner = (payload.get("learner_name") or "").strip() or "Demo Learner"
+    CERTS.mkdir(parents=True, exist_ok=True)
+    now = datetime.now()
+    cid = f"cert-{now.strftime('%Y%m%d-%H%M%S')}-{uuid.uuid4().hex[:6]}"
+    cert = {
+        "id": cid,
+        "track_id": track_id,
+        "track_title": track.get("title") or track_id,
+        "learner_name": learner,
+        "product": track.get("product") or "SchoolCafé",
+        "role": (track.get("role_tags") or [None])[0],
+        "modules": len(track.get("module_ids") or []),
+        "issued_at": now.isoformat(timespec="seconds"),
+    }
+    (CERTS / f"{cid}.json").write_text(json.dumps(cert, indent=2, ensure_ascii=False), encoding="utf-8")
+    return JSONResponse(cert)
+
+
+@app.get("/api/certificates/{cid}")
+async def get_certificate(cid: str):
+    p = CERTS / f"{cid}.json"
+    if not p.exists():
+        raise HTTPException(404, "certificate not found")
+    return JSONResponse(json.loads(p.read_text(encoding="utf-8")))
 
 
 _FLASH_SYS = """You write study flashcards that help school-nutrition staff learn a topic. You have NO tools.
