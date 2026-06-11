@@ -246,7 +246,7 @@ _FORMAT_BUDGET = {
 
 _PLAN_TEMPLATE = """You are the PLANNER for a __LABEL__ on the `__MODULE__` module. You do research, then output a SECTION PLAN as JSON. You do NOT write the guide.
 
-Tools (call in parallel where you can): parse_transcript, match_tickets, read_epic, read_ticket. Caps: ≤6 match_tickets, ≤4 read_epic, ≤8 read_ticket.
+Tools (call in parallel where you can): parse_transcript, match_tickets, read_epic, read_ticket, search_kb. Caps: ≤6 match_tickets, ≤4 read_epic, ≤8 read_ticket, ≤4 search_kb.
 
 Steps:
 1. parse_transcript on the given path.
@@ -258,6 +258,7 @@ Steps:
      - Tech-Debt tickets  -> "Known limitations" / caveats
      - Epics              -> the theme and section grouping
    Deliberately pull the right ticket TYPE for the right section, and assign those keys to that section's ticket_keys.
+3b. For navigation, menu paths, UI labels, or customer-facing step order, you MAY call search_kb to cross-check against the SME-curated guides (guides are navigation-authoritative; tickets are behavior-authoritative). This informs section scope only — it does NOT add citations; every written claim still cites Jira/transcript.
 4. Produce a SECTION PLAN:
 __SPEC__
    Do NOT include a "Sources" section — it is generated automatically from the citations.

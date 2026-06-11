@@ -241,9 +241,46 @@ async def match_tickets(args):
     {"query": str},
 )
 async def search_kb(args):
-    # KB is disabled in the demo — tickets+transcript carry the show.
-    query_str = (args.get("query") or "").strip()
-    return _ok(f'No KB matches for: "{query_str}"  (KB disabled in demo)')
+    # LIVE KB search over the SME-curated guide markdown + wiki concepts/workflows
+    # (reuses the production tools_sdk implementation). A Task-3 navigation cross-check —
+    # guides are navigation-authoritative; this never becomes a citation source (citations
+    # stay Jira/transcript verbatim spans), so grounding-by-construction is unchanged.
+    query = (args.get("query") or "").strip()
+    if len(query) < 3:
+        return _ok("ERROR: query too short — pass a multi-word phrase.")
+    terms = [t.lower() for t in query.split() if len(t) > 2]
+    if not terms:
+        return _ok("ERROR: no usable terms in query.")
+    try:
+        from tools_sdk import _kb_files, JIRA_BRAIN
+    except Exception as e:
+        return _ok(f'No KB matches for: "{query}"  (KB unavailable: {e})')
+    scored = []
+    for path in _kb_files():
+        try:
+            text = path.read_text(encoding="utf-8")
+        except (UnicodeDecodeError, OSError):
+            continue
+        lower = text.lower()
+        score = sum(lower.count(t) for t in terms)
+        if score == 0:
+            continue
+        idx = next((lower.find(t) for t in terms if lower.find(t) >= 0), 0)
+        start, end = max(0, idx - 100), min(len(text), idx + 300)
+        snippet = text[start:end].replace("\n", " ")
+        if start > 0:
+            snippet = "…" + snippet
+        if end < len(text):
+            snippet = snippet + "…"
+        scored.append((score, path, snippet))
+    if not scored:
+        return _ok(f'No KB matches for: "{query}"')
+    scored.sort(key=lambda x: x[0], reverse=True)
+    lines = [f"[KB top {min(5, len(scored))} hits for: {query}]"]
+    for score, path, snippet in scored[:5]:
+        rel = path.relative_to(JIRA_BRAIN) if path.is_relative_to(JIRA_BRAIN) else path
+        lines.append(f"\n--- {rel} (score {score}) ---\n{snippet[:400]}")
+    return _ok("\n".join(lines))
 
 
 @tool(
