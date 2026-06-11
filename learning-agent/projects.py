@@ -3,7 +3,7 @@ lands on a working project dashboard.
 
 Storage matches the demo_app.py pattern (in-memory dicts). No ORM, no real auth.
 A single cookie (`lc_trainer`) identifies the trainer; the SPA reads it for the
-"Logged in as Trainer Bob" header pill. There is no enforcement — the cookie
+"Logged in as Sam Rivera" header pill. There is no enforcement — the cookie
 is a demo signal, not a security boundary.
 
 Wired from demo_app.py via:
@@ -75,7 +75,7 @@ def is_archived(status: str) -> bool:
     return status == "ARCHIVED"
 
 TRAINER_COOKIE = "lc_trainer"
-TRAINER_NAME = "Trainer Bob"
+TRAINER_NAME = "Sam Rivera"
 TRAINER_TOKEN = "trainer-bob"
 
 DIRECTOR_COOKIE = "lc_director"
@@ -102,9 +102,9 @@ def _reset_for_tests():
 # ── Mock auth ───────────────────────────────────────────────────────────────
 @router.post("/api/auth/login")
 def auth_login(response: Response, payload: dict = Body(default={})):
-    """Mock login — sets a session cookie identifying Trainer Bob.
+    """Mock login — sets a session cookie identifying Sam Rivera.
 
-    The cookie is a demo signal (it powers the "Logged in as Trainer Bob" pill
+    The cookie is a demo signal (it powers the "Logged in as Sam Rivera" pill
     in the SPA). There is no real authentication. Any payload is accepted.
     """
     response.set_cookie(

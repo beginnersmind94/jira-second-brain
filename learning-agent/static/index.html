@@ -2313,7 +2313,7 @@
     </button>
     <span class="trainer-pill" id="trainer-pill" title="Signed-in trainer (demo mock auth)" hidden>
       <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="margin-right:5px;vertical-align:-2px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      <span id="trainer-pill-name">Trainer Bob</span>
+      <span id="trainer-pill-name">Sam Rivera</span>
     </span>
     <div class="ava-wrap">
       <span class="user-ava" id="user-ava" title="Account menu" onclick="toggleAvaMenu(event)">DA</span>
@@ -2671,7 +2671,7 @@
       <div class="pj-signin-card">
         <h2>Sign in to add a district</h2>
         <p>This demo uses mock auth — no real account.</p>
-        <button class="primary" onclick="projSignIn()">Sign in as Trainer Bob</button>
+        <button class="primary" onclick="projSignIn()">Sign in as Sam Rivera</button>
       </div>
     </div>
     <div id="pj-main" class="pj-grid">
@@ -3300,9 +3300,9 @@ const _DEMO = (() => {
     { id:'t-formats', title:'Content Formats Showcase', role:'All staff', product:'SchoolCafé', due:DUE, instructor:'CF', courseIds:['c-formats'] },
   ];
   const districts = [
-    { id:'houston-isd', name:'Houston ISD', trainer:'Trainer Bob', last:'2 hours ago', logins30:412, sites:['Lamar HS','Pershing MS','Garden Oaks ES','Central Kitchen'] },
-    { id:'aldine-isd', name:'Aldine ISD', trainer:'Trainer Bob', last:'1 hour ago', logins30:288, sites:['Aldine HS','Hill MS','Stovall MS','Carver ES'], help_request:true, help_msg:'Our site managers are stuck on the Eligibility module — can someone walk us through Direct Certification?' },
-    { id:'klein-isd', name:'Klein ISD', trainer:'Trainer Bob', last:'Yesterday', logins30:351, sites:['Klein HS','Doerre MS','Kohrville ES'] },
+    { id:'houston-isd', name:'Houston ISD', trainer:'Sam Rivera', last:'2 hours ago', logins30:412, sites:['Lamar HS','Pershing MS','Garden Oaks ES','Central Kitchen'] },
+    { id:'aldine-isd', name:'Aldine ISD', trainer:'Sam Rivera', last:'1 hour ago', logins30:288, sites:['Aldine HS','Hill MS','Stovall MS','Carver ES'], help_request:true, help_msg:'Our site managers are stuck on the Eligibility module — can someone walk us through Direct Certification?' },
+    { id:'klein-isd', name:'Klein ISD', trainer:'Sam Rivera', last:'Yesterday', logins30:351, sites:['Klein HS','Doerre MS','Kohrville ES'] },
     { id:'spring-branch-isd', name:'Spring Branch ISD', trainer:'Marcus Webb', last:'3 days ago', logins30:204, sites:['Memorial HS','Spring Forest MS','Bunker Hill ES'] },
     { id:'cy-fair-isd', name:'Cy-Fair ISD', trainer:'Marcus Webb', last:'Today', logins30:498, sites:['Cy Ridge HS','Truitt MS','Lowery ES'] },
     { id:'pasadena-isd', name:'Pasadena ISD', trainer:'Priya Shah', last:'Last week', logins30:176, sites:['Pasadena HS','San Jacinto MS','Golden Acres ES'] },
@@ -3368,7 +3368,7 @@ const _DEMO = (() => {
 // session-scoped mutations (reset on reload)
 let _demoState = { helpCleared:{}, nudged:{}, progress:{}, userTracks:[], approvedRids:null, assignments:null, asnSeq:0 };
 function _districtCompletion(d){ return d.learners && d.learners.length ? Math.round(d.learners.reduce((a,l)=>a+l.completion,0)/d.learners.length) : 0; }
-const _CURRENT_TRAINER = 'Trainer Bob';   // the logged-in trainer (DA avatar) — a trainer only ever sees their OWN districts + content
+const _CURRENT_TRAINER = 'Sam Rivera';   // the logged-in trainer (SR avatar) — a trainer only ever sees their OWN districts + content
 function _myDistricts(){ const m = _DEMO.districts.filter(d => d.trainer === _CURRENT_TRAINER); return m.length ? m : _DEMO.districts; }
 // ─── District unification (Phase 1) ───────────────────────────────────────────
 // A "district" the trainer manages comes from TWO sources that used to be separate
@@ -3400,7 +3400,7 @@ async function projRefreshMe(){
        _meUser = j.signed_in ? (j.user || null) : null;
        const pill = document.getElementById('trainer-pill');
        if(pill) pill.hidden = !j.signed_in;
-       if(j.signed_in){ const nm = document.getElementById('trainer-pill-name'); if(nm) nm.textContent = (j.user&&j.user.name)||'Trainer Bob'; }
+       if(j.signed_in){ const nm = document.getElementById('trainer-pill-name'); if(nm) nm.textContent = (j.user&&j.user.name)||'Sam Rivera'; }
   } catch(_){}
 }
 async function projSignIn(){
@@ -3746,7 +3746,7 @@ function _restoreFromHash(){
 }
 window.addEventListener('popstate', () => { _restoreFromHash(); });
 
-// Refresh "Trainer Bob" pill on first load, regardless of which view boots first;
+// Refresh "Sam Rivera" pill on first load, regardless of which view boots first;
 // also restore Projects-flow view from the URL hash if present.
 window.addEventListener('DOMContentLoaded', () => {
   projRefreshMe();
@@ -3784,7 +3784,7 @@ function applyViewMode() {
   // district switcher: trainers can switch ISDs; a customer is locked to their own
   const isdBtn = document.getElementById('isd-btn');
   if (isdBtn) { isdBtn.style.pointerEvents = _viewMode === 'customer' ? 'none' : ''; isdBtn.style.opacity = _viewMode === 'customer' ? '.6' : ''; }
-  const ava = document.getElementById('user-ava'); if (ava) ava.textContent = _viewMode === 'customer' ? 'DC' : 'TB';
+  const ava = document.getElementById('user-ava'); if (ava) ava.textContent = _viewMode === 'customer' ? 'DC' : 'SR';
   const ibtn = document.getElementById('inbox-btn'); if (ibtn) ibtn.hidden = _viewMode === 'customer';   // approvals inbox is a trainer concept
   const ibadge = document.getElementById('inbox-badge'); if (ibadge) { const nHelp = _myDistricts().filter(d => d.help_request && !_demoState.helpCleared[d.id]).length; ibadge.textContent = _viewMode === 'customer' ? '' : String(_DEMO.inbox.length + nHelp); }
   // Loud, persistent customer-view signal so a screen-share is never mistaken for internal.

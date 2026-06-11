@@ -204,13 +204,13 @@ def test_dashboard_counts(client):
 def test_mock_login_sets_cookie(client):
     r = client.post("/api/auth/login")
     assert r.status_code == 200
-    assert r.json()["user"]["name"] == "Trainer Bob"
+    assert r.json()["user"]["name"] == "Sam Rivera"
     # cookie returned
     assert "lc_trainer" in r.cookies
     # subsequent /api/me reads it
     me = client.get("/api/me")
     assert me.json()["signed_in"] is True
-    assert me.json()["user"]["name"] == "Trainer Bob"
+    assert me.json()["user"]["name"] == "Sam Rivera"
 
 
 # Status lifecycle ─────────────────────────────────────────────────────────
