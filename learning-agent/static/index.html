@@ -1372,6 +1372,37 @@
     .path-back { margin: var(--sp-4) 30px 0; background: none; border: 0; cursor: pointer; color: var(--accent);
                  font-family: var(--font); font-weight: 650; font-size: var(--cfs-body); padding: 4px 0; }
     .path-back:hover { text-decoration: underline; }
+    /* Trainer-side back nav — own row, top-left; mirrors .path-back without the learner-view margins */
+    .section-back { display: block; background: none; border: 0; cursor: pointer; color: var(--accent);
+                    font-family: var(--font); font-weight: 650; font-size: var(--cfs-body); padding: 4px 0 10px; }
+    .section-back:hover { text-decoration: underline; }
+
+    /* ── Breadcrumb component (shared, mode-aware, WCAG 2.1 AA) ── */
+    .bc-slot { /* placeholder; inline with content flow */ }
+    .bc-nav { margin: 0 0 14px; line-height: 1; }
+    /* learner views: match the old .path-back margin so the crumb sits above the dark hero */
+    #track-detail .bc-nav, #path-detail .bc-nav { margin: var(--sp-4) 30px 0; margin-bottom: 0; }
+    .bc-trail { list-style: none; margin: 0; padding: 0; display: flex; align-items: center; flex-wrap: wrap; gap: 0; }
+    .bc-trail li { display: flex; align-items: center; font-size: 12.5px; font-weight: 600; }
+    .bc-trail li + li::before { content: "/"; margin: 0 8px; color: var(--muted-soft); font-weight: 400; pointer-events: none; }
+    /* ancestor links: --accent (#B3543B) on --panel (#FFF) = 4.54:1 — passes AA */
+    .bc-trail a { color: var(--accent); text-decoration: none; padding: 3px 0; }
+    .bc-trail a:hover { text-decoration: underline; }
+    .bc-trail a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+    /* current page: --text-soft (#423B33) on --surface (#FBF8F1) = 8.4:1 — passes AAA */
+    .bc-trail [aria-current="page"] { color: var(--text-soft); font-weight: 600; cursor: default; }
+    /* ≤375px: collapse to a single ← Parent button */
+    .bc-collapse { display: none; background: none; border: 0; cursor: pointer; color: var(--accent);
+                   font-family: var(--font); font-weight: 650; font-size: var(--cfs-body); padding: 0 0 14px; }
+    .bc-collapse:hover { text-decoration: underline; }
+    .bc-collapse:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+    @media (max-width: 375px) {
+      .bc-trail { display: none; }
+      .bc-collapse { display: block; }
+    }
+    @media (max-width: 760px) {
+      #track-detail .bc-nav, #path-detail .bc-nav { margin-left: 16px; margin-right: 16px; }
+    }
     /* bold dark-warm hero (borrowed structure; our espresso/terracotta palette) */
     .path-hero { margin: var(--sp-3) 30px var(--sp-5); padding: var(--sp-6); border-radius: var(--radius);
                  background: linear-gradient(135deg, #2A2018 0%, #3B2C20 100%); color: #F3ECE0; box-shadow: var(--shadow-lift); }
@@ -1657,6 +1688,70 @@
     .dd-ready-pct { font-family: var(--serif); font-size: 32px; font-weight: 700; color: var(--text); line-height: 1; }
     .dd-ready-l { font-size: 12.5px; color: var(--muted); margin-top: 4px; }
     @media (max-width: 760px) { .dd-roster-row { grid-template-columns: 1fr; gap: 2px; } }
+    /* ── District detail v2: state-driven roster grid ── */
+    .dd-kpi-strip { display:flex; gap:0; background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow-sm); margin-bottom:14px; flex-wrap:wrap; overflow:hidden; }
+    .dd-kpi-item { flex:1; min-width:90px; padding:12px 18px; }
+    .dd-kpi-item+.dd-kpi-item { border-left:1px solid var(--border); }
+    .dd-kpi-n { font-family:var(--serif); font-size:21px; font-weight:700; color:var(--text); line-height:1; }
+    .dd-kpi-l { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:var(--muted-aa); margin-top:3px; }
+    .dd-help-banner { display:flex; align-items:flex-start; gap:12px; padding:12px 16px; background:#FEFCE8; border:1px solid #FDE68A; border-radius:var(--radius); margin-bottom:14px; }
+    .dd-help-body { flex:1; }
+    .dd-help-title { font-size:13px; font-weight:650; color:#78350F; margin-bottom:3px; }
+    .dd-help-quote { font-size:13px; color:#92400E; font-style:italic; line-height:1.5; }
+    .dd-help-acts { display:flex; gap:8px; flex-shrink:0; align-items:flex-start; }
+    .dd-assigned-chips { display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin-bottom:12px; }
+    .dd-chips-label { font-size:11px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--muted-aa); white-space:nowrap; flex-shrink:0; }
+    .dd-chip { padding:3px 10px; background:var(--accent-soft); color:var(--accent); border-radius:999px; font-size:12px; font-weight:600; }
+    .dd-filter-bar { display:flex; align-items:center; gap:8px; margin-bottom:10px; flex-wrap:wrap; }
+    .dd-filter-bar select,.dd-filter-bar input { padding:7px 10px; border:1px solid var(--border-strong); border-radius:var(--radius-sm); font:inherit; font-size:13px; background:var(--panel); color:var(--text); }
+    .dd-filter-bar input[type="text"] { min-width:160px; }
+    .dd-grid-wrap { background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow-sm); }
+    .dd-grid { width:100%; border-collapse:collapse; font-size:13.5px; }
+    .dd-grid th { text-align:left; font-size:11.5px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--muted-aa); padding:10px 14px; border-bottom:1px solid var(--border); background:var(--surface); cursor:pointer; user-select:none; white-space:nowrap; }
+    .dd-grid th:hover { color:var(--text); background:var(--panel3); }
+    .dd-grid th .sort-ico { font-size:9px; color:var(--muted-soft); margin-left:3px; }
+    .dd-grid td { padding:10px 14px; border-bottom:1px solid var(--border); vertical-align:middle; }
+    .dd-grid tr:last-child td { border-bottom:0; }
+    .dd-grid tbody tr { cursor:pointer; }
+    .dd-grid tbody tr:hover td { background:var(--surface); }
+    .dd-grid td.dd-name-cell { font-weight:650; color:#1E1A16; }
+    .dd-grid td.dd-secondary { color:#4A4540; font-size:13px; }
+    .dd-prog-cell { display:flex; align-items:center; gap:8px; }
+    .dd-prog-bar-wrap { width:60px; flex-shrink:0; height:5px; background:var(--panel3); border-radius:3px; overflow:hidden; }
+    .dd-prog-bar-fill { height:100%; background:var(--accent); border-radius:3px; }
+    .dd-prog-pct { font-size:13px; color:#3A3530; min-width:26px; font-weight:500; }
+    .dd-stag { display:inline-block; padding:2px 7px; border-radius:999px; font-size:11px; font-weight:650; line-height:1.4; white-space:nowrap; }
+    .dd-stag-complete { background:#DCFCE7; color:#14532D; }
+    .dd-stag-inprog { background:#EFF6FF; color:#1E40AF; }
+    .dd-stag-notstarted { background:#F5F5F4; color:#3B3532; }
+    .dd-stag-overdue { background:#FEE2E2; color:#7F1D1D; font-weight:750; }
+    .dd-empty-card { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:280px; background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow-sm); padding:40px 30px; text-align:center; }
+    .dd-empty-title { font-family:var(--serif); font-size:22px; font-weight:600; color:var(--text); margin:0 0 8px; }
+    .dd-empty-sub { font-size:14px; color:var(--muted); margin:0 0 22px; }
+    .dd-upload-panel { width:100%; max-width:460px; margin-top:16px; }
+    .dd-seg { display:flex; border:1px solid var(--border-strong); border-radius:var(--radius-sm); overflow:hidden; margin-bottom:14px; }
+    .dd-seg button { flex:1; padding:8px 16px; background:var(--panel); border:0; border-right:1px solid var(--border-strong); font:inherit; font-size:13px; cursor:pointer; color:var(--muted-aa); }
+    .dd-seg button:last-child { border-right:0; }
+    .dd-seg button.active { background:var(--accent); color:#FFF; font-weight:650; }
+    .dd-dropzone { border:2px dashed var(--border-strong); border-radius:var(--radius); padding:28px 20px; text-align:center; background:var(--panel); cursor:pointer; }
+    .dd-dropzone:hover { border-color:var(--accent); background:var(--accent-soft); }
+    .dd-dz-prompt { font-size:14px; color:var(--muted); margin:0; }
+    .dd-dz-hint { font-size:12px; color:var(--muted-soft); margin-top:6px; }
+    .dd-prog-upload-wrap { height:6px; background:var(--border); border-radius:4px; overflow:hidden; margin:10px 0 4px; }
+    .dd-prog-upload-fill { height:100%; background:var(--accent); border-radius:4px; transition:width .1s linear; }
+    .dd-prog-upload-lbl { font-size:12px; color:var(--muted-aa); }
+    .dd-preview-table { width:100%; border-collapse:collapse; font-size:12.5px; margin-top:10px; background:var(--panel); border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden; }
+    .dd-preview-table th { text-align:left; font-size:11px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--muted-aa); padding:7px 10px; background:var(--surface); border-bottom:1px solid var(--border); }
+    .dd-preview-table td { padding:6px 10px; border-bottom:1px solid var(--border); color:#3A3530; }
+    .dd-preview-table tr:last-child td { border-bottom:0; }
+    .dd-ok-mark { color:#16A34A; font-weight:700; }
+    .dds-name { font-family:var(--serif); font-size:20px; font-weight:650; color:var(--text); margin:0 0 3px; }
+    .dds-meta { font-size:13px; color:#4A4540; margin-bottom:16px; }
+    .dds-section { font-size:11px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--muted-aa); margin:16px 0 6px; }
+    .dds-track-row { display:flex; align-items:center; gap:10px; padding:8px 10px; background:var(--panel3); border-radius:var(--radius-sm); margin-bottom:4px; }
+    .dds-track-name { flex:1; font-weight:600; font-size:13px; color:#1E1A16; }
+    .dds-track-prog { display:flex; align-items:center; gap:6px; font-size:12.5px; color:#3A3530; }
+    .dds-actions { display:flex; gap:8px; margin-top:18px; flex-wrap:wrap; }
     /* Legacy (kept for other consumers) */
     .mg-bd { padding: 6px 4px; }
     .mg-bd b { font-size: 11.5px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 6px; }
@@ -1781,8 +1876,10 @@
     .kpi-trend.tr-good { color: #2F7D4F; }
     .kpi-trend.tr-bad { color: var(--amber-text, #8A5A12); }
     .kpi-trend.tr-flat { color: var(--muted); font-weight: 500; }
-    .cmd-grid { display: grid; grid-template-columns: 1.7fr 1fr; gap: var(--sp-4); margin: 0 0 var(--sp-6); align-items: start; }
+    .cmd-grid { display: grid; grid-template-columns: 1.7fr 1fr; gap: var(--sp-4); margin: 0 0 var(--sp-6); align-items: stretch; }
     .cmd-main, .cmd-side { display: flex; flex-direction: column; gap: var(--sp-4); min-width: 0; }
+    .cmd-main > .cmd-card { flex: 1; }
+    .cmd-side > .cmd-card:last-child { flex: 1; }
     .cmd-card { background: #FFF; border: 1px solid var(--border); border-radius: var(--radius); padding: 15px 17px; }
     .cmd-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin: 0 0 12px; }
     .cmd-head h3 { font-family: var(--serif); font-size: 16px; font-weight: 650; margin: 0; color: var(--text); }
@@ -1808,14 +1905,14 @@
     .qc-btn.qc-primary:hover { background: var(--accent-hover, var(--accent)); color: var(--accent-ink, #FFF); }
     @media (max-width: 640px) { .qc-row { flex-direction: column; align-items: stretch; } .qc-btn { min-height: 44px; } }
     .attn-list { display: flex; flex-direction: column; gap: 8px; }
-    .attn-row { display: flex; align-items: center; gap: 12px; padding: 10px 12px; min-height: 56px; border: 1px solid var(--border); border-radius: var(--radius-sm); }
+    .attn-row { display: flex; align-items: flex-start; gap: 12px; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); }
     .attn-row.attn-help { border-color: var(--red, #B3543B); background: var(--red-soft, #F2E1D8); }
     .attn-row.attn-warn { border-color: var(--warn-border, #E0B574); background: var(--warn-soft, #FBF3E3); }
-    .attn-ico { font-size: 17px; flex: none; width: 22px; text-align: center; }
+    .attn-ico { font-size: 16px; font-weight: 700; flex: none; width: 22px; text-align: center; margin-top: 2px; }
     .attn-bd { flex: 1; min-width: 0; }
     .attn-title { font-size: 13.5px; font-weight: 650; color: var(--text); }
-    .attn-desc { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .attn-row > .secondary { flex: none; min-width: 92px; text-align: center; }
+    .attn-desc { font-size: 12px; color: var(--muted-aa); white-space: normal; word-break: break-word; margin-top: 3px; }
+    .attn-row > .secondary { flex: none; min-width: 92px; text-align: center; align-self: flex-start; }
     .attn-empty { font-size: 13px; color: var(--muted); padding: 8px 2px; }
     .proj-rows { display: flex; flex-direction: column; gap: 8px; }
     .proj-row { display: flex; align-items: center; gap: 12px; padding: 9px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; }
@@ -1831,18 +1928,54 @@
     .mg-asn .cmd-head { align-items: center; }
     .todo-add { display: flex; gap: 6px; margin: 0 0 10px; }
     .todo-in { padding: 7px 9px; border: 1px solid var(--border); border-radius: var(--radius-sm); font: inherit; font-size: 13px; background: #FFF; }
-    .todo-time-in { flex: none; width: 96px; }
+    .todo-time-in { flex: none; width: 120px; }
     .todo-text-in { flex: 1; min-width: 0; }
     .todo-list { list-style: none; margin: 0; padding: 0; }
     .todo-item { display: flex; align-items: center; gap: 10px; padding: 8px 2px; border-bottom: 1px solid var(--border); }
     .todo-item:last-child { border-bottom: 0; }
     .todo-check { flex: none; width: 15px; height: 15px; cursor: pointer; accent-color: var(--accent); }
-    .todo-time { font-size: 12px; color: var(--muted); flex: none; width: 42px; font-variant-numeric: tabular-nums; }
+    .todo-time { font-size: 12px; color: var(--muted-aa); flex: none; min-width: 60px; font-variant-numeric: tabular-nums; }
     .todo-text { flex: 1; font-size: 13px; color: var(--text); min-width: 0; }
-    .todo-item.done .todo-text { text-decoration: line-through; color: var(--muted); }
-    .todo-del { flex: none; border: 0; background: none; cursor: pointer; color: var(--muted); font-size: 13px; opacity: .45; padding: 2px 4px; }
-    .todo-del:hover { opacity: 1; color: var(--accent); }
+    .todo-item.done { opacity: 0.5; }
+    .todo-item.done .todo-text { text-decoration: line-through; }
+    .todo-del { flex: none; border: 0; background: none; cursor: pointer; color: var(--muted-aa); font-size: 13px; opacity: 0; padding: 2px 4px; transition: opacity 0.1s; }
+    .todo-item:hover .todo-del, .todo-item:focus-within .todo-del { opacity: 1; }
+    .todo-del:hover { color: var(--accent); }
     .todo-empty { font-size: 13px; color: var(--muted); padding: 8px 2px; }
+    /* ── Filter chips + queue redesign (Home) ── */
+    .home-filter-bar { display: flex; align-items: center; gap: 8px; margin: 0 0 12px; flex-wrap: wrap; }
+    .home-filter-note { font-size: 12px; color: var(--muted-aa); margin-left: auto; }
+    .filter-chip { display: inline-flex; align-items: center; gap: 5px; padding: 5px 13px; border-radius: var(--radius-pill); border: 1.5px solid transparent; font: inherit; font-size: 12.5px; font-weight: 700; cursor: pointer; white-space: nowrap; }
+    .filter-chip.fc-help { background: var(--red-soft); color: var(--red-text, #8E3E2A); border-color: var(--accent); }
+    .filter-chip.fc-help.active, .filter-chip.fc-help:hover { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+    .filter-chip.fc-overdue { background: var(--warn-soft); color: var(--amber-text, #6E4A12); border-color: var(--warn-border); }
+    .filter-chip.fc-overdue.active, .filter-chip.fc-overdue:hover { background: var(--amber, #9A6A18); color: #FFF; border-color: var(--amber, #9A6A18); }
+    .filter-chip:focus-visible { outline: none; box-shadow: var(--ring); }
+    .queue-overflow { text-align: center; padding: 8px; border-top: 1px solid var(--border); margin-top: 2px; }
+    .queue-overflow button { background: none; border: 0; font: inherit; font-size: 12.5px; color: var(--accent); cursor: pointer; font-weight: 600; padding: 0; }
+    .queue-overflow button:hover { text-decoration: underline; }
+    .home-allclear { padding: 16px; text-align: center; color: var(--green-text); background: var(--green-soft); border-radius: var(--radius-sm); font-size: 13.5px; }
+    /* ── + Create dropdown (Home header) ── */
+    .create-split { position: relative; }
+    .create-split-btn { display: inline-flex; align-items: center; gap: 7px; background: var(--accent); color: #FFF; border: 0; border-radius: var(--radius-sm); padding: 7px 13px; font: inherit; font-size: 13px; font-weight: 650; cursor: pointer; white-space: nowrap; }
+    .create-split-btn:hover { background: var(--accent-hover); }
+    .create-split-btn:focus-visible { outline: none; box-shadow: var(--ring); }
+    .create-split-menu { position: absolute; right: 0; top: calc(100% + 6px); background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-lift); min-width: 200px; padding: 6px; z-index: 40; }
+    .create-split-menu[hidden] { display: none; }
+    .create-split-opt { display: block; width: 100%; text-align: left; background: none; border: 0; padding: 8px 11px; border-radius: var(--radius-sm); cursor: pointer; font: inherit; font-size: 13px; color: var(--text); }
+    .create-split-opt:hover { background: var(--accent-soft); color: var(--accent); }
+    /* ── District reference strip ── */
+    .dist-strip { display: flex; flex-direction: column; gap: 5px; }
+    .dist-strip-row { display: flex; align-items: center; gap: 10px; padding: 7px 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; }
+    .dist-strip-row:hover { border-color: var(--accent); }
+    .dist-strip-name { font-size: 13px; font-weight: 650; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .dist-strip-prog { font-size: 12px; color: var(--muted-aa); flex: none; display: inline-flex; align-items: center; gap: 6px; }
+    .dist-strip-pct { font-size: 12px; color: var(--muted-aa); min-width: 30px; text-align: right; font-variant-numeric: tabular-nums; flex: none; }
+    .dist-strip-row .r-bar { flex: none; }
+    .dist-tag { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: var(--radius-pill); flex: none; white-space: nowrap; min-width: 72px; text-align: center; }
+    .dist-tag.dt-ok { background: var(--green-soft); color: var(--green-text); }
+    .dist-tag.dt-behind { background: var(--warn-soft); color: var(--amber-text, #6E4A12); }
+    .dist-tag.dt-help { background: var(--red-soft); color: var(--red-text, #8E3E2A); }
     .inbox-mini { display: flex; flex-direction: column; }
     .inbox-mini-row { display: flex; align-items: center; gap: 10px; padding: 8px 2px; border-bottom: 1px solid var(--border); }
     .inbox-mini-row:last-child { border-bottom: 0; }
@@ -1850,6 +1983,28 @@
     .imr-title { font-size: 13px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .imr-meta { font-size: 11.5px; color: var(--muted); }
     .inbox-mini-row > .secondary { flex: none; }
+    /* Activity feed — content updates panel (Home side column) */
+    .afeed-desc { font-size: 12px; color: var(--muted-aa); margin: -2px 0 10px; }
+    .afeed-list { display: flex; flex-direction: column; }
+    .afeed-row { display: flex; align-items: center; gap: 9px; padding: 9px 2px; border-bottom: 1px solid var(--border); }
+    .afeed-row:last-child { border-bottom: 0; }
+    .afeed-ico { font-size: 10px; font-weight: 700; color: var(--teal); background: rgba(79,124,116,.13); border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; flex: none; line-height: 1; }
+    .afeed-bd { flex: 1; min-width: 0; }
+    .afeed-title { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .afeed-meta { font-size: 11.5px; color: var(--muted-aa); margin-top: 2px; }
+    .afeed-btn { font-size: 11.5px; padding: 4px 10px; flex: none; }
+    .afeed-overflow { text-align: center; padding: 8px 0 2px; border-top: 1px solid var(--border); margin-top: 2px; }
+    .afeed-overflow button { background: none; border: 0; font: inherit; font-size: 12px; font-weight: 600; color: var(--accent); cursor: pointer; padding: 0; }
+    /* Event type icon variants */
+    .afeed-ico.ico-approved { background: rgba(79,124,116,.13); color: var(--teal); }
+    .afeed-ico.ico-updated  { background: rgba(60,100,200,.11); color: #3C64B4; }
+    .afeed-ico.ico-flagged  { background: var(--warn-soft,#FEF3CD); color: var(--amber-text,#6E4A12); }
+    .afeed-ico.ico-aging    { background: var(--surface3,#F0EEE9); color: var(--muted-aa); }
+    .afeed-row.row-flagged  { background: var(--warn-soft,#FEF3CD); border-radius: var(--radius-sm); margin: 0 -4px; padding: 9px 6px; }
+    .afeed-note { font-size: 11px; color: var(--muted-aa); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-style: italic; }
+    .afeed-btn.btn-flag { background: var(--accent); color: var(--accent-ink,#FFF); border-color: var(--accent); }
+    .afeed-btn.btn-flag:hover { background: var(--accent-press,#8B3C27); border-color: var(--accent-press,#8B3C27); }
+    .afeed-btn.btn-nudge { color: var(--muted-aa); border-color: var(--border); }
     /* Top-bar inbox icon — progressive disclosure: approvals live behind a glanceable badge */
     .inbox-btn { position: relative; border: 1px solid var(--border); background: var(--panel); border-radius: 10px; width: 38px; height: 34px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text); }
     .inbox-btn:hover { border-color: var(--accent); color: var(--accent); }
@@ -2067,10 +2222,12 @@
     .qb-start[hidden], #qb-editor[hidden], .qb-mode-panel[hidden] { display: none !important; }
     /* Customer view-state — a loud, persistent signal so a trainer never screen-shares
        internal content thinking it's the customer view (the "hot seat" safety fix). */
-    .customer-banner { background:#1f6f43; color:#fff; text-align:center; font:700 13px/1.4 var(--font); letter-spacing:.01em; padding:9px 16px; }
+    .customer-banner { background:#1f6f43; color:#fff; font:700 13px/1.4 var(--font); letter-spacing:.01em; padding:9px 16px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+    .cb-role-sel { background:rgba(0,0,0,.25); color:#fff; border:1px solid rgba(255,255,255,.4); border-radius:4px; padding:3px 8px; font:600 12px var(--font); cursor:pointer; }
+    .cb-role-sel option { background:#1f6f43; color:#fff; }
     body.customer-view header.top { box-shadow: inset 0 -3px 0 #1f6f43; }
     body.customer-view .sidebar { box-shadow: inset 3px 0 0 #1f6f43; }
-    body.customer-view .brand-product::after { content:' · Customer view'; color:#1f6f43; font-weight:700; }
+    body.customer-view .brand-product::after { content: none; }
     /* Responsive header: wrap to two rows in customer view at mobile so no control overflows */
     @media (max-width: 768px) {
       body.customer-view header.top { flex-wrap: wrap; height: auto; min-height: 56px; padding: 8px 14px; gap: 6px; align-content: center; }
@@ -2116,9 +2273,9 @@
     .flash-back .quiz-src { margin-top: 9px; }
     /* view-mode toggle (Trainer / Customer) */
     .view-toggle { display: inline-flex; background: var(--panel3); border: 1px solid var(--border); border-radius: var(--radius-pill); padding: 2px; }
-    .view-toggle button { border: 0; background: none; cursor: pointer; font-family: var(--font); font-size: 11.5px; font-weight: 650;
+    .view-toggle button { border: 1.5px solid transparent; background: none; cursor: pointer; font-family: var(--font); font-size: 11.5px; font-weight: 650;
                           color: var(--muted-aa); padding: 5px 12px; border-radius: var(--radius-pill); }
-    .view-toggle button.active { background: var(--panel); color: var(--accent); box-shadow: var(--shadow-sm); }
+    .view-toggle button.active { background: var(--panel); color: var(--accent); border-color: var(--accent); box-shadow: var(--shadow-sm); }
     .viewing-as { font-size: 11px; color: var(--muted); margin-right: 2px; white-space: nowrap; }
     .ava-wrap { position: relative; }
     .user-ava { cursor: pointer; }
@@ -2297,11 +2454,153 @@
     #view-quiz-builder .qb-footer { position: sticky; bottom: 0; background: var(--panel); border-top: 1px solid var(--border); padding: 13px 0; display: flex; align-items: center; gap: 10px; justify-content: flex-end; margin-top: 28px; }
     #view-quiz-builder .qb-saved-badge { font-size: 12.5px; color: var(--green-text); font-weight: 600; margin-right: auto; }
     #view-quiz-builder .qb-attach-note { font-size: 12px; color: var(--muted); }
+
+    /* ════════════════════════════════════════════════════════════════════
+       LEARNER HOME — resume hero + track lesson list (Customer / Learn view)
+       ════════════════════════════════════════════════════════════════════ */
+    .learn-section-head { padding: 28px 30px 8px; }
+    .learn-h1 { font-family: var(--serif); font-size: 28px; font-weight: 600; margin: 0; color: var(--text); }
+    .learn-wrap { padding: 16px 30px 40px; max-width: 760px; }
+    .learn-hero { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px 28px; margin-bottom: 28px; }
+    .learn-hero.lh-firstrun { border-color: var(--accent); background: linear-gradient(140deg, var(--accent-soft), var(--panel) 65%); }
+    .learn-hero.lh-complete { border-color: var(--green); background: linear-gradient(140deg, var(--green-soft), var(--panel) 65%); }
+    .lh-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 0 0 8px; }
+    .lh-title { font-family: var(--serif); font-size: 22px; font-weight: 650; color: var(--text); margin: 0 0 4px; line-height: 1.2; }
+    .lh-meta { font-size: 13px; color: var(--muted-aa); margin: 0 0 14px; }
+    .lh-prog-wrap { margin-bottom: 16px; }
+    .lh-prog { height: 8px; background: var(--panel3); border-radius: 999px; overflow: hidden; }
+    .lh-prog-fill { height: 100%; background: var(--accent); border-radius: 999px; transition: width .4s; }
+    .lh-prog-lbl { display: flex; justify-content: space-between; margin-top: 5px; font-size: 12px; color: var(--muted); font-weight: 600; }
+    .lh-foot { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 4px; }
+    .lh-cta { padding: 12px 28px; font-size: 15px; font-weight: 700; border-radius: var(--radius); border: 0; background: var(--accent); color: var(--accent-ink); cursor: pointer; font-family: var(--font); transition: background .14s; white-space: nowrap; }
+    .lh-cta:hover { background: var(--accent-hover); }
+    .lh-cta:active { background: var(--accent-press); }
+    .lh-cta.lh-cert { background: var(--green); }
+    .lh-cta.lh-cert:hover { background: var(--green-text); }
+    .lh-due { font-size: 12px; color: var(--muted); }
+    .learn-track-label { font-size: 11.5px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--label); margin: 0 0 10px; }
+    .learn-track-desc { font-size: 14px; color: var(--text-soft); line-height: 1.6; margin: 0 0 14px; max-width: 620px; }
+    .learn-lessons { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+    .ll-row { display: flex; align-items: center; gap: 12px; padding: 11px 14px; background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius-sm); box-sizing: border-box; transition: border-color .14s, box-shadow .14s; }
+    .ll-row.ll-click { cursor: pointer; }
+    .ll-row.ll-click:hover { border-color: var(--accent); box-shadow: var(--shadow-sm); }
+    .ll-row.ll-locked { opacity: .6; }
+    .ll-row.ll-done-row { background: var(--green-soft); border-color: var(--green); }
+    .ll-row.ll-next-row { border-color: var(--accent); }
+    .ll-dot { flex: none; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; }
+    .ll-dot.ld-done { background: var(--green); color: #fff; }
+    .ll-dot.ld-next { background: var(--accent); color: var(--accent-ink); }
+    .ll-dot.ld-todo { background: var(--panel3); color: var(--muted-aa); font-size: 11px; font-weight: 600; }
+    .ll-dot.ld-lock { background: var(--panel3); color: var(--muted); }
+    .ll-body { flex: 1; min-width: 0; }
+    .ll-ttl { font-size: 13.5px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .ll-sub { font-size: 11.5px; color: var(--muted-aa); margin-top: 1px; }
+    .ll-time { flex: none; font-size: 11.5px; color: var(--muted-soft); white-space: nowrap; }
+    .learn-bc { display: flex; align-items: center; gap: 5px; padding: 16px 30px 0; font-size: 12.5px; color: var(--muted-aa); flex-wrap: wrap; }
+    .learn-bc-btn { background: none; border: 0; padding: 0; cursor: pointer; color: var(--accent); font: 650 12.5px var(--font); }
+    .learn-bc-btn:hover { text-decoration: underline; }
+    .learn-bc-sep { color: var(--muted-soft); font-size: 11px; }
+    .learn-bc-cur { color: var(--text-soft); font-weight: 600; }
+    /* Lesson player — fixed full-page overlay filling the content area */
+    #lesson-player { position: fixed; inset: 60px 0 0 230px; background: var(--bg); z-index: 25; display: flex; flex-direction: column; overflow: hidden; }
+    #lesson-player[hidden] { display: none !important; }
+    .lp-topnav { display: flex; align-items: center; gap: 10px; padding: 12px 24px; border-bottom: 1px solid var(--border); background: var(--panel); flex: none; }
+    .lp-back { background: none; border: 0; cursor: pointer; color: var(--accent); font: 650 13px var(--font); padding: 0; }
+    .lp-back:hover { text-decoration: underline; }
+    .lp-prog-pill { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+    .lp-prog-bar { width: 64px; height: 4px; background: var(--panel3); border-radius: 999px; overflow: hidden; }
+    .lp-prog-bar-fill { height: 100%; background: var(--accent); border-radius: 999px; }
+    .lp-prog-lbl { font-size: 11.5px; font-weight: 700; color: var(--muted); white-space: nowrap; }
+    .lp-scroll { flex: 1; overflow-y: auto; }
+    .lp-body { padding: 44px 32px 32px; max-width: 720px; margin: 0 auto; }
+    .lp-no { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+    .lp-title { font-family: var(--serif); font-size: 26px; font-weight: 650; color: var(--text); margin: 0 0 20px; line-height: 1.3; }
+    .lp-type-chip { display: inline-flex; align-items: center; gap: 5px; background: var(--panel3); color: var(--text-soft); border-radius: var(--radius-pill); padding: 3px 10px; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; margin-bottom: 24px; }
+    .lp-content { color: var(--text-soft); font-size: 15px; line-height: 1.75; }
+    .lp-content p { margin: 0 0 1.1em; }
+    .lp-fmt-card { margin-top: 32px; background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px 28px; text-align: center; color: var(--muted); font-size: 15px; line-height: 1.7; }
+    .lp-fmt-card span { font-size: 13px; }
+    .lp-guide-body { font-size: 15px; line-height: 1.8; color: var(--text); }
+    .lp-guide-body h1,.lp-guide-body h2,.lp-guide-body h3 { font-family: var(--serif); color: var(--text); margin: 1.4em 0 .5em; }
+    .lp-guide-body p { margin: 0 0 1em; }
+    .lp-guide-body ul,.lp-guide-body ol { padding-left: 1.4em; margin: 0 0 1em; }
+    .lp-guide-body li { margin-bottom: .35em; }
+    /* ── DataCamp-style exercise panel ───────────────── */
+    .lp-ex-wrap { flex: 1; display: grid; grid-template-columns: 360px 1fr; overflow: hidden; min-height: 0; }
+    .lp-ex-left { display: flex; flex-direction: column; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+    .lp-ex-right { display: flex; flex-direction: column; background: #1b2435; overflow: hidden; }
+    .lp-ex-lhead { padding: 11px 16px; border-bottom: 1px solid var(--border); font-size: 12.5px; font-weight: 700; display: flex; align-items: center; justify-content: space-between; color: var(--text); gap: 8px; }
+    .lp-ex-xp { background: #f5c542; color: #1a1201; font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 4px; white-space: nowrap; }
+    .lp-ex-instruct { padding: 16px; font-size: 13.5px; line-height: 1.65; flex: 1; }
+    .lp-ex-instruct h3 { font-size: 13px; font-weight: 700; margin: 0 0 10px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .lp-ex-instruct ul { padding-left: 18px; margin: 0; color: var(--text); }
+    .lp-ex-instruct li { margin-bottom: 8px; }
+    .lp-ex-instruct code { background: var(--panel3); padding: 1px 5px; border-radius: 3px; font-size: 12.5px; }
+    .lp-ex-show-ans { margin: 0 16px 12px; padding: 9px 14px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--panel2); display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13px; font-weight: 600; color: var(--text); text-align: left; width: calc(100% - 32px); }
+    .lp-ex-show-ans:hover { background: var(--panel3); }
+    .lp-ex-hint { margin: 0 16px 16px; padding: 14px; background: var(--panel2); border-radius: var(--radius); font-size: 13px; line-height: 1.6; color: var(--text); }
+    .lp-ex-hint strong { display: block; margin-bottom: 5px; font-size: 13.5px; color: var(--text); }
+    .lp-ex-helpful { padding: 12px 16px; border-top: 1px solid var(--border); font-size: 12.5px; color: var(--muted); display: flex; align-items: center; gap: 10px; }
+    .lp-ex-helpful button { border: 0; background: none; cursor: pointer; font-size: 12.5px; font-weight: 700; padding: 0; }
+    .lp-ex-helpful .ex-yes { color: var(--green-text); }
+    .lp-ex-helpful .ex-no { color: #c0392b; }
+    /* Right (dark) panel */
+    .lp-ex-rhead { padding: 8px 16px; background: #131d2e; border-bottom: 1px solid #2a3a52; font-size: 12px; font-weight: 600; color: #7a8fa8; display: flex; align-items: center; gap: 8px; }
+    .lp-ex-scenario { flex: 1; padding: 24px 28px; overflow-y: auto; color: #c8d8e8; font-size: 14px; line-height: 1.7; }
+    .lp-ex-scenario p { margin: 0 0 14px; }
+    .lp-ex-scenario h4 { color: #7aa8cc; font-size: 11.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; margin: 0 0 12px; }
+    .lp-ex-tray { border-collapse: collapse; width: 100%; margin: 4px 0 20px; font-size: 13.5px; }
+    .lp-ex-tray th { color: #5e7a90; font-size: 11.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; padding: 6px 12px; border-bottom: 1px solid #2a3a52; text-align: left; }
+    .lp-ex-tray td { padding: 9px 12px; border-bottom: 1px solid #1e2d40; }
+    .lp-ex-tray tr:last-child td { border-bottom: 0; }
+    .lp-ex-taken { color: #2ecc71; font-weight: 700; }
+    .lp-ex-missing { color: #e67e22; }
+    .lp-ex-choices { display: flex; flex-direction: column; gap: 8px; margin-top: 6px; }
+    .lp-ex-choice { display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; border: 1.5px solid #2a3a52; border-radius: 6px; cursor: pointer; color: #c8d8e8; font-size: 13.5px; line-height: 1.55; transition: border-color .12s, background .12s; }
+    .lp-ex-choice:hover { border-color: #4e8cff; background: rgba(78,140,255,.07); }
+    .lp-ex-choice.sel { border-color: #4e8cff; background: rgba(78,140,255,.12); color: #e8f0ff; }
+    .lp-ex-choice.correct { border-color: #2ecc71; background: rgba(46,204,113,.1); color: #e8f8ee; }
+    .lp-ex-choice.wrong { border-color: #e74c3c; background: rgba(231,76,60,.08); }
+    .lp-ex-key { font-weight: 700; min-width: 20px; color: #4e6078; font-size: 13px; flex-shrink: 0; }
+    .lp-ex-choice.sel .lp-ex-key { color: #4e8cff; }
+    .lp-ex-choice.correct .lp-ex-key { color: #2ecc71; }
+    .lp-ex-choice.wrong .lp-ex-key { color: #e74c3c; }
+    .lp-ex-actions { padding: 11px 20px; background: #131d2e; display: flex; justify-content: flex-end; gap: 10px; align-items: center; border-top: 1px solid #2a3a52; flex-shrink: 0; }
+    .lp-ex-btn-reset { background: none; border: 2px solid #2ecc71; color: #2ecc71; font-size: 13px; font-weight: 700; padding: 7px 16px; border-radius: 6px; cursor: pointer; }
+    .lp-ex-btn-reset:hover { background: rgba(46,204,113,.1); }
+    .lp-ex-btn-submit { background: #2ecc71; border: none; color: #0d1a12; font-size: 13.5px; font-weight: 800; padding: 8px 22px; border-radius: 6px; cursor: pointer; }
+    .lp-ex-btn-submit:hover { background: #27ae60; }
+    .lp-ex-btn-submit:disabled { opacity: .45; cursor: default; }
+    .lp-ex-btn-next { background: #2ecc71; border: none; color: #0d1a12; font-size: 13.5px; font-weight: 800; padding: 8px 22px; border-radius: 6px; cursor: pointer; }
+    .lp-ex-output { padding: 9px 20px; background: #131d2e; border-top: 1px solid #2a3a52; min-height: 40px; font-size: 13px; color: #5e7a90; font-family: inherit; flex-shrink: 0; }
+    .lp-ex-output.correct { color: #2ecc71; }
+    .lp-ex-output.wrong { color: #e74c3c; }
+    @media (max-width: 720px) { .lp-ex-wrap { grid-template-columns: 1fr; grid-template-rows: auto 1fr; } .lp-ex-left { max-height: 45vh; border-right: 0; border-bottom: 1px solid var(--border); } }
+    .lp-footer { background: var(--panel); border-top: 1px solid var(--border); padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex: none; }
+    .lp-btn-prev { background: none; border: 1px solid var(--border); color: var(--text); border-radius: var(--radius); padding: 10px 18px; cursor: pointer; font: 600 14px var(--font); }
+    .lp-btn-prev:hover { border-color: var(--accent); color: var(--accent); }
+    .lp-btn-next { background: var(--accent); color: var(--accent-ink); border: 0; border-radius: var(--radius); padding: 12px 28px; font: 700 15px var(--font); cursor: pointer; transition: background .14s; min-width: 120px; text-align: center; }
+    .lp-btn-next:hover { background: var(--accent-hover); }
+    @media (max-width: 720px) {
+      #lesson-player { inset: 104px 0 0 0; }
+      .lp-body { padding: 24px 16px 32px; }
+      .lp-topnav, .lp-footer { padding-left: 14px; padding-right: 14px; }
+      .learn-section-head { padding-left: 16px; padding-right: 16px; }
+      .learn-wrap { padding-left: 16px; padding-right: 16px; }
+      .learn-bc { padding-left: 14px; }
+    }
+    @media (max-width: 480px) {
+      .lh-foot { flex-direction: column; align-items: stretch; }
+      .lh-cta { text-align: center; width: 100%; }
+    }
   </style>
 </head>
 <body>
 
-<div id="customer-banner" class="customer-banner" hidden>👀 Viewing as Customer — this is the district-facing view. Safe to screen-share.</div>
+<div id="customer-banner" class="customer-banner" hidden>
+  <span>👀 Viewing as Customer — this is the district-facing view. Safe to screen-share.</span>
+  <span id="customer-banner-role"></span>
+</div>
 
 <header class="top">
   <h1 class="brand">
@@ -2630,19 +2929,41 @@
 <!-- ═══════════════════════════════════ LIBRARY ═══════════════════════════════════ -->
 <!-- ═══════════════════════════════════ LEARN ═══════════════════════════════════ -->
 <section id="view-learn" class="view">
-  <div id="tracks-hero" class="tracks-hero">
-    <p class="tracks-eyebrow">Your learning</p>
-    <h1 class="tracks-h1">Tracks</h1>
-    <p class="tracks-sub">Guided paths built from approved, source-cited guides. Work through the lessons, then certify.</p>
+  <!-- Sub-view 1: Learn Home — resume hero + track lesson list -->
+  <div id="learn-home">
+    <div class="learn-section-head">
+      <p class="learn-eyebrow" style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-hover);margin:0 0 4px;">Your learning</p>
+      <h1 class="learn-h1" id="learn-greeting">Good morning, John</h1>
+    </div>
+    <div class="learn-wrap">
+      <div id="learn-role-bar"></div>
+      <div id="learn-hero-wrap"></div>
+      <div id="learn-track-wrap"></div>
+    </div>
   </div>
-  <div id="tracks-grid" class="tracks-grid"></div>
+  <!-- Sub-view 2: Track / Course page -->
   <div id="track-detail" class="path-detail" hidden></div>
+  <!-- Sub-view 3: Lesson player (fixed overlay) -->
+  <div id="lesson-player" hidden></div>
 </section>
 
 <!-- ═══ persona placeholders (real content lands later) ═══ -->
 <section id="view-home" class="view">
   <div class="roster-wrap">
-    <div class="roster-head"><div><h1 class="roster-title">Home</h1><p class="roster-sub">Your training programs across districts.</p></div><span class="demo-tag">Demo data</span></div>
+    <div class="roster-head">
+      <div><h1 class="roster-title">Home</h1><p class="roster-sub">Your training programs across districts.</p></div>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+        <span class="demo-tag">Demo data</span>
+        <div class="create-split" id="home-create-wrap">
+          <button class="create-split-btn" id="create-split-btn" onclick="toggleCreateMenu()" aria-haspopup="menu" aria-expanded="false">+ Create ▾</button>
+          <div class="create-split-menu" id="create-split-menu" hidden role="menu">
+            <button class="create-split-opt" role="menuitem" onclick="showView('author');closeCreateMenu()">Generate a guide</button>
+            <button class="create-split-opt" role="menuitem" onclick="openQuizBuilder();closeCreateMenu()">Build a quiz</button>
+            <button class="create-split-opt" role="menuitem" onclick="openTrackBuilder();closeCreateMenu()">New track</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div id="home-body"></div>
   </div>
 </section>
@@ -2679,12 +3000,12 @@
 <!-- ── Projects: project_create / csv_upload / project_dashboard ───────── -->
 <section id="view-projects" class="view">
   <div class="pj-wrap">
+    <div class="bc-slot" id="bc-projects"></div>
     <div class="pj-head">
       <div>
         <h1>Add a district</h1>
         <p class="sub">Onboard a new district: name it, set its go-live date, then import its sites and people.</p>
       </div>
-      <button class="secondary" onclick="showView('manage')">← All districts</button>
     </div>
     <div id="pj-kpis" class="pj-kpis" aria-label="Rollout command center"></div>
     <div id="pj-signin" class="pj-signin-shell" hidden>
@@ -2729,12 +3050,12 @@
 </section>
 <section id="view-csv-upload" class="view">
   <div class="pj-wrap">
+    <div class="bc-slot" id="bc-csv-upload"></div>
     <div class="pj-head">
       <div>
         <h1 id="csv-title">Import sites</h1>
         <p class="sub" id="csv-sub">Upload a CSV. Preview will validate every row before you commit.</p>
       </div>
-      <button class="secondary" onclick="showView('projects')">← Back</button>
     </div>
     <div class="pj-step" id="csv-stepper"></div>
     <div class="pj-card">
@@ -2761,13 +3082,13 @@
 </section>
 <section id="view-project-dashboard" class="view">
   <div class="pj-wrap">
+    <div class="bc-slot" id="bc-pjd"></div>
     <div class="pj-head">
       <div>
         <h1 id="pjd-title">Project dashboard</h1>
         <div id="pjd-status-row" style="display:flex;align-items:center;gap:6px;margin:6px 0 8px;"></div>
         <p class="sub" id="pjd-sub"></p>
       </div>
-      <button class="secondary" onclick="showView('projects')">← Back</button>
     </div>
     <div id="pjd-body"></div>
   </div>
@@ -2971,6 +3292,7 @@
 <!-- ═══════════════════════════════════ ROSTER (demo) ═══════════════════════════════════ -->
 <section id="view-roster" class="view">
   <div class="roster-wrap">
+    <div class="bc-slot" id="bc-roster"></div>
     <div class="roster-head">
       <div>
         <h1 class="roster-title" id="roster-title">Learners</h1>
@@ -3005,13 +3327,14 @@
 <!-- ═══ ONE DISTRICT — detail (trainer drills in from the portfolio) ═══ -->
 <section id="view-district" class="view">
   <div class="roster-wrap">
+    <div class="bc-slot" id="bc-district"></div>
     <div class="roster-head">
       <div>
         <h1 class="roster-title" id="district-title">District</h1>
         <div id="district-stage-row" class="district-stage-row"></div>
         <p class="roster-sub" id="district-sub"></p>
       </div>
-      <div style="display:flex;gap:8px;align-items:center;"><span class="demo-tag">Demo data</span><button class="secondary" onclick="showView('manage')">← All districts</button></div>
+      <div style="display:flex;gap:8px;align-items:center;"><span class="demo-tag">Demo data</span><button class="primary" onclick="openAssignmentModal(_curISD)">Design training</button></div>
     </div>
     <div id="district-body"></div>
   </div>
@@ -3284,7 +3607,7 @@ let libSelectedId = null;
 // ─── Tabs ──────────────────────────────────────────────────────────
 // ─── Two views (internal Trainer vs. Customer) + external-learning feature flag ───
 let _viewMode = 'trainer', _extLearning = true;
-let _curTrack = null, _curCourse = null, _curISD = '';   // demo nav state — declared up top so boot (setViewMode/_demoISDInit) never hits a TDZ
+let _curTrack = null, _curCourse = null, _curISD = '', _lpState = null;   // demo nav state — declared up top so boot (setViewMode/_demoISDInit) never hits a TDZ
 
 // ════════════ DEMO UNIVERSE — fully seeded, client-side, deterministic, resets on reload ════════════
 // No real identity/persistence. Real endpoints (/resources, /resources/{id}/pdf, /api/quizzes/*) are
@@ -3293,7 +3616,7 @@ const _DEMO = (() => {
   const DUE = 'Jun 30';
   // A COURSE is a sequence of lessons (guide / quiz / video) — this is what the builder makes.
   const courses = [
-    { id:'c-pos', title:'POS Fundamentals', module:'POS', lessons:[{type:'guide',title:'POS Basics'},{type:'video',title:'Meal Service Walkthrough',dur:'6 min'},{type:'guide',title:'Counting Meals Correctly'},{type:'quiz',title:'POS Knowledge Check',n:5}] },
+    { id:'c-pos', title:'POS Fundamentals', module:'POS', lessons:[{type:'guide',title:'POS Basics'},{type:'video',title:'Meal Service Walkthrough',dur:'6 min'},{type:'guide',title:'Counting Meals Correctly'},{type:'exercise',title:'Reimbursable Meal Check',xp:70},{type:'quiz',title:'POS Knowledge Check',n:5}] },
     { id:'c-item', title:'Item Management Core', module:'Item Management', milestone:'Training', lessons:[{type:'guide',title:'Managing Item Categories'},{type:'guide',title:'Bulk Updates'},{type:'quiz',title:'Item Management Check',n:6}] },
     { id:'c-inv', title:'Inventory Basics', module:'Inventory', milestone:'Training', lessons:[{type:'guide',title:'Inventory Overview'},{type:'video',title:'Receiving & Storage',dur:'8 min'},{type:'guide',title:'Physical Inventory Counts'}] },
     { id:'c-elig', title:'Eligibility Core', module:'Eligibility', milestone:'Pre-launch', lessons:[{type:'guide',title:'Eligibility Overview'},{type:'guide',title:'Direct Certification Workflow'},{type:'guide',title:'Verification Rules'},{type:'quiz',title:'Eligibility Exam',n:8}] },
@@ -3313,9 +3636,9 @@ const _DEMO = (() => {
   ];
   // A TRACK is a sequence of COURSES (+ a certify step at the end).
   const tracks = [
-    { id:'t-cashier', title:'New Cashier Onboarding', role:'Cashier', product:'SchoolCafé', due:DUE, instructor:'CB', courseIds:['c-pos'] },
-    { id:'t-sitemgr', title:'Site Manager Essentials', role:'Site Manager', product:'SchoolCafé', sequential:true, due:DUE, instructor:'SM', courseIds:['c-item','c-inv'] },
-    { id:'t-elig', title:'Eligibility Certification Prep', role:'CN Director', product:'SchoolCafé', due:DUE, instructor:'EL', courseIds:['c-elig'] },
+    { id:'t-cashier', title:'New Cashier Onboarding', desc:'Learn the POS system, meal service workflows, and end-of-day closing — everything you need to run the register on day one.', role:'Cashier', product:'SchoolCafé', due:DUE, instructor:'CB', courseIds:['c-pos'] },
+    { id:'t-sitemgr', title:'Site Manager Essentials', desc:'Master item setup, inventory counts, and site-level reporting so your cafeteria runs accurately every service period.', role:'Site Manager', product:'SchoolCafé', sequential:true, due:DUE, instructor:'SM', courseIds:['c-item','c-inv'] },
+    { id:'t-elig', title:'Eligibility Certification Prep', desc:'Understand free and reduced meal applications, verification rules, and the direct certification workflow — required for state compliance.', role:'CN Director', product:'SchoolCafé', due:DUE, instructor:'EL', courseIds:['c-elig'] },
     { id:'t-pe', title:'SchoolCafé Onboarding', role:'CN Director', product:'SchoolCafé', due:DUE, instructor:'SC', courseIds:['c-elig','c-menu'] },
     { id:'t-formats', title:'Content Formats Showcase', role:'All staff', product:'SchoolCafé', due:DUE, instructor:'CF', courseIds:['c-formats'] },
   ];
@@ -3345,11 +3668,14 @@ const _DEMO = (() => {
     }
   });
   const inbox = [
-    { title:'Managing Item Categories', module:'Item Management', date:'Jun 8' },
-    { title:'Direct Certification Workflow', module:'Eligibility', date:'Jun 7' },
-    { title:'Daily Reconciliation Checklist', module:'POS', date:'Jun 6' },
-    { title:'Cycle Menu Setup', module:'Menu Planning', date:'Jun 5' },
-    { title:'Physical Inventory Counts', module:'Inventory', date:'Jun 3' },
+    // type: 'flagged' | 'updated' | 'approved' | 'aging'
+    // Sorted: flagged first (urgent), then by date desc, aging last (low urgency)
+    { type:'flagged',  title:'Cycle Menu Setup',               module:'Menu Planning',  date:'Jun 10', flaggedBy:'District admin · Spring Branch ISD', note:'Step 2 doesn\'t match what site managers see in production' },
+    { type:'updated',  title:'Daily Reconciliation Checklist', module:'POS',            date:'Jun 9',  note:'Step 3 revised — districts already assigned should re-verify' },
+    { type:'approved', title:'Managing Item Categories',       module:'Item Management',date:'Jun 8' },
+    { type:'approved', title:'Direct Certification Workflow',  module:'Eligibility',    date:'Jun 7' },
+    { type:'approved', title:'Physical Inventory Counts',      module:'Inventory',      date:'Jun 3' },
+    { type:'aging',    title:'POS Basics',                     module:'POS',            date:'Mar 5',  assignedDistricts:3 },
   ];
   const smes = { 'POS':'Jaime', 'Item Management':'Srina', 'Eligibility':'Lalitha', 'Inventory':'Mohammed', 'Menu Planning':'Yulisa' };
   const claim = (t, s) => ({ text: t, source: s });
@@ -3386,7 +3712,7 @@ const _DEMO = (() => {
   return { due:DUE, stages:['Kickoff','Setup','Training','Pre-launch','Go-live'], courses, tracks, districts, inbox, smes, quality, studio, imported, rubric:['Grounding','Coverage','Clarity','Structure'] };
 })();
 // session-scoped mutations (reset on reload)
-let _demoState = { helpCleared:{}, nudged:{}, progress:{}, userTracks:[], approvedRids:null, assignments:null, asnSeq:0 };
+let _demoState = { helpCleared:{}, nudged:{}, progress:{}, userTracks:[], approvedRids:null, assignments:null, asnSeq:0, homeFilter:null };
 function _districtCompletion(d){ return d.learners && d.learners.length ? Math.round(d.learners.reduce((a,l)=>a+l.completion,0)/d.learners.length) : 0; }
 const _CURRENT_TRAINER = 'Sam Rivera';   // the logged-in trainer (SR avatar) — a trainer only ever sees their OWN districts + content
 function _myDistricts(){ const m = _DEMO.districts.filter(d => d.trainer === _CURRENT_TRAINER); return m.length ? m : _DEMO.districts; }
@@ -3432,6 +3758,7 @@ function _fmtDate(iso){
   try{ const d=new Date(iso); return d.toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'}); } catch(_){ return iso; }
 }
 async function loadProjects(){
+  _bcSet('bc-projects', [{label:'Districts', onclick:"showView('manage')"}, {label:'Add a district'}]);
   await projRefreshMe();
   const gate = document.getElementById('pj-signin');
   const main = document.getElementById('pj-main');
@@ -3569,6 +3896,7 @@ function openCsvUpload(pid, kind){
 }
 function renderCsvUpload(){
   const kind = _projState.csvKind;
+  _bcSet('bc-csv-upload', [{label:'Districts', onclick:"showView('manage')"}, {label:'Add a district', onclick:"showView('projects')"}, {label: kind === 'staff' ? 'Import people' : 'Import sites'}]);
   const title = document.getElementById('csv-title');
   const sub = document.getElementById('csv-sub');
   const dropTitle = document.getElementById('csv-drop-title');
@@ -3866,6 +4194,7 @@ function showView(name) {
   // 'project-dashboard' is retired (Phase 2): created districts open the unified detail. Entry severed so
   // the old per-project assignment surface (at/rb modals) can never re-appear. The inert markup/functions
   // remain in the file pending a dedicated dead-code deletion pass.
+  if (name === 'project-dashboard') { const _pjTitle = (typeof _projState === 'object' && _projState && _projState.currentName) ? _projState.currentName : 'District dashboard'; _bcSet('bc-pjd', [{label:'Districts', onclick:"showView('manage')"}, {label:'Add a district', onclick:"showView('projects')"}, {label:_pjTitle}]); }
   if (name === 'csv-upload' && typeof renderCsvUpload === 'function') renderCsvUpload();
   // Persist Projects-flow location in the URL so a refresh restores place (Ctrl-R no longer dumps to Home).
   // We only WRITE the hash on the projects views; we never strip it on other views,
@@ -3881,6 +4210,7 @@ function openLibraryTab(){ showView(_viewMode === 'customer' ? 'content' : 'libr
 function toggleAvaMenu(e){ if (e) e.stopPropagation(); const m = document.getElementById('ava-menu'); if (m) m.hidden = !m.hidden; }
 function closeAvaMenu(){ const m = document.getElementById('ava-menu'); if (m) m.hidden = true; }
 document.addEventListener('click', e => { const w = document.querySelector('.ava-wrap'), m = document.getElementById('ava-menu'); if (m && !m.hidden && w && !w.contains(e.target)) m.hidden = true; });
+document.addEventListener('click', e => { const w = document.getElementById('home-create-wrap'), m = document.getElementById('create-split-menu'); if (m && !m.hidden && w && !w.contains(e.target)) closeCreateMenu(); });
 // ─── Home (trainer landing) ───
 async function loadHome(){
   renderHome();   // instant paint from cache
@@ -3898,51 +4228,128 @@ function renderHome(){
   const body = document.getElementById('home-body'); if (!body) return;
   // Same district set the Districts page shows (seeded + backend-created) so the counts can't disagree.
   const mine = _unifiedDistricts();
-  const avg = mine.length ? Math.round(mine.reduce((a, d) => a + _districtCompletion(d), 0) / mine.length) : 0;
-  const activeWk = mine.reduce((a, d) => a + d.learners.filter(l => ['Today','Yesterday','2 days ago'].includes(l.last_active)).length, 0);
   const overdue = mine.reduce((a, d) => a + d.learners.filter(l => l.status === 'Overdue').length, 0);
   const helps = mine.filter(d => d.help_request && !_demoState.helpCleared[d.id]);
-  // ── KPI signal strip ──
-  // KPI strip — alert metrics LEAD from the left (F-pattern: strongest attention is top-left), each with a trend vs last week so the number shows direction, not just a point-in-time value.
-  const tiles = [
-    { label: 'Help requests', val: helps.length, cls: helps.length ? ' alert' : '' },
-    { label: 'Overdue learners', val: overdue, cls: overdue ? ' warn' : '' },
-    { label: 'Avg completion', val: avg + '%', cls: '' },
-    { label: 'Active this week', val: activeWk, cls: '' },
-    { label: 'My districts', val: mine.length, cls: '' },
-  ];
-  let h = '<div class="home-tiles cmd-tiles">' + tiles.map(t =>
-    `<div class="home-tile${t.cls}"><div class="n">${t.val}</div><div class="l">${escapeHtml(t.label)}</div></div>`
-  ).join('') + '</div>';
-  // ── quick create — kick off grounded AI generation straight from the cockpit (all routes are existing flows/modals) ──
-  h += `<section class="cmd-card qc-row"><span class="qc-label">Quick create</span><div class="qc-btns"><button class="qc-btn qc-primary" onclick="showView('author')">Generate a guide</button><button class="qc-btn" onclick="openQuizBuilder()">Build a quiz</button><button class="qc-btn" onclick="openTrackBuilder()">New track</button></div></section>`;
-  // ── command-center grid ──
-  h += '<div class="cmd-grid"><div class="cmd-main">';
-  // Needs your attention — prioritized "what's next" feed (help > overdue > behind)
+  // Fix district switcher: Home is cross-district, so the scope label must read "All districts".
+  // Selecting a district from the menu navigates to that district's detail (handled in selectISD).
+  const nm = document.getElementById('isd-name'); if (nm) nm.textContent = 'All districts';
+  const f = _demoState.homeFilter;
+
+  // ── Build attention items (help > overdue > behind) ──
   const attn = [];
-  helps.forEach(d => attn.push({ p: 1, cls: 'attn-help', ico: '🖐', title: `${d.name} raised a hand`, desc: d.help_msg, act: `<button class="secondary" onclick="respondHelp('${d.id}')">Respond</button>` }));
-  if (overdue) attn.push({ p: 2, cls: 'attn-warn', ico: '⏰', title: `${overdue} learner${overdue === 1 ? '' : 's'} overdue`, desc: `Across your ${mine.length} districts · due ${_DEMO.due}`, act: `<button class="secondary" onclick="showView('manage')">Review</button>` });
-  mine.filter(d => !(d.help_request && !_demoState.helpCleared[d.id]) && _districtCompletion(d) < 70).forEach(d => attn.push({ p: 3, cls: '', ico: '📉', title: `${d.name} is behind`, desc: `${_districtCompletion(d)}% complete · due ${_DEMO.due}`, act: `<button class="secondary" onclick="openDistrictDrawer('${d.id}')">Open</button>` }));
-  // Approved guides live behind the top-bar inbox icon (progressive disclosure) — not in this feed, which stays genuine people/district actions.
+  helps.forEach(d => attn.push({ p:1, type:'help', cls:'attn-help',
+    title:`${d.name} needs help`, desc:d.help_msg,
+    act:`<button class="secondary" onclick="respondHelp('${d.id}')">Respond</button>` }));
+  if (overdue) attn.push({ p:2, type:'overdue', cls:'attn-warn',
+    title:`${overdue} learner${overdue === 1 ? '' : 's'} overdue`,
+    desc:`Across your ${mine.length} district${mine.length === 1 ? '' : 's'} · due ${_DEMO.due}`,
+    act:`<button class="secondary" onclick="showView('manage')">Review</button>` });
+  mine.filter(d => !(d.help_request && !_demoState.helpCleared[d.id]) && _districtCompletion(d) < 70)
+      .forEach(d => attn.push({ p:3, type:'behind', cls:'',
+        title:`${d.name} is behind`,
+        desc:`${_districtCompletion(d)}% complete · due ${_DEMO.due}`,
+        act:`<button class="secondary" onclick="openDistrictDrawer('${d.id}')">Open</button>` }));
   attn.sort((a, b) => a.p - b.p);
-  h += `<section class="cmd-card"><div class="cmd-head"><h3>Needs your attention</h3><span class="cmd-pill">${attn.length}</span></div><div class="attn-list">`;
-  h += attn.map(a => `<div class="attn-row ${a.cls}"><span class="attn-ico">${a.ico}</span><div class="attn-bd"><div class="attn-title">${escapeHtml(a.title)}</div><div class="attn-desc">${escapeHtml(a.desc)}</div></div>${a.act}</div>`).join('') || '<div class="attn-empty">All clear — nothing needs you right now.</div>';
-  h += '</div></section>';
-  h += '</div><aside class="cmd-side">';
-  // My projects — compact rows; click opens a detail DRAWER (stay on Home). Top-right so it's above the fold.
-  h += `<section class="cmd-card"><div class="cmd-head"><h3>My districts</h3><span class="cmd-sub">${mine.length} districts</span></div><div class="proj-rows">`;
+
+  // Apply active filter chip (click again to clear)
+  const filtered = f ? attn.filter(a => a.type === f) : attn;
+  const maxShow = 5, overflow = filtered.length > maxShow;
+  const visible = filtered.slice(0, maxShow);
+  const icoMap = { help:'⚑', overdue:'!', behind:'↓' };
+
+  // ── Two-column layout: queue (hero, main) | my day + my districts (side) ──
+  // Filter chips live inside the card so both columns start flush at the top edge.
+  let h = '<div class="cmd-grid"><div class="cmd-main">';
+
+  // Queue — the visual hero; heavier shadow signals it's the primary action surface
+  h += `<section class="cmd-card" style="box-shadow:var(--shadow-lift);">`;
+  h += `<div class="cmd-head"><h3>Needs your attention</h3>${filtered.length ? `<span class="cmd-pill">${filtered.length}</span>` : ''}</div>`;
+  if (helps.length || overdue) {
+    h += '<div class="home-filter-bar">';
+    if (helps.length)
+      h += `<button class="filter-chip fc-help${f === 'help' ? ' active' : ''}" onclick="_setHomeFilter('help')" aria-pressed="${f === 'help'}"><span aria-hidden="true">⚑</span> ${helps.length} help request${helps.length === 1 ? '' : 's'}</button>`;
+    if (overdue)
+      h += `<button class="filter-chip fc-overdue${f === 'overdue' ? ' active' : ''}" onclick="_setHomeFilter('overdue')" aria-pressed="${f === 'overdue'}"><span aria-hidden="true">!</span> ${overdue} overdue learner${overdue === 1 ? '' : 's'}</button>`;
+    h += '</div>';
+  }
+  h += `<div class="attn-list" role="list">`;
+  if (!attn.length) {
+    // All-clear: calm confirmation, not empty cards or a wall of zeros
+    h += `<div class="home-allclear" role="status" aria-live="polite">You're all caught up across ${mine.length} district${mine.length === 1 ? '' : 's'}.</div>`;
+  } else if (!visible.length) {
+    h += `<div class="attn-empty">No items match this filter — <button style="background:none;border:0;font:inherit;color:var(--accent);cursor:pointer;padding:0;font-weight:600;" onclick="_setHomeFilter(null)">clear filter</button></div>`;
+  } else {
+    h += visible.map(a =>
+      `<div class="attn-row ${a.cls}" role="listitem">`
+    + `<span class="attn-ico" aria-hidden="true">${icoMap[a.type] || '·'}</span>`
+    + `<div class="attn-bd"><div class="attn-title">${escapeHtml(a.title)}</div>`
+    + `<div class="attn-desc">${escapeHtml(a.desc)}</div></div>`
+    + `${a.act}</div>`
+    ).join('');
+  }
+  h += '</div>';
+  if (overflow) h += `<div class="queue-overflow"><button onclick="showView('manage')">View all ${filtered.length} items</button></div>`;
+  h += '</section>';
+  h += '</div>'; // end cmd-main
+
+  // Side column: content updates (PO-approved guides ready to assign) + My districts
+  h += '<aside class="cmd-side">';
+
+  // Content updates — subscribed content events: flagged (urgent) → updated → approved → aging
+  // "Subscribed" = Jaime assigned it to a district; any event on it surfaces here.
+  const _feedShow = _DEMO.inbox.slice(0, 4);
+  const _feedMore = _DEMO.inbox.length - _feedShow.length;
+  const _feedFlagged = _DEMO.inbox.filter(i => i.type === 'flagged').length;
+  h += `<section class="cmd-card"><div class="cmd-head"><h3>Content updates</h3>${_feedFlagged ? `<span class="cmd-pill" style="background:var(--accent);color:#FFF;">${_feedFlagged} flagged</span>` : `<span class="cmd-pill">${_DEMO.inbox.length}</span>`}</div>`;
+  h += `<p class="afeed-desc">Events on content you've assigned — flagged items need routing to the PO</p>`;
+  h += `<div class="afeed-list">`;
+  h += _feedShow.map(function(it) {
+    const sme = _DEMO.smes[it.module] || 'PM team';
+    const icoMap = { approved:'✓', updated:'↑', flagged:'⚑', aging:'⏰' };
+    const ico = icoMap[it.type] || '·';
+    const rowCls = it.type === 'flagged' ? ' row-flagged' : '';
+    let meta = '', note = '', btn = '';
+    if (it.type === 'approved') {
+      meta = `${escapeHtml(it.module)} · ${escapeHtml(sme)} approved · ${escapeHtml(it.date)}`;
+      btn  = `<button class="secondary afeed-btn" onclick="openAssignmentModal()">Assign</button>`;
+    } else if (it.type === 'updated') {
+      meta = `${escapeHtml(it.module)} · ${escapeHtml(sme)} updated · ${escapeHtml(it.date)}`;
+      note = it.note ? `<div class="afeed-note">${escapeHtml(it.note)}</div>` : '';
+      btn  = `<button class="secondary afeed-btn" onclick="inboxCatalog(${_DEMO.inbox.indexOf(it)})">Review</button>`;
+    } else if (it.type === 'flagged') {
+      meta = `${escapeHtml(it.module)} · ${escapeHtml(it.flaggedBy || 'flagged')} · ${escapeHtml(it.date)}`;
+      note = it.note ? `<div class="afeed-note">${escapeHtml(it.note)}</div>` : '';
+      btn  = `<button class="secondary afeed-btn btn-flag" onclick="notifyPO('${escapeHtml(it.module)}','${escapeHtml(it.title)}','flag')">Notify ${escapeHtml(sme)}</button>`;
+    } else if (it.type === 'aging') {
+      meta = `${escapeHtml(it.module)} · last reviewed ${escapeHtml(it.date)} · ${it.assignedDistricts || 0} district${it.assignedDistricts === 1 ? '' : 's'}`;
+      btn  = `<button class="secondary afeed-btn btn-nudge" onclick="notifyPO('${escapeHtml(it.module)}','${escapeHtml(it.title)}','aging')">Nudge ${escapeHtml(sme)}</button>`;
+    }
+    return `<div class="afeed-row${rowCls}">`
+         + `<span class="afeed-ico ico-${it.type}" aria-hidden="true">${ico}</span>`
+         + `<div class="afeed-bd"><div class="afeed-title">${escapeHtml(it.title)}</div>`
+         + `<div class="afeed-meta">${meta}</div>${note}</div>`
+         + btn + `</div>`;
+  }).join('');
+  h += `</div>`;
+  if (_feedMore > 0) h += `<div class="afeed-overflow"><button onclick="openInboxDrawer()">View ${_feedMore} more</button></div>`;
+  h += `</section>`;
+
+  // My districts — reference strip (at-a-glance status only; action items live in the queue above)
+  h += `<section class="cmd-card"><div class="cmd-head"><h3>My districts</h3><span class="cmd-sub">${mine.length} district${mine.length === 1 ? '' : 's'}</span></div>`;
+  h += `<div class="dist-strip">`;
   h += mine.map(d => {
     const comp = _districtCompletion(d), flagged = d.help_request && !_demoState.helpCleared[d.id];
-    const st = flagged ? 'Needs help' : (comp >= 70 ? 'On track' : 'Behind'), stc = flagged ? 'pill--attention' : (comp >= 70 ? 'pill--success' : 'pill--warning');
-    return `<div class="proj-row" role="button" tabindex="0" onclick="openDistrictDrawer('${d.id}')"><span class="pr-name">${escapeHtml(d.name)}${flagged ? ' 🖐' : ''}</span><span class="r-prog pr-prog"><span class="r-bar"><span style="width:${comp}%"></span></span>${comp}%</span><span class="pill ${stc}">${st}</span></div>`;
-  }).join('') + '</div></section>';
-  // My day — personal to-do list with times (add / check / delete)
-  h += `<section class="cmd-card"><div class="cmd-head"><h3>My day</h3><span class="cmd-sub">Today</span></div>
-    <div class="todo-add"><input id="todo-time" type="time" value="09:00" class="todo-in todo-time-in" aria-label="Task time"><input id="todo-text" type="text" class="todo-in todo-text-in" placeholder="Add a task…" autocomplete="off" onkeydown="if(event.key==='Enter')addTodo()"><button class="secondary" onclick="addTodo()">Add</button></div>
-    <ul id="todo-list" class="todo-list"></ul></section>`;
+    const tagCls = flagged ? 'dt-help' : (comp >= 70 ? 'dt-ok' : 'dt-behind');
+    const tagLabel = flagged ? 'Needs help' : (comp >= 70 ? 'On track' : 'Behind');
+    return `<div class="dist-strip-row" role="button" tabindex="0" onclick="openDistrictDrawer('${d.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openDistrictDrawer('${d.id}')}">`
+         + `<span class="dist-strip-name">${escapeHtml(d.name)}</span>`
+         + `<span class="r-bar"><span style="width:${comp}%"></span></span><span class="dist-strip-pct">${comp}%</span>`
+         + `<span class="dist-tag ${tagCls}">${tagLabel}</span></div>`;
+  }).join('');
+  h += '</div></section>';
   h += '</aside></div>';
+
   body.innerHTML = h;
-  renderTodos();
 }
 // Tufte-style sparkline: no axes/grid/shadow, non-scaling 2px stroke + faint area; the endpoint is labeled by the current value (the "actionable end"). role=img + aria-label so the trend isn't conveyed by shape alone.
 function _spark(values){
@@ -3962,11 +4369,20 @@ function _initTodos(){
   ];
   _demoState.todoSeq = 3;
 }
+function _fmtTodoTime(t) {
+  if (!t) return '';
+  const [h, m] = t.split(':').map(Number);
+  const ampm = h >= 12 ? 'pm' : 'am';
+  const h12 = h % 12 || 12;
+  return m ? `${h12}:${String(m).padStart(2, '0')}${ampm}` : `${h12}${ampm}`;
+}
 function renderTodos(){
   _initTodos();
   const ul = document.getElementById('todo-list'); if (!ul) return;
-  const items = _demoState.todos.slice().sort((a, b) => (a.done - b.done) || (a.time || '').localeCompare(b.time || ''));
-  ul.innerHTML = items.map(t => `<li class="todo-item${t.done ? ' done' : ''}"><input type="checkbox" class="todo-check" ${t.done ? 'checked' : ''} onclick="toggleTodo(${t.id})"><span class="todo-time">${escapeHtml(t.time || '')}</span><span class="todo-text">${escapeHtml(t.text)}</span><button class="todo-del" title="Remove" onclick="removeTodo(${t.id})">✕</button></li>`).join('') || '<li class="todo-empty">No tasks yet — add one above.</li>';
+  const all = _demoState.todos.slice().sort((a, b) => (a.done - b.done) || (a.time || '').localeCompare(b.time || ''));
+  const maxShow = 5, visible = all.slice(0, maxShow), rest = all.length - maxShow;
+  ul.innerHTML = visible.map(t => `<li class="todo-item${t.done ? ' done' : ''}"><input type="checkbox" class="todo-check" ${t.done ? 'checked' : ''} onclick="toggleTodo(${t.id})"><span class="todo-time">${escapeHtml(_fmtTodoTime(t.time))}</span><span class="todo-text">${escapeHtml(t.text)}</span><button class="todo-del" title="Remove" aria-label="Remove task" onclick="removeTodo(${t.id})">✕</button></li>`).join('') || '<li class="todo-empty">No tasks yet — add one above.</li>';
+  if (rest > 0) ul.innerHTML += `<li style="list-style:none;border-top:1px solid var(--border);padding:7px 0 2px;text-align:center;"><button style="background:none;border:0;font:inherit;font-size:12.5px;color:var(--accent);cursor:pointer;font-weight:600;padding:0;" onclick="alert('All ${all.length} tasks shown in full view.')">View all (${all.length})</button></li>`;
 }
 function addTodo(){
   _initTodos();
@@ -4022,7 +4438,26 @@ function openDistrictDrawer(id){
 function showHelpPanel(id){ const d = _DEMO.districts.find(x => x.id === id); if (d) alert('🖐 ' + d.name + ' raised a hand:\n\n“' + d.help_msg + '”'); }
 function respondHelp(id){ _demoState.helpCleared[id] = true; const d = _DEMO.districts.find(x => x.id === id); alert('Reply sent to ' + (d ? d.name : 'district') + '.'); renderHome(); const av = (document.querySelector('.view.active') || {}).id; if (av === 'view-manage' && typeof renderManage === 'function') renderManage(); }
 function inboxView(i){ const ids = _demoState.approvedRids || []; if (ids.length) window.open('/resources/' + encodeURIComponent(ids[i % ids.length]) + '/pdf', '_blank'); else alert('Opening “' + _DEMO.inbox[i].title + '” (demo).'); }
+// ── Home: filter chips + create dropdown ──
+function _setHomeFilter(type) { _demoState.homeFilter = (_demoState.homeFilter === type) ? null : type; renderHome(); }
+function toggleCreateMenu() {
+  const m = document.getElementById('create-split-menu'), b = document.getElementById('create-split-btn');
+  if (!m) return; m.hidden = !m.hidden; if (b) b.setAttribute('aria-expanded', String(!m.hidden));
+}
+function closeCreateMenu() {
+  const m = document.getElementById('create-split-menu'), b = document.getElementById('create-split-btn');
+  if (m) m.hidden = true; if (b) b.setAttribute('aria-expanded', 'false');
+}
 function inboxCatalog(i){ _demoState.catalogFilter = _DEMO.inbox[i].title; showView('content'); }
+// notifyPO — Jaime routes a content event to the responsible PO/SME.
+// She is a signal router, not a fixer; her action is always "tell the right person."
+function notifyPO(module, title, reason) {
+  const sme = _DEMO.smes[module] || 'the PM team';
+  const msg = reason === 'flag'
+    ? `Flagging "${title}" to ${sme} for review.\n\nThe issue will appear in ${sme}'s queue as a high-priority review request.`
+    : `Nudging ${sme} to review "${title}".\n\nThe guide hasn't been PO-reviewed in 90+ days. ${sme} will receive a review reminder.`;
+  alert(msg + '\n\n(Demo: notification sent.)');
+}
 let _focusDistrict = '';
 function openDistrictInManage(id){ _curISD = id; showView('district'); }
 // ─── My Team (CN-Director dashboard, scoped to selected district) ───
@@ -4284,7 +4719,7 @@ function _catalogItems(){
   if (_realCatalog) return _realCatalog;
   const sa = _DEMO.studio.filter(i => i.status === 'Approved').map(i => ({ title: i.title, module: i.module, type: i.format === 'Quiz' ? 'Quiz' : i.format === 'Track' ? 'Track' : 'Guide', origin: i.origin }));
   const im = _DEMO.imported.map(i => ({ title: i.title, module: i.module, type: 'Guide', origin: i.origin }));
-  const tr = _allDemoTracks().map(t => ({ title: t.title, module: t.role, type: 'Track', origin: 'Mixed sources' }));
+  const tr = _allDemoTracks().map(t => ({ title: t.title, module: t.role, type: 'Track', origin: 'Mixed sources', role_tags: [t.role].filter(Boolean) }));
   const qz = _DEMO.quality.filter(q => q.format === 'Quiz').map(q => ({ title: q.title, module: q.module, type: 'Quiz', origin: 'AI-generated' }));
   const seen = {}, out = []; sa.concat(im, tr, qz).forEach(x => { if (!seen[x.title]) { seen[x.title] = 1; out.push(x); } });
   return out;
@@ -4298,7 +4733,7 @@ async function loadCatalogDemo(){
     ]);
     const srcOrigin = s => s==='ICN_DOC' ? 'Outside vendor' : s==='HUMAN_GUIDE' ? 'Human-authored' : 'AI-generated';
     const mods = (mr.modules||[]).map(m=>({ title: m.source==='ICN_DOC' ? _cleanIcnTitle(m.title) : (m.title||m.id), module:m.module||'', type:'Guide', origin:srcOrigin(m.source) }));
-    const trks = (tr.tracks||[]).filter(t=>t.status==='published').map(t=>({ title:t.title, module:(t.role_tags||[])[0]||'All staff', type:'Track', origin:'Mixed sources' }));
+    const trks = (tr.tracks||[]).filter(t=>t.status==='published').map(t=>({ title:t.title, module:(t.role_tags||[])[0]||'All staff', type:'Track', origin:'Mixed sources', role_tags: t.role_tags||[] }));
     // Approved, grounded quizzes are ready-to-use too — show them in the catalog (and make them takeable).
     const qzs = ((qr&&qr.quizzes)||[]).filter(q=>q.status==='approved').map(q=>({ title:q.title||'Knowledge check', module:(q.source_label||'Quiz'), type:'Quiz', origin:'AI-generated', quizId:q.id }));
     const seen={}, out=[]; trks.concat(qzs, mods).forEach(x=>{ if(!seen[x.title]){ seen[x.title]=1; out.push(x); } });
@@ -4352,6 +4787,17 @@ function renderCatalogDemo(){
   const q = ((document.getElementById('cat-search') || {}).value || '').toLowerCase();
   const cf = _demoState.catalogFilter;
   let items = all.slice();
+  // In customer view, filter to this learner's role (tracks by role_tags, guides by module mapping)
+  if (_viewMode === 'customer') {
+    const role = _learnRole();
+    const roleMods = _ROLE_GUIDE_MODULES[role] || null;
+    items = items.filter(x => {
+      if (x.type === 'Track') return !(x.role_tags||[]).length || (x.role_tags||[]).includes(role);
+      if (!roleMods) return true;
+      return x.type === 'Quiz' || _catIsVendor(x.origin) || roleMods.has(x.module) || !x.module;
+    });
+  }
+  const roleFiltered = items.slice();
   if (cf) items = items.filter(x => x.title.toLowerCase().includes(cf.toLowerCase()));
   if (type) items = items.filter(x => x.type === type);
   if (source === 'ai') items = items.filter(x => x.origin === 'AI-generated');
@@ -4372,10 +4818,11 @@ function renderCatalogDemo(){
     || '<div class="lib-empty" style="grid-column:1/-1;">No ready-to-use resources match these filters.</div>';
   grid.innerHTML = head + cards;
   const setN = (id, n) => { const e = document.getElementById(id); if (e) e.textContent = n; };
-  setN('icn-stat-total', all.length);
-  setN('icn-stat-guides', all.filter(x => x.type === 'Guide').length);
-  setN('icn-stat-quizzes', all.filter(x => x.type === 'Quiz').length);
-  setN('icn-stat-tracks', all.filter(x => x.type === 'Track').length);
+  const statsBase = _viewMode === 'customer' ? roleFiltered : all;
+  setN('icn-stat-total', statsBase.length);
+  setN('icn-stat-guides', statsBase.filter(x => x.type === 'Guide').length);
+  setN('icn-stat-quizzes', statsBase.filter(x => x.type === 'Quiz').length);
+  setN('icn-stat-tracks', statsBase.filter(x => x.type === 'Track').length);
   const cnt = document.getElementById('icn-count'); if (cnt) cnt.textContent = `Catalog · ${items.length} of ${all.length} ready-to-use`;
 }
 setViewMode('trainer'); _demoISDInit();   // boot: Trainer persona, lands on Home
@@ -5487,6 +5934,30 @@ function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 
+// ── Breadcrumb component ──────────────────────────────────────────────────
+// crumbs: [{label, onclick?}]  last item = current page (no onclick, aria-current)
+// Returns an HTML string. Depth 1 (single crumb) → empty string (no trail shown).
+// Mode-aware by construction: trainer crumbs are only set from trainer load functions;
+// learner crumbs only from learner open functions. The showView persona guard is the
+// enforcement layer — nothing extra needed here.
+function _bcHtml(crumbs) {
+  if (!crumbs || crumbs.length < 2) return '';
+  const items = crumbs.map((c, i) => {
+    if (i === crumbs.length - 1) {
+      return `<li><span aria-current="page">${escapeHtml(c.label)}</span></li>`;
+    }
+    return `<li><a href="#" onclick="${c.onclick};return false;">${escapeHtml(c.label)}</a></li>`;
+  }).join('');
+  const parent = crumbs[crumbs.length - 2];
+  return `<nav class="bc-nav" aria-label="Breadcrumb">`
+    + `<ol class="bc-trail">${items}</ol>`
+    + `<button class="bc-collapse" onclick="${parent.onclick};return false;" aria-label="Back to ${escapeHtml(parent.label)}">← ${escapeHtml(parent.label)}</button>`
+    + `</nav>`;
+}
+function _bcSet(slotId, crumbs) {
+  const el = document.getElementById(slotId); if (el) el.innerHTML = _bcHtml(crumbs);
+}
+
 function setStatus(text, cls) {
   const s = document.getElementById('status');
   s.textContent = text;
@@ -5726,8 +6197,9 @@ function openPath(i) {
   const srcs = [...new Set(mods.map(m => m.source_label).filter(Boolean))];
   const cta = first
     ? `<a class="path-cta-btn" href="${escapeHtml(first.source_url)}" target="_blank" rel="noopener noreferrer">Start path ↗</a>` : '';
+  const _bcOP = _bcHtml([{label:'Library', onclick:'closePath()'}, {label:p.title || 'Path'}]);
   document.getElementById('path-detail').innerHTML = `
-    <button class="path-back" onclick="closePath()">← All content</button>
+    ${_bcOP}
     <header class="path-hero">
       <p class="path-eyebrow">Track path${p.role ? ' · ' + escapeHtml(p.role) : ''}</p>
       <h1 class="path-title">${escapeHtml(p.title || '')}</h1>
@@ -5799,64 +6271,173 @@ function _seedLearnProgress() {
 let _realTracks = null;
 const _LEARN_ROLES = ['Cashier', 'Site Manager', 'CN Director'];
 function _learnRole() { return _demoState.learnRole || 'Cashier'; }
+// Maps each learner role to the SchoolCafé guide module names relevant to that role.
+// Covers Cybersoft guide modules; ICN/USDA outside-vendor content shows for all roles.
+const _ROLE_GUIDE_MODULES = {
+  'Cashier':      new Set(['Accountability','Account Management','Food Safety, Staff Training','Food Safety','Staff Training','Reimbursable Meals, Staff Training, Menu Planning','Food Safety, Thermometer Use','Food Safety, Cooling Food','Food Safety, Handwashing']),
+  'Site Manager': new Set(['Item Management','Inventory','Accountability','Account Management','Reports','Insights','Production','System','Family Hub','Food Safety, Staff Training','Food Safety','Staff Training','Reimbursable Meals, Staff Training, Menu Planning','Food Safety, Thermometer Use','Food Safety, Cooling Food','Food Safety, Handwashing']),
+  'CN Director':  new Set(['Eligibility','Menu Planning','Insights','Reports','Accountability','Food Safety, Staff Training','Food Safety','Staff Training','Staff Training, Forecasting']),
+};
 function _realTracksForRole(role) {
   return (_realTracks || []).filter(t => { const rt = t.role_tags || []; return rt.length === 0 || rt.includes(role); });
 }
 async function loadLearn() {
   _seedLearnProgress();
-  renderLearnGrid();                                   // render immediately — cards don't need the fetch
+  renderLearnHome();                                   // render immediately — hero doesn't need the fetch
   if (_demoState.approvedRids === null) {
     try { const rs = await (await fetch('/resources')).json(); _demoState.approvedRids = (rs || []).filter(inLibrary).map(r => r.id); } catch (e) { _demoState.approvedRids = []; }
   }
   // Pull the REAL published tracks so a track built + assigned this session appears here (Seam B).
   try { const d = await (await fetch('/api/tracks')).json(); _realTracks = (d.tracks || []).filter(t => t.status === 'published'); }
   catch (e) { _realTracks = []; }
-  renderLearnGrid();
+  // Don't interrupt an open lesson player — it will re-render learn home on close.
+  if (document.getElementById('lesson-player').hidden) renderLearnHome();
 }
-function renderLearnGrid() {
-  _curTrack = null; _curCourse = null;
-  const grid = document.getElementById('tracks-grid'); if (!grid) return;
-  document.getElementById('track-detail').hidden = true;
-  document.getElementById('tracks-hero').hidden = false;
-  grid.hidden = false;
+function _learnRoleChanged(val) {
+  _demoState.learnRole = val;
+  const active = document.querySelector('.view.active');
+  if (active && active.id === 'view-content') renderCatalogDemo();
+  else renderLearnHome();
+}
+function renderLearnHome() {
+  _curTrack = null; _curCourse = null; _lpState = null;
+  const home = document.getElementById('learn-home');
+  const detail = document.getElementById('track-detail');
+  const player = document.getElementById('lesson-player');
+  if (home) home.hidden = false;
+  if (detail) detail.hidden = true;
+  if (player) player.hidden = true;
+
   const role = _learnRole();
-  const _isdName = (_curDistrict() || {}).name || 'your district';
-  const who = { 'Cashier': `e.g. John Doe · ${_isdName}`, 'CN Director': `e.g. Dana · ${_isdName}`, 'Site Manager': '' }[role] || '';
-  // "Viewing as" — the role decides which assigned tracks a learner sees (FR-LP-03/07).
-  const roleBar = `<div class="learn-rolebar" style="grid-column:1/-1;display:flex;align-items:center;gap:10px;margin:0 0 6px;">
-      <span style="font-size:12.5px;color:var(--muted);">Viewing as</span>
-      <select id="learn-role" class="tb-in" style="max-width:190px;" onchange="_demoState.learnRole=this.value;renderLearnGrid();">
-        ${_LEARN_ROLES.map(r => `<option ${r === role ? 'selected' : ''}>${r}</option>`).join('')}
-      </select>
-      ${who ? `<span style="font-size:12px;color:var(--muted);">${who}</span>` : ''}
+  const isdName = (_curDistrict() || {}).name || '';
+  const names = { 'Cashier': 'John', 'Site Manager': 'Alex', 'CN Director': 'Dana' };
+
+  // Greeting
+  const greet = document.getElementById('learn-greeting');
+  if (greet) {
+    const h = new Date().getHours();
+    const tod = h < 12 ? 'morning' : h < 17 ? 'afternoon' : 'evening';
+    greet.textContent = `Good ${tod}, ${names[role] || 'John'}`;
+  }
+
+  // Role selector — trainer demo affordance; lives in the customer banner, not in learner content
+  const rb = document.getElementById('learn-role-bar');
+  if (rb) rb.innerHTML = '';
+  const cbr = document.getElementById('customer-banner-role');
+  if (cbr) cbr.innerHTML = `<span style="display:flex;align-items:center;gap:8px;font-weight:400;">
+    <span style="opacity:.8;font-size:12px;">Previewing as</span>
+    <select class="cb-role-sel" id="learn-role" onchange="_learnRoleChanged(this.value);">${_LEARN_ROLES.map(r => `<option ${r === role ? 'selected' : ''}>${r}</option>`).join('')}</select>
+  </span>`;
+
+  // Gather tracks for this role — real published first, then demo seeds
+  const allTracks = [
+    ..._realTracksForRole(role),
+    ..._allDemoTracks().filter(t => t.role === role || t.role === 'All staff')
+  ];
+
+  // Pick hero: prefer in-progress, then not-started, then done
+  const withPct = allTracks.map(t => {
+    const isReal = !!(t.module_ids);
+    const pct = isReal ? _rtPct(t) : _trackPct(t);
+    return { t, pct, isReal };
+  });
+  const hero = withPct.find(x => x.pct > 0 && x.pct < 100)
+             || withPct.find(x => x.pct === 0)
+             || withPct[0] || null;
+
+  const heroWrap = document.getElementById('learn-hero-wrap');
+  const trackWrap = document.getElementById('learn-track-wrap');
+  if (!heroWrap || !trackWrap) return;
+
+  if (!hero) {
+    heroWrap.innerHTML = `<div class="learn-hero lh-firstrun">
+      <p class="lh-eyebrow">No training assigned yet</p>
+      <h2 class="lh-title">You're all set for now</h2>
+      <p class="lh-meta">Your trainer hasn't assigned any tracks yet. Check back soon.</p>
     </div>`;
-  // Real, published tracks assigned to this role — built live this session (Seam B).
-  const realCards = _realTracksForRole(role).map(t => {
-    const n = (t.module_ids || []).length, rt = t.role_tags || [], pct = _rtPct(t);
-    return `<button class="track-card" onclick="openRealTrack('${t.id}')">
-      <div class="track-ava">★</div>
-      <div class="track-main">
-        <div class="track-role">${escapeHtml(rt[0] || 'All staff')} track <span class="src-badge src-badge--ai" style="margin-left:6px;">Assigned</span></div>
-        <div class="track-title">${escapeHtml(t.title)}</div>
-        <div class="track-meta"><span>${n} module${n === 1 ? '' : 's'}</span><span>·</span><span>Published</span></div>
-        <div class="track-prog"><div class="track-prog-bar" style="width:${pct}%"></div></div>
-        <div class="track-prog-lbl">${pct ? pct + '% complete' : 'Not started'}</div>
-      </div></button>`;
-  }).join('');
-  // Seeded demo tracks for this role (kept so the grid is rich for every role).
-  const demoCards = _allDemoTracks().filter(t => t.role === role || t.role === 'All staff').map(t => {
-    const cs = _trackCourses(t), pct = _trackPct(t);
-    return `<button class="track-card" onclick="openTrack('${t.id}')">
-      <div class="track-ava">${escapeHtml(t.instructor || 'T')}</div>
-      <div class="track-main">
-        <div class="track-role">${escapeHtml(t.role)} track <span class="demo-tag" style="margin-left:6px;">Demo</span></div>
-        <div class="track-title">${escapeHtml(t.title)}</div>
-        <div class="track-meta"><span>${cs.length} track${cs.length === 1 ? '' : 's'}</span><span>·</span><span>~${_trackEst(t)}</span><span>·</span><span>Due ${escapeHtml(t.due || _DEMO.due)}</span></div>
-        <div class="track-prog"><div class="track-prog-bar" style="width:${pct}%"></div></div>
-        <div class="track-prog-lbl">${pct}% complete</div>
-      </div></button>`;
-  }).join('');
-  grid.innerHTML = roleBar + realCards + demoCards;
+    trackWrap.innerHTML = '';
+    return;
+  }
+
+  const { t, pct, isReal } = hero;
+  const courses = isReal ? [] : _trackCourses(t);
+  const totalLessons = isReal
+    ? (t.module_ids || []).length
+    : courses.reduce((a, c) => a + c.lessons.length, 0);
+  const doneLessons = isReal
+    ? (t.module_ids || []).filter(id => _rtDoneSet(t.id).has(id)).length
+    : courses.reduce((a, c) => a + _courseDoneSet(c.id).size, 0);
+  const remMin = (totalLessons - doneLessons) * 8;
+  const due = t.due || _DEMO.due;
+  const openFn = isReal ? `openRealTrack('${t.id}')` : `openTrack('${t.id}')`;
+
+  // Render hero card
+  if (pct === 100) {
+    heroWrap.innerHTML = `<div class="learn-hero lh-complete">
+      <p class="lh-eyebrow">Track complete</p>
+      <h2 class="lh-title">${escapeHtml(t.title)}</h2>
+      <p class="lh-meta">You finished all ${totalLessons} lessons. Well done!</p>
+      <div class="lh-foot">
+        <button class="lh-cta lh-cert" onclick="${isReal ? `issueTrackCertificate('${t.id}')` : `showCertificate('${t.id}')`}">Download certificate</button>
+        <button class="lh-cta" style="background:var(--panel);color:var(--text);border:1px solid var(--border);" onclick="${openFn}">Review track</button>
+      </div>
+    </div>`;
+  } else if (pct === 0) {
+    heroWrap.innerHTML = `<div class="learn-hero lh-firstrun">
+      <p class="lh-eyebrow">Up next for you</p>
+      <h2 class="lh-title">${escapeHtml(t.title)}</h2>
+      <p class="lh-meta">${totalLessons} lesson${totalLessons !== 1 ? 's' : ''} · ~${totalLessons * 8} min · Due ${escapeHtml(due)}</p>
+      <div class="lh-foot">
+        <button class="lh-cta" onclick="${openFn}">Start training</button>
+      </div>
+    </div>`;
+  } else {
+    heroWrap.innerHTML = `<div class="learn-hero">
+      <p class="lh-eyebrow">Continue where you left off</p>
+      <h2 class="lh-title">${escapeHtml(t.title)}</h2>
+      <p class="lh-meta">${remMin > 0 ? `~${remMin} min to go · ` : ''}${doneLessons} of ${totalLessons} done</p>
+      <div class="lh-prog-wrap">
+        <div class="lh-prog"><div class="lh-prog-fill" style="width:${pct}%"></div></div>
+        <div class="lh-prog-lbl"><span>${pct}% complete</span><span>Due ${escapeHtml(due)}</span></div>
+      </div>
+      <div class="lh-foot">
+        <button class="lh-cta" onclick="${openFn}">Continue</button>
+      </div>
+    </div>`;
+  }
+
+  // Track lesson list — for demo tracks only (real tracks show module list on track page)
+  if (isReal) { trackWrap.innerHTML = ''; return; }
+
+  const rt = t.role || 'All staff';
+  let foundNext = false;
+  let rows = '';
+  courses.forEach((c, ci) => {
+    c.lessons.forEach((l, idx) => {
+      const isDone = _courseDoneSet(c.id).has(idx);
+      const lk = t.sequential && ci > 0 && _coursePct(courses[ci - 1]) < 100;
+      const isNext = !isDone && !lk && !foundNext;
+      if (isNext) foundNext = true;
+      const dotCls = lk ? 'ld-lock' : isDone ? 'ld-done' : isNext ? 'ld-next' : 'ld-todo';
+      const rowCls = lk ? 'll-locked' : isDone ? 'll-done-row' : isNext ? 'll-next-row ll-click' : 'll-click';
+      const icon = lk ? '🔒' : isDone ? '✓' : isNext ? '→' : String(idx + 1);
+      const onclick = !lk ? `onclick="openLessonPlayer('${c.id}',${idx})"` : '';
+      const typeLabel = l.type === 'quiz' ? 'Knowledge check' : l.type === 'video' ? 'Video' : 'Reading';
+      const timeStr = l.type === 'quiz' ? '~5 min' : l.type === 'video' ? (l.dur || '6 min') : '~8 min';
+      const statusLabel = lk ? 'Locked' : isDone ? 'Done' : isNext ? 'Up next' : 'Available';
+      rows += `<li class="ll-row ${rowCls}" ${onclick}>
+        <span class="ll-dot ${dotCls}">${escapeHtml(icon)}</span>
+        <div class="ll-body">
+          <div class="ll-ttl">${escapeHtml(l.title)}</div>
+          <div class="ll-sub">${escapeHtml(typeLabel)} · ${escapeHtml(statusLabel)}</div>
+        </div>
+        <span class="ll-time">${escapeHtml(timeStr)}</span>
+      </li>`;
+    });
+  });
+  trackWrap.innerHTML = `
+    ${t.desc ? `<p class="learn-track-desc">${escapeHtml(t.desc)}</p>` : ''}
+    <ul class="learn-lessons">${rows}</ul>`;
 }
 // Learner completion for a REAL track (demo-session state, keyed by track id → completed module ids).
 function _rtDoneSet(tid) { _demoState.rtDone = _demoState.rtDone || {}; return (_demoState.rtDone[tid] = _demoState.rtDone[tid] || new Set()); }
@@ -5898,8 +6479,9 @@ function _renderRealTrack(t) {
           ? `<button class="track-open" onclick="event.stopPropagation(); issueTrackCertificate('${t.id}')">Get certificate</button>`
           : '<span class="track-soon">Complete every module to unlock</span>'}</div>
       </div></li>`;
+  const _bcRT = _bcHtml([{label:'Learn', onclick:'renderLearnHome()'}, {label:t.title}]);
   document.getElementById('track-detail').innerHTML = `
-    <button class="path-back" onclick="renderLearnGrid()">← All tracks</button>
+    ${_bcRT}
     <header class="path-hero">
       <p class="path-eyebrow">${escapeHtml(t.product || 'SchoolCafé')} · ${escapeHtml(rt[0] || 'All staff')} track</p>
       <h1 class="path-title">${escapeHtml(t.title)}</h1>
@@ -5910,8 +6492,7 @@ function _renderRealTrack(t) {
       <ol class="path-modules">${rows || '<li class="path-empty">No modules in this track yet.</li>'}${mods.length ? certRow : ''}</ol>
       <aside class="path-aside"><h4>About this track</h4><p class="path-aside-note">Mixes approved AI-grounded guides, your Cybersoft guides, and credited ICN / USDA references — assigned to the ${escapeHtml(rt[0] || 'staff')} role. ICN content links to its source; nothing here is reproduced or invented.</p></aside>
     </div>`;
-  document.getElementById('tracks-hero').hidden = true;
-  document.getElementById('tracks-grid').hidden = true;
+  document.getElementById('learn-home').hidden = true;
   document.getElementById('track-detail').hidden = false;
   window.scrollTo(0, 0);
 }
@@ -6002,8 +6583,9 @@ function openTrack(tid) {
       <div class="path-mod-main"><div class="icn-type">🏅 <span>certify</span></div><div class="path-mod-title">Track certificate</div>
         <div class="path-mod-actions">${certified ? `<button class="track-open" onclick="event.stopPropagation(); showCertificate('${tid}')">View certificate</button>` : '<span class="track-soon">Finish every track to unlock</span>'}</div>
       </div></li>`;
+  const _bcOT = _bcHtml([{label:'Learn', onclick:'renderLearnHome()'}, {label:t.title}]);
   document.getElementById('track-detail').innerHTML = `
-    <button class="path-back" onclick="renderLearnGrid()">← All tracks</button>
+    ${_bcOT}
     <header class="path-hero">
       <p class="path-eyebrow">${escapeHtml(t.product || '')}${t.product ? ' · ' : ''}${escapeHtml(t.role)} track${t.sequential ? ' · sequential' : ''}</p>
       <h1 class="path-title">${escapeHtml(t.title)}</h1>
@@ -6017,8 +6599,7 @@ function openTrack(tid) {
         <p class="path-aside-note">A track is built from approved, source-cited guides and a grounded quiz.</p>
       </aside>
     </div>`;
-  document.getElementById('tracks-hero').hidden = true;
-  document.getElementById('tracks-grid').hidden = true;
+  document.getElementById('learn-home').hidden = true;
   document.getElementById('track-detail').hidden = false;
   window.scrollTo(0, 0);
 }
@@ -6028,11 +6609,9 @@ function openCourse(cid) {
   const rows = c.lessons.map((l, idx) => {
     const isDone = done.has(idx), sk = cid + ':' + idx, sc = scores[sk];
     const _playLabel = { slides:'View slides', video:'Play ▶', demo:'Open demo', task:'Open checklist', scorm12:'Launch', scorm2004:'Launch', xapi:'Launch' };
-    const act = l.type === 'guide'
-      ? `<button class="track-open" onclick="event.stopPropagation(); openGuideLesson('${cid}',${idx})">Open guide ↗</button>`
-      : l.type === 'quiz'
-        ? `<button class="track-open" onclick="event.stopPropagation(); courseQuiz('${cid}',${idx})">${sc != null ? 'Retake' : 'Take quiz'}</button>${sc != null ? `<span class="quiz-score ${sc >= 80 ? 'pass' : 'fail'}">${sc >= 80 ? 'Passed' : 'Try again'} · ${sc}%</span>` : ''}`
-        : `<button class="track-open" onclick="event.stopPropagation(); openFormatLesson('${cid}',${idx})">${_playLabel[l.type] || 'Open'}</button>`;
+    const act = l.type === 'quiz'
+      ? `<button class="track-open" onclick="event.stopPropagation(); courseQuiz('${cid}',${idx})">${sc != null ? 'Retake' : 'Take quiz'}</button>${sc != null ? `<span class="quiz-score ${sc >= 80 ? 'pass' : 'fail'}">${sc >= 80 ? 'Passed' : 'Try again'} · ${sc}%</span>` : ''}`
+      : `<button class="track-open" onclick="event.stopPropagation(); openLessonPlayer('${cid}',${idx})">${isDone ? 'Review' : 'Start'}</button>`;
     return `<li class="path-mod" data-type="${l.type}">
         <span class="path-num">${isDone ? '✓' : idx + 1}</span>
         <div class="path-mod-main">
@@ -6043,8 +6622,10 @@ function openCourse(cid) {
           </div>
         </div></li>`;
   }).join('');
+  const _tOC = _allDemoTracks().find(x => x.id === _curTrack);
+  const _bcOC = _bcHtml([{label:'Learn', onclick:'renderLearnHome()'}, {label:_tOC ? _tOC.title : 'Track', onclick:"openTrack('" + _curTrack + "')"}, {label:c.title}]);
   document.getElementById('track-detail').innerHTML = `
-    <button class="path-back" onclick="openTrack('${_curTrack}')">← Back to track</button>
+    ${_bcOC}
     <header class="path-hero">
       <p class="path-eyebrow">Track · ${escapeHtml(c.module || '')}</p>
       <h1 class="path-title">${escapeHtml(c.title)}</h1>
@@ -6054,14 +6635,171 @@ function openCourse(cid) {
       <ol class="path-modules">${rows}</ol>
       <aside class="path-aside"><h4>About this track</h4><p class="path-aside-note">Lessons draw on approved, source-cited guides. The quiz is grounded in the guide text — pass at 80%.</p></aside>
     </div>`;
-  document.getElementById('tracks-hero').hidden = true;
-  document.getElementById('tracks-grid').hidden = true;
+  document.getElementById('learn-home').hidden = true;
   document.getElementById('track-detail').hidden = false;
   window.scrollTo(0, 0);
 }
 function toggleLesson(cid, idx) { const s = _courseDoneSet(cid); if (s.has(idx)) s.delete(idx); else s.add(idx); openCourse(cid); }
 function _lessonRid(cid, idx) { const ids = _demoState.approvedRids || []; return ids.length ? ids[(idx + cid.length) % ids.length] : null; }
-function openGuideLesson(cid, idx) { const rid = _lessonRid(cid, idx); if (rid) window.open('/resources/' + encodeURIComponent(rid) + '/pdf', '_blank'); _courseDoneSet(cid).add(idx); openCourse(cid); }
+function openGuideLesson(cid, idx) { openLessonPlayer(cid, idx); }
+function openLessonPlayer(cid, idx) {
+  _lpState = {cid, idx};
+  document.getElementById('lesson-player').hidden = false;
+  _renderLessonPlayer();
+}
+function _renderLessonPlayer() {
+  const {cid, idx} = _lpState;
+  const c = _courseById(cid); if (!c) return;
+  const l = c.lessons[idx]; if (!l) return;
+  const n = c.lessons.length, pct = Math.round(((idx + 1) / n) * 100);
+  const rid = _lessonRid(cid, idx), isLast = idx === n - 1;
+  const topnav = `<div class="lp-topnav">
+      <button class="lp-back" onclick="closeLessonPlayer()">← ${escapeHtml(c.title)}</button>
+      <div class="lp-prog-pill">
+        <div class="lp-prog-bar"><div class="lp-prog-bar-fill" style="width:${pct}%"></div></div>
+        <span class="lp-prog-lbl">Lesson ${idx + 1} of ${n}</span>
+      </div>
+    </div>`;
+  if (l.type === 'exercise') {
+    document.getElementById('lesson-player').innerHTML = topnav + _buildExerciseHTML(cid, idx, l, isLast);
+    return;
+  }
+  let placeholder = '';
+  if (l.type === 'guide') placeholder = `<p style="color:var(--muted);padding:16px 0;">Loading guide content…</p>`;
+  else if (l.type === 'video') placeholder = `<div class="lp-fmt-card">▶ Video lesson<br><span>Video playback available in the full product</span></div>`;
+  else placeholder = `<div class="lp-fmt-card">${_lessonIcon(l.type)} ${escapeHtml(l.type)}<br><span>Available in the full product</span></div>`;
+  document.getElementById('lesson-player').innerHTML = topnav + `
+    <div class="lp-scroll" id="lp-scroll">
+      <div class="lp-body">
+        <p class="lp-no">Lesson ${idx + 1}</p>
+        <h2 class="lp-title">${escapeHtml(l.title)}</h2>
+        <span class="lp-type-chip">${_lessonIcon(l.type)} ${escapeHtml(l.type)}${l.dur ? ' · ' + escapeHtml(l.dur) : ''}</span>
+        <div class="lp-content" id="lp-content-area">${placeholder}</div>
+      </div>
+    </div>
+    <div class="lp-footer">
+      <button class="lp-btn-prev" onclick="lpPrev()"${idx === 0 ? ' disabled' : ''}>← Prev</button>
+      <button class="lp-btn-next" onclick="lpNext()">${isLast ? 'Finish' : 'Continue →'}</button>
+    </div>`;
+  if (l.type === 'guide' && rid) _loadLessonGuide(rid);
+}
+async function _loadLessonGuide(rid) {
+  const area = document.getElementById('lp-content-area'); if (!area) return;
+  try {
+    const r = await fetch('/resources/' + encodeURIComponent(rid));
+    if (!r.ok) throw new Error();
+    const d = await r.json();
+    const html = d.body || d.html || d.content || '';
+    if (html) { area.innerHTML = `<div class="lp-guide-body">${html}</div>`; return; }
+  } catch(e) {}
+  area.innerHTML = `<div class="lp-fmt-card">Guide content is available in the approved library.<br>
+    ${rid ? `<a href="/resources/${encodeURIComponent(rid)}" target="_blank" style="color:var(--accent);text-decoration:none;">Open full guide ↗</a>` : ''}</div>`;
+}
+function lpNext() {
+  const {cid, idx} = _lpState;
+  const c = _courseById(cid); if (!c) return;
+  _courseDoneSet(cid).add(idx);
+  if (idx + 1 < c.lessons.length) {
+    _lpState.idx++; _renderLessonPlayer();
+    const s = document.getElementById('lp-scroll'); if (s) s.scrollTop = 0;
+  } else {
+    closeLessonPlayer();
+    if (_curCourse) openCourse(_curCourse); else renderLearnHome();
+  }
+}
+function lpPrev() { if (_lpState && _lpState.idx > 0) { _lpState.idx--; _renderLessonPlayer(); } }
+function closeLessonPlayer() {
+  document.getElementById('lesson-player').hidden = true;
+  _lpState = null;
+}
+// ── DataCamp-style exercise panel ─────────────────────────────────────────────
+const _EX_CHOICES = [
+  'Yes — the student selected 4 of 5 components, including ½ cup of fruit and ½ cup of vegetable. The minimum is 3 of 5, with at least ½ cup of fruit or vegetable included.',
+  'No — the student must take all 5 components for a meal to be reimbursable.',
+  'No — Grain and Meat/Meat Alternate cannot both count from the same entrée item.',
+];
+const _EX_CORRECT = 0;
+function _buildExerciseHTML(cid, idx, l, isLast) {
+  const st = _lpState.exState || {};
+  const sel = st.sel ?? -1, submitted = !!st.submitted, hintShown = !!st.hint, helpfulDone = !!st.helpful;
+  const correct = sel === _EX_CORRECT;
+  const choicesHTML = _EX_CHOICES.map((text, i) => {
+    let cls = 'lp-ex-choice';
+    if (submitted) cls += i === _EX_CORRECT ? ' correct' : (i === sel && !correct ? ' wrong' : '');
+    else if (i === sel) cls += ' sel';
+    return `<div class="${cls}" onclick="${submitted ? '' : '_exChoose(' + i + ')'}">
+      <span class="lp-ex-key">${String.fromCharCode(65+i)}</span>
+      <span>${escapeHtml(text)}</span>
+    </div>`;
+  }).join('');
+  const actionBar = submitted && correct
+    ? `<div class="lp-ex-actions"><button class="lp-ex-btn-next" onclick="lpNext()">${isLast ? 'Finish ✓' : 'Continue →'}</button></div>`
+    : `<div class="lp-ex-actions">
+        <button class="lp-ex-btn-reset" onclick="_exReset()" title="Reset">↺ Reset</button>
+        <button class="lp-ex-btn-submit" onclick="_exSubmit()"${sel < 0 || submitted ? ' disabled' : ''}>Submit Answer</button>
+      </div>`;
+  const outputCls = submitted ? (correct ? 'correct' : 'wrong') : '';
+  const outputMsg = submitted
+    ? (correct ? '✓ Correct! A reimbursable meal requires ≥ 3 of 5 components including ½ cup fruit or vegetable. This tray qualifies.' : '✗ Not quite. Review the USDA meal pattern requirements and try again.')
+    : 'Select an answer above, then click Submit Answer.';
+  const hintBody = hintShown ? `<div class="lp-ex-hint"><strong>Hint</strong>A reimbursable meal requires the student to choose at least <strong>3 of the 5 meal components</strong>. At least one of those must be a <strong>½ cup serving of fruit or vegetable</strong>. Count the components on the right — how many did this student select?</div>` : '';
+  const helpfulRow = hintShown && !helpfulDone
+    ? `<div class="lp-ex-helpful">Did you find this hint helpful?&ensp;<button class="ex-yes" onclick="_exHelpful(1)">✓ Yes</button>&ensp;<button class="ex-no" onclick="_exHelpful(0)">✕ No</button></div>`
+    : (helpfulDone ? `<div class="lp-ex-helpful" style="color:var(--green-text);">Thanks for the feedback!</div>` : '');
+  return `<div class="lp-ex-wrap">
+    <div class="lp-ex-left">
+      <div class="lp-ex-lhead">
+        <span>📋 Exercise</span>
+        <span class="lp-ex-xp">${l.xp || 70} XP</span>
+      </div>
+      <div class="lp-ex-instruct">
+        <h3>Instructions <span class="lp-ex-xp" style="font-size:10px;">${l.xp || 70} XP</span></h3>
+        <ul>
+          <li>Review the student's meal tray on the right.</li>
+          <li>Count how many of the 5 required meal components are present.</li>
+          <li>Select whether this tray qualifies as a <strong>reimbursable meal</strong>.</li>
+          <li>Hit <em>Submit Answer</em> to receive feedback.</li>
+        </ul>
+      </div>
+      <button class="lp-ex-show-ans" onclick="_exHint()">💡 ${hintShown ? 'Hide hint' : 'Show hint (−' + (l.xp||70) + ' XP)'}</button>
+      ${hintBody}
+      ${helpfulRow}
+    </div>
+    <div class="lp-ex-right">
+      <div class="lp-ex-rhead">📄 student-tray.scenario</div>
+      <div class="lp-ex-scenario">
+        <p>A student approaches your register at the end of the lunch line. Their tray holds the following items:</p>
+        <h4>Meal components selected</h4>
+        <table class="lp-ex-tray">
+          <thead><tr><th>Component</th><th>Item</th><th>Serving</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>Grain</td><td>Pizza crust</td><td>1 oz eq.</td><td class="lp-ex-taken">✓ Taken</td></tr>
+            <tr><td>Meat / Alt.</td><td>Cheese + sauce</td><td>2 oz eq.</td><td class="lp-ex-taken">✓ Taken</td></tr>
+            <tr><td>Vegetable</td><td>Steamed corn</td><td>½ cup</td><td class="lp-ex-taken">✓ Taken</td></tr>
+            <tr><td>Fruit</td><td>Apple slices</td><td>½ cup</td><td class="lp-ex-taken">✓ Taken</td></tr>
+            <tr><td>Milk</td><td>(not selected)</td><td>—</td><td class="lp-ex-missing">— Not taken</td></tr>
+          </tbody>
+        </table>
+        <p style="color:#8ab4d4;font-size:13px;">The student presses the meal component total on your screen. Does this tray qualify as a reimbursable meal?</p>
+        <div class="lp-ex-choices">${choicesHTML}</div>
+      </div>
+      ${actionBar}
+      <div class="lp-ex-output ${outputCls}">${outputMsg}</div>
+    </div>
+  </div>`;
+}
+function _exChoose(i) { if (!_lpState) return; _lpState.exState = {...(_lpState.exState||{}), sel:i}; _renderLessonPlayer(); }
+function _exSubmit() {
+  if (!_lpState || (_lpState.exState||{}).sel == null) return;
+  _lpState.exState = {...(_lpState.exState||{}), submitted:true};
+  if ((_lpState.exState.sel ?? -1) === _EX_CORRECT) {
+    const {cid,idx} = _lpState; const s = _courseDoneSet(cid); s.add(idx);
+  }
+  _renderLessonPlayer();
+}
+function _exReset() { if (!_lpState) return; _lpState.exState = {hint:(_lpState.exState||{}).hint}; _renderLessonPlayer(); }
+function _exHint() { if (!_lpState) return; const cur = (_lpState.exState||{}).hint; _lpState.exState = {...(_lpState.exState||{}), hint:!cur}; _renderLessonPlayer(); }
+function _exHelpful(v) { if (!_lpState) return; _lpState.exState = {...(_lpState.exState||{}), helpful:true}; _renderLessonPlayer(); }
 // ── Content-player formats (FR-CP) — simulated viewers for the demo. Each opens in the shared
 // modal and confirms completion. Real video/SCORM/xAPI runtimes are V2; here we demonstrate the
 // learner experience plus the completion / progress-reporting hooks.
@@ -6128,6 +6866,7 @@ async function loadRoster(isd) {
     _rosterData = await r.json();
   } catch (e) { return; }
   _curISD = _rosterData.selected;
+  _bcSet('bc-roster', [{label:'Districts', onclick:"showView('manage')"}, {label:_rosterData.selected_name||'District', onclick:"showView('district')"}, {label:'Learners'}]);
   const nm = document.getElementById('isd-name'); if (nm) nm.textContent = _rosterData.selected_name;
   const menu = document.getElementById('isd-menu');
   if (menu) menu.innerHTML = _rosterData.districts.map(x =>
@@ -6168,7 +6907,10 @@ function _demoISDInit() {
   if (!_curISD || !mine.some(d => d.id === _curISD)) _curISD = mine[0].id;
   const menu = document.getElementById('isd-menu');
   if (menu) menu.innerHTML = mine.map(d => `<button class="isd-opt ${d.id === _curISD ? 'active' : ''}" onclick="selectISD('${d.id}')">${escapeHtml(d.name)} <span class="n">${_districtPeople(d)}</span></button>`).join('');
-  const cur = mine.find(d => d.id === _curISD); const nm = document.getElementById('isd-name'); if (nm && cur) nm.textContent = cur.name;
+  // Home is cross-district — switcher reads "All districts" so the scope is never ambiguous.
+  const av = (document.querySelector('.view.active') || {}).id;
+  const nm = document.getElementById('isd-name');
+  if (nm) nm.textContent = av === 'view-home' ? 'All districts' : ((mine.find(d => d.id === _curISD) || {}).name || '');
 }
 function _curDistrict() { return _DEMO.districts.concat(_createdDistricts).find(d => d.id === _curISD) || _unifiedDistricts()[0]; }
 function selectISD(id) {
@@ -6176,9 +6918,10 @@ function selectISD(id) {
   const m = document.getElementById('isd-menu'); if (m) m.hidden = true;
   _demoISDInit();
   const av = (document.querySelector('.view.active') || {}).id;
+  // On Home (cross-district view), picking a district navigates to that district's detail.
+  if (av === 'view-home') { openDistrictInManage(id); return; }
   if (av === 'view-myteam') renderMyTeam();
   else if (av === 'view-manage' && typeof renderManage === 'function') renderManage();
-  else if (av === 'view-home') renderHome();
   else if (av === 'view-roster') loadRoster(id);
   else if (av === 'view-district') loadDistrict();
 }
@@ -6196,9 +6939,7 @@ async function loadManage(){
 function _trackCompletionForDistrict(d, tid){ const ls = d.learners.filter(l => (l.tracks || []).includes(tid)); return ls.length ? Math.round(ls.reduce((a, l) => a + l.completion, 0) / ls.length) : null; }
 function _districtStatus(d){ if (d.help_request && !_demoState.helpCleared[d.id]) return 'Needs help'; return _districtCompletion(d) >= 70 ? 'On track' : 'Behind'; }
 function toggleManageRow(id){ const r = document.getElementById('mg-exp-' + id); if (r) r.hidden = !r.hidden; }
-// ─── ONE DISTRICT — detail view. The 5 trainer tasks: Set up → Monitor ⇄ Intervene → Certify ───
-// Canonical stage: the two legacy vocabularies (seed district.stage + backend project.status)
-// collapse to ONE lifecycle. Stage is an ATTRIBUTE that gates which task section leads (BRD FR-LP-05).
+// ─── ONE DISTRICT — detail view (state-driven: State A = empty roster, State B = roster grid) ───
 const _STAGE_ORDER = ['Onboarding','Training','Pre-launch','Live'];
 function _canonStage(s){ return ({Setup:'Onboarding',Kickoff:'Onboarding',PLANNING:'Onboarding','Go-live':'Live',LIVE:'Live',ONBOARDING:'Training',Training:'Training','Pre-launch':'Pre-launch',ARCHIVED:'Archived'})[s] || s || 'Onboarding'; }
 function _daysToGoLive(){ const M={Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11}; const p=(_DEMO.due||'Jun 30').split(' '); const gl=new Date(2026,(M[p[0]]!=null?M[p[0]]:5),+p[1]||30), today=new Date(2026,5,10); return Math.max(0,Math.round((gl-today)/86400000)); }
@@ -6208,97 +6949,241 @@ async function loadDistrict(){
   await _refreshCreatedDistricts();
   _demoISDInit();
   const d = _curDistrict();
-  // Created districts pull their REAL roster (sites + people) from the backend so the ONE
-  // detail page shows true setup data — no separate project dashboard.
   if (d && d.source === 'created' && d.pid) { try { const r = await fetch('/api/projects/' + d.pid); if (r.ok) d._detail = await r.json(); } catch(_){} }
   renderDistrictDetail();
 }
+
+// ── Filter + sort state (reset on each new district navigation) ──
+let _ddFilters = { site:'', role:'', status:'', q:'' };
+let _ddSortCol = 'name', _ddSortAsc = true;
+let _ddUploadKind = 'staff';
+let _ddUploadTimer = null;
+
 function renderDistrictDetail(){
   const d = _curDistrict(); if(!d) return;
   const titleEl=document.getElementById('district-title'), subEl=document.getElementById('district-sub'), stageEl=document.getElementById('district-stage-row'), body=document.getElementById('district-body');
   if(!body) return;
-  const ls=d.learners, total=ls.length||1;
-  const done=ls.filter(l=>l.status==='Complete').length, overdue=ls.filter(l=>l.status==='Overdue').length, notStarted=ls.filter(l=>l.status==='Not started').length;
-  const comp=_districtCompletion(d), stage=_canonStage(d.stage), days=_daysToGoLive(), pct=Math.round(100*done/total);
+  const stage=_canonStage(d.stage);
+  const siteCount=(d._detail&&d._detail.sites)?d._detail.sites.length:(d.sites?d.sites.length:0);
   if(titleEl) titleEl.textContent=d.name;
-  const siteCount = (d._detail && d._detail.sites) ? d._detail.sites.length : (d.sites ? d.sites.length : 0);
+  _bcSet('bc-district', [{label:'Districts', onclick:"showView('manage')"}, {label:d.name}]);
   if(subEl) subEl.textContent=`${d.trainer} · ${siteCount} sites · ${_districtPeople(d)} staff · Go-live ${_DEMO.due}`;
   if(stageEl) stageEl.innerHTML=_stageStepper(stage);
-  const leadTask = ({Onboarding:'setup',Training:'progress','Pre-launch':'readiness',Live:'progress',Archived:'progress'})[stage]||'progress';
-  let h='';
-  const sections=[];
-  const ICON={
-    setup:'<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M6 21V8l6-4 6 4v13M10 12h.01M10 16h.01M14 12h.01M14 16h.01"/></svg>',
-    progress:'<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 17 9 11 13 15 21 7"/><polyline points="15 7 21 7 21 13"/></svg>',
-    attn:'<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>',
-    ready:'<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>'
-  };
-  // 1 — SETUP (roster + assignments). Created districts use the REAL roster from /api/projects
-  // (deep-linked re-import for THIS district); seeded districts use their illustrative roster.
-  const isCreated = d.source === 'created';
-  const assignCls = leadTask==='setup' ? 'primary' : 'secondary';   // one primary per screen, on the lead task
-  let setup;
-  if (isCreated) {
-    const dsites = (d._detail && d._detail.sites) || [];
-    setup = dsites.length
-      ? '<div class="dd-roster">' + dsites.map(s => `<div class="dd-roster-row"><span class="dd-roster-site">${escapeHtml(s.name)}</span><span class="dd-roster-cnt">${s.user_count} people</span><span class="dd-roster-roles">${Object.entries(s.by_role||{}).map(([r,n])=>n+' '+r).join(' · ')}</span></div>`).join('') + '</div>'
-      : '<p class="dd-note">No roster imported yet — import sites and people to begin.</p>';
-    setup += `<div class="dd-actions"><button class="${assignCls}" onclick="openAssignmentModal('${d.id}')">Assign training</button><button class="secondary" onclick="openCsvUpload('${d.pid}','sites')">Re-import sites</button><button class="secondary" onclick="openCsvUpload('${d.pid}','users')">Re-import people</button></div>`;
-  } else {
-    const sitesMap={}; ls.forEach(l=>{(sitesMap[l.site]=sitesMap[l.site]||[]).push(l);});
-    setup = '<div class="dd-roster">'+Object.keys(sitesMap).map(s=>{const rc={}; sitesMap[s].forEach(l=>rc[l.role]=(rc[l.role]||0)+1); return `<div class="dd-roster-row"><span class="dd-roster-site">${escapeHtml(s)}</span><span class="dd-roster-cnt">${sitesMap[s].length} people</span><span class="dd-roster-roles">${Object.entries(rc).map(([r,n])=>n+' '+r).join(' · ')}</span></div>`;}).join('')+'</div>';
-    setup += '<div class="dd-actions"><button class="'+assignCls+'" onclick="openAssignmentModal(\'' + d.id + '\')">Assign training</button></div>';
-  }
-  setup += '<p class="dd-note">Role-based auto-enroll keeps new hires on track — Cashiers → POS, Site Managers → Inventory, CN Directors → Eligibility.</p>';
-  // Assigned-training visibility (replaces the killed org-wide table): what's assigned to THIS district.
-  _initAssignments();
-  const _dasn = _demoState.assignments.filter(a => _asnAppliesTo(a, d));
-  setup += '<div class="dd-asn"><div class="dd-asn-h">Assigned training</div>' + (_dasn.length
-    ? _dasn.map(a => { const c=_asnContent(a); return `<div class="dd-asn-row"><span class="dd-asn-title">${escapeHtml(c.title)}</span><span class="dd-asn-meta">${escapeHtml(_asnAudLabel(a))} · Due ${escapeHtml(a.due)}</span></div>`; }).join('')
-    : '<p class="dd-note">No training assigned yet.</p>') + '</div>';
-  sections.push({key:'setup', ico:ICON.setup, title:'Setup — roster &amp; assignments', summary:(_dasn.length ? `${_dasn.length} track${_dasn.length===1?'':'s'} assigned` : 'No training assigned'), body:setup, lead:leadTask==='setup'});
-  // 2 — PROGRESS (monitor)
-  let prog='<div class="roster-cards">'+[['Staff complete',pct+'%'],['Overdue',overdue],['Not started',notStarted],['Days to go-live',days]].map(t=>`<div class="roster-stat"><div class="n">${t[1]}</div><div class="l">${escapeHtml(t[0])}</div></div>`).join('')+'</div>';
-  prog+= ls.length ? _renderStaffTable(d) : '<p class="dd-note">No training activity yet — assign a track in Setup, and progress appears here as staff begin.</p>';
-  sections.push({key:'progress', ico:ICON.progress, title:'Progress', summary:`${pct}% complete · ${overdue} overdue`, body:prog, lead:leadTask==='progress'});
-  // 3 — NEEDS ATTENTION (intervene) — auto-opens only when there's something to act on
-  const flagged=d.help_request && !_demoState.helpCleared[d.id];
-  let attn='';
-  if(flagged) attn+=`<div class="mg-alert-card"><div class="mg-alert-icon">🖐</div><div class="mg-alert-body"><div class="mg-alert-title">${escapeHtml(d.name)} raised a hand</div><div class="mg-alert-msg">&ldquo;${escapeHtml(d.help_msg)}&rdquo;</div></div><button class="secondary" onclick="respondHelp('${d.id}')">Respond</button></div>`;
-  if(overdue) attn+=`<div class="dd-attn-row"><span><b>${overdue}</b> staff overdue on training.</span><button class="secondary" onclick="nudgeAllOverdue()">Nudge all overdue</button></div>`;
-  const attnEmpty = !flagged && !overdue;
-  if(attnEmpty) attn='<p class="dd-note">Nothing needs attention right now.</p>';
-  const attnSummary = attnEmpty ? 'All clear' : ((flagged?'Help request':'') + (flagged&&overdue?' · ':'') + (overdue?(overdue+' overdue'):''));
-  sections.push({key:'attn', ico:ICON.attn, title:'Needs attention', summary:attnSummary, body:attn, lead:false, forceOpen:!attnEmpty, accent:!attnEmpty});
-  // 4 — READINESS (certify / go-live sign-off). Honest empty state (no roster) + Mark-live gated on
-  // actual completion (never offered on a "Behind" district), so the CTA never contradicts the numbers.
-  let ready, readySummary;
-  const people=_districtPeople(d);
-  if(!ls.length && people>0){
-    // Created district: real headcount from the backend, but no per-learner progress yet.
-    ready=`<div class="dd-ready"><div class="dd-ready-main"><div class="dd-ready-pct">0%</div><div class="dd-ready-l">${people} staff imported · training not started</div></div><span class="pill pill--neutral">Not started</span></div><p class="dd-note">Assign training in Setup; readiness updates as staff complete it.</p>`;
-    readySummary='Training not started';
-  } else if(!ls.length){
-    ready=`<div class="dd-ready"><div class="dd-ready-main"><div class="dd-ready-pct">—</div><div class="dd-ready-l">No roster imported yet</div></div><span class="pill pill--neutral">Not started</span></div><p class="dd-note">Import people in Setup and assign training before go-live.</p>`;
-    readySummary='No roster yet';
-  } else {
-    const remaining=ls.length-done;
-    const verdict=comp>=90?{t:'Ready to go live',c:'pill--success'}:comp>=70?{t:'On track',c:'pill--success'}:{t:'Behind',c:'pill--warning'};
-    ready=`<div class="dd-ready"><div class="dd-ready-main"><div class="dd-ready-pct">${comp}%</div><div class="dd-ready-l">of staff trained · go-live in ${days} days (${_DEMO.due})</div></div><span class="pill ${verdict.c}">${verdict.t}</span></div>`;
-    ready+=`<p class="dd-note">${remaining>0?`<b>${remaining}</b> of ${ls.length} staff still need to finish before go-live.`:'All staff have completed training — ready to certify.'} Completed staff can download a certificate of completion.</p>`;
-    if(comp>=90) ready+=`<div class="dd-actions"><button class="primary" onclick="alert('Demo: ${escAttr(d.name)} marked live.')">Mark district live</button></div>`;
-    else if(overdue) ready+=`<div class="dd-actions"><button class="${leadTask==='readiness'?'primary':'secondary'}" onclick="nudgeAllOverdue()">Nudge overdue staff</button></div>`;
-    readySummary=`${comp}% trained · ${verdict.t}`;
-  }
-  sections.push({key:'ready', ico:ICON.ready, title:'Readiness — go-live sign-off', summary:readySummary, body:ready, lead:leadTask==='readiness'});
-  // Render: the lead section (and a non-empty Needs-attention) open; the rest collapse to a one-line summary.
-  sections.forEach(s=>{
-    const open = s.lead || s.forceOpen;
-    const cls = 'dd-sec' + (s.lead?' dd-lead':'') + (s.accent?' dd-attn-open':'') + (open?'':' dd-collapsed');
-    h += `<section class="${cls}" id="dd-sec-${s.key}"><div class="dd-sec-head" onclick="toggleDDSec('${s.key}')"><span class="dd-sec-ico">${s.ico}</span><h3>${s.title}</h3><span class="dd-sec-right">${s.lead?'<span class="dd-lead-tag">Focus now</span>':''}<span class="dd-sec-summary">${escapeHtml(s.summary)}</span><span class="dd-sec-caret" aria-hidden="true">▾</span></span></div><div class="dd-sec-body">${s.body}</div></section>`;
-  });
-  body.innerHTML=h;
+  const ls=d.learners||[];
+  if(ls.length>0){ _ddRenderStateB(d,body); } else { _ddRenderStateA(d,body); }
 }
+
+// ── State A: empty roster ──
+function _ddRenderStateA(d,body){
+  body.innerHTML=`<div class="dd-empty-card">
+    <div class="dd-empty-title">Add your roster to get started</div>
+    <div class="dd-empty-sub">Upload sites and staff to see who needs training and how they&rsquo;re progressing.</div>
+    <button class="primary" onclick="_ddShowUploadTargets('${escAttr(d.id)}')">Upload roster</button>
+    <div id="dd-upload-panel" class="dd-upload-panel" hidden></div>
+  </div>`;
+}
+function _ddShowUploadTargets(did){
+  const panel=document.getElementById('dd-upload-panel'); if(!panel) return;
+  panel.hidden=false;
+  _ddUploadKind='staff';
+  panel.innerHTML=`<div class="dd-seg">
+    <button id="dd-seg-sites" onclick="_ddSegSwitch('sites')">Upload sites</button>
+    <button id="dd-seg-staff" class="active" onclick="_ddSegSwitch('staff')">Upload staff</button>
+  </div><div id="dd-dz-wrap">${_ddDropzoneHtml(did)}</div>`;
+}
+function _ddSegSwitch(kind){
+  _ddUploadKind=kind;
+  const did=_curISD;
+  const bs=document.getElementById('dd-seg-sites'), bf=document.getElementById('dd-seg-staff');
+  if(bs) bs.classList.toggle('active',kind==='sites');
+  if(bf) bf.classList.toggle('active',kind==='staff');
+  const wrap=document.getElementById('dd-dz-wrap'); if(wrap) wrap.innerHTML=_ddDropzoneHtml(did);
+}
+function _ddDropzoneHtml(did){
+  const label=_ddUploadKind==='sites'?'sites CSV':'staff CSV';
+  const unit=_ddUploadKind==='sites'?'site':'staff member';
+  return `<div class="dd-dropzone" onclick="_ddTriggerUpload('${escAttr(did)}')">
+    <p class="dd-dz-prompt">Click to select your ${label}</p>
+    <p class="dd-dz-hint">.csv · one row per ${unit}</p>
+  </div>`;
+}
+function _ddTriggerUpload(did){
+  const wrap=document.getElementById('dd-dz-wrap'); if(!wrap) return;
+  wrap.innerHTML=`<div class="dd-prog-upload-wrap"><div class="dd-prog-upload-fill" id="dd-pu-fill" style="width:0%"></div></div>
+    <div class="dd-prog-upload-lbl" id="dd-pu-lbl">Validating rows…</div>`;
+  let pct=0; clearInterval(_ddUploadTimer);
+  _ddUploadTimer=setInterval(()=>{
+    pct=Math.min(100,pct+Math.floor(Math.random()*16)+7);
+    const fill=document.getElementById('dd-pu-fill'), lbl=document.getElementById('dd-pu-lbl');
+    if(fill) fill.style.width=pct+'%';
+    if(lbl) lbl.textContent=pct<55?'Validating rows…':pct<88?'Checking site names…':'Ready to commit';
+    if(pct>=100){ clearInterval(_ddUploadTimer); _ddUploadTimer=null; _ddShowUploadPreview(did,wrap); }
+  },110);
+}
+function _ddShowUploadPreview(did,wrap){
+  const isSites=_ddUploadKind==='sites';
+  const hdrs=isSites?['Site name','Type','Status']:['Name','Role','Site'];
+  const prows=isSites
+    ?[['Aldine HS','Primary',''],['Hill MS','Secondary',''],['Stovall MS','Secondary',''],['Carver ES','Elementary','']]
+    :[['Maria Garcia','Cashier','Aldine HS'],['James Johnson','Site Manager','Hill MS'],['Aisha Patel','Cashier','Stovall MS'],['Carlos Nguyen','CN Director','Carver ES'],['Linda Smith','Cashier','Aldine HS']];
+  const th=hdrs.map(h=>`<th>${escapeHtml(h)}</th>`).join('');
+  const rows=prows.map(r=>`<tr>${r.map((c,i)=>`<td>${i===2?'<span class="dd-ok-mark">✓</span> ':''}${escapeHtml(c)}</td>`).join('')}</tr>`).join('');
+  wrap.innerHTML=`<table class="dd-preview-table"><thead><tr>${th}</tr></thead><tbody>${rows}</tbody></table>
+    <div class="dd-actions" style="margin-top:12px;">
+      <button class="primary" onclick="_ddCommitUpload('${escAttr(did)}')">Commit ${prows.length} rows</button>
+      <button class="secondary" onclick="_ddSegSwitch('${escAttr(_ddUploadKind)}')">Re-upload</button>
+    </div>`;
+}
+function _ddCommitUpload(did){
+  const d=_DEMO.districts.concat(_createdDistricts).find(x=>x.id===did); if(!d) return;
+  const FN=['Maria','James','Aisha','Carlos','Linda','Wei','Diego','Sarah'];
+  const LN=['Garcia','Johnson','Patel','Nguyen','Smith','Williams','Brown','Lee'];
+  const roles=['Cashier','Cashier','Site Manager','Cashier','CN Director','Cashier','Site Manager','Cashier'];
+  const sts=['In progress','Not started','In progress','Overdue','In progress','Complete','Not started','In progress'];
+  const sites=d.sites&&d.sites.length?d.sites:['Site A','Site B'];
+  d.learners=FN.map((fn,i)=>({
+    name:fn+' '+LN[i], role:roles[i], site:sites[i%sites.length],
+    tracks:[roles[i]==='Cashier'?'t-cashier':roles[i]==='Site Manager'?'t-sitemgr':'t-elig'],
+    completion:sts[i]==='Complete'?100:sts[i]==='Not started'?0:sts[i]==='Overdue'?15+i*7:30+i*8,
+    status:sts[i], last_active:['Today','Yesterday','2 days ago','Last week'][i%4]
+  }));
+  _ddFilters={site:'',role:'',status:'',q:''}; _ddSortCol='name'; _ddSortAsc=true;
+  renderDistrictDetail();
+}
+
+// ── State B: populated roster grid ──
+function _ddRenderStateB(d,body){
+  _initAssignments();
+  const ls=d.learners, total=ls.length||1;
+  const done=ls.filter(l=>l.status==='Complete').length;
+  const overdue=ls.filter(l=>l.status==='Overdue').length;
+  const pct=Math.round(100*done/total);
+  const days=_daysToGoLive();
+  const flagged=d.help_request&&!_demoState.helpCleared[d.id];
+  const _dasn=_demoState.assignments.filter(a=>_asnAppliesTo(a,d));
+  let h='';
+  // KPI strip
+  h+=`<div class="dd-kpi-strip">
+    <div class="dd-kpi-item"><div class="dd-kpi-n">${pct}%</div><div class="dd-kpi-l">Staff trained</div></div>
+    <div class="dd-kpi-item"><div class="dd-kpi-n">${overdue}</div><div class="dd-kpi-l">Overdue</div></div>
+    <div class="dd-kpi-item"><div class="dd-kpi-n">${days}</div><div class="dd-kpi-l">Days to go-live</div></div>
+  </div>`;
+  // Help banner
+  if(flagged) h+=`<div class="dd-help-banner" id="dd-help-banner">
+    <div class="dd-help-body">
+      <div class="dd-help-title">🖐 ${escapeHtml(d.name)} raised a hand</div>
+      <div class="dd-help-quote">&ldquo;${escapeHtml(d.help_msg)}&rdquo;</div>
+    </div>
+    <div class="dd-help-acts">
+      <button class="secondary" onclick="respondHelp('${escAttr(d.id)}');renderDistrictDetail()">Respond</button>
+      <button class="secondary" onclick="_demoState.helpCleared['${escAttr(d.id)}']=true;document.getElementById('dd-help-banner').remove()">Dismiss</button>
+    </div>
+  </div>`;
+  // Assigned training chips
+  if(_dasn.length){
+    const chips=_dasn.map(a=>{const c=_asnContent(a);return `<span class="dd-chip">${escapeHtml(c.title)}</span>`;}).join('');
+    h+=`<div class="dd-assigned-chips"><span class="dd-chips-label">Training assigned</span>${chips}</div>`;
+  }
+  // Filter bar
+  const sites=[...new Set(ls.map(l=>l.site))].sort();
+  const roles=[...new Set(ls.map(l=>l.role))].sort();
+  const statuses=['Complete','In progress','Not started','Overdue'];
+  h+=`<div class="dd-filter-bar">
+    <select id="dd-f-site" onchange="_ddFilter()" aria-label="Filter by site"><option value="">All sites</option>${sites.map(s=>`<option value="${escAttr(s)}">${escapeHtml(s)}</option>`).join('')}</select>
+    <select id="dd-f-role" onchange="_ddFilter()" aria-label="Filter by role"><option value="">All roles</option>${roles.map(r=>`<option value="${escAttr(r)}">${escapeHtml(r)}</option>`).join('')}</select>
+    <select id="dd-f-status" onchange="_ddFilter()" aria-label="Filter by status"><option value="">All statuses</option>${statuses.map(s=>`<option value="${escAttr(s)}">${escapeHtml(s)}</option>`).join('')}</select>
+    <input type="text" id="dd-f-q" placeholder="Search name…" oninput="_ddFilter()" aria-label="Search by name">
+  </div>`;
+  // Roster grid
+  h+=`<div class="dd-grid-wrap"><table class="dd-grid" id="dd-grid">
+    <thead><tr>
+      <th onclick="_ddToggleSort('name')">Name <span class="sort-ico">${_ddSortIco('name')}</span></th>
+      <th onclick="_ddToggleSort('site')">Site <span class="sort-ico">${_ddSortIco('site')}</span></th>
+      <th onclick="_ddToggleSort('role')">Role <span class="sort-ico">${_ddSortIco('role')}</span></th>
+      <th onclick="_ddToggleSort('completion')">Progress <span class="sort-ico">${_ddSortIco('completion')}</span></th>
+      <th onclick="_ddToggleSort('last_active')">Last update <span class="sort-ico">${_ddSortIco('last_active')}</span></th>
+    </tr></thead>
+    <tbody id="dd-grid-body">${_ddGridRows(d)}</tbody>
+  </table></div>`;
+  body.innerHTML=h;
+  // Restore filter selects
+  const fSite=document.getElementById('dd-f-site'), fRole=document.getElementById('dd-f-role'), fStatus=document.getElementById('dd-f-status'), fQ=document.getElementById('dd-f-q');
+  if(fSite&&_ddFilters.site) fSite.value=_ddFilters.site;
+  if(fRole&&_ddFilters.role) fRole.value=_ddFilters.role;
+  if(fStatus&&_ddFilters.status) fStatus.value=_ddFilters.status;
+  if(fQ&&_ddFilters.q) fQ.value=_ddFilters.q;
+}
+function _ddFilter(){
+  _ddFilters.site=(document.getElementById('dd-f-site')||{}).value||'';
+  _ddFilters.role=(document.getElementById('dd-f-role')||{}).value||'';
+  _ddFilters.status=(document.getElementById('dd-f-status')||{}).value||'';
+  _ddFilters.q=(document.getElementById('dd-f-q')||{}).value||'';
+  const body=document.getElementById('dd-grid-body');
+  if(body) body.innerHTML=_ddGridRows(_curDistrict());
+}
+function _ddToggleSort(col){
+  if(_ddSortCol===col){ _ddSortAsc=!_ddSortAsc; } else { _ddSortCol=col; _ddSortAsc=col!=='completion'; }
+  document.querySelectorAll('.dd-grid th .sort-ico').forEach(el=>el.textContent='');
+  document.querySelectorAll('.dd-grid th').forEach(th=>{
+    const ico=th.querySelector('.sort-ico'); if(!ico) return;
+    const m=th.getAttribute('onclick').match(/'([^']+)'/); if(m&&m[1]===_ddSortCol) ico.textContent=_ddSortAsc?'▲':'▼';
+  });
+  const body=document.getElementById('dd-grid-body'); if(body) body.innerHTML=_ddGridRows(_curDistrict());
+}
+function _ddSortIco(col){ return _ddSortCol===col?(_ddSortAsc?'▲':'▼'):''; }
+const _ACT_ORDER={'Today':0,'Yesterday':1,'2 days ago':2,'Last week':3,'2 weeks ago':4};
+function _ddGridRows(d){
+  if(!d) return '';
+  let rows=(d.learners||[]).slice();
+  const {site,role,status,q}=_ddFilters;
+  if(site) rows=rows.filter(l=>l.site===site);
+  if(role) rows=rows.filter(l=>l.role===role);
+  if(status) rows=rows.filter(l=>l.status===status);
+  if(q){ const ql=q.toLowerCase(); rows=rows.filter(l=>l.name.toLowerCase().includes(ql)); }
+  rows.sort((a,b)=>{
+    let av=a[_ddSortCol],bv=b[_ddSortCol];
+    if(_ddSortCol==='last_active'){ av=_ACT_ORDER[av]??99; bv=_ACT_ORDER[bv]??99; }
+    if(typeof av==='number') return _ddSortAsc?(av-bv):(bv-av);
+    return _ddSortAsc?String(av).localeCompare(String(bv)):String(bv).localeCompare(String(av));
+  });
+  if(!rows.length) return `<tr><td colspan="5" style="text-align:center;padding:24px;color:var(--muted);font-size:13px;">No staff match the current filters.</td></tr>`;
+  const allLearners=d.learners||[];
+  return rows.map(l=>{
+    const li=allLearners.indexOf(l);
+    const sc=l.status==='Complete'?'dd-stag-complete':l.status==='Overdue'?'dd-stag-overdue':l.status==='In progress'?'dd-stag-inprog':'dd-stag-notstarted';
+    return `<tr onclick="_ddOpenStaffDrawer('${escAttr(d.id)}',${li})">
+      <td class="dd-name-cell">${escapeHtml(l.name)}</td>
+      <td class="dd-secondary">${escapeHtml(l.site)}</td>
+      <td class="dd-secondary">${escapeHtml(l.role)}</td>
+      <td><div class="dd-prog-cell"><span class="dd-prog-bar-wrap"><span class="dd-prog-bar-fill" style="width:${l.completion}%"></span></span><span class="dd-prog-pct">${l.completion}%</span><span class="dd-stag ${sc}">${escapeHtml(l.status)}</span></div></td>
+      <td class="dd-secondary">${escapeHtml(l.last_active)}</td>
+    </tr>`;
+  }).join('');
+}
+function _ddOpenStaffDrawer(did,li){
+  const d=_DEMO.districts.concat(_createdDistricts).find(x=>x.id===did); if(!d) return;
+  const l=d.learners[li]; if(!l) return;
+  const nk=d.id+':'+li, nudged=_demoState.nudged[nk];
+  const tnames=(l.tracks||[]).map(tid=>{const t=(_allDemoTracks()||[]).find(t=>t.id===tid);return t?{title:t.title}:null;}).filter(Boolean);
+  const tracks=tnames.length
+    ?tnames.map(t=>`<div class="dds-track-row"><span class="dds-track-name">${escapeHtml(t.title)}</span><div class="dds-track-prog"><span class="dd-prog-bar-wrap"><span class="dd-prog-bar-fill" style="width:${l.completion}%"></span></span><span class="dd-prog-pct">${l.completion}%</span></div></div>`).join('')
+    :'<p style="font-size:13px;color:var(--muted)">No tracks assigned.</p>';
+  const sc=l.status==='Complete'?'dd-stag-complete':l.status==='Overdue'?'dd-stag-overdue':l.status==='In progress'?'dd-stag-inprog':'dd-stag-notstarted';
+  const nudgeBtn=l.status!=='Complete'?`<button class="secondary${nudged?' disabled':''}" onclick="${nudged?`alert('Already nudged today.')`:`_ddNudgeFromDrawer('${escAttr(nk)}','${escAttr(l.name)}')`}">${nudged?'Nudged today':'Nudge'}</button>`:'';
+  const html=`<p class="dds-name">${escapeHtml(l.name)}</p>
+    <p class="dds-meta">${escapeHtml(l.role)} &middot; ${escapeHtml(l.site)}</p>
+    <div class="dds-section">Status</div>
+    <span class="dd-stag ${sc}" style="margin-bottom:14px;display:inline-block;">${escapeHtml(l.status)}</span>
+    <div class="dds-section">Assigned tracks</div>
+    ${tracks}
+    <div class="dds-actions">
+      ${nudgeBtn}
+      <button class="secondary" onclick="openAssignmentModal('${escAttr(did)}')">Assign/Reassign track</button>
+      <button class="secondary" onclick="alert('${escAttr(l.name)}: ${l.completion}% complete.')">View progress</button>
+    </div>`;
+  openDrawer(l.name, html);
+}
+function _ddNudgeFromDrawer(nk,name){ _demoState.nudged[nk]=true; closeDrawer(); renderDistrictDetail(); alert('Reminder sent to '+name+'.'); }
 function toggleDDSec(key){ const el=document.getElementById('dd-sec-'+key); if(el) el.classList.toggle('dd-collapsed'); }
 function renderManage(){
   const title = document.getElementById('manage-title'), sub = document.getElementById('manage-sub'), body = document.getElementById('manage-body');
