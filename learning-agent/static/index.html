@@ -903,6 +903,20 @@
     .lib-c-src { color: var(--muted); font-family: var(--mono); font-size: 11px; white-space: nowrap; }
     .lib-c-status { white-space: nowrap; }
     .lib-c-date { color: var(--muted); font-family: var(--mono); font-size: 11px; white-space: nowrap; }
+    /* Worklist: primary action + status spine on the row, so "what needs review" is glanceable */
+    .lib-c-action { text-align: right; white-space: nowrap; }
+    .lib-review-btn { background: var(--accent-soft); color: var(--accent-press); border: 0; border-radius: var(--radius-sm);
+      padding: 5px 12px; font: inherit; font-weight: 700; font-size: 12px; cursor: pointer; transition: background .14s, color .14s; }
+    .lib-review-btn:hover { background: var(--accent); color: #FFF; }
+    .lib-inlib { font-size: 11.5px; font-weight: 700; color: var(--green-text); white-space: nowrap; }
+    .lib-open-btn { background: none; border: 1px solid var(--border-strong); color: var(--text-soft); border-radius: var(--radius-sm);
+      padding: 5px 12px; font: inherit; font-weight: 650; font-size: 12px; cursor: pointer; }
+    .lib-open-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .lib-row:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+    .lib-row[data-state=await] td:first-child { box-shadow: inset 3px 0 0 var(--amber); }
+    .lib-row[data-state=approved] td:first-child { box-shadow: inset 3px 0 0 var(--green); }
+    .lib-row.selected td:first-child { box-shadow: inset 3px 0 0 var(--accent); }
+    .lib-worklist-head #lib-count { font-weight: 700; color: var(--text); }
     .lib-group-row td { padding: 14px 12px 4px; font-weight: 700; font-size: 10.5px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
     .lib-pager-row td { text-align: center; padding: 16px 12px; }
     .lib-pager-info { font-size: 12px; color: var(--muted); margin: 0 12px; }
@@ -1556,9 +1570,86 @@
     .am-row { display: flex; align-items: center; gap: 10px; font-size: 13.5px; padding: 8px 2px; cursor: pointer; border-bottom: 1px solid var(--border); }
     .am-row:last-child { border-bottom: 0; }
     .am-row .meta { margin-left: auto; border: 0; padding: 0; background: none; text-transform: none; letter-spacing: 0; font-weight: 500; color: var(--muted); font-size: 12px; white-space: nowrap; }
-    /* Manage expandable rows */
-    .mg-row { cursor: pointer; }
+    /* ── Manage: Districts dashboard ── */
     .mg-row:hover td { background: var(--panel3); }
+    /* Alert banners — help requests at top */
+    .mg-alerts { display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; }
+    .mg-alert-card { display: flex; align-items: flex-start; gap: 12px; background: var(--amber-soft, #FEF3C7); border: 1px solid #FBBF24; border-radius: var(--radius); padding: 12px 16px; }
+    .mg-alert-icon { font-size: 20px; line-height: 1; flex-shrink: 0; margin-top: 1px; }
+    .mg-alert-body { flex: 1; min-width: 0; }
+    .mg-alert-title { font-size: 13.5px; font-weight: 650; color: var(--amber-text, #92400E); }
+    .mg-alert-msg { font-size: 12.5px; color: var(--amber-text, #92400E); opacity: .85; margin-top: 2px; font-style: italic; }
+    .mg-alert-card .secondary { flex-shrink: 0; align-self: center; }
+    /* KPI strip */
+    .mg-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-bottom: 22px; }
+    .mg-kpi { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow-sm); }
+    .mg-kpi-n { font-family: var(--serif); font-size: 24px; font-weight: 700; color: var(--text); }
+    .mg-kpi-l { font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--muted-aa); margin-top: 2px; }
+    .mg-kpi-warn { border-color: #FBBF24; background: var(--amber-soft, #FFFBEB); }
+    .mg-kpi-warn .mg-kpi-n { color: var(--amber-text, #92400E); }
+    /* Section heading */
+    .mg-section-head { margin-bottom: 10px; }
+    .mg-section-head h3 { font-size: 14px; font-weight: 650; letter-spacing: .02em; color: var(--text); margin: 0; }
+    /* District name cell */
+    .mg-dist-name { font-weight: 600; color: var(--text); }
+    .mg-dist-meta { font-size: 11.5px; color: var(--muted); margin-top: 1px; }
+    /* Inline track progress inside completion cell */
+    .mg-comp-overall { margin-bottom: 6px; }
+    .mg-tracks-inline { display: flex; flex-direction: column; gap: 3px; }
+    .mg-track-mini { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); }
+    .mg-track-name { width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex-shrink: 0; }
+    .mg-track-bar { flex: 1; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; min-width: 40px; }
+    .mg-track-bar span { display: block; height: 100%; background: var(--accent); border-radius: 2px; transition: width .3s; }
+    .mg-track-pct { width: 28px; text-align: right; font-variant-numeric: tabular-nums; flex-shrink: 0; }
+    /* View team link */
+    .mg-view-link { font-size: 12px; color: var(--accent); text-decoration: none; font-weight: 600; cursor: pointer; border: none; background: none; padding: 0; }
+    .mg-view-link:hover { text-decoration: underline; }
+    /* Portfolio header actions (Add district) */
+    .roster-head-actions { display: flex; align-items: center; gap: 14px; }
+    .mg-chev, .mg-chev-h { width: 22px; text-align: right; }
+    .mg-chev { color: var(--border); font-size: 17px; line-height: 1; transition: color .15s, transform .15s; }
+    .mg-row:hover .mg-chev { color: var(--accent); transform: translateX(2px); }
+    /* ── ONE DISTRICT — detail view ── */
+    .district-stage-row { margin: 10px 0 6px; }
+    .stage-steps { display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .stage-step { font-size: 11.5px; font-weight: 600; color: var(--muted); padding: 3px 11px; border-radius: 999px; background: var(--panel2); border: 1px solid var(--border); }
+    .stage-step.done { color: #14532d; background: #dcfce7; border-color: #bbf7d0; }
+    .stage-step.current { color: #fff; background: var(--accent); border-color: var(--accent); }
+    .stage-sep { color: var(--muted); font-size: 12px; }
+    .dd-sec { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; margin-bottom: 16px; box-shadow: var(--shadow-sm); }
+    .dd-sec.dd-lead { border-color: var(--accent); border-left: 3px solid var(--accent); box-shadow: 0 0 0 1px var(--accent-soft, rgba(180,83,60,.15)); }
+    .dd-sec-head { display: flex; align-items: center; gap: 9px; margin-bottom: 14px; cursor: pointer; }
+    .dd-sec-head h3 { font-size: 15px; font-weight: 650; margin: 0; color: var(--text); }
+    .dd-sec-ico { display: inline-flex; align-items: center; color: var(--muted-aa); }
+    .dd-lead-tag { font-size: 10.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--accent); background: var(--accent-soft, rgba(180,83,60,.1)); padding: 2px 8px; border-radius: 999px; }
+    .dd-sec-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+    .dd-sec-summary { font-size: 12.5px; color: var(--muted); display: none; }
+    .dd-sec-caret { font-size: 11px; color: var(--muted-aa); transition: transform .15s; }
+    .dd-collapsed .dd-sec-head { margin-bottom: 0; }
+    .dd-collapsed .dd-sec-body { display: none; }
+    .dd-collapsed .dd-sec-summary { display: inline; }
+    .dd-collapsed .dd-sec-caret { transform: rotate(-90deg); }
+    .dd-sec.dd-attn-open { border-color: #FBBF24; box-shadow: 0 0 0 1px rgba(251,191,36,.18); }
+    .dd-roster { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+    .dd-roster-row { display: grid; grid-template-columns: 170px 90px 1fr; gap: 12px; align-items: center; font-size: 13px; padding: 8px 12px; background: var(--panel3); border-radius: var(--radius-sm); }
+    .dd-roster-site { font-weight: 600; color: var(--text); }
+    .dd-roster-cnt { color: var(--muted); }
+    .dd-roster-roles { color: var(--muted); font-size: 12px; }
+    .dd-actions { display: flex; gap: 8px; margin-top: 6px; flex-wrap: wrap; }
+    .dd-note { font-size: 12.5px; color: var(--muted); margin-top: 10px; line-height: 1.5; }
+    .dd-asn { margin-top: 14px; }
+    .dd-asn-h { font-size: 11px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--muted-aa); margin-bottom: 6px; }
+    .dd-asn-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 13px; padding: 7px 10px; background: var(--panel3); border-radius: var(--radius-sm); margin-bottom: 4px; }
+    .dd-asn-title { font-weight: 600; color: var(--text); }
+    .dd-asn-meta { font-size: 12px; color: var(--muted); }
+    .dd-fr { font-size: 10.5px; font-weight: 700; color: var(--muted-aa); background: var(--panel3); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1px 6px; margin-left: 2px; white-space: nowrap; }
+    .dd-attn-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 0; font-size: 13.5px; }
+    .dd-ready { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .dd-ready-main { display: flex; flex-direction: column; }
+    .dd-ready-pct { font-family: var(--serif); font-size: 32px; font-weight: 700; color: var(--text); line-height: 1; }
+    .dd-ready-l { font-size: 12.5px; color: var(--muted); margin-top: 4px; }
+    @media (max-width: 760px) { .dd-roster-row { grid-template-columns: 1fr; gap: 2px; } }
+    /* Legacy (kept for other consumers) */
     .mg-bd { padding: 6px 4px; }
     .mg-bd b { font-size: 11.5px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 6px; }
     .mg-bd-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 12.5px; padding: 3px 0; }
@@ -1594,10 +1685,21 @@
     .cat-fl:first-child { margin-left: 0; }
     .cat-chip { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius-pill); padding: 4px 11px; font: inherit; font-size: 12px; cursor: pointer; color: var(--text); }
     .cat-chip.on { background: var(--accent); color: #FFF; border-color: var(--accent); }
-    .cat-card { padding: var(--sp-4); gap: 6px; }
+    .cat-card { padding: var(--sp-4); gap: 6px; cursor: pointer; }
+    .cat-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .cat-detail-note { background: var(--panel2); border: 1px solid var(--border); border-radius: var(--radius-sm);
+      padding: 14px 16px; font-size: 13.5px; line-height: 1.6; color: var(--text-soft); }
+    .cat-detail-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+    .cat-detail-actions .primary { width: auto; flex: none; }
     .cat-type { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
     .cat-title { font-family: var(--serif); font-size: 15px; font-weight: 650; color: var(--text); }
     .cat-meta { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+    /* Catalog as a browse shelf: one top filter bar (shared .lib-filterbar) + full-width grid */
+    .cat-filterbar { background: var(--surface); }
+    .cat-wrap { padding: 16px 30px 36px; }
+    .cat-activefilter { font-size: 12.5px; color: var(--text-soft); background: var(--accent-soft); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 8px 12px; margin-bottom: 12px; }
+    @media (max-width: 760px) { .cat-wrap { padding: 12px 16px 28px; } }
 
     /* ── Header right: district switcher + user (demo shell) ── */
     .top-right { margin-left: auto; display: flex; align-items: center; gap: var(--sp-3); }
@@ -1857,7 +1959,7 @@
     .inbox-actions { display: flex; gap: 6px; }
     .roster-cards { display: flex; flex-wrap: wrap; gap: var(--sp-3); margin-bottom: var(--sp-5); }
     .roster-stat { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: var(--sp-3) var(--sp-5); box-shadow: var(--shadow-sm); }
-    .roster-stat .n { font-family: var(--serif); font-size: 22px; font-weight: 650; color: var(--text); }
+    .roster-stat .n { font-family: var(--serif); font-size: 24px; font-weight: 700; color: var(--text); }
     .roster-stat .l { font-size: var(--cfs-micro); font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--muted-aa); margin-top: 2px; }
     .roster-table-wrap { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); }
     .roster-table { width: 100%; border-collapse: collapse; font-size: 13px; }
@@ -2007,6 +2109,7 @@
     .ava-menu[hidden] { display: none; }
     .ava-menu button { display: block; width: 100%; text-align: left; background: none; border: 0; padding: 9px 11px; border-radius: var(--radius-sm); cursor: pointer; font: inherit; font-size: 12.5px; color: var(--text); }
     .ava-menu button:hover { background: var(--panel3); }
+    body.customer-view #ava-menu .ava-qa { display: none; }   /* Quality is trainer-only — no dead click for customers */
 
     /* ── Track Assignment table + modals (Task 3) ─────────────────────────── */
     .asn-tbl { width:100%; border-collapse:collapse; font-size:13px; }
@@ -2216,7 +2319,7 @@
       <span class="user-ava" id="user-ava" title="Account menu" onclick="toggleAvaMenu(event)">DA</span>
       <div class="ava-menu" id="ava-menu" hidden>
         <button onclick="closeAvaMenu(); showView('howitworks')">How it works</button>
-        <button onclick="closeAvaMenu(); showView('evals')">Every claim cited — why this matters</button>
+        <button class="ava-qa" onclick="closeAvaMenu(); showView('evals')">Every claim cited — why this matters</button>
       </div>
     </div>
   </div>
@@ -2226,13 +2329,13 @@
     <button id="tab-home" onclick="showView('home')">Home</button>
     <button id="tab-author" onclick="showView('author')">Create</button>
     <button id="tab-library" onclick="openLibraryTab()">Library</button>
-    <button id="tab-manage" onclick="showView('projects')">Manage</button>
+    <button id="tab-manage" onclick="showView('manage')">Districts</button>
     <button id="tab-learn" onclick="showView('learn')">Learn</button>
     <button id="tab-myteam" onclick="showView('myteam')">My Team</button>
   </nav>
 </aside>
 <div id="asn-modal" class="am-overlay" hidden><div class="am-modal" style="max-width:520px;">
-  <div class="am-head"><b>Create assignment</b><button class="lib-drawer-close" onclick="asnClose()">✕</button></div>
+  <div class="am-head"><b>Assign training</b><button class="lib-drawer-close" onclick="asnClose()">✕</button></div>
   <div class="am-body">
     <label class="tb-l">Content</label><select id="asn-content" class="tb-in"></select>
     <label class="tb-l">Assign to</label>
@@ -2242,7 +2345,7 @@
     <label class="am-row" style="margin-top:8px;"><input type="checkbox" id="asn-dyn"> Dynamic — 7 days from when each learner joins</label>
     <label class="am-row" style="margin-top:6px;"><input type="checkbox" id="asn-drip"> Drip — release one track per week</label>
   </div>
-  <div class="am-foot"><span class="tb-note">Auto-enrolls matching learners; future joiners inherit it while active.</span><button class="primary" onclick="asnSave()">Create assignment</button></div>
+  <div class="am-foot"><span class="tb-note">Auto-enrolls matching learners; future joiners inherit it while active.</span><button class="primary" onclick="asnSave()">Assign training</button></div>
 </div></div>
 <div id="drawer-overlay" class="drawer-overlay" hidden onclick="closeDrawer()"></div>
 <aside id="app-drawer" class="app-drawer" hidden role="dialog" aria-modal="true" aria-labelledby="drawer-title">
@@ -2427,7 +2530,8 @@
             <textarea id="intent-input" rows="3" placeholder="e.g. a quick one-pager on income survey auto-processing in Eligibility"></textarea>
             <p class="hint" style="margin-top:6px;">No transcript needed — name the module &amp; topic. I'll search the tickets, propose a scope, and you confirm before anything is written. (⌘/Ctrl+Enter to send)</p>
           </div>
-          <button id="intent-go" class="primary">Find the scope</button>
+          <button id="intent-go" class="primary" disabled>Find the scope</button>
+          <p id="intent-needs" class="hint run-needs"></p>
           <div id="intent-convo" class="intent-convo" aria-live="polite"></div>
           <div id="scope-card" class="scope-card" style="display:none;"></div>
         </div>
@@ -2549,7 +2653,7 @@
       <label class="am-row" style="margin-top:8px;"><input type="checkbox" id="tbk-sequential"> Sequential — tracks unlock in order</label>
       <label class="tb-l">Tracks</label><div id="tbk-courses"></div>
     </div>
-    <div class="am-foot"><span class="tb-note">A track is a sequence of tracks.</span><button class="primary" onclick="tbkSave()">Create track</button></div>
+    <div class="am-foot"><span class="tb-note">A track is a sequence of courses.</span><button class="primary" onclick="tbkSave()">Create track</button></div>
   </div></div>
 </section>
 <!-- ── Projects: project_create / csv_upload / project_dashboard ───────── -->
@@ -2557,35 +2661,31 @@
   <div class="pj-wrap">
     <div class="pj-head">
       <div>
-        <h1>Projects</h1>
-        <p class="sub">A <strong>project</strong> is one district rollout. Create one to import sites and people, then assign learning content.</p>
+        <h1>Add a district</h1>
+        <p class="sub">Onboard a new district: name it, set its go-live date, then import its sites and people.</p>
       </div>
-      <span class="demo-tag">Demo data</span>
-    </div>
-    <div class="manage-nav" role="tablist" aria-label="Manage sections">
-      <button class="active" role="tab" aria-selected="true" onclick="showView('projects')">Projects</button>
-      <button role="tab" aria-selected="false" onclick="showView('manage')">Overview</button>
+      <button class="secondary" onclick="showView('manage')">← All districts</button>
     </div>
     <div id="pj-kpis" class="pj-kpis" aria-label="Rollout command center"></div>
     <div id="pj-signin" class="pj-signin-shell" hidden>
       <div class="pj-signin-card">
-        <h2>Sign in to manage projects</h2>
+        <h2>Sign in to add a district</h2>
         <p>This demo uses mock auth — no real account.</p>
         <button class="primary" onclick="projSignIn()">Sign in as Trainer Bob</button>
       </div>
     </div>
     <div id="pj-main" class="pj-grid">
       <div class="pj-card">
-        <h2>Your projects</h2>
+        <h2>Districts created here</h2>
         <p class="sub">Open one to see its dashboard, or re-import its roster.</p>
         <div id="pj-list" class="pj-list"></div>
       </div>
       <div class="pj-card">
-        <h2>+ New project</h2>
-        <p class="sub">Name the rollout, pick the product, set its go-live date.</p>
+        <h2>+ New district</h2>
+        <p class="sub">Name the district, pick the product, set its go-live date.</p>
         <div id="pj-create-banner"></div>
         <div class="pj-form-row">
-          <label for="pj-name">Project name</label>
+          <label for="pj-name">District name</label>
           <input id="pj-name" placeholder="e.g. Demo ISD" autocomplete="off">
           <div class="err" id="pj-err-name" hidden></div>
         </div>
@@ -2602,7 +2702,7 @@
           <input id="pj-golive" type="date">
           <div class="err" id="pj-err-go_live_date" hidden></div>
         </div>
-        <button class="primary" onclick="projCreate()">Create project</button>
+        <button class="primary" onclick="projCreate()">Create district</button>
       </div>
     </div>
   </div>
@@ -2614,7 +2714,7 @@
         <h1 id="csv-title">Import sites</h1>
         <p class="sub" id="csv-sub">Upload a CSV. Preview will validate every row before you commit.</p>
       </div>
-      <button class="secondary" onclick="showView('projects')">← Projects</button>
+      <button class="secondary" onclick="showView('projects')">← Back</button>
     </div>
     <div class="pj-step" id="csv-stepper"></div>
     <div class="pj-card">
@@ -2647,7 +2747,7 @@
         <div id="pjd-status-row" style="display:flex;align-items:center;gap:6px;margin:6px 0 8px;"></div>
         <p class="sub" id="pjd-sub"></p>
       </div>
-      <button class="secondary" onclick="showView('projects')">← All projects</button>
+      <button class="secondary" onclick="showView('projects')">← Back</button>
     </div>
     <div id="pjd-body"></div>
   </div>
@@ -2720,13 +2820,12 @@
     <button role="tab" aria-selected="false" onclick="showView('content')">Catalog</button>
   </div>
   <div class="lib-filterbar">
+    <div class="fb-field"><label for="lib-status">Show</label><select id="lib-status"><option value="awaiting" selected>Awaiting review</option><option value="library">In Library (approved)</option><option value="">All</option></select></div>
     <div class="fb-field"><label for="lib-module">Module</label><select id="lib-module"><option value="">All</option></select></div>
-    <div class="fb-field"><label for="lib-template">Template</label><select id="lib-template"><option value="">All</option></select></div>
-    <div class="fb-field"><label for="lib-source">Source</label><select id="lib-source"><option value="internal" selected>Internal (Cybersoft)</option><option value="vendor">Outside vendor (ICN)</option><option value="">All sources</option></select></div>
-    <div class="fb-field"><label for="lib-status">Status</label><select id="lib-status"><option value="library" selected>In Library (approved)</option><option value="awaiting">Awaiting review</option><option value="">All</option></select></div>
+    <div class="fb-field"><label for="lib-template">Format</label><select id="lib-template"><option value="">All</option></select></div>
     <div class="fb-field"><label for="lib-sort">Sort by</label><select id="lib-sort"><option value="created_desc">Newest first</option><option value="created_asc">Oldest first</option><option value="module">Module A–Z</option><option value="template">Format</option><option value="status">Status</option></select></div>
-    <div class="fb-field fb-search"><label for="lib-search">Search</label><input id="lib-search" type="text" placeholder="module, format, status, id…" autocomplete="off" /></div>
-    <button class="secondary" onclick="loadLibrary()">Refresh</button>
+    <div class="fb-field fb-search"><label for="lib-search">Search</label><input id="lib-search" type="text" placeholder="title, module, format…" autocomplete="off" /></div>
+    <button class="secondary" onclick="loadLibraryDemo()">Refresh</button>
   </div>
 
   <div class="lib-main" id="lib-main">
@@ -2745,7 +2844,7 @@
     </aside>
 
     <div class="panel lib-detail">
-      <div class="panel-header"><span id="lib-count">0</span> resources</div>
+      <div class="panel-header lib-worklist-head"><span id="lib-count">0</span></div>
       <div id="lib-grid" class="lib-grid"></div>
     </div>
   </div>
@@ -2778,55 +2877,27 @@
     <div class="icn-hero-main">
       <p class="icn-eyebrow">Training library · Cybersoft + ICN / USDA</p>
       <h1 class="icn-hero-title">Sourced, role-ready training for your nutrition team</h1>
-      <p class="icn-hero-sub">Cybersoft's own SchoolCafé / Family Hub guides alongside a curated set of externally-authored training from the Institute of Child Nutrition, USDA, and partners. Use the <strong>Source</strong> filter to switch between internal and outside-vendor content. Every asset is cited and attributed; nothing here is AI-generated.</p>
+      <p class="icn-hero-sub">Cybersoft's own SchoolCafé / Family Hub guides alongside a curated set of externally-authored training from the Institute of Child Nutrition, USDA, and partners. Use the <strong>Source</strong> filter to switch between internal and outside-vendor content. Every asset is cited and attributed, and labeled by source — internal Cybersoft guides, approved AI-built guides, and outside-vendor training.</p>
     </div>
     <div class="icn-hero-stats">
-      <div class="icn-stat"><span class="num" id="icn-stat-total">—</span><span class="lbl">assets</span></div>
-      <div class="icn-stat"><span class="num" id="icn-stat-roles">—</span><span class="lbl">roles</span></div>
-      <div class="icn-stat"><span class="num" id="icn-stat-dl">—</span><span class="lbl">downloadable</span></div>
-      <div class="icn-stat"><span class="num" id="icn-stat-quiz">—</span><span class="lbl">quizzable</span></div>
+      <div class="icn-stat"><span class="num" id="icn-stat-total">—</span><span class="lbl">ready-to-use</span></div>
+      <div class="icn-stat"><span class="num" id="icn-stat-guides">—</span><span class="lbl">guides</span></div>
+      <div class="icn-stat"><span class="num" id="icn-stat-quizzes">—</span><span class="lbl">quizzes</span></div>
+      <div class="icn-stat"><span class="num" id="icn-stat-tracks">—</span><span class="lbl">tracks</span></div>
       <div class="icn-stat icn-stat-trust"><span class="num">100%</span><span class="lbl">cited &amp; attributed</span></div>
     </div>
   </header>
-  <div class="library">
-    <details class="panel lib-filters icn-filters" open>
-      <summary>Filters &amp; paths</summary>
-      <div class="icn-filters-body">
-        <div class="panel-header"><span>Refine</span></div>
-        <div class="field">
-          <label for="icn-source">Source</label>
-          <select id="icn-source">
-            <option value="">All sources</option>
-            <option value="internal">Cybersoft (internal)</option>
-            <option value="vendor">Outside vendor (ICN / USDA)</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="icn-role">Role</label>
-          <select id="icn-role"><option value="">All roles</option></select>
-        </div>
-        <div class="field">
-          <label for="icn-topic">Topic</label>
-          <select id="icn-topic"><option value="">All topics</option></select>
-        </div>
-        <div class="field">
-          <label for="icn-search">Search</label>
-          <input id="icn-search" type="text" placeholder="title, topic, source…" autocomplete="off" />
-        </div>
-        <div class="field">
-          <label for="icn-sort">Sort by</label>
-          <select id="icn-sort">
-            <option value="title">Title A–Z</option>
-            <option value="type">Type</option>
-            <option value="license">Available first</option>
-            <option value="quiz">Quizzable first</option>
-          </select>
-        </div>
-        <div id="icn-paths" class="icn-paths"></div>
-      </div>
-    </details>
+  <div class="lib-filterbar cat-filterbar">
+    <div class="fb-field"><label for="cat-type">Type</label><select id="cat-type" onchange="renderCatalogDemo()"><option value="">All</option><option value="Guide">Guide</option><option value="Quiz">Quiz</option><option value="Track">Track</option></select></div>
+    <div class="fb-field"><label for="cat-source">Source</label><select id="cat-source" onchange="renderCatalogDemo()"><option value="">All sources</option><option value="internal">Cybersoft</option><option value="vendor">Outside vendor</option></select></div>
+    <div class="fb-field"><label for="cat-module">Module</label><select id="cat-module" onchange="renderCatalogDemo()"><option value="">All</option></select></div>
+    <div class="fb-field"><label for="cat-sort">Sort by</label><select id="cat-sort" onchange="renderCatalogDemo()"><option value="title">Title A–Z</option><option value="type">Type</option><option value="module">Module A–Z</option></select></div>
+    <div class="fb-field fb-search"><label for="cat-search">Search</label><input id="cat-search" type="text" placeholder="title, module, source…" autocomplete="off" oninput="renderCatalogDemo()" /></div>
+    <button class="secondary" style="margin-left:auto;" onclick="openQuizBuilder()" title="Build a grounded quiz from a guide or content asset">+ Quiz</button>
+  </div>
+  <div class="cat-wrap">
     <div class="panel" style="min-width:0;">
-      <div class="panel-header" style="display:flex;align-items:center;gap:10px;"><span id="icn-count">Content library</span><button class="secondary" style="margin-left:auto;" onclick="openQuizBuilder()" title="Build a grounded quiz from a guide or content asset">+ Quiz</button></div>
+      <div class="panel-header"><span id="icn-count">Catalog</span></div>
       <div id="icn-grid" class="icn-grid"></div>
     </div>
   </div>
@@ -2904,14 +2975,25 @@
 <section id="view-manage" class="view">
   <div class="roster-wrap">
     <div class="roster-head">
-      <div><h1 class="roster-title" id="manage-title">Manage</h1><p class="roster-sub" id="manage-sub">—</p></div>
-      <div style="display:flex; gap:8px; align-items:center;"><button class="secondary" onclick="showView('roster')">Roster ↗</button><span class="demo-tag">Demo data</span></div>
-    </div>
-    <div class="manage-nav" role="tablist" aria-label="Manage sections">
-      <button role="tab" aria-selected="false" onclick="showView('projects')">Projects</button>
-      <button class="active" role="tab" aria-selected="true" onclick="showView('manage')">Overview</button>
+      <div><h1 class="roster-title" id="manage-title">Districts</h1><p class="roster-sub" id="manage-sub">Training rollout across your districts.</p></div>
+      <div class="roster-head-actions"><button class="secondary" onclick="openAssignmentModal()">Assign training</button><button class="primary" onclick="showView('projects')">+ Add district</button><span class="demo-tag">Demo data</span></div>
     </div>
     <div id="manage-body"></div>
+  </div>
+</section>
+
+<!-- ═══ ONE DISTRICT — detail (trainer drills in from the portfolio) ═══ -->
+<section id="view-district" class="view">
+  <div class="roster-wrap">
+    <div class="roster-head">
+      <div>
+        <h1 class="roster-title" id="district-title">District</h1>
+        <div id="district-stage-row" class="district-stage-row"></div>
+        <p class="roster-sub" id="district-sub"></p>
+      </div>
+      <button class="secondary" onclick="showView('manage')">← All districts</button>
+    </div>
+    <div id="district-body"></div>
   </div>
 </section>
 
@@ -3288,6 +3370,25 @@ let _demoState = { helpCleared:{}, nudged:{}, progress:{}, userTracks:[], approv
 function _districtCompletion(d){ return d.learners && d.learners.length ? Math.round(d.learners.reduce((a,l)=>a+l.completion,0)/d.learners.length) : 0; }
 const _CURRENT_TRAINER = 'Dana Alvarez';   // the logged-in trainer (DA avatar) — a trainer only ever sees their OWN districts + content
 function _myDistricts(){ const m = _DEMO.districts.filter(d => d.trainer === _CURRENT_TRAINER); return m.length ? m : _DEMO.districts; }
+// ─── District unification (Phase 1) ───────────────────────────────────────────
+// A "district" the trainer manages comes from TWO sources that used to be separate
+// products: seeded demo districts (_DEMO.districts) and districts created live via the
+// backend (/api/projects). We project the backend ones into the SAME shape so the
+// portfolio and the detail view consume ONE list. Presentation-layer only — no merge.
+let _createdDistricts = [];
+function _projectToDistrict(p){
+  const st = ({PLANNING:'Setup',ONBOARDING:'Training',LIVE:'Go-live',ARCHIVED:'Archived'})[p.status || 'PLANNING'] || 'Setup';
+  return { id:p.id, name:p.name, trainer:_CURRENT_TRAINER, stage:st, sites:new Array(p.site_count||0).fill(0),
+    learners:[], _peopleCount:p.user_count||0, help_request:false, source:'created', pid:p.id,
+    product:p.product, go_live_date:p.go_live_date,
+    last:p.users_imported_at ? ('Imported ' + _fmtDate(p.users_imported_at)) : 'New' };
+}
+async function _refreshCreatedDistricts(){
+  try{ const r = await fetch('/api/projects'); if(r.ok){ const b = await r.json(); _createdDistricts = (b.projects||[]).map(_projectToDistrict); } }
+  catch(_){ /* keep prior cache; portfolio falls back to seeded districts */ }
+}
+function _unifiedDistricts(){ return _myDistricts().concat(_createdDistricts); }
+function _districtPeople(d){ return (d.learners && d.learners.length) ? d.learners.length : (d._peopleCount || 0); }
 function _allDemoTracks(){ return _DEMO.tracks.concat(_demoState.userTracks); }
 // ── Projects flow ──────────────────────────────────────────────────────────
 // In-memory state for the create → import sites → import users → dashboard wizard.
@@ -3326,7 +3427,7 @@ async function loadProjects(){
   const list = document.getElementById('pj-list');
   if(!list) return;
   if(!body.projects.length){
-    list.innerHTML = '<div class="pj-list-empty">No projects yet — create your first one →</div>';
+    list.innerHTML = '<div class="pj-list-empty">No districts added here yet — create your first one →</div>';
     return;
   }
   list.innerHTML = body.projects.map(p => `
@@ -3347,8 +3448,8 @@ function _renderProjectKpis(projects){
   const people = projects.reduce((a,p)=>a+(p.user_count||0),0);
   const live = by('LIVE'), onb = by('ONBOARDING');
   const tiles = [
-    { n: projects.length, l: 'Projects' },
-    { n: onb, l: 'Onboarding', cls: onb ? ' alert' : '' },
+    { n: projects.length, l: 'Districts' },
+    { n: onb, l: 'In training', cls: onb ? ' alert' : '' },
     { n: live, l: 'Live' },
     { n: sites, l: 'Sites' },
     { n: people.toLocaleString(), l: 'People' },
@@ -3573,8 +3674,9 @@ async function csvCommit(){
   }
 }
 function openProjectDashboard(pid){
+  // Retired as a separate page (Phase 2): a created district now opens the ONE unified detail.
   _projState.currentPid = pid;
-  showView('project-dashboard');
+  openDistrict(pid);
 }
 async function renderProjectDashboard(){
   const pid = _projState.currentPid;
@@ -3639,7 +3741,7 @@ function _restoreFromHash(){
   if(!h) return false;
   if(h === 'projects'){ showView('projects'); return true; }
   const m = h.match(/^project\/(p-[a-z0-9]+)$/i);
-  if(m){ _projState.currentPid = m[1]; showView('project-dashboard'); return true; }
+  if(m){ _projState.currentPid = m[1]; openDistrict(m[1]); return true; }
   return false;
 }
 window.addEventListener('popstate', () => { _restoreFromHash(); });
@@ -3648,6 +3750,7 @@ window.addEventListener('popstate', () => { _restoreFromHash(); });
 // also restore Projects-flow view from the URL hash if present.
 window.addEventListener('DOMContentLoaded', () => {
   projRefreshMe();
+  _refreshCreatedDistricts();   // warm the unified-district cache so the portfolio has created districts on first paint
   // Wait a tick so the initial showView() (run by setViewMode) doesn't clobber us.
   setTimeout(() => { _restoreFromHash(); }, 0);
 });
@@ -3663,8 +3766,10 @@ function applyViewMode() {
   const show = (id, on) => { const el = document.getElementById(id); if (el) el.hidden = !on; };
   // Persona-driven primary nav: show EXACTLY the active persona's tab set.
   // IDs here MUST match the buttons in <aside class="sidebar">. Trainer runs the
-  // production pipeline (Create → Library → Catalog → Manage); Customer consumes
+  // production pipeline (Create → Library → Districts); Customer consumes
   // (Learn / My Team / Catalog). Quality lives behind the header gear, not the nav.
+  // "Districts" (tab-manage) is the trainer's single customer entity — one portfolio that
+  // drills into one district. There is no separate Projects/My Team noun in trainer view.
   const ALL_TABS = ['tab-home','tab-author','tab-library','tab-manage','tab-learn','tab-myteam'];
   const VISIBLE = _viewMode === 'customer'
     ? ['tab-library','tab-learn','tab-myteam']
@@ -3691,19 +3796,29 @@ function applyViewMode() {
 }
 
 function showView(name) {
+  // Persona guard: a customer can only reach customer-facing views. Trainer-only views
+  // (district management, Create, Studio, Quality, the add-district flow) redirect to the
+  // customer home — so a stale #project/... hash or stray call can't leak the internal UI.
+  const CUSTOMER_OK = ['learn','content','myteam','howitworks'];
+  if (_viewMode === 'customer' && !CUSTOMER_OK.includes(name)) name = 'learn';
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
   const vw = document.getElementById('view-' + name); if (vw) vw.classList.add('active');
-  // Umbrella tabs: a group of sub-views all keep one sidebar button lit. Manage = Overview
-  // (manage) + Projects (+ its drill-downs); Library = Studio (library) + Catalog (content).
-  const TAB_GROUP = { projects: 'manage', 'csv-upload': 'manage', 'project-dashboard': 'manage', content: 'library' };
-  const tb = document.getElementById('tab-' + (TAB_GROUP[name] || name)); if (tb) tb.classList.add('active');
+  // Umbrella tab: every district facet keeps the Districts sidebar button lit.
+  // Districts (manage) = portfolio + one-district detail + the add-district/onboard flow + roster.
+  const TAB_GROUP = { district: 'manage', projects: 'manage', 'csv-upload': 'manage', 'project-dashboard': 'manage', myteam: 'manage', roster: 'manage' };
+  const mappedName = TAB_GROUP[name] || name;
+  let tb = document.getElementById('tab-' + mappedName);
+  // If the mapped parent tab is hidden (e.g. customer mode sees My Team standalone), fall back to the view's own tab.
+  if (tb && tb.hidden && mappedName !== name) tb = document.getElementById('tab-' + name);
+  if (tb) tb.classList.add('active');
   if (name === 'library') loadLibraryDemo();
   if (name === 'learn') loadLearn();
   if (name === 'content') loadCatalogDemo();
   if (name === 'evals') loadQuality();
   if (name === 'roster') loadRoster();
   if (name === 'manage') loadManage();
+  if (name === 'district') loadDistrict();
   if (name === 'home') loadHome();
   if (name === 'myteam' && typeof loadMyTeam === 'function') loadMyTeam();
   if (name === 'tracks' && typeof loadTracks === 'function') loadTracks();
@@ -3711,7 +3826,9 @@ function showView(name) {
   if (name === 'modules' && typeof loadModulesView === 'function') loadModulesView();
   if (name === 'quiz-builder' && typeof loadQuizBuilder === 'function') loadQuizBuilder();
   if (name === 'projects' && typeof loadProjects === 'function') loadProjects();
-  if (name === 'project-dashboard' && typeof renderProjectDashboard === 'function') renderProjectDashboard();
+  // 'project-dashboard' is retired (Phase 2): created districts open the unified detail. Entry severed so
+  // the old per-project assignment surface (at/rb modals) can never re-appear. The inert markup/functions
+  // remain in the file pending a dedicated dead-code deletion pass.
   if (name === 'csv-upload' && typeof renderCsvUpload === 'function') renderCsvUpload();
   // Persist Projects-flow location in the URL so a refresh restores place (Ctrl-R no longer dumps to Home).
   // We only WRITE the hash on the projects views; we never strip it on other views,
@@ -3729,7 +3846,12 @@ function closeAvaMenu(){ const m = document.getElementById('ava-menu'); if (m) m
 document.addEventListener('click', e => { const w = document.querySelector('.ava-wrap'), m = document.getElementById('ava-menu'); if (m && !m.hidden && w && !w.contains(e.target)) m.hidden = true; });
 // ─── Home (trainer landing) ───
 async function loadHome(){
-  renderHome();
+  renderHome();   // instant paint from cache
+  // Same backend source the Districts page awaits before it renders — so the "My districts"
+  // count here can't disagree with the Districts page just because this view painted first.
+  const before = _unifiedDistricts().length;
+  await _refreshCreatedDistricts();
+  if (_unifiedDistricts().length !== before) renderHome();
   if (_demoState.approvedRids === null) {
     try { const rs = await (await fetch('/resources')).json(); _demoState.approvedRids = (rs || []).filter(inLibrary).map(r => r.id); }
     catch (e) { _demoState.approvedRids = []; }
@@ -3737,27 +3859,24 @@ async function loadHome(){
 }
 function renderHome(){
   const body = document.getElementById('home-body'); if (!body) return;
-  const mine = _myDistricts();
-  const avg = Math.round(mine.reduce((a, d) => a + _districtCompletion(d), 0) / mine.length);
+  // Same district set the Districts page shows (seeded + backend-created) so the counts can't disagree.
+  const mine = _unifiedDistricts();
+  const avg = mine.length ? Math.round(mine.reduce((a, d) => a + _districtCompletion(d), 0) / mine.length) : 0;
   const activeWk = mine.reduce((a, d) => a + d.learners.filter(l => ['Today','Yesterday','2 days ago'].includes(l.last_active)).length, 0);
   const overdue = mine.reduce((a, d) => a + d.learners.filter(l => l.status === 'Overdue').length, 0);
   const helps = mine.filter(d => d.help_request && !_demoState.helpCleared[d.id]);
   // ── KPI signal strip ──
   // KPI strip — alert metrics LEAD from the left (F-pattern: strongest attention is top-left), each with a trend vs last week so the number shows direction, not just a point-in-time value.
   const tiles = [
-    { label: 'Help requests', val: helps.length, cls: helps.length ? ' alert' : '', d: '+1', up: true, good: false, unit: ' vs last wk' },
-    { label: 'Overdue learners', val: overdue, cls: overdue ? ' warn' : '', d: '+2', up: true, good: false, unit: ' vs last wk' },
-    { label: 'Avg completion', val: avg + '%', cls: '', d: '+6', up: true, good: true, unit: ' pts vs last wk' },
-    { label: 'Active this week', val: activeWk, cls: '', d: '+3', up: true, good: true, unit: ' vs last wk' },
-    { label: 'My districts', val: mine.length, cls: '', flat: true },
+    { label: 'Help requests', val: helps.length, cls: helps.length ? ' alert' : '' },
+    { label: 'Overdue learners', val: overdue, cls: overdue ? ' warn' : '' },
+    { label: 'Avg completion', val: avg + '%', cls: '' },
+    { label: 'Active this week', val: activeWk, cls: '' },
+    { label: 'My districts', val: mine.length, cls: '' },
   ];
-  let h = '<div class="home-tiles cmd-tiles">' + tiles.map(t => {
-    const tr = t.flat ? '<div class="kpi-trend tr-flat">— no change</div>' : `<div class="kpi-trend ${t.good ? 'tr-good' : 'tr-bad'}">${t.up ? '▲' : '▼'} ${escapeHtml(t.d)}${escapeHtml(t.unit)}</div>`;
-    return `<div class="home-tile${t.cls}"><div class="n">${t.val}</div><div class="l">${escapeHtml(t.label)}</div>${tr}</div>`;
-  }).join('') + '</div>';
-  // ── trend band: the inverted-pyramid "direction" layer — 6-week completion trajectory ──
-  const sparkVals = [avg - 11, avg - 8, avg - 6, avg - 4, avg - 6, avg];
-  h += `<section class="cmd-card trend-band"><div class="trend-meta"><h3>Completion trend</h3><span class="cmd-sub">last 6 weeks · all my districts</span></div>${_spark(sparkVals)}<div class="trend-now"><span class="trend-val">${avg}%</span><span class="kpi-trend tr-good">▲ +11 pts / 6 wks</span></div></section>`;
+  let h = '<div class="home-tiles cmd-tiles">' + tiles.map(t =>
+    `<div class="home-tile${t.cls}"><div class="n">${t.val}</div><div class="l">${escapeHtml(t.label)}</div></div>`
+  ).join('') + '</div>';
   // ── quick create — kick off grounded AI generation straight from the cockpit (all routes are existing flows/modals) ──
   h += `<section class="cmd-card qc-row"><span class="qc-label">Quick create</span><div class="qc-btns"><button class="qc-btn qc-primary" onclick="showView('author')">Generate a guide</button><button class="qc-btn" onclick="openQuizBuilder()">Build a quiz</button><button class="qc-btn" onclick="openTrackBuilder()">New track</button></div></section>`;
   // ── command-center grid ──
@@ -3774,7 +3893,7 @@ function renderHome(){
   h += '</div></section>';
   h += '</div><aside class="cmd-side">';
   // My projects — compact rows; click opens a detail DRAWER (stay on Home). Top-right so it's above the fold.
-  h += `<section class="cmd-card"><div class="cmd-head"><h3>My projects</h3><span class="cmd-sub">${mine.length} districts</span></div><div class="proj-rows">`;
+  h += `<section class="cmd-card"><div class="cmd-head"><h3>My districts</h3><span class="cmd-sub">${mine.length} districts</span></div><div class="proj-rows">`;
   h += mine.map(d => {
     const comp = _districtCompletion(d), flagged = d.help_request && !_demoState.helpCleared[d.id];
     const st = flagged ? 'Needs help' : (comp >= 70 ? 'On track' : 'Behind'), stc = flagged ? 'pill--attention' : (comp >= 70 ? 'pill--success' : 'pill--warning');
@@ -3868,20 +3987,15 @@ function respondHelp(id){ _demoState.helpCleared[id] = true; const d = _DEMO.dis
 function inboxView(i){ const ids = _demoState.approvedRids || []; if (ids.length) window.open('/resources/' + encodeURIComponent(ids[i % ids.length]) + '/pdf', '_blank'); else alert('Opening “' + _DEMO.inbox[i].title + '” (demo).'); }
 function inboxCatalog(i){ _demoState.catalogFilter = _DEMO.inbox[i].title; showView('content'); }
 let _focusDistrict = '';
-function openDistrictInManage(id){ _curISD = id; _focusDistrict = id; showView('manage'); }
+function openDistrictInManage(id){ _curISD = id; showView('district'); }
 // ─── My Team (CN-Director dashboard, scoped to selected district) ───
 let _assignSel = { track: null, staff: {} };
 function loadMyTeam() { _demoISDInit(); renderMyTeam(); }
-function renderMyTeam() {
-  const d = _curDistrict(); const body = document.getElementById('myteam-body'); if (!body) return;
-  const ls = d.learners, total = ls.length;
-  const done = ls.filter(l => l.status === 'Complete').length, overdue = ls.filter(l => l.status === 'Overdue').length, notStarted = ls.filter(l => l.status === 'Not started').length;
-  const tt = document.getElementById('myteam-title'); if (tt) tt.textContent = d.name + ' · My Team';
-  let h = `<div class="mt-banner">All staff training due ${_DEMO.due} — <b>${Math.round(100 * done / total)}%</b> complete, <b>${overdue}</b> overdue. <button class="track-open" onclick="nudgeAllOverdue()">Nudge all overdue</button></div>`;
-  h += '<div class="roster-cards">' + [['Staff complete', Math.round(100 * done / total) + '%'], ['Overdue', overdue], ['Not started', notStarted], ['Days to deadline', 21]].map(t => `<div class="roster-stat"><div class="n">${t[1]}</div><div class="l">${escapeHtml(t[0])}</div></div>`).join('') + '</div>';
-  h += `<div class="mt-tools"><button class="secondary" onclick="openAssign()">Assign track</button></div>`;
+// Staff-by-site table — SHARED by the customer's My Team view and the trainer's district-detail Progress section.
+function _renderStaffTable(d) {
+  const ls = d.learners;
   const sites = {}; ls.forEach((l, gi) => { l._gi = gi; (sites[l.site] = sites[l.site] || []).push(l); });
-  h += '<div class="roster-table-wrap"><table class="roster-table"><thead><tr><th>Staff</th><th>Role</th><th>Tracks</th><th>Completion</th><th>Last active</th><th>Status</th><th></th></tr></thead><tbody>';
+  let h = '<div class="roster-table-wrap"><table class="roster-table"><thead><tr><th>Staff</th><th>Role</th><th>Tracks</th><th>Completion</th><th>Last active</th><th>Status</th><th></th></tr></thead><tbody>';
   Object.keys(sites).forEach(site => {
     h += `<tr class="lib-group-row"><td colspan="7">${escapeHtml(site)}</td></tr>`;
     sites[site].forEach(l => {
@@ -3895,6 +4009,18 @@ function renderMyTeam() {
     });
   });
   h += '</tbody></table></div>';
+  return h;
+}
+// CUSTOMER view: a CN Director owns ONE district, so "My Team" = their own staff. (Trainer drills into the richer district-detail instead.)
+function renderMyTeam() {
+  const d = _curDistrict(); const body = document.getElementById('myteam-body'); if (!body) return;
+  const ls = d.learners, total = ls.length || 1;
+  const done = ls.filter(l => l.status === 'Complete').length, overdue = ls.filter(l => l.status === 'Overdue').length, notStarted = ls.filter(l => l.status === 'Not started').length;
+  const tt = document.getElementById('myteam-title'); if (tt) tt.textContent = d.name + ' · My Team';
+  let h = `<div class="mt-banner">All staff training due ${_DEMO.due} — <b>${Math.round(100 * done / total)}%</b> complete, <b>${overdue}</b> overdue. <button class="track-open" onclick="nudgeAllOverdue()">Nudge all overdue</button></div>`;
+  h += '<div class="roster-cards">' + [['Staff complete', Math.round(100 * done / total) + '%'], ['Overdue', overdue], ['Not started', notStarted], ['Days to go-live', _daysToGoLive()]].map(t => `<div class="roster-stat"><div class="n">${t[1]}</div><div class="l">${escapeHtml(t[0])}</div></div>`).join('') + '</div>';
+  h += `<div class="mt-tools"><button class="secondary" onclick="openAssignmentModal('${d.id}')">Assign training</button></div>`;
+  h += _renderStaffTable(d);
   body.innerHTML = h;
 }
 function nudgeOne(nk, name) { _demoState.nudged[nk] = true; alert('Reminder sent to ' + name + '.'); renderMyTeam(); }
@@ -4024,19 +4150,73 @@ function _userStudioItems(){
   return cs.concat(ts);
 }
 function loadLibraryDemo(){ renderLibraryDemo(); }
+let _libDemoItems = [];
+// Populate Module + Format option lists once, from the actual studio set (no invented values).
+function _libPopulateFilters(items){
+  const mSel = document.getElementById('lib-module'), fSel = document.getElementById('lib-template');
+  if (mSel && mSel.options.length <= 1) [...new Set(items.map(i => i.module).filter(m => m && m !== '—'))].sort().forEach(m => mSel.add(new Option(m, m)));
+  if (fSel && fSel.options.length <= 1) [...new Set(items.map(i => i.format).filter(Boolean))].sort().forEach(f => fSel.add(new Option(f, f)));
+}
+// Studio is a REVIEW WORKLIST: defaults to the pending queue, surfaces the count, and gives every
+// awaiting item an explicit Review action. Approved items read as done.
 function renderLibraryDemo(){
   const grid = document.getElementById('lib-grid'); if (!grid) return; grid.removeAttribute('aria-busy');
-  const mod = (document.getElementById('lib-module') || {}).value || '', stf = (document.getElementById('lib-status') || {}).value || '', q = ((document.getElementById('lib-search') || {}).value || '').toLowerCase();
-  let items = _DEMO.studio.concat(_userStudioItems());
+  const all = _DEMO.studio.concat(_userStudioItems());
+  _libPopulateFilters(all);
+  const mod = (document.getElementById('lib-module') || {}).value || '';
+  const fmt = (document.getElementById('lib-template') || {}).value || '';
+  const stf = (document.getElementById('lib-status') || {}).value || '';
+  const sort = (document.getElementById('lib-sort') || {}).value || 'created_desc';
+  const q = ((document.getElementById('lib-search') || {}).value || '').toLowerCase();
+  const awaiting = all.filter(i => i.status !== 'Approved').length;
+  let items = all.slice();
   if (mod) items = items.filter(i => i.module === mod);
+  if (fmt) items = items.filter(i => i.format === fmt);
   if (stf === 'library') items = items.filter(i => i.status === 'Approved');
   else if (stf === 'awaiting') items = items.filter(i => i.status !== 'Approved');
   if (q) items = items.filter(i => (`${i.title} ${i.module} ${i.format} ${i.status}`).toLowerCase().includes(q));
-  const cnt = document.getElementById('lib-count'); if (cnt) cnt.textContent = items.length;
-  let h = '<table class="lib-table"><thead><tr><th>Item</th><th>Module</th><th>Format</th><th>Status</th><th>Created</th><th>Origin</th></tr></thead><tbody>';
-  h += items.map(i => `<tr class="lib-row"><td class="lib-c-title">${escapeHtml(i.title)}</td><td>${escapeHtml(i.module)}</td><td>${escapeHtml(i.format)}</td><td>${_statusChip(i.status)}</td><td>${escapeHtml(i.created)}</td><td>${_originBadge(i.origin)}</td></tr>`).join('') || '<tr><td colspan="6" class="lib-empty">No studio content matches — make one in Create.</td></tr>';
+  const stRank = { 'In review': 0, 'Draft': 1, 'Approved': 2 };
+  const cmp = {
+    created_desc: (a, b) => String(b.created).localeCompare(String(a.created)),
+    created_asc: (a, b) => String(a.created).localeCompare(String(b.created)),
+    module: (a, b) => String(a.module).localeCompare(String(b.module)),
+    template: (a, b) => String(a.format).localeCompare(String(b.format)),
+    status: (a, b) => (stRank[a.status] ?? 9) - (stRank[b.status] ?? 9),
+  }[sort] || (() => 0);
+  // When showing everything, keep pending work on top so the queue is always glanceable.
+  if (stf === '') items.sort((a, b) => ((stRank[a.status] ?? 9) - (stRank[b.status] ?? 9)) || cmp(a, b));
+  else items.sort(cmp);
+  _libDemoItems = items;
+  const cnt = document.getElementById('lib-count');
+  if (cnt) cnt.textContent = stf === 'awaiting' ? `${items.length} awaiting review`
+    : stf === 'library' ? `${items.length} in Library`
+    : `${items.length} resources · ${awaiting} awaiting review`;
+  let h = '<table class="lib-table"><thead><tr><th>Item</th><th>Module</th><th>Format</th><th>Status</th><th>Created</th><th>Origin</th><th></th></tr></thead><tbody>';
+  h += items.map((i, idx) => {
+    const st = i.status === 'Approved' ? 'approved' : 'await';
+    const action = i.status === 'Approved'
+      ? '<button class="lib-open-btn" onclick="event.stopPropagation();reviewDemoItem(' + idx + ')">View</button>'
+      : `<button class="lib-review-btn" onclick="event.stopPropagation();reviewDemoItem(${idx})">Review →</button>`;
+    return `<tr class="lib-row" data-state="${st}" role="button" tabindex="0" onclick="reviewDemoItem(${idx})" onkeydown="if(event.key==='Enter'){event.preventDefault();reviewDemoItem(${idx});}"><td class="lib-c-title">${escapeHtml(i.title)}</td><td>${escapeHtml(i.module)}</td><td>${escapeHtml(i.format)}</td><td>${_statusChip(i.status)}</td><td>${escapeHtml(i.created)}</td><td>${_originBadge(i.origin)}</td><td class="lib-c-action">${action}</td></tr>`;
+  }).join('') || '<tr><td colspan="7" class="lib-empty">Nothing in this view — switch to “All” or create content in Create.</td></tr>';
   h += '</tbody></table>';
   grid.innerHTML = h;
+}
+// Open the review drawer for a demo item (read-only preview; live approve/edit controls stay disabled).
+function reviewDemoItem(idx){
+  const it = (_libDemoItems || [])[idx]; if (!it) return;
+  const resid = document.getElementById('lib-resid'); if (resid) resid.textContent = it.title;
+  const prev = document.getElementById('lib-preview');
+  const note = it.status === 'Approved'
+    ? `This guide is <strong>in the Library</strong> — every claim traces to a real source at the correct trust level. It's ready to assign to learners or add to a track.`
+    : `This is the review surface. The source-grounding gate has already run; a reviewer reads the draft here, then <strong>Approves</strong> it into the Library or requests AI-assisted edits. The Approve / edit controls above are wired in the live app.`;
+  if (prev) prev.innerHTML = `<div style="padding:22px 24px;">
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;">${_statusChip(it.status)}${_originBadge(it.origin)}</div>
+      <h2 style="font-family:var(--serif);font-size:22px;margin:0 0 6px;">${escapeHtml(it.title)}</h2>
+      <p style="color:var(--muted);margin:0 0 18px;">${escapeHtml(it.module)} · ${escapeHtml(it.format)} · created ${escapeHtml(it.created)}</p>
+      <div style="background:var(--panel2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px;font-size:13.5px;line-height:1.6;color:var(--text-soft);">${note}</div>
+    </div>`;
+  if (typeof openLibDrawer === 'function') openLibDrawer();
 }
 function _catalogItems(){
   const sa = _DEMO.studio.filter(i => i.status === 'Approved').map(i => ({ title: i.title, module: i.module, type: i.format === 'Quiz' ? 'Quiz' : i.format === 'Track' ? 'Track' : 'Guide', origin: i.origin }));
@@ -4046,25 +4226,67 @@ function _catalogItems(){
   const seen = {}, out = []; sa.concat(im, tr, qz).forEach(x => { if (!seen[x.title]) { seen[x.title] = 1; out.push(x); } });
   return out;
 }
-let _catType = '', _catOrigin = '';
 function loadCatalogDemo(){ renderCatalogDemo(); }
+let _catDemoItems = [];
+// Catalog card → detail/preview (reuses the shared app drawer). Turns a browse card into something
+// the user can inspect: what it is, how it's sourced, and what they can do with it.
+function openCatalogDetail(i){
+  const x = (_catDemoItems || [])[i]; if (!x) return;
+  const kind = (x.type || 'asset').toLowerCase();
+  const quizable = x.type !== 'Track';
+  const quizBtn = quizable ? `<button class="primary" onclick="closeDrawer();openQuizBuilder()">Build a quiz from this</button>` : '';
+  const html = `<div class="cat-detail">
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
+        <span class="cat-type" style="color:var(--accent);">${escapeHtml(x.type)}</span>${_originBadge(x.origin)}
+      </div>
+      <p style="color:var(--muted);margin:0 0 18px;font-size:13px;">${escapeHtml(x.module || 'General')}</p>
+      <div class="cat-detail-note">
+        <strong>Cited &amp; attributed.</strong> Every claim in this ${escapeHtml(kind)} traces to its source — an internal Cybersoft guide, an approved AI-built draft, or credited outside-vendor training. Nothing here is invented.
+      </div>
+      <div class="cat-detail-actions">${quizBtn}<button class="secondary" onclick="closeDrawer()">Close</button></div>
+    </div>`;
+  openDrawer(x.title, html);
+}
+function _catPopulate(items){
+  const mSel = document.getElementById('cat-module');
+  if (mSel && mSel.options.length <= 1) [...new Set(items.map(i => i.module).filter(Boolean))].sort().forEach(m => mSel.add(new Option(m, m)));
+}
+const _catIsVendor = o => o === 'Outside vendor';
+// Catalog is a BROWSE SHELF: one filter bar (Type / Source / Module / Search / Sort), one card grid.
 function renderCatalogDemo(){
   const grid = document.getElementById('icn-grid'); if (!grid) return;
-  let items = _catalogItems();
+  const all = _catalogItems(); _catPopulate(all);
+  const type = (document.getElementById('cat-type') || {}).value || '';
+  const source = (document.getElementById('cat-source') || {}).value || '';
+  const mod = (document.getElementById('cat-module') || {}).value || '';
+  const sort = (document.getElementById('cat-sort') || {}).value || 'title';
+  const q = ((document.getElementById('cat-search') || {}).value || '').toLowerCase();
   const cf = _demoState.catalogFilter;
+  let items = all.slice();
   if (cf) items = items.filter(x => x.title.toLowerCase().includes(cf.toLowerCase()));
-  if (_catType) items = items.filter(x => x.type === _catType);
-  if (_catOrigin) items = items.filter(x => x.origin === _catOrigin);
-  const types = ['', 'Guide', 'Quiz', 'Track'], origins = ['', 'AI-generated', 'Human-authored', 'Outside vendor'];
-  let fh = '<div class="cat-filters" style="grid-column:1/-1;"><span class="cat-fl">Type</span>';
-  fh += types.map(t => `<button class="cat-chip ${_catType === t ? 'on' : ''}" onclick="_catType='${t}';renderCatalogDemo()">${t || 'All'}</button>`).join('');
-  fh += '<span class="cat-fl">Origin</span>' + origins.map(o => `<button class="cat-chip ${_catOrigin === o ? 'on' : ''}" onclick="_catOrigin='${o}';renderCatalogDemo()">${o || 'All'}</button>`).join('');
-  if (cf) fh += `<button class="cat-chip on" onclick="_demoState.catalogFilter=null;renderCatalogDemo()">✕ &ldquo;${escapeHtml(cf)}&rdquo;</button>`;
-  fh += '</div>';
-  const cards = items.map(x => `<div class="icn-card cat-card"><div class="cat-type">${escapeHtml(x.type)}</div><div class="cat-title">${escapeHtml(x.title)}</div><div class="cat-meta">${escapeHtml(x.module || '')}</div>${_originBadge(x.origin)}</div>`).join('') || '<div class="lib-empty" style="grid-column:1/-1;">No ready-to-use resources match.</div>';
-  grid.innerHTML = fh + cards;
-  const tot = document.getElementById('icn-stat-total'); if (tot) tot.textContent = _catalogItems().length;
-  const cnt = document.getElementById('icn-count'); if (cnt) cnt.textContent = 'Catalog — ' + _catalogItems().length + ' ready-to-use';
+  if (type) items = items.filter(x => x.type === type);
+  if (source === 'internal') items = items.filter(x => !_catIsVendor(x.origin));
+  else if (source === 'vendor') items = items.filter(x => _catIsVendor(x.origin));
+  if (mod) items = items.filter(x => x.module === mod);
+  if (q) items = items.filter(x => (`${x.title} ${x.module || ''} ${x.origin}`).toLowerCase().includes(q));
+  const cmp = {
+    title: (a, b) => a.title.localeCompare(b.title),
+    type: (a, b) => String(a.type).localeCompare(String(b.type)) || a.title.localeCompare(b.title),
+    module: (a, b) => String(a.module).localeCompare(String(b.module)) || a.title.localeCompare(b.title),
+  }[sort] || (() => 0);
+  items.sort(cmp);
+  _catDemoItems = items;
+  let head = '';
+  if (cf) head = `<div class="cat-activefilter" style="grid-column:1/-1;">Showing matches for &ldquo;${escapeHtml(cf)}&rdquo; · <button class="linklike" onclick="_demoState.catalogFilter=null;renderCatalogDemo()">clear</button></div>`;
+  const cards = items.map((x, i) => `<div class="icn-card cat-card" data-type="${escapeHtml((x.type || '').toLowerCase())}" role="button" tabindex="0" onclick="openCatalogDetail(${i})" onkeydown="if(event.key==='Enter'){event.preventDefault();openCatalogDetail(${i});}"><div class="cat-type">${escapeHtml(x.type)}</div><div class="cat-title">${escapeHtml(x.title)}</div><div class="cat-meta">${escapeHtml(x.module || '')}</div>${_originBadge(x.origin)}</div>`).join('')
+    || '<div class="lib-empty" style="grid-column:1/-1;">No ready-to-use resources match these filters.</div>';
+  grid.innerHTML = head + cards;
+  const setN = (id, n) => { const e = document.getElementById(id); if (e) e.textContent = n; };
+  setN('icn-stat-total', all.length);
+  setN('icn-stat-guides', all.filter(x => x.type === 'Guide').length);
+  setN('icn-stat-quizzes', all.filter(x => x.type === 'Quiz').length);
+  setN('icn-stat-tracks', all.filter(x => x.type === 'Track').length);
+  const cnt = document.getElementById('icn-count'); if (cnt) cnt.textContent = `Catalog · ${items.length} of ${all.length} ready-to-use`;
 }
 setViewMode('trainer'); _demoISDInit();   // boot: Trainer persona, lands on Home
 
@@ -4516,6 +4738,16 @@ function intentBubble(role, text, cls) {
   d.textContent = text;
   c.appendChild(d); c.scrollTop = c.scrollHeight;
 }
+// Transient "working" bubble shown while the scope agent thinks — removed when the reply lands.
+function intentThinking() {
+  const c = document.getElementById('intent-convo');
+  if (!c) return null;
+  const d = document.createElement('div');
+  d.className = 'bubble bot intent-thinking';
+  d.innerHTML = '<span class="spinner" style="width:13px;height:13px;vertical-align:-1px;"></span> Searching the tickets…';
+  c.appendChild(d); c.scrollTop = c.scrollHeight;
+  return d;
+}
 function intentHistoryText() {
   return intentHistory.map(m => (m.role === 'user' ? 'User: ' : 'Assistant: ') + m.text).join('\n');
 }
@@ -4524,26 +4756,30 @@ async function resolveIntent() {
   const input = document.getElementById('intent-input');
   const goBtn = document.getElementById('intent-go');
   const text = (input.value || '').trim();
-  if (!text) { input.focus(); return; }
+  if (!text) { input.focus(); checkIntentReady(); return; }
   document.getElementById('scope-card').style.display = 'none';
   intentBubble('user', text);
   const prior = intentHistoryText();
   intentHistory.push({ role: 'user', text });
   input.value = '';
   goBtn.disabled = true; goBtn.textContent = 'Thinking…';
+  const thinkingEl = intentThinking();
   let r;
   try {
     const resp = await fetch('/intent/resolve', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ request: text, history: prior }),
     });
-    if (!resp.ok) throw new Error(await resp.text());
+    if (!resp.ok) throw new Error(await _errMsg(resp));
     r = await resp.json();
   } catch (e) {
-    intentBubble('assistant', 'Error: ' + (e.message || e), 'warn');
-    goBtn.disabled = false; goBtn.textContent = 'Find the scope'; return;
+    if (thinkingEl) thinkingEl.remove();
+    intentBubble('assistant', 'Something went wrong finding the scope. ' + (e.message ? '(' + e.message + ') ' : '') + 'Your request is still here, so you can edit it and try again.', 'warn');
+    if (input) input.value = text;   // restore the request so a retry needs no retyping
+    goBtn.textContent = 'Find the scope'; checkIntentReady(); return;
   }
-  goBtn.disabled = false; goBtn.textContent = 'Find the scope';
+  if (thinkingEl) thinkingEl.remove();
+  goBtn.textContent = 'Find the scope'; checkIntentReady();
 
   if (r.stage === 'clarify') {
     intentHistory.push({ role: 'assistant', text: r.question });
@@ -4587,7 +4823,7 @@ function renderScopeCard(scope, cost) {
 // Consume an SSE stream delivered over POST (EventSource is GET-only).
 async function streamPost(url, body, onEvent) {
   const resp = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
-  if (!resp.ok || !resp.body) throw new Error(await resp.text().catch(() => resp.statusText));
+  if (!resp.ok || !resp.body) throw new Error(!resp.ok ? await _errMsg(resp) : 'The server returned an empty response.');
   const reader = resp.body.getReader(); const dec = new TextDecoder(); let buf = '';
   for (;;) {
     const { value, done } = await reader.read(); if (done) break;
@@ -4630,17 +4866,42 @@ async function confirmScope(scope) {
     await streamPost('/intent/confirm', { scope }, (ev, d) => {
       if (ev === 'text') activityLine((d.text || '').replace(/\n+$/, ''));
       else if (ev === 'done') onDraftReady(d);
-      else if (ev === 'error') { setStatus('error: ' + (d.message || 'generation failed'), 'err'); activityLine('Error: ' + (d.message || '')); }
+      else if (ev === 'error') { setStatus('Generation failed — ' + (d.message || 'try again.'), 'err'); activityLine('Generation failed: ' + (d.message || 'unknown error')); }
     });
   } catch (e) {
-    setStatus('confirm failed: ' + (e.message || e), 'err'); activityLine('Error: ' + (e.message || e));
+    const msg = e.message || String(e);
+    setStatus('Generation failed — try again.', 'err');
+    activityLine('Generation failed: ' + msg);
+    const pv = document.getElementById('preview');
+    if (pv) {
+      pv.innerHTML = '<div class="async-error"><p class="ae-title">Couldn’t generate the guide</p><p>' + escapeHtml(msg) + '</p><button class="secondary" id="scope-retry">Try again</button></div>';
+      const rb = document.getElementById('scope-retry');
+      if (rb) rb.onclick = () => confirmScope(scope);
+    }
   }
 }
 
+// Describe mode: gate the CTA on non-empty input + an inline reason (mirrors the transcript mode's checkReady()).
+function checkIntentReady() {
+  const input = document.getElementById('intent-input');
+  const goBtn = document.getElementById('intent-go');
+  const needs = document.getElementById('intent-needs');
+  if (!input || !goBtn) return;
+  // Don't fight the in-flight "Thinking…" state — only the request handlers re-enable after a turn.
+  if (goBtn.textContent === 'Thinking…') return;
+  const ready = !!input.value.trim();
+  goBtn.disabled = !ready;
+  if (needs) {
+    needs.textContent = ready ? 'Ready — I’ll search the tickets and propose a scope.' : 'Describe the guide you need to continue.';
+    needs.classList.toggle('ready', ready);
+  }
+}
 document.getElementById('intent-go') && document.getElementById('intent-go').addEventListener('click', resolveIntent);
+document.getElementById('intent-input') && document.getElementById('intent-input').addEventListener('input', checkIntentReady);
 document.getElementById('intent-input') && document.getElementById('intent-input').addEventListener('keydown', e => {
   if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); resolveIntent(); }
 });
+checkIntentReady();
 
 // ─── Evaluator (Task 5) ────────────────────────────────────────────────
 let evalSource = null;
@@ -5656,13 +5917,14 @@ function renderRoster() {
 }
 function toggleISDMenu() { const m = document.getElementById('isd-menu'); if (m) m.hidden = !m.hidden; }
 function _demoISDInit() {
-  const mine = _myDistricts();
+  const mine = _unifiedDistricts();
+  if (!mine.length) return;
   if (!_curISD || !mine.some(d => d.id === _curISD)) _curISD = mine[0].id;
   const menu = document.getElementById('isd-menu');
-  if (menu) menu.innerHTML = mine.map(d => `<button class="isd-opt ${d.id === _curISD ? 'active' : ''}" onclick="selectISD('${d.id}')">${escapeHtml(d.name)} <span class="n">${d.learners.length}</span></button>`).join('');
-  const cur = _DEMO.districts.find(d => d.id === _curISD); const nm = document.getElementById('isd-name'); if (nm && cur) nm.textContent = cur.name;
+  if (menu) menu.innerHTML = mine.map(d => `<button class="isd-opt ${d.id === _curISD ? 'active' : ''}" onclick="selectISD('${d.id}')">${escapeHtml(d.name)} <span class="n">${_districtPeople(d)}</span></button>`).join('');
+  const cur = mine.find(d => d.id === _curISD); const nm = document.getElementById('isd-name'); if (nm && cur) nm.textContent = cur.name;
 }
-function _curDistrict() { return _DEMO.districts.find(d => d.id === _curISD) || _myDistricts()[0]; }
+function _curDistrict() { return _DEMO.districts.concat(_createdDistricts).find(d => d.id === _curISD) || _unifiedDistricts()[0]; }
 function selectISD(id) {
   _curISD = id;
   const m = document.getElementById('isd-menu'); if (m) m.hidden = true;
@@ -5672,39 +5934,192 @@ function selectISD(id) {
   else if (av === 'view-manage' && typeof renderManage === 'function') renderManage();
   else if (av === 'view-home') renderHome();
   else if (av === 'view-roster') loadRoster(id);
+  else if (av === 'view-district') loadDistrict();
 }
 
 // ─── Management dashboards — internal-team (Trainer) + CN-Director (Customer) ───
-function loadManage(){ _demoISDInit(); renderManage(); }
+function _manageSkeleton(){ return '<div class="sk-hero skeleton"></div>' + '<div class="sk-row skeleton"></div>'.repeat(6); }
+async function loadManage(){
+  // Route-load skeleton so the page isn't blank while the backend-created districts load.
+  const body = document.getElementById('manage-body');
+  if (body) { body.setAttribute('aria-busy', 'true'); body.innerHTML = _manageSkeleton(); }
+  await _refreshCreatedDistricts(); _demoISDInit();
+  if (body) body.removeAttribute('aria-busy');
+  renderManage();
+}
 function _trackCompletionForDistrict(d, tid){ const ls = d.learners.filter(l => (l.tracks || []).includes(tid)); return ls.length ? Math.round(ls.reduce((a, l) => a + l.completion, 0) / ls.length) : null; }
 function _districtStatus(d){ if (d.help_request && !_demoState.helpCleared[d.id]) return 'Needs help'; return _districtCompletion(d) >= 70 ? 'On track' : 'Behind'; }
 function toggleManageRow(id){ const r = document.getElementById('mg-exp-' + id); if (r) r.hidden = !r.hidden; }
+// ─── ONE DISTRICT — detail view. The 5 trainer tasks: Set up → Monitor ⇄ Intervene → Certify ───
+// Canonical stage: the two legacy vocabularies (seed district.stage + backend project.status)
+// collapse to ONE lifecycle. Stage is an ATTRIBUTE that gates which task section leads (BRD FR-LP-05).
+const _STAGE_ORDER = ['Onboarding','Training','Pre-launch','Live'];
+function _canonStage(s){ return ({Setup:'Onboarding',Kickoff:'Onboarding',PLANNING:'Onboarding','Go-live':'Live',LIVE:'Live',ONBOARDING:'Training',Training:'Training','Pre-launch':'Pre-launch',ARCHIVED:'Archived'})[s] || s || 'Onboarding'; }
+function _daysToGoLive(){ const M={Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11}; const p=(_DEMO.due||'Jun 30').split(' '); const gl=new Date(2026,(M[p[0]]!=null?M[p[0]]:5),+p[1]||30), today=new Date(2026,5,10); return Math.max(0,Math.round((gl-today)/86400000)); }
+function _stageStepper(stage){ const cur=_canonStage(stage), ci=_STAGE_ORDER.indexOf(cur); let s='<div class="stage-steps">'+_STAGE_ORDER.map((x,i)=>`<span class="stage-step${i<ci?' done':''}${i===ci?' current':''}">${x}</span>`).join('<span class="stage-sep">→</span>')+'</div>'; if(cur==='Archived') s='<div class="stage-steps"><span class="stage-step current">Archived</span></div>'; return s; }
+function openDistrict(id){ _curISD = id; showView('district'); }
+async function loadDistrict(){
+  await _refreshCreatedDistricts();
+  _demoISDInit();
+  const d = _curDistrict();
+  // Created districts pull their REAL roster (sites + people) from the backend so the ONE
+  // detail page shows true setup data — no separate project dashboard.
+  if (d && d.source === 'created' && d.pid) { try { const r = await fetch('/api/projects/' + d.pid); if (r.ok) d._detail = await r.json(); } catch(_){} }
+  renderDistrictDetail();
+}
+function renderDistrictDetail(){
+  const d = _curDistrict(); if(!d) return;
+  const titleEl=document.getElementById('district-title'), subEl=document.getElementById('district-sub'), stageEl=document.getElementById('district-stage-row'), body=document.getElementById('district-body');
+  if(!body) return;
+  const ls=d.learners, total=ls.length||1;
+  const done=ls.filter(l=>l.status==='Complete').length, overdue=ls.filter(l=>l.status==='Overdue').length, notStarted=ls.filter(l=>l.status==='Not started').length;
+  const comp=_districtCompletion(d), stage=_canonStage(d.stage), days=_daysToGoLive(), pct=Math.round(100*done/total);
+  if(titleEl) titleEl.textContent=d.name;
+  const siteCount = (d._detail && d._detail.sites) ? d._detail.sites.length : (d.sites ? d.sites.length : 0);
+  if(subEl) subEl.textContent=`${d.trainer} · ${siteCount} sites · ${_districtPeople(d)} staff · Go-live ${_DEMO.due}`;
+  if(stageEl) stageEl.innerHTML=_stageStepper(stage);
+  const leadTask = ({Onboarding:'setup',Training:'progress','Pre-launch':'readiness',Live:'progress',Archived:'progress'})[stage]||'progress';
+  let h='';
+  const sections=[];
+  const ICON={
+    setup:'<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M6 21V8l6-4 6 4v13M10 12h.01M10 16h.01M14 12h.01M14 16h.01"/></svg>',
+    progress:'<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 17 9 11 13 15 21 7"/><polyline points="15 7 21 7 21 13"/></svg>',
+    attn:'<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>',
+    ready:'<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>'
+  };
+  // 1 — SETUP (roster + assignments). Created districts use the REAL roster from /api/projects
+  // (deep-linked re-import for THIS district); seeded districts use their illustrative roster.
+  const isCreated = d.source === 'created';
+  const assignCls = leadTask==='setup' ? 'primary' : 'secondary';   // one primary per screen, on the lead task
+  let setup;
+  if (isCreated) {
+    const dsites = (d._detail && d._detail.sites) || [];
+    setup = dsites.length
+      ? '<div class="dd-roster">' + dsites.map(s => `<div class="dd-roster-row"><span class="dd-roster-site">${escapeHtml(s.name)}</span><span class="dd-roster-cnt">${s.user_count} people</span><span class="dd-roster-roles">${Object.entries(s.by_role||{}).map(([r,n])=>n+' '+r).join(' · ')}</span></div>`).join('') + '</div>'
+      : '<p class="dd-note">No roster imported yet — import sites and people to begin.</p>';
+    setup += `<div class="dd-actions"><button class="${assignCls}" onclick="openAssignmentModal('${d.id}')">Assign training</button><button class="secondary" onclick="openCsvUpload('${d.pid}','sites')">Re-import sites</button><button class="secondary" onclick="openCsvUpload('${d.pid}','users')">Re-import people</button></div>`;
+  } else {
+    const sitesMap={}; ls.forEach(l=>{(sitesMap[l.site]=sitesMap[l.site]||[]).push(l);});
+    setup = '<div class="dd-roster">'+Object.keys(sitesMap).map(s=>{const rc={}; sitesMap[s].forEach(l=>rc[l.role]=(rc[l.role]||0)+1); return `<div class="dd-roster-row"><span class="dd-roster-site">${escapeHtml(s)}</span><span class="dd-roster-cnt">${sitesMap[s].length} people</span><span class="dd-roster-roles">${Object.entries(rc).map(([r,n])=>n+' '+r).join(' · ')}</span></div>`;}).join('')+'</div>';
+    setup += '<div class="dd-actions"><button class="'+assignCls+'" onclick="openAssignmentModal(\'' + d.id + '\')">Assign training</button></div>';
+  }
+  setup += '<p class="dd-note">Role-based auto-enroll keeps new hires on track — Cashiers → POS, Site Managers → Inventory, CN Directors → Eligibility.</p>';
+  // Assigned-training visibility (replaces the killed org-wide table): what's assigned to THIS district.
+  _initAssignments();
+  const _dasn = _demoState.assignments.filter(a => _asnAppliesTo(a, d));
+  setup += '<div class="dd-asn"><div class="dd-asn-h">Assigned training</div>' + (_dasn.length
+    ? _dasn.map(a => { const c=_asnContent(a); return `<div class="dd-asn-row"><span class="dd-asn-title">${escapeHtml(c.title)}</span><span class="dd-asn-meta">${escapeHtml(_asnAudLabel(a))} · Due ${escapeHtml(a.due)}</span></div>`; }).join('')
+    : '<p class="dd-note">No training assigned yet.</p>') + '</div>';
+  sections.push({key:'setup', ico:ICON.setup, title:'Setup — roster &amp; assignments', summary:(_dasn.length ? `${_dasn.length} track${_dasn.length===1?'':'s'} assigned` : 'No training assigned'), body:setup, lead:leadTask==='setup'});
+  // 2 — PROGRESS (monitor)
+  let prog='<div class="roster-cards">'+[['Staff complete',pct+'%'],['Overdue',overdue],['Not started',notStarted],['Days to go-live',days]].map(t=>`<div class="roster-stat"><div class="n">${t[1]}</div><div class="l">${escapeHtml(t[0])}</div></div>`).join('')+'</div>';
+  prog+= ls.length ? _renderStaffTable(d) : '<p class="dd-note">No training activity yet — assign a track in Setup, and progress appears here as staff begin.</p>';
+  sections.push({key:'progress', ico:ICON.progress, title:'Progress', summary:`${pct}% complete · ${overdue} overdue`, body:prog, lead:leadTask==='progress'});
+  // 3 — NEEDS ATTENTION (intervene) — auto-opens only when there's something to act on
+  const flagged=d.help_request && !_demoState.helpCleared[d.id];
+  let attn='';
+  if(flagged) attn+=`<div class="mg-alert-card"><div class="mg-alert-icon">🖐</div><div class="mg-alert-body"><div class="mg-alert-title">${escapeHtml(d.name)} raised a hand</div><div class="mg-alert-msg">&ldquo;${escapeHtml(d.help_msg)}&rdquo;</div></div><button class="secondary" onclick="respondHelp('${d.id}')">Respond</button></div>`;
+  if(overdue) attn+=`<div class="dd-attn-row"><span><b>${overdue}</b> staff overdue on training.</span><button class="secondary" onclick="nudgeAllOverdue()">Nudge all overdue</button></div>`;
+  const attnEmpty = !flagged && !overdue;
+  if(attnEmpty) attn='<p class="dd-note">Nothing needs attention right now.</p>';
+  const attnSummary = attnEmpty ? 'All clear' : ((flagged?'Help request':'') + (flagged&&overdue?' · ':'') + (overdue?(overdue+' overdue'):''));
+  sections.push({key:'attn', ico:ICON.attn, title:'Needs attention', summary:attnSummary, body:attn, lead:false, forceOpen:!attnEmpty, accent:!attnEmpty});
+  // 4 — READINESS (certify / go-live sign-off). Honest empty state (no roster) + Mark-live gated on
+  // actual completion (never offered on a "Behind" district), so the CTA never contradicts the numbers.
+  let ready, readySummary;
+  const people=_districtPeople(d);
+  if(!ls.length && people>0){
+    // Created district: real headcount from the backend, but no per-learner progress yet.
+    ready=`<div class="dd-ready"><div class="dd-ready-main"><div class="dd-ready-pct">0%</div><div class="dd-ready-l">${people} staff imported · training not started</div></div><span class="pill pill--neutral">Not started</span></div><p class="dd-note">Assign training in Setup; readiness updates as staff complete it.</p>`;
+    readySummary='Training not started';
+  } else if(!ls.length){
+    ready=`<div class="dd-ready"><div class="dd-ready-main"><div class="dd-ready-pct">—</div><div class="dd-ready-l">No roster imported yet</div></div><span class="pill pill--neutral">Not started</span></div><p class="dd-note">Import people in Setup and assign training before go-live.</p>`;
+    readySummary='No roster yet';
+  } else {
+    const remaining=ls.length-done;
+    const verdict=comp>=90?{t:'Ready to go live',c:'pill--success'}:comp>=70?{t:'On track',c:'pill--success'}:{t:'Behind',c:'pill--warning'};
+    ready=`<div class="dd-ready"><div class="dd-ready-main"><div class="dd-ready-pct">${comp}%</div><div class="dd-ready-l">of staff trained · go-live in ${days} days (${_DEMO.due})</div></div><span class="pill ${verdict.c}">${verdict.t}</span></div>`;
+    ready+=`<p class="dd-note">${remaining>0?`<b>${remaining}</b> of ${ls.length} staff still need to finish before go-live.`:'All staff have completed training — ready to certify.'} Completed staff can download a certificate of completion.</p>`;
+    if(comp>=90) ready+=`<div class="dd-actions"><button class="primary" onclick="alert('Demo: ${escAttr(d.name)} marked live.')">Mark district live</button></div>`;
+    else if(overdue) ready+=`<div class="dd-actions"><button class="${leadTask==='readiness'?'primary':'secondary'}" onclick="nudgeAllOverdue()">Nudge overdue staff</button></div>`;
+    readySummary=`${comp}% trained · ${verdict.t}`;
+  }
+  sections.push({key:'ready', ico:ICON.ready, title:'Readiness — go-live sign-off', summary:readySummary, body:ready, lead:leadTask==='readiness'});
+  // Render: the lead section (and a non-empty Needs-attention) open; the rest collapse to a one-line summary.
+  sections.forEach(s=>{
+    const open = s.lead || s.forceOpen;
+    const cls = 'dd-sec' + (s.lead?' dd-lead':'') + (s.accent?' dd-attn-open':'') + (open?'':' dd-collapsed');
+    h += `<section class="${cls}" id="dd-sec-${s.key}"><div class="dd-sec-head" onclick="toggleDDSec('${s.key}')"><span class="dd-sec-ico">${s.ico}</span><h3>${s.title}</h3><span class="dd-sec-right">${s.lead?'<span class="dd-lead-tag">Focus now</span>':''}<span class="dd-sec-summary">${escapeHtml(s.summary)}</span><span class="dd-sec-caret" aria-hidden="true">▾</span></span></div><div class="dd-sec-body">${s.body}</div></section>`;
+  });
+  body.innerHTML=h;
+}
+function toggleDDSec(key){ const el=document.getElementById('dd-sec-'+key); if(el) el.classList.toggle('dd-collapsed'); }
 function renderManage(){
   const title = document.getElementById('manage-title'), sub = document.getElementById('manage-sub'), body = document.getElementById('manage-body');
-  const ds = _myDistricts().slice().sort((a, b) => {
+  const ds = _unifiedDistricts().slice().sort((a, b) => {
     const fa = (a.help_request && !_demoState.helpCleared[a.id]) ? 0 : 1, fb = (b.help_request && !_demoState.helpCleared[b.id]) ? 0 : 1; return fa - fb;
   });
-  const totLearners = ds.reduce((a, d) => a + d.learners.length, 0);
-  const avg = Math.round(ds.reduce((a, d) => a + _districtCompletion(d), 0) / ds.length);
+  const totLearners = ds.reduce((a, d) => a + _districtPeople(d), 0);
+  const avg = ds.length ? Math.round(ds.reduce((a, d) => a + _districtCompletion(d), 0) / ds.length) : 0;
   const activeWk = ds.reduce((a, d) => a + d.learners.filter(l => ['Today','Yesterday','2 days ago'].includes(l.last_active)).length, 0);
   const helps = ds.filter(d => d.help_request && !_demoState.helpCleared[d.id]);
-  if (title) title.textContent = 'My districts';
+
+  /* ── Header ── */
+  if (title) title.textContent = 'Districts';
   if (sub) sub.textContent = `${_CURRENT_TRAINER} · ${ds.length} districts · ${totLearners} learners enrolled`;
+
   let h = '';
-  if (helps.length) { const hd = helps[0]; h += `<div class="mg-help">🖐 <b>${escapeHtml(helps.map(x => x.name).join(', '))}</b> raised a hand — &ldquo;${escapeHtml(hd.help_msg)}&rdquo; <button class="track-open" onclick="respondHelp('${hd.id}')">Respond</button></div>`; }
-  h += '<div class="roster-cards">' + [['Districts', ds.length], ['Avg completion', avg + '%'], ['Active this week', activeWk], ['Help requests', helps.length]].map(t => `<div class="roster-stat"><div class="n">${t[1]}</div><div class="l">${escapeHtml(t[0])}</div></div>`).join('') + '</div>';
-  h += '<div class="roster-table-wrap"><table class="roster-table"><thead><tr><th>District</th><th>Trainer</th><th>Learners</th><th>Completion</th><th>Last activity</th><th>Status</th></tr></thead><tbody>';
+
+  /* ── 1. ATTENTION ALERTS — every help request gets its own card ── */
+  if (helps.length) {
+    h += '<div class="mg-alerts">';
+    helps.forEach(hd => {
+      h += `<div class="mg-alert-card"><div class="mg-alert-icon">🖐</div><div class="mg-alert-body"><div class="mg-alert-title">${escapeHtml(hd.name)} needs help</div><div class="mg-alert-msg">&ldquo;${escapeHtml(hd.help_msg)}&rdquo;</div></div><button class="secondary" onclick="respondHelp('${hd.id}')">Respond</button></div>`;
+    });
+    h += '</div>';
+  }
+
+  /* ── 2. KPI STRIP ── */
+  h += '<div class="mg-kpis">';
+  h += `<div class="mg-kpi"><div class="mg-kpi-n">${ds.length}</div><div class="mg-kpi-l">Districts</div></div>`;
+  h += `<div class="mg-kpi"><div class="mg-kpi-n">${totLearners}</div><div class="mg-kpi-l">Learners</div></div>`;
+  h += `<div class="mg-kpi"><div class="mg-kpi-n">${avg}%</div><div class="mg-kpi-l">Avg completion</div></div>`;
+  h += `<div class="mg-kpi"><div class="mg-kpi-n">${activeWk}</div><div class="mg-kpi-l">Active this week</div></div>`;
+  if (helps.length) h += `<div class="mg-kpi mg-kpi-warn"><div class="mg-kpi-n">${helps.length}</div><div class="mg-kpi-l">Need help</div></div>`;
+  h += '</div>';
+
+  /* ── 3. DISTRICT TABLE — no Trainer column, inline track progress ── */
+  h += '<div class="mg-section-head"><h3>All districts</h3></div>';
+  h += '<div class="roster-table-wrap"><table class="roster-table"><thead><tr><th>District</th><th>Stage</th><th>Learners</th><th>Completion</th><th>Last activity</th><th>Status</th><th class="mg-chev-h" aria-hidden="true"></th></tr></thead><tbody>';
   ds.forEach(d => {
-    const flagged = d.help_request && !_demoState.helpCleared[d.id], comp = _districtCompletion(d), st = _districtStatus(d);
+    const flagged = d.help_request && !_demoState.helpCleared[d.id];
+    const comp = _districtCompletion(d);
+    const st = _districtStatus(d);
     const stc = st === 'Needs help' ? 'pill--attention' : st === 'On track' ? 'pill--success' : 'pill--warning';
-    h += `<tr class="mg-row${flagged ? ' mg-flag' : ''}" id="mg-row-${d.id}" onclick="toggleManageRow('${d.id}')"><td>${escapeHtml(d.name)}${flagged ? ' 🖐' : ''}</td><td>${escapeHtml(d.trainer)}</td><td>${d.learners.length}</td><td><span class="r-prog"><span class="r-bar"><span style="width:${comp}%"></span></span>${comp}%</span></td><td style="text-align:right">${escapeHtml(d.last)}</td><td><span class="pill ${stc}">${escapeHtml(st)}</span></td></tr>`;
-    h += `<tr class="mg-expand" id="mg-exp-${d.id}" hidden><td colspan="6"><div class="mg-bd"><b>Completion by track</b>${_DEMO.tracks.map(t => { const tc = _trackCompletionForDistrict(d, t.id); return `<div class="mg-bd-row"><span>${escapeHtml(t.title)}</span><span class="r-prog"><span class="r-bar"><span style="width:${tc == null ? 0 : tc}%"></span></span>${tc == null ? '—' : tc + '%'}</span></div>`; }).join('')}</div></td></tr>`;
+    const cstage = _canonStage(d.stage);
+    const stageC = cstage === 'Live' ? 'pill--success' : cstage === 'Pre-launch' ? 'pill--warning' : cstage === 'Training' ? 'pill--info' : 'pill--neutral';
+    /* Build inline track mini-bars */
+    const trackHtml = _DEMO.tracks.map(t => {
+      const tc = _trackCompletionForDistrict(d, t.id);
+      if (tc == null) return '';
+      const tName = t.title.length > 22 ? t.title.slice(0, 20) + '…' : t.title;
+      return `<div class="mg-track-mini"><span class="mg-track-name">${escapeHtml(tName)}</span><span class="mg-track-bar"><span style="width:${tc}%"></span></span><span class="mg-track-pct">${tc}%</span></div>`;
+    }).filter(Boolean).join('');
+    h += `<tr class="mg-row${flagged ? ' mg-flag' : ''}" id="mg-row-${d.id}" onclick="openDistrict('${d.id}')" style="cursor:pointer">`;
+    h += `<td><span class="mg-dist-name">${escapeHtml(d.name)}${flagged ? ' 🖐' : ''}</span><div class="mg-dist-meta">${d.sites.length} sites</div></td>`;
+    h += `<td><span class="pill ${stageC}">${escapeHtml(cstage)}</span></td>`;
+    h += `<td>${_districtPeople(d)}</td>`;
+    h += `<td><div class="mg-comp-overall"><span class="r-prog"><span class="r-bar"><span style="width:${comp}%"></span></span>${comp}%</span></div>${trackHtml ? '<div class="mg-tracks-inline">' + trackHtml + '</div>' : ''}</td>`;
+    h += `<td>${escapeHtml(d.last)}</td>`;
+    h += `<td><span class="pill ${stc}">${escapeHtml(st)}</span></td>`;
+    h += '<td class="mg-chev" aria-hidden="true">›</td>';
+    h += '</tr>';
   });
   h += '</tbody></table></div>';
-  h += renderAssignments();
+
   if (body) body.innerHTML = h;
+  /* Focus handling for openDistrictInManage */
   if (_focusDistrict) {
-    const ex = document.getElementById('mg-exp-' + _focusDistrict); if (ex) ex.hidden = false;
     const row = document.getElementById('mg-row-' + _focusDistrict);
     if (row) { row.classList.add('mg-focus'); row.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
     _focusDistrict = '';
@@ -5722,32 +6137,38 @@ function _initAssignments(){
 }
 function _dueIsPast(due){ const M={Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11}; const p=(due||'').split(' '); const m=M[p[0]], d=+p[1]; if(m==null||!d) return false; return m<5 || (m===5 && d<10); }   // today = Jun 10
 function _fmtDue(iso){ if(!iso) return ''; const M=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; const p=iso.split('-'); return (M[(+p[1])-1]||'')+' '+(+p[2]); }
-function _asnContent(a){ const t=_allDemoTracks().find(x=>x.id===a.contentId); if(t) return {title:t.title, type:'Track'}; const c=_courseById(a.contentId); return c?{title:c.title,type:'Track'}:{title:a.contentId,type:''}; }
-function _asnAudLabel(a){ const arr=Array.isArray(a.audVal)?a.audVal:[a.audVal]; if(a.audType==='org') return 'Entire organization'; if(a.audType==='role') return a.audVal+'s'; if(a.audType==='site') return arr.length>1?arr.length+' sites':arr[0]; if(a.audType==='district'){ const names=arr.map(id=>{const d=_DEMO.districts.find(x=>x.id===id);return d?d.name:id;}); return names.length>1?names.length+' districts':names[0]; } if(a.audType==='people') return (a.audVal||0)+' people'; return a.audVal||''; }
-function _asnCount(a){ const ds=_myDistricts(); const vals=Array.isArray(a.audVal)?a.audVal:[a.audVal]; if(a.audType==='org') return ds.reduce((s,d)=>s+d.learners.length,0); if(a.audType==='role') return ds.reduce((s,d)=>s+d.learners.filter(l=>l.role===a.audVal).length,0); if(a.audType==='site') return ds.reduce((s,d)=>s+d.learners.filter(l=>vals.includes(l.site)).length,0); if(a.audType==='district') return ds.filter(d=>vals.includes(d.id)).reduce((s,d)=>s+d.learners.length,0); if(a.audType==='people') return +a.audVal||0; return 0; }
+function _asnContent(a){ const t=_allDemoTracks().find(x=>x.id===a.contentId); if(t) return {title:t.title, type:'Track'}; const c=_courseById(a.contentId); return c?{title:c.title,type:'Course'}:{title:a.contentId,type:''}; }
+function _asnAudLabel(a){ const arr=Array.isArray(a.audVal)?a.audVal:[a.audVal]; if(a.audType==='org') return 'Entire organization'; if(a.audType==='role') return a.audVal+'s'; if(a.audType==='site') return arr.length>1?arr.length+' sites':arr[0]; if(a.audType==='district'){ const names=arr.map(id=>{const d=_unifiedDistricts().find(x=>x.id===id);return d?d.name:id;}); return names.length>1?names.length+' districts':names[0]; } if(a.audType==='people') return (a.audVal||0)+' people'; return a.audVal||''; }
+function _asnCount(a){ const ds=_unifiedDistricts(); const vals=Array.isArray(a.audVal)?a.audVal:[a.audVal]; if(a.audType==='org') return ds.reduce((s,d)=>s+_districtPeople(d),0); if(a.audType==='role') return ds.reduce((s,d)=>s+d.learners.filter(l=>l.role===a.audVal).length,0); if(a.audType==='site') return ds.reduce((s,d)=>s+d.learners.filter(l=>vals.includes(l.site)).length,0); if(a.audType==='district') return ds.filter(d=>vals.includes(d.id)).reduce((s,d)=>s+_districtPeople(d),0); if(a.audType==='people') return +a.audVal||0; return 0; }
+// Does assignment `a` apply to district `d`? (for the per-district "Assigned training" list)
+function _asnAppliesTo(a, d){ const vals=Array.isArray(a.audVal)?a.audVal:[a.audVal]; if(a.audType==='org') return true; if(a.audType==='district') return vals.includes(d.id); if(a.audType==='role') return (d.learners||[]).some(l=>l.role===a.audVal) || d.source==='created'; if(a.audType==='site') return (d.sites||[]).some(s=>vals.includes(s)); return false; }
 function renderAssignments(){
   _initAssignments();
   const rows = _demoState.assignments.map(a=>{ const c=_asnContent(a), past=_dueIsPast(a.due); return `<tr><td>${escapeHtml(c.title)} <span class="chip behind" style="margin-left:4px;">${c.type}</span></td><td>${escapeHtml(_asnAudLabel(a))}${a.dyn?' · dynamic':''}${a.drip?' · drip':''}</td><td>${_asnCount(a)}</td><td>Due ${escapeHtml(a.due)}</td><td><span class="pill ${past?'pill--urgent':'pill--success'}">${past?'Past due':'Active'}</span></td></tr>`; }).join('') || '<tr><td colspan="5" class="lib-empty">No assignments yet.</td></tr>';
   return `<section class="mg-asn"><div class="cmd-head" style="margin-top:20px;"><h3>Assignments</h3><button class="secondary" onclick="openAssignmentModal()">+ Create assignment</button></div><div class="roster-table-wrap"><table class="roster-table"><thead><tr><th>Content</th><th>Assigned to</th><th>Learners</th><th>Due</th><th>Status</th></tr></thead><tbody>${rows}</tbody></table></div></section>`;
 }
-function openAssignmentModal(){
+// ONE assignment surface. Called with no arg from the portfolio header (cross-district) or with a
+// districtId from a district detail (pre-filtered to that district). Same modal, same model.
+function openAssignmentModal(preDistrictId){
   _initAssignments();
   const sel=document.getElementById('asn-content');
-  if(sel) sel.innerHTML = _allDemoTracks().map(t=>`<option value="${t.id}">Track · ${escapeHtml(t.title)}</option>`).join('') + _allDemoCourses().map(c=>`<option value="${c.id}">Track · ${escapeHtml(c.title)}</option>`).join('');
-  const at=document.getElementById('asn-audtype'); if(at) at.value='role';
+  if(sel) sel.innerHTML = _allDemoTracks().map(t=>`<option value="${t.id}">Track · ${escapeHtml(t.title)}</option>`).join('') + _allDemoCourses().map(c=>`<option value="${c.id}">Course · ${escapeHtml(c.title)}</option>`).join('');
+  const at=document.getElementById('asn-audtype'); if(at) at.value = preDistrictId ? 'district' : 'role';
   const du=document.getElementById('asn-due'); if(du) du.value='';
   const dy=document.getElementById('asn-dyn'); if(dy) dy.checked=false;
   const dp=document.getElementById('asn-drip'); if(dp) dp.checked=false;
-  asnAudChange();
+  asnAudChange(preDistrictId);
+  const ttl=document.querySelector('#asn-modal .am-head b');
+  if(ttl){ const d = preDistrictId && _unifiedDistricts().find(x=>x.id===preDistrictId); ttl.textContent = d ? ('Assign training — ' + d.name) : 'Assign training'; }
   document.getElementById('asn-modal').hidden=false;
 }
 function asnClose(){ const m=document.getElementById('asn-modal'); if(m) m.hidden=true; }
-function asnAudChange(){
+function asnAudChange(preDistrictId){
   const t=(document.getElementById('asn-audtype')||{}).value, w=document.getElementById('asn-audpick'); if(!w) return;
-  const ds=_myDistricts();
+  const ds=_unifiedDistricts();
   if(t==='role') w.innerHTML=`<select id="asn-audval" class="tb-in">${['Cashier','Site Manager','CN Director'].map(r=>`<option>${r}</option>`).join('')}</select>`;
-  else if(t==='site'){ const sites=[...new Set(ds.flatMap(d=>d.sites))]; w.innerHTML=`<div class="asn-people">${sites.map((s,i)=>`<label class="am-row"><input type="checkbox" class="asn-multi" value="${escAttr(s)}" ${i<2?'checked':''}> ${escapeHtml(s)}</label>`).join('')}</div><p class="tb-note">Bulk across multiple sites.</p>`; }
-  else if(t==='district') w.innerHTML=`<div class="asn-people">${ds.map((d,i)=>`<label class="am-row"><input type="checkbox" class="asn-multi" value="${d.id}" ${i<2?'checked':''}> ${escapeHtml(d.name)}</label>`).join('')}</div><p class="tb-note">Bulk across multiple districts (FSMC-style).</p>`;
+  else if(t==='site'){ const sites=[...new Set(ds.flatMap(d=>(d.sites||[]).filter(s=>typeof s==='string')))]; w.innerHTML=`<div class="asn-people">${sites.map((s,i)=>`<label class="am-row"><input type="checkbox" class="asn-multi" value="${escAttr(s)}" ${i<2?'checked':''}> ${escapeHtml(s)}</label>`).join('')}</div><p class="tb-note">Bulk across multiple sites.</p>`; }
+  else if(t==='district') w.innerHTML=`<div class="asn-people">${ds.map((d,i)=>`<label class="am-row"><input type="checkbox" class="asn-multi" value="${d.id}" ${(preDistrictId? d.id===preDistrictId : i<2)?'checked':''}> ${escapeHtml(d.name)}</label>`).join('')}</div><p class="tb-note">Pick one or more districts.</p>`;
   else if(t==='people'){ const ls=(_curDistrict()||{learners:[]}).learners.slice(0,8); w.innerHTML=`<div class="asn-people">${ls.map((l,i)=>`<label class="am-row"><input type="checkbox" class="asn-person" ${i<3?'checked':''}> ${escapeHtml(l.name)} <span class="meta">${escapeHtml(l.role)}</span></label>`).join('')}</div>`; }
   else w.innerHTML='<p class="tb-note">All learners across your districts.</p>';
 }
@@ -5766,10 +6187,12 @@ function asnSave(){
   const ct=_allDemoTracks().some(x=>x.id===content)?'track':'course';
   const due = dyn ? '7 days from join' : (_fmtDue((document.getElementById('asn-due')||{}).value) || _DEMO.due);
   _demoState.assignments.unshift({ id:++_demoState.asnSeq, contentType:ct, contentId:content, audType:t, audVal, due, created:'Today', dyn, drip });
-  asnClose(); renderManage();
+  asnClose();
+  const _av=(document.querySelector('.view.active')||{}).id;
+  if(_av==='view-district') loadDistrict(); else if(_av==='view-myteam') renderMyTeam(); else renderManage();
   alert('Assignment created — ' + _asnCount(_demoState.assignments[0]) + ' learners enrolled.');
 }
-function doLogin() { const m = document.getElementById('login-modal'); if (m) m.hidden = true; try { sessionStorage.setItem('ls_demo_login', '1'); } catch (e) {} loadRoster(); /* If a Projects-flow URL hash is present, take the user there after sign-in (so Ctrl-R survives). */ if (typeof _restoreFromHash === 'function') _restoreFromHash(); }
+function doLogin() { const m = document.getElementById('login-modal'); if (m) m.hidden = true; try { sessionStorage.setItem('ls_demo_login', '1'); } catch (e) {} _demoISDInit(); /* prime the district switcher from the unified list (not the legacy /api/roster ghosts) */ /* If a Projects-flow URL hash is present, take the user there after sign-in (so Ctrl-R survives). */ if (typeof _restoreFromHash === 'function') _restoreFromHash(); }
 document.addEventListener('click', e => {
   const sw = document.querySelector('.isd-switch');
   if (sw && !sw.contains(e.target)) { const m = document.getElementById('isd-menu'); if (m) m.hidden = true; }
@@ -5777,7 +6200,7 @@ document.addEventListener('click', e => {
 // init: simulated sign-in on first visit (per session) + prime the district switcher
 (function () {
   try { if (!sessionStorage.getItem('ls_demo_login')) { const m = document.getElementById('login-modal'); if (m) m.hidden = false; } } catch (e) {}
-  loadRoster();
+  _demoISDInit();   // prime the district switcher from the unified district list
 })();
 
 // ─── Grounded quiz from ICN content ─────────────────────────────────
