@@ -90,6 +90,10 @@ import quiz_store
 import qbank_gate
 # Quality rubric scorers — Coverage, Clarity, Structure (advisory heuristics, no LLM call).
 from scorers import compute_scores
+# Roster sync + completion writeback -- SchoolCafe / PrimeroEdge integration interface.
+# Stub mode when SCHOOLCAFE_API_URL / SCHOOLCAFE_API_KEY env vars are absent.
+from roster_sync import RosterSyncClient
+import completion_store as _cs
 
 load_dotenv()
 
@@ -319,12 +323,20 @@ async def api_create_track(body: dict):
 
 
 @app.get("/api/tracks/{tid}")
-async def api_get_track(tid: str):
+async def api_get_track(
+    tid: str,
+    current_user: CurrentUser = Depends(get_current_user),
+):
     track = _ms.load_track(tid)
     if not track:
         raise HTTPException(404, "track not found")
     # icn_dir so ICN_DOC modules expand inside a track (learner sees the mixed track).
-    return _ms.expand_track(track, icn_dir=_ICN_DIR)
+    expanded = _ms.expand_track(track, icn_dir=_ICN_DIR)
+    module_ids = [m["id"] for m in (expanded.get("modules") or [])]
+    expanded["progress"] = _cs.get_progress(
+        current_user.id, tid, module_ids=module_ids
+    )
+    return expanded
 
 
 @app.put("/api/tracks/{tid}/modules")
@@ -379,6 +391,47 @@ async def api_delete_track(tid: str):
     if not _ms.delete_track(tid):
         raise HTTPException(404, "track not found")
     return {"ok": True}
+
+
+@app.post("/api/tracks/{tid}/progress")
+async def api_mark_module_done(
+    tid: str,
+    body: dict = Body(default={}),
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Mark a specific module done for the current learner (durable, per-user).
+
+    Body: {module_id: str}
+
+    Replaces the old roster-sync-only stub.  Writes progress to disk via
+    completion_store and also fires a non-fatal roster writeback.
+    """
+    module_id = (body.get("module_id") or "").strip()
+    if not module_id:
+        raise HTTPException(400, "module_id is required")
+    track = _ms.load_track(tid)
+    if not track:
+        raise HTTPException(404, "track not found")
+    module_ids = track.get("module_ids") or []
+    progress = _cs.set_module_done(
+        current_user.id, tid, module_id, module_ids=module_ids
+    )
+
+    # Non-fatal roster writeback -- sync failures log and continue.
+    district_id = getattr(current_user, "district_id", None) or "demo-district"
+    try:
+        await roster_sync.sync_completion(
+            district_id, current_user.id, tid,
+            progress.get("pct", 0), progress.get("certified", False)
+        )
+    except Exception as exc:
+        import logging
+        logging.getLogger(__name__).warning(
+            "sync_completion failed (non-fatal) learner=%s track=%s: %s",
+            current_user.id, tid, exc,
+        )
+
+    return progress
 
 
 # Unchanged routes — reuse prod's handlers verbatim (they read/write the same
@@ -1305,7 +1358,10 @@ CERTS = Path(__file__).resolve().parent / "certificates"
 
 
 @app.post("/api/certificates")
-async def issue_certificate(payload: dict = Body(default={})):
+async def issue_certificate(
+    payload: dict = Body(default={}),
+    current_user: CurrentUser = Depends(get_current_user),
+):
     """Issue + persist a completion certificate for a track. Validates the track
     exists; records the learner, track, and issue time. Returns the certificate."""
     track_id = (payload.get("track_id") or "").strip()
@@ -1314,26 +1370,39 @@ async def issue_certificate(payload: dict = Body(default={})):
     track = _ms.load_track(track_id)
     if not track:
         raise HTTPException(404, "track not found")
-    learner = (payload.get("learner_name") or "").strip() or "Demo Learner"
-    CERTS.mkdir(parents=True, exist_ok=True)
-    now = datetime.now()
-    cid = f"cert-{now.strftime('%Y%m%d-%H%M%S')}-{uuid.uuid4().hex[:6]}"
-    cert = {
-        "id": cid,
-        "track_id": track_id,
-        "track_title": track.get("title") or track_id,
-        "learner_name": learner,
-        "product": track.get("product") or "SchoolCafé",
-        "role": (track.get("role_tags") or [None])[0],
-        "modules": len(track.get("module_ids") or []),
-        "issued_at": now.isoformat(timespec="seconds"),
-    }
-    (CERTS / f"{cid}.json").write_text(json.dumps(cert, indent=2, ensure_ascii=False), encoding="utf-8")
-    return JSONResponse(cert)
+    # Learner name: prefer payload override, fall back to identity.
+    learner = (payload.get("learner_name") or current_user.name or "").strip() or "Demo Learner"
 
+    cert = _cs.issue_certificate(
+        current_user.id,
+        track_id,
+        learner,
+        track_title=track.get("title") or track_id,
+        product=track.get("product") or "SchoolCafé",
+        role=(track.get("role_tags") or [None])[0],
+        modules=len(track.get("module_ids") or []),
+    )
+
+    # Fire completion writeback to SchoolCafe / PrimeroEdge (certified=True).
+    # Non-fatal: if writeback fails the cert is still returned to the learner.
+    district_id = getattr(current_user, "district_id", None) or "demo-district"
+    try:
+        await roster_sync.sync_completion(district_id, current_user.id, track_id, 100, certified=True)
+    except Exception as exc:
+        import logging
+        logging.getLogger(__name__).warning(
+            "cert sync_completion failed (non-fatal) learner=%s track=%s: %s",
+            current_user.id, track_id, exc,
+        )
+
+    return JSONResponse(cert)
 
 @app.get("/api/certificates/{cid}")
 async def get_certificate(cid: str):
+    # Check new per-user store first, fall back to legacy flat CERTS/ directory.
+    cert = _cs.get_certificate(cid)
+    if cert is not None:
+        return JSONResponse(cert)
     p = CERTS / f"{cid}.json"
     if not p.exists():
         raise HTTPException(404, "certificate not found")
