@@ -19,8 +19,8 @@ Course schema:
       "role_tags": [],
       "lessons": [
         {
-          "type": "guide|quiz|video|external_icn|exercise",
-          "ref": "<resource-id or quiz-id or icn-asset-id>",
+          "type": "guide|quiz|video|external_icn|flashcards|assessment|exercise",
+          "ref": "<resource-id or quiz-id or icn-asset-id or assessment-id>",
           "title": "string",
           "duration_est": 5
         }
@@ -36,6 +36,7 @@ Lesson types:
   flashcards    -> data/flashcards/<ref>.json must exist AND status == "approved"
   video         -> ref must appear as an asset_id in the ICN manifest
   external_icn  -> same as video (ICN catalog id)
+  assessment    -> data/assessments/<ref>.json must exist AND status == "published"
   exercise      -> always valid (placeholder for future interactive content)
 """
 from __future__ import annotations
@@ -54,6 +55,7 @@ _DRAFTS_DIR = BASE / "drafts"
 _PUB_META_DIR = BASE / "published" / "metadata"
 _QUIZ_DIR = BASE / "quizzes"
 _FLASHCARDS_DIR = BASE / "data" / "flashcards"
+_ASSESSMENTS_DIR = BASE / "data" / "assessments"
 _ICN_DATA_DIR = BASE / "data" / "icn" / "data"
 
 
@@ -255,6 +257,19 @@ def validate_lesson_ref(
             )
         return True, None
 
+    elif lesson_type == "assessment":
+        # An assessment ref must resolve to a published assessment in data/assessments/.
+        assessment_path = _ASSESSMENTS_DIR / f"{ref}.json"
+        assessment = _read_json(assessment_path)
+        if assessment is None:
+            return False, f"assessment ref '{ref}' not found in data/assessments/"
+        if assessment.get("status") != "published":
+            return False, (
+                f"assessment ref '{ref}' is not published (status={assessment.get('status')!r}) -- "
+                "only published assessments may be added to courses"
+            )
+        return True, None
+
     elif lesson_type == "exercise":
         # Always valid -- placeholder for future interactive content.
         return True, None
@@ -296,8 +311,8 @@ def lesson_origin_badge(lesson: dict) -> str:
     if lesson_type in ("video", "external_icn"):
         return "outside_vendor"
 
-    if lesson_type in ("quiz", "flashcards"):
-        # Quizzes are gate-grounded from published content.
+    if lesson_type in ("quiz", "flashcards", "assessment"):
+        # Quizzes, flashcards, and assessments are gate-grounded from published content.
         return "ai_grounded"
 
     if lesson_type == "exercise":

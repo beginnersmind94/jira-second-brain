@@ -1,0 +1,17 @@
+{
+  "id": "track-g1-food-safety-booth",
+  "title": "3-Minute Food Safety",
+  "description": "A booth micro-course: watch one ICN food-safety video, answer 3 quick questions, and earn your certificate — all in under 3 minutes.",
+  "product": "SchoolCafé",
+  "role_tags": ["Cashier", "Site Manager"],
+  "course_ids": [
+    "course-g1-food-safety-booth"
+  ],
+  "assessment_gate_id": null,
+  "certificate_on_quiz_completion": true,
+  "due_date": null,
+  "assignments": [],
+  "status": "published",
+  "created_at": "2026-06-13T00:00:00",
+  "updated_at": "2026-06-13T00:00:00"
+}
