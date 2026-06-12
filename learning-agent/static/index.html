@@ -1769,17 +1769,47 @@
     .ql-card { margin-top: 16px; background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: var(--sp-4); }
     .ql-rubric { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px 18px; margin: 8px 0; }
     .ql-rb { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 12.5px; }
-    /* Course / track builder */
+    /* Course / track builder (A2) */
     .cb-lessons { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 5px; }
     .cb-li { display: flex; justify-content: space-between; align-items: center; gap: 10px; background: var(--panel3); border-radius: var(--radius-sm); padding: 7px 10px; font-size: 13px; }
+    .cb-li-main { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; }
+    .cb-li-text { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .cb-li-act button { background: none; border: 0; cursor: pointer; font-size: 13px; color: var(--muted); padding: 2px 4px; }
     .cb-li-act button:hover { color: var(--accent); }
     .cb-empty { color: var(--muted); font-style: italic; font-size: 12.5px; padding: 8px; list-style: none; }
-    .cb-add { display: flex; gap: 8px; margin-top: 10px; }
+    .cb-add { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
     .cb-pick { margin-top: 10px; border-top: 1px dashed var(--border); padding-top: 10px; }
-    .cb-list { max-height: 180px; overflow: auto; display: flex; flex-direction: column; gap: 3px; margin-top: 6px; }
-    .cb-pick-row { text-align: left; background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 7px 10px; cursor: pointer; font: inherit; font-size: 12.5px; }
+    .cb-list { max-height: 200px; overflow: auto; display: flex; flex-direction: column; gap: 3px; margin-top: 6px; }
+    .cb-pick-row { text-align: left; background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 7px 10px; cursor: pointer; font: inherit; font-size: 12.5px; width: 100%; }
     .cb-pick-row:hover { border-color: var(--accent); }
+    .cb-pick-row-meta { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .cb-human-badge { font-size: 10px; font-weight: 700; background: var(--green-soft); color: var(--green-text); padding: 2px 6px; border-radius: var(--radius-pill); text-transform: uppercase; letter-spacing: .04em; margin-left: 6px; }
+    .cb-role-checks { display: flex; flex-direction: column; gap: 3px; }
+    .cb-check-row { display: flex; align-items: center; gap: 6px; font-size: 12.5px; cursor: pointer; }
+    .cb-check-row input { margin: 0; }
+    .cb-danger { color: var(--red, #c00) !important; border-color: var(--red, #c00) !important; }
+    .cb-danger:hover { background: #fff0f0 !important; }
+    .cb-preview-banner { font-size: 11px; font-weight: 700; background: #fef3c7; color: #78350f; padding: 2px 7px; border-radius: var(--radius-pill); text-transform: uppercase; letter-spacing: .04em; }
+    /* Origin badge in lesson list */
+    .cb-ob { font-size: 10px; font-weight: 700; padding: 1px 5px; border-radius: 3px; white-space: nowrap; flex-shrink: 0; }
+    .cb-ob-ai { background: #E4ECF5; color: #2B4A6F; }
+    .cb-ob-human { background: var(--green-soft); color: var(--green-text); }
+    .cb-ob-vendor { background: var(--amber-soft, #F3E0C8); color: var(--amber-text, #8A5A12); }
+    /* Course cards in track list view */
+    .cb-course-card { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; }
+    .cb-course-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+    .cb-course-card-title { font-weight: 650; font-size: 14px; }
+    .cb-course-card-meta { font-size: 12px; color: var(--muted); }
+    .cb-course-card-actions { display: flex; gap: 6px; margin-top: 4px; flex-wrap: wrap; }
+    .cb-course-card-actions button { font-size: 12px; padding: 4px 10px; }
+    /* Courses section heading in track list */
+    .cb-courses-section { margin-bottom: 24px; }
+    .cb-courses-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; margin-top: 10px; }
+    .cb-empty-state { background: var(--panel2); border: 1px dashed var(--border); border-radius: var(--radius); padding: 24px; text-align: center; color: var(--muted); font-size: 13px; }
+    /* Preview modal lesson pane */
+    .cb-preview-lesson { border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 10px; }
+    .cb-preview-lesson-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-weight: 600; font-size: 13.5px; }
+    .cb-preview-lesson-meta { font-size: 12px; color: var(--muted); }
     /* Origin badges + Catalog */
     .og { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: var(--radius-pill); white-space: nowrap; }
     .og-ai { background: #E4ECF5; color: #2B4A6F; }
@@ -3194,20 +3224,69 @@
 <section id="view-tracks" class="view">
   <div class="roster-wrap">
     <div class="roster-head"><div><h1 class="roster-title">Tracks</h1><p class="roster-sub">Build tracks from approved content, then bundle them into learning paths.</p></div>
-      <div style="display:flex;gap:8px;align-items:center;"><span class="demo-tag">Demo data</span><button class="secondary" onclick="openCourseBuilder()">+ New Track</button><button class="primary" onclick="openTrackBuilder()">+ New Track</button></div></div>
+      <div style="display:flex;gap:8px;align-items:center;"><button class="secondary" onclick="openCourseBuilder()">+ New Course</button><button class="primary" onclick="openTrackBuilder()">+ New Track</button></div></div>
     <div id="tracks-list-body"></div>
   </div>
-  <div id="cb-modal" class="am-overlay" hidden><div class="am-modal" style="max-width:560px;">
-    <div class="am-head"><b>Build a track</b><button class="lib-drawer-close" onclick="cbClose()">✕</button></div>
-    <div class="am-body">
-      <label class="tb-l">Track name</label><input id="cb-name" class="tb-in" placeholder="e.g. Summer Refresher" autocomplete="off">
-      <label class="tb-l">Module</label><input id="cb-module" class="tb-in" placeholder="e.g. POS" autocomplete="off">
-      <label class="tb-l">Go-live milestone</label><select id="cb-milestone" class="tb-in"><option value="">No gating — always available</option><option>Kickoff</option><option>Setup</option><option>Training</option><option>Pre-launch</option><option>Go-live</option></select>
-      <label class="tb-l">Lessons</label><ol id="cb-lessons" class="cb-lessons"></ol>
-      <div class="cb-add"><button class="secondary" onclick="cbAddGuide()">+ Guide</button><button class="secondary" onclick="cbAddQuiz()">+ Quiz</button><button class="secondary" onclick="cbAddVideo()">+ Video</button></div>
-      <div id="cb-picker"></div>
+  <!-- A2: Course builder — rewired to /api/courses/* (real server entity, A1) -->
+  <div id="cb-modal" class="am-overlay" hidden><div class="am-modal" style="max-width:600px;">
+    <div class="am-head">
+      <span><b id="cb-modal-title">New Course</b>&ensp;<span id="cb-status-chip" class="badge draft" style="font-size:11px;vertical-align:middle;">Draft</span></span>
+      <button class="lib-drawer-close" onclick="cbClose()">&#x2715;</button>
     </div>
-    <div class="am-foot"><span class="tb-note">Assembly only — content stays grounded.</span><button class="primary" onclick="cbSave()">Save track</button></div>
+    <div class="am-body">
+      <label class="tb-l">Course title <span style="color:var(--red,#c00);">*</span></label>
+      <input id="cb-name" class="tb-in" placeholder="e.g. Food Safety Fundamentals" autocomplete="off">
+      <label class="tb-l">Description <span class="cb-human-badge">human-authored &middot; not gate-grounded</span></label>
+      <textarea id="cb-desc" class="tb-in" rows="2" placeholder="Optional — describe what learners will be able to do after this course." style="resize:vertical;font:inherit;"></textarea>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:2px;">
+        <div>
+          <label class="tb-l">Product</label>
+          <select id="cb-product" class="tb-in">
+            <option value="SchoolCafe">SchoolCaf&#233;</option>
+            <option value="PrimeroEdge">PrimeroEdge</option>
+            <option value="Both">Both</option>
+          </select>
+        </div>
+        <div>
+          <label class="tb-l">Role tags</label>
+          <div class="cb-role-checks" id="cb-role-checks">
+            <label class="cb-check-row"><input type="checkbox" value="Cashier"> Cashier</label>
+            <label class="cb-check-row"><input type="checkbox" value="Site Manager"> Site Manager</label>
+            <label class="cb-check-row"><input type="checkbox" value="CN Director"> CN Director</label>
+            <label class="cb-check-row"><input type="checkbox" value="All staff"> All staff</label>
+          </div>
+        </div>
+      </div>
+      <label class="tb-l" style="margin-top:10px;">Lessons <span id="cb-lesson-count" style="color:var(--muted);font-weight:400;font-size:12px;"></span></label>
+      <ol id="cb-lessons" class="cb-lessons"></ol>
+      <div class="cb-add">
+        <button class="secondary" onclick="cbAddGuide()">+ Guide</button>
+        <button class="secondary" onclick="cbAddQuiz()">+ Quiz</button>
+        <button class="secondary" onclick="cbAddVideo()">+ Video</button>
+        <button class="secondary" onclick="cbAddExercise()">+ Exercise</button>
+      </div>
+      <div id="cb-picker"></div>
+      <div id="cb-save-status" class="tb-note" style="margin-top:8px;min-height:18px;color:var(--muted);"></div>
+    </div>
+    <div class="am-foot">
+      <div style="display:flex;gap:8px;align-items:center;">
+        <button class="secondary" id="cb-preview-btn" onclick="cbPreview()" hidden>Preview as learner</button>
+        <button class="secondary cb-danger" id="cb-delete-btn" onclick="cbDeleteCourse()" hidden>Delete</button>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <span class="tb-note" style="margin:0;">Assembly only &mdash; content stays grounded.</span>
+        <button class="secondary" onclick="cbSave()">Save draft</button>
+        <button class="primary" id="cb-publish-btn" onclick="cbPublish()">Publish</button>
+      </div>
+    </div>
+  </div></div>
+  <!-- A2: Learner-preview modal (trust guardrail: must match exactly what learner sees) -->
+  <div id="cb-preview-modal" class="am-overlay" hidden><div class="am-modal" style="max-width:680px;max-height:90vh;">
+    <div class="am-head">
+      <span><b>Preview as learner</b>&ensp;<span class="cb-preview-banner">Customer view &mdash; no trainer tools</span></span>
+      <button class="lib-drawer-close" onclick="document.getElementById('cb-preview-modal').hidden=true;">&#x2715;</button>
+    </div>
+    <div id="cb-preview-body" class="am-body" style="overflow-y:auto;max-height:calc(90vh - 110px);"></div>
   </div></div>
   <div id="tbk-modal" class="am-overlay" hidden><div class="am-modal">
     <div class="am-head"><b>Build a track</b><button class="lib-drawer-close" onclick="tbkClose()">✕</button></div>
@@ -4703,9 +4782,9 @@ function openDistrictDrawer(id){
   html += `<div class="dr-actions"><button class="primary" onclick="openDistrictInManage('${id}'); closeDrawer()">View full roster →</button></div>`;
   openDrawer(d.name, html);
 }
-function showHelpPanel(id){ const d = _DEMO.districts.find(x => x.id === id); if (d) alert('🖐 ' + d.name + ' raised a hand:\n\n“' + d.help_msg + '”'); }
+function showHelpPanel(id){ const d = _DEMO.districts.find(x => x.id === id); if (d) alert('🖐 ' + d.name + ' raised a hand:\n\n"' + d.help_msg + '"'); }
 function respondHelp(id){ _demoState.helpCleared[id] = true; const d = _DEMO.districts.find(x => x.id === id); alert('Reply sent to ' + (d ? d.name : 'district') + '.'); renderHome(); const av = (document.querySelector('.view.active') || {}).id; if (av === 'view-manage' && typeof renderManage === 'function') renderManage(); }
-function inboxView(i){ const ids = _demoState.approvedRids || []; if (ids.length) window.open('/resources/' + encodeURIComponent(ids[i % ids.length]) + '/pdf', '_blank'); else alert('Opening “' + _DEMO.inbox[i].title + '” (demo).'); }
+function inboxView(i){ const ids = _demoState.approvedRids || []; if (ids.length) window.open('/resources/' + encodeURIComponent(ids[i % ids.length]) + '/pdf', '_blank'); else alert('Opening "' + _DEMO.inbox[i].title + '" (demo).'); }
 // ── Home: filter chips + create dropdown ──
 function _setHomeFilter(type) { _demoState.homeFilter = (_demoState.homeFilter === type) ? null : type; renderHome(); }
 function toggleCreateMenu() {
@@ -4875,12 +4954,36 @@ function qualityDetail(idx){
   h += (it.claims && it.claims.length) ? it.claims.map(c => `<blockquote class="lib-cite">&ldquo;${escapeHtml(c.text)}&rdquo;<cite>${escapeHtml(c.source)}</cite></blockquote>`).join('') : '<p class="path-aside-note">Claims sample available after SME review.</p>';
   h += '</div>'; d.innerHTML = h; d.scrollIntoView({ behavior: 'smooth' });
 }
-// ─── Tracks (trainer) — course builder + track builder (assembly only; content stays grounded) ───
-let _cb = { lessons: [] }, _tbk = { courseIds: [] };
+// ─── Tracks (trainer) — course builder + track builder (A2: rewired to /api/courses/*) ───
+// _cb holds mutable state for the open course builder session:
+//   id        → null on new course, set after first POST
+//   lessons   → [{type, ref?, title, duration_est, ...}]
+let _cb = { id: null, lessons: [] }, _tbk = { courseIds: [] };
+// Cache of real courses from GET /api/courses (populated by loadTracks, refreshed on save/publish)
+let _realCourses = null;
+// Approved-only guides cache (for picker) — populated lazily from /resources
+// (same source as _demoState.libCache but kept separate to avoid coupling)
+
+// ── loadTracks: fetch real courses + populate guide cache ──────────────────
 async function loadTracks() {
-  renderTrackList();                                   // render immediately — list doesn't need the fetch
-  if (_demoState.libCache === undefined) { try { _demoState.libCache = (await (await fetch('/resources')).json()).filter(inLibrary); } catch (e) { _demoState.libCache = []; } }
+  renderTrackList();  // render from cache immediately
+  // Ensure guide cache is populated for pickers
+  if (_demoState.libCache === undefined) {
+    try {
+      const _libResp = await fetch('/resources');
+      const _libData = await _libResp.json();
+      _demoState.libCache = _libData.filter(inLibrary);
+    } catch (e) { _demoState.libCache = []; }
+  }
+  // Load real courses from server
+  try {
+    const d = await (await fetch('/api/courses', { headers: { 'X-Demo-User': 'sam-trainer' } })).json();
+    _realCourses = d.courses || [];
+  } catch (e) { _realCourses = _realCourses || []; }
+  renderTrackList();
 }
+
+// ── renderTrackList: shows demo tracks + real courses (from API) ───────────
 function renderTrackList() {
   const body = document.getElementById('tracks-list-body'); if (!body) return;
   const tracks = _allDemoTracks();
@@ -4891,28 +4994,237 @@ function renderTrackList() {
     const rt = tracks.filter(t => t.role === role);
     if (!rt.length) return;
     const nC = rt.reduce((a, t) => a + _trackCourses(t).length, 0);
-    h += `<section class="role-group"><div class="role-head"><span class="role-badge">${escapeHtml(role)}</span><span class="role-sub">${rt.length} track${rt.length === 1 ? '' : 's'} · ${nC} track${nC === 1 ? '' : 's'}</span></div><div class="home-cards" style="margin:0;">`;
-    h += rt.map(t => { const cs = _trackCourses(t); return `<div class="home-card"><div class="home-card-top"><b>${escapeHtml(t.title)}</b><span class="chip ok">${cs.length} track${cs.length === 1 ? '' : 's'}</span></div><div class="home-card-meta">${cs.map(c => escapeHtml(c.title)).join(' · ') || 'No tracks yet'}</div><div class="home-card-meta">~${_trackEst(t)} · Due ${escapeHtml(t.due || _DEMO.due)}</div></div>`; }).join('');
+    h += `<section class="role-group"><div class="role-head"><span class="role-badge">${escapeHtml(role)}</span><span class="role-sub">${rt.length} track${rt.length === 1 ? '' : 's'} · ${nC} course${nC === 1 ? '' : 's'}</span></div><div class="home-cards" style="margin:0;">`;
+    h += rt.map(t => { const cs = _trackCourses(t); return `<div class="home-card"><div class="home-card-top"><b>${escapeHtml(t.title)}</b><span class="chip ok">${cs.length} course${cs.length === 1 ? '' : 's'}</span></div><div class="home-card-meta">${cs.map(c => escapeHtml(c.title)).join(' · ') || 'No courses yet'}</div><div class="home-card-meta">~${_trackEst(t)} · Due ${escapeHtml(t.due || _DEMO.due)}</div></div>`; }).join('');
     h += '</div></section>';
   });
-  h += '<h2 class="home-h2" style="margin:18px 0 12px;">Track library</h2><p class="tracks-hint" style="margin:0 0 12px;">Reusable building blocks — assemble these into the role tracks above.</p><div class="home-cards" style="margin:0 0 24px;">';
-  h += _allDemoCourses().map(c => `<div class="home-card"><div class="home-card-top"><b>${escapeHtml(c.title)}</b><span class="chip behind">${escapeHtml(c.module || '')}</span></div><div class="home-card-meta">${c.lessons.length} lessons</div></div>`).join('') + '</div>';
+  // ── Course library (real + demo) ──
+  const realCs = _realCourses || [];
+  h += '<div class="cb-courses-section"><h2 class="home-h2" style="margin:18px 0 6px;">Course library</h2>';
+  h += '<p class="tracks-hint" style="margin:0 0 12px;">Reusable courses — add them to tracks above. Courses are assembled from approved, gate-grounded content.</p>';
+  if (realCs.length === 0 && _allDemoCourses().length === 0) {
+    h += '<div class="cb-empty-state">No courses yet — create one using the button above.<br><span style="font-size:12px;margin-top:4px;display:block;">Courses assemble approved guides, quizzes, and videos into a learning experience.</span></div>';
+  } else {
+    h += '<div class="cb-courses-grid">';
+    // Real server courses first
+    realCs.forEach(c => {
+      const isPub = c.status === 'published';
+      const lessonCount = (c.lessons || []).length;
+      const totalMin = (c.lessons || []).reduce((a, l) => a + (l.duration_est || 5), 0);
+      const chipCls = isPub ? 'chip ok' : 'chip behind';
+      const chipLabel = isPub ? 'Published' : 'Draft';
+      h += `<div class="cb-course-card">
+        <div class="cb-course-card-top">
+          <div>
+            <div class="cb-course-card-title">${escapeHtml(c.title)}</div>
+            <div class="cb-course-card-meta">${lessonCount} lesson${lessonCount === 1 ? '' : 's'} · ~${totalMin} min · <span class="${chipCls}" style="font-size:10px;">${chipLabel}</span></div>
+          </div>
+        </div>
+        ${c.description ? `<div style="font-size:12px;color:var(--muted);margin-top:2px;">${escapeHtml(c.description.slice(0, 80))}${c.description.length > 80 ? '…' : ''}</div>` : ''}
+        <div class="cb-course-card-actions">
+          <button class="secondary" onclick="openCourseBuilder('${escAttr(c.id)}')">Edit</button>
+          <button class="secondary" onclick="cbPreviewById('${escAttr(c.id)}')">Preview</button>
+          ${!isPub ? `<button class="secondary" onclick="cbPublishById('${escAttr(c.id)}')">Publish</button>` : ''}
+        </div>
+      </div>`;
+    });
+    // Legacy demo courses (client-side, for seeded demo compatibility)
+    _allDemoCourses().forEach(c => {
+      h += `<div class="cb-course-card" style="opacity:.8;">
+        <div class="cb-course-card-top"><div>
+          <div class="cb-course-card-title">${escapeHtml(c.title)}</div>
+          <div class="cb-course-card-meta">${c.lessons.length} lesson${c.lessons.length === 1 ? '' : 's'} · <span class="chip behind" style="font-size:10px;">Demo data</span></div>
+        </div></div>
+      </div>`;
+    });
+    h += '</div>';
+  }
+  h += '</div>';
   body.innerHTML = h;
 }
-function openCourseBuilder() { _cb = { lessons: [] }; ['cb-name','cb-module','cb-milestone'].forEach(id => { const e = document.getElementById(id); if (e) e.value = ''; }); document.getElementById('cb-picker').innerHTML = ''; cbRender(); document.getElementById('cb-modal').hidden = false; }
+
+// ── openCourseBuilder: open for new course OR load existing by id ──────────
+async function openCourseBuilder(existingId) {
+  _cb = { id: null, lessons: [] };
+  // Reset form
+  ['cb-name', 'cb-desc'].forEach(id => { const e = document.getElementById(id); if (e) e.value = ''; });
+  const prod = document.getElementById('cb-product'); if (prod) prod.value = 'SchoolCafe';
+  document.querySelectorAll('#cb-role-checks input[type=checkbox]').forEach(cb => cb.checked = false);
+  document.getElementById('cb-picker').innerHTML = '';
+  _cbSetStatus('draft');
+  const pb = document.getElementById('cb-preview-btn'), db = document.getElementById('cb-delete-btn');
+  if (pb) pb.hidden = true;
+  if (db) db.hidden = true;
+  document.getElementById('cb-modal-title').textContent = 'New Course';
+  document.getElementById('cb-save-status').textContent = '';
+
+  if (existingId) {
+    // Loading an existing course
+    document.getElementById('cb-save-status').textContent = 'Loading…';
+    try {
+      const r = await fetch('/api/courses/' + encodeURIComponent(existingId), { headers: { 'X-Demo-User': 'sam-trainer' } });
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      const c = await r.json();
+      _cb.id = c.id;
+      const nameEl = document.getElementById('cb-name'); if (nameEl) nameEl.value = c.title || '';
+      const descEl = document.getElementById('cb-desc'); if (descEl) descEl.value = c.description || '';
+      if (prod) prod.value = c.product || 'SchoolCafe';
+      (c.role_tags || []).forEach(tag => {
+        const cb = document.querySelector(`#cb-role-checks input[value="${CSS.escape(tag)}"]`);
+        if (cb) cb.checked = true;
+      });
+      _cb.lessons = (c.lessons || []).slice();
+      _cbSetStatus(c.status || 'draft');
+      document.getElementById('cb-modal-title').textContent = 'Edit Course';
+      if (pb) pb.hidden = false;
+      if (db) db.hidden = false;
+    } catch (e) {
+      document.getElementById('cb-save-status').textContent = 'Could not load course — try again.';
+    }
+    document.getElementById('cb-save-status').textContent = '';
+  }
+  cbRender();
+  document.getElementById('cb-modal').hidden = false;
+}
+
 function cbClose() { document.getElementById('cb-modal').hidden = true; }
-function cbRender() { const ol = document.getElementById('cb-lessons'); if (!ol) return; ol.innerHTML = _cb.lessons.map((l, i) => `<li class="cb-li"><span>${_lessonIcon(l.type)} ${escapeHtml(l.title)}${l.dur ? ' · ' + escapeHtml(l.dur) : ''}</span><span class="cb-li-act"><button onclick="cbMove(${i},-1)">↑</button><button onclick="cbMove(${i},1)">↓</button><button onclick="cbRemove(${i})">✕</button></span></li>`).join('') || '<li class="cb-empty">No lessons yet — add a guide, quiz, or video.</li>'; }
-function cbMove(i, d) { const j = i + d; if (j < 0 || j >= _cb.lessons.length) return; const a = _cb.lessons;[a[i], a[j]] = [a[j], a[i]]; cbRender(); }
-function cbRemove(i) { _cb.lessons.splice(i, 1); cbRender(); }
-function _cbGuideRows(q) { const lib = (_demoState.libCache || []).filter(r => !q || (`${r.module} ${r.template} ${r.id}`).toLowerCase().includes(q.toLowerCase())); return lib.slice(0, 40).map(r => `<button class="cb-pick-row" onclick="cbPickGuide('${escAttr(r.id)}')">${escapeHtml((r.module || '?') + ' | ' + (r.template || 'guide'))}</button>`).join('') || '<div class="cb-empty">No approved guides match.</div>'; }
-function cbAddGuide() { document.getElementById('cb-picker').innerHTML = `<div class="cb-pick"><input class="tb-in" placeholder="search guides…" autocomplete="off" oninput="document.getElementById('cb-guidelist').innerHTML=_cbGuideRows(this.value)"><div id="cb-guidelist" class="cb-list">${_cbGuideRows('')}</div></div>`; }
-function cbPickGuide(rid) { const r = (_demoState.libCache || []).find(x => x.id === rid) || {}; _cb.lessons.push({ type: 'guide', title: (r.module || 'Guide') + ' — ' + (r.template || 'guide'), rid }); document.getElementById('cb-picker').innerHTML = ''; cbRender(); }
-function cbAddQuiz() { const lib = _demoState.libCache || []; document.getElementById('cb-picker').innerHTML = `<div class="cb-pick"><label class="tb-l">Generate a grounded quiz from a guide</label><select id="cb-quiz-src" class="tb-in">${lib.slice(0, 40).map(r => `<option value="${escAttr(r.id)}">${escapeHtml((r.module || '?') + ' | ' + (r.template || 'guide'))}</option>`).join('')}</select><label class="tb-l">Questions</label><select id="cb-quiz-n" class="tb-in"><option>3</option><option selected>5</option><option>8</option></select><button class="secondary" onclick="cbGenQuiz()">Generate &amp; add</button><div id="cb-quiz-status" class="tb-note" style="margin-top:6px;"></div></div>`; }
+
+function _cbSetStatus(s) {
+  const chip = document.getElementById('cb-status-chip'); if (!chip) return;
+  const isPub = s === 'published';
+  chip.textContent = isPub ? 'Published' : 'Draft';
+  chip.className = 'badge ' + (isPub ? 'approved' : 'draft');
+  const pubBtn = document.getElementById('cb-publish-btn');
+  if (pubBtn) { pubBtn.disabled = _cb.lessons.length === 0; pubBtn.title = _cb.lessons.length === 0 ? 'Add at least one lesson to publish' : ''; }
+}
+
+// ── cbRender: update the lesson list display ───────────────────────────────
+function cbRender() {
+  const ol = document.getElementById('cb-lessons'); if (!ol) return;
+  const n = _cb.lessons.length;
+  const countEl = document.getElementById('cb-lesson-count');
+  if (countEl) countEl.textContent = n ? `(${n} lesson${n === 1 ? '' : 's'})` : '';
+  if (!n) { ol.innerHTML = '<li class="cb-empty">No lessons yet — add a guide, quiz, video, or exercise.</li>'; _cbSetStatus(_cb.status || 'draft'); return; }
+  ol.innerHTML = _cb.lessons.map((l, i) => {
+    const badge = _cbOriginBadge(l.origin_badge || l._badge);
+    const dur = l.duration_est ? ` · ${l.duration_est} min` : '';
+    return `<li class="cb-li">
+      <div class="cb-li-main">${_lessonIcon(l.type)} ${badge}<span class="cb-li-text" title="${escAttr(l.title)}">${escapeHtml(l.title)}${dur}</span></div>
+      <span class="cb-li-act">
+        <button onclick="cbMove(${i},-1)" aria-label="Move up" title="Move up">&#x2191;</button>
+        <button onclick="cbMove(${i},1)" aria-label="Move down" title="Move down">&#x2193;</button>
+        <button onclick="cbRemove(${i})" aria-label="Remove lesson" title="Remove">&#x2715;</button>
+      </span>
+    </li>`;
+  }).join('');
+  _cbSetStatus(_cb.status || 'draft');
+}
+
+function _cbOriginBadge(badge) {
+  if (!badge) return '';
+  const map = { ai_grounded: ['cb-ob-ai', 'AI'], human_authored: ['cb-ob-human', 'Human'], outside_vendor: ['cb-ob-vendor', 'ICN/USDA'] };
+  const [cls, label] = map[badge] || ['cb-ob-ai', badge];
+  return `<span class="cb-ob ${cls}">${label}</span>`;
+}
+
+async function cbMove(i, dir) {
+  const j = i + dir;
+  if (j < 0 || j >= _cb.lessons.length) return;
+  const a = _cb.lessons; [a[i], a[j]] = [a[j], a[i]];
+  cbRender();
+  // Persist reorder immediately if course exists on server
+  if (_cb.id) await _cbPutLessons();
+}
+
+async function cbRemove(i) {
+  _cb.lessons.splice(i, 1);
+  cbRender();
+  if (_cb.id) await _cbPutLessons();
+}
+
+// ── Guide picker (approved-only — trust guardrail) ─────────────────────────
+function _cbGuideRows(q) {
+  const lib = (_demoState.libCache || []).filter(r => !q || (`${r.module} ${r.template} ${r.id}`).toLowerCase().includes(q.toLowerCase()));
+  return lib.slice(0, 40).map(r => {
+    const src = r.origin === 'internal' ? 'Cybersoft guide' : 'AI-grounded';
+    return `<button class="cb-pick-row" onclick="cbPickGuide('${escAttr(r.id)}','${escAttr(r.module||'Guide')}','${escAttr(r.template||'guide')}','${escAttr(r.origin||'')}')">
+      <div>${escapeHtml((r.module || '?') + ' | ' + (r.template || 'guide'))}</div>
+      <div class="cb-pick-row-meta">${escapeHtml(src)}</div>
+    </button>`;
+  }).join('') || '<div class="cb-empty">No approved guides found.</div>';
+}
+function cbAddGuide() {
+  document.getElementById('cb-picker').innerHTML = `<div class="cb-pick">
+    <label class="tb-l">Search approved guides (AI-grounded + Cybersoft) <span style="color:var(--green-text,#1a5e1a);font-size:11px;">&#x2713; approved only</span></label>
+    <input class="tb-in" placeholder="search by module or format…" autocomplete="off" oninput="document.getElementById('cb-guidelist').innerHTML=_cbGuideRows(this.value)">
+    <div id="cb-guidelist" class="cb-list">${_cbGuideRows('')}</div>
+  </div>`;
+}
+function cbPickGuide(rid, module, template, origin) {
+  const badge = origin === 'internal' ? 'human_authored' : 'ai_grounded';
+  _cb.lessons.push({ type: 'guide', ref: rid, title: (module || 'Guide') + ' — ' + (template || 'guide'), duration_est: 10, _badge: badge });
+  document.getElementById('cb-picker').innerHTML = '';
+  cbRender();
+}
+
+// ── Quiz picker (approved quizzes only — trust guardrail) ──────────────────
+async function cbAddQuiz() {
+  document.getElementById('cb-picker').innerHTML = `<div class="cb-pick"><div class="tb-note" style="margin:0;">Loading approved quizzes…</div></div>`;
+  let quizzes = [];
+  try {
+    const d = await (await fetch('/api/quizzes')).json();
+    quizzes = (d.quizzes || []).filter(q => q.status === 'approved');
+  } catch (e) { /* fall through */ }
+  if (!quizzes.length) {
+    // Fall back to generating from a guide (existing flow)
+    const lib = _demoState.libCache || [];
+    document.getElementById('cb-picker').innerHTML = `<div class="cb-pick">
+      <label class="tb-l">No approved quizzes yet — generate one from a guide <span style="color:var(--green-text,#1a5e1a);font-size:11px;">&#x2713; approved only</span></label>
+      <select id="cb-quiz-src" class="tb-in">${lib.slice(0, 40).map(r => `<option value="${escAttr(r.id)}">${escapeHtml((r.module || '?') + ' | ' + (r.template || 'guide'))}</option>`).join('')}</select>
+      <label class="tb-l">Questions</label>
+      <select id="cb-quiz-n" class="tb-in"><option>3</option><option selected>5</option><option>8</option></select>
+      <button class="secondary" onclick="cbGenQuiz()" style="margin-top:8px;">Generate &amp; add</button>
+      <div id="cb-quiz-status" class="tb-note" style="margin-top:6px;"></div>
+    </div>`;
+    return;
+  }
+  document.getElementById('cb-picker').innerHTML = `<div class="cb-pick">
+    <label class="tb-l">Select an approved quiz <span style="color:var(--green-text,#1a5e1a);font-size:11px;">&#x2713; approved only</span></label>
+    <div class="cb-list">${quizzes.slice(0, 40).map(q =>
+      `<button class="cb-pick-row" onclick="cbPickQuiz('${escAttr(q.id)}','${escAttr(q.title||'Quiz')}')">
+        <div>${escapeHtml(q.title || q.id)}</div>
+        <div class="cb-pick-row-meta">Quiz · ${(q.questions || []).length} questions</div>
+      </button>`
+    ).join('')}</div>
+    <div style="margin-top:8px;border-top:1px dashed var(--border);padding-top:8px;">
+      <label class="tb-l" style="font-size:11px;">Or generate a new quiz from a guide:</label>
+      <select id="cb-quiz-src" class="tb-in">${(_demoState.libCache||[]).slice(0,40).map(r => `<option value="${escAttr(r.id)}">${escapeHtml((r.module||'?')+' | '+(r.template||'guide'))}</option>`).join('')}</select>
+      <button class="secondary" onclick="cbGenQuiz()" style="margin-top:6px;">Generate &amp; add</button>
+      <div id="cb-quiz-status" class="tb-note" style="margin-top:6px;"></div>
+    </div>
+  </div>`;
+}
+function cbPickQuiz(qid, title) {
+  _cb.lessons.push({ type: 'quiz', ref: qid, title: title || 'Knowledge check', duration_est: 3, _badge: 'ai_grounded' });
+  document.getElementById('cb-picker').innerHTML = '';
+  cbRender();
+}
 async function cbGenQuiz() {
-  const rid = document.getElementById('cb-quiz-src').value, n = +document.getElementById('cb-quiz-n').value, st = document.getElementById('cb-quiz-status');
+  const rid = (document.getElementById('cb-quiz-src') || {}).value;
+  const n = +((document.getElementById('cb-quiz-n') || {}).value || 5);
+  const st = document.getElementById('cb-quiz-status');
+  if (!rid) { if (st) st.textContent = 'Select a source guide first.'; return; }
   if (st) st.textContent = 'Generating grounded quiz…';
-  try { const q = await (await fetch('/api/quizzes/generate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ source_type: 'resource', source_id: rid, n }) })).json(); _cb.lessons.push({ type: 'quiz', title: q.title || 'Knowledge check', n }); document.getElementById('cb-picker').innerHTML = ''; cbRender(); }
-  catch (e) { if (st) st.textContent = 'Could not generate — try another guide.'; }
+  try {
+    const resp = await fetch('/api/quizzes/generate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ source_type: 'resource', source_id: rid, n }) });
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const q = await resp.json();
+    // Quiz comes back as draft — note it as draft ref; server will validate
+    _cb.lessons.push({ type: 'quiz', ref: q.id || q.quiz_id, title: q.title || 'Knowledge check', duration_est: 3, _badge: 'ai_grounded' });
+    document.getElementById('cb-picker').innerHTML = '';
+    cbRender();
+    _cbSetSaveStatus('Quiz added. Note: quiz must be approved before publishing the course.');
+  } catch (e) { if (st) st.textContent = 'Could not generate — try another guide.'; }
 }
 // ── C1: License-aware ICN video card rendering ─────────────────────────────
 // Trust guardrail: embed/link-out is 100% driven by license_posture from the ICN catalog.
@@ -5095,13 +5407,180 @@ function cbPickVideo(assetId, title, licensePosure, durMin) {
   document.getElementById('cb-picker').innerHTML = '';
   cbRender();
 }
-function cbSave() {
-  const name = (document.getElementById('cb-name').value || '').trim() || 'Untitled track', module = (document.getElementById('cb-module').value || '').trim();
-  if (!_cb.lessons.length) { alert('Add at least one lesson.'); return; }
-  _demoState.userCourses = _demoState.userCourses || [];
-  _demoState.userCourses.push({ id: 'u-c-' + (_demoState.userCourses.length + 1), title: name, module, milestone: (document.getElementById('cb-milestone') || {}).value || '', lessons: _cb.lessons.slice() });
-  cbClose(); renderTrackList(); alert('Track “' + name + '” created — now available to add to a track.');
+function cbPickVideo(assetId, title, licensePosture) {
+  _cb.lessons.push({ type: 'video', ref: assetId, title: title || 'Video lesson', duration_est: 5, license_posture: licensePosture, _badge: 'outside_vendor' });
+  document.getElementById('cb-picker').innerHTML = '';
+  cbRender();
 }
+
+// ── Exercise (simple text input, no ref needed) ────────────────────────────
+function cbAddExercise() {
+  document.getElementById('cb-picker').innerHTML = `<div class="cb-pick">
+    <label class="tb-l">Exercise title</label>
+    <input id="cb-ex-t" class="tb-in" placeholder="e.g. Practice: register close-out steps" autocomplete="off">
+    <button class="secondary" onclick="cbPickExercise()" style="margin-top:8px;">Add exercise</button>
+  </div>`;
+}
+function cbPickExercise() {
+  const t = (document.getElementById('cb-ex-t') || {}).value || 'Practice exercise';
+  _cb.lessons.push({ type: 'exercise', title: t, duration_est: 5, _badge: 'human_authored' });
+  document.getElementById('cb-picker').innerHTML = '';
+  cbRender();
+}
+
+// ── cbSave: POST (new) or PUT (existing) to /api/courses/* ─────────────────
+async function cbSave() {
+  const title = (document.getElementById('cb-name').value || '').trim();
+  if (!title) { _cbSetSaveStatus('Enter a course title.'); document.getElementById('cb-name').focus(); return; }
+  const body = {
+    title,
+    description: (document.getElementById('cb-desc').value || '').trim(),
+    product: (document.getElementById('cb-product') || {}).value || 'SchoolCafe',
+    role_tags: [...document.querySelectorAll('#cb-role-checks input:checked')].map(e => e.value),
+    lessons: _cb.lessons.map(l => ({ type: l.type, ref: l.ref || undefined, title: l.title, duration_est: l.duration_est || 5 })),
+  };
+  _cbSetSaveStatus('Saving…');
+  try {
+    let resp, url, method;
+    if (_cb.id) {
+      url = '/api/courses/' + encodeURIComponent(_cb.id); method = 'PUT';
+    } else {
+      url = '/api/courses'; method = 'POST';
+    }
+    resp = await fetch(url, { method, headers: { 'Content-Type': 'application/json', 'X-Demo-User': 'sam-trainer' }, body: JSON.stringify(body) });
+    if (!resp.ok) {
+      const err = await resp.json().catch(() => ({}));
+      _cbSetSaveStatus('Save failed: ' + (err.detail || resp.status));
+      return;
+    }
+    const saved = await resp.json();
+    _cb.id = saved.id;
+    _cb.status = saved.status;
+    // Update modal title + show preview/delete buttons
+    document.getElementById('cb-modal-title').textContent = 'Edit Course';
+    _cbSetStatus(saved.status);
+    const pb = document.getElementById('cb-preview-btn'), db = document.getElementById('cb-delete-btn');
+    if (pb) pb.hidden = false;
+    if (db) db.hidden = false;
+    _cbSetSaveStatus('Saved ' + new Date().toLocaleTimeString());
+    // Refresh course list in the background
+    _refreshRealCourses();
+  } catch (e) { _cbSetSaveStatus('Network error — could not save.'); }
+}
+
+// ── cbPublish: POST /api/courses/<id>/publish ──────────────────────────────
+async function cbPublish() {
+  if (_cb.lessons.length === 0) { _cbSetSaveStatus('Add at least one lesson before publishing.'); return; }
+  // Save any pending changes first
+  await cbSave();
+  if (!_cb.id) return;  // save failed
+  _cbSetSaveStatus('Publishing…');
+  try {
+    const resp = await fetch('/api/courses/' + encodeURIComponent(_cb.id) + '/publish', { method: 'POST', headers: { 'X-Demo-User': 'sam-trainer' } });
+    if (!resp.ok) {
+      const err = await resp.json().catch(() => ({}));
+      _cbSetSaveStatus('Publish failed: ' + (err.detail || resp.status));
+      return;
+    }
+    const pub = await resp.json();
+    _cb.status = pub.status;
+    _cbSetStatus('published');
+    _cbSetSaveStatus('Published — visible to learners with matching role.');
+    _refreshRealCourses();
+  } catch (e) { _cbSetSaveStatus('Network error — could not publish.'); }
+}
+
+// Publish an existing course by ID (from the course card "Publish" button)
+async function cbPublishById(cid) {
+  try {
+    const resp = await fetch('/api/courses/' + encodeURIComponent(cid) + '/publish', { method: 'POST', headers: { 'X-Demo-User': 'sam-trainer' } });
+    if (!resp.ok) { alert('Could not publish — check that the course has at least one lesson.'); return; }
+    await _refreshRealCourses();
+    renderTrackList();
+  } catch (e) { alert('Network error — could not publish.'); }
+}
+
+// ── cbDeleteCourse: DELETE /api/courses/<id> ───────────────────────────────
+async function cbDeleteCourse() {
+  if (!_cb.id) { cbClose(); return; }
+  if (!confirm('Delete this course? This cannot be undone.')) return;
+  try {
+    const resp = await fetch('/api/courses/' + encodeURIComponent(_cb.id), { method: 'DELETE', headers: { 'X-Demo-User': 'sam-trainer' } });
+    if (!resp.ok && resp.status !== 404) { alert('Could not delete — try again.'); return; }
+    cbClose();
+    await _refreshRealCourses();
+    renderTrackList();
+  } catch (e) { alert('Network error — could not delete.'); }
+}
+
+// ── cbPreview: show the course as a learner would see it ──────────────────
+// Trust guardrail: must show same origin badges + no trainer editing tools
+async function cbPreview() {
+  if (_cb.id) await cbPreviewById(_cb.id);
+  else _cbSetSaveStatus('Save the course first to preview it.');
+}
+async function cbPreviewById(cid) {
+  const modal = document.getElementById('cb-preview-modal');
+  const body = document.getElementById('cb-preview-body');
+  if (!modal || !body) return;
+  body.innerHTML = '<div class="tb-note" style="padding:16px;">Loading preview…</div>';
+  modal.hidden = false;
+  try {
+    // Fetch as a learner persona to ensure we see what they see
+    const resp = await fetch('/api/courses/' + encodeURIComponent(cid), { headers: { 'X-Demo-User': 'john-cashier' } });
+    if (!resp.ok) { body.innerHTML = `<div class="tb-note" style="padding:16px;color:var(--red,#c00);">Cannot preview — course is not published (only published courses are visible to learners).</div>`; return; }
+    const c = await resp.json();
+    body.innerHTML = _cbPreviewHtml(c);
+  } catch (e) { body.innerHTML = '<div class="tb-note" style="padding:16px;">Preview unavailable.</div>'; }
+}
+function _cbPreviewHtml(c) {
+  const _badgeHtml = badge => {
+    const map = { ai_grounded: ['cb-ob-ai', 'AI-grounded · every claim cited'], human_authored: ['cb-ob-human', 'Human-authored · Cybersoft guide'], outside_vendor: ['cb-ob-vendor', 'ICN/USDA · credited external content'] };
+    const [cls, label] = map[badge] || ['cb-ob-ai', badge || ''];
+    return `<span class="cb-ob ${cls}" title="${escapeHtml(label)}">${escapeHtml(label)}</span>`;
+  };
+  let h = `<div style="padding:4px 0 12px;">
+    <div style="background:var(--panel2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px 12px;font-size:12.5px;color:var(--muted);margin-bottom:14px;">
+      <b>Customer view</b> — This is exactly what a learner with a matching role sees. No trainer tools are visible here.
+    </div>
+    <h2 style="font-family:var(--serif);font-size:20px;margin:0 0 4px;">${escapeHtml(c.title)}</h2>
+    ${c.description ? `<p style="color:var(--muted);font-size:13px;margin:0 0 12px;">${escapeHtml(c.description)} <span class="cb-human-badge">human-authored</span></p>` : ''}
+    <div style="font-size:12px;color:var(--muted);margin-bottom:16px;">${(c.lessons || []).length} lessons · ${(c.role_tags||[]).join(', ')||'All roles'}</div>
+  `;
+  (c.lessons || []).forEach((l, i) => {
+    h += `<div class="cb-preview-lesson">
+      <div class="cb-preview-lesson-head">${_lessonIcon(l.type)} ${escapeHtml(l.title)} ${_badgeHtml(l.origin_badge)}</div>
+      <div class="cb-preview-lesson-meta">${escapeHtml(_lessonTypeLabel(l.type))} · ~${l.duration_est || 5} min</div>
+    </div>`;
+  });
+  if (!(c.lessons || []).length) h += '<div class="cb-empty" style="list-style:none;padding:16px;">No lessons in this course yet.</div>';
+  h += '</div>';
+  return h;
+}
+function _lessonTypeLabel(type) {
+  return ({ guide: 'Guide', quiz: 'Quiz', video: 'Video', external_icn: 'Video', exercise: 'Exercise', flashcards: 'Flashcards' })[type] || type;
+}
+
+// ── Shared helpers ─────────────────────────────────────────────────────────
+function _cbSetSaveStatus(msg) { const el = document.getElementById('cb-save-status'); if (el) el.textContent = msg; }
+async function _cbPutLessons() {
+  if (!_cb.id) return;
+  try {
+    await fetch('/api/courses/' + encodeURIComponent(_cb.id), {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'X-Demo-User': 'sam-trainer' },
+      body: JSON.stringify({ lessons: _cb.lessons.map(l => ({ type: l.type, ref: l.ref, title: l.title, duration_est: l.duration_est || 5 })) }),
+    });
+    _refreshRealCourses();
+  } catch (e) { /* non-fatal */ }
+}
+async function _refreshRealCourses() {
+  try {
+    const d = await (await fetch('/api/courses', { headers: { 'X-Demo-User': 'sam-trainer' } })).json();
+    _realCourses = d.courses || [];
+  } catch (e) { /* keep stale cache */ }
+}
+
 function openTrackBuilder() {
   showView('author');
   _cmodeActivate('track');
@@ -5110,10 +5589,10 @@ function tbkClose() { document.getElementById('tbk-modal').hidden = true; }
 function tbkToggle(cid, on) { _tbk.courseIds = _tbk.courseIds || []; if (on) { if (!_tbk.courseIds.includes(cid)) _tbk.courseIds.push(cid); } else { _tbk.courseIds = _tbk.courseIds.filter(x => x !== cid); } }
 function tbkSave() {
   const name = (document.getElementById('tbk-name').value || '').trim() || 'Untitled track', role = document.getElementById('tbk-role').value;
-  if (!_tbk.courseIds.length) { alert('Add at least one track.'); return; }
+  if (!_tbk.courseIds.length) { alert('Add at least one course.'); return; }
   _demoState.userTracks = _demoState.userTracks || [];
   _demoState.userTracks.push({ id: 'u-t-' + (_demoState.userTracks.length + 1), title: name, role, product: (document.getElementById('tbk-product') || {}).value || 'SchoolCafé', sequential: !!(document.getElementById('tbk-sequential') || {}).checked, instructor: (role[0] || 'T'), due: _DEMO.due, courseIds: _tbk.courseIds.slice() });
-  tbkClose(); renderTrackList(); alert('Track “' + name + '” created — it’s now live in Learn.');
+  tbkClose(); renderTrackList(); alert('Track "' + name + '" created — it is now live in Learn.');
 }
 // ─── Library (studio-produced, all statuses) + Catalog (ready-to-use, all origins) ───
 const _ORIGIN_LABELS = { 'AI-generated': 'AI-built', 'Human-authored': 'Cybersoft guide' };
@@ -5208,9 +5687,16 @@ function closeSourcePopover() {
 }
 function _sourcePopoverEsc(e) { if (e.key === 'Escape') closeSourcePopover(); }
 function _userStudioItems(){
-  const cs = (_demoState.userCourses || []).map(c => ({ title: c.title, module: c.module || '—', format: 'Track', status: 'Draft', created: 'Today', origin: 'Mixed sources' }));
+  // A2: include real server courses from _realCourses; fall back to client-side _demoState.userCourses
+  const realCs = (_realCourses || []).map(c => ({
+    title: c.title, module: (c.role_tags || [])[0] || '—', format: 'Course',
+    status: c.status === 'published' ? 'Approved' : 'Draft', created: _fmtDate(c.created_at) || 'Today', origin: 'Mixed sources',
+  }));
+  const legacyCs = (_demoState.userCourses || []).map(c => ({ title: c.title, module: c.module || '—', format: 'Course', status: 'Draft', created: 'Today', origin: 'Mixed sources' }));
   const ts = (_demoState.userTracks || []).map(t => ({ title: t.title, module: '—', format: 'Track', status: 'Draft', created: 'Today', origin: 'Mixed sources' }));
-  return cs.concat(ts);
+  // Merge: show real courses; skip legacy demo courses that share a title with a real one
+  const realTitles = new Set(realCs.map(c => c.title));
+  return realCs.concat(legacyCs.filter(c => !realTitles.has(c.title))).concat(ts);
 }
 // Studio worklist now reads the REAL backend: every resource (drafts + approved) from /resources
 // plus real published tracks. Falls back to the seeded set only if the fetch fails.
@@ -5281,7 +5767,7 @@ function renderLibraryDemo(){
       ? `<td class="lib-c-title">${escapeHtml(i.title)}<br><span style="font-size:11px;font-weight:400;color:var(--muted);letter-spacing:0;">${escapeHtml(i.slug)}</span></td>`
       : `<td class="lib-c-title">${escapeHtml(i.title)}</td>`;
     return `<tr class="lib-row" data-state="${st}" role="button" tabindex="0" onclick="reviewDemoItem(${idx})" onkeydown="if(event.key==='Enter'){event.preventDefault();reviewDemoItem(${idx});}">` + titleCell + `<td>${escapeHtml(i.module)}</td><td>${escapeHtml(i.format)}</td><td>${_statusChip(i.status)}</td><td>${escapeHtml(i.created)}</td><td>${_originBadge(i.origin)}</td><td class="lib-c-action">${action}</td></tr>`;
-  }).join('') || '<tr><td colspan="7" class="lib-empty">Nothing in this view — switch to “All” or create content in Create.</td></tr>';
+  }).join('') || '<tr><td colspan="7" class="lib-empty">Nothing in this view — switch to "All" or create content in Create.</td></tr>';
   h += '</tbody></table>';
   grid.innerHTML = h;
 }
@@ -5610,7 +6096,7 @@ async function toggleEvalDetail(rid, rowEl) {
   if (vio.length) {
     h += `<div style="margin-top:10px;font-size:11px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:var(--red-text);">Offending citations</div>`;
     vio.forEach(x => {
-      h += `<div style="font-size:12px;padding:5px 0;border-top:1px solid var(--border);"><span style="font-family:var(--mono);color:var(--clay);">${escapeHtml(x.ticket || '?')} · ${escapeHtml(x.tier || '')}</span> — ${escapeHtml(x.issue || '')}${x.quote ? `: <span style="font-family:var(--serif);color:var(--text-soft);">“${escapeHtml(x.quote)}”</span>` : ''}</div>`;
+      h += `<div style="font-size:12px;padding:5px 0;border-top:1px solid var(--border);"><span style="font-family:var(--mono);color:var(--clay);">${escapeHtml(x.ticket || '?')} · ${escapeHtml(x.tier || '')}</span> — ${escapeHtml(x.issue || '')}${x.quote ? `: <span style="font-family:var(--serif);color:var(--text-soft);">"${escapeHtml(x.quote)}"</span>` : ''}</div>`;
     });
   } else if (v === 'pass') {
     h += `<div style="margin-top:8px;font-size:12.5px;color:var(--green-text);font-family:var(--serif);">No issues — every citation verified verbatim at the correct tier.</div>`;
@@ -6119,7 +6605,7 @@ async function confirmScope(scope) {
     activityLine('Generation failed: ' + msg);
     const pv = document.getElementById('preview');
     if (pv) {
-      pv.innerHTML = '<div class="async-error"><p class="ae-title">Couldn’t generate the guide</p><p>' + escapeHtml(msg) + '</p><button class="secondary" id="scope-retry">Try again</button></div>';
+      pv.innerHTML = '<div class="async-error"><p class="ae-title">Could not generate the guide</p><p>' + escapeHtml(msg) + '</p><button class="secondary" id="scope-retry">Try again</button></div>';
       const rb = document.getElementById('scope-retry');
       if (rb) rb.onclick = () => confirmScope(scope);
     }
@@ -6137,7 +6623,7 @@ function checkIntentReady() {
   const ready = !!input.value.trim();
   goBtn.disabled = !ready;
   if (needs) {
-    needs.textContent = ready ? 'Ready — I’ll search the tickets and propose a scope.' : 'Describe the guide you need to continue.';
+    needs.textContent = ready ? 'Ready — I will search the tickets and propose a scope.' : 'Describe the guide you need to continue.';
     needs.classList.toggle('ready', ready);
   }
 }
@@ -6250,7 +6736,7 @@ function citeChipsHtml(raw) {
   const out = raw.replace(/<!--\s*Source:\s*([\s\S]*?)-->/g, (m, body) => {
     n++;
     const tok = body.match(/\[\[(NXT-\d+):(AC|RN|RNINT|DESC)\]\]/);
-    const q = body.match(/["“]([^"”]{4,})["”]/);
+    const q = body.match(/[""]([^""]{4,})[""]/);
     const isTx = /transcript/i.test(body);
     const key = tok ? tok[1] : (isTx ? 'transcript' : 'source');
     const tier = tok ? tok[2] : '';
@@ -6958,7 +7444,7 @@ function _courseLockInfo(track, course, idxInTrack) {
   return { locked: false };
 }
 function _courseSharedCount(cid) { return _allDemoTracks().filter(t => (t.courseIds || []).includes(cid)).length; }   // FR-LP-02
-function _lessonIcon(type) { return ({ quiz:'✎', video:'▶', certify:'🏅', slides:'🖼', demo:'🖥', task:'☑', scorm12:'📦', scorm2004:'📦', xapi:'🛰' })[type] || '📄'; }
+function _lessonIcon(type) { return ({ guide:'📄', quiz:'✎', video:'▶', external_icn:'▶', exercise:'🔧', flashcards:'🃏', certify:'🏅', slides:'🖼', demo:'🖥', task:'☑', scorm12:'📦', scorm2004:'📦', xapi:'🛰' })[type] || '📄'; }
 function _courseDoneSet(cid) { _demoState.courseDone = _demoState.courseDone || {}; return (_demoState.courseDone[cid] = _demoState.courseDone[cid] || new Set()); }
 function _courseScores() { _demoState.quizScore = _demoState.quizScore || {}; return _demoState.quizScore; }
 function _coursePct(c) { const n = c.lessons.length; return n ? Math.round(100 * _courseDoneSet(c.id).size / n) : 0; }
@@ -7236,7 +7722,7 @@ async function issueTrackCertificate(tid) {
     if (!r.ok) throw new Error('issue failed');
     _renderCertificate(await r.json());
   } catch (e) {
-    if (body) body.innerHTML = '<div class="async-error" style="padding:26px;"><p class="ae-title">Couldn’t issue the certificate</p><p>Please try again in a moment.</p></div>';
+    if (body) body.innerHTML = '<div class="async-error" style="padding:26px;"><p class="ae-title">Could not issue the certificate</p><p>Please try again in a moment.</p></div>';
   }
 }
 function _renderCertificate(c) {
@@ -7259,10 +7745,10 @@ function _quizFallback(onRetry, zeroVerified) {
   const body = document.getElementById('quiz-body'), foot = document.getElementById('quiz-foot'), ttl = document.getElementById('quiz-title');
   if (ttl) ttl.textContent = 'Knowledge check';
   if (body) body.innerHTML = `<div class="async-error" style="padding:26px;">
-      <p class="ae-title">Quiz isn’t ready just yet</p>
+      <p class="ae-title">Quiz isn't ready just yet</p>
       <p>${zeroVerified
         ? 'We only keep questions whose answer can be traced word-for-word to the guide — none cleared that check on this run.'
-        : 'We couldn’t reach the quiz generator just now.'} Give it another try.</p></div>`;
+        : 'We could not reach the quiz generator just now.'} Give it another try.</p></div>`;
   if (foot) foot.innerHTML = _quizRetry ? '<button class="primary" onclick="_quizRetry && _quizRetry()">Try again</button>' : '';
 }
 async function runResourceQuiz(rid, title, meta) {
@@ -7612,7 +8098,7 @@ function _fmtViewerBody(l){
     case 'slides': return `<div class="fmt-slide"><div class="fmt-slide-stage">🖼<span>Slide 1 / 10</span></div><div class="fmt-slide-cap">${escapeHtml(l.title)}</div><div class="fmt-slide-dots">${'•'.repeat(10)}</div></div>`;
     case 'video': return `<div class="fmt-video"><div class="fmt-video-stage">▶</div><div class="fmt-bar"><span style="width:100%"></span></div><div class="fmt-video-meta">${escapeHtml(l.dur||'6 min')} · watched 100%</div></div>`;
     case 'demo': return `<div class="fmt-demo"><div class="fmt-demo-frame"><div class="fmt-demo-chrome"><i></i><i></i><i></i> app.schoolcafe.com/sandbox</div><div class="fmt-demo-body">🖥 Embedded SchoolCafé sandbox — guided walkthrough<br><small>Step 1 of 4 · Select the student, then ring the meal</small></div></div></div>`;
-    case 'task': { const steps=['Count the opening cash drawer','Sign in to the POS','Confirm today’s menu loaded','Verify the meal-status roster synced']; return `<ul class="fmt-tasks">${steps.map(s=>`<li><label><input type="checkbox" class="fmt-chk" onchange="_fmtTaskGate()"> ${escapeHtml(s)}</label></li>`).join('')}</ul>`; }
+    case 'task': { const steps=['Count the opening cash drawer','Sign in to the POS','Confirm todays menu loaded','Verify the meal-status roster synced']; return `<ul class="fmt-tasks">${steps.map(s=>`<li><label><input type="checkbox" class="fmt-chk" onchange="_fmtTaskGate()"> ${escapeHtml(s)}</label></li>`).join('')}</ul>`; }
     case 'scorm12':
     case 'scorm2004': return `<div class="fmt-pkg"><div class="fmt-pkg-ico">📦</div><div class="fmt-pkg-body"><b>${l.type==='scorm12'?'SCORM 1.2':'SCORM 2004'} package</b><div class="fmt-bar"><span style="width:100%"></span></div><small>Launched in the player · lesson_status = completed, score reported to the LMS</small></div></div>`;
     case 'xapi': return `<div class="fmt-pkg"><div class="fmt-pkg-ico">🛰</div><div class="fmt-pkg-body"><b>xAPI / Tin Can module</b><code class="fmt-xapi">{ "actor": "John Doe", "verb": "completed", "object": "${escapeHtml(l.title)}" }</code><small>Statement sent to the LRS endpoint</small></div></div>`;
@@ -8088,7 +8574,7 @@ function asnAudChange(preDistrictId){
   // the one passed in, or the currently-selected client. No cross-district / state hierarchy (that's V2).
   const dist=(preDistrictId && _unifiedDistricts().find(d=>d.id===preDistrictId)) || _curDistrict() || {sites:[],learners:[]};
   const dn=escapeHtml(dist.name||'this district');
-  if(t==='role') w.innerHTML=`<select id="asn-audval" class="tb-in">${['Cashier','Site Manager','CN Director'].map(r=>`<option>${r}</option>`).join('')}</select><p class="tb-note">Everyone in this role across all of ${dn}’s sites.</p>`;
+  if(t==='role') w.innerHTML=`<select id="asn-audval" class="tb-in">${['Cashier','Site Manager','CN Director'].map(r=>`<option>${r}</option>`).join('')}</select><p class="tb-note">Everyone in this role across all of ${dn}'s sites.</p>`;
   else if(t==='site'){ const sites=(dist.sites||[]).filter(s=>typeof s==='string'); w.innerHTML = sites.length ? `<div class="asn-people">${sites.map((s,i)=>`<label class="am-row"><input type="checkbox" class="asn-multi" value="${escAttr(s)}" ${i<2?'checked':''}> ${escapeHtml(s)}</label>`).join('')}</div><p class="tb-note">Pick one or more sites in ${dn}.</p>` : `<p class="tb-note">No sites imported for ${dn} yet.</p>`; }
   else if(t==='people'){ const ls=(dist.learners||[]).slice(0,8); w.innerHTML = ls.length ? `<div class="asn-people">${ls.map((l,i)=>`<label class="am-row"><input type="checkbox" class="asn-person" ${i<3?'checked':''}> ${escapeHtml(l.name)} <span class="meta">${escapeHtml(l.role)}</span></label>`).join('')}</div>` : `<p class="tb-note">No individual learners loaded for ${dn}.</p>`; }
   else w.innerHTML=`<p class="tb-note">Everyone in ${dn}.</p>`;
@@ -8121,7 +8607,7 @@ async function asnSave(){
   if(_av==='view-district') loadDistrict(); else if(_av==='view-myteam') renderMyTeam(); else renderManage();
   const n=_asnCount(_demoState.assignments[0]);
   alert(isReal && t==='role'
-    ? `Assigned to all ${audVal}s — they’ll see it in their Learn tab (${n} learner${n===1?'':'s'}).`
+    ? `Assigned to all ${audVal}s — they'll see it in their Learn tab (${n} learner${n===1?'':'s'}).`
     : 'Assignment created — ' + n + ' learners enrolled.');
 }
 function doLogin() { const m = document.getElementById('login-modal'); if (m) m.hidden = true; try { sessionStorage.setItem('ls_demo_login', '1'); } catch (e) {} _demoISDInit(); /* prime the district switcher from the unified list (not the legacy /api/roster ghosts) */ /* If a Projects-flow URL hash is present, take the user there after sign-in (so Ctrl-R survives). */ if (typeof _restoreFromHash === 'function') _restoreFromHash(); }
@@ -8702,7 +9188,7 @@ async function runFlashcards(topic) {
       return `<div class="flash-card" onclick="this.classList.toggle('flipped')">
           <div class="flash-front">${escapeHtml(c.front)}<span class="flash-hint">tap to flip</span></div>
           <div class="flash-back">${escapeHtml(c.back)}
-            <div class="quiz-src"><span class="sq">“${escapeHtml(c.source_quote)}”</span><span class="attr">Source: ICN / USDA${escapeHtml(pg)}${link}</span></div>
+            <div class="quiz-src"><span class="sq">"${escapeHtml(c.source_quote)}"</span><span class="attr">Source: ICN / USDA${escapeHtml(pg)}${link}</span></div>
           </div></div>`;
     }).join('') + '</div>';
     foot.innerHTML = `<span>✓ ${data.kept} card${data.kept===1?'':'s'}, each verified verbatim against the source${data.dropped?` · ${data.dropped} dropped`:''}</span><span>${escapeHtml(data.attribution||'')}</span>`;
