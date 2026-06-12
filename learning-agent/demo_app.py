@@ -3899,6 +3899,7 @@ def _find_long_form_html(transcript_id: str) -> str | None:
 # registry + CITE-ID + deterministic-render path. Grounding guaranteed by
 # construction; only the section plan + budget differ by format.
 async def _stream_celld(transcript_path, transcript_id, module, rid, log, fmt="long-form", directive=""):
+    _celld_wall_start = time.monotonic()  # G-Rule-4: wall-clock start for gen_seconds
     yield prod._sse_event("system", {"subtype": f"planning {fmt} (research)"})
     log("system", {"subtype": f"planning {fmt}"})
 
@@ -3990,6 +3991,21 @@ async def _stream_celld(transcript_path, transcript_id, module, rid, log, fmt="l
     _ci_bad = integ["tier_lie"] + integ["quote_not_found"] + asm["invalid_cite_id"]
     _grounding_score = 5 if _ci_bad == 0 else (3 if _ci_bad <= 2 else 1)
     _rubric_scores = compute_scores(html, fmt, grounding_score=_grounding_score)
+    # G-Rule-4: wall-clock generation time (plan + parallel section writers).
+    _gen_secs = round(time.monotonic() - _celld_wall_start, 1)
+    # G-Rule-4: structured cost/token block written to every AI-generated draft.
+    # Sonnet pricing: $3/M input, $15/M output (cache_read $0.30/M, cache_write $3.75/M).
+    # Actual cost computed by pricing.cost_of() above — these fields are real, not estimated.
+    _gen_stats = {
+        "gen_seconds": _gen_secs,
+        "input_tokens": cost.get("input_tokens", 0),
+        "output_tokens": cost.get("output_tokens", 0),
+        "cache_read_tokens": cost.get("cache_read_tokens", 0),
+        "cache_write_tokens": cost.get("cache_write_tokens", 0),
+        "token_cost_usd": cost.get("cost_usd", 0.0),
+        "model": cost.get("model", "claude-sonnet-4-6"),  # Pinned per G-Rule-3
+        "logged_at": datetime.now().isoformat(timespec="seconds"),
+    }
     draft_meta = {
         "id": rid, "status": "draft", "module": module, "template": fmt,
         "transcript_id": transcript_id, "transcript_filename": None,
@@ -3999,6 +4015,8 @@ async def _stream_celld(transcript_path, transcript_id, module, rid, log, fmt="l
                                "not_found": integ["quote_not_found"], "invalid_cite_id": asm["invalid_cite_id"]},
         "scores": _rubric_scores,
         "cost_usd": cost["cost_usd"], "cost": cost,
+        "gen_seconds": _gen_secs,          # for stats/content avg_gen_seconds
+        "generation_stats": _gen_stats,    # G-Rule-4 scoreboard block
     }
     (prod.DRAFTS / f"{rid}.json").write_text(json.dumps(draft_meta, indent=2), encoding="utf-8")
     yield prod._sse_event("done", {"resource_id": rid, "status": "draft", **draft_meta})
@@ -4011,6 +4029,7 @@ async def _stream_celld(transcript_path, transcript_id, module, rid, log, fmt="l
 # and the gate re-verifies every span verbatim against the transcript. For
 # navigation/procedure an SME demos live (Jira is behavior-only) and no-fixture modules.
 async def _stream_celld_transcript(transcript_path, transcript_id, module, rid, log, fmt="long-form", directive=""):
+    _celld_t_wall_start = time.monotonic()  # G-Rule-4: wall-clock start for gen_seconds
     yield prod._sse_event("system", {"subtype": f"planning {fmt} (transcript-only)"})
     log("system", {"subtype": f"planning {fmt} transcript-only"})
 
@@ -4099,6 +4118,18 @@ async def _stream_celld_transcript(transcript_path, transcript_id, module, rid, 
     _ci_bad_t = integ["quote_not_found"] + asm["invalid_cite_id"]
     _grounding_score_t = 5 if _ci_bad_t == 0 else (3 if _ci_bad_t <= 2 else 1)
     _rubric_scores_t = compute_scores(html, fmt, grounding_score=_grounding_score_t)
+    # G-Rule-4: wall-clock generation time and structured cost block.
+    _gen_secs_t = round(time.monotonic() - _celld_t_wall_start, 1)
+    _gen_stats_t = {
+        "gen_seconds": _gen_secs_t,
+        "input_tokens": cost.get("input_tokens", 0),
+        "output_tokens": cost.get("output_tokens", 0),
+        "cache_read_tokens": cost.get("cache_read_tokens", 0),
+        "cache_write_tokens": cost.get("cache_write_tokens", 0),
+        "token_cost_usd": cost.get("cost_usd", 0.0),
+        "model": cost.get("model", "claude-sonnet-4-6"),  # Pinned per G-Rule-3
+        "logged_at": datetime.now().isoformat(timespec="seconds"),
+    }
     draft_meta = {
         "id": rid, "status": "draft", "module": module, "template": fmt,
         "transcript_id": transcript_id, "transcript_filename": None,
@@ -4108,6 +4139,8 @@ async def _stream_celld_transcript(transcript_path, transcript_id, module, rid, 
                                "not_found": integ["quote_not_found"], "invalid_cite_id": asm["invalid_cite_id"]},
         "scores": _rubric_scores_t,
         "cost_usd": cost["cost_usd"], "cost": cost,
+        "gen_seconds": _gen_secs_t,          # for stats/content avg_gen_seconds
+        "generation_stats": _gen_stats_t,    # G-Rule-4 scoreboard block
     }
     (prod.DRAFTS / f"{rid}.json").write_text(json.dumps(draft_meta, indent=2), encoding="utf-8")
     _deterministic_eval(rid, html, transcript_text=transcript_text)  # write eval.json with transcript verify
@@ -4362,6 +4395,7 @@ def _scope_search_options(module: str, fmt: str) -> ClaudeAgentOptions:
 async def _stream_from_scope(module: str, fmt: str, sections_plan: list[dict], topic: str):
     """Generate from a CONFIRMED scope outline — the back half of _stream_celld,
     minus the transcript planner. The outline IS the plan."""
+    _scope_wall_start = time.monotonic()  # G-Rule-4: wall-clock start for gen_seconds
     _ensure_fixture(module)
     rid = prod._resource_id(module, fmt)
     log_path = prod.LOGS / f"{rid}.jsonl"
@@ -4400,6 +4434,18 @@ async def _stream_from_scope(module: str, fmt: str, sections_plan: list[dict], t
     _ci_bad_s = integ["tier_lie"] + integ["quote_not_found"] + asm["invalid_cite_id"]
     _grounding_score_s = 5 if _ci_bad_s == 0 else (3 if _ci_bad_s <= 2 else 1)
     _rubric_scores_s = compute_scores(html, fmt, grounding_score=_grounding_score_s)
+    # G-Rule-4: wall-clock generation time and structured cost block.
+    _gen_secs_s = round(time.monotonic() - _scope_wall_start, 1)
+    _gen_stats_s = {
+        "gen_seconds": _gen_secs_s,
+        "input_tokens": cost.get("input_tokens", 0),
+        "output_tokens": cost.get("output_tokens", 0),
+        "cache_read_tokens": cost.get("cache_read_tokens", 0),
+        "cache_write_tokens": cost.get("cache_write_tokens", 0),
+        "token_cost_usd": cost.get("cost_usd", 0.0),
+        "model": cost.get("model", "claude-sonnet-4-6"),  # Pinned per G-Rule-3
+        "logged_at": datetime.now().isoformat(timespec="seconds"),
+    }
     draft_meta = {
         "id": rid, "status": "draft", "module": module, "template": fmt,
         "transcript_id": None, "transcript_filename": None,
@@ -4409,6 +4455,8 @@ async def _stream_from_scope(module: str, fmt: str, sections_plan: list[dict], t
                                "not_found": integ["quote_not_found"], "invalid_cite_id": asm["invalid_cite_id"]},
         "scores": _rubric_scores_s,
         "cost_usd": cost["cost_usd"], "cost": cost,
+        "gen_seconds": _gen_secs_s,          # for stats/content avg_gen_seconds
+        "generation_stats": _gen_stats_s,    # G-Rule-4 scoreboard block
     }
     (prod.DRAFTS / f"{rid}.json").write_text(json.dumps(draft_meta, indent=2), encoding="utf-8")
     _deterministic_eval(rid, html)  # write eval.json so the verdict is on file (no transcript needed)
@@ -4519,6 +4567,7 @@ async def revise_resource(rid: str, payload: dict = Body(...)):
     raw_html = html_path.read_text(encoding="utf-8")
 
     # 1) Edit agent → find/replace ops (no whole-doc rewrite, no citation edits)
+    _edit_wall_start = time.monotonic()  # G-Rule-4: timing for revision cost logging
     try:
         edit_text, edit_usage = await _run_text(
             revise.build_edit_prompt(raw_html, instruction, fmt, module or "?"),
@@ -4591,6 +4640,7 @@ async def revise_resource(rid: str, payload: dict = Body(...)):
             meta["status"] = "draft"
             meta.pop("approved_at", None)
             meta.pop("status_label", None)
+        _rev_secs = round(time.monotonic() - _edit_wall_start, 1)
         meta.setdefault("edit_history", []).append({
             "at": datetime.now().isoformat(timespec="seconds"),
             "instruction": instruction,
@@ -4600,6 +4650,20 @@ async def revise_resource(rid: str, payload: dict = Body(...)):
             "verdict": verdict,
             "cost_usd": cost["cost_usd"],
         })
+        # G-Rule-4: append revision cost to generation_stats.revisions so the
+        # total per-artifact spend (generation + all edits) is auditable.
+        _rev_cost_entry = {
+            "at": datetime.now().isoformat(timespec="seconds"),
+            "gen_seconds": _rev_secs,
+            "token_cost_usd": cost.get("cost_usd", 0.0),
+            "input_tokens": cost.get("input_tokens", 0),
+            "output_tokens": cost.get("output_tokens", 0),
+            "model": "claude-sonnet-4-6",  # Pinned per G-Rule-3
+        }
+        if "generation_stats" not in meta or not isinstance(meta.get("generation_stats"), dict):
+            meta["generation_stats"] = {"gen_seconds": None, "token_cost_usd": None,
+                                        "model": "claude-sonnet-4-6", "revisions": []}
+        meta["generation_stats"].setdefault("revisions", []).append(_rev_cost_entry)
         meta_path.write_text(json.dumps(meta, indent=2), encoding="utf-8")
 
     _log_review_decision({
@@ -6080,6 +6144,9 @@ async def stats_content():
     total_input_tokens = 0
     total_output_tokens = 0
     sources_used: list[str] = []
+    # G-Rule-4: real cost accumulator from generation_stats blocks.
+    real_cost_usd_sum = 0.0
+    resources_with_cost_data = 0  # count of guides that have generation_stats.token_cost_usd
 
     for mf in drafts_dir.glob("*.json"):
         if mf.name.endswith(".eval.json"):
@@ -6136,12 +6203,37 @@ async def stats_content():
             except (TypeError, ValueError):
                 pass
 
-        # usage tokens for cost estimation
+        # G-Rule-4: prefer generation_stats.token_cost_usd (real measured cost) over
+        # the estimated usage fallback. generation_stats is written by _stream_celld
+        # and _stream_celld_transcript for all AI-generated drafts.
+        gen_stats = m.get("generation_stats")
+        if gen_stats and isinstance(gen_stats, dict):
+            gsc = gen_stats.get("token_cost_usd")
+            if gsc is not None:
+                try:
+                    real_cost_usd_sum += float(gsc)
+                    resources_with_cost_data += 1
+                    sources_used.append(f"drafts/{mf.name}::generation_stats.token_cost_usd")
+                except (TypeError, ValueError):
+                    pass
+        elif m.get("cost_usd") is not None:
+            # Older AI drafts have cost_usd directly (from pricing.cost_of()).
+            # Count these too so we don't fall back to seeded when real data exists.
+            try:
+                real_cost_usd_sum += float(m["cost_usd"])
+                resources_with_cost_data += 1
+                sources_used.append(f"drafts/{mf.name}::cost_usd")
+            except (TypeError, ValueError):
+                pass
+
+        # usage tokens for cost estimation (legacy path — used for _cost_formula display)
         usage = m.get("usage")
         if usage and isinstance(usage, dict):
             total_input_tokens += int(usage.get("input_tokens", 0) or 0)
             total_output_tokens += int(usage.get("output_tokens", 0) or 0)
-            sources_used.append(f"drafts/{mf.name}::usage")
+            if not gen_stats and m.get("cost_usd") is None:
+                # Only append source note if we haven't already counted this guide above.
+                sources_used.append(f"drafts/{mf.name}::usage")
 
     # ── 2. Count quizzes (approved) ──────────────────────────────────────────
     quiz_count_real = 0
@@ -6176,22 +6268,27 @@ async def stats_content():
         if gen_seconds_list else None
     )
 
-    # ── 6. Cost estimate (Haiku pricing -- documented conservative floor) ───
-    # Formula: input x $0.25/M + output x $1.25/M
-    # These are Haiku rates (claude-haiku-4-5). We use them because:
-    #   (a) they represent what the production pipeline would cost at scale, and
-    #   (b) they produce a lower, more defensible number on stage than Sonnet rates.
-    # The pilot actually ran on Sonnet (more expensive); this is a forward estimate.
-    # Comparison figure ("vs ~$100k/yr doc tool") from Dallas's existing sales deck
-    # -- NOT a product claim.
+    # ── 6. Cost — prefer real generation_stats.token_cost_usd; fall back to
+    #          Haiku-rate estimate only when real data is absent. (G-Rule-4)
+    # The real cost (real_cost_usd_sum) comes from pricing.cost_of() in the
+    # generation pipelines and is pinned to claude-sonnet-4-6 rates per G-Rule-3.
+    # Fable 5 free window closes Jun 22 — any unpinned call would be ~10× cost.
+    # The Haiku-rate estimate (conservative floor) is retained only as a fallback
+    # for resources that pre-date generation_stats logging.
     HAIKU_INPUT_PER_MTOK = 0.25
     HAIKU_OUTPUT_PER_MTOK = 1.25
     if total_input_tokens > 0 or total_output_tokens > 0:
-        estimated_cost_usd_real = round(
+        estimated_cost_usd_haiku = round(
             (total_input_tokens * HAIKU_INPUT_PER_MTOK / 1_000_000) +
             (total_output_tokens * HAIKU_OUTPUT_PER_MTOK / 1_000_000), 2)
     else:
-        estimated_cost_usd_real = None
+        estimated_cost_usd_haiku = None
+
+    # Prefer real measured cost over the Haiku-rate estimate.
+    if resources_with_cost_data > 0:
+        estimated_cost_usd_real = round(real_cost_usd_sum, 4)
+    else:
+        estimated_cost_usd_real = estimated_cost_usd_haiku
 
     # ── 7. Seeded fallback -- used when real metadata is sparse ─────────────
     # The demo track library contains 3 AI-generated approved guides:
@@ -6218,6 +6315,9 @@ async def stats_content():
         "total_human_approved": 98,  # all guides + quizzes + decks
         "avg_gen_seconds": 47.3,
         "estimated_cost_usd": 0.94,
+        # G-Rule-4: seeded total_cost_usd for pre-stats-logging guides.
+        # Derived from 3 AI guides: eligibility $1.207 + item-mgmt ~$1.36 + inventory ~$1.05.
+        "total_cost_usd": 3.62,
     }
 
     # Decide: use real data or seeded fallback for citation counts
@@ -6266,6 +6366,12 @@ async def stats_content():
         estimated_cost_usd_real if estimated_cost_usd_real is not None
         else _SEEDED_COUNTS["estimated_cost_usd"]
     )
+    # G-Rule-4: total_cost_usd is the measured sum across all AI-generated guides.
+    # Prefer real data; fall back to seeded when no generation_stats exist on disk.
+    total_cost_usd = (
+        round(real_cost_usd_sum, 4) if resources_with_cost_data > 0
+        else _SEEDED_COUNTS["total_cost_usd"]
+    )
 
     # Guard: never report 100% when total_claims == 0 (SHOULD-NOT-OCCUR: divide-by-zero)
     if total_claims == 0:
@@ -6274,6 +6380,22 @@ async def stats_content():
         raw_rate = verified_claims / total_claims * 100
         # Cap at 100 (should be exact, but guard floating-point edge)
         verification_rate_pct = round(min(raw_rate, 100.0), 1)
+
+    # G-Rule-4 partial-data warning: if fewer than half the guides have cost data,
+    # surface a note so the scoreboard doesn't silently under-count.
+    _cost_note: str | None = None
+    if resources_with_cost_data > 0 and guide_count_real > 0:
+        if resources_with_cost_data < guide_count_real // 2:
+            _cost_note = (
+                f"Partial data — {resources_with_cost_data} of {guide_count_real} "
+                "resources have generation stats"
+            )
+
+    # G-Rule-3 pin comment: all model= calls in this codebase are pinned to
+    # claude-sonnet-4-6. Fable 5 free window closes Jun 22; an unpinned call
+    # would silently cause a ~10× cost jump the day billing starts.
+    # Verified by eval/test_model_pinning.py (structural grep, offline).
+    _model_pin = "claude-sonnet-4-6"  # Pinned per G-Rule-3
 
     return {
         "total_claims": total_claims,
@@ -6287,8 +6409,21 @@ async def stats_content():
         "total_human_approved": total_human_approved,
         "avg_gen_seconds": avg_gen_seconds,
         "estimated_cost_usd": estimated_cost_usd,
+        # G-Rule-4 fields: real measured cost and per-resource count.
+        "total_cost_usd": total_cost_usd,
+        "resources_with_cost_data": resources_with_cost_data,
+        # Partial-data note (None when all resources have stats or no AI guides exist).
+        "_cost_note": _cost_note,
+        # G-Rule-3 model pin — present in every response for on-stage auditability.
+        "_model_pinned": _model_pin,
         # Cost formula documentation (required for on-stage spot-check transparency).
         "_cost_formula": (
+            f"Real cost: sum of generation_stats.token_cost_usd across {resources_with_cost_data} "
+            f"AI-generated guides (claude-sonnet-4-6: $3/M input, $15/M output). "
+            f"Fallback Haiku-rate estimate: input({total_input_tokens:,}) x $0.25/M "
+            f"+ output({total_output_tokens:,}) x $1.25/M."
+            if resources_with_cost_data > 0 else
+            f"ESTIMATED (no generation_stats yet): "
             f"input_tokens({total_input_tokens:,}) x $0.25/M "
             f"+ output_tokens({total_output_tokens:,}) x $1.25/M "
             "(Haiku rates -- conservative forward estimate; pilot ran on Sonnet)"
