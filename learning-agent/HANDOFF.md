@@ -76,7 +76,7 @@ Tabs: Create · Library · Content · Quality · Roster · How it works. Trainer
 4. External eval-expert brief lives at `~/Downloads/Learning-Studio-eval-context.md`.
 
 ## Key files
-`demo_app.py` (FastAPI server, all routes incl. /generate, /api/icn*, /api/roster, /api/config) ·
+`completion_store.py` (disk-backed per-learner completion records; keyed by user_id; feeds /api/tracks/{id} progress + /api/tracks/{id}/progress + /api/certificates) · `auth.py` (identity interface: `CurrentUser` + `get_current_user` FastAPI dependency; demo stub until Task 11 SSO) · `demo_app.py` (FastAPI server, all routes incl. /generate, /api/icn*, /api/roster, /api/config) ·
 `demo_d.py` (registry / assemble / section writers) · `demo.py` (offline tools + `validate_citations`) ·
 `qbank_curation.py`, `qbank_gate_hooks.py`, `qbank_gate.py` (gates) · `static/index.html` (the entire UI — one large file) ·
 `data/icn/` (ICN pack) · `data/demo/*-fixture.json` (Jira fixtures) · `eval/` (regression + capability) ·
