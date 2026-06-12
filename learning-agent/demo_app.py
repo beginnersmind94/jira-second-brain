@@ -922,8 +922,12 @@ async def api_submit_attempt(
                 product=track.get("product") or "SchoolCafé",
                 role=(track.get("role_tags") or [None])[0],
                 modules=len(track.get("module_ids") or []),
+                score_pct=score_pct,
+                passed_assessment=True,
+                assessment_title=a.get("title") or "",
+                user_display_name=current_user.name or "",
             )
-            # Attach score to cert record for D7.
+            # Back-compat: keep assessment_score_pct for older UI code that reads it.
             if cert:
                 cert["assessment_score_pct"] = round(score_pct)
 
@@ -2185,6 +2189,7 @@ async def issue_certificate(
         product=track.get("product") or "SchoolCafé",
         role=(track.get("role_tags") or [None])[0],
         modules=len(track.get("module_ids") or []),
+        user_display_name=current_user.name or "",
     )
 
     # Fire completion writeback to SchoolCafe / PrimeroEdge (certified=True).
@@ -2223,6 +2228,263 @@ async def get_certificate(cid: str):
     if not p.exists():
         raise HTTPException(404, "certificate not found")
     return JSONResponse(json.loads(p.read_text(encoding="utf-8")))
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# D7 — Certificate verification endpoint (public, no auth required)
+# Returns name + track + date ONLY — never user_id, district, or other PII.
+# The response is constructed field-by-field (NOT a passthrough of the cert
+# object) so a future cert schema addition can never accidentally leak PII.
+# ─────────────────────────────────────────────────────────────────────────────
+
+@app.get("/api/certificates/verify/{code}")
+async def verify_certificate(code: str):
+    """Public verification lookup by verification_code.
+
+    D7 trust guardrail: response contains ONLY {found, user_display_name,
+    track_title, issued_at}.  No user_id, no district, no email, no other PII.
+    The response dict is built field-by-field — never a passthrough of the
+    internal cert object.
+    """
+    cert = _cs.get_certificate_by_verification_code(code)
+    if cert is None:
+        return JSONResponse({"found": False})
+    # Field-by-field construction — explicit PII guardrail.
+    return JSONResponse({
+        "found": True,
+        "user_display_name": cert.get("user_display_name") or cert.get("learner_name") or "Learner",
+        "track_title": cert.get("track_title") or "",
+        "issued_at": cert.get("issued_at") or "",
+    })
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# D7 — Certificate PDF download  GET /api/certificates/<cid>/pdf
+# Renders the frame-worthy cert HTML to PDF (weasyprint / pymupdf fallback).
+# Falls back to HTML download if no PDF renderer is available — the download
+# affordance is preserved even without a full PDF engine.
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _build_cert_html(cert: dict) -> str:
+    """Render a printable / PDF-ready HTML page for the given cert dict."""
+    import html as html_module
+
+    def esc(v: object) -> str:
+        return html_module.escape(str(v) if v is not None else "")
+
+    issued_raw = cert.get("issued_at") or ""
+    try:
+        from datetime import datetime as _dt
+        issued_dt = _dt.fromisoformat(issued_raw.replace("Z", "+00:00"))
+        issued_fmt = issued_dt.strftime("%B %-d, %Y") if hasattr(issued_dt, "strftime") else issued_raw[:10]
+    except Exception:
+        issued_fmt = issued_raw[:10]
+
+    score_pct = cert.get("score_pct")
+    score_block = ""
+    if score_pct is not None:
+        score_block = f'<div class="cert-score">Passed assessment — {int(score_pct)}%</div>'
+
+    badges = cert.get("badges_earned") or []
+    badge_html = ""
+    if badges:
+        chips = "".join(
+            f'<span class="badge-chip">\U0001f3c5 {esc(b)}</span>' for b in badges
+        )
+        badge_html = f'<div class="badge-strip">{chips}</div>'
+
+    vcode = cert.get("verification_code") or ""
+    verify_line = ""
+    if vcode:
+        verify_line = f'<div class="cert-verify">Verify: cyb.io/v/{esc(vcode)}</div>'
+
+    display_name = cert.get("user_display_name") or cert.get("learner_name") or "Learner"
+
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Certificate — {esc(display_name)}</title>
+<style>
+  * {{ box-sizing: border-box; margin: 0; padding: 0; }}
+  body {{
+    font-family: "Georgia", "Times New Roman", serif;
+    background: #f5f5f5;
+    display: flex; justify-content: center; align-items: flex-start;
+    min-height: 100vh; padding: 32px 16px;
+  }}
+  .cert-wrap {{
+    background: #fff;
+    max-width: 480px;
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0,0,0,.12);
+    overflow: hidden;
+    position: relative;
+  }}
+  .cert-accent {{
+    height: 6px;
+    background: #2563eb;
+  }}
+  .cert-body {{
+    padding: 36px 32px 28px;
+    text-align: center;
+  }}
+  .cert-brand {{
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: #6b7280;
+    margin-bottom: 24px;
+  }}
+  .cert-heading {{
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: #9ca3af;
+    margin-bottom: 16px;
+  }}
+  .cert-name {{
+    font-family: "Georgia", "Times New Roman", serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }}
+  .cert-sub {{
+    font-size: 14px;
+    color: #6b7280;
+    margin-bottom: 12px;
+  }}
+  .cert-track {{
+    font-family: "Georgia", "Times New Roman", serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: #2563eb;
+    margin-bottom: 16px;
+    line-height: 1.3;
+  }}
+  .cert-score {{
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #15803d;
+    margin-bottom: 14px;
+  }}
+  .badge-strip {{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 20px;
+  }}
+  .badge-chip {{
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    background: #eff6ff;
+    color: #1d4ed8;
+    border: 1px solid #bfdbfe;
+    border-radius: 20px;
+    padding: 4px 10px;
+  }}
+  .cert-divider {{
+    border: none;
+    border-top: 1px solid #e5e7eb;
+    margin: 16px 0;
+  }}
+  .cert-date {{
+    font-size: 12px;
+    color: #9ca3af;
+    margin-bottom: 6px;
+  }}
+  .cert-verify {{
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 11px;
+    color: #9ca3af;
+    letter-spacing: .02em;
+  }}
+  @media print {{
+    body {{ background: #fff; padding: 0; }}
+    .cert-wrap {{ box-shadow: none; border-radius: 0; max-width: 100%; }}
+  }}
+</style>
+</head>
+<body>
+<div class="cert-wrap">
+  <div class="cert-accent"></div>
+  <div class="cert-body">
+    <div class="cert-brand">CN Learning Studio &mdash; Cybersoft</div>
+    <div class="cert-heading">Certificate of Completion</div>
+    <div class="cert-name">{esc(display_name)}</div>
+    <div class="cert-sub">has successfully completed</div>
+    <div class="cert-track">{esc(cert.get("track_title") or "")}</div>
+    {score_block}
+    {badge_html}
+    <hr class="cert-divider">
+    <div class="cert-date">Issued: {esc(issued_fmt)}</div>
+    {verify_line}
+  </div>
+</div>
+</body>
+</html>"""
+
+
+@app.get("/api/certificates/{cid}/pdf")
+async def certificate_pdf(cid: str):
+    """Download a certificate as PDF (weasyprint) or HTML fallback.
+
+    D7: Returns Content-Type application/pdf when weasyprint is available,
+    otherwise text/html with Content-Disposition: attachment so the browser
+    still offers a save/download prompt on mobile.
+    """
+    # Look up the cert.
+    cert = _cs.get_certificate(cid)
+    if cert is None:
+        p = CERTS / f"{cid}.json"
+        if not p.exists():
+            raise HTTPException(404, "certificate not found")
+        cert = json.loads(p.read_text(encoding="utf-8"))
+
+    cert_html = _build_cert_html(cert)
+
+    # Attempt weasyprint first (best PDF quality for phone viewers).
+    try:
+        from weasyprint import HTML as WP_HTML  # type: ignore[import]
+        pdf_bytes = WP_HTML(string=cert_html).write_pdf()
+        return Response(
+            content=pdf_bytes,
+            media_type="application/pdf",
+            headers={"Content-Disposition": f'attachment; filename="{cid}.pdf"'},
+        )
+    except Exception:
+        pass
+
+    # Fallback: pymupdf Story (already a dep for guide PDFs).
+    try:
+        import pdf_export
+        pdf_bytes = pdf_export.render_html_to_pdf(cert_html)
+        return Response(
+            content=pdf_bytes,
+            media_type="application/pdf",
+            headers={"Content-Disposition": f'attachment; filename="{cid}.pdf"'},
+        )
+    except Exception:
+        pass
+
+    # Final fallback: return the HTML with attachment disposition — mobile
+    # browsers offer "Open in Files" / "Print" which covers the demo need.
+    return Response(
+        content=cert_html.encode("utf-8"),
+        media_type="text/html; charset=utf-8",
+        headers={"Content-Disposition": f'attachment; filename="{cid}.html"'},
+    )
 
 
 # ─────────────────────────────────────────────────────────────────────────────

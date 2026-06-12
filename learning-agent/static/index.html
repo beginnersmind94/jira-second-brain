@@ -1479,13 +1479,38 @@
     #view-learn .track-meta,
     #view-learn .track-prog-lbl,
     #view-learn .track-blurb { font-size: 12px; }
-    .cert-card { text-align: center; padding: 30px 24px; border: 2px solid var(--accent); border-radius: var(--radius); background: linear-gradient(135deg, #FFFDF8, #F3ECE0); }
-    .cert-seal { font-size: 42px; }
-    .cert-h { font-family: var(--serif); font-size: 13px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-top: 8px; }
-    .cert-name { font-family: var(--serif); font-size: 26px; font-weight: 650; color: var(--text); margin: 10px 0 4px; }
-    .cert-sub { color: var(--muted); font-size: 13px; }
-    .cert-track { font-family: var(--serif); font-size: 20px; font-weight: 600; color: var(--accent); margin: 6px 0 10px; }
-    .cert-date { font-size: 12px; color: var(--muted); }
+    /* ── D7 Certificate (frame-worthy redesign) ─────────────────────────────── */
+    @keyframes cert-shimmer {
+      0%   { box-shadow: 0 0 0 0 rgba(37,99,235,.55), 0 4px 24px rgba(0,0,0,.10); }
+      50%  { box-shadow: 0 0 0 8px rgba(37,99,235,.18), 0 4px 32px rgba(37,99,235,.22); }
+      100% { box-shadow: 0 4px 20px rgba(0,0,0,.10); }
+    }
+    .cert-card {
+      text-align: center;
+      max-width: 480px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,.10);
+      animation: cert-shimmer 1.5s ease-out forwards;
+    }
+    .cert-accent-bar { height: 6px; background: var(--blue-500, #2563eb); }
+    .cert-inner { padding: 28px 24px 22px; }
+    .cert-seal { font-size: 36px; margin-bottom: 4px; }
+    .cert-brand { font-family: var(--sans, system-ui); font-size: 10.5px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
+    .cert-h { font-family: var(--sans, system-ui); font-size: 10.5px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
+    .cert-name { font-family: var(--serif); font-size: 30px; font-weight: 700; color: var(--text); margin-bottom: 6px; line-height: 1.2; }
+    .cert-sub { color: var(--muted); font-size: 13px; margin-bottom: 10px; }
+    .cert-track { font-family: var(--serif); font-size: 19px; font-weight: 600; color: var(--blue-500, #2563eb); margin-bottom: 14px; line-height: 1.3; }
+    .cert-score { font-family: var(--sans, system-ui); font-size: 13px; font-weight: 700; color: var(--green-text, #15803d); margin-bottom: 12px; }
+    .cert-badge-strip { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin-bottom: 16px; }
+    .cert-badge-chip { font-size: 11px; font-weight: 600; background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; border-radius: 20px; padding: 3px 9px; }
+    .cert-divider { border: none; border-top: 1px solid var(--border); margin: 14px 0; }
+    .cert-date { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+    .cert-verify { font-size: 11px; color: var(--muted); letter-spacing: .02em; }
+    /* Legacy fallbacks — keep old classes working for any path that uses them */
+    .cert-id { font-size: 10.5px; color: var(--muted); letter-spacing: .04em; margin-top: 6px; }
     /* My Team */
     .mt-banner { margin: 0 0 var(--sp-4); background: var(--amber-soft, #F7ECDA); color: var(--amber-text, #8A5A12); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 14px; font-size: 13px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
     .mt-tools { margin: 0 0 var(--sp-3); }
@@ -8143,13 +8168,79 @@ function _renderCertificate(c) {
   const body = document.getElementById('quiz-body'), foot = document.getElementById('quiz-foot'), ttl = document.getElementById('quiz-title');
   if (ttl) ttl.textContent = 'Certificate';
   const k = document.getElementById('quiz-kicker'); if (k) k.textContent = 'Track completion';
-  const date = (c.issued_at || '').slice(0, 10);
-  // B3: show "Passed assessment — N%" line when the cert was issued via the gate path.
-  const scoreBlock = (typeof c.assessment_score_pct === 'number')
-    ? `<div style="margin:6px 0 2px;font-size:.9rem;color:var(--green-text,#1e7a3d);font-weight:700;">Passed assessment — ${c.assessment_score_pct}%</div>`
+
+  // D7: format the issued date as "Month D, YYYY"
+  let issuedFmt = '';
+  try {
+    const d = new Date((c.issued_at || '').replace('Z','') + 'Z');
+    if (!isNaN(d)) issuedFmt = d.toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
+  } catch(_) {}
+  issuedFmt = issuedFmt || (c.issued_at || '').slice(0,10);
+
+  // D7: score block — check both new field (score_pct) and back-compat (assessment_score_pct)
+  const scorePct = (typeof c.score_pct === 'number') ? c.score_pct : (typeof c.assessment_score_pct === 'number' ? c.assessment_score_pct : null);
+  const scoreBlock = scorePct !== null
+    ? `<div class="cert-score">Passed assessment &mdash; ${scorePct}%</div>`
     : '';
-  if (body) body.innerHTML = `<div class="cert-card"><div class="cert-seal">🏅</div><div class="cert-h">Certificate of Completion</div><div class="cert-name">${escapeHtml(c.learner_name || 'John Doe')}</div><div class="cert-sub">has completed</div><div class="cert-track">${escapeHtml(c.track_title || '')}</div>${scoreBlock}<div class="cert-date">${escapeHtml(date)} · ${escapeHtml(c.product || 'SchoolCafé')} Learning Studio</div><div class="cert-id" style="margin-top:10px;font-size:10.5px;color:var(--muted);letter-spacing:.04em;">Certificate ID: ${escapeHtml(c.id || '')}</div></div>`;
-  if (foot) foot.innerHTML = '<button class="primary" onclick="window.print()">Download</button>';
+
+  // D7: badge chips
+  const badges = Array.isArray(c.badges_earned) ? c.badges_earned : [];
+  const badgeStrip = badges.length
+    ? `<div class="cert-badge-strip">${badges.map(b=>`<span class="cert-badge-chip">🏅 ${escapeHtml(b)}</span>`).join('')}</div>`
+    : '';
+
+  // D7: verification code
+  const vcode = c.verification_code || '';
+  const verifyLine = vcode
+    ? `<div class="cert-verify">Verify: cyb.io/v/${escapeHtml(vcode)}</div>`
+    : `<div class="cert-id">Certificate ID: ${escapeHtml(c.id || c.cert_id || '')}</div>`;
+
+  // D7: display name — prefer user_display_name (first name), fall back to full learner_name
+  const displayName = c.user_display_name || c.learner_name || 'Learner';
+
+  if (body) body.innerHTML = `
+    <div class="cert-card">
+      <div class="cert-accent-bar"></div>
+      <div class="cert-inner">
+        <div class="cert-seal">🏅</div>
+        <div class="cert-brand">CN Learning Studio &mdash; Cybersoft</div>
+        <div class="cert-h">Certificate of Completion</div>
+        <div class="cert-name">${escapeHtml(displayName)}</div>
+        <div class="cert-sub">has successfully completed</div>
+        <div class="cert-track">${escapeHtml(c.track_title || '')}</div>
+        ${scoreBlock}
+        ${badgeStrip}
+        <hr class="cert-divider">
+        <div class="cert-date">Issued: ${escapeHtml(issuedFmt)}</div>
+        ${verifyLine}
+      </div>
+    </div>`;
+
+  const certId = c.id || c.cert_id || '';
+  // D7: footer — Download (PDF endpoint) + Share (Web Share API on mobile).
+  let footHtml = `<button class="primary" style="min-height:44px;" onclick="_certDownload('${escAttr(certId)}')">Download certificate</button>`;
+  if (vcode) footHtml += ` <button class="secondary" style="min-height:44px;" onclick="_certShare('${escAttr(vcode)}','${escAttr(certId)}')">Share</button>`;
+  if (foot) foot.innerHTML = footHtml;
+}
+
+function _certDownload(certId) {
+  if (!certId) { window.print(); return; }
+  window.open('/api/certificates/' + encodeURIComponent(certId) + '/pdf', '_blank');
+}
+
+function _certShare(vcode, certId) {
+  const verifyUrl = window.location.origin + '/api/certificates/verify/' + encodeURIComponent(vcode);
+  if (navigator.share) {
+    navigator.share({ title: 'My Certificate', text: 'I completed a course on CN Learning Studio!', url: verifyUrl })
+      .catch(function(){});
+  } else {
+    // Fallback: copy link
+    navigator.clipboard.writeText(verifyUrl).then(function() {
+      _showToast('Verification link copied!');
+    }).catch(function() {
+      prompt('Copy this verification link:', verifyUrl);
+    });
+  }
 }
 // Grounded quiz for a guide/module. Trust-first + demo-safe:
 //   1) prefer a pre-APPROVED, persisted quiz for this resource (no live LLM at showtime —
@@ -9338,13 +9429,62 @@ async function courseQuiz(cid, idx) {
   return runResourceQuiz(rid, 'Knowledge check', { onDone });
 }
 function showCertificate(tid) {
+  // Prefer the real persisted cert; fall back to a façade render for flat demo tracks.
   const t = _allDemoTracks().find(x => x.id === tid); if (!t) return;
-  const m = document.getElementById('quiz-modal'), body = document.getElementById('quiz-body'), foot = document.getElementById('quiz-foot'), ttl = document.getElementById('quiz-title');
+  const m = document.getElementById('quiz-modal');
   if (!m) return; m.hidden = false;
-  if (ttl) ttl.textContent = 'Certificate';
-  const k = document.getElementById('quiz-kicker'); if (k) k.textContent = 'Track completion';
-  if (body) body.innerHTML = `<div class="cert-card"><div class="cert-seal">🏅</div><div class="cert-h">Certificate of Completion</div><div class="cert-name">John Doe</div><div class="cert-sub">has completed</div><div class="cert-track">${escapeHtml(t.title)}</div><div class="cert-date">${_DEMO.due}, 2026 · SchoolCafé Learning Studio</div></div>`;
-  if (foot) foot.innerHTML = '<button class="primary" onclick="window.print()">Download</button>';
+  // Try to load the real cert for this track from the API.
+  fetch('/api/tracks/' + encodeURIComponent(tid), { headers: { 'X-Demo-User': _demoUserHeader() } })
+    .then(r => r.ok ? r.json() : null)
+    .then(track => {
+      const certId = track && (track.cert_id || (track.progress && track.progress.cert_id));
+      if (certId) {
+        return fetch('/api/certificates/' + encodeURIComponent(certId))
+          .then(r => r.ok ? r.json() : null);
+      }
+      return null;
+    })
+    .then(cert => {
+      if (cert) { _renderCertificate(cert); return; }
+      // Façade fallback for legacy demo tracks without a real cert record.
+      const body = document.getElementById('quiz-body'), foot = document.getElementById('quiz-foot'), ttl = document.getElementById('quiz-title');
+      if (ttl) ttl.textContent = 'Certificate';
+      const k = document.getElementById('quiz-kicker'); if (k) k.textContent = 'Track completion';
+      if (body) body.innerHTML = `
+        <div class="cert-card">
+          <div class="cert-accent-bar"></div>
+          <div class="cert-inner">
+            <div class="cert-seal">🏅</div>
+            <div class="cert-brand">CN Learning Studio &mdash; Cybersoft</div>
+            <div class="cert-h">Certificate of Completion</div>
+            <div class="cert-name">John</div>
+            <div class="cert-sub">has successfully completed</div>
+            <div class="cert-track">${escapeHtml(t.title)}</div>
+            <hr class="cert-divider">
+            <div class="cert-date">Issued: ${escapeHtml(_DEMO.due)}, 2026</div>
+          </div>
+        </div>`;
+      if (foot) foot.innerHTML = '<button class="primary" style="min-height:44px;" onclick="window.print()">Download certificate</button>';
+    })
+    .catch(() => {
+      // On any network error show the façade.
+      const body = document.getElementById('quiz-body'), foot = document.getElementById('quiz-foot');
+      if (body) body.innerHTML = `
+        <div class="cert-card">
+          <div class="cert-accent-bar"></div>
+          <div class="cert-inner">
+            <div class="cert-seal">🏅</div>
+            <div class="cert-brand">CN Learning Studio &mdash; Cybersoft</div>
+            <div class="cert-h">Certificate of Completion</div>
+            <div class="cert-name">John</div>
+            <div class="cert-sub">has successfully completed</div>
+            <div class="cert-track">${escapeHtml(t.title)}</div>
+            <hr class="cert-divider">
+            <div class="cert-date">Issued: ${escapeHtml(_DEMO.due)}, 2026</div>
+          </div>
+        </div>`;
+      if (foot) foot.innerHTML = '<button class="primary" style="min-height:44px;" onclick="window.print()">Download certificate</button>';
+    });
 }
 
 // ─── Roster (simulated multi-tenant demo) ───────────────────────────
