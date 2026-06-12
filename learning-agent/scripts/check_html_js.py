@@ -64,13 +64,13 @@ def main():
                 err = result.stderr.strip()
                 # Find where this block starts in the HTML so we can offset line numbers
                 block_start_line = html[:html.index(block)].count('\n') + 1
-                # Adjust line numbers in node's error output
-                def adjust_line(m):
-                    rel = int(m.group(1))
-                    return f'line {block_start_line + rel - 1}'
-                err_mapped = re.sub(r'(?<!\w)(\d+)(?=:\d+\))', adjust_line, err)
-                # Clean up temp file path in the message
-                err_mapped = err_mapped.replace(tmp_path, html_path)
+                # Node error format: "/tmp/xxx.js:LINE" or "/tmp/xxx.js:LINE:COL"
+                # Replace tmp_path:LINE with html_path:ABS_LINE in one pass.
+                err_mapped = re.sub(
+                    re.escape(tmp_path) + r':(\d+)',
+                    lambda m: f'{html_path}:{block_start_line + int(m.group(1)) - 1}',
+                    err
+                )
                 errors.append(f"Script block {i+1}:\n{err_mapped}")
         finally:
             os.unlink(tmp_path)
