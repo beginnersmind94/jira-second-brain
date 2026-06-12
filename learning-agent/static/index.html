@@ -2575,7 +2575,7 @@
     .lp-ex-output { padding: 9px 20px; background: #131d2e; border-top: 1px solid #2a3a52; min-height: 40px; font-size: 13px; color: #5e7a90; font-family: inherit; flex-shrink: 0; }
     .lp-ex-output.correct { color: #2ecc71; }
     .lp-ex-output.wrong { color: #e74c3c; }
-    @media (max-width: 720px) { .lp-ex-wrap { grid-template-columns: 1fr; grid-template-rows: auto 1fr; } .lp-ex-left { max-height: 45vh; border-right: 0; border-bottom: 1px solid var(--border); } }
+    @media (max-width: 720px) { .lp-ex-wrap { grid-template-columns: 1fr; grid-template-rows: auto 1fr; } .lp-ex-left { max-height: 45vh; border-right: 0; border-bottom: 1px solid var(--border); } .lp-ex-right { overflow-y: auto; -webkit-overflow-scrolling: touch; } }
     .lp-footer { background: var(--panel); border-top: 1px solid var(--border); padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex: none; }
     .lp-btn-prev { background: none; border: 1px solid var(--border); color: var(--text); border-radius: var(--radius); padding: 10px 18px; cursor: pointer; font: 600 14px var(--font); }
     .lp-btn-prev:hover { border-color: var(--accent); color: var(--accent); }
@@ -3677,11 +3677,11 @@ const _DEMO = (() => {
     { type:'approved', title:'Physical Inventory Counts',      module:'Inventory',      date:'Jun 3' },
     { type:'aging',    title:'POS Basics',                     module:'POS',            date:'Mar 5',  assignedDistricts:3 },
   ];
-  const smes = { 'POS':'Jaime', 'Item Management':'Srina', 'Eligibility':'Lalitha', 'Inventory':'Mohammed', 'Menu Planning':'Yulisa' };
+  const smes = { 'POS':'Srina', 'Item Management':'Srina', 'Eligibility':'Lalitha', 'Inventory':'Mohammed', 'Menu Planning':'Yulisa' };
   const claim = (t, s) => ({ text: t, source: s });
   const quality = [
-    { title:'POS Basics', module:'POS', format:'Micro', scores:[5,4,5,4], verdict:'Pass', sme:'Jaime', sme_date:'May 28', claims:[claim('Cashiers select the student’s meal status before ringing the transaction.','POS Basics guide · NXT-66012 AC'),claim('A reimbursable meal requires at least three of the five components.','POS Basics guide · USDA meal pattern')] },
-    { title:'Counting Meals Correctly', module:'POS', format:'Long-form', scores:[5,5,4,5], verdict:'Pass', sme:'Jaime', sme_date:'Jun 2', claims:[claim('Meal counts are taken at the point of service, not at production.','Counting Meals guide · NXT-66120 AC')] },
+    { title:’POS Basics’, module:’POS’, format:’Micro’, scores:[5,4,5,4], verdict:’Pass’, sme:’Srina’, sme_date:’May 28’, claims:[claim(‘Cashiers select the student’s meal status before ringing the transaction.’,’POS Basics guide · NXT-66012 AC’),claim(‘A reimbursable meal requires at least three of the five components.’,’POS Basics guide · USDA meal pattern’)] },
+    { title:’Counting Meals Correctly’, module:’POS’, format:’Long-form’, scores:[5,5,4,5], verdict:’Pass’, sme:’Srina’, sme_date:’Jun 2’, claims:[claim(‘Meal counts are taken at the point of service, not at production.’,’Counting Meals guide · NXT-66120 AC’)] },
     { title:'Item Management: Bulk Updates', module:'Item Management', format:'Long-form', scores:[4,4,4,5], verdict:'Pass', sme:'Srina', sme_date:'May 30', claims:[claim('Sub-Qty cannot be modified for Locked items.','NXT-69523 AC')] },
     { title:'Direct Certification Workflow', module:'Eligibility', format:'Long-form', scores:[5,4,5,4], verdict:'Pass', sme:'Lalitha', sme_date:'May 28', claims:[claim('Directly certified students are eligible without a household application.','Direct Cert guide · 7 CFR 245')] },
     { title:'Inventory Distribution', module:'Inventory', format:'Long-form', scores:[4,3,4,4], verdict:'Pass', sme:null, claims:[claim('Assigning the distribution site type makes a site eligible to be linked to an internal vendor.','Inventory Distribution transcript')] },
@@ -6271,8 +6271,12 @@ function _seedLearnProgress() {
 let _realTracks = null;
 const _LEARN_ROLES = ['Cashier', 'Site Manager', 'CN Director'];
 function _learnRole() { return _demoState.learnRole || 'Cashier'; }
-// Maps each learner role to the SchoolCafé guide module names relevant to that role.
-// Covers Cybersoft guide modules; ICN/USDA outside-vendor content shows for all roles.
+// Maps each learner role to the set of CATALOG module names (as returned by /api/catalog,
+// e.g. 'Accountability', 'Item Management') that apply to that role. These are guide catalog
+// module names — NOT course/track module names ('POS', 'Eligibility') which use a different
+// naming system. If new guide modules are added to the catalog, update this mapping; a missing
+// entry silently hides those guides from the role. ICN/USDA outside-vendor content bypasses
+// this filter and shows for all roles.
 const _ROLE_GUIDE_MODULES = {
   'Cashier':      new Set(['Accountability','Account Management','Food Safety, Staff Training','Food Safety','Staff Training','Reimbursable Meals, Staff Training, Menu Planning','Food Safety, Thermometer Use','Food Safety, Cooling Food','Food Safety, Handwashing']),
   'Site Manager': new Set(['Item Management','Inventory','Accountability','Account Management','Reports','Insights','Production','System','Family Hub','Food Safety, Staff Training','Food Safety','Staff Training','Reimbursable Meals, Staff Training, Menu Planning','Food Safety, Thermometer Use','Food Safety, Cooling Food','Food Safety, Handwashing']),
@@ -6713,6 +6717,9 @@ function closeLessonPlayer() {
   _lpState = null;
 }
 // ── DataCamp-style exercise panel ─────────────────────────────────────────────
+// DEMO ONLY: choices + correct index are hardcoded constants.
+// In V1.5, exercises must derive questions + answers from verbatim spans of the
+// published guide they sit in — same grounding gate as quizzes (CLAUDE.md §Quiz rules).
 const _EX_CHOICES = [
   'Yes — the student selected 4 of 5 components, including ½ cup of fruit and ½ cup of vegetable. The minimum is 3 of 5, with at least ½ cup of fruit or vegetable included.',
   'No — the student must take all 5 components for a meal to be reimbursable.',
