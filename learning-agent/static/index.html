@@ -5509,6 +5509,13 @@ function renderMyTeamE1() {
   }
   if (_viewMode === 'customer') {
     h += `<button class="secondary" onclick="e1ComplianceReport('${escAttr(trackId)}')" style="margin-left:auto;">&#128203; Compliance Report</button>`;
+    // E-spec: Grounding Audit button — opens the course-level audit export
+    // for the primary course in this track.  Trainer/director only (customer
+    // view is director here, so allowed).
+    const primaryCourseId = (d.primaryCourseId || d.course_ids && d.course_ids[0]) || null;
+    if (primaryCourseId) {
+      h += `<button class="secondary" onclick="e1GroundingAudit('${escAttr(primaryCourseId)}')" title="Download exhaustive claim-by-claim grounding audit" style="color:#1d4ed8;border-color:#bfdbfe;">&#128203; Grounding Audit</button>`;
+    }
   }
   h += `</div>`;
 
@@ -5634,6 +5641,26 @@ function e1ComplianceReport(trackId) {
   const isd = (_curDistrict() || {}).id || 'houston-isd';
   window.open(
     `/api/roster/${encodeURIComponent(trackId)}/report?isd=${encodeURIComponent(isd)}`,
+    '_blank'
+  );
+}
+
+// E-spec: Grounding Audit — course-level export (trainer/director only).
+// Opens GET /api/courses/{cid}/audit/export in a new tab, triggering download.
+function e1GroundingAudit(courseId) {
+  if (!courseId) { _showToast('No course available for audit.'); return; }
+  window.open(
+    `/api/courses/${encodeURIComponent(courseId)}/audit/export`,
+    '_blank'
+  );
+}
+
+// E-spec: Per-guide grounding audit — from guide detail view (trainer only).
+// Opens GET /api/resources/{rid}/audit/export in a new tab.
+function openGuideAudit(rid) {
+  if (!rid) return;
+  window.open(
+    `/api/resources/${encodeURIComponent(rid)}/audit/export`,
     '_blank'
   );
 }
@@ -6772,8 +6799,13 @@ function reviewDemoItem(idx){
   const showSrcBtn = (isAiGrounded && it.rid)
     ? `<button class="show-source-btn" style="font-size:12px;" onclick="showSourcePopover('${escAttr(it.rid)}','${escAttr(it.title)}')">Show source</button>`
     : '';
+  // E-spec: "View Audit" — exhaustive claim-level grounding audit (trainer/director only).
+  // Only shown for AI-grounded items that have a resource id.
+  const auditBtn = (isAiGrounded && it.rid)
+    ? `<button class="secondary" style="font-size:12px;" onclick="openGuideAudit('${escAttr(it.rid)}')" title="Download exhaustive grounding audit">&#128269; View Audit</button>`
+    : '';
   if (prev) prev.innerHTML = `<div style="padding:22px 24px;">
-      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;">${_statusChip(it.status)}${originBadgeHtml(it.origin)}${showSrcBtn}</div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;">${_statusChip(it.status)}${originBadgeHtml(it.origin)}${showSrcBtn}${auditBtn}</div>
       <h2 style="font-family:var(--serif);font-size:22px;margin:0 0 6px;">${escapeHtml(it.title)}</h2>
       <p style="color:var(--muted);margin:0 0 18px;">${escapeHtml(it.module)} · ${escapeHtml(it.format)} · created ${escapeHtml(it.created)}</p>
       <div style="background:var(--panel2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px;font-size:13.5px;line-height:1.6;color:var(--text-soft);">${note}</div>
