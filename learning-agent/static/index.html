@@ -2625,6 +2625,42 @@
     .learn-bc-btn:hover { text-decoration: underline; }
     .learn-bc-sep { color: var(--muted-soft); font-size: 11px; }
     .learn-bc-cur { color: var(--text-soft); font-weight: 600; }
+    /* ── D2: Empty states ──────────────────────────────────────────── */
+    .empty-state { display: flex; flex-direction: column; align-items: center; padding: 48px 24px; text-align: center; }
+    .empty-icon { font-size: 48px; margin-bottom: 16px; }
+    .empty-headline { font-size: 18px; font-weight: 600; margin-bottom: 8px; color: var(--text); }
+    .empty-body { color: var(--muted); font-size: 14px; line-height: 1.55; max-width: 360px; }
+
+    /* ── D2: Onboarding overlay ──────────────────────────────────────── */
+    #onboarding-overlay { position: fixed; inset: 0; z-index: 30; background: rgba(28,24,20,0.52); backdrop-filter: blur(3px); display: flex; align-items: center; justify-content: center; padding: 24px 16px; }
+    #onboarding-overlay[hidden] { display: none !important; }
+    .ob-card { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-lg); padding: 36px 40px; max-width: 520px; width: 100%; animation: fade-in .22s ease; }
+    .ob-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+    .ob-headline { font-family: var(--serif); font-size: 26px; font-weight: 650; color: var(--text); margin: 0 0 6px; line-height: 1.2; }
+    .ob-subhead { font-size: 14px; color: var(--muted-aa); margin: 0 0 24px; }
+    .ob-track-card { background: var(--panel2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 18px; margin-bottom: 24px; }
+    .ob-track-title { font-size: 15px; font-weight: 700; color: var(--text); margin: 0 0 4px; }
+    .ob-track-meta { font-size: 12.5px; color: var(--muted); }
+    .ob-cta { width: 100%; padding: 14px 0; font-size: 16px; font-weight: 700; border-radius: var(--radius); border: 0; background: var(--accent); color: var(--accent-ink); cursor: pointer; font-family: var(--font); transition: background .14s; margin-bottom: 12px; }
+    .ob-cta:hover { background: var(--accent-hover); }
+    .ob-skip { display: block; text-align: center; background: none; border: 0; color: var(--muted-aa); font: 13px var(--font); cursor: pointer; text-decoration: underline; padding: 0; }
+    .ob-skip:hover { color: var(--text); }
+
+    /* ── D2: Track hero card with progress ring ──────────────────────── */
+    .track-hero { display: flex; align-items: center; gap: 16px; padding: 20px; border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 16px; background: var(--panel); box-shadow: var(--shadow); flex-wrap: wrap; }
+    .track-hero-ring { position: relative; flex: none; }
+    .track-hero-pct { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: var(--text); }
+    .track-hero-body { flex: 1; min-width: 0; }
+    .track-hero-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .track-hero-sub { font-size: 12.5px; color: var(--muted); margin-bottom: 2px; }
+    .track-hero-next { font-size: 12px; color: var(--muted-aa); }
+    .track-hero-cta { flex: none; padding: 10px 22px; font-size: 14px; font-weight: 700; border-radius: var(--radius); border: 0; background: var(--accent); color: var(--accent-ink); cursor: pointer; font-family: var(--font); transition: background .14s; white-space: nowrap; }
+    .track-hero-cta:hover { background: var(--accent-hover); }
+    .track-hero-done { font-size: 28px; flex: none; }
+
+    /* ── D2: Course player empty course ──────────────────────────────── */
+    .cp-empty-course { padding: 32px 24px; text-align: center; color: var(--muted); font-size: 14px; }
+
     /* Lesson player — fixed full-page overlay filling the content area */
     #lesson-player { position: fixed; inset: 60px 0 0 230px; background: var(--bg); z-index: 25; display: flex; flex-direction: column; overflow: hidden; }
     #lesson-player[hidden] { display: none !important; }
@@ -3033,6 +3069,21 @@
   </div>
   <div class="am-foot"><span class="tb-note">Auto-enrolls matching learners; future joiners inherit it while active.</span><button class="primary" onclick="asnSave()">Assign training</button></div>
 </div></div>
+<!-- D2: First-run onboarding overlay. Shown when is_first_visit && !sessionStorage onboarding_skipped. -->
+<div id="onboarding-overlay" hidden>
+  <div class="ob-card">
+    <p class="ob-eyebrow">Your learning path starts here</p>
+    <h2 class="ob-headline" id="ob-headline">Welcome to CN Learning.</h2>
+    <p class="ob-subhead">Complete your assigned path to earn your certification.</p>
+    <div class="ob-track-card" id="ob-track-card" hidden>
+      <div class="ob-track-title" id="ob-track-title"></div>
+      <div class="ob-track-meta" id="ob-track-meta"></div>
+    </div>
+    <button class="ob-cta" id="ob-cta" onclick="obStartLearning()">Start learning →</button>
+    <button class="ob-skip" onclick="obDismiss()">Skip for now</button>
+  </div>
+</div>
+
 <div id="drawer-overlay" class="drawer-overlay" hidden onclick="closeDrawer()"></div>
 <aside id="app-drawer" class="app-drawer" hidden role="dialog" aria-modal="true" aria-labelledby="drawer-title">
   <div class="drawer-head"><h3 id="drawer-title"></h3><button class="drawer-x" onclick="closeDrawer()" aria-label="Close">✕</button></div>
@@ -7873,7 +7924,7 @@ function _renderRealTrack(t) {
       <div class="path-mod-main"><div class="icn-type">🏅 <span>certify</span></div><div class="path-mod-title">Track certificate</div>
         <div class="path-mod-actions">${allDone
           ? `<button class="track-open" onclick="event.stopPropagation(); issueTrackCertificate('${t.id}')">Get certificate</button>`
-          : '<span class="track-soon">Complete every module to unlock</span>'}</div>
+          : '<span class="track-soon">Complete every lesson to unlock</span>'}</div>
       </div></li>`;
   const _bcRT = _bcHtml([{label:'Learn', onclick:'renderLearnHome()'}, {label:t.title}]);
   document.getElementById('track-detail').innerHTML = `
@@ -7881,7 +7932,7 @@ function _renderRealTrack(t) {
     <header class="path-hero">
       <p class="path-eyebrow">${escapeHtml(t.product || 'SchoolCafé')} · ${escapeHtml(rt[0] || 'All staff')} track</p>
       <h1 class="path-title">${escapeHtml(t.title)}</h1>
-      <div class="path-stats"><span><b>${mods.length}</b>modules</span><span><b>${pct}%</b>done</span><span>${
+      <div class="path-stats"><span><b>${mods.length}</b>lessons</span><span><b>${pct}%</b>done</span><span>${
         // Over-claiming guard: show ai-grounded badge ONLY when ALL modules passed the cite gate.
         // Mixed tracks (AI + human + ICN) or ICN-only tracks must NEVER display the AI grounding claim.
         mods.length && mods.every(m => m.source === 'AI_TRANSCRIPT')
@@ -11492,6 +11543,338 @@ async function qbAttach() {
     tbShowToast('Attach failed: ' + e.message, 'error');
   }
 }
+
+// ══════════════════════════════════════════════════════════════════════════════
+// D2 — First-run onboarding & empty states
+// ══════════════════════════════════════════════════════════════════════════════
+
+// ── Tab visibility (persona-aware) ────────────────────────────────────────────
+/**
+ * updateTabVisibility(role)
+ * Show / hide sidebar nav tabs by learner role.
+ *
+ * cashier  → learn, library only (trainer/admin tabs hidden)
+ * director → learn, library, myteam
+ * trainer  → all tabs (unchanged by this function — applyViewMode handles it)
+ *
+ * IMPORTANT: This is called from the customer side only (applyViewMode() already
+ * handles the trainer split).  We refine within the customer tab set.
+ */
+function updateTabVisibility(role) {
+  if (_viewMode !== 'customer') return;  // trainer nav is managed by applyViewMode()
+  const hide = function(id) { const el = document.getElementById(id); if (el) el.hidden = true; };
+  const show = function(id) { const el = document.getElementById(id); if (el) el.hidden = false; };
+  // Always show learn + library in customer view.
+  show('tab-learn');
+  show('tab-library');
+  if (role === 'director') {
+    show('tab-myteam');
+  } else {
+    // cashier, trainer-in-customer-mode, fallback — hide myteam tab.
+    hide('tab-myteam');
+  }
+  // quizzes / admin / create / districts tabs are handled by applyViewMode() — don't touch them here.
+}
+
+// ── Onboarding overlay state ──────────────────────────────────────────────────
+let _obState = null;  // most-recent onboarding API response
+
+/**
+ * showOnboardingOverlay(state)
+ * Populate and show the first-run welcome overlay.
+ * Called from loadLearn() after tracks are fetched.
+ */
+function showOnboardingOverlay(state) {
+  const overlay = document.getElementById('onboarding-overlay');
+  if (!overlay) return;
+
+  const role = state.role || 'cashier';
+  const greetings = {
+    cashier:  'Welcome, John. Your cashier training starts here.',
+    director: 'Welcome, Dana. Your team’s learning is ready.',
+    trainer:  'Welcome, Sam. Your content studio is ready.',
+  };
+  const headline = greetings[role] || 'Welcome to CN Learning.';
+
+  const headEl = document.getElementById('ob-headline');
+  if (headEl) headEl.textContent = headline;
+
+  // Mini track card — populate from the recommended track data.
+  const recId = state.recommended_track;
+  const recTrack = recId ? (_realTracks || []).find(function(t) { return t.id === recId; }) : null;
+  const trackCard = document.getElementById('ob-track-card');
+  const trackTitle = document.getElementById('ob-track-title');
+  const trackMeta  = document.getElementById('ob-track-meta');
+  if (recTrack && trackCard && trackTitle && trackMeta) {
+    trackTitle.textContent = recTrack.title || 'Your learning path';
+    const lessonCount = (recTrack.module_ids || []).length;
+    const dur = lessonCount ? lessonCount + ' lesson' + (lessonCount !== 1 ? 's' : '') + ' · ~' + (lessonCount * 8) + ' min' : '';
+    trackMeta.textContent = dur + (dur && recTrack.role_tags && recTrack.role_tags.length ? ' · Assigned to all ' + recTrack.role_tags.join('/') + ' staff' : '');
+    trackCard.hidden = false;
+  }
+
+  // CTA — store the recommended track id so obStartLearning() can open it.
+  const ctaEl = document.getElementById('ob-cta');
+  if (ctaEl) {
+    ctaEl.dataset.trackId = recId || '';
+    ctaEl.textContent = 'Start learning →';
+  }
+
+  _obState = state;
+  overlay.hidden = false;
+}
+
+/** Called when the learner clicks "Start learning →" on the onboarding overlay. */
+function obStartLearning() {
+  const ctaEl = document.getElementById('ob-cta');
+  const tid = ctaEl && ctaEl.dataset.trackId;
+  obDismiss();
+  if (tid) {
+    openCoursePlayer(tid);
+  }
+}
+
+/** Dismiss the overlay and suppress it for the rest of this browser session. */
+function obDismiss() {
+  const overlay = document.getElementById('onboarding-overlay');
+  if (overlay) overlay.hidden = true;
+  try { sessionStorage.setItem('onboarding_skipped', '1'); } catch (e) {}
+}
+
+// ── Track hero card with progress ring ────────────────────────────────────────
+/**
+ * renderTrackHero(t, pct, done, total, nextTitle, nextDuration)
+ * Returns HTML for the hero card shown at the top of the Learn tab for the
+ * learner's primary assigned track.
+ */
+function renderTrackHero(t, pct, done, total, nextTitle, nextDuration) {
+  const tid = t.id;
+  const RING_TOTAL = 113.1;  // 2 * PI * 18 (r=18, viewBox 44x44)
+  const ringDash = Math.round((pct / 100) * RING_TOTAL * 10) / 10;
+
+  if (pct === 100) {
+    // Completed state — replace ring with check mark.
+    return `<div class="track-hero">
+      <div class="track-hero-done">&#10003;</div>
+      <div class="track-hero-body">
+        <div class="track-hero-title">${escapeHtml(t.title)}</div>
+        <div class="track-hero-sub">All ${total} lesson${total !== 1 ? 's' : ''} complete</div>
+      </div>
+      <button class="track-hero-cta" onclick="issueTrackCertificate('${escAttr(tid)}')">View certificate</button>
+    </div>`;
+  }
+
+  const ctaLabel = done === 0 ? 'Start' : 'Continue';
+  const pctDisplay = pct + '%';
+  const nextLine = nextTitle ? 'Up next: ' + escapeHtml(nextTitle) + (nextDuration ? ' · ~' + nextDuration : '') : '';
+
+  return `<div class="track-hero">
+    <div class="track-hero-ring">
+      <svg viewBox="0 0 44 44" width="44" height="44" aria-hidden="true">
+        <circle cx="22" cy="22" r="18" fill="none" stroke="var(--border)" stroke-width="4"/>
+        <circle cx="22" cy="22" r="18" fill="none" stroke="var(--green)" stroke-width="4"
+          stroke-dasharray="${ringDash} ${RING_TOTAL}"
+          stroke-dashoffset="0" transform="rotate(-90 22 22)"/>
+      </svg>
+      <span class="track-hero-pct">${escapeHtml(pctDisplay)}</span>
+    </div>
+    <div class="track-hero-body">
+      <div class="track-hero-title">${escapeHtml(t.title)}</div>
+      <div class="track-hero-sub">${done} of ${total} lesson${total !== 1 ? 's' : ''} complete</div>
+      ${nextLine ? `<div class="track-hero-next">${nextLine}</div>` : ''}
+    </div>
+    <button class="track-hero-cta btn btn-primary" onclick="openCoursePlayer('${escAttr(tid)}')">${ctaLabel} →</button>
+  </div>`;
+}
+
+// ── Patch loadLearn to trigger onboarding + tab visibility ────────────────────
+// We wrap the existing loadLearn so the onboarding check runs AFTER real tracks
+// are fetched (the API call that resolves recommended_track).
+const _origLoadLearn = loadLearn;
+loadLearn = async function() {
+  await _origLoadLearn();
+  // After tracks are loaded, apply role-aware tab visibility.
+  const role = _learnRole().toLowerCase();
+  const normRole = role.includes('director') ? 'director' : role.includes('trainer') ? 'trainer' : 'cashier';
+  updateTabVisibility(normRole);
+
+  // Trigger onboarding overlay if first visit and not already skipped this session.
+  if (sessionStorage.getItem('onboarding_skipped')) return;
+  const uid = _demoUserHeader();  // e.g. "john-cashier"
+  try {
+    const resp = await fetch('/api/users/' + encodeURIComponent(uid) + '/onboarding-state', {
+      headers: { 'X-Demo-User': uid },
+    });
+    if (!resp.ok) return;
+    const state = await resp.json();
+    if (state && state.is_first_visit) {
+      showOnboardingOverlay(state);
+    }
+  } catch (e) {
+    // Non-fatal: onboarding overlay is enhancement, not core.
+  }
+};
+
+// ── Patch renderLearnHome to show hero card + empty state ─────────────────────
+// Wrap renderLearnHome to inject the track-hero card for the first real track.
+// The hero replaces the existing hero-wrap for real tracks (the existing heroWrap
+// block already handles real tracks but without the ring visual).
+// We hook AFTER the existing render to swap the heroWrap for the first real track.
+const _origRenderLearnHome = renderLearnHome;
+renderLearnHome = function() {
+  _origRenderLearnHome();
+  _d2PostRenderLearnHome();
+};
+
+function _d2PostRenderLearnHome() {
+  const heroWrap = document.getElementById('learn-hero-wrap');
+  if (!heroWrap) return;
+
+  // Is there a real published track as the hero?
+  const realTracks = _realTracksForRole(_learnRole());
+  if (!realTracks || realTracks.length === 0) {
+    // No tracks at all — show designed empty state.
+    const trackWrap = document.getElementById('learn-track-wrap');
+    if (!heroWrap.innerHTML.trim() || heroWrap.querySelector('.lh-firstrun[data-notrack]')) {
+      heroWrap.innerHTML = `<div class="empty-state">
+        <div class="empty-icon">&#128218;</div>
+        <p class="empty-headline">No learning paths assigned yet.</p>
+        <p class="empty-body">Your manager will assign your training soon. Check back here.</p>
+      </div>`;
+      if (trackWrap) trackWrap.innerHTML = '';
+    }
+    return;
+  }
+
+  // Hero is the first real track — render the progress-ring hero card.
+  const t = realTracks[0];
+  const progress = (t && t.progress) || {};
+  const lessonsDone = progress.lessons_done || {};
+  // Count total and done across all lessons_done keys.
+  let doneCount = 0;
+  for (const refs of Object.values(lessonsDone)) { doneCount += (refs || []).length; }
+  const moduleIds = t.module_ids || [];
+  const totalCount = moduleIds.length || doneCount || 0;
+  const pct = totalCount ? Math.round(100 * Math.min(doneCount, totalCount) / totalCount) : 0;
+
+  // Next incomplete lesson title/duration (best-effort from module_ids).
+  let nextTitle = '', nextDuration = '';
+  if (t.modules && t.modules.length) {
+    const doneMids = new Set(Object.values(lessonsDone).flat());
+    const nextMod = t.modules.find(function(m) { return !doneMids.has(m.id); });
+    if (nextMod) {
+      nextTitle = nextMod.title || '';
+      nextDuration = nextMod.duration_min ? nextMod.duration_min + ' min' : '~8 min';
+    }
+  }
+
+  heroWrap.innerHTML = renderTrackHero(t, pct, doneCount, totalCount, nextTitle, nextDuration);
+}
+
+// ── Patch _cpRender to show empty-course state ────────────────────────────────
+// When a course has no lessons, show a designed empty state instead of a blank rail.
+const _origCpRender = _cpRender;
+_cpRender = function() {
+  _origCpRender();
+  // If the rail is empty (no lesson items), inject the empty-course message.
+  const rail = document.getElementById('cp-rail');
+  if (rail && !rail.querySelector('.cp-rail-lesson')) {
+    const pane = document.getElementById('cp-lesson-content');
+    if (pane) {
+      pane.innerHTML = '<div class="cp-empty-course"><p>No lessons in this course yet.</p></div>';
+    }
+  }
+};
+
+// ── Empty states: Library tab (no guides) ─────────────────────────────────────
+// Patch the Library grid to show a designed empty state when no guides are found.
+// The existing renderCatalogDemo already renders a plain "no match" string in the grid.
+// We additionally patch the lib-grid (Studio worklist) when it's empty.
+const _origLoadLibraryDemo = typeof loadLibraryDemo === 'function' ? loadLibraryDemo : null;
+if (_origLoadLibraryDemo) {
+  loadLibraryDemo = async function() {
+    await _origLoadLibraryDemo();
+    _d2PatchLibraryEmpty();
+  };
+}
+function _d2PatchLibraryEmpty() {
+  const grid = document.getElementById('lib-grid-body') || document.querySelector('.lib-grid');
+  if (!grid) return;
+  const rows = grid.querySelectorAll('.lib-row,.lib-table tbody tr');
+  if (rows.length === 0) {
+    const existing = grid.querySelector('.lib-empty,.empty-state');
+    if (!existing) {
+      grid.insertAdjacentHTML('beforeend', `<div class="empty-state">
+        <div class="empty-icon">&#128196;</div>
+        <p class="empty-headline">No guides available yet.</p>
+        <p class="empty-body">Published training guides will appear here.</p>
+      </div>`);
+    }
+  }
+}
+
+// ── Empty state: Quiz catalog ─────────────────────────────────────────────────
+// Patch renderCatalogDemo to inject a designed empty state when there are no quizzes
+// for the learner's role filter (customer view).
+const _origRenderCatalogDemo = typeof renderCatalogDemo === 'function' ? renderCatalogDemo : null;
+if (_origRenderCatalogDemo) {
+  renderCatalogDemo = function() {
+    _origRenderCatalogDemo();
+    _d2PatchCatalogQuizEmpty();
+  };
+}
+function _d2PatchCatalogQuizEmpty() {
+  if (_viewMode !== 'customer') return;
+  const grid = document.getElementById('icn-grid');
+  if (!grid) return;
+  const typeFilter = (document.getElementById('cat-type') || {}).value || '';
+  if (typeFilter !== 'Quiz') return;
+  const cards = grid.querySelectorAll('.icn-card');
+  if (cards.length === 0) {
+    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;">
+      <div class="empty-icon">&#9989;</div>
+      <p class="empty-headline">No quizzes published yet.</p>
+      <p class="empty-body">Your trainer will add quizzes to your courses.</p>
+    </div>`;
+  }
+}
+
+// ── D2: "modules" → "lessons" jargon sweep ────────────────────────────────────
+// The one learner-visible "modules" string in _renderRealTrack path-stats is
+// already caught below via a runtime text patch applied after each render.
+// We patch the count string rendered inside the track path stats.
+// (Source line: `<span><b>${mods.length}</b>modules</span>` in _renderRealTrack)
+// That string is inside a dynamically-rendered container (#track-detail), so
+// we patch it by overriding the render inline via the MutationObserver pattern.
+(function() {
+  const _JARGON = /\bmodules\b/gi;
+  const _TARGETS = ['track-detail', 'learn-hero-wrap', 'learn-track-wrap'];
+
+  function _sweepNode(node) {
+    if (!node || node.nodeType !== 1) return;
+    // Only touch text nodes that are visible to learners (path-stats class).
+    node.querySelectorAll('.path-stats span').forEach(function(span) {
+      if (span.textContent.match(_JARGON)) {
+        // Replace only the text content of the text nodes (not innerHTML) to
+        // avoid breaking event listeners.
+        span.childNodes.forEach(function(child) {
+          if (child.nodeType === 3) {
+            child.textContent = child.textContent.replace(_JARGON, 'lessons');
+          }
+        });
+      }
+    });
+  }
+
+  // Observe the main content area for DOM changes and sweep on mutation.
+  document.addEventListener('DOMContentLoaded', function() {
+    _TARGETS.forEach(function(id) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      new MutationObserver(function() { _sweepNode(el); }).observe(el, { childList: true, subtree: true });
+    });
+  });
+})();
 </script>
 </body>
 </html>
