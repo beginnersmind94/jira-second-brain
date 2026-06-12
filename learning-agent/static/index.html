@@ -1494,6 +1494,13 @@
     .r-status.over { background: var(--amber-soft, #F3E0C8); color: var(--amber-text, #8A5A12); }
     .nudged { font-size: 10.5px; color: var(--muted); font-style: italic; }
     .secondary.sm { padding: 4px 9px; font-size: 11.5px; }
+    /* E1 — live row + nudge chips */
+    .live-chip { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #16a34a; background: #dcfce7; border: 1px solid #bbf7d0; border-radius: 3px; padding: 1px 5px; margin-left: 5px; vertical-align: middle; }
+    .nudged-chip { display: inline-block; font-size: 10px; color: var(--muted); border: 1px solid var(--border); border-radius: 3px; padding: 1px 6px; margin-left: 4px; }
+    .overdue-badge { display: inline-block; font-size: 11px; font-weight: 700; color: #b45309; background: #fef3c7; border: 1px solid #fde68a; border-radius: 10px; padding: 1px 8px; margin-left: 8px; }
+    tr.e1-live-row td { background: #f0fdf4 !important; }
+    tr.e1-live-row { border-left: 3px solid #16a34a; }
+    .mt-tools { margin: 0 0 var(--sp-3); display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
     .am-overlay { position: fixed; inset: 0; z-index: 90; background: rgba(30,22,16,.5); display: flex; align-items: center; justify-content: center; }
     .am-overlay[hidden] { display: none; }
     .am-modal { width: 100%; max-width: 460px; max-height: 84vh; overflow: auto; background: var(--panel); border-radius: var(--radius); box-shadow: var(--shadow-lift); }
@@ -5206,8 +5213,114 @@ function notifyPO(module, title, reason) {
 let _focusDistrict = '';
 function openDistrictInManage(id){ _curISD = id; showView('district'); }
 // ─── My Team (CN-Director dashboard, scoped to selected district) ───
+// E1: Real progress — GET /api/roster/<track_id> joins real completion for demo users.
+// Seeded rows fill the table to 28 for visual fullness.
 let _assignSel = { track: null, staff: {} };
-function loadMyTeam() { _demoISDInit(); renderMyTeam(); }
+let _e1RosterData = null;   // cache: {track_id, rows, summary, due_date, ...}
+const _E1_DEFAULT_TRACK = 'track-g1-cashier-onboarding';
+
+function loadMyTeam() {
+  _demoISDInit();
+  // E1: load real roster from API; fall back to legacy seeded render if fetch fails.
+  _loadE1Roster(_E1_DEFAULT_TRACK).then(renderMyTeamE1).catch(() => renderMyTeam());
+}
+
+async function _loadE1Roster(trackId) {
+  const isd = (_curDistrict() || {}).id || 'houston-isd';
+  const resp = await fetch(
+    `/api/roster/${encodeURIComponent(trackId)}?isd=${encodeURIComponent(isd)}`,
+    { headers: { 'X-Demo-User': _demoUserHeader() } }
+  );
+  if (!resp.ok) throw new Error('roster ' + resp.status);
+  _e1RosterData = await resp.json();
+  return _e1RosterData;
+}
+
+function renderMyTeamE1() {
+  const data = _e1RosterData;
+  const body = document.getElementById('myteam-body'); if (!body) return;
+  const d = _curDistrict();
+  const tt = document.getElementById('myteam-title');
+  if (tt) tt.textContent = d.name + ' · My Team';
+
+  const s = data.summary || {};
+  const overdue = s.overdue || 0;
+  const trackId = data.track_id || _E1_DEFAULT_TRACK;
+  const trackTitle = data.track_title || 'New Cashier Onboarding';
+  const dueDate = data.due_date || '';
+
+  // Overdue badge text for tab/header.
+  const overdueBadge = overdue > 0
+    ? `<span class="overdue-badge">${overdue} overdue</span>` : '';
+
+  // Summary stat cards.
+  const statCards = [
+    ['Staff complete', (s.completion_rate_pct || 0) + '%'],
+    ['Overdue', overdue],
+    ['Enrolled', s.enrolled || 0],
+    ['Due', dueDate ? dueDate.slice(0, 10) : '—'],
+  ].map(([l, n]) => `<div class="roster-stat"><div class="n">${escapeHtml(String(n))}</div><div class="l">${escapeHtml(l)}</div></div>`).join('');
+
+  // Nudge-all-overdue button label.
+  const nudgeAllLabel = `&#128276; Nudge all overdue (${overdue})`;
+
+  let h = '';
+  h += `<div class="roster-head" style="display:flex;align-items:baseline;gap:8px;margin-bottom:12px;">
+    <h1 class="roster-title">${escapeHtml(d.name)} &middot; My Team${overdueBadge}</h1>
+    <span class="demo-tag">Live data</span>
+  </div>`;
+  h += `<div class="roster-cards">${statCards}</div>`;
+  h += `<div class="mt-tools">`;
+  h += `<button class="secondary" onclick="openAssignmentModal('${escAttr(d.id)}')">Assign training</button>`;
+  // Insights button.
+  h += `<button class="secondary insights-btn" onclick="openInsightPanel('${escAttr(trackId)}','${escAttr(trackTitle)}')">&#128202; Insights</button>`;
+  if (overdue > 0) {
+    h += `<button class="secondary" onclick="e1NudgeAllOverdue('${escAttr(trackId)}')" style="color:#b45309;border-color:#fde68a;">${nudgeAllLabel}</button>`;
+  }
+  if (_viewMode === 'customer') {
+    h += `<button class="secondary" onclick="e1ComplianceReport('${escAttr(trackId)}')" style="margin-left:auto;">&#128203; Compliance Report</button>`;
+  }
+  h += `</div>`;
+
+  // Roster table.
+  h += `<div class="roster-table-wrap"><table class="roster-table">
+    <thead><tr>
+      <th>Learner</th><th>Role</th><th>Progress</th><th>Status</th><th>Due</th><th>Score</th><th></th>
+    </tr></thead><tbody>`;
+
+  const rows = data.rows || [];
+  rows.forEach(r => {
+    const isLive = r.is_live;
+    const isOverdue = r.is_overdue;
+    const isDone = r.completed;
+    const rowClass = isLive ? ' class="e1-live-row"' : '';
+    const namePart = escapeHtml(r.name) + (isLive ? ' <span class="live-chip">live</span>' : '');
+    const progPart = `<span class="r-prog"><span class="r-bar"><span style="width:${r.pct_complete}%"></span></span>${r.pct_complete}%</span>`;
+    const statusPart = isDone
+      ? '<span class="pill pill--success">Complete</span>'
+      : isOverdue
+        ? '<span class="pill pill--urgent">Overdue</span>'
+        : '<span class="pill pill--info">In progress</span>';
+    const nudgePart = r.nudged
+      ? '<span class="nudged-chip">reminded &#10003;</span>'
+      : (!isDone ? `<button class="secondary sm" onclick="e1NudgeOne('${escAttr(trackId)}','${escAttr(r.user_id)}','${escAttr(r.name)}')">Nudge</button>` : '');
+    const duePart = r.due_date ? r.due_date.slice(0, 10) : '—';
+    const scorePart = r.assessment_score != null ? r.assessment_score + '%' : '—';
+    h += `<tr${rowClass}>
+      <td><div class="r-name">${namePart}</div></td>
+      <td>${escapeHtml(r.role)}</td>
+      <td>${progPart}</td>
+      <td>${statusPart}${r.nudged ? ' <span class="nudged">reminded</span>' : ''}</td>
+      <td>${duePart}</td>
+      <td>${scorePart}</td>
+      <td>${nudgePart}</td>
+    </tr>`;
+  });
+
+  h += '</tbody></table></div>';
+  body.innerHTML = h;
+}
+
 // Staff-by-site table — SHARED by the customer's My Team view and the trainer's district-detail Progress section.
 function _renderStaffTable(d) {
   const ls = d.learners;
@@ -5228,7 +5341,7 @@ function _renderStaffTable(d) {
   h += '</tbody></table></div>';
   return h;
 }
-// CUSTOMER view: a CN Director owns ONE district, so "My Team" = their own staff. (Trainer drills into the richer district-detail instead.)
+// CUSTOMER view (legacy fallback): a CN Director owns ONE district, so "My Team" = their own staff.
 function renderMyTeam() {
   const d = _curDistrict(); const body = document.getElementById('myteam-body'); if (!body) return;
   const ls = d.learners, total = ls.length || 1;
@@ -5237,18 +5350,58 @@ function renderMyTeam() {
   let h = `<div class="mt-banner">All staff training due ${_DEMO.due} — <b>${Math.round(100 * done / total)}%</b> complete, <b>${overdue}</b> overdue. <button class="track-open" onclick="nudgeAllOverdue()">Nudge all overdue</button></div>`;
   h += '<div class="roster-cards">' + [['Staff complete', Math.round(100 * done / total) + '%'], ['Overdue', overdue], ['Not started', notStarted], ['Days to go-live', _daysToGoLive()]].map(t => `<div class="roster-stat"><div class="n">${t[1]}</div><div class="l">${escapeHtml(t[0])}</div></div>`).join('') + '</div>';
   h += `<div class="mt-tools"><button class="secondary" onclick="openAssignmentModal('${d.id}')">Assign training</button></div>`;
-  // Compliance export button — Customer view only (CN Director and above).
   if (_viewMode === 'customer') {
     h += `<div class="mt-compliance"><button class="secondary" onclick="downloadComplianceReport('${escAttr(d.id)}')">Download compliance report (PDF)</button><span class="mt-compliance-note">Covers your district only &middot; Due Jun 30</span></div>`;
   }
   h += _renderStaffTable(d);
   body.innerHTML = h;
 }
-function nudgeOne(nk, name) { _demoState.nudged[nk] = true; alert('Reminder sent to ' + name + '.'); renderMyTeam(); }
-function nudgeAllOverdue() { const d = _curDistrict(); let c = 0; d.learners.forEach((l, gi) => { if (l.status === 'Overdue') { _demoState.nudged[d.id + ':' + gi] = true; c++; } }); alert('Reminders sent to ' + c + ' staff.'); renderMyTeam(); }
+
+// E1 nudge helpers — call the real API endpoints.
+async function e1NudgeOne(trackId, userId, name) {
+  try {
+    const resp = await fetch(`/api/roster/${encodeURIComponent(trackId)}/nudge`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Demo-User': _demoUserHeader() },
+      body: JSON.stringify({ user_ids: [userId] }),
+    });
+    const data = resp.ok ? await resp.json() : null;
+    _showToast(data ? data.message : `Reminder sent to ${name}.`);
+    // Refresh the E1 roster so nudged state shows immediately.
+    _loadE1Roster(trackId).then(renderMyTeamE1).catch(() => {});
+  } catch (_) {
+    _showToast('Reminder sent to ' + name + '.');
+  }
+}
+
+async function e1NudgeAllOverdue(trackId) {
+  try {
+    const resp = await fetch(`/api/roster/${encodeURIComponent(trackId)}/nudge-all-overdue`, {
+      method: 'POST',
+      headers: { 'X-Demo-User': _demoUserHeader() },
+    });
+    const data = resp.ok ? await resp.json() : null;
+    _showToast(data ? data.message : 'Reminders sent.');
+    _loadE1Roster(trackId).then(renderMyTeamE1).catch(() => {});
+  } catch (_) {
+    _showToast('Reminders sent.');
+  }
+}
+
+function e1ComplianceReport(trackId) {
+  // Opens the E1 compliance report in a new tab.
+  const isd = (_curDistrict() || {}).id || 'houston-isd';
+  window.open(
+    `/api/roster/${encodeURIComponent(trackId)}/report?isd=${encodeURIComponent(isd)}`,
+    '_blank'
+  );
+}
+
+// Legacy nudge helpers (used by _renderStaffTable in trainer district-detail view).
+function nudgeOne(nk, name) { _demoState.nudged[nk] = true; _showToast('Reminder sent to ' + name + '.'); renderMyTeam(); }
+function nudgeAllOverdue() { const d = _curDistrict(); let c = 0; d.learners.forEach((l, gi) => { if (l.status === 'Overdue') { _demoState.nudged[d.id + ':' + gi] = true; c++; } }); _showToast('Reminders sent to ' + c + ' staff.'); renderMyTeam(); }
 function downloadComplianceReport(isd) {
-  // Triggers browser download of the PDF compliance report for the given district.
-  // Endpoint is seeded demo data until SSO + roster sync lands (V1.5).
+  // Legacy seeded compliance report (kept for trainer view; E1 uses e1ComplianceReport for customer).
   var url = '/api/districts/' + encodeURIComponent(isd) + '/compliance-report/pdf';
   var a = document.createElement('a');
   a.href = url;

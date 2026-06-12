@@ -96,6 +96,8 @@ from scorers import compute_scores
 # Stub mode when SCHOOLCAFE_API_URL / SCHOOLCAFE_API_KEY env vars are absent.
 from roster_sync import RosterSyncClient
 import completion_store as _cs
+# E1 — nudge persistence: disk-backed nudge records per track.
+import nudge_store as _ns
 # SCORM 1.2 package export (V2).
 import scorm_export
 # xAPI statement emitter — stub mode until LRS_ENDPOINT + LRS_KEY are set in .env (V2).
@@ -1521,6 +1523,537 @@ async def api_roster(
                     "role": current_user.role, "is_trainer": current_user.is_trainer},
         "gamif_summary": gamif_summary,
     }
+
+
+# ── E1: Real-progress My Team roster ─────────────────────────────────────────
+# GET /api/roster/<track_id>  — E1 live roster: real completion rows for demo
+# users, seeded fictional rows for the rest, overdue from A3 due dates.
+#
+# Design rules:
+#  - Real demo users (john-cashier / others with data/completion/ dirs) get their
+#    ACTUAL completion data joined from completion_store.
+#  - Seeded fictional learners fill the table to 28 rows for visual fullness.
+#  - is_live: true marks a row backed by real data.
+#  - John's row is always pinned first so the Act 2→3 handoff is visually instant.
+#  - is_overdue: computed from the track's real A3 due_date (not a hardcoded date).
+#  - Nudge state: nudged=true + nudged_at if a nudge was sent since last completion.
+#
+# Trust guardrail: seeded rows are labelled is_live:false. The on-stage line is
+# "your district's live data" only for John's row; the rest are demo scenery.
+
+import modules_store as _ms   # needed for track loader
+
+_E1_LIVE_USERS: list[dict] = [
+    # Maps persona header key → completion_store user_id + display info
+    {"user_id": "demo-user-001", "name": "John C.", "role": "Cashier",
+     "persona_key": "john-cashier"},
+    {"user_id": "demo-user-002", "name": "Dana R.", "role": "CN Director",
+     "persona_key": "dana-director"},
+    {"user_id": "demo-user-003", "name": "Sam R.", "role": "Trainer",
+     "persona_key": "sam-trainer"},
+]
+
+# Seeded fictonal learner pool to pad the roster to 28 rows.
+_E1_SEED_FIRST = ["Maria", "James", "Aisha", "Carlos", "Linda", "Wei", "Diego", "Sarah",
+                  "Robert", "Priya", "Kenji", "Grace", "Marcus", "Elena", "Tyler",
+                  "Fatima", "Rosa", "Andre", "Nia", "Hector", "Joy", "Lucia", "Omar",
+                  "Beth", "Trang", "Carl", "Imani", "Akira"]
+_E1_SEED_LAST =  ["Garcia", "Johnson", "Patel", "Nguyen", "Smith", "Williams", "Brown",
+                  "Lee", "Martinez", "Davis", "Khan", "Lopez", "Wilson", "Thomas",
+                  "Reyes", "Okafor", "Cohen", "Tran", "Flores", "Bell", "Ramirez",
+                  "Young", "Diaz", "Foster"]
+
+
+def _e1_seeded_rows(
+    track_id: str,
+    track_title: str,
+    due_date: str | None,
+    nudged_ids: set[str],
+    count: int,
+    seed: int,
+) -> list[dict]:
+    """Generate deterministic seeded rows to fill the roster table."""
+    import hashlib
+    import random
+    from datetime import date
+
+    rnd = random.Random(seed)
+    today = date.today()
+    rows = []
+    for i in range(count):
+        fn = _E1_SEED_FIRST[i % len(_E1_SEED_FIRST)]
+        ln = rnd.choice(_E1_SEED_LAST)
+        lessons_done = rnd.randint(0, 5)
+        lessons_total = 5
+        pct = round(100 * lessons_done / lessons_total)
+        completed = lessons_done == lessons_total
+        completed_at: str | None = None
+        if completed:
+            # Deterministic completed_at in the past 60 days.
+            days_ago = rnd.randint(1, 60)
+            completed_at = (today - __import__("datetime").timedelta(days=days_ago)).isoformat()
+        last_activity: str | None = None
+        if lessons_done > 0:
+            days_ago = rnd.randint(0, 14)
+            last_activity = (today - __import__("datetime").timedelta(days=days_ago)).isoformat()
+
+        is_overdue = False
+        if due_date and not completed:
+            try:
+                due_dt = date.fromisoformat(due_date)
+                is_overdue = (today - due_dt).days > 0
+            except (ValueError, TypeError):
+                pass
+
+        uid_key = f"seed-{i}-{seed}"
+        nudged = uid_key in nudged_ids
+        rows.append({
+            "user_id": uid_key,
+            "name": f"{fn} {ln[0]}.",
+            "role": rnd.choice(["Cashier", "POS Cashier", "Frontline Staff"]),
+            "track_id": track_id,
+            "track_title": track_title,
+            "lessons_done": lessons_done,
+            "lessons_total": lessons_total,
+            "pct_complete": pct,
+            "completed": completed,
+            "completed_at": completed_at,
+            "last_activity": last_activity,
+            "due_date": due_date,
+            "is_overdue": is_overdue,
+            "assessment_score": rnd.randint(70, 100) if completed else None,
+            "nudged": nudged,
+            "nudged_at": None,
+            "is_live": False,
+        })
+    return rows
+
+
+def _e1_build_roster_row(
+    uid: str,
+    display_name: str,
+    role: str,
+    track: dict,
+    track_id: str,
+) -> dict:
+    """Build one live roster row by joining real completion data."""
+    from datetime import date
+
+    track_title = track.get("title", track_id)
+    due_date: str | None = track.get("due_date")
+    today = date.today()
+
+    # Count total lessons across all courses in this track.
+    import course_store as _cstore
+    course_ids: list[str] = track.get("course_ids") or []
+    total_lessons = 0
+    for cid in course_ids:
+        try:
+            c = _cstore.load_course(cid)
+            if c:
+                total_lessons += len(c.get("lessons") or [])
+        except Exception:
+            pass
+    if total_lessons == 0:
+        # Fall back to modules_done count floor.
+        total_lessons = max(len(track.get("module_ids") or []), 5)
+
+    # Read real completion data.
+    progress = _cs.get_progress(uid, track_id, module_ids=track.get("module_ids") or [])
+    lessons_done_dict: dict = progress.get("lessons_done") or {}
+    lessons_done_count = sum(len(refs) for refs in lessons_done_dict.values())
+    # Also count legacy modules_done.
+    modules_done = set(progress.get("modules_done") or [])
+    if lessons_done_count == 0 and modules_done:
+        lessons_done_count = len(modules_done)
+
+    pct = round(100 * lessons_done_count / total_lessons) if total_lessons else 0
+    pct = min(pct, 100)
+    certified: bool = bool(progress.get("certified"))
+    completed = certified or pct == 100
+    cert_issued_at: str | None = progress.get("cert_issued_at")
+
+    # Overdue: due_date in the past AND not completed.
+    is_overdue = False
+    if due_date and not completed:
+        try:
+            due_dt = date.fromisoformat(due_date)
+            is_overdue = (today - due_dt).days > 0
+        except (ValueError, TypeError):
+            pass
+
+    # Last activity: from cert or most recent lesson.
+    last_activity: str | None = cert_issued_at
+
+    # Assessment score: latest passing attempt.
+    assessment_score: int | None = None
+    aid = track.get("assessment_gate_id")
+    if aid:
+        try:
+            import assessment_store as _astore
+            attempts = _astore.get_attempts(uid, aid)
+            if attempts:
+                last = sorted(attempts, key=lambda a: a.get("attempt_number", 0))[-1]
+                assessment_score = last.get("score_pct")
+        except Exception:
+            pass
+
+    # Nudge state.
+    nudge_entry = _ns.get_nudge_state(track_id, uid)
+    nudged = nudge_entry is not None
+    nudged_at: str | None = nudge_entry["nudged_at"] if nudge_entry else None
+
+    return {
+        "user_id": uid,
+        "name": display_name,
+        "role": role,
+        "track_id": track_id,
+        "track_title": track_title,
+        "lessons_done": lessons_done_count,
+        "lessons_total": total_lessons,
+        "pct_complete": pct,
+        "completed": completed,
+        "completed_at": cert_issued_at,
+        "last_activity": last_activity,
+        "due_date": due_date,
+        "is_overdue": is_overdue,
+        "assessment_score": assessment_score,
+        "nudged": nudged,
+        "nudged_at": nudged_at,
+        "is_live": True,
+    }
+
+
+@app.get("/api/roster/{track_id}")
+async def api_roster_track(
+    track_id: str,
+    request: Request,
+    isd: str = "houston-isd",
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """E1: Real-progress roster for a specific track.
+
+    Director/trainer only — 403 for cashier role.
+    Tenancy enforced: caller must have access to ``isd``.
+
+    Returns:
+        {
+          "track_id", "track_title", "due_date",
+          "rows": [...],     # live row(s) pinned first, seeded rows after
+          "summary": {enrolled, completed, overdue, completion_rate_pct}
+        }
+
+    Real demo users get their actual completion data (is_live: true).
+    Seeded fictional learners fill the table to 28 total rows (is_live: false).
+    """
+    # Gate: director or trainer only.
+    is_director = (current_user.role or "").lower() in ("cn director", "director")
+    if not current_user.is_trainer and not is_director:
+        raise HTTPException(status_code=403, detail={
+            "error": "director_only",
+            "detail": "My Team roster is only accessible to CN Directors and Trainers.",
+        })
+
+    assert_district_access(current_user, isd)
+
+    # Load the track so we can use real due_date and course structure.
+    try:
+        track = _ms.load_track(track_id)
+    except Exception:
+        track = {}
+    if not track:
+        # Fallback: minimal stub so seeded rows still render.
+        track = {
+            "id": track_id,
+            "title": "New Cashier Onboarding",
+            "due_date": "2026-07-31",
+            "course_ids": [],
+            "module_ids": [],
+        }
+
+    track_title = track.get("title", track_id)
+    due_date: str | None = track.get("due_date")
+
+    # Build live rows for demo users.
+    rows: list[dict] = []
+    for persona in _E1_LIVE_USERS:
+        row = _e1_build_roster_row(
+            uid=persona["user_id"],
+            display_name=persona["name"],
+            role=persona["role"],
+            track=track,
+            track_id=track_id,
+        )
+        rows.append(row)
+
+    # Seeded rows to fill to 28.
+    TARGET_ROSTER_SIZE = 28
+    import hashlib
+    seed = int(hashlib.md5(f"{track_id}-{isd}".encode()).hexdigest(), 16) % (2 ** 32)
+    nudge_records = _ns.get_nudges(track_id)
+    nudged_ids = {r["user_id"] for r in nudge_records}
+    seeded = _e1_seeded_rows(
+        track_id=track_id,
+        track_title=track_title,
+        due_date=due_date,
+        nudged_ids=nudged_ids,
+        count=max(0, TARGET_ROSTER_SIZE - len(rows)),
+        seed=seed,
+    )
+    rows.extend(seeded)
+
+    # Summary aggregates.
+    enrolled = len(rows)
+    completed_count = sum(1 for r in rows if r["completed"])
+    overdue_count = sum(1 for r in rows if r["is_overdue"])
+    completion_rate = round(100 * completed_count / enrolled) if enrolled else 0
+
+    return {
+        "track_id": track_id,
+        "track_title": track_title,
+        "due_date": due_date,
+        "isd": isd,
+        "rows": rows,
+        "summary": {
+            "enrolled": enrolled,
+            "completed": completed_count,
+            "overdue": overdue_count,
+            "completion_rate_pct": completion_rate,
+        },
+    }
+
+
+@app.post("/api/roster/{track_id}/nudge")
+async def api_roster_nudge(
+    track_id: str,
+    body: dict = Body({}),
+    isd: str = "houston-isd",
+    request: Request = None,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """E1: Nudge one or more learners on a track.
+
+    Director/trainer only. Delivery is simulated — nudges are written to
+    data/nudges/<track_id>.json. On-stage line: "Reminder sent."
+    We do NOT claim SMS/email integration here.
+
+    Body:
+        {user_ids: ["uid1", "uid2", ...]}
+    or
+        {nudge_overdue: true}  — nudges all overdue rows in the live roster
+
+    Returns: {nudged: N, message: "Reminder sent to N learners"}
+    """
+    is_director = (current_user.role or "").lower() in ("cn director", "director")
+    if not current_user.is_trainer and not is_director:
+        raise HTTPException(status_code=403, detail={
+            "error": "director_only",
+            "detail": "Nudge is only accessible to CN Directors and Trainers.",
+        })
+
+    nudge_overdue = body.get("nudge_overdue", False)
+    user_ids: list[str] = list(body.get("user_ids") or [])
+
+    if nudge_overdue:
+        # Build live rows and nudge all overdue ones.
+        try:
+            track = _ms.load_track(track_id) or {}
+        except Exception:
+            track = {}
+        rows = [
+            _e1_build_roster_row(
+                uid=p["user_id"],
+                display_name=p["name"],
+                role=p["role"],
+                track=track,
+                track_id=track_id,
+            )
+            for p in _E1_LIVE_USERS
+        ]
+        user_ids = [r["user_id"] for r in rows if r["is_overdue"]]
+
+    if not user_ids:
+        return JSONResponse({"nudged": 0, "message": "No learners to nudge."})
+
+    _ns.add_nudges_batch(track_id, user_ids, nudged_by=current_user.id)
+    n = len(user_ids)
+    return JSONResponse({"nudged": n, "message": f"Reminder sent to {n} learner{'s' if n != 1 else ''}."})
+
+
+@app.post("/api/roster/{track_id}/nudge-all-overdue")
+async def api_roster_nudge_all_overdue(
+    track_id: str,
+    isd: str = "houston-isd",
+    request: Request = None,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """E1: Convenience — nudge all overdue learners for a track.
+
+    Director/trainer only. Delivery is simulated (writes to data/nudges/).
+    Returns: {nudged: N, message: "Reminder sent to N learners"}
+    """
+    is_director = (current_user.role or "").lower() in ("cn director", "director")
+    if not current_user.is_trainer and not is_director:
+        raise HTTPException(status_code=403, detail={
+            "error": "director_only",
+            "detail": "Nudge is only accessible to CN Directors and Trainers.",
+        })
+
+    try:
+        track = _ms.load_track(track_id) or {}
+    except Exception:
+        track = {}
+
+    rows = [
+        _e1_build_roster_row(
+            uid=p["user_id"],
+            display_name=p["name"],
+            role=p["role"],
+            track=track,
+            track_id=track_id,
+        )
+        for p in _E1_LIVE_USERS
+    ]
+    overdue_ids = [r["user_id"] for r in rows if r["is_overdue"]]
+
+    if not overdue_ids:
+        return JSONResponse({"nudged": 0, "message": "No overdue learners to nudge."})
+
+    _ns.add_nudges_batch(track_id, overdue_ids, nudged_by=current_user.id)
+    n = len(overdue_ids)
+    return JSONResponse({"nudged": n, "message": f"Reminder sent to {n} learner{'s' if n != 1 else ''}."})
+
+
+@app.get("/api/roster/{track_id}/report")
+async def api_roster_report(
+    track_id: str,
+    isd: str = "houston-isd",
+    fmt: str = "html",
+    request: Request = None,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """E1: Compliance report for a track — HTML page or JSON.
+
+    Director/trainer only.
+    In CONFERENCE_MODE: watermark-free.
+    fmt=html returns an HTML page (default); fmt=json returns the raw data.
+    """
+    is_director = (current_user.role or "").lower() in ("cn director", "director")
+    if not current_user.is_trainer and not is_director:
+        raise HTTPException(status_code=403, detail={"error": "director_only"})
+
+    assert_district_access(current_user, isd)
+
+    # Build the full roster.
+    try:
+        track = _ms.load_track(track_id) or {}
+    except Exception:
+        track = {}
+    if not track:
+        track = {"id": track_id, "title": "New Cashier Onboarding", "due_date": "2026-07-31"}
+
+    track_title = track.get("title", track_id)
+    due_date: str | None = track.get("due_date")
+
+    # Live rows.
+    rows: list[dict] = [
+        _e1_build_roster_row(
+            uid=p["user_id"],
+            display_name=p["name"],
+            role=p["role"],
+            track=track,
+            track_id=track_id,
+        )
+        for p in _E1_LIVE_USERS
+    ]
+    import hashlib
+    seed = int(hashlib.md5(f"{track_id}-{isd}".encode()).hexdigest(), 16) % (2 ** 32)
+    nudge_records = _ns.get_nudges(track_id)
+    nudged_ids = {r["user_id"] for r in nudge_records}
+    seeded = _e1_seeded_rows(
+        track_id=track_id, track_title=track_title, due_date=due_date,
+        nudged_ids=nudged_ids,
+        count=max(0, 28 - len(rows)), seed=seed,
+    )
+    rows.extend(seeded)
+
+    enrolled = len(rows)
+    completed_count = sum(1 for r in rows if r["completed"])
+    overdue_count = sum(1 for r in rows if r["is_overdue"])
+
+    district_name = "Houston ISD" if isd == "houston-isd" else isd.replace("-", " ").title()
+    report_date = datetime.now().strftime("%Y-%m-%d")
+
+    if fmt == "json":
+        return JSONResponse({
+            "track_title": track_title,
+            "district": district_name,
+            "due_date": due_date,
+            "report_date": report_date,
+            "summary": {"enrolled": enrolled, "completed": completed_count,
+                        "overdue": overdue_count,
+                        "completion_rate_pct": round(100 * completed_count / enrolled) if enrolled else 0},
+            "rows": rows,
+        })
+
+    # HTML report.
+    watermark_note = "" if CONFERENCE_MODE else (
+        '<p style="color:#888;font-size:11px;border:1px solid #ddd;padding:6px 10px;'
+        'border-radius:4px;margin-bottom:16px;">DEMO — live rows are real; '
+        'seeded rows are demo scenery.</p>'
+    )
+    def _report_row_html(r: dict) -> str:
+        live_style = ' style="font-weight:600;background:#f0fdf4;"' if r["is_live"] else ""
+        live_chip = '&nbsp;<span style="font-size:10px;color:#16a34a;">live</span>' if r["is_live"] else ""
+        score = (str(r["assessment_score"]) + "%") if r["assessment_score"] is not None else "—"
+        nudge_cell = "&#10003; reminded" if r["nudged"] else "—"
+        return (
+            f"<tr{live_style}>"
+            f"<td>{r['name']}{live_chip}</td>"
+            f"<td>{r['role']}</td>"
+            f"<td>{r['pct_complete']}%</td>"
+            f"<td>{r['completed_at'] or chr(8212)}</td>"
+            f"<td>{score}</td>"
+            f"<td>{nudge_cell}</td>"
+            f"</tr>"
+        )
+
+    rows_html = "".join(_report_row_html(r) for r in rows)
+    html = f"""<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Compliance Report — {track_title}</title>
+<style>
+body{{font-family:system-ui,sans-serif;max-width:900px;margin:32px auto;padding:0 16px;color:#1a1a1a}}
+h1{{font-size:22px;margin-bottom:4px}}h2{{font-size:16px;margin-top:24px}}
+.district{{font-size:13px;color:#666;margin-bottom:20px}}
+.summary{{display:flex;gap:16px;flex-wrap:wrap;margin:16px 0}}
+.stat{{background:#f8f9fa;border:1px solid #e5e7eb;border-radius:6px;padding:12px 20px}}
+.stat .n{{font-size:24px;font-weight:700}}.stat .l{{font-size:11px;color:#666;text-transform:uppercase}}
+table{{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}}
+th{{text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;color:#666;padding:8px 12px;border-bottom:2px solid #e5e7eb;background:#f9fafb}}
+td{{padding:10px 12px;border-bottom:1px solid #f3f4f6;color:#374151}}
+tr:last-child td{{border-bottom:none}}
+</style></head>
+<body>
+{watermark_note}
+<h1>Compliance Report &mdash; {track_title}</h1>
+<div class="district">DEMO DISTRICT &mdash; {district_name} &middot; Report date: {report_date} &middot; Due: {due_date or 'N/A'}</div>
+<div class="summary">
+  <div class="stat"><div class="n">{enrolled}</div><div class="l">Enrolled</div></div>
+  <div class="stat"><div class="n">{completed_count}</div><div class="l">Complete</div></div>
+  <div class="stat"><div class="n">{overdue_count}</div><div class="l">Overdue</div></div>
+  <div class="stat"><div class="n">{round(100*completed_count/enrolled) if enrolled else 0}%</div><div class="l">Completion rate</div></div>
+</div>
+<h2>Staff Detail</h2>
+<p style="font-size:12px;color:#888;margin-bottom:8px">{completed_count} of {enrolled} complete &middot; {overdue_count} overdue &middot; due {due_date or 'N/A'}</p>
+<table><thead><tr>
+  <th>Name</th><th>Role</th><th>% Complete</th><th>Completed Date</th><th>Assessment Score</th><th>Reminded</th>
+</tr></thead><tbody>{rows_html}</tbody></table>
+</body></html>"""
+
+    return HTMLResponse(content=html)
+
 
 @app.get("/api/icn")
 async def api_icn():
@@ -4002,6 +4535,9 @@ async def demo_reset():
 
     # 1. Delete completion records for all demo users.
     cleaned = _cs.reset_demo_users(_DEMO_PERSONA_IDS)
+
+    # 1b. E1 — clear nudge records for demo users.
+    _ns.reset_demo_nudges(_DEMO_PERSONA_IDS)
 
     # 2. Delete the booth leads log (G5 — written by the booth flow; may not exist).
     leads_dir = Path(__file__).resolve().parent / "data" / "leads"
