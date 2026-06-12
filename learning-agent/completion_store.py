@@ -144,6 +144,62 @@ def get_progress(user_id: str, track_id: str, *, module_ids: list[str] | None = 
     }
 
 
+def set_lesson_done(
+    user_id: str,
+    track_id: str,
+    course_id: str,
+    lesson_ref: str,
+) -> None:
+    """Mark a single lesson done for a learner and persist the update.
+
+    Idempotent: calling twice for the same (course_id, lesson_ref) is a no-op.
+
+    Persists to the existing data/completion/<user>/<track>.json file, adding a
+    ``lessons_done`` key alongside the existing ``modules_done`` key so that
+    legacy flat-track progress is never disturbed:
+
+        {
+          "modules_done": [...],      # legacy flat-track completion
+          "lessons_done": {           # D1 lesson-level completion
+            "<course_id>": ["<lesson_ref>", ...]
+          },
+          ...
+        }
+    """
+    path = _progress_path(user_id, track_id)
+    # Load whatever is on disk (may or may not exist yet).
+    progress = _read_json(path) or {
+        "modules_done": [],
+        "pct": 0,
+        "certified": False,
+        "cert_issued_at": None,
+    }
+    lessons_done: dict = progress.get("lessons_done") or {}
+    done_set = set(lessons_done.get(course_id) or [])
+    if lesson_ref in done_set:
+        return  # idempotent — already recorded
+    done_set.add(lesson_ref)
+    lessons_done[course_id] = sorted(done_set)
+    progress["lessons_done"] = lessons_done
+    _write_json(path, progress)
+
+
+def get_lesson_done(
+    user_id: str,
+    track_id: str,
+    course_id: str,
+    lesson_ref: str,
+) -> bool:
+    """Return True if the learner has completed this specific lesson."""
+    path = _progress_path(user_id, track_id)
+    stored = _read_json(path)
+    if not stored:
+        return False
+    lessons_done: dict = stored.get("lessons_done") or {}
+    done_list = lessons_done.get(course_id) or []
+    return lesson_ref in done_list
+
+
 def set_module_done(
     user_id: str,
     track_id: str,

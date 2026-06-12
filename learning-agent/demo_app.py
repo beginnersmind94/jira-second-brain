@@ -768,6 +768,87 @@ async def resource_pdf(rid: str):
     )
 
 
+# ── D1 — GET /resources/{rid}/html ────────────────────────────────────────────
+# Returns the citation-stripped HTML of a published/draft guide for inline
+# rendering in the course player. This is the primary view inside the player;
+# the PDF download is a secondary action.
+#
+# Trust guardrail (SHOULD-NOT-OCCUR): `<!-- Source: ... -->` citation comments
+# are ALWAYS stripped — they must never reach the learner's browser. The eval
+# test_course_player.py pins this (TC-D1-SHOULD-NOT-OCCUR).
+@app.get("/resources/{rid}/html", response_class=HTMLResponse)
+async def resource_html(rid: str):
+    """Return clean guide HTML (citation comments stripped) for inline player rendering.
+
+    - Strips all <!-- Source: ... --> citation comments (SHOULD-NOT-OCCUR: they must
+      never be served to learners).
+    - Wraps content in <div class="guide-body"> for consistent styling.
+    - Adds a 'pending review' notice inside the body when the guide is not yet
+      approved (mirrors the PDF banner logic, but rendered inline rather than stamped).
+    - In conference mode the pending-review notice is suppressed.
+    - 404 if the resource doesn't exist; 500 if the HTML file can't be read.
+    """
+    resolved = prod._resolve_resource(rid)
+    if not resolved:
+        raise HTTPException(404, "resource not found")
+    html_path, meta_path, _status = resolved
+
+    try:
+        raw_html = html_path.read_text(encoding="utf-8")
+    except OSError as e:
+        raise HTTPException(500, f"could not read resource HTML: {e}")
+
+    # MUST strip citation comments before serving to learners.
+    clean_html = prod._strip_source_comments(raw_html)
+
+    # Pending-review inline notice (mirrors PDF banner; suppressed in conference mode).
+    meta = prod._read_meta(meta_path) or {}
+    pending_notice = ""
+    if not CONFERENCE_MODE and not (meta.get("approved") or meta.get("sme_approved")):
+        pending_notice = (
+            '<div class="guide-pending-notice" style="'
+            'background:#fff3cd;border:1px solid #ffc107;border-radius:4px;'
+            'padding:8px 12px;margin-bottom:16px;font-size:.85rem;color:#856404;">'
+            "⚠ Pending review — this guide has been grounding-verified but is not yet "
+            "approved by a human reviewer. Do not treat as final."
+            "</div>"
+        )
+
+    wrapped = f'<div class="guide-body">{pending_notice}{clean_html}</div>'
+    return HTMLResponse(content=wrapped, media_type="text/html")
+
+
+# ── D1 — POST /api/tracks/{tid}/lesson-progress ───────────────────────────────
+# Lesson-level completion — extends the existing module-level progress store
+# without modifying it. Idempotent: recording the same lesson twice is a no-op.
+@app.post("/api/tracks/{tid}/lesson-progress")
+async def api_mark_lesson_done(
+    tid: str,
+    body: dict = Body(default={}),
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Mark a single lesson done for the current learner.
+
+    Body: {course_id: str, lesson_ref: str}
+
+    Writes to data/completion/<user>/<track>.json under a ``lessons_done``
+    key (D1 addition) alongside the existing ``modules_done`` key (legacy
+    flat-track completion — backward compat preserved).
+
+    Returns:
+        {ok: true, course_id: str, lesson_ref: str}
+    """
+    course_id = (body.get("course_id") or "").strip()
+    lesson_ref = (body.get("lesson_ref") or "").strip()
+    if not course_id or not lesson_ref:
+        raise HTTPException(400, "course_id and lesson_ref are required")
+    track = _ms.load_track(tid)
+    if not track:
+        raise HTTPException(404, "track not found")
+    _cs.set_lesson_done(current_user.id, tid, course_id, lesson_ref)
+    return {"ok": True, "course_id": course_id, "lesson_ref": lesson_ref}
+
+
 # ── DEMO roster simulation (mock multi-tenant) ───────────────────────────────
 # A simulated district/learner roster so the demo can show a per-ISD admin view and
 # switch between districts. This is SYNTHETIC, clearly-labeled demo data — no real
