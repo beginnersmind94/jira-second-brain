@@ -7118,6 +7118,7 @@ async function loadConfig() {
   // Conference mode: mount the operator reset widget (invisible to visitors).
   if (cfg.conferenceMode) {
     _initOperatorReset();
+    _initDemoBeats();
     // G2: show trainer-only overlay trigger buttons in the header.
     // These are NEVER shown in customer view (applyViewMode handles that via
     // body.customer-view .quality-btn hiding, but these have their own hidden attr).
@@ -7203,6 +7204,287 @@ function _initOperatorReset() {
       btn.disabled = false;
       btn.textContent = 'Reset demo';
     }
+  });
+}
+
+// ─── Builder demo beats (D-spec, CONFERENCE_MODE only) ──────────────────────
+// Beat 1 — Live gate refusal: click a button, watch the gate reject on screen.
+// Beat 2 — Wrong-source staged item: navigate to it in Awaiting Review.
+// Beat 4 — Live drift demo: edit a guide, cascade reverts quizzes/decks to draft.
+//
+// All three are accessible only when conferenceMode === true.
+// Mounted as a floating panel visible via ?operator=1 (same mechanism as reset).
+function _initDemoBeats() {
+  // Build the floating demo-beats panel.
+  const panel = document.createElement('div');
+  panel.id = 'demo-beats-panel';
+  panel.style.cssText = (
+    'display:none;position:fixed;bottom:60px;right:16px;z-index:9998;' +
+    'background:#0d1117;color:#e6edf3;border:1px solid #30363d;border-radius:8px;' +
+    'padding:14px 16px;font-size:12px;font-family:monospace;width:310px;' +
+    'box-shadow:0 4px 20px rgba(0,0,0,.6);'
+  );
+
+  panel.innerHTML = `
+    <div style="font-weight:700;font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+                color:#58a6ff;border-bottom:1px solid #21262d;padding-bottom:8px;margin-bottom:10px;">
+      Builder Demo Beats
+    </div>
+
+    <!-- Beat 1 -->
+    <div style="margin-bottom:12px;">
+      <div style="font-weight:600;color:#f0f6fc;margin-bottom:4px;">Beat 1 — Live Gate Refusal</div>
+      <div style="color:#8b949e;margin-bottom:6px;font-size:11px;">
+        Feeds a planted bad claim through the gate. Rejection is live, not staged.
+      </div>
+      <button id="beat1-btn" style="
+        background:#21262d;color:#58a6ff;border:1px solid #30363d;border-radius:4px;
+        padding:5px 10px;font-size:11px;cursor:pointer;width:100%;text-align:left;">
+        Run: Live Refusal Demo
+      </button>
+    </div>
+
+    <!-- Beat 2 -->
+    <div style="margin-bottom:12px;">
+      <div style="font-weight:600;color:#f0f6fc;margin-bottom:4px;">Beat 2 — Wrong-source Rejection</div>
+      <div style="color:#8b949e;margin-bottom:6px;font-size:11px;">
+        Staged draft passes verbatim gate but cites the wrong source. Human review catches it.
+      </div>
+      <button id="beat2-btn" style="
+        background:#21262d;color:#58a6ff;border:1px solid #30363d;border-radius:4px;
+        padding:5px 10px;font-size:11px;cursor:pointer;width:100%;text-align:left;">
+        View Staged Draft in Awaiting Review
+      </button>
+      <div style="color:#6e7681;font-size:10px;margin-top:4px;font-style:italic;">
+        Narration: &ldquo;The gate proved every word is verbatim. But it was the wrong source.
+        Here&rsquo;s where human judgment is the crown jewel.&rdquo;
+      </div>
+    </div>
+
+    <!-- Beat 4 -->
+    <div>
+      <div style="font-weight:600;color:#f0f6fc;margin-bottom:4px;">Beat 4 — Live Drift Demo</div>
+      <div style="color:#8b949e;margin-bottom:6px;font-size:11px;">
+        Edit a source guide &rarr; dependent quiz + deck revert to draft on screen.
+      </div>
+      <div style="display:flex;gap:6px;margin-bottom:6px;">
+        <select id="beat4-guide-select" style="
+          flex:1;background:#21262d;color:#e6edf3;border:1px solid #30363d;
+          border-radius:4px;padding:4px 6px;font-size:11px;">
+          <option value="">Loading guides…</option>
+        </select>
+      </div>
+      <div style="display:flex;gap:6px;">
+        <button id="beat4-trigger-btn" style="
+          flex:1;background:#21262d;color:#f85149;border:1px solid #f85149;border-radius:4px;
+          padding:5px 8px;font-size:11px;cursor:pointer;">
+          Trigger Drift
+        </button>
+        <button id="beat4-reset-btn" style="
+          flex:1;background:#21262d;color:#3fb950;border:1px solid #3fb950;border-radius:4px;
+          padding:5px 8px;font-size:11px;cursor:pointer;">
+          Reset Drift
+        </button>
+      </div>
+      <div id="beat4-result" style="margin-top:8px;font-size:11px;line-height:1.5;"></div>
+    </div>
+  `;
+  document.body.appendChild(panel);
+
+  // Show panel via ?operator=1 (same mechanism as reset button).
+  if (new URLSearchParams(location.search).get('operator') === '1') {
+    panel.style.display = 'block';
+  }
+
+  // ── Beat 1: Live refusal ──────────────────────────────────────────────────
+  document.getElementById('beat1-btn').addEventListener('click', async () => {
+    const btn = document.getElementById('beat1-btn');
+    btn.disabled = true;
+    btn.textContent = 'Running gate check…';
+    try {
+      const res = await fetch('/api/demo/run-refusal', { method: 'POST' });
+      const data = await res.json();
+      _showBeat1Modal(data);
+    } catch (err) {
+      _showBeat1Modal({ error: err.message });
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Run: Live Refusal Demo';
+    }
+  });
+
+  // ── Beat 2: Navigate to staged draft ─────────────────────────────────────
+  document.getElementById('beat2-btn').addEventListener('click', () => {
+    // Navigate to the awaiting-review queue; the staged item should appear.
+    // If the app has a hash-based nav for the review queue, use that.
+    const reviewUrl = '/?tab=review&highlight=demo-wrong-source';
+    window.location.href = reviewUrl;
+  });
+
+  // ── Beat 4: Load guide list ───────────────────────────────────────────────
+  _beat4LoadGuides();
+
+  document.getElementById('beat4-trigger-btn').addEventListener('click', async () => {
+    const sel = document.getElementById('beat4-guide-select');
+    const rid = sel.value;
+    if (!rid) { _beat4Result('Select a guide first.', '#ffa500'); return; }
+    const btn = document.getElementById('beat4-trigger-btn');
+    btn.disabled = true;
+    btn.textContent = 'Triggering…';
+    try {
+      const res = await fetch('/api/demo/trigger-drift', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ resource_id: rid }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        _beat4ShowResult(data);
+      } else {
+        _beat4Result('Error: ' + JSON.stringify(data), '#f85149');
+      }
+    } catch (err) {
+      _beat4Result('Fetch error: ' + err.message, '#f85149');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Trigger Drift';
+    }
+  });
+
+  document.getElementById('beat4-reset-btn').addEventListener('click', async () => {
+    const btn = document.getElementById('beat4-reset-btn');
+    btn.disabled = true;
+    btn.textContent = 'Restoring…';
+    try {
+      const res = await fetch('/api/demo/reset', { method: 'POST' });
+      const data = await res.json();
+      if (data.ok) {
+        const restored = data.drift_restored;
+        const msg = restored && restored.restored
+          ? `Guide restored (${restored.resource_id}). Drift cleared.`
+          : 'Reset complete (no drift trigger was active).';
+        _beat4Result(msg, '#3fb950');
+      } else {
+        _beat4Result('Reset failed — check server log.', '#f85149');
+      }
+    } catch (err) {
+      _beat4Result('Reset error: ' + err.message, '#f85149');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Reset Drift';
+    }
+  });
+}
+
+function _beat4LoadGuides() {
+  const sel = document.getElementById('beat4-guide-select');
+  if (!sel) return;
+  fetch('/resources')
+    .then(r => r.json())
+    .then(data => {
+      const resources = data.resources || [];
+      const approved = resources.filter(r => r.status === 'approved' || r.approved);
+      if (!approved.length) {
+        sel.innerHTML = '<option value="">No approved guides found</option>';
+        return;
+      }
+      sel.innerHTML = approved.map(r =>
+        `<option value="${escapeHtml(r.id)}">${escapeHtml(r.title || r.id)}</option>`
+      ).join('');
+    })
+    .catch(() => {
+      sel.innerHTML = '<option value="">Could not load guides</option>';
+    });
+}
+
+function _beat4ShowResult(data) {
+  const nq = (data.drifted_quizzes || []).length;
+  const nd = (data.drifted_decks || []).length;
+  let html = `<span style="color:#3fb950">&#10003; Guide updated</span><br>`;
+  if (data.drifted_quizzes && data.drifted_quizzes.length) {
+    data.drifted_quizzes.forEach(q => {
+      html += `<span style="color:#f0a500">&#9888; ${escapeHtml(q.title)} &rarr; reverted to draft</span><br>`;
+    });
+  }
+  if (data.drifted_decks && data.drifted_decks.length) {
+    data.drifted_decks.forEach(d => {
+      html += `<span style="color:#f0a500">&#9888; ${escapeHtml(d.title)} &rarr; reverted to draft</span><br>`;
+    });
+  }
+  if (nq + nd === 0) {
+    html += `<span style="color:#8b949e">(no approved quizzes or decks for this guide)</span><br>`;
+  }
+  html += `<span style="color:#8b949e;font-style:italic;">Human review required before learners see updated content.</span>`;
+  document.getElementById('beat4-result').innerHTML = html;
+}
+
+function _beat4Result(msg, color) {
+  const el = document.getElementById('beat4-result');
+  if (el) el.innerHTML = `<span style="color:${color}">${escapeHtml(msg)}</span>`;
+}
+
+// ── Beat 1: refusal result modal ─────────────────────────────────────────────
+function _showBeat1Modal(data) {
+  // Remove any existing modal.
+  const existing = document.getElementById('beat1-modal');
+  if (existing) existing.remove();
+
+  const overlay = document.createElement('div');
+  overlay.id = 'beat1-modal';
+  overlay.style.cssText = (
+    'position:fixed;inset:0;z-index:10001;background:rgba(0,0,0,.7);' +
+    'display:flex;align-items:center;justify-content:center;'
+  );
+
+  let body = '';
+  if (data.error) {
+    body = `<p style="color:#f85149">Error: ${escapeHtml(data.error)}</p>`;
+  } else if (!data.passed) {
+    body = `<p style="color:#f85149;font-size:1.1em;font-weight:700;">
+      Gate rejected: ${data.violation_count} violation(s) found
+    </p>`;
+    (data.violations || []).forEach(v => {
+      body += `<div style="background:#161b22;border:1px solid #f85149;border-radius:4px;
+                           padding:8px 10px;margin-bottom:8px;font-family:monospace;font-size:12px;">
+        <div><span style="color:#8b949e;">Ref:</span> ${escapeHtml(v.ref)}</div>
+        <div><span style="color:#8b949e;">Tier:</span> ${escapeHtml(v.tier)}</div>
+        <div><span style="color:#8b949e;">Reason:</span> ${escapeHtml(v.reason)}</div>
+        ${v.quote ? `<div><span style="color:#8b949e;">Quote:</span> &ldquo;${escapeHtml(v.quote)}&rdquo;</div>` : ''}
+      </div>`;
+    });
+    if (data.seed) {
+      body += `<div style="background:#161b22;border:1px solid #30363d;border-radius:4px;
+                           padding:8px 10px;margin-top:4px;font-size:11px;color:#8b949e;">
+        Expected: ${escapeHtml(data.seed.expected_reason || '')}
+      </div>`;
+    }
+  } else {
+    body = `<p style="color:#f0a500">Gate passed (unexpected — planted claim should have failed).</p>`;
+  }
+
+  overlay.innerHTML = `
+    <div style="background:#0d1117;border:1px solid #30363d;border-radius:10px;
+                padding:24px 28px;max-width:480px;width:90%;color:#e6edf3;
+                box-shadow:0 8px 32px rgba(0,0,0,.7);">
+      <div style="font-weight:700;font-size:15px;margin-bottom:14px;color:#f0f6fc;">
+        Beat 1 — Gate Rejection Result
+      </div>
+      ${body}
+      <div style="font-size:11px;color:#8b949e;font-style:italic;margin-top:12px;
+                  border-top:1px solid #21262d;padding-top:10px;">
+        A generation success looks cherry-picked. A live refusal is believed.
+      </div>
+      <button onclick="document.getElementById('beat1-modal').remove()" style="
+        margin-top:14px;background:#21262d;color:#58a6ff;border:1px solid #30363d;
+        border-radius:4px;padding:6px 14px;font-size:12px;cursor:pointer;">
+        Dismiss
+      </button>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) overlay.remove();
   });
 }
 

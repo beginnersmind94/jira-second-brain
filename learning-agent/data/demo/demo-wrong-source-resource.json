@@ -1,0 +1,13 @@
+{
+  "id": "demo-wrong-source",
+  "title": "Demo: Wrong Source Example (STAGED)",
+  "status": "awaiting_review",
+  "_demo_note": "STAGED FOR DEMO BEAT 2. This draft passes the verbatim gate but cites an incorrect source. Used to show that human review catches what the gate cannot.",
+  "approved": false,
+  "draft_path": "data/demo/demo-wrong-source-draft.html",
+  "module": "Item Management",
+  "template": "micro-guide",
+  "gate_result": "pass",
+  "gate_note": "Verbatim gate passed — NXT-65051 RN quote is verbatim in source. Gate proves verbatim correctness; it cannot prove semantic relevance. Human review required.",
+  "created_at": "2026-07-13T00:00:00"
+}

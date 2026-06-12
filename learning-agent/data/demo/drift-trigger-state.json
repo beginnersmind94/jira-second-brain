@@ -1,0 +1,7 @@
+{
+  "_note": "Written by POST /api/demo/trigger-drift; read by POST /api/demo/reset to restore pre-trigger state. Delete this file to clear trigger state.",
+  "triggered_at": null,
+  "resource_id": null,
+  "original_hash": null,
+  "original_size": null
+}
