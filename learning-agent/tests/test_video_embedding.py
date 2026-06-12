@@ -33,9 +33,13 @@ _AGENT_DIR = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(_AGENT_DIR))
 
 
-# ── Helper: run a coroutine synchronously (matches the pattern in test_scorm_xapi.py) ──
+# ── Helper: run a coroutine synchronously ────────────────────────────────────
+# asyncio.run() creates a fresh event loop each call — safe across test
+# ordering regardless of what other test files have done to the loop.
+# (asyncio.get_event_loop() raises RuntimeError in Python 3.10+ when there
+# is no current loop in the thread, which happens mid-suite after some tests.)
 def _run(coro):
-    return asyncio.get_event_loop().run_until_complete(coro)
+    return asyncio.run(coro)
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
