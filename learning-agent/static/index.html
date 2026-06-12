@@ -8883,7 +8883,7 @@ async function tbPublishTrack() {
 }
 
 // ── Delete track ──
-async async function tbExportSCORM() {
+async function tbExportSCORM() {
   if (!_tbCurrentTrack) { tbShowToast('Select a track first.'); return; }
   const tid = _tbCurrentTrack.id;
   const title = _tbCurrentTrack.title || tid;
