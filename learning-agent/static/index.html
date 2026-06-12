@@ -3755,8 +3755,8 @@ const _DEMO = (() => {
   const smes = { 'POS':'Srina', 'Item Management':'Srina', 'Eligibility':'Lalitha', 'Inventory':'Mohammed', 'Menu Planning':'Yulisa' };
   const claim = (t, s) => ({ text: t, source: s });
   const quality = [
-    { title:’POS Basics’, module:’POS’, format:’Micro’, scores:[5,4,5,4], verdict:’Pass’, sme:’Srina’, sme_date:’May 28’, claims:[claim(‘Cashiers select the student’s meal status before ringing the transaction.’,’POS Basics guide · NXT-66012 AC’),claim(‘A reimbursable meal requires at least three of the five components.’,’POS Basics guide · USDA meal pattern’)] },
-    { title:’Counting Meals Correctly’, module:’POS’, format:’Long-form’, scores:[5,5,4,5], verdict:’Pass’, sme:’Srina’, sme_date:’Jun 2’, claims:[claim(‘Meal counts are taken at the point of service, not at production.’,’Counting Meals guide · NXT-66120 AC’)] },
+    { title:'POS Basics', module:'POS', format:'Micro', scores:[5,4,5,4], verdict:'Pass', sme:'Srina', sme_date:'May 28', claims:[claim('Cashiers select the student\'s meal status before ringing the transaction.','POS Basics guide · NXT-66012 AC'),claim('A reimbursable meal requires at least three of the five components.','POS Basics guide · USDA meal pattern')] },
+    { title:'Counting Meals Correctly', module:'POS', format:'Long-form', scores:[5,5,4,5], verdict:'Pass', sme:'Srina', sme_date:'Jun 2', claims:[claim('Meal counts are taken at the point of service, not at production.','Counting Meals guide · NXT-66120 AC')] },
     { title:'Item Management: Bulk Updates', module:'Item Management', format:'Long-form', scores:[4,4,4,5], verdict:'Pass', sme:'Srina', sme_date:'May 30', claims:[claim('Sub-Qty cannot be modified for Locked items.','NXT-69523 AC')] },
     { title:'Direct Certification Workflow', module:'Eligibility', format:'Long-form', scores:[5,4,5,4], verdict:'Pass', sme:'Lalitha', sme_date:'May 28', claims:[claim('Directly certified students are eligible without a household application.','Direct Cert guide · 7 CFR 245')] },
     { title:'Inventory Distribution', module:'Inventory', format:'Long-form', scores:[4,3,4,4], verdict:'Pass', sme:null, claims:[claim('Assigning the distribution site type makes a site eligible to be linked to an internal vendor.','Inventory Distribution transcript')] },
@@ -8913,7 +8913,7 @@ async function tbExportSCORM() {
   }
 }
 
-function tbConfirmDeleteTrack() {
+async function tbConfirmDeleteTrack() {
   if (!_tbCurrentTrack) return;
   if (!confirm('Delete "' + _tbCurrentTrack.title + '"? This cannot be undone.')) return;
   try {
