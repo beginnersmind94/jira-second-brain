@@ -3867,6 +3867,147 @@ def _build_compliance_report(isd: str) -> dict:
     }
 
 
+# ── E3-lite — Educator insight panel (seeded + real-data merge) ───────────────
+# GET /api/analytics/tracks/<tid>/insights
+# Trainer/director only.  Returns completion funnel + question difficulty.
+# Data is seeded (documented).  Real event wiring is post-ANC.
+_ANALYTICS_DIR = Path(__file__).resolve().parent / "data" / "analytics"
+
+
+def _load_insights_seeded(track_id: str) -> dict | None:
+    """Load the seeded analytics file for a track if it exists.
+
+    Looks for data/analytics/track-insights-demo.json first (the demo dataset),
+    then data/analytics/<safe-track-id>-insights.json as a per-track override.
+    Returns None when neither file exists.
+    """
+    # Per-track override takes priority.
+    safe = re.sub(r"[^\w\-]", "_", track_id)[:60]
+    per_track = _ANALYTICS_DIR / f"{safe}-insights.json"
+    if per_track.exists():
+        try:
+            return json.loads(per_track.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            pass
+    # Fall back to the shared demo dataset.
+    demo_file = _ANALYTICS_DIR / "track-insights-demo.json"
+    if demo_file.exists():
+        try:
+            return json.loads(demo_file.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            pass
+    return None
+
+
+def _merge_real_completions(seeded: dict, track_id: str) -> dict:
+    """Fold real completion_store records into the seeded funnel.
+
+    For each funnel entry, count how many users have a lessons_done record for
+    this lesson_ref across all completion files for the track.  Add the real
+    count on top of the seeded count (so the demo always looks visually full
+    even before any real learners complete anything).
+
+    Also updates completion_rate_pct to reflect the seeded total (real learner
+    count is too small to be meaningful before ANC; keep the seeded number).
+    This function is intentionally conservative — it only increments counts,
+    never decrements them, so the demo always shows the seeded numbers minimum.
+    """
+    funnel = list(seeded.get("funnel") or [])
+    if not funnel:
+        return seeded
+
+    # Scan all completion files for this track.
+    completion_dir = _cs._COMPLETION_DIR
+    safe_track = _cs._safe_id(track_id)
+    real_lesson_counts: dict[str, int] = {}
+
+    if completion_dir.exists():
+        for user_dir in completion_dir.iterdir():
+            if not user_dir.is_dir():
+                continue
+            progress_file = user_dir / f"{safe_track}.json"
+            if not progress_file.exists():
+                continue
+            try:
+                data = json.loads(progress_file.read_text(encoding="utf-8"))
+            except (json.JSONDecodeError, OSError):
+                continue
+            lessons_done: dict = data.get("lessons_done") or {}
+            for course_lessons in lessons_done.values():
+                for ref in (course_lessons or []):
+                    real_lesson_counts[ref] = real_lesson_counts.get(ref, 0) + 1
+
+    # Merge: add real completions on top of seeded counts.
+    merged_funnel = []
+    for entry in funnel:
+        ref = entry.get("lesson_ref", "")
+        real_done = real_lesson_counts.get(ref, 0)
+        new_entry = dict(entry)
+        if real_done > 0:
+            new_entry["completed"] = entry.get("completed", 0) + real_done
+            started = new_entry.get("started", new_entry["completed"])
+            drop = max(0, round(100 * (started - new_entry["completed"]) / started)) if started else 0
+            new_entry["drop_pct"] = drop
+        merged_funnel.append(new_entry)
+
+    result = dict(seeded)
+    result["funnel"] = merged_funnel
+    return result
+
+
+@app.get("/api/analytics/tracks/{tid}/insights")
+async def api_track_insights(
+    tid: str,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """E3-lite educator insight panel — completion funnel + question difficulty.
+
+    Trainer/director only (aggregate analytics are not for individual learners).
+    Response includes a required _data_notice field (honesty: includes seeded data).
+    Response never includes individual user records.
+
+    Reads data/analytics/track-insights-demo.json (seeded) and merges with any
+    real lesson_done records from completion_store.
+    """
+    # Gate: trainer or CN Director only.
+    if not current_user.is_trainer and current_user.role != "CN Director":
+        raise HTTPException(403, "educator insights are available to trainers and directors only")
+
+    seeded = _load_insights_seeded(tid)
+    if seeded is None:
+        # No data file — return a minimal empty-but-valid response.
+        return {
+            "_data_notice": "Includes seeded demonstration data. Live analytics coming in v2.",
+            "track_id": tid,
+            "funnel": [],
+            "question_difficulty": [],
+            "avg_completion_days": None,
+            "completion_rate_pct": None,
+        }
+
+    merged = _merge_real_completions(seeded, tid)
+
+    # Strip any per-learner fields that should never surface here.
+    # (The seeded file doesn't contain them, but guard defensively.)
+    funnel = [
+        {k: v for k, v in row.items() if k not in ("user_id", "user_ids", "learners")}
+        for row in (merged.get("funnel") or [])
+    ]
+    question_difficulty = [
+        {k: v for k, v in row.items() if k not in ("user_id", "user_ids")}
+        for row in (merged.get("question_difficulty") or [])
+    ]
+
+    return {
+        "_data_notice": "Includes seeded demonstration data. Live analytics coming in v2.",
+        "track_id": tid,
+        "funnel": funnel,
+        "question_difficulty": question_difficulty,
+        "avg_completion_days": merged.get("avg_completion_days"),
+        "completion_rate_pct": merged.get("completion_rate_pct"),
+    }
+
+
 @app.get("/api/districts/{isd}/compliance-report")
 async def compliance_report_json(isd: str):
     """JSON compliance report for a district (BRD FR-RP-03).

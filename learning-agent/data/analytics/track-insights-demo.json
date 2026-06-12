@@ -1,0 +1,19 @@
+{
+  "_note": "SEEDED DEMO DATA — not live learner events. Wire real xAPI events post-ANC.",
+  "track_id": "track-cashier-onboard",
+  "generated_at": "2026-06-13T00:00:00",
+  "funnel": [
+    {"lesson_ref": "course1-lesson1-guide", "lesson_title": "Getting Started", "started": 28, "completed": 26, "drop_pct": 7},
+    {"lesson_ref": "course1-lesson2-video", "lesson_title": "Food Safety Basics (Video)", "started": 26, "completed": 25, "drop_pct": 4},
+    {"lesson_ref": "course1-lesson3-quiz", "lesson_title": "Check Your Knowledge", "started": 25, "completed": 22, "drop_pct": 12},
+    {"lesson_ref": "course2-lesson1-flashcards", "lesson_title": "Flashcard Review", "started": 22, "completed": 18, "drop_pct": 18},
+    {"lesson_ref": "course2-lesson2-assessment", "lesson_title": "Final Assessment", "started": 18, "completed": 15, "drop_pct": 17}
+  ],
+  "question_difficulty": [
+    {"question_summary": "When should you report a food temperature violation?", "pct_correct": 64, "attempts": 22},
+    {"question_summary": "Which action requires a manager override?", "pct_correct": 71, "attempts": 22},
+    {"question_summary": "Arrange the steps for a refund in order", "pct_correct": 55, "attempts": 22}
+  ],
+  "avg_completion_days": 3.2,
+  "completion_rate_pct": 54
+}

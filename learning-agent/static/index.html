@@ -1494,6 +1494,38 @@
     .r-status.over { background: var(--amber-soft, #F3E0C8); color: var(--amber-text, #8A5A12); }
     .nudged { font-size: 10.5px; color: var(--muted); font-style: italic; }
     .secondary.sm { padding: 4px 9px; font-size: 11.5px; }
+    /* ── E3-lite: Educator insight panel ─────────────────────────────────────── */
+    .insight-overlay { position: fixed; inset: 0; z-index: 200; background: rgba(30,22,16,.52); display: flex; align-items: center; justify-content: center; padding: 16px; }
+    .insight-overlay[hidden] { display: none; }
+    .insight-panel { width: 100%; max-width: 640px; max-height: 88vh; overflow: auto; background: var(--panel); border-radius: var(--radius); box-shadow: var(--shadow-lift); display: flex; flex-direction: column; }
+    .insight-head { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; border-bottom: 1px solid var(--border); }
+    .insight-head h3 { font-family: var(--serif); font-size: 17px; margin: 0; }
+    .insight-body { padding: 16px 18px; display: flex; flex-direction: column; gap: 20px; }
+    .insights-notice { background: #FFF3CD; border: 1px solid #FBBF24; border-radius: var(--radius-sm); padding: 9px 13px; font-size: 12px; color: #7C5A0C; display: flex; align-items: center; gap: 8px; }
+    .insight-section-label { font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted-aa); margin: 0 0 10px; }
+    /* Funnel bars */
+    .insight-funnel { display: flex; flex-direction: column; gap: 8px; }
+    .insight-funnel-row { display: flex; align-items: center; gap: 10px; font-size: 13px; }
+    .insight-funnel-label { flex: 0 0 160px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text); font-size: 12.5px; }
+    .insight-funnel-bar-wrap { flex: 1; background: #EEE; border-radius: 4px; height: 12px; overflow: hidden; }
+    .insight-funnel-bar { height: 100%; border-radius: 4px; background: var(--primary, #3D6BE5); transition: width .3s ease; }
+    .insight-funnel-bar.amber { background: #F59E0B; }
+    .insight-funnel-meta { flex: 0 0 130px; font-size: 11.5px; color: var(--muted); text-align: right; }
+    /* Question difficulty */
+    .insight-qd { display: flex; flex-direction: column; gap: 9px; }
+    .insight-qd-row { display: flex; align-items: center; gap: 10px; }
+    .insight-qd-q { flex: 1; font-size: 12.5px; color: var(--text); }
+    .insight-pct-pill { display: inline-flex; align-items: center; justify-content: center; width: 46px; padding: 3px 0; border-radius: 20px; font-size: 11.5px; font-weight: 700; flex-shrink: 0; }
+    .insight-pct-pill.green { background: #D1FAE5; color: #065F46; }
+    .insight-pct-pill.yellow { background: #FEF3C7; color: #92400E; }
+    .insight-pct-pill.red { background: #FEE2E2; color: #991B1B; }
+    /* Summary chips */
+    .insight-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .insight-chip { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-pill); padding: 5px 13px; font-size: 12.5px; color: var(--text); font-weight: 600; }
+    /* Insight body sections */
+    .insight-section { display: flex; flex-direction: column; }
+    /* Insights button in track rows */
+    .insights-btn { font-size: 11.5px; padding: 4px 10px; }
     .am-overlay { position: fixed; inset: 0; z-index: 90; background: rgba(30,22,16,.5); display: flex; align-items: center; justify-content: center; }
     .am-overlay[hidden] { display: none; }
     .am-modal { width: 100%; max-width: 460px; max-height: 84vh; overflow: auto; background: var(--panel); border-radius: var(--radius); box-shadow: var(--shadow-lift); }
@@ -3756,6 +3788,19 @@
   </div>
 </section>
 
+<!-- E3-lite: Educator insight panel overlay -->
+<div id="insight-overlay" class="insight-overlay" hidden>
+  <div class="insight-panel" role="dialog" aria-modal="true" aria-label="Learner Insights">
+    <div class="insight-head">
+      <h3 id="insight-panel-title">Learner Insights</h3>
+      <button class="lib-drawer-close" onclick="closeInsightPanel()" aria-label="Close insights">✕</button>
+    </div>
+    <div class="insight-body" id="insight-body">
+      <div style="color:var(--muted);font-size:13px;">Loading…</div>
+    </div>
+  </div>
+</div>
+
 <section id="view-library" class="view">
   <div class="manage-nav lib-subnav" role="tablist" aria-label="Library sections">
     <button class="active" role="tab" aria-selected="true" onclick="showView('library')">Studio</button>
@@ -5172,7 +5217,16 @@ function renderMyTeam() {
   const tt = document.getElementById('myteam-title'); if (tt) tt.textContent = d.name + ' · My Team';
   let h = `<div class="mt-banner">All staff training due ${_DEMO.due} — <b>${Math.round(100 * done / total)}%</b> complete, <b>${overdue}</b> overdue. <button class="track-open" onclick="nudgeAllOverdue()">Nudge all overdue</button></div>`;
   h += '<div class="roster-cards">' + [['Staff complete', Math.round(100 * done / total) + '%'], ['Overdue', overdue], ['Not started', notStarted], ['Days to go-live', _daysToGoLive()]].map(t => `<div class="roster-stat"><div class="n">${t[1]}</div><div class="l">${escapeHtml(t[0])}</div></div>`).join('') + '</div>';
-  h += `<div class="mt-tools"><button class="secondary" onclick="openAssignmentModal('${d.id}')">Assign training</button></div>`;
+  h += `<div class="mt-tools" style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;"><button class="secondary" onclick="openAssignmentModal('${d.id}')">Assign training</button>`;
+  // Insights button — show for director/trainer; uses the first real published track for the district.
+  // E3-lite: 20-second aside, "see exactly where learners get stuck."
+  (function() {
+    const firstRealTrack = (_realTracks && _realTracks.length > 0) ? _realTracks[0] : null;
+    const tid = firstRealTrack ? firstRealTrack.id : 'track-cashier-onboard';
+    const ttitle = firstRealTrack ? firstRealTrack.title : 'New Cashier Onboarding';
+    h += `<button class="secondary insights-btn" onclick="openInsightPanel('${escAttr(tid)}','${escAttr(ttitle)}')">&#128202; Insights</button>`;
+  })();
+  h += '</div>';
   // Compliance export button — Customer view only (CN Director and above).
   if (_viewMode === 'customer') {
     h += `<div class="mt-compliance"><button class="secondary" onclick="downloadComplianceReport('${escAttr(d.id)}')">Download compliance report (PDF)</button><span class="mt-compliance-note">Covers your district only &middot; Due Jun 30</span></div>`;
@@ -5193,6 +5247,111 @@ function downloadComplianceReport(isd) {
   a.click();
   document.body.removeChild(a);
 }
+// ── E3-lite: Educator insight panel ──────────────────────────────────────────
+// openInsightPanel(trackId, trackTitle?) — trainer/director only.
+// Fetches /api/analytics/tracks/<tid>/insights and renders the panel.
+async function openInsightPanel(trackId, trackTitle) {
+  const overlay = document.getElementById('insight-overlay');
+  const body    = document.getElementById('insight-body');
+  const titleEl = document.getElementById('insight-panel-title');
+  if (!overlay || !body) return;
+  if (titleEl) titleEl.textContent = (trackTitle ? trackTitle + ' — ' : '') + 'Learner Insights';
+  body.innerHTML = '<div style="color:var(--muted);font-size:13px;padding:8px 0;">Loading…</div>';
+  overlay.hidden = false;
+  document.body.style.overflow = 'hidden';
+
+  try {
+    const resp = await fetch(
+      '/api/analytics/tracks/' + encodeURIComponent(trackId) + '/insights',
+      { headers: { 'X-Demo-User': _demoUserHeader() } }
+    );
+    if (!resp.ok) {
+      body.innerHTML = '<div style="color:var(--muted);font-size:13px;">Could not load insights (status ' + resp.status + ').</div>';
+      return;
+    }
+    const data = await resp.json();
+    body.innerHTML = _renderInsightBody(data);
+  } catch (err) {
+    body.innerHTML = '<div style="color:var(--muted);font-size:13px;">Failed to load insights.</div>';
+  }
+}
+
+function closeInsightPanel() {
+  const overlay = document.getElementById('insight-overlay');
+  if (overlay) overlay.hidden = true;
+  document.body.style.overflow = '';
+}
+
+// Close on backdrop click.
+(function() {
+  document.addEventListener('click', function(e) {
+    const overlay = document.getElementById('insight-overlay');
+    if (overlay && !overlay.hidden && e.target === overlay) closeInsightPanel();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      const overlay = document.getElementById('insight-overlay');
+      if (overlay && !overlay.hidden) closeInsightPanel();
+    }
+  });
+})();
+
+function _renderInsightBody(data) {
+  let h = '';
+
+  // Required data notice banner.
+  const notice = data._data_notice || 'Includes seeded demonstration data. Live analytics coming in v2.';
+  h += `<div class="insights-notice">&#9888; ${escapeHtml(notice)}</div>`;
+
+  // Section 1 — Summary chips.
+  const enrolled = (data.funnel && data.funnel.length > 0) ? data.funnel[0].started : 0;
+  const compPct  = data.completion_rate_pct != null ? data.completion_rate_pct + '%' : '—';
+  const avgDays  = data.avg_completion_days != null ? data.avg_completion_days + ' days avg' : '—';
+  h += '<div class="insight-section"><div class="insight-section-label">Overview</div>';
+  h += '<div class="insight-chips">';
+  h += `<span class="insight-chip">${enrolled} enrolled</span>`;
+  h += `<span class="insight-chip">${compPct} completed</span>`;
+  h += `<span class="insight-chip">${avgDays}</span>`;
+  h += '</div></div>';
+
+  // Section 2 — Completion funnel.
+  const funnel = data.funnel || [];
+  if (funnel.length > 0) {
+    const maxStarted = Math.max(...funnel.map(r => r.started || 0), 1);
+    h += '<div class="insight-section"><div class="insight-section-label">Completion funnel</div>';
+    h += '<div class="insight-funnel">';
+    funnel.forEach(row => {
+      const pct   = Math.round(100 * (row.completed || 0) / maxStarted);
+      const drop  = row.drop_pct != null ? row.drop_pct : 0;
+      const amber = drop >= 15;
+      h += `<div class="insight-funnel-row">`;
+      h += `<div class="insight-funnel-label" title="${escapeHtml(row.lesson_title || '')}">${escapeHtml(row.lesson_title || row.lesson_ref || '—')}</div>`;
+      h += `<div class="insight-funnel-bar-wrap"><div class="insight-funnel-bar${amber ? ' amber' : ''}" style="width:${pct}%"></div></div>`;
+      h += `<div class="insight-funnel-meta">${row.completed}/${row.started}${amber ? ' ⚠ ' + drop + '% drop' : ' · ' + drop + '% drop'}</div>`;
+      h += `</div>`;
+    });
+    h += '</div></div>';
+  }
+
+  // Section 3 — Question difficulty.
+  const qd = data.question_difficulty || [];
+  if (qd.length > 0) {
+    h += '<div class="insight-section"><div class="insight-section-label">Question difficulty</div>';
+    h += '<div class="insight-qd">';
+    qd.forEach(row => {
+      const pct = row.pct_correct != null ? row.pct_correct : 0;
+      const pillCls = pct >= 80 ? 'green' : pct >= 60 ? 'yellow' : 'red';
+      h += `<div class="insight-qd-row">`;
+      h += `<div class="insight-qd-q">${escapeHtml(row.question_summary || '—')}</div>`;
+      h += `<span class="insight-pct-pill ${pillCls}">${pct}%</span>`;
+      h += `</div>`;
+    });
+    h += '</div></div>';
+  }
+
+  return h;
+}
+
 async function openAssign() {
   const d = _curDistrict();
   const tw = document.getElementById('am-tracks');
@@ -5324,6 +5483,29 @@ function renderTrackList() {
   const order = ['Cashier', 'Site Manager', 'CN Director'];
   const roles = order.concat([...new Set(tracks.map(t => t.role))].filter(r => r && !order.includes(r)));
   let h = '<p class="tracks-hint">Learning content grouped by the staff role it trains. Each track is built from approved, source-cited guides.</p>';
+
+  // ── Real server tracks (from /api/tracks) — shown above demo tracks with Insights buttons ──
+  const serverTracks = _realTracks || [];
+  if (serverTracks.length > 0) {
+    h += '<div class="cb-courses-section" style="margin-bottom:18px;"><h2 class="home-h2" style="margin:0 0 6px;">Published tracks</h2>';
+    h += '<div class="cb-courses-grid">';
+    serverTracks.forEach(t => {
+      const roles_str = (t.role_tags || []).join(', ') || 'All staff';
+      const isPub = t.status === 'published';
+      const modCount = (t.module_ids || []).length;
+      h += `<div class="cb-course-card">
+        <div class="cb-course-card-top"><div>
+          <div class="cb-course-card-title">${escapeHtml(t.title)}</div>
+          <div class="cb-course-card-meta">${modCount} item${modCount === 1 ? '' : 's'} · ${escapeHtml(roles_str)} · <span class="${isPub ? 'chip ok' : 'chip behind'}" style="font-size:10px;">${isPub ? 'Published' : 'Draft'}</span></div>
+        </div></div>
+        <div class="cb-course-card-actions">
+          <button class="secondary insights-btn" onclick="openInsightPanel('${escAttr(t.id)}','${escAttr(t.title)}')">&#128202; Insights</button>
+        </div>
+      </div>`;
+    });
+    h += '</div></div>';
+  }
+
   roles.forEach(role => {
     const rt = tracks.filter(t => t.role === role);
     if (!rt.length) return;
