@@ -4167,6 +4167,22 @@ window.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => { _restoreFromHash(); }, 0);
 });
 
+// ── SSO demo identity helper ───────────────────────────────────────────────────
+// Returns the X-Demo-User header value that matches the current persona toggle
+// state + role selector. All identity-sensitive fetch() calls add this header so
+// the server's get_current_user() returns the right CurrentUser for the view.
+//
+// Trainer view      → sam-trainer
+// Customer, Cashier → john-cashier
+// Customer, CN Dir  → dana-director
+// Customer, other   → john-cashier (safest fallback)
+function _demoUserHeader() {
+  if (_viewMode === 'trainer') return 'sam-trainer';
+  const role = _learnRole();
+  if (role === 'CN Director') return 'dana-director';
+  return 'john-cashier';  // Cashier, Site Manager, or any unrecognised role
+}
+
 function setViewMode(m) {
   _viewMode = m;
   const t = document.getElementById('vm-trainer'), c = document.getElementById('vm-customer');
@@ -4503,9 +4519,15 @@ function openInboxDrawer(){
   mine.filter(d => d.help_request && !_demoState.helpCleared[d.id]).forEach(d => acts.push(`<div class="dr-inbox-row"><div class="dr-inbox-bd"><div class="dr-inbox-title">🖐 ${escapeHtml(d.name)} raised a hand</div><div class="dr-inbox-meta">${escapeHtml(d.help_msg)}</div></div><div class="dr-inbox-act"><button class="secondary" onclick="respondHelp('${d.id}'); closeDrawer()">Respond</button></div></div>`));
   const overdue = mine.reduce((a, d) => a + d.learners.filter(l => l.status === 'Overdue').length, 0);
   if (overdue) acts.push(`<div class="dr-inbox-row"><div class="dr-inbox-bd"><div class="dr-inbox-title">⏰ ${overdue} learners overdue</div><div class="dr-inbox-meta">Across your ${mine.length} districts · due ${_DEMO.due}</div></div><div class="dr-inbox-act"><button class="secondary" onclick="showView('manage'); closeDrawer()">Review</button></div></div>`);
-  const apprs = _DEMO.inbox.map((it, i) => `<div class="dr-inbox-row"><div class="dr-inbox-bd"><div class="dr-inbox-title">${escapeHtml(it.title)}</div><div class="dr-inbox-meta">${escapeHtml(it.module)} · approved ${escapeHtml(it.date)}</div></div><div class="dr-inbox-act"><button class="secondary" onclick="inboxView(${i})">View</button><button class="secondary" onclick="inboxCatalog(${i}); closeDrawer()">Catalog</button></div></div>`).join('');
+  // Only show approved-type items here; flagged/updated/aging are handled in the Home feed.
+  const approvedItems = _DEMO.inbox.filter(it => it.type === 'approved');
+  const apprs = approvedItems.map(function(it) {
+    const globalIdx = _DEMO.inbox.indexOf(it);
+    const sme = _DEMO.smes[it.module] || 'PM team';
+    return `<div class="dr-inbox-row"><div class="dr-inbox-bd"><div class="dr-inbox-title">${escapeHtml(it.title)}</div><div class="dr-inbox-meta">${escapeHtml(it.module)} · ${escapeHtml(sme)} approved · ${escapeHtml(it.date)}</div></div><div class="dr-inbox-act"><button class="secondary" onclick="inboxView(${globalIdx})">View</button><button class="secondary" onclick="inboxCatalog(${globalIdx}); closeDrawer()">Catalog</button></div></div>`;
+  }).join('');
   let html = `<h4 class="dr-h" style="margin-top:0;">Activity</h4>${acts.join('') || '<p class="dr-intro">Nothing needs you right now.</p>'}`;
-  html += `<h4 class="dr-h">Approved by PM team · ${_DEMO.inbox.length}</h4><p class="dr-intro">New guides the PM team approved — safe to assign or add to a track.</p>${apprs}`;
+  html += `<h4 class="dr-h">Approved · ${approvedItems.length}</h4><p class="dr-intro">Guides approved by the PM team — safe to assign or add to a track.</p>${apprs || '<p class="dr-intro">No newly approved guides.</p>'}`;
   openDrawer('Notifications', html);
 }
 function openDistrictDrawer(id){
@@ -6378,7 +6400,8 @@ async function loadLearn() {
     try { const rs = await (await fetch('/resources')).json(); _demoState.approvedRids = (rs || []).filter(inLibrary).map(r => r.id); } catch (e) { _demoState.approvedRids = []; }
   }
   // Pull the REAL published tracks so a track built + assigned this session appears here (Seam B).
-  try { const d = await (await fetch('/api/tracks')).json(); _realTracks = (d.tracks || []).filter(t => t.status === 'published'); }
+  // Send X-Demo-User so the server scopes tracks to this persona's role.
+  try { const d = await (await fetch('/api/tracks', { headers: { 'X-Demo-User': _demoUserHeader() } })).json(); _realTracks = (d.tracks || []).filter(t => t.status === 'published'); }
   catch (e) { _realTracks = []; }
   // Don't interrupt an open lesson player — it will re-render learn home on close.
   if (document.getElementById('lesson-player').hidden) renderLearnHome();
@@ -6595,7 +6618,7 @@ async function issueTrackCertificate(tid) {
   if (body) body.innerHTML = '<div style="padding:22px; color:var(--muted);">Issuing your certificate…</div>';
   if (foot) foot.innerHTML = '';
   try {
-    const r = await fetch('/api/certificates', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ track_id: tid, learner_name: 'John Doe' }) });
+    const r = await fetch('/api/certificates', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Demo-User': _demoUserHeader() }, body: JSON.stringify({ track_id: tid }) });
     if (!r.ok) throw new Error('issue failed');
     _renderCertificate(await r.json());
   } catch (e) {
@@ -7000,7 +7023,8 @@ let _rosterData = null;   // _curISD declared near the top (avoids TDZ at boot)
 async function loadRoster(isd) {
   isd = isd || _curISD || '';
   try {
-    const r = await fetch('/api/roster' + (isd ? ('?isd=' + encodeURIComponent(isd)) : ''));
+    const r = await fetch('/api/roster' + (isd ? ('?isd=' + encodeURIComponent(isd)) : ''),
+                          { headers: { 'X-Demo-User': _demoUserHeader() } });
     _rosterData = await r.json();
   } catch (e) { return; }
   _curISD = _rosterData.selected;

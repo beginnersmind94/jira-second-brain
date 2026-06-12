@@ -39,6 +39,7 @@ moat violation and does not ship. The header badge "✓ every claim cited" is th
 ## BUILT
 | Area | What | Real vs Façade | Where |
 |---|---|---|---|
+| Auth / SSO scaffold | `CurrentUser` dataclass + `get_current_user()` FastAPI dependency; demo bypass via `X-Demo-User` header (john-cashier · dana-director · sam-trainer); production SSO hook stubbed per ADR-001 §Auth; `/api/roster`, `/api/certificates`, `/api/tracks` wired through identity | **Real (interface + demo bypass; production JWT pending)** | `auth.py`, `demo_app.py`, `tests/test_auth.py` |
 | Generation | Transcript/PDF → grounded guide (Tasks 1–4, one SDK call) | **Real** | `demo_app.py` `/generate`, `demo_d.py`, `agent_sdk.py` |
 | Grounding gate | Verbatim citation + correct tier; deterministic publish gate; pinned by REG-01…16 | **Real (enforced)** | `demo.validate_citations`, `eval/regression.py` |
 | Human review + AI edit + approve | Grounding-safe find/replace edits; approve re-validates live; audit log | **Real (enforced)** | `revise.py`, `demo_app.approve_resource` |

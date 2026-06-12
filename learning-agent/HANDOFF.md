@@ -32,6 +32,7 @@ construction." The product's whole value is trust, so the gates below are the sp
 - **Open PR (unmerged as of handoff):** `claude/learning-studio-icn-quizzes-roster-2026-06-05`.
 
 ## Architecture (the trust spine)
+- **Identity layer:** `auth.py` is the single identity interface. `get_current_user(request)` is the FastAPI `Depends()` used by every identity-sensitive route. Demo bypass via `X-Demo-User` header (john-cashier / dana-director / sam-trainer); production SSO hook stubbed in `_get_sso_user()` (ADR-001 §Auth). **NOTE: all identity reads must go through `get_current_user()` — never hardcode district or user identity in routes.**
 - **Grounding by construction:** a registry of verbatim source spans is built deterministically; the model emits only `[CITE:<id>]` markers; a deterministic assembler renders the exact quote + tier; `validate_citations` re-checks every quote is a verbatim substring of its source. Mis-citation is structurally impossible.
 - **Two source LANES that must never cross-cite:** **Product** (jira-brain Jira NXT tickets at tiers AC > RN > Description, + curated guides) and **Compliance** (the ICN/USDA pack in `data/icn/`: 85 assets, ~1,970 chunks, 30 ingestible). Lane is the first segment of every `span_id`; the gate refuses a cross-lane citation.
 - **Three gate checks:** *verify* (deterministic, quote∈source) → *lane-match* (deterministic) → *support* (semantic LLM-judge — **needs calibration**, see eval plan). Distractors are exempt from grounding.
