@@ -1,5 +1,42 @@
 [
   {
+    "asset_id": "icn-food-safety-youtube-hand-hygiene-demo",
+    "title": "Food Safety: Hand Hygiene in School Nutrition",
+    "source_org": "Institute of Child Nutrition",
+    "source_url": "https://www.youtube.com/watch?v=_KqmOKFY748",
+    "source_page_url": "https://theicn.org/icn-resources-a-z/food-safety-videos/",
+    "asset_type": "video_youtube",
+    "file_format": "youtube",
+    "license_posture": "embed_only",
+    "youtube_id": "_KqmOKFY748",
+    "embed_url": "https://www.youtube-nocookie.com/embed/_KqmOKFY748?rel=0",
+    "thumbnail_url": "https://i.ytimg.com/vi/_KqmOKFY748/hqdefault.jpg",
+    "local_path": null,
+    "thumbnail_path": null,
+    "preview_images": [],
+    "downloaded": false,
+    "llm_ingestion_allowed": false,
+    "roles": [
+      "cafeteria_manager",
+      "frontline_cafeteria_staff"
+    ],
+    "topics": [
+      "food_safety",
+      "hand_hygiene",
+      "staff_training"
+    ],
+    "possible_lms_uses": [
+      "Embedded YouTube video lesson",
+      "Food safety onboarding",
+      "Hand hygiene refresher"
+    ],
+    "attribution_text": "Source: Institute of Child Nutrition / USDA. Video embedded via YouTube (youtube-nocookie.com) per ICN educational license. No ICN content is downloaded, transcoded, or scraped.",
+    "duration_min": 4,
+    "notes": "Demo YouTube asset for ANC Jul-13 demo. License posture embed_only — embed via youtube-nocookie iframe only.",
+    "source_page_title": "Food Safety Videos",
+    "discovered_from_seed": "icn-food-safety-videos"
+  },
+  {
     "asset_id": "icn-food-safety-videos-a-flash-of-food-safety-1-eng",
     "title": "A Flash of Food Safety_1_eng",
     "source_org": "Institute of Child Nutrition",
@@ -3452,7 +3489,7 @@
     "asset_id": "msde-school-nutrition-training-point-of-service-duty",
     "title": "School Nutrition Training: Point of Service Duty",
     "source_org": "Maryland State Department of Education",
-    "source_url": "https://marylandpublicschools.org/programs/SchoolandCommunityNutrition/pages/tta.aspx",
+    "source_url": "https://www.youtube.com/watch?v=H1ypfMCnLco",
     "source_page_url": "https://marylandpublicschools.org/programs/SchoolandCommunityNutrition/pages/tta.aspx",
     "asset_type": "video_youtube",
     "file_format": "youtube",
@@ -3480,14 +3517,15 @@
       "POS cashier scenario support",
       "Manager-led staff training"
     ],
-    "attribution_text": "Source: Maryland State Department of Education. Video is handled as embed-only metadata; no YouTube media was downloaded.",
+    "attribution_text": "Source: Maryland State Department of Education / USDA. ICN identifiers retained. Video embedded per educational license.",
     "notes": "MSDE and MSNA pages identify this as a YouTube video player, but the static HTML available during ingestion did not expose a clean YouTube video URL. Resolve manually before embedding in a mockup.",
-    "embed_url": null,
-    "thumbnail_url": null,
+    "embed_url": "https://www.youtube-nocookie.com/embed/H1ypfMCnLco?rel=0",
+    "thumbnail_url": "https://i.ytimg.com/vi/H1ypfMCnLco/hqdefault.jpg",
     "classification_confidence": "high",
     "manual_classification": true,
     "supporting_source_urls": [
       "https://www.mdsna.org/ProDev.aspx"
-    ]
+    ],
+    "youtube_id": "H1ypfMCnLco"
   }
 ]

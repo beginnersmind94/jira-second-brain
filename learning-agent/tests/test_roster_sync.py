@@ -24,8 +24,8 @@ from roster_sync import RosterSyncClient, _seeded_roster, _WRITEBACK_LOG
 
 
 def _run(coro):
-    """Run a coroutine synchronously (avoids asyncio.run() nesting issues)."""
-    return asyncio.get_event_loop().run_until_complete(coro)
+    """Run a coroutine synchronously."""
+    return asyncio.run(coro)
 
 
 @pytest.fixture(autouse=True)

@@ -151,7 +151,7 @@ class TestXAPIClientStub:
         stub_log = tmp_path / "xapi-stub.jsonl"
         monkeypatch.setattr(xapi_client, "_STUB_LOG", stub_log)
 
-        result = asyncio.get_event_loop().run_until_complete(
+        result = asyncio.run(
             self.client.emit_completed(actor=SAMPLE_ACTOR, track=SAMPLE_TRACK, score=100.0)
         )
         assert result is True
@@ -162,7 +162,7 @@ class TestXAPIClientStub:
         stub_log = tmp_path / "xapi-stub.jsonl"
         monkeypatch.setattr(xapi_client, "_STUB_LOG", stub_log)
 
-        asyncio.get_event_loop().run_until_complete(
+        asyncio.run(
             self.client.emit_completed(actor=SAMPLE_ACTOR, track=SAMPLE_TRACK, score=100.0)
         )
         lines = stub_log.read_text(encoding="utf-8").strip().splitlines()
@@ -190,7 +190,7 @@ class TestXAPIClientStub:
         stub_log = tmp_path / "xapi-stub.jsonl"
         monkeypatch.setattr(xapi_client, "_STUB_LOG", stub_log)
 
-        asyncio.get_event_loop().run_until_complete(
+        asyncio.run(
             self.client.emit_progressed(
                 actor=SAMPLE_ACTOR, track=SAMPLE_TRACK, module_id="GUIDE-001"
             )
@@ -229,7 +229,7 @@ class TestXAPIClientLive:
 
         # _live_emit will fail because the endpoint is unreachable.
         # It must return False, not raise.
-        result = asyncio.get_event_loop().run_until_complete(
+        result = asyncio.run(
             client.emit_completed(actor=SAMPLE_ACTOR, track=SAMPLE_TRACK, score=100.0)
         )
         # Either False (network error caught) or True (httpx not installed → False path).

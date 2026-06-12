@@ -142,6 +142,39 @@ TRANSCRIPT_EXTRA_MODULES = [m.strip() for m in os.getenv(
 # Master on/off for the whole external-learning layer (ICN content, roster, study sets).
 # One switch so it can be disabled until the ICN fair-use agreement is in place.
 EXTERNAL_LEARNING = os.getenv("EXTERNAL_LEARNING", "1").lower() not in ("0", "false", "off", "no")
+# When true the player falls back to thumbnail+link instead of the live iframe.
+# Set OFFLINE_DEMO=1 for demos without reliable Wi-Fi.
+OFFLINE_DEMO = os.getenv("OFFLINE_DEMO", "0").lower() not in ("0", "false", "off", "no")
+
+# ICN content directory — data/icn/ relative to this file.
+_ICN_DIR: Path = Path(__file__).parent / "data" / "icn"
+
+
+def _icn_load() -> tuple[dict, dict]:
+    """Load (lms_mockup_content dict, asset_manifest by_id dict).
+    Cached in-process; server restart picks up edits.
+    Returns ({}, {}) when the files are absent so callers never crash.
+    """
+    lms_path = _ICN_DIR / "data" / "lms_mockup_content.json"
+    manifest_path = _ICN_DIR / "data" / "asset_manifest.json"
+    try:
+        lms = json.loads(lms_path.read_text(encoding="utf-8")) if lms_path.exists() else {}
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8")) if manifest_path.exists() else []
+    except (json.JSONDecodeError, OSError):
+        return {}, {}
+    by_id = {a.get("asset_id"): a for a in (manifest if isinstance(manifest, list) else [])}
+    return lms, by_id
+
+
+def _clean_title(raw: str | None, page_title: str | None = None) -> str:
+    """Best human-readable title for an ICN asset card."""
+    if raw and raw.strip() and raw.strip() != "-":
+        return raw.strip()
+    if page_title and page_title.strip():
+        return page_title.strip()
+    return "Untitled"
+
+
 DEFAULT_MODULE = os.getenv("DEMO_MODULE", "Item Management")
 if DEFAULT_MODULE not in AVAILABLE_MODULES and AVAILABLE_MODULES:
     DEFAULT_MODULE = sorted(AVAILABLE_MODULES)[0]
@@ -892,6 +925,63 @@ async def api_icn():
         "quiz_topics": sorted(qtopics),
         "counts": counts,
         "total": len(cards),
+    }
+
+
+@app.get("/api/icn/{asset_id}")
+async def api_icn_asset(asset_id: str):
+    """Single ICN asset lookup — used by the video player to render a card.
+    Returns the full asset object including license_posture, source_url, embed fields,
+    and attribution. 404 when the asset_id is not in the catalog.
+
+    EMBED DECISION RULE: the caller must check license_posture before embedding.
+      - 'embed_only' or 'download_allowed' → embed via youtube-nocookie iframe
+      - 'link_only' → render link-out card only; NEVER embed
+    This is enforced in the UI (renderVideoCard) and documented here for any future
+    server-side renderer. No bytes from ICN content are downloaded, transcoded, or
+    scraped — embed (YouTube iframe) or link-out only.
+    """
+    lms, by_id = _icn_load()
+    # Look in the cards first (rich card metadata), fall back to the raw manifest.
+    card = next(
+        (c for c in (lms.get("content_cards") or []) if c.get("asset_id") == asset_id),
+        None,
+    )
+    a = by_id.get(asset_id, {})
+    if not card and not a:
+        raise HTTPException(404, f"ICN asset '{asset_id}' not found")
+
+    lp = (card or {}).get("license_posture") or a.get("license_posture") or "link_only"
+    source_url = (card or {}).get("source_url") or a.get("source_url") or a.get("embed_url") or ""
+    embed_url = a.get("embed_url") or (card or {}).get("embed_url")
+    youtube_id = a.get("youtube_id") or (card or {}).get("youtube_id")
+    # Derive thumbnail_url: prefer explicit, fall back to YT maxresdefault.
+    thumbnail_url = a.get("thumbnail_url") or (card or {}).get("thumbnail_url")
+    if not thumbnail_url and youtube_id:
+        thumbnail_url = f"https://i.ytimg.com/vi/{youtube_id}/hqdefault.jpg"
+
+    return {
+        "id": asset_id,
+        "title": _clean_title(
+            (card or {}).get("title"), a.get("source_page_title")
+        ),
+        "content_type": (
+            "youtube" if (a.get("asset_type") in ("video_youtube",) or (card or {}).get("asset_type") == "YouTube Video")
+            else (a.get("file_format") or (card or {}).get("asset_type") or "unknown").lower()
+        ),
+        "license_posture": lp,
+        "source_url": source_url,
+        "embed_url": embed_url,
+        "youtube_id": youtube_id,
+        "thumbnail_url": thumbnail_url,
+        "attribution": {
+            "source": a.get("source_org") or (card or {}).get("source_label") or "Institute of Child Nutrition",
+            "program": "ICN",
+            "url": source_url,
+        },
+        "duration_min": a.get("duration_min") or (card or {}).get("duration_min"),
+        "roles": (card or {}).get("role_tags") or a.get("roles") or [],
+        "topics": (card or {}).get("topic_tags") or a.get("topics") or [],
     }
 
 
@@ -1920,11 +2010,12 @@ async def config():
         "extra_modules": extra,
         "templates": list(demo_d.VALID_FORMATS),
         "external_learning": EXTERNAL_LEARNING,
-        # Conference demo mode — the UI reads this to gate operator-only controls.
-        # NEVER true in production; only when DEMO_MODE=conference is set.
+        # Conference demo mode (G4) — NEVER true in production.
         "conferenceMode": CONFERENCE_MODE,
-        "offlineDemo": True,
         "demoMode": "conference" if CONFERENCE_MODE else "default",
+        # Video offline fallback (C1) — both spellings for JS camelCase + Python snake_case callers.
+        "offlineDemo": OFFLINE_DEMO,
+        "offline_demo": OFFLINE_DEMO,
     }
 
 
