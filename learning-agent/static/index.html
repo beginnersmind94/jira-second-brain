@@ -6752,6 +6752,22 @@ function _renderLessonPlayer() {
     </div>`;
   if (l.type === 'exercise') {
     document.getElementById('lesson-player').innerHTML = topnav + _buildExerciseHTML(cid, idx, l, isLast);
+    // If a rid is available and we haven't loaded a grounded item yet, fetch one.
+    if (rid && !_lpState.exItem && !_lpState.exLoading) {
+      _lpState.exLoading = true;
+      fetch('/api/resources/' + encodeURIComponent(rid) + '/exercise')
+        .then(r => r.status === 204 ? null : (r.ok ? r.json() : null))
+        .then(item => {
+          if (!_lpState) return;            // player was closed while fetching
+          _lpState.exLoading = false;
+          if (item && item.question) {
+            _lpState.exItem = item;
+            _lpState.exState = {};          // reset any prior interaction state
+            _renderLessonPlayer();          // re-render with grounded content
+          }
+        })
+        .catch(() => { if (_lpState) _lpState.exLoading = false; });
+    }
     return;
   }
   let placeholder = '';
@@ -6803,26 +6819,47 @@ function closeLessonPlayer() {
   _lpState = null;
 }
 // ── DataCamp-style exercise panel ─────────────────────────────────────────────
-// DEMO ONLY: choices + correct index are hardcoded constants.
-// In V1.5, exercises must derive questions + answers from verbatim spans of the
-// published guide they sit in — same grounding gate as quizzes (CLAUDE.md §Quiz rules).
+// Fallback constants — used when no rid is available or the grounding gate
+// returns nothing (204). When a rid IS available, _renderLessonPlayer fetches
+// GET /api/resources/{rid}/exercise and stores the result in _lpState.exItem;
+// _buildExerciseHTML reads that item and ignores these constants.
 const _EX_CHOICES = [
   'Yes — the student selected 4 of 5 components, including ½ cup of fruit and ½ cup of vegetable. The minimum is 3 of 5, with at least ½ cup of fruit or vegetable included.',
   'No — the student must take all 5 components for a meal to be reimbursable.',
   'No — Grain and Meat/Meat Alternate cannot both count from the same entrée item.',
 ];
 const _EX_CORRECT = 0;
+function _exActiveItem() {
+  // Returns {choices, correctIndex, question, sourceQuote, grounded} from the grounded
+  // item when available, or synthesises the same shape from the fallback constants.
+  const item = _lpState && _lpState.exItem;
+  if (item && item.choices && item.choices.length >= 2 && typeof item.correct_index === 'number') {
+    return {
+      question: item.question || null,
+      choices: item.choices.map(c => c.text),
+      correctIndex: item.correct_index,
+      sourceQuote: item.source_span || '',
+      grounded: true,
+    };
+  }
+  return { question: null, choices: _EX_CHOICES, correctIndex: _EX_CORRECT, sourceQuote: '', grounded: false };
+}
 function _buildExerciseHTML(cid, idx, l, isLast) {
   const st = _lpState.exState || {};
   const sel = st.sel ?? -1, submitted = !!st.submitted, hintShown = !!st.hint, helpfulDone = !!st.helpful;
-  const correct = sel === _EX_CORRECT;
-  const choicesHTML = _EX_CHOICES.map((text, i) => {
+  const {question, choices, correctIndex, sourceQuote, grounded} = _exActiveItem();
+  const correct = sel === correctIndex;
+  const choicesHTML = choices.map((text, i) => {
     let cls = 'lp-ex-choice';
-    if (submitted) cls += i === _EX_CORRECT ? ' correct' : (i === sel && !correct ? ' wrong' : '');
+    if (submitted) cls += i === correctIndex ? ' correct' : (i === sel && !correct ? ' wrong' : '');
     else if (i === sel) cls += ' sel';
+    // Show source quote under the correct choice on reveal (mirrors quiz player).
+    const quoteRow = (submitted && i === correctIndex && sourceQuote)
+      ? `<div class="quiz-src" style="margin-top:6px;"><span class="sq">"${escapeHtml(sourceQuote)}"</span></div>`
+      : '';
     return `<div class="${cls}" onclick="${submitted ? '' : '_exChoose(' + i + ')'}">
       <span class="lp-ex-key">${String.fromCharCode(65+i)}</span>
-      <span>${escapeHtml(text)}</span>
+      <span>${escapeHtml(text)}</span>${quoteRow}
     </div>`;
   }).join('');
   const actionBar = submitted && correct
@@ -6833,26 +6870,33 @@ function _buildExerciseHTML(cid, idx, l, isLast) {
       </div>`;
   const outputCls = submitted ? (correct ? 'correct' : 'wrong') : '';
   const outputMsg = submitted
-    ? (correct ? '✓ Correct! A reimbursable meal requires ≥ 3 of 5 components including ½ cup fruit or vegetable. This tray qualifies.' : '✗ Not quite. Review the USDA meal pattern requirements and try again.')
+    ? (correct ? '✓ Correct!' + (grounded ? ' Answer grounded in the published guide.' : ' A reimbursable meal requires ≥ 3 of 5 components including ½ cup fruit or vegetable. This tray qualifies.') : '✗ Not quite. Review the guide and try again.')
     : 'Select an answer above, then click Submit Answer.';
   const hintBody = hintShown ? `<div class="lp-ex-hint"><strong>Hint</strong>A reimbursable meal requires the student to choose at least <strong>3 of the 5 meal components</strong>. At least one of those must be a <strong>½ cup serving of fruit or vegetable</strong>. Count the components on the right — how many did this student select?</div>` : '';
   const helpfulRow = hintShown && !helpfulDone
     ? `<div class="lp-ex-helpful">Did you find this hint helpful?&ensp;<button class="ex-yes" onclick="_exHelpful(1)">✓ Yes</button>&ensp;<button class="ex-no" onclick="_exHelpful(0)">✕ No</button></div>`
     : (helpfulDone ? `<div class="lp-ex-helpful" style="color:var(--green-text);">Thanks for the feedback!</div>` : '');
-  return `<div class="lp-ex-wrap">
-    <div class="lp-ex-left">
-      <div class="lp-ex-lhead">
-        <span>📋 Exercise</span>
-        <span class="lp-ex-xp">${l.xp || 70} XP</span>
-      </div>
-      <div class="lp-ex-instruct">
-        <h3>Instructions <span class="lp-ex-xp" style="font-size:10px;">${l.xp || 70} XP</span></h3>
-        <ul>
+  // Grounded question stem replaces the static instructions when available.
+  const instrContent = question
+    ? `<p style="margin:0 0 10px;">${escapeHtml(question)}</p>`
+    : `<ul>
           <li>Review the student's meal tray on the right.</li>
           <li>Count how many of the 5 required meal components are present.</li>
           <li>Select whether this tray qualifies as a <strong>reimbursable meal</strong>.</li>
           <li>Hit <em>Submit Answer</em> to receive feedback.</li>
-        </ul>
+        </ul>`;
+  const groundedBadge = grounded
+    ? `<span style="font-size:10px;color:var(--green-text);margin-left:8px;">● Grounded</span>`
+    : (_lpState && _lpState.exLoading ? `<span style="font-size:10px;color:var(--muted);margin-left:8px;">Loading…</span>` : '');
+  return `<div class="lp-ex-wrap">
+    <div class="lp-ex-left">
+      <div class="lp-ex-lhead">
+        <span>📋 Exercise${groundedBadge}</span>
+        <span class="lp-ex-xp">${l.xp || 70} XP</span>
+      </div>
+      <div class="lp-ex-instruct">
+        <h3>Instructions <span class="lp-ex-xp" style="font-size:10px;">${l.xp || 70} XP</span></h3>
+        ${instrContent}
       </div>
       <button class="lp-ex-show-ans" onclick="_exHint()">💡 ${hintShown ? 'Hide hint' : 'Show hint (−' + (l.xp||70) + ' XP)'}</button>
       ${hintBody}
@@ -6885,7 +6929,8 @@ function _exChoose(i) { if (!_lpState) return; _lpState.exState = {...(_lpState.
 function _exSubmit() {
   if (!_lpState || (_lpState.exState||{}).sel == null) return;
   _lpState.exState = {...(_lpState.exState||{}), submitted:true};
-  if ((_lpState.exState.sel ?? -1) === _EX_CORRECT) {
+  const {correctIndex} = _exActiveItem();
+  if ((_lpState.exState.sel ?? -1) === correctIndex) {
     const {cid,idx} = _lpState; const s = _courseDoneSet(cid); s.add(idx);
   }
   _renderLessonPlayer();
