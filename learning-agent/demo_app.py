@@ -85,8 +85,13 @@ import intent_agent
 # Quiz Builder — persistence + QA/grounding gate (+ the support judge for the QA pass).
 import quiz_store
 import qbank_gate
+# Roster sync + completion writeback.
+from roster_sync import RosterSyncClient
 
 load_dotenv()
+
+# Roster sync client (stub until SCHOOLCAFE_API_URL/KEY are set).
+roster_sync = RosterSyncClient()
 
 # ── Discover ALL available module fixtures; load one to start ─────────────────
 # The offline tools read demo._FIX (a single module's fixture). For multi-module
@@ -349,6 +354,29 @@ async def api_delete_track(tid: str):
     return {"ok": True}
 
 
+@app.post("/api/tracks/{tid}/progress")
+async def api_track_progress(tid: str, payload: dict = Body(default={})):
+    """Record learner progress; fires non-fatal completion writeback."""
+    track = _ms.load_track(tid)
+    if not track:
+        raise HTTPException(404, "track not found")
+    learner_id = (payload.get("learner_id") or "").strip()
+    if not learner_id:
+        raise HTTPException(400, "learner_id is required")
+    completion_pct = max(0, min(int(payload.get("completion_pct", 0) or 0), 100))
+    certified = bool(payload.get("certified", False))
+    district_id = (payload.get("district_id") or "").strip() or "demo-district"
+    try:
+        await roster_sync.sync_completion(district_id, learner_id, tid, completion_pct, certified)
+    except Exception as exc:
+        import logging
+        logging.getLogger(__name__).warning(
+            "sync_completion failed (non-fatal) learner=%s track=%s: %s", learner_id, tid, exc
+        )
+    return {"track_id": tid, "learner_id": learner_id, "completion_pct": completion_pct,
+            "certified": certified, "stub": roster_sync.is_stub}
+
+
 # Unchanged routes — reuse prod's handlers verbatim (they read/write the same
 # drafts/, published/, logs/, transcripts/ dirs).
 app.get("/", response_class=HTMLResponse)(prod.index)
@@ -469,8 +497,21 @@ async def api_roster(isd: str = ""):
     """Simulated district roster + per-district roll-up (synthetic demo data, not real students)."""
     districts = [{**d, **_district_stats(d)} for d in _DISTRICTS]
     d = next((x for x in _DISTRICTS if x["id"] == isd), _DISTRICTS[0])
+    try:
+        roster = await roster_sync.get_district_roster(d["id"])
+    except Exception as exc:
+        import logging
+        logging.getLogger(__name__).warning("roster_sync failed, using stub: %s", exc)
+        roster = _roster_for(d)
     return {"districts": districts, "selected": d["id"], "selected_name": d["name"],
-            "roster": _roster_for(d), "demo": True}
+            "roster": roster, "stub": roster_sync.is_stub, "demo": True}
+
+
+# -- Sync status: lets operators verify whether writeback is live ------
+@app.get("/api/sync/status")
+async def api_sync_status():
+    """stub=True = demo mode; stub=False = SCHOOLCAFE_API_URL/KEY set (live)."""
+    return JSONResponse(roster_sync.status())
 
 
 # ── ICN Content catalog ───────────────────────────────────────────────────────
@@ -1328,6 +1369,19 @@ async def issue_certificate(payload: dict = Body(default={})):
         "issued_at": now.isoformat(timespec="seconds"),
     }
     (CERTS / f"{cid}.json").write_text(json.dumps(cert, indent=2, ensure_ascii=False), encoding="utf-8")
+
+    # Fire completion writeback (certified=True, non-fatal).
+    learner_id = (payload.get("learner_id") or learner).strip()
+    district_id = (payload.get("district_id") or "").strip() or "demo-district"
+    try:
+        await roster_sync.sync_completion(district_id, learner_id, track_id, 100, certified=True)
+    except Exception as exc:
+        import logging
+        logging.getLogger(__name__).warning(
+            "cert sync_completion failed (non-fatal) learner=%s track=%s: %s",
+            learner_id, track_id, exc,
+        )
+
     return JSONResponse(cert)
 
 
