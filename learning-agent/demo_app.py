@@ -914,16 +914,43 @@ def _icn_chunks_by_topic(topic: str) -> list:
     return out
 
 
-_QUIZ_SYS = """You write a short multiple-choice quiz that checks understanding of a training document for school-nutrition staff. You have NO tools.
+_QUIZ_SYS = """You write a grounded quiz that checks understanding of a training document for school-nutrition staff. You have NO tools.
+
+CRITICAL GROUNDING RULE: Every question MUST be grounded in the provided source excerpts ONLY. Never use outside knowledge or invent facts. Every source_quote, source_span, or source_sentence field must be copied EXACTLY, character-for-character, from ONE excerpt. The grading gate will DROP any question whose verbatim span cannot be found in the source.
+
+QUESTION TYPES — aim for a MIX. For a guide with 6+ sections, include AT LEAST one TF and one FITB:
+
+1. MCQ (type:"mcq") — multiple choice. 4 options, exactly one correct.
+   Fields: type, q (stem), options[4], answer (0-3), explanation, source_quote (verbatim span proving answer), chunk_id
+
+2. TF (type:"tf") — True or False.
+   TRUE question: stem IS a verbatim sentence or clause from an excerpt (copy it exactly).
+   FALSE question: stem is a MECHANICAL negation of a verbatim span (negate one fact, keep all other words).
+     For FALSE: source_span is the ORIGINAL true span (NOT the negated text); distractor_basis.transform MUST be "negation".
+   Fields: type, stem, correct (true or false), source_span (verbatim text this is based on), distractor_basis ({"transform":"negation","span":"<original span>"} for FALSE; {} for TRUE), section (excerpt id), explanation
+
+3. FITB (type:"fitb") — Fill in the blank.
+   The blank is a verbatim word or short phrase from the source. The stem is the LITERAL surrounding sentence with ___ replacing the blank. stem.replace("___", answer) MUST equal the verbatim source sentence exactly.
+   Fields: type, stem (sentence with ___), answer (the exact blank word/phrase), source_sentence (full verbatim sentence from source), section (excerpt id), explanation
+
+4. ORDERING (type:"ordering") — Put steps in order.
+   Items are the ACTUAL ordered steps from an AC-cited workflow in one excerpt, shuffled. No invented steps.
+   correct_order lists the shuffled steps' original positions (e.g. if steps are [B,C,A] correct_order is [2,0,1]).
+   Fields: type, prompt ("Put these steps in the correct order:"), steps (list of verbatim step strings, shuffled), correct_order (list of original indices), source_quote (verbatim section containing all steps), section (excerpt id), explanation
 
 RULES:
-- Base EVERY question ONLY on the provided source excerpts. Never use outside knowledge or invent facts.
-- Each question has a clear stem, EXACTLY 4 options, and exactly one correct option.
-- For each question you MUST include "source_quote": a SHORT verbatim span (about 5-25 words) copied EXACTLY, character-for-character, from ONE excerpt — the span that proves the correct answer — and "chunk_id": the id of the excerpt it came from.
-- Plain, professional, non-tricky language. Spread questions across different excerpts.
+- Plain, professional, non-tricky language.
+- Spread questions across different excerpts.
+- Each question tests a DISTINCT concept.
 
 OUTPUT — your FINAL message is ONLY this JSON object, no prose, no code fence:
-{"questions":[{"q":"...","options":["...","...","...","..."],"answer":0,"explanation":"why, in one sentence","source_quote":"exact words from an excerpt","chunk_id":"..."}]}"""
+{"questions":[
+  {"type":"mcq","q":"...","options":["...","...","...","..."],"answer":0,"explanation":"...","source_quote":"exact words","chunk_id":"..."},
+  {"type":"tf","stem":"exact sentence from source","correct":true,"source_span":"same exact sentence","distractor_basis":{},"section":"excerpt-id","explanation":"..."},
+  {"type":"tf","stem":"negated version of a fact","correct":false,"source_span":"original true span verbatim","distractor_basis":{"transform":"negation","span":"original true span verbatim"},"section":"excerpt-id","explanation":"..."},
+  {"type":"fitb","stem":"The minimum charge is ___.","answer":"$2.50","source_sentence":"The minimum charge is $2.50 per meal.","section":"excerpt-id","explanation":"..."},
+  {"type":"ordering","prompt":"Put these steps in the correct order:","steps":["Step B text","Step C text","Step A text"],"correct_order":[2,0,1],"source_quote":"Step A text ... Step B text ... Step C text ...","section":"excerpt-id","explanation":"..."}
+]}"""
 
 
 @app.post("/api/icn/quiz")
@@ -1022,9 +1049,68 @@ def _strip_tags(html: str) -> str:
     return t.strip()
 
 
+def _full_content_from_excerpts(by_id: dict) -> str:
+    """Concatenate all excerpt texts into one string for per-type gate checks."""
+    return " ".join(by_id.values())
+
+
+def _gate_q_for_type(q: dict, by_id: dict) -> tuple[bool, str]:
+    """Apply the appropriate grounding gate for the question's type.
+    Returns (passed, reason). Callers DROP the question when passed=False."""
+    qtype = (q.get("type") or "mcq").lower()
+    full_content = _full_content_from_excerpts(by_id)
+
+    if qtype == "tf":
+        from qbank_gate import _gate_tf
+        r = _gate_tf(q, full_content)
+        return r["pass"], r["reason"]
+
+    if qtype == "fitb":
+        from qbank_gate import _gate_fitb
+        r = _gate_fitb(q, full_content)
+        return r["pass"], r["reason"]
+
+    if qtype == "ordering":
+        from qbank_gate import _gate_ordering
+        r = _gate_ordering(q, full_content)
+        return r["pass"], r["reason"]
+
+    # MCQ (default): verbatim source_quote must be in an excerpt.
+    quote = (q.get("source_quote") or "").strip()
+    opts_list = q.get("options") or []
+    if not quote or len(opts_list) != 4 or not isinstance(q.get("answer"), int) or not (0 <= q.get("answer", -1) < 4):
+        return False, "MCQ: missing source_quote, options not 4, or answer out of range"
+    nq = demo._norm(quote)
+    cid = q.get("chunk_id")
+    hit = cid if (cid in by_id and nq in demo._norm(by_id[cid])) else \
+        next((eid for eid, t in by_id.items() if nq in demo._norm(t)), None)
+    if not hit:
+        return False, "MCQ: source_quote not found verbatim in any excerpt"
+    q["excerpt_id"] = hit
+    return True, "ok"
+
+
+def _normalise_q_for_store(q: dict) -> dict:
+    """Normalise a raw generator question to a shape map_generated_question understands."""
+    qtype = (q.get("type") or "mcq").lower()
+    if qtype == "mcq":
+        # Map legacy MCQ shape into the typed shape.
+        return {
+            "type": "mcq",
+            "q": q.get("q") or q.get("stem") or "",
+            "options": q.get("options") or [],
+            "answer": q.get("answer", 0),
+            "explanation": q.get("explanation", ""),
+            "source_quote": (q.get("source_quote") or "").strip(),
+            "excerpt_id": q.get("excerpt_id") or q.get("chunk_id") or "",
+        }
+    return q  # TF/FITB/ORDERING shapes are already in the right form
+
+
 async def _grounded_quiz(excerpts_by_id: dict, title: str, n: int, attribution: str, src_url):
-    """Shared grounded-MCQ core: run _QUIZ_SYS over {excerpt_id: text}; keep ONLY questions
-    whose verbatim source_quote is found in an excerpt (grounding by construction).
+    """Shared grounded-quiz core: run _QUIZ_SYS over {excerpt_id: text}; keep ONLY questions
+    that pass the per-type grounding gate (verbatim source span found in excerpt).
+    Handles MCQ (original), TF, FITB, and ORDERING (B1 additions).
     Shared by /api/icn/quiz (ICN chunks) and /api/resources/{rid}/quiz (a generated guide)."""
     by_id, excerpts, total = {}, [], 0
     for eid, txt in excerpts_by_id.items():
@@ -1040,7 +1126,7 @@ async def _grounded_quiz(excerpts_by_id: dict, title: str, n: int, attribution: 
         return {"questions": [], "generated": 0, "kept": 0, "dropped": 0,
                 "title": title, "attribution": attribution, "source_url": src_url,
                 "note": "no usable excerpts (guide too short/empty after stripping)"}
-    prompt = (f"Document: {title}\nWrite {n} multiple-choice questions grounded ONLY in these excerpts.\n\n"
+    prompt = (f"Document: {title}\nWrite {n} grounded quiz questions (mixed types) based ONLY on these excerpts.\n\n"
               "EXCERPTS:\n" + "\n\n".join(excerpts) + "\n\nEmit ONLY the JSON object.")
     opts = ClaudeAgentOptions(
         model="claude-sonnet-4-6", effort="medium", system_prompt=_QUIZ_SYS,
@@ -1051,20 +1137,11 @@ async def _grounded_quiz(excerpts_by_id: dict, title: str, n: int, attribution: 
     raw_qs = parsed.get("questions") or []
     kept, dropped = [], 0
     for q in raw_qs:
-        quote = (q.get("source_quote") or "").strip()
-        opts_list = q.get("options") or []
-        if not quote or len(opts_list) != 4 or not isinstance(q.get("answer"), int) or not (0 <= q["answer"] < 4):
+        passed, _reason = _gate_q_for_type(q, by_id)
+        if not passed:
             dropped += 1
             continue
-        nq = demo._norm(quote)
-        cid = q.get("chunk_id")
-        hit = cid if (cid in by_id and nq in demo._norm(by_id[cid])) else \
-            next((eid for eid, t in by_id.items() if nq in demo._norm(t)), None)
-        if not hit:
-            dropped += 1
-            continue
-        kept.append({"q": q.get("q", ""), "options": opts_list, "answer": q["answer"],
-                     "explanation": q.get("explanation", ""), "source_quote": quote, "excerpt_id": hit})
+        kept.append(_normalise_q_for_store(q))
     return {"questions": kept, "generated": len(raw_qs), "kept": len(kept), "dropped": dropped,
             "title": title, "attribution": attribution, "source_url": src_url}
 
