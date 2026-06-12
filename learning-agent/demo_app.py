@@ -3273,6 +3273,78 @@ async def delete_resource(rid: str):
     return {"deleted": rid, "files": removed}
 
 
+# ── D2: First-visit onboarding state ─────────────────────────────────────────
+
+@app.get("/api/users/{uid}/onboarding-state")
+async def api_onboarding_state(
+    uid: str,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Return the learner's first-visit / onboarding state.
+
+    Derived entirely from completion records — no persistent 'onboarded' flag.
+    Reset via POST /api/demo/reset clears completions, which resets is_first_visit
+    automatically (no extra cleanup needed).
+
+    Response:
+        {
+            is_first_visit: bool,      # true when zero lessons + zero modules done
+            role: str,                 # cashier / director / trainer
+            assigned_tracks: [str],    # track ids visible to this learner
+            recommended_track: str|null,
+            completed_any_lesson: bool,
+        }
+    """
+    # Learners may only query their own state; trainers may query any.
+    effective_uid = uid if current_user.is_trainer else current_user.id
+
+    role_raw = current_user.role or "cashier"
+    role_key = role_raw.lower()
+    if "director" in role_key or "manager" in role_key:
+        role = "director"
+    elif "trainer" in role_key:
+        role = "trainer"
+    else:
+        role = "cashier"
+
+    # Scan all stored completion records across every track for this user.
+    all_progress = _cs.get_all_progress(effective_uid)
+    completed_any_lesson = False
+    for prog in all_progress.values():
+        ld = prog.get("lessons_done") or {}
+        if any(len(refs) > 0 for refs in ld.values()):
+            completed_any_lesson = True
+            break
+        if prog.get("modules_done"):
+            completed_any_lesson = True
+            break
+
+    is_first_visit = not completed_any_lesson
+
+    # Tracks visible to this learner (role-filtered, published only).
+    all_tracks = _ms.list_tracks()
+    visible_tracks = [
+        t for t in all_tracks
+        if t.get("status") == "published"
+        and (not t.get("role_tags") or role_raw in (t.get("role_tags") or []))
+    ]
+    assigned_track_ids = [t["id"] for t in visible_tracks]
+
+    # Recommended: first role-matching track, else first track overall.
+    recommended_track = None
+    if visible_tracks:
+        preferred = [t for t in visible_tracks if role_raw in (t.get("role_tags") or [])]
+        recommended_track = (preferred[0] if preferred else visible_tracks[0])["id"]
+
+    return {
+        "is_first_visit": is_first_visit,
+        "role": role,
+        "assigned_tracks": assigned_track_ids,
+        "recommended_track": recommended_track,
+        "completed_any_lesson": completed_any_lesson,
+    }
+
+
 # ── Conference-mode: pristine demo reset ─────────────────────────────────────
 # The demo personas by their actual completion_store user ids (from auth.py).
 _DEMO_PERSONA_IDS = [
