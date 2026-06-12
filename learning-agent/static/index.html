@@ -6946,7 +6946,7 @@ function showCertificate(tid) {
   if (!m) return; m.hidden = false;
   if (ttl) ttl.textContent = 'Certificate';
   const k = document.getElementById('quiz-kicker'); if (k) k.textContent = 'Track completion';
-  if (body) body.innerHTML = `<div class="cert-card"><div class="cert-seal">🏅</div><div class="cert-h">Certificate of Completion</div><div class="cert-name">Demo Learner</div><div class="cert-sub">has completed</div><div class="cert-track">${escapeHtml(t.title)}</div><div class="cert-date">${_DEMO.due}, 2026 · SchoolCafé Learning Studio</div></div>`;
+  if (body) body.innerHTML = `<div class="cert-card"><div class="cert-seal">🏅</div><div class="cert-h">Certificate of Completion</div><div class="cert-name">John Doe</div><div class="cert-sub">has completed</div><div class="cert-track">${escapeHtml(t.title)}</div><div class="cert-date">${_DEMO.due}, 2026 · SchoolCafé Learning Studio</div></div>`;
   if (foot) foot.innerHTML = '<button class="primary" onclick="window.print()">Download</button>';
 }
 
