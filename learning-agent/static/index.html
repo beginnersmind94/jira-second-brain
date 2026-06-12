@@ -1526,6 +1526,39 @@
     .insight-section { display: flex; flex-direction: column; }
     /* Insights button in track rows */
     .insights-btn { font-size: 11.5px; padding: 4px 10px; }
+    /* ── G2: Stat overlays — Gate Reveal + Economics Card ──────────────────── */
+    /* Gate Reveal: full-screen dark backdrop, white text, readable from 10 feet */
+    .g2-gate-reveal { position: fixed; inset: 0; z-index: 50; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; color: #fff; cursor: pointer; }
+    .g2-gate-reveal[hidden] { display: none !important; }
+    .g2-gate-inner { max-width: 700px; width: 90vw; padding: 48px 40px; }
+    .g2-gate-big { font-size: clamp(48px, 8vw, 96px); font-weight: 700; line-height: 1.05; letter-spacing: -.02em; color: #fff; font-variant-numeric: tabular-nums; }
+    .g2-gate-label { font-size: clamp(18px, 2.5vw, 28px); font-weight: 400; color: rgba(255,255,255,0.75); margin-left: 16px; }
+    .g2-gate-row { display: flex; align-items: baseline; margin-bottom: 8px; }
+    .g2-gate-row.fail .g2-gate-big { color: #f87171; }
+    .g2-gate-divider { border: none; border-top: 1px solid rgba(255,255,255,0.2); margin: 32px 0; }
+    .g2-tier-label { font-size: clamp(13px, 1.6vw, 18px); color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: .08em; font-size: 13px; margin-bottom: 16px; }
+    .g2-tier-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .g2-tier-name { flex: 0 0 200px; font-size: clamp(13px, 1.5vw, 17px); color: rgba(255,255,255,0.85); }
+    .g2-tier-count { flex: 0 0 60px; font-size: clamp(13px, 1.5vw, 17px); font-weight: 700; color: #fff; text-align: right; }
+    .g2-tier-bar-wrap { flex: 1; background: rgba(255,255,255,0.15); border-radius: 3px; height: 8px; overflow: hidden; }
+    .g2-tier-bar { height: 100%; border-radius: 3px; background: rgba(255,255,255,0.7); transition: width .4s ease; }
+    .g2-gate-footer { margin-top: 32px; font-size: clamp(15px, 1.8vw, 20px); color: rgba(255,255,255,0.6); }
+    .g2-gate-dismiss { margin-top: 28px; font-size: 13px; color: rgba(255,255,255,0.35); text-align: center; }
+    /* Economics Card: bottom-right card (not full-screen) */
+    .g2-econ-card { position: fixed; bottom: 24px; right: 24px; z-index: 50; background: #1a1a2e; color: #fff; border-radius: 10px; padding: 20px 22px; width: 260px; box-shadow: 0 4px 24px rgba(0,0,0,0.5); font-size: 14px; }
+    .g2-econ-card[hidden] { display: none !important; }
+    .g2-econ-title { font-weight: 700; font-size: 15px; margin-bottom: 14px; color: #fff; }
+    .g2-econ-row { display: flex; justify-content: space-between; margin-bottom: 8px; color: rgba(255,255,255,0.8); }
+    .g2-econ-val { font-weight: 600; color: #fff; }
+    .g2-econ-divider { border: none; border-top: 1px solid rgba(255,255,255,0.15); margin: 12px 0; }
+    .g2-econ-compare { font-size: 12px; color: rgba(255,255,255,0.5); margin-bottom: 12px; line-height: 1.5; }
+    .g2-econ-close { background: none; border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.6); border-radius: 4px; padding: 4px 10px; font-size: 12px; cursor: pointer; float: right; }
+    .g2-econ-close:hover { background: rgba(255,255,255,0.1); }
+    /* Pipeline counter strip (trainer home, hidden in customer view) */
+    .g2-pipeline-strip { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px 14px; font-size: 12.5px; color: var(--muted); margin-bottom: 16px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .g2-pipeline-strip[hidden] { display: none !important; }
+    .g2-pipeline-count { font-weight: 700; color: var(--text); }
+    body.customer-view .g2-pipeline-strip { display: none !important; }
     .am-overlay { position: fixed; inset: 0; z-index: 90; background: rgba(30,22,16,.5); display: flex; align-items: center; justify-content: center; }
     .am-overlay[hidden] { display: none; }
     .am-modal { width: 100%; max-width: 460px; max-height: 84vh; overflow: auto; background: var(--panel); border-radius: var(--radius); box-shadow: var(--shadow-lift); }
@@ -3187,6 +3220,15 @@
       <div class="isd-menu" id="isd-menu" hidden></div>
     </div>
     <span class="cust-district-label" id="cust-district-label" hidden></span>
+    <!-- G2: Trainer-only overlay trigger buttons — only rendered in conference mode (hidden otherwise) -->
+    <button class="quality-btn" id="g2-gate-btn" onclick="showGateReveal()" title="Gate Stats — citation integrity reveal (Ctrl+Shift+G)" aria-label="Gate Stats reveal" hidden
+      style="font-size:11px;font-weight:700;width:auto;padding:0 10px;letter-spacing:.02em;">
+      158/158
+    </button>
+    <button class="quality-btn" id="g2-econ-btn" onclick="showEconomicsCard()" title="Economics — generation cost card (Ctrl+Shift+E)" aria-label="Economics card" hidden
+      style="font-size:11px;font-weight:700;width:auto;padding:0 10px;letter-spacing:.02em;">
+      $&#xfeff;
+    </button>
     <button class="quality-btn" id="quality-btn" onclick="showView('evals')" title="Quality — grounding checks &amp; every claim cited" aria-label="Quality dashboard">
       <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
     </button>
@@ -3579,6 +3621,10 @@
         </div>
       </div>
     </div>
+    <!-- G2: Pipeline counter strip — trainer home only, hidden in customer view -->
+    <div id="g2-pipeline-strip" class="g2-pipeline-strip" data-trainer-only="true" hidden>
+      Loading content stats…
+    </div>
     <div id="home-body"></div>
   </div>
 </section>
@@ -3848,6 +3894,69 @@
     </div>
   </div>
 </section>
+
+<!-- G2: Gate Reveal overlay — full-screen citation integrity panel (Ctrl+Shift+G) -->
+<!-- Operator-triggered in CONFERENCE_MODE only; invisible to booth visitors      -->
+<div id="g2-gate-overlay" class="g2-gate-reveal" hidden
+     role="dialog" aria-modal="true" aria-label="Citation integrity gate results"
+     onclick="hideGateReveal()">
+  <div class="g2-gate-inner">
+    <div class="g2-gate-row" id="g2-row-total">
+      <span class="g2-gate-big" id="g2-num-total">—</span>
+      <span class="g2-gate-label">claims processed</span>
+    </div>
+    <div class="g2-gate-row" id="g2-row-verified">
+      <span class="g2-gate-big" id="g2-num-verified">—</span>
+      <span class="g2-gate-label">verified verbatim</span>
+    </div>
+    <div class="g2-gate-row" id="g2-row-failed">
+      <span class="g2-gate-big" id="g2-num-failed">—</span>
+      <span class="g2-gate-label">failures</span>
+    </div>
+    <hr class="g2-gate-divider">
+    <div class="g2-tier-label">Tier breakdown</div>
+    <div class="g2-tier-row">
+      <span class="g2-tier-name">Acceptance Criteria</span>
+      <span class="g2-tier-count" id="g2-tier-ac">—</span>
+      <div class="g2-tier-bar-wrap"><div class="g2-tier-bar" id="g2-bar-ac" style="width:0%"></div></div>
+    </div>
+    <div class="g2-tier-row">
+      <span class="g2-tier-name">Release Notes</span>
+      <span class="g2-tier-count" id="g2-tier-rn">—</span>
+      <div class="g2-tier-bar-wrap"><div class="g2-tier-bar" id="g2-bar-rn" style="width:0%"></div></div>
+    </div>
+    <div class="g2-tier-row">
+      <span class="g2-tier-name">Description</span>
+      <span class="g2-tier-count" id="g2-tier-desc">—</span>
+      <div class="g2-tier-bar-wrap"><div class="g2-tier-bar" id="g2-bar-desc" style="width:0%"></div></div>
+    </div>
+    <div class="g2-gate-footer" id="g2-footer">—</div>
+    <div class="g2-gate-dismiss">tap or press Esc to dismiss</div>
+  </div>
+</div>
+
+<!-- G2: Economics Card overlay — bottom-right card (Ctrl+Shift+E) -->
+<!-- Operator-triggered in CONFERENCE_MODE only                      -->
+<div id="g2-econ-overlay" class="g2-econ-card" hidden
+     role="dialog" aria-modal="false" aria-label="Content economics">
+  <div class="g2-econ-title">Content economics</div>
+  <div class="g2-econ-row">
+    <span>Guides generated</span>
+    <span class="g2-econ-val" id="g2-econ-guides">—</span>
+  </div>
+  <div class="g2-econ-row">
+    <span>Avg. generation time</span>
+    <span class="g2-econ-val" id="g2-econ-time">—</span>
+  </div>
+  <div class="g2-econ-row">
+    <span>Total AI cost</span>
+    <span class="g2-econ-val" id="g2-econ-cost">—</span>
+  </div>
+  <hr class="g2-econ-divider">
+  <!-- The "$100k" comparison is from Dallas's existing sales deck — NOT a product claim. -->
+  <div class="g2-econ-compare">vs. ~$100k/yr documentation tool<br><span style="font-size:11px;opacity:.6;">(internal benchmark — not a product claim)</span></div>
+  <button class="g2-econ-close" onclick="hideEconomicsCard()" aria-label="Dismiss economics card">dismiss ×</button>
+</div>
 
 <!-- E3-lite: Educator insight panel overlay -->
 <div id="insight-overlay" class="insight-overlay" hidden>
@@ -4881,6 +4990,15 @@ function applyViewMode() {
   ALL_TABS.forEach(id => show(id, VISIBLE.includes(id)));
   // Quality (grounding QA) is a trainer-only admin affordance — header gear, hidden for customers.
   const qbtn = document.getElementById('quality-btn'); if (qbtn) qbtn.hidden = _viewMode === 'customer';
+  // G2: stat overlay buttons — only shown in trainer view AND when conferenceMode is on.
+  const isConference = window._config && window._config.conferenceMode;
+  const g2Gate = document.getElementById('g2-gate-btn');
+  const g2Econ = document.getElementById('g2-econ-btn');
+  if (g2Gate) g2Gate.hidden = _viewMode === 'customer' || !isConference;
+  if (g2Econ) g2Econ.hidden = _viewMode === 'customer' || !isConference;
+  // G2: pipeline strip — trainer only, update visibility state.
+  const g2Strip = document.getElementById('g2-pipeline-strip');
+  if (g2Strip) g2Strip.hidden = _viewMode === 'customer';
   // Library is an umbrella (Studio pipeline + Catalog). Customers only get the ready-to-use
   // Catalog, so hide the Studio/Catalog sub-tab strip for them.
   document.querySelectorAll('.lib-subnav').forEach(el => { el.hidden = _viewMode === 'customer'; });
@@ -4998,6 +5116,9 @@ document.addEventListener('click', e => { const w = document.getElementById('hom
 // ─── Home (trainer landing) ───
 async function loadHome(){
   renderHome();   // instant paint from cache
+  // G2: refresh pipeline counter strip on every Home navigation (trainer view).
+  // Non-fatal if the stats endpoint is unavailable.
+  _g2FetchStats().catch(() => {});
   // Same backend source the Districts page awaits before it renders — so the "My districts"
   // count here can't disagree with the Districts page just because this view painted first.
   const before = _unifiedDistricts().length;
@@ -6776,7 +6897,20 @@ async function loadConfig() {
   syncModuleOptions();  // reflect the current source's module choices
 
   // Conference mode: mount the operator reset widget (invisible to visitors).
-  if (cfg.conferenceMode) _initOperatorReset();
+  if (cfg.conferenceMode) {
+    _initOperatorReset();
+    // G2: show trainer-only overlay trigger buttons in the header.
+    // These are NEVER shown in customer view (applyViewMode handles that via
+    // body.customer-view .quality-btn hiding, but these have their own hidden attr).
+    // We show them only for trainer, relying on the existing applyViewMode() call
+    // above to set the view correctly before we read it.
+    const gateBtn = document.getElementById('g2-gate-btn');
+    const econBtn = document.getElementById('g2-econ-btn');
+    if (gateBtn) gateBtn.hidden = false;
+    if (econBtn) econBtn.hidden = false;
+    // Also pre-fetch stats so the first keypress is instant.
+    _g2FetchStats().catch(() => {});
+  }
 }
 
 // ─── Operator reset (conference mode only) ──────────────────────────
@@ -6871,6 +7005,173 @@ function _showToast(msg, ms) {
   clearTimeout(t._timer);
   t._timer = setTimeout(() => { t.style.opacity = '0'; }, ms);
 }
+
+// ── G2: Stat overlays — Gate Reveal + Economics Card + Pipeline Counter ──────
+//
+// Trust contract (matches CLAUDE.md §Enforcement vs. documentation):
+//   1. All numbers come from GET /api/stats/content — which reads real metadata.
+//   2. The _sources field in every response documents the derivation. If the
+//      endpoint fell back to seeded counts, _sources says so explicitly.
+//   3. showGateReveal() only fires when window._config.conferenceMode === true
+//      AND the user is NOT in customer view — no-op otherwise.
+//   4. Ctrl+Shift+G / Cmd+Shift+G = gate reveal; Ctrl+Shift+E = economics card.
+
+/** Cached stats — fetched once per page load, refreshed on navigate-to-home. */
+let _g2Stats = null;
+let _g2StatsFetching = false;
+
+async function _g2FetchStats() {
+  if (_g2StatsFetching) return;
+  _g2StatsFetching = true;
+  try {
+    const r = await fetch('/api/stats/content');
+    if (r.ok) {
+      _g2Stats = await r.json();
+      _g2UpdatePipelineStrip(_g2Stats);
+    }
+  } catch (e) {
+    // Non-fatal — overlays will show stale or empty state
+    console.warn('[G2] stats fetch failed:', e.message);
+  } finally {
+    _g2StatsFetching = false;
+  }
+}
+
+/**
+ * showGateReveal() — full-screen citation integrity gate panel.
+ * Triggered by Ctrl+Shift+G (or Cmd+Shift+G). CONFERENCE_MODE only.
+ * No-op in customer view.
+ */
+async function showGateReveal() {
+  if (!window._config || !window._config.conferenceMode) return;
+  if (document.body.classList.contains('customer-view')) return;
+
+  // Fetch if not cached yet
+  if (!_g2Stats) await _g2FetchStats();
+
+  const s = _g2Stats || {};
+  const overlay = document.getElementById('g2-gate-overlay');
+  if (!overlay) return;
+
+  // Populate numbers
+  const total = s.total_claims != null ? s.total_claims.toLocaleString() : '—';
+  const verified = s.verified_claims != null ? s.verified_claims.toLocaleString() : '—';
+  const failed = s.failed_claims != null ? s.failed_claims.toLocaleString() : '—';
+
+  const el = id => document.getElementById(id);
+  if (el('g2-num-total')) el('g2-num-total').textContent = total;
+  if (el('g2-num-verified')) el('g2-num-verified').textContent = verified;
+  if (el('g2-num-failed')) el('g2-num-failed').textContent = failed;
+
+  // Colour the failures row red if there are any
+  const failedRow = el('g2-row-failed');
+  if (failedRow) {
+    failedRow.classList.toggle('fail', (s.failed_claims || 0) > 0);
+  }
+
+  // Tier breakdown bars
+  const tier = s.tier_breakdown || {};
+  const tierTotal = (tier.AC || 0) + (tier.RN || 0) + (tier.Description || 0) || 1;
+  const _setTier = (suffix, key) => {
+    const count = tier[key] || 0;
+    const pct = Math.round(count / tierTotal * 100);
+    if (el('g2-tier-' + suffix)) el('g2-tier-' + suffix).textContent = count.toLocaleString();
+    if (el('g2-bar-' + suffix)) el('g2-bar-' + suffix).style.width = pct + '%';
+  };
+  _setTier('ac', 'AC');
+  _setTier('rn', 'RN');
+  _setTier('desc', 'Description');
+
+  // Footer: generation time + cost
+  let footer = '';
+  if (s.avg_gen_seconds != null) footer += 'Generated in ~' + s.avg_gen_seconds + 's avg';
+  if (s.estimated_cost_usd != null) {
+    footer += (footer ? ' · ' : '') + '~$' + s.estimated_cost_usd;
+  }
+  if (!footer) footer = 'No timing data available';
+  if (el('g2-footer')) el('g2-footer').textContent = footer;
+
+  overlay.hidden = false;
+  overlay.focus();
+}
+
+function hideGateReveal() {
+  const overlay = document.getElementById('g2-gate-overlay');
+  if (overlay) overlay.hidden = true;
+}
+
+/**
+ * showEconomicsCard() — bottom-right economics card overlay.
+ * Triggered by Ctrl+Shift+E. CONFERENCE_MODE only. No-op in customer view.
+ */
+async function showEconomicsCard() {
+  if (!window._config || !window._config.conferenceMode) return;
+  if (document.body.classList.contains('customer-view')) return;
+
+  if (!_g2Stats) await _g2FetchStats();
+
+  const s = _g2Stats || {};
+  const card = document.getElementById('g2-econ-overlay');
+  if (!card) return;
+
+  const el = id => document.getElementById(id);
+  if (el('g2-econ-guides')) el('g2-econ-guides').textContent =
+    s.guide_count != null ? s.guide_count + ' guides' : '—';
+  if (el('g2-econ-time')) el('g2-econ-time').textContent =
+    s.avg_gen_seconds != null ? '~' + s.avg_gen_seconds + 's' : '—';
+  if (el('g2-econ-cost')) el('g2-econ-cost').textContent =
+    s.estimated_cost_usd != null ? '~$' + s.estimated_cost_usd : '—';
+
+  card.hidden = false;
+}
+
+function hideEconomicsCard() {
+  const card = document.getElementById('g2-econ-overlay');
+  if (card) card.hidden = true;
+}
+
+/**
+ * _g2UpdatePipelineStrip(stats) — refresh the pipeline counter strip on Home.
+ * Trainer-only; hidden in customer view by CSS.
+ */
+function _g2UpdatePipelineStrip(s) {
+  const strip = document.getElementById('g2-pipeline-strip');
+  if (!strip) return;
+
+  const guides = s.guide_count != null ? s.guide_count : '—';
+  const quizzes = s.quiz_count != null ? s.quiz_count : '—';
+  const decks = s.flashcard_deck_count != null ? s.flashcard_deck_count : '—';
+  const approved = s.total_human_approved != null ? s.total_human_approved : '—';
+
+  strip.innerHTML =
+    '<span class="g2-pipeline-count">' + guides + '</span> guides &middot; ' +
+    '<span class="g2-pipeline-count">' + quizzes + '</span> quizzes &middot; ' +
+    '<span class="g2-pipeline-count">' + decks + '</span> flashcard deck' +
+    (decks !== 1 ? 's' : '') +
+    ' &middot; <span class="g2-pipeline-count">' + approved + '</span> total human-approved';
+
+  // Only show in trainer (non-customer) view
+  strip.hidden = document.body.classList.contains('customer-view');
+}
+
+// Keyboard shortcuts: Ctrl+Shift+G = gate reveal, Ctrl+Shift+E = economics card.
+// Escape dismisses gate reveal. All shortcuts are no-ops outside CONFERENCE_MODE
+// and in customer view.
+document.addEventListener('keydown', function _g2Keys(e) {
+  if (!window._config || !window._config.conferenceMode) return;
+  const ctrl = e.ctrlKey || e.metaKey;
+  if (ctrl && e.shiftKey && e.key === 'G') {
+    e.preventDefault();
+    showGateReveal();
+  } else if (ctrl && e.shiftKey && e.key === 'E') {
+    e.preventDefault();
+    showEconomicsCard();
+  } else if (e.key === 'Escape') {
+    hideGateReveal();
+    // Economics card has its own dismiss button; Escape also closes it.
+    hideEconomicsCard();
+  }
+});
 
 // Transcript-only mode needs no fixture, so it offers extra label-only modules
 // (e.g. Financials). Add/remove them on the module dropdown as the source toggles.
