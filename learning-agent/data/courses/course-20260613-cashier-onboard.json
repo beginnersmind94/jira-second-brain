@@ -1,0 +1,36 @@
+{
+  "id": "course-20260613-cashier-onboard",
+  "title": "Cashier Core Skills",
+  "description": "Essential POS and item-management workflows for cafeteria cashiers.",
+  "product": "SchoolCafe",
+  "role_tags": ["Cashier"],
+  "lessons": [
+    {
+      "type": "guide",
+      "ref": "20260603-124709-item-management-long-form-68d6de",
+      "title": "Item Management — Full Guide",
+      "duration_est": 15
+    },
+    {
+      "type": "guide",
+      "ref": "GUIDE-001",
+      "title": "System Onboarding Quick Guide",
+      "duration_est": 10
+    },
+    {
+      "type": "video",
+      "ref": "icn-food-safety-videos-a-flash-of-food-safety-1-eng",
+      "title": "A Flash of Food Safety (Part 1)",
+      "duration_est": 5
+    },
+    {
+      "type": "quiz",
+      "ref": "quiz-20260603-124709-item-management-long-for-e1dbc1",
+      "title": "Knowledge Check — Item Management",
+      "duration_est": 5
+    }
+  ],
+  "status": "published",
+  "created_at": "2026-06-13T00:00:00",
+  "updated_at": "2026-06-13T00:00:00"
+}

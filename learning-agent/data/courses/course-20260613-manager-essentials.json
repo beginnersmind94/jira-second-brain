@@ -1,0 +1,24 @@
+{
+  "id": "course-20260613-manager-essentials",
+  "title": "Manager Essentials",
+  "description": "Core workflows and reporting for site managers.",
+  "product": "SchoolCafe",
+  "role_tags": ["Site Manager", "CN Director"],
+  "lessons": [
+    {
+      "type": "guide",
+      "ref": "GUIDE-001",
+      "title": "System Onboarding Quick Guide",
+      "duration_est": 10
+    },
+    {
+      "type": "quiz",
+      "ref": "quiz-guide-001-b8c5ac",
+      "title": "Knowledge Check — System Onboarding",
+      "duration_est": 5
+    }
+  ],
+  "status": "published",
+  "created_at": "2026-06-13T00:00:00",
+  "updated_at": "2026-06-13T00:00:00"
+}

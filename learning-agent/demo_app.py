@@ -340,6 +340,43 @@ async def api_get_track(
     expanded["progress"] = _cs.get_progress(
         current_user.id, tid, module_ids=module_ids
     )
+
+    # A1 — Track schema migration shim:
+    # If the track has 'module_ids' but no 'course_ids', synthesize a response-only
+    # implicit Course 1 so every existing seeded track renders with a 'courses' key.
+    # The track file on disk is NOT rewritten — this is response-time synthesis only.
+    if "course_ids" not in track:
+        implicit_lessons = [
+            {
+                "type": "guide",
+                "ref": mid,
+                "title": next(
+                    (m.get("title", mid) for m in (expanded.get("modules") or [])
+                     if m.get("id") == mid),
+                    mid,
+                ),
+                "duration_est": 10,
+            }
+            for mid in (track.get("module_ids") or [])
+        ]
+        expanded["courses"] = [
+            {
+                "id": f"implicit-{tid}",
+                "title": "Course 1",
+                "lessons": implicit_lessons,
+                "status": "published",
+                "_implicit": True,
+            }
+        ]
+    else:
+        # Real course_ids — load from course_store.
+        courses = []
+        for cid in (track.get("course_ids") or []):
+            c = _course_store.load_course(cid)
+            if c:
+                courses.append(c)
+        expanded["courses"] = courses
+
     return expanded
 
 
@@ -448,6 +485,188 @@ async def api_mark_module_done(
             pass  # non-fatal by design
 
     return progress
+
+
+# ── Course CRUD (/api/courses/*) ──────────────────────────────────────────────
+# A1 — Course is a real server entity persisted in data/courses/<id>.json.
+# Mirrors the /api/tracks pattern: tenancy checks, trainer-only mutations,
+# server-side ref validation before every write.
+import course_store as _course_store
+
+
+@app.post("/api/courses")
+async def api_create_course(
+    body: dict,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Create a new draft course. Trainer only.
+
+    Body: {title, description?, product?, role_tags?, lessons?}
+    Returns: created course JSON with status='draft'.
+    """
+    if not current_user.is_trainer:
+        raise HTTPException(403, "trainer access required to create courses")
+
+    lessons = list(body.get("lessons") or [])
+    if lessons:
+        # Server-side ref validation on every write — client-side is nice but not sufficient.
+        errors = _course_store.validate_all_lessons(lessons)
+        if errors:
+            idx, reason = errors[0]
+            raise HTTPException(
+                422,
+                {"error": "invalid_lesson_ref", "lesson_index": idx, "detail": reason},
+            )
+
+    course = _course_store.create_course(
+        title=body.get("title", "Untitled Course"),
+        description=body.get("description", ""),
+        product=body.get("product", "SchoolCafe"),
+        role_tags=body.get("role_tags"),
+        lessons=lessons,
+    )
+    return course
+
+
+@app.get("/api/courses")
+async def api_list_courses(
+    product: str = Query(default=""),
+    status: str = Query(default=""),
+    role: str = Query(default=""),
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """List courses.
+
+    Trainers see all courses.
+    Learners see only published courses matching their role_tags (or untagged global courses).
+
+    Query params (all optional, combinable):
+      product=   -- filter by product field
+      status=    -- filter by status (trainer only; learners always see published)
+      role=      -- filter by role_tags contains this value
+    """
+    all_courses = _course_store.list_courses()
+
+    if not current_user.is_trainer:
+        # Learners only see published courses that match their role or are untagged.
+        learner_role = current_user.role
+        all_courses = [
+            c for c in all_courses
+            if c.get("status") == "published"
+            and (not c.get("role_tags") or learner_role in (c.get("role_tags") or []))
+        ]
+    else:
+        # Trainers can filter by status.
+        if status:
+            all_courses = [c for c in all_courses if c.get("status") == status]
+
+    if product:
+        all_courses = [c for c in all_courses
+                       if product.lower() in (c.get("product") or "").lower()]
+    if role:
+        all_courses = [c for c in all_courses
+                       if role in (c.get("role_tags") or [])]
+
+    return {"courses": all_courses, "total": len(all_courses)}
+
+
+@app.get("/api/courses/{cid}")
+async def api_get_course(
+    cid: str,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Get a single course with lessons expanded (origin_badge, resolved title).
+
+    Learners may only access published courses.
+    """
+    course = _course_store.load_course(cid)
+    if not course:
+        raise HTTPException(404, "course not found")
+
+    if not current_user.is_trainer and course.get("status") != "published":
+        raise HTTPException(403, "course is not published")
+
+    # Expand lessons: add origin_badge + resolved title for each.
+    expanded_lessons = [
+        _course_store.expand_lesson(lesson)
+        for lesson in (course.get("lessons") or [])
+    ]
+    return {**course, "lessons": expanded_lessons}
+
+
+@app.put("/api/courses/{cid}")
+async def api_update_course(
+    cid: str,
+    body: dict,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Update course metadata and/or lessons. Trainer only.
+
+    Validates every lesson ref before saving; returns 422 with named reason for
+    invalid refs.  A published course stays published after metadata edits; if
+    lessons are updated, status is NOT auto-changed (trainer may re-publish).
+    """
+    if not current_user.is_trainer:
+        raise HTTPException(403, "trainer access required to update courses")
+
+    course = _course_store.load_course(cid)
+    if not course:
+        raise HTTPException(404, "course not found")
+
+    # Validate lesson refs before applying any update.
+    if "lessons" in body:
+        lessons = list(body["lessons"])
+        errors = _course_store.validate_all_lessons(lessons)
+        if errors:
+            idx, reason = errors[0]
+            raise HTTPException(
+                422,
+                {"error": "invalid_lesson_ref", "lesson_index": idx, "detail": reason},
+            )
+
+    _course_store.update_course(course, body)
+    return _course_store.save_course(course)
+
+
+@app.post("/api/courses/{cid}/publish")
+async def api_publish_course(
+    cid: str,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Publish a course. Trainer only. Requires at least 1 lesson.
+
+    Returns 409 if the course has no lessons.
+    """
+    if not current_user.is_trainer:
+        raise HTTPException(403, "trainer access required to publish courses")
+
+    course = _course_store.load_course(cid)
+    if not course:
+        raise HTTPException(404, "course not found")
+
+    lessons = course.get("lessons") or []
+    if not lessons:
+        raise HTTPException(
+            409,
+            {"error": "no_lessons", "detail": "Add at least one lesson before publishing."},
+        )
+
+    course["status"] = "published"
+    return _course_store.save_course(course)
+
+
+@app.delete("/api/courses/{cid}")
+async def api_delete_course(
+    cid: str,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Delete a course. Trainer only."""
+    if not current_user.is_trainer:
+        raise HTTPException(403, "trainer access required to delete courses")
+
+    if not _course_store.delete_course(cid):
+        raise HTTPException(404, "course not found")
+    return {"ok": True}
 
 
 # Unchanged routes — reuse prod's handlers verbatim (they read/write the same

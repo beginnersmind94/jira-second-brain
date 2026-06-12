@@ -1,0 +1,18 @@
+{
+  "id": "course-20260613-food-safety-micro",
+  "title": "3-Minute Food Safety",
+  "description": "A quick food-safety refresher for booth and first-run learners.",
+  "product": "SchoolCafe",
+  "role_tags": [],
+  "lessons": [
+    {
+      "type": "video",
+      "ref": "icn-food-safety-videos-a-flash-of-food-safety-1-eng",
+      "title": "A Flash of Food Safety (Part 1)",
+      "duration_est": 3
+    }
+  ],
+  "status": "published",
+  "created_at": "2026-06-13T00:00:00",
+  "updated_at": "2026-06-13T00:00:00"
+}
