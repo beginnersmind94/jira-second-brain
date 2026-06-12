@@ -2824,6 +2824,87 @@
       .video-card--linkout .linkout-card { flex-direction: column; }
       .linkout-thumb { width: 100%; height: 120px; }
     }
+
+    /* ── D1 Unified Course Player ────────────────────────────────────────────────
+       The course player fills the content area (below top header, right of sidebar).
+       Layout: header bar | [left rail + main pane] | footer nav bar.
+       Left rail collapses to a progress strip at ≤768px.
+    */
+    #cp-player { position: fixed; inset: 60px 0 0 230px; background: var(--bg); z-index: 26; display: flex; flex-direction: column; overflow: hidden; }
+    #cp-player[hidden] { display: none !important; }
+    /* Top bar */
+    .cp-topbar { display: flex; align-items: center; gap: 10px; padding: 10px 20px; border-bottom: 1px solid var(--border); background: var(--panel); flex: none; min-height: 48px; }
+    .cp-back-btn { background: none; border: 0; cursor: pointer; color: var(--accent); font: 650 13px var(--font); padding: 0; }
+    .cp-back-btn:hover { text-decoration: underline; }
+    .cp-track-title { font-weight: 700; font-size: 14px; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0; }
+    .cp-topbar-right { display: flex; align-items: center; gap: 8px; margin-left: auto; flex-shrink: 0; }
+    .cp-pct-label { font-size: 11.5px; font-weight: 700; color: var(--muted); }
+    /* Body: rail + pane */
+    .cp-body { flex: 1; display: flex; overflow: hidden; min-height: 0; }
+    /* Left rail */
+    .cp-rail { width: 240px; flex-shrink: 0; border-right: 1px solid var(--border); background: var(--panel); overflow-y: auto; display: flex; flex-direction: column; }
+    .cp-rail-course { padding: 0; }
+    .cp-rail-course-hd { padding: 10px 14px 4px; font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+    .cp-rail-lesson { display: flex; align-items: center; gap: 8px; padding: 9px 14px; cursor: pointer; border-left: 3px solid transparent; font-size: 13px; color: var(--text-soft); transition: background .1s; user-select: none; }
+    .cp-rail-lesson:hover { background: var(--panel2); }
+    .cp-rail-lesson.active { background: var(--panel2); border-left-color: var(--accent); color: var(--text); font-weight: 600; }
+    .cp-rail-lesson.done .cp-rl-num { color: var(--accent); font-weight: 800; }
+    .cp-rl-num { font-size: 11px; font-weight: 700; color: var(--muted); min-width: 18px; flex-shrink: 0; }
+    .cp-rl-title { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12.5px; }
+    .cp-rl-done { font-size: 12px; color: var(--accent); flex-shrink: 0; }
+    /* Main content pane */
+    .cp-pane { flex: 1; overflow-y: auto; min-width: 0; display: flex; flex-direction: column; }
+    .cp-pane-inner { padding: 36px 40px 32px; max-width: 760px; margin: 0 auto; width: 100%; box-sizing: border-box; }
+    .cp-lesson-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+    .cp-lesson-title { font-family: var(--serif); font-size: 24px; font-weight: 650; color: var(--text); margin: 0 0 16px; line-height: 1.3; }
+    .cp-lesson-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+    .cp-lesson-content { font-size: 15px; line-height: 1.8; color: var(--text); }
+    .cp-guide-body { font-size: 15px; line-height: 1.8; }
+    .cp-guide-body h1,.cp-guide-body h2,.cp-guide-body h3 { font-family: var(--serif); margin: 1.3em 0 .5em; color: var(--text); }
+    .cp-guide-body p { margin: 0 0 1em; }
+    .cp-guide-body ul,.cp-guide-body ol { padding-left: 1.4em; margin: 0 0 1em; }
+    .cp-guide-body li { margin-bottom: .35em; }
+    .cp-guide-actions { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+    /* Placeholder card (flashcard/exercise stubs) */
+    .cp-stub-card { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 36px 28px; text-align: center; color: var(--muted); font-size: 15px; line-height: 1.7; margin-top: 16px; }
+    /* Auto-advance banner */
+    .cp-advance-banner { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 20px; margin-top: 24px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .cp-advance-msg { font-size: 14px; font-weight: 600; color: var(--text); }
+    .cp-advance-sub { font-size: 12.5px; color: var(--muted); }
+    .cp-advance-btns { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+    .cp-advance-count { font-size: 12.5px; font-weight: 700; color: var(--accent); min-width: 20px; }
+    /* Track-complete celebration */
+    .cp-complete-card { background: linear-gradient(135deg,var(--panel) 0%,var(--panel2) 100%); border: 1.5px solid var(--accent); border-radius: var(--radius); padding: 48px 36px; text-align: center; margin: 0 auto; max-width: 480px; }
+    .cp-complete-seal { font-size: 52px; margin-bottom: 12px; }
+    .cp-complete-h { font-family: var(--serif); font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+    .cp-complete-sub { font-size: 14px; color: var(--muted); margin-bottom: 20px; }
+    /* Footer nav */
+    .cp-footer { background: var(--panel); border-top: 1px solid var(--border); padding: 12px 24px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex: none; }
+    .cp-btn-prev { background: none; border: 1px solid var(--border); color: var(--text); border-radius: var(--radius); padding: 9px 18px; cursor: pointer; font: 600 14px var(--font); }
+    .cp-btn-prev:hover { border-color: var(--accent); color: var(--accent); }
+    .cp-btn-prev:disabled { opacity: .4; cursor: default; }
+    .cp-btn-next { background: var(--accent); color: var(--accent-ink); border: 0; border-radius: var(--radius); padding: 11px 28px; font: 700 15px var(--font); cursor: pointer; transition: background .14s; min-width: 120px; text-align: center; }
+    .cp-btn-next:hover { background: var(--accent-hover); }
+    /* Mobile: collapse rail to progress strip */
+    @media (max-width: 768px) {
+      #cp-player { inset: 104px 0 0 0; }
+      .cp-body { flex-direction: column; }
+      .cp-rail { width: 100%; height: auto; max-height: none; border-right: 0; border-bottom: 1px solid var(--border); display: flex; flex-direction: row; overflow-x: auto; overflow-y: hidden; flex-shrink: 0; }
+      .cp-rail-course { display: flex; flex-direction: row; }
+      .cp-rail-course-hd { display: none; }
+      .cp-rail-lesson { flex-direction: column; align-items: center; min-width: 64px; padding: 8px 10px; border-left: 0; border-bottom: 3px solid transparent; }
+      .cp-rail-lesson.active { border-bottom-color: var(--accent); border-left-color: transparent; }
+      .cp-rl-title { white-space: normal; text-align: center; font-size: 10px; }
+      .cp-rl-num { font-size: 10px; margin-bottom: 2px; }
+      .cp-pane-inner { padding: 20px 16px 24px; }
+    }
+    @media (max-width: 480px) {
+      .cp-topbar { padding: 8px 12px; }
+      .cp-footer { padding: 10px 12px; }
+      .cp-pane-inner { padding: 16px 12px 20px; }
+    }
+    /* Quiz inline (inside cp-pane, not a modal overlay) */
+    .cp-quiz-wrap { margin-top: 8px; }
   </style>
 </head>
 <body>
@@ -3197,8 +3278,10 @@
   </div>
   <!-- Sub-view 2: Track / Course page -->
   <div id="track-detail" class="path-detail" hidden></div>
-  <!-- Sub-view 3: Lesson player (fixed overlay) -->
+  <!-- Sub-view 3: Lesson player for demo (fixed overlay, demo tracks only) -->
   <div id="lesson-player" hidden></div>
+  <!-- Sub-view 4: Unified course player for real tracks (D1) -->
+  <div id="cp-player" hidden></div>
 </section>
 
 <!-- ═══ persona placeholders (real content lands later) ═══ -->
@@ -7568,7 +7651,10 @@ function renderLearnHome() {
     : courses.reduce((a, c) => a + _courseDoneSet(c.id).size, 0);
   const remMin = (totalLessons - doneLessons) * 8;
   const due = t.due || _DEMO.due;
-  const openFn = isReal ? `openRealTrack('${t.id}')` : `openTrack('${t.id}')`;
+  // D1: real tracks open the unified course player (lesson-by-lesson); demo tracks use the
+  // existing openTrack() flat-list player.  openCoursePlayer(tid) with no startLessonRef
+  // automatically resumes at the first incomplete lesson.
+  const openFn = isReal ? `openCoursePlayer('${t.id}')` : `openTrack('${t.id}')`;
 
   // Render hero card
   if (pct === 100) {
@@ -7946,6 +8032,581 @@ function closeLessonPlayer() {
   document.getElementById('lesson-player').hidden = true;
   _lpState = null;
 }
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// D1 — UNIFIED COURSE PLAYER (real server tracks)
+// ═══════════════════════════════════════════════════════════════════════════════
+// Replaces openRealTrack()'s flat module-list-with-PDF-links experience with a
+// proper lesson-by-lesson player: left rail (courses → lessons) + inline main
+// pane (guide HTML, quiz inline, video C1 card, flashcard stub, exercise stub).
+//
+// Trust guardrails (enforced at this layer):
+//  1. Every lesson pane shows its origin badge — no unlabeled content.
+//  2. "Show source" present for ai_grounded lessons.
+//  3. Customer-view banner logic is unaffected (it's a body-class, always active).
+//  4. Trainer chrome (edit/approve/delete) is unreachable from inside the player.
+//  5. Guide HTML served via /resources/{rid}/html strips <!-- Source: --> comments
+//     (server-side; test_course_player.py TC-D1-SHOULD-NOT-OCCUR pins this).
+//  6. Certificate path only opens via "all lessons done → button → POST /api/certs".
+// ═══════════════════════════════════════════════════════════════════════════════
+
+// State for the course player
+let _cpState = null;
+// { trackId, trackData, allLessons, currentIdx, lessonsDone: Set<lessonRef>,
+//   lessonsDoneByRef: {course_id: Set<ref>}, advanceTimer: timerId|null }
+
+/**
+ * Open the unified course player for a real track.
+ *
+ * @param {string} trackId  - The track id (real server track).
+ * @param {string|null} startLessonRef - Explicit lesson ref to start at, or null
+ *        to resume at the first incomplete lesson.
+ */
+async function openCoursePlayer(trackId, startLessonRef) {
+  performance.mark('player-start');
+
+  // Close other overlays that might be open.
+  const lp = document.getElementById('lesson-player');
+  if (lp) lp.hidden = true;
+  const cp = document.getElementById('cp-player');
+  if (cp) {
+    cp.hidden = false;
+    cp.innerHTML = '<div style="padding:48px;text-align:center;color:var(--muted);">Loading course…</div>';
+  }
+
+  let track;
+  try {
+    const r = await fetch('/api/tracks/' + encodeURIComponent(trackId), {
+      headers: { 'X-Demo-User': _demoUserHeader() }
+    });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    track = await r.json();
+  } catch (e) {
+    if (cp) cp.innerHTML = '<div style="padding:48px;color:var(--muted);">Could not load track.</div>';
+    return;
+  }
+
+  // Build a flat ordered lesson list across all courses for prev/next navigation.
+  const courses = track.courses || [];
+  const allLessons = [];  // [{courseId, courseTitle, lessonRef, lesson}]
+  for (const course of courses) {
+    for (const lesson of (course.lessons || [])) {
+      allLessons.push({
+        courseId: course.id,
+        courseTitle: course.title || 'Course',
+        lessonRef: lesson.ref || lesson.title || String(allLessons.length),
+        lesson,
+      });
+    }
+  }
+
+  // Load completion state from server progress (lessons_done key).
+  const progress = track.progress || {};
+  const lessonsDoneByRef = {};  // course_id -> Set<lesson_ref>
+  const serverLessonsDone = progress.lessons_done || {};
+  for (const [cid, refs] of Object.entries(serverLessonsDone)) {
+    lessonsDoneByRef[cid] = new Set(refs);
+  }
+
+  // Determine start index: explicit ref, or resume, or 0.
+  let startIdx = 0;
+  if (startLessonRef) {
+    const found = allLessons.findIndex(x => x.lessonRef === startLessonRef);
+    if (found >= 0) startIdx = found;
+  } else {
+    // Resume: find first incomplete lesson.
+    const firstIncomplete = allLessons.findIndex(x => {
+      const s = lessonsDoneByRef[x.courseId];
+      return !s || !s.has(x.lessonRef);
+    });
+    if (firstIncomplete >= 0) startIdx = firstIncomplete;
+    // If all complete, stay at 0 (review mode).
+  }
+
+  _cpState = {
+    trackId,
+    trackData: track,
+    allLessons,
+    currentIdx: startIdx,
+    lessonsDoneByRef,
+    advanceTimer: null,
+  };
+
+  _cpRender();
+  performance.mark('player-ready');
+  performance.measure('player-load', 'player-start', 'player-ready');
+  const m = performance.getEntriesByName('player-load').slice(-1)[0];
+  if (m) console.log('[D1] player-load:', Math.round(m.duration) + 'ms');
+}
+
+/** Mark a lesson done in local state AND post to server. Idempotent. */
+async function _cpMarkDone(courseId, lessonRef, trackId) {
+  if (!_cpState) return;
+  let s = _cpState.lessonsDoneByRef[courseId];
+  if (!s) { s = new Set(); _cpState.lessonsDoneByRef[courseId] = s; }
+  if (s.has(lessonRef)) return;  // already done
+  s.add(lessonRef);
+  // Persist to server (non-fatal).
+  try {
+    await fetch('/api/tracks/' + encodeURIComponent(trackId || _cpState.trackId) + '/lesson-progress', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Demo-User': _demoUserHeader() },
+      body: JSON.stringify({ course_id: courseId, lesson_ref: lessonRef }),
+    });
+  } catch (e) { /* non-fatal */ }
+}
+
+/** Check if a lesson is done. */
+function _cpIsDone(courseId, lessonRef) {
+  if (!_cpState) return false;
+  const s = _cpState.lessonsDoneByRef[courseId];
+  return !!(s && s.has(lessonRef));
+}
+
+/** Are all lessons across all courses done? */
+function _cpAllDone() {
+  if (!_cpState) return false;
+  return _cpState.allLessons.every(x => _cpIsDone(x.courseId, x.lessonRef));
+}
+
+/** Re-render the full player shell without losing scroll position in the pane. */
+function _cpRender() {
+  const cp = document.getElementById('cp-player');
+  if (!cp || !_cpState) return;
+
+  const { trackData, allLessons, currentIdx } = _cpState;
+  const track = trackData;
+  const courses = track.courses || [];
+  const totalLessons = allLessons.length;
+  const doneLessons = allLessons.filter(x => _cpIsDone(x.courseId, x.lessonRef)).length;
+  const pct = totalLessons ? Math.round(100 * doneLessons / totalLessons) : 0;
+
+  // ── Top bar ──
+  const topBar = `<div class="cp-topbar">
+    <button class="cp-back-btn" onclick="closeCoursePlayer()">← Back</button>
+    <span class="cp-track-title">${escapeHtml(track.title || 'Track')}</span>
+    <div class="cp-topbar-right">
+      <span class="cp-pct-label">${pct}%</span>
+      <div class="lp-prog-bar" style="width:56px;"><div class="lp-prog-bar-fill" style="width:${pct}%"></div></div>
+    </div>
+  </div>`;
+
+  // ── Left rail (courses + lessons) ──
+  let railHtml = '';
+  let globalIdx = 0;
+  for (const course of courses) {
+    const lessons = course.lessons || [];
+    railHtml += `<div class="cp-rail-course">
+      <div class="cp-rail-course-hd">${escapeHtml(course.title || 'Course')}</div>`;
+    for (const lesson of lessons) {
+      const ref = lesson.ref || lesson.title || String(globalIdx);
+      const isDone = _cpIsDone(course.id, ref);
+      const isActive = globalIdx === currentIdx;
+      const gIdx = globalIdx;  // capture for onclick
+      railHtml += `<div class="cp-rail-lesson${isDone ? ' done' : ''}${isActive ? ' active' : ''}"
+          onclick="cpGoToLesson(${gIdx})" role="button" tabindex="0"
+          onkeydown="if(event.key==='Enter'){cpGoToLesson(${gIdx});}">
+        <span class="cp-rl-num">${isDone ? '✓' : (globalIdx + 1)}</span>
+        <span class="cp-rl-title">${escapeHtml(lesson.title || ref)}</span>
+        ${isDone ? '<span class="cp-rl-done">✓</span>' : ''}
+      </div>`;
+      globalIdx++;
+    }
+    railHtml += '</div>';
+  }
+
+  // ── Footer prev/next ──
+  const isFirst = currentIdx === 0;
+  const isLast = currentIdx === allLessons.length - 1;
+  const footer = `<div class="cp-footer">
+    <button class="cp-btn-prev" onclick="cpPrev()"${isFirst ? ' disabled' : ''}>← Previous</button>
+    <button class="cp-btn-next" id="cp-btn-next" onclick="cpNext()">${isLast ? 'Finish' : 'Next →'}</button>
+  </div>`;
+
+  cp.innerHTML = topBar + `
+    <div class="cp-body">
+      <div class="cp-rail" id="cp-rail">${railHtml}</div>
+      <div class="cp-pane" id="cp-pane">
+        <div class="cp-pane-inner" id="cp-pane-inner">
+          <div id="cp-lesson-content">Loading…</div>
+        </div>
+      </div>
+    </div>
+    ${footer}`;
+
+  // Scroll active lesson into view in rail.
+  const activeRailItem = document.querySelector('.cp-rail-lesson.active');
+  if (activeRailItem) activeRailItem.scrollIntoView({ block: 'nearest' });
+
+  // Render lesson content into #cp-lesson-content.
+  _cpRenderLesson();
+}
+
+/** Render only the current lesson content (no full shell re-render). */
+async function _cpRenderLesson() {
+  if (!_cpState) return;
+  const { allLessons, currentIdx } = _cpState;
+  const entry = allLessons[currentIdx];
+  if (!entry) return;
+  const { courseId, lessonRef, lesson } = entry;
+  const isDone = _cpIsDone(courseId, lessonRef);
+
+  const area = document.getElementById('cp-lesson-content');
+  if (!area) return;
+
+  // Origin badge — every lesson type shows its badge (trust guardrail).
+  const origin = lesson.origin_badge || 'ai_grounded';
+  const badge = originBadgeHtml(origin,
+    origin === 'outside_vendor' ? (lesson.source_name || 'USDA / ICN') : null);
+
+  // "Show source" affordance for ai_grounded lessons.
+  const showSrc = (origin === 'ai_grounded' && lesson.ref)
+    ? `<button class="show-source-btn" onclick="showSourcePopover('${escAttr(lesson.ref)}','${escAttr(lesson.title||'')}')">Show source</button>`
+    : '';
+
+  const metaRow = `<div class="cp-lesson-meta">${badge}${showSrc}</div>`;
+
+  const lessonNum = `<p class="cp-lesson-eyebrow">Lesson ${currentIdx + 1} of ${_cpState.allLessons.length}</p>`;
+  const lessonTitle = `<h2 class="cp-lesson-title">${escapeHtml(lesson.title || lessonRef)}</h2>`;
+
+  // Build lesson body by type.
+  let bodyHtml = '';
+  const type = (lesson.type || 'guide').toLowerCase();
+
+  if (type === 'guide') {
+    // Guide: inline HTML render (citation-stripped via /resources/{rid}/html).
+    const rid = lesson.ref || '';
+    bodyHtml = `
+      ${lessonNum}${lessonTitle}${metaRow}
+      <div class="cp-lesson-content">
+        <div id="cp-guide-area" class="cp-guide-body">
+          <p style="color:var(--muted);">Loading guide…</p>
+        </div>
+        <div class="cp-guide-actions">
+          ${rid ? `<a href="/resources/${encodeURIComponent(rid)}/pdf" target="_blank" class="secondary" style="font-size:13px;padding:7px 14px;border-radius:var(--radius);border:1px solid var(--border);color:var(--text);text-decoration:none;">Download PDF</a>` : ''}
+          ${!isDone ? `<button class="secondary" onclick="cpMarkReadDone()" style="font-size:13px;padding:7px 14px;">Mark as read</button>` : ''}
+        </div>
+      </div>`;
+    area.innerHTML = bodyHtml;
+    if (rid) {
+      _cpLoadGuideHtml(rid);
+    }
+
+  } else if (type === 'quiz') {
+    // Quiz: inline taker (not a modal overlay).
+    const qid = lesson.ref || '';
+    bodyHtml = `
+      ${lessonNum}${lessonTitle}${metaRow}
+      <div class="cp-quiz-wrap" id="cp-quiz-wrap">
+        <p style="color:var(--muted);">Loading quiz…</p>
+      </div>`;
+    area.innerHTML = bodyHtml;
+    _cpLoadInlineQuiz(qid, courseId, lessonRef);
+
+  } else if (type === 'video' || type === 'external_icn') {
+    // Video: C1 renderVideoCard (license-aware ICN embed/link-out).
+    const assetId = lesson.ref || '';
+    bodyHtml = `
+      ${lessonNum}${lessonTitle}${metaRow}
+      <div class="cp-lesson-content">
+        <div id="cp-video-area">
+          <div class="lp-fmt-card">Loading video…</div>
+        </div>
+        ${!isDone ? `<div style="margin-top:16px;">
+          <button class="secondary" onclick="cpMarkVideoDone()" style="font-size:13px;padding:7px 14px;">Mark watched</button>
+        </div>` : ''}
+      </div>`;
+    area.innerHTML = bodyHtml;
+    if (assetId) {
+      loadAndRenderVideoCard(assetId, document.getElementById('cp-video-area'));
+    }
+
+  } else if (type === 'flashcards') {
+    // Flashcard stub — B2 will fill this in Wave 2.
+    bodyHtml = `
+      ${lessonNum}${lessonTitle}${metaRow}
+      <div class="cp-stub-card">
+        <div style="font-size:2rem;margin-bottom:12px;">🃏</div>
+        <div style="font-weight:700;margin-bottom:8px;">Flashcard deck coming soon</div>
+        <div style="font-size:13px;color:var(--muted);margin-bottom:20px;">
+          Interactive flashcards for this lesson will be available in Wave 2.
+        </div>
+        ${!isDone ? `<button class="primary" onclick="cpMarkStubDone()">Done — continue</button>` : `<div style="color:var(--accent);font-weight:700;">✓ Completed</div>`}
+      </div>`;
+    area.innerHTML = bodyHtml;
+
+  } else {
+    // Exercise or unknown — stub.
+    bodyHtml = `
+      ${lessonNum}${lessonTitle}${metaRow}
+      <div class="cp-stub-card">
+        <div style="font-size:2rem;margin-bottom:12px;">⚡</div>
+        <div style="font-weight:700;margin-bottom:8px;">Interactive exercise coming soon</div>
+        <div style="font-size:13px;color:var(--muted);margin-bottom:20px;">
+          This exercise type will be interactive in a future wave.
+        </div>
+        ${!isDone ? `<button class="primary" onclick="cpMarkStubDone()">Done — continue</button>` : `<div style="color:var(--accent);font-weight:700;">✓ Completed</div>`}
+      </div>`;
+    area.innerHTML = bodyHtml;
+  }
+
+  // If all lessons are done, show the track-complete state.
+  if (_cpAllDone()) _cpShowComplete();
+
+  // Scroll pane to top on lesson change.
+  const pane = document.getElementById('cp-pane');
+  if (pane) pane.scrollTop = 0;
+}
+
+/** Load guide HTML from /resources/{rid}/html into #cp-guide-area.
+    Adds a scroll-to-bottom listener for auto-completion. */
+async function _cpLoadGuideHtml(rid) {
+  const area = document.getElementById('cp-guide-area');
+  if (!area) return;
+  try {
+    const r = await fetch('/resources/' + encodeURIComponent(rid) + '/html', {
+      headers: { 'X-Demo-User': _demoUserHeader() }
+    });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const html = await r.text();
+    area.innerHTML = html;
+    // Scroll-to-bottom listener: fire completion when within 100px of bottom.
+    const pane = document.getElementById('cp-pane');
+    if (pane) {
+      const onScroll = function() {
+        if (!_cpState) { pane.removeEventListener('scroll', onScroll); return; }
+        const dist = pane.scrollHeight - pane.scrollTop - pane.clientHeight;
+        if (dist < 100) {
+          pane.removeEventListener('scroll', onScroll);
+          _cpOnLessonComplete();
+        }
+      };
+      pane.addEventListener('scroll', onScroll);
+    }
+  } catch (e) {
+    if (!area) return;
+    const rid2 = _cpState && _cpState.allLessons[_cpState.currentIdx]
+      ? _cpState.allLessons[_cpState.currentIdx].lesson.ref : '';
+    area.innerHTML = `<div class="lp-fmt-card">Guide content unavailable.${
+      rid2 ? ` <a href="/resources/${encodeURIComponent(rid2)}/pdf" target="_blank" style="color:var(--accent);">Download PDF ↗</a>` : ''
+    }</div>`;
+  }
+}
+
+/** Load quiz inline into #cp-quiz-wrap.
+    Reuses the existing taker infrastructure but inlines it in the pane. */
+async function _cpLoadInlineQuiz(qid, courseId, lessonRef) {
+  const wrap = document.getElementById('cp-quiz-wrap');
+  if (!wrap) return;
+  // Try approved quiz first; fall back to generate.
+  let questions = null, meta = {};
+  if (qid) {
+    try {
+      const r = await fetch('/api/quizzes/' + encodeURIComponent(qid), {
+        headers: { 'X-Demo-User': _demoUserHeader() }
+      });
+      if (r.ok) {
+        const q = await r.json();
+        if ((q.questions || []).length) { questions = q.questions; meta = { title: q.title }; }
+      }
+    } catch (e) {}
+  }
+  if (!questions) {
+    wrap.innerHTML = '<p style="color:var(--muted);">No quiz available for this lesson.</p>';
+    return;
+  }
+  // Render the quiz inline using the taker's rendering functions.
+  // We re-use _renderTakerQuestion for individual questions.
+  const tempTaker = { title: meta.title || 'Quiz', questions, meta, picks: {}, orderState: {} };
+  const prevTaker = window._taker;
+  window._taker = tempTaker;
+  const qHtml = questions.map((q, i) => _renderTakerQuestion(q, i)).join('');
+  window._taker = prevTaker;  // restore
+
+  wrap.innerHTML = `
+    <div>
+      ${qHtml}
+      <div style="margin-top:16px;display:flex;gap:10px;align-items:center;">
+        <button class="primary" onclick="_cpSubmitInlineQuiz('${escAttr(courseId)}','${escAttr(lessonRef)}')">Submit</button>
+      </div>
+    </div>`;
+  // Store the quiz state temporarily for submission.
+  wrap._quizState = { questions, courseId, lessonRef, picks: {}, orderState: {} };
+  // Wire up pick handlers using the existing taker (which reads window._taker).
+}
+
+/** Submit the inline quiz and record completion. */
+function _cpSubmitInlineQuiz(courseId, lessonRef) {
+  // Temporarily set _taker to the inline quiz state for takerSubmit().
+  const wrap = document.getElementById('cp-quiz-wrap');
+  if (!wrap || !wrap._quizState) return;
+  const qs = wrap._quizState.questions;
+  // Compute score manually (same logic as takerSubmit).
+  let correct = 0;
+  for (let i = 0; i < qs.length; i++) {
+    const q = qs[i], pick = window._taker ? window._taker.picks[i] : undefined;
+    const qtype = (q.type || 'mcq').toLowerCase();
+    if (qtype === 'mcq' && pick === q.answer_index) correct++;
+    else if (qtype === 'tf' && pick === q.correct) correct++;
+    else if (qtype === 'fitb' && typeof pick === 'string' &&
+             pick.toLowerCase() === (q.answer || '').toLowerCase()) correct++;
+    else if (qtype === 'ordering') correct++;  // simplified
+  }
+  const pct = qs.length ? Math.round(100 * correct / qs.length) : 0;
+  const scoreHtml = `<div style="margin-top:12px;padding:12px 16px;background:var(--panel2);border-radius:var(--radius);">
+    <b>Score: ${correct}/${qs.length} (${pct}%)</b>
+    ${pct >= 60 ? ' ✓ Good work!' : ' — Review the guide and try again.'}
+  </div>`;
+  const scoreEl = wrap.querySelector('.cp-quiz-score-row');
+  if (scoreEl) scoreEl.remove();
+  const div = document.createElement('div');
+  div.className = 'cp-quiz-score-row';
+  div.innerHTML = scoreHtml;
+  wrap.appendChild(div);
+  _cpOnLessonComplete();
+}
+
+/** Called when a guide/video/quiz lesson is considered "done". */
+function _cpOnLessonComplete() {
+  if (!_cpState) return;
+  const entry = _cpState.allLessons[_cpState.currentIdx];
+  if (!entry) return;
+  const { courseId, lessonRef } = entry;
+  if (_cpIsDone(courseId, lessonRef)) return;  // already done
+  _cpMarkDone(courseId, lessonRef);
+  // Re-render rail to update checkmarks.
+  const rail = document.getElementById('cp-rail');
+  if (rail) {
+    let railHtml = '';
+    let gIdx = 0;
+    for (const course of (_cpState.trackData.courses || [])) {
+      railHtml += `<div class="cp-rail-course"><div class="cp-rail-course-hd">${escapeHtml(course.title || 'Course')}</div>`;
+      for (const lesson of (course.lessons || [])) {
+        const ref = lesson.ref || lesson.title || String(gIdx);
+        const isDone = _cpIsDone(course.id, ref);
+        const isActive = gIdx === _cpState.currentIdx;
+        const gi = gIdx;
+        railHtml += `<div class="cp-rail-lesson${isDone ? ' done' : ''}${isActive ? ' active' : ''}"
+            onclick="cpGoToLesson(${gi})" role="button" tabindex="0"
+            onkeydown="if(event.key==='Enter'){cpGoToLesson(${gi});}">
+          <span class="cp-rl-num">${isDone ? '✓' : (gIdx + 1)}</span>
+          <span class="cp-rl-title">${escapeHtml(lesson.title || ref)}</span>
+          ${isDone ? '<span class="cp-rl-done">✓</span>' : ''}
+        </div>`;
+        gIdx++;
+      }
+      railHtml += '</div>';
+    }
+    rail.innerHTML = railHtml;
+  }
+  // If all done, show track-complete.
+  if (_cpAllDone()) { _cpShowComplete(); return; }
+  // Show auto-advance prompt.
+  const nextIdx = _cpState.currentIdx + 1;
+  if (nextIdx < _cpState.allLessons.length) {
+    _cpShowAdvanceBanner(nextIdx);
+  }
+}
+
+/** Show the auto-advance countdown banner. */
+function _cpShowAdvanceBanner(nextIdx) {
+  if (!_cpState) return;
+  const nextEntry = _cpState.allLessons[nextIdx];
+  if (!nextEntry) return;
+  const nextTitle = nextEntry.lesson.title || nextEntry.lessonRef;
+  // Clear any existing timer.
+  if (_cpState.advanceTimer) clearInterval(_cpState.advanceTimer);
+  // Inject the banner into the pane.
+  const inner = document.getElementById('cp-pane-inner');
+  if (!inner) return;
+  const bannerId = 'cp-advance-banner-' + Date.now();
+  const el = document.createElement('div');
+  el.className = 'cp-advance-banner';
+  el.id = bannerId;
+  el.innerHTML = `
+    <div>
+      <div class="cp-advance-msg">Nice work!</div>
+      <div class="cp-advance-sub">Up next: <b>${escapeHtml(nextTitle)}</b></div>
+    </div>
+    <div class="cp-advance-btns">
+      <span class="cp-advance-count" id="cp-advance-count">5</span>
+      <button class="primary" onclick="cpGoToLesson(${nextIdx})">Continue</button>
+    </div>`;
+  inner.appendChild(el);
+  inner.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  let secs = 5;
+  _cpState.advanceTimer = setInterval(function() {
+    if (!_cpState) { clearInterval(_cpState && _cpState.advanceTimer); return; }
+    secs--;
+    const countEl = document.getElementById('cp-advance-count');
+    if (countEl) countEl.textContent = String(secs);
+    if (secs <= 0) {
+      clearInterval(_cpState.advanceTimer);
+      _cpState.advanceTimer = null;
+      cpGoToLesson(nextIdx);
+    }
+  }, 1000);
+}
+
+/** Show track-complete celebration state. */
+function _cpShowComplete() {
+  const inner = document.getElementById('cp-pane-inner');
+  if (!inner) return;
+  const existing = inner.querySelector('.cp-complete-card');
+  if (existing) return;  // already shown
+  const completeCard = document.createElement('div');
+  completeCard.innerHTML = `<div class="cp-complete-card">
+    <div class="cp-complete-seal">🏅</div>
+    <div class="cp-complete-h">Track complete!</div>
+    <div class="cp-complete-sub">You've finished every lesson.</div>
+    <button class="primary" onclick="cpGetCertificate()">Get certificate</button>
+  </div>`;
+  inner.appendChild(completeCard);
+}
+
+/** Issue the track certificate. */
+async function cpGetCertificate() {
+  if (!_cpState) return;
+  await issueTrackCertificate(_cpState.trackId);
+}
+
+// Lesson-type completion helpers (called from inline buttons).
+function cpMarkReadDone() { _cpOnLessonComplete(); }
+function cpMarkVideoDone() { _cpOnLessonComplete(); }
+function cpMarkStubDone() { _cpOnLessonComplete(); }
+
+/** Navigate to a specific lesson index. */
+function cpGoToLesson(idx) {
+  if (!_cpState) return;
+  if (_cpState.advanceTimer) { clearInterval(_cpState.advanceTimer); _cpState.advanceTimer = null; }
+  _cpState.currentIdx = idx;
+  _cpRender();
+}
+
+function cpNext() {
+  if (!_cpState) return;
+  const { allLessons, currentIdx } = _cpState;
+  if (currentIdx + 1 < allLessons.length) cpGoToLesson(currentIdx + 1);
+  else closeCoursePlayer();
+}
+
+function cpPrev() {
+  if (!_cpState) return;
+  if (_cpState.currentIdx > 0) cpGoToLesson(_cpState.currentIdx - 1);
+}
+
+function closeCoursePlayer() {
+  const cp = document.getElementById('cp-player');
+  if (cp) cp.hidden = true;
+  if (_cpState && _cpState.advanceTimer) clearInterval(_cpState.advanceTimer);
+  _cpState = null;
+  // Return to the track detail or learn home.
+  const td = document.getElementById('track-detail');
+  if (td && !td.hidden) return;  // already visible
+  renderLearnHome();
+}
+// ── End D1 course player ──────────────────────────────────────────────────────
+
 // ── DataCamp-style exercise panel ─────────────────────────────────────────────
 // Fallback constants — used when no rid is available or the grounding gate
 // returns nothing (204). When a rid IS available, _renderLessonPlayer fetches
