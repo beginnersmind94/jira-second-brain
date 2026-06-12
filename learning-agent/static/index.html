@@ -2632,6 +2632,17 @@
     .lh-due { font-size: 12px; color: var(--muted); }
     .learn-track-label { font-size: 11.5px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--label); margin: 0 0 10px; }
     .learn-track-desc { font-size: 14px; color: var(--text-soft); line-height: 1.6; margin: 0 0 14px; max-width: 620px; }
+    /* D3 Gamification strip */
+    .gamif-strip { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; padding: 10px 16px; background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 20px; font-size: 13px; }
+    .gamif-flame { font-weight: 700; color: var(--text); white-space: nowrap; }
+    .gamif-xp { font-weight: 700; color: var(--accent); white-space: nowrap; }
+    .gamif-badge-bar { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+    .gamif-next { font-size: 12px; color: var(--muted); margin-left: auto; white-space: nowrap; }
+    .badge-chip { display: inline-flex; align-items: center; gap: 3px; padding: 2px 9px; border-radius: 999px; background: var(--amber-soft); color: var(--amber-text); font-size: 11px; font-weight: 700; white-space: nowrap; }
+    /* XP toast — slides in from bottom-right, auto-dismisses */
+    .xp-toast { position: fixed; bottom: 24px; right: 24px; background: var(--text); color: #FFF; padding: 10px 18px; border-radius: var(--radius); font-size: 14px; font-weight: 700; box-shadow: 0 4px 16px rgba(0,0,0,.18); z-index: 9999; opacity: 0; transform: translateY(16px); transition: opacity .25s, transform .25s; pointer-events: none; }
+    .xp-toast.xp-toast-show { opacity: 1; transform: translateY(0); }
+    @media (max-width: 480px) { .gamif-strip { gap: 10px; } .gamif-next { margin-left: 0; } }
     .learn-lessons { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
     .ll-row { display: flex; align-items: center; gap: 12px; padding: 11px 14px; background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius-sm); box-sizing: border-box; transition: border-color .14s, box-shadow .14s; }
     .ll-row.ll-click { cursor: pointer; }
@@ -3485,6 +3496,8 @@
     </div>
     <div class="learn-wrap">
       <div id="learn-role-bar"></div>
+      <!-- D3: Gamification strip (XP · streak · badges) -->
+      <div id="learn-gamif-wrap"></div>
       <div id="learn-hero-wrap"></div>
       <div id="learn-track-wrap"></div>
     </div>
@@ -3845,6 +3858,9 @@
   </div>
   <div id="path-detail" class="path-detail" hidden></div>
 </section>
+
+<!-- D3: XP toast — slides in from bottom-right after lesson completion -->
+<div id="xp-toast" class="xp-toast" aria-live="polite" aria-atomic="true"></div>
 
 <div id="quiz-modal" class="quiz-modal" hidden>
   <div class="quiz-sheet" role="dialog" aria-modal="true" aria-labelledby="quiz-title">
@@ -7895,6 +7911,58 @@ function _learnRoleChanged(val) {
   if (active && active.id === 'view-content') renderCatalogDemo();
   else renderLearnHome();
 }
+// ── D3 Gamification ───────────────────────────────────────────────────────────
+// Server-side state: fetched from GET /api/users/{uid}/gamification.
+// Never stored in localStorage — streak is server-side so it's device-agnostic.
+let _gamifState = null;  // cached for this page load; refreshed on renderLearnHome
+
+async function _fetchGamification() {
+  try {
+    const uid = _demoState.learnRole === 'CN Director' ? 'demo-user-002'
+              : _demoState.learnRole === 'Site Manager' ? 'demo-user-003' : 'demo-user-001';
+    const r = await fetch(`/api/users/${encodeURIComponent(uid)}/gamification`, {
+      headers: { 'X-Demo-User': _demoUserHeader() },
+    });
+    if (r.ok) { _gamifState = await r.json(); }
+  } catch (e) { /* non-fatal */ }
+}
+
+function renderGamificationStrip(state) {
+  // state: {xp, streak, badges, level, next_badge_at} from /api/users/{uid}/gamification
+  if (!state) return '';
+  const streak = state.streak || 0;
+  const xp = state.xp || 0;
+  const badges = state.badges || [];
+  const nextBadge = state.next_badge_at || null;
+
+  const badgeChips = badges.length
+    ? badges.map(b => `<span class="badge-chip">&#127885; ${escapeHtml(b.title)}</span>`).join('')
+    : '<span style="color:var(--muted);font-size:12px;">No badges yet</span>';
+
+  const nextLine = nextBadge
+    ? `<div class="gamif-next">Next badge: ${escapeHtml(nextBadge)}</div>`
+    : '';
+
+  return `<div class="gamif-strip" id="gamif-strip">
+    <div class="gamif-flame">&#128293; <span id="gs-streak">${streak}</span>-day streak</div>
+    <div class="gamif-xp"><span id="gs-xp">${xp}</span> XP · Lv <span id="gs-level">${state.level || 1}</span></div>
+    <div class="gamif-badge-bar" id="gs-badges">${badgeChips}</div>
+    ${nextLine}
+  </div>`;
+}
+
+function showXpToast(xpAmount, streak) {
+  // Slides in from bottom-right, auto-dismisses in 3s. Appears once per lesson.
+  const el = document.getElementById('xp-toast');
+  if (!el) return;
+  const streakPart = streak > 0 ? ` · &#128293; ${streak}-day streak` : '';
+  el.innerHTML = `+${xpAmount} XP${streakPart}`;
+  el.classList.add('xp-toast-show');
+  setTimeout(() => el.classList.remove('xp-toast-show'), 3000);
+}
+
+// ── End D3 Gamification helpers ───────────────────────────────────────────────
+
 function renderLearnHome() {
   _curTrack = null; _curCourse = null; _lpState = null;
   const home = document.getElementById('learn-home');
@@ -7943,7 +8011,22 @@ function renderLearnHome() {
 
   const heroWrap = document.getElementById('learn-hero-wrap');
   const trackWrap = document.getElementById('learn-track-wrap');
+  const gamifWrap = document.getElementById('learn-gamif-wrap');
   if (!heroWrap || !trackWrap) return;
+
+  // D3: render gamification strip (async fetch, non-blocking).
+  if (gamifWrap) {
+    if (_gamifState) {
+      gamifWrap.innerHTML = renderGamificationStrip(_gamifState);
+    } else {
+      gamifWrap.innerHTML = '';  // clear while fetching
+      _fetchGamification().then(() => {
+        if (_gamifState && document.getElementById('learn-gamif-wrap')) {
+          document.getElementById('learn-gamif-wrap').innerHTML = renderGamificationStrip(_gamifState);
+        }
+      });
+    }
+  }
 
   if (!hero) {
     heroWrap.innerHTML = `<div class="learn-hero lh-firstrun">
@@ -8148,7 +8231,13 @@ function _renderCertificate(c) {
   const scoreBlock = (typeof c.assessment_score_pct === 'number')
     ? `<div style="margin:6px 0 2px;font-size:.9rem;color:var(--green-text,#1e7a3d);font-weight:700;">Passed assessment — ${c.assessment_score_pct}%</div>`
     : '';
-  if (body) body.innerHTML = `<div class="cert-card"><div class="cert-seal">🏅</div><div class="cert-h">Certificate of Completion</div><div class="cert-name">${escapeHtml(c.learner_name || 'John Doe')}</div><div class="cert-sub">has completed</div><div class="cert-track">${escapeHtml(c.track_title || '')}</div>${scoreBlock}<div class="cert-date">${escapeHtml(date)} · ${escapeHtml(c.product || 'SchoolCafé')} Learning Studio</div><div class="cert-id" style="margin-top:10px;font-size:10.5px;color:var(--muted);letter-spacing:.04em;">Certificate ID: ${escapeHtml(c.id || '')}</div></div>`;
+  // D3: badge strip — earned badges from cert payload (server attaches earned_badges on issuance)
+  // Falls back to cached _gamifState if server didn't attach (e.g. legacy certs).
+  const earnedBadges = c.earned_badges || (_gamifState && _gamifState.badges) || [];
+  const badgeStrip = earnedBadges.length
+    ? `<div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:10px;">${earnedBadges.map(b => `<span class="badge-chip">&#127885; ${escapeHtml(b.title)}</span>`).join('')}</div>`
+    : '';
+  if (body) body.innerHTML = `<div class="cert-card"><div class="cert-seal">🏅</div><div class="cert-h">Certificate of Completion</div><div class="cert-name">${escapeHtml(c.learner_name || 'John Doe')}</div><div class="cert-sub">has completed</div><div class="cert-track">${escapeHtml(c.track_title || '')}</div>${scoreBlock}<div class="cert-date">${escapeHtml(date)} · ${escapeHtml(c.product || 'SchoolCafé')} Learning Studio</div>${badgeStrip}<div class="cert-id" style="margin-top:10px;font-size:10.5px;color:var(--muted);letter-spacing:.04em;">Certificate ID: ${escapeHtml(c.id || '')}</div></div>`;
   if (foot) foot.innerHTML = '<button class="primary" onclick="window.print()">Download</button>';
 }
 // Grounded quiz for a guide/module. Trust-first + demo-safe:
@@ -8525,6 +8614,15 @@ async function _cpMarkDone(courseId, lessonRef, trackId) {
       headers: { 'Content-Type': 'application/json', 'X-Demo-User': _demoUserHeader() },
       body: JSON.stringify({ course_id: courseId, lesson_ref: lessonRef }),
     });
+  } catch (e) { /* non-fatal */ }
+
+  // D3 — XP toast: show "+10 XP · 🔥 N-day streak" once per lesson completion.
+  // Refresh cached gamification state so the strip updates on next renderLearnHome.
+  try {
+    _gamifState = null;  // invalidate cache so next renderLearnHome re-fetches
+    await _fetchGamification();
+    const streak = _gamifState ? _gamifState.streak : 0;
+    showXpToast(10, streak);
   } catch (e) { /* non-fatal */ }
 }
 

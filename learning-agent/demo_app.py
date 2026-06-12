@@ -927,6 +927,20 @@ async def api_submit_attempt(
             if cert:
                 cert["assessment_score_pct"] = round(score_pct)
 
+    # D3 — gamification hooks for assessment pass (non-fatal).
+    if passed:
+        try:
+            from datetime import date as _date
+            today = _date.today().isoformat()
+            _cs.add_xp(current_user.id, 50, reason="assessment")
+            streak = _cs.update_streak(current_user.id, today)
+            _cs.check_and_award_badges(
+                current_user.id, "assessment",
+                context={"streak": streak},
+            )
+        except Exception:
+            pass  # non-fatal
+
     return {
         "score_pct": round(score_pct),
         "passed": passed,
@@ -1126,8 +1140,51 @@ async def api_mark_lesson_done(
     track = _ms.load_track(tid)
     if not track:
         raise HTTPException(404, "track not found")
+    # Idempotency: only fire XP/streak/badges if this lesson was not already done.
+    already_done = _cs.get_lesson_done(current_user.id, tid, course_id, lesson_ref)
     _cs.set_lesson_done(current_user.id, tid, course_id, lesson_ref)
+
+    if not already_done:
+        # D3 — gamification hooks (non-fatal, never block lesson progress).
+        try:
+            from datetime import date as _date
+            today = _date.today().isoformat()
+            _cs.add_xp(current_user.id, 10, reason="lesson")
+            streak = _cs.update_streak(current_user.id, today)
+            _cs.check_and_award_badges(
+                current_user.id, "lesson",
+                context={"streak": streak},
+            )
+        except Exception:
+            pass  # gamification is purely additive; failures must never break lesson progress
+
     return {"ok": True, "course_id": course_id, "lesson_ref": lesson_ref}
+
+
+# ── D3 — GET /api/users/{uid}/gamification ────────────────────────────────────
+
+@app.get("/api/users/{uid}/gamification")
+async def api_get_gamification(
+    uid: str,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Return gamification state for a learner.
+
+    A learner may only read their own state.
+    Trainers may read any learner's state (for aggregate views).
+
+    Response: {xp, streak, badges, level, next_badge_at}
+    level = xp // 100 + 1
+    badges: [{id, title, awarded_at}, ...]
+
+    D3 trust guardrail: this endpoint returns individual state only to the learner
+    themselves (or a trainer). No ranked lists, no leaderboard. Dana's aggregate
+    view is built by /api/roster, which aggregates across the roster and returns
+    only totals — never per-learner XP rankings.
+    """
+    # Learners may only query their own state; trainers may query any.
+    effective_uid = uid if current_user.is_trainer else current_user.id
+    return _cs.get_gamification(effective_uid)
 
 
 # ── DEMO roster simulation (mock multi-tenant) ───────────────────────────────
@@ -1215,6 +1272,35 @@ async def api_roster(
         selected_id = visible[0]["id"]
     districts = [{**d, **_district_stats(d)} for d in visible]
     selected = next(d for d in visible if d["id"] == selected_id)
+
+    # D3 — aggregate-only gamification summary for director/trainer view.
+    # Per-learner XP rankings are explicitly excluded (DEC-4 trust guardrail).
+    # Only totals and averages are returned; individual learner XP is never ranked.
+    gamif_summary: dict = {}
+    if current_user.is_trainer or (current_user.role or "").lower() in ("cn director", "director", "manager"):
+        # For demo scale, sum across all stored gamification records for demo users.
+        # In production this would be a join against the district's learner roster.
+        total_xp = 0
+        total_streak_days = 0
+        total_badges = 0
+        learner_count = 0
+        _GAMIF_DIR = Path(__file__).resolve().parent / "data" / "gamification"
+        if _GAMIF_DIR.exists():
+            for gf in _GAMIF_DIR.glob("*.json"):
+                try:
+                    g = json.loads(gf.read_text(encoding="utf-8"))
+                    total_xp += g.get("xp", 0)
+                    total_streak_days += g.get("streak", 0)
+                    total_badges += len(g.get("badges", []))
+                    learner_count += 1
+                except (json.JSONDecodeError, OSError):
+                    continue
+        gamif_summary = {
+            "avg_xp": round(total_xp / learner_count) if learner_count else 0,
+            "total_streak_days": total_streak_days,
+            "badges_awarded": total_badges,
+        }
+
     return {
         "districts": districts,
         "selected": selected["id"],
@@ -1223,6 +1309,7 @@ async def api_roster(
         "demo": True,
         "viewer": {"id": current_user.id, "name": current_user.name,
                     "role": current_user.role, "is_trainer": current_user.is_trainer},
+        "gamif_summary": gamif_summary,
     }
 
 @app.get("/api/icn")
@@ -2210,6 +2297,22 @@ async def issue_certificate(
         await _xapi.client.emit_completed(actor=actor, track=track, score=100.0)
     except Exception:
         pass  # non-fatal by design
+
+    # D3 — gamification: track completion bonus (100 XP + track badge). Non-fatal.
+    try:
+        from datetime import date as _date
+        today = _date.today().isoformat()
+        _cs.add_xp(current_user.id, 100, reason="track")
+        streak = _cs.update_streak(current_user.id, today)
+        _cs.check_and_award_badges(
+            current_user.id, "track",
+            context={"track_title": track.get("title") or track_id, "streak": streak},
+        )
+        # Attach earned badges to the cert payload for the UI (cert badge strip, D3 / D7).
+        gamif = _cs.get_gamification(current_user.id)
+        cert["earned_badges"] = gamif.get("badges", [])
+    except Exception:
+        pass  # non-fatal
 
     return JSONResponse(cert)
 

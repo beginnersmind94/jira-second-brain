@@ -6,6 +6,9 @@ Each learner's progress is stored as a JSON file under:
 Certificates are stored under:
     data/completion/<user_id>/certs/<cert_id>.json
 
+Gamification (D3) records are stored under:
+    data/gamification/<user_id>.json
+
 This is the V1.5 persistence layer that replaces in-memory (session-scoped)
 completion state with durable, restart-safe records keyed by user identity.
 
@@ -28,6 +31,7 @@ from pathlib import Path
 
 _BASE = Path(__file__).resolve().parent
 _COMPLETION_DIR = _BASE / "data" / "completion"
+_GAMIFICATION_DIR = _BASE / "data" / "gamification"
 
 # ── Demo-seed data (mirrors the in-memory _DEMO universe in index.html) ──────
 # When a demo-user (id starts with "demo-") accesses a track for the first time
@@ -315,16 +319,249 @@ def reset_demo_users(demo_user_ids: list[str]) -> list[str]:
 
     cleaned: list[str] = []
     for uid in demo_user_ids:
+        found = False
+        # Delete completion records + certificates.
         ud = _user_dir(uid)
-        if not ud.exists():
-            continue
+        if ud.exists():
+            try:
+                shutil.rmtree(ud)
+                found = True
+            except OSError:
+                # Best-effort: log and continue so a single bad file doesn't abort the reset.
+                pass
+
+        # D3: delete gamification file — always attempted, independent of completion dir.
+        gf = _gamif_path(uid)
         try:
-            shutil.rmtree(ud)
-            cleaned.append(uid)
+            if gf.exists():
+                gf.unlink()
+                found = True
         except OSError:
-            # Best-effort: log and continue so a single bad file doesn't abort the reset.
             pass
+
+        if found:
+            cleaned.append(uid)
     return cleaned
+
+
+# ── D3 Gamification ───────────────────────────────────────────────────────────
+# XP values (flat, documentable aloud):
+#   Lesson completed   : 10 XP
+#   Quiz passed        : 20 XP
+#   Flashcard deck done: 10 XP
+#   Assessment passed  : 50 XP
+#   Track completed    : 100 XP  (bonus on top of lesson XP)
+#
+# Streak rules (simple enough to say aloud):
+#   Any completed lesson on a calendar day counts as that day's activity.
+#   Consecutive days = streak count.
+#   Missed day resets to 0.
+#   Date stored as ISO date (YYYY-MM-DD) UTC; demo uses system date.
+#
+# Badges:
+#   Per-track completion : "<track-title> Complete"
+#   "First Lesson"       : first lesson ever completed
+#   "On a Roll"          : 3-day streak reached
+#   "Scholar"            : first assessment passed
+#
+# Trust guardrails (DEC-4):
+#   - No leaderboard. No endpoint returns per-learner XP ranked lists.
+#   - Gamification is purely additive — no feature is gated behind XP level.
+#   - Streak is server-side; survives device changes.
+#   - Demo reset clears gamification.
+
+_XP_VALUES = {
+    "lesson": 10,
+    "quiz": 20,
+    "flashcard_deck": 10,
+    "assessment": 50,
+    "track": 100,
+}
+
+
+def _gamif_path(user_id: str) -> Path:
+    return _GAMIFICATION_DIR / f"{_safe_id(user_id)}.json"
+
+
+def _empty_gamif() -> dict:
+    return {"xp": 0, "streak": 0, "last_active_date": None, "badges": []}
+
+
+def _load_gamif(user_id: str) -> dict:
+    path = _gamif_path(user_id)
+    data = _read_json(path)
+    if data is None:
+        return _empty_gamif()
+    # Ensure all keys present (forward-compat).
+    base = _empty_gamif()
+    base.update(data)
+    return base
+
+
+def _save_gamif(user_id: str, data: dict) -> None:
+    _write_json(_gamif_path(user_id), data)
+
+
+def add_xp(user_id: str, amount: int, reason: str = "") -> int:
+    """Add ``amount`` XP for ``user_id``.  Returns the new total.
+
+    Idempotent-safe: adding 0 is a no-op.
+    """
+    if amount <= 0:
+        return _load_gamif(user_id)["xp"]
+    g = _load_gamif(user_id)
+    g["xp"] = g.get("xp", 0) + amount
+    _save_gamif(user_id, g)
+    return g["xp"]
+
+
+def update_streak(user_id: str, today_date: str) -> int:
+    """Advance or reset the streak for ``user_id`` based on ``today_date`` (YYYY-MM-DD).
+
+    Consecutive days → increment.
+    Missed day (gap > 1) → reset to 1 (today counts).
+    Same day again → no-op (idempotent).
+    Returns new streak count.
+    """
+    g = _load_gamif(user_id)
+    last = g.get("last_active_date")
+    if last == today_date:
+        return g.get("streak", 1)
+
+    if last is None:
+        g["streak"] = 1
+    else:
+        try:
+            from datetime import date
+            last_dt = date.fromisoformat(last)
+            today_dt = date.fromisoformat(today_date)
+            delta = (today_dt - last_dt).days
+            if delta == 1:
+                g["streak"] = g.get("streak", 0) + 1
+            elif delta > 1:
+                g["streak"] = 1
+            # delta == 0 handled by same-day check above; delta < 0 = time travel, reset
+            elif delta < 0:
+                g["streak"] = 1
+        except (ValueError, TypeError):
+            g["streak"] = 1
+
+    g["last_active_date"] = today_date
+    _save_gamif(user_id, g)
+    return g["streak"]
+
+
+def award_badge(user_id: str, badge_id: str, badge_title: str) -> bool:
+    """Award a badge.  Idempotent — only awards once per ``badge_id``.
+
+    Returns True if the badge was newly awarded, False if already had it.
+    """
+    g = _load_gamif(user_id)
+    existing = {b["id"] for b in g.get("badges", [])}
+    if badge_id in existing:
+        return False
+    g.setdefault("badges", []).append({
+        "id": badge_id,
+        "title": badge_title,
+        "awarded_at": _now_iso(),
+    })
+    _save_gamif(user_id, g)
+    return True
+
+
+def check_and_award_badges(
+    user_id: str,
+    event_type: str,
+    context: dict | None = None,
+) -> list[dict]:
+    """Check and award any badges earned by this event.
+
+    event_type: one of "lesson", "quiz", "flashcard_deck", "assessment", "track"
+    context: optional dict — may include "track_title", "streak", "is_first_lesson"
+
+    Returns list of newly-awarded badge dicts (empty if nothing new).
+    """
+    context = context or {}
+    g = _load_gamif(user_id)
+    newly_awarded: list[dict] = []
+
+    def _maybe_award(bid: str, title: str) -> None:
+        existing = {b["id"] for b in g.get("badges", [])}
+        if bid not in existing:
+            g.setdefault("badges", []).append({
+                "id": bid,
+                "title": title,
+                "awarded_at": _now_iso(),
+            })
+            newly_awarded.append({"id": bid, "title": title})
+
+    if event_type == "lesson":
+        # "First Lesson" — first lesson ever completed
+        all_progress = get_all_progress(user_id)
+        total_lessons = 0
+        for prog in all_progress.values():
+            ld = prog.get("lessons_done") or {}
+            for refs in ld.values():
+                total_lessons += len(refs)
+        # total_lessons already includes this lesson (set_lesson_done was called first)
+        if total_lessons >= 1:
+            _maybe_award("first-lesson", "First Lesson")
+
+    if event_type in ("lesson", "quiz", "flashcard_deck", "assessment", "track"):
+        # "On a Roll" — 3-day streak
+        streak = context.get("streak", g.get("streak", 0))
+        if streak >= 3:
+            _maybe_award("on-a-roll", "On a Roll")
+
+    if event_type == "assessment":
+        # "Scholar" — first assessment passed
+        _maybe_award("scholar", "Scholar")
+
+    if event_type == "track":
+        # Per-track completion badge
+        track_title = context.get("track_title", "")
+        if track_title:
+            badge_id = f"track-complete-{_safe_id(track_title)}"
+            _maybe_award(badge_id, f"{track_title} Complete")
+
+    if newly_awarded:
+        _save_gamif(user_id, g)
+    return newly_awarded
+
+
+def get_gamification(user_id: str) -> dict:
+    """Return full gamification state for a learner.
+
+    Returns:
+        {xp, streak, badges, level, next_badge_at}
+
+    level = xp // 100 + 1  (simple, documentable formula)
+    next_badge_at = next milestone where a badge is awarded, based on current
+    streak progress (or None if all streak badges earned).
+    """
+    g = _load_gamif(user_id)
+    xp = g.get("xp", 0)
+    streak = g.get("streak", 0)
+    badges = g.get("badges", [])
+    level = xp // 100 + 1
+
+    badge_ids = {b["id"] for b in badges}
+    next_badge_at: str | None = None
+    if "first-lesson" not in badge_ids:
+        next_badge_at = "Complete your first lesson"
+    elif "on-a-roll" not in badge_ids:
+        next_badge_at = f"{3 - streak} more day{'s' if 3 - streak != 1 else ''} to 'On a Roll'"
+    elif "scholar" not in badge_ids:
+        next_badge_at = "Pass your first assessment"
+
+    return {
+        "xp": xp,
+        "streak": streak,
+        "badges": badges,
+        "level": level,
+        "next_badge_at": next_badge_at,
+        "last_active_date": g.get("last_active_date"),
+    }
 
 
 def get_all_progress(user_id: str) -> dict:
