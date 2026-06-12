@@ -32,12 +32,11 @@ construction." The product's whole value is trust, so the gates below are the sp
 - **Open PR (unmerged as of handoff):** `claude/learning-studio-icn-quizzes-roster-2026-06-05`.
 
 ## Architecture (the trust spine)
-- **Identity layer:** `auth.py` is the single identity interface. `get_current_user(request)` is the FastAPI `Depends()` used by every identity-sensitive route. Demo bypass via `X-Demo-User` header (john-cashier / dana-director / sam-trainer); production SSO hook stubbed in `_get_sso_user()` (ADR-001 §Auth). **NOTE: all identity reads must go through `get_current_user()` — never hardcode district or user identity in routes.**
+- **Tenant isolation:** `tenancy.py` enforces district-level access at the API layer — not by seed data. Every district-scoped route calls `assert_district_access(user, isd)` before returning data; a 403 with `{"error": "district_access_denied"}` is raised on a cross-district read. Trainers are scoped to `user.districts` (their book of business); learners/directors to `user.district_id`. **Do not add a district-scoped route without calling `assert_district_access()` — see `tenancy.py` for the three public helpers.** Tests: `tests/test_tenancy.py` (18 cases).
 - **Grounding by construction:** a registry of verbatim source spans is built deterministically; the model emits only `[CITE:<id>]` markers; a deterministic assembler renders the exact quote + tier; `validate_citations` re-checks every quote is a verbatim substring of its source. Mis-citation is structurally impossible.
 - **Two source LANES that must never cross-cite:** **Product** (jira-brain Jira NXT tickets at tiers AC > RN > Description, + curated guides) and **Compliance** (the ICN/USDA pack in `data/icn/`: 85 assets, ~1,970 chunks, 30 ingestible). Lane is the first segment of every `span_id`; the gate refuses a cross-lane citation.
 - **Three gate checks:** *verify* (deterministic, quote∈source) → *lane-match* (deterministic) → *support* (semantic LLM-judge — **needs calibration**, see eval plan). Distractors are exempt from grounding.
-- **Question-bank curation gate** (`roster_sync.py` (roster import + completion writeback; stub when SCHOOLCAFE_API_URL/KEY absent; to go live: set both in .env) ·
-`qbank_curation.py` + `qbank_gate_hooks.py`): state machine `pending_review → {auto_approved | needs_human} → human_approved → committed` (`rejected` terminal). `commit_to_bank` is the only writer; a **PreToolUse hook** denies it unless status is approved; a `canUseTool` callback handles human approval; `score_candidate` is pure + unit-tested.
+- **Question-bank curation gate** (`qbank_curation.py` + `qbank_gate_hooks.py`): state machine `pending_review → {auto_approved | needs_human} → human_approved → committed` (`rejected` terminal). `commit_to_bank` is the only writer; a **PreToolUse hook** denies it unless status is approved; a `canUseTool` callback handles human approval; `score_candidate` is pure + unit-tested.
 
 ## What was built this session
 Transcript-only grounding mode · ICN **Content** tab (catalog of 85 assets, license-aware
@@ -49,15 +48,6 @@ unverifiable items dropped) · the **question-bank curation gate** + tests
 cold-start → cited quiz probe) · **ISD roster/login simulation** (`/api/roster`, mock data) ·
 **Trainer vs Customer two-view toggle** · **`EXTERNAL_LEARNING` on/off feature flag** ·
 warm/terracotta redesign with design tokens + SchoolCafé branding (all in `static/index.html`).
-
-**Home panel role audit (2026-06-12):** Audited all content-event actor/action pairs in the
-Home "Content updates" panel and Notifications inbox drawer. Found one inconsistency: the
-inbox drawer (`openInboxDrawer`) was labelling all inbox items (including `flagged`, `updated`,
-`aging` types) as "approved" and rendering them under "Approved by PM team". Fixed: drawer now
-filters to `approved`-type items only; meta line shows the responsible PO name (from
-`_DEMO.smes`) rather than the generic "PM team"; section count reflects approved items only.
-No Jaime-as-approver instances found anywhere in rendered output. Feed-panel `smes` table
-has no Jaime entry. `notifyPO` correctly routes flagged/aging events to the module PO.
 
 ## Norms & boss constraints (honor these)
 - **External-learning (ICN content + roster + study sets) stays behind the `EXTERNAL_LEARNING` flag** until an ICN **fair-use agreement** is signed. Always **credit ICN** (attribution travels with every card/quiz). Respect `link_only` assets — link out, never reproduce.
@@ -77,15 +67,8 @@ Tabs: Create · Library · Content · Quality · Roster · How it works. Trainer
 4. External eval-expert brief lives at `~/Downloads/Learning-Studio-eval-context.md`.
 
 ## Key files
-`demo_app.py` (FastAPI server, all routes incl. /generate, /api/icn*, /api/roster, /api/sync/status, /api/config) ·
+`demo_app.py` (FastAPI server, all routes incl. /generate, /api/icn*, /api/roster, /api/config) ·
 `demo_d.py` (registry / assemble / section writers) · `demo.py` (offline tools + `validate_citations`) ·
 `qbank_curation.py`, `qbank_gate_hooks.py`, `qbank_gate.py` (gates) · `static/index.html` (the entire UI — one large file) ·
-`scorm_export.py` (SCORM 1.2 package builder — `build_scorm_package()` → zip bytes with manifest + SCO launch page + module HTML + quiz JSON) ·
-`xapi_client.py` (xAPI emitter — `XAPIClient.emit_completed/emit_progressed`; stub logs to `logs/xapi-stub.jsonl`; production via `LRS_ENDPOINT`/`LRS_KEY`) ·
 `data/icn/` (ICN pack) · `data/demo/*-fixture.json` (Jira fixtures) · `eval/` (regression + capability) ·
 `docs/` (ADR-001, STATE-OF-EVAL, CASE-STUDY, REPO-WORKFLOW, NEXT-EVALS-PLAN).
-
-## SCORM / xAPI activation (V2)
-- **Stub mode (default):** xAPI statements log to `logs/xapi-stub.jsonl`. No credentials needed.
-- **Production:** set `LRS_ENDPOINT` (full statements URL) and `LRS_KEY` (`user:password` or `Bearer <token>`) in `.env` and restart. Confirm with `GET /api/xapi/status`.
-- SCORM packages: `GET /api/tracks/{id}/scorm` (trainer only). The zip is self-contained and importable into any SCORM 1.2 LMS (Moodle, Canvas, SCORM Cloud, etc.).

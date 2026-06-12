@@ -36,9 +36,12 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 from dotenv import load_dotenv
-from fastapi import Body, FastAPI, HTTPException, Query
+from fastapi import Body, Depends, FastAPI, HTTPException, Query, Request
 from fastapi.responses import HTMLResponse, JSONResponse, Response
 from sse_starlette.sse import EventSourceResponse
+
+from auth import CurrentUser, get_current_user
+from tenancy import assert_district_access, filter_to_accessible_districts, get_user_districts
 
 from claude_agent_sdk import (
     AssistantMessage,
@@ -85,13 +88,8 @@ import intent_agent
 # Quiz Builder — persistence + QA/grounding gate (+ the support judge for the QA pass).
 import quiz_store
 import qbank_gate
-# Roster sync + completion writeback.
-from roster_sync import RosterSyncClient
 
 load_dotenv()
-
-# Roster sync client (stub until SCHOOLCAFE_API_URL/KEY are set).
-roster_sync = RosterSyncClient()
 
 # ── Discover ALL available module fixtures; load one to start ─────────────────
 # The offline tools read demo._FIX (a single module's fixture). For multi-module
@@ -270,14 +268,41 @@ import quiz_store as _qs
 
 
 @app.get("/api/modules")
-async def api_list_modules(source: str = "", product: str = "", role: str = "", q: str = ""):
-    # icn_dir wired in so ICN_DOC modules are real and addable to a track (Seam C).
-    return _ms.list_modules(source=source, product=product, role=role, q=q, icn_dir=_ICN_DIR)
+async def api_list_modules(
+    source: str = "",
+    product: str = "",
+    role: str = "",
+    q: str = "",
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """List approved modules. Learners see only modules for their district or untagged global modules.
+    Trainers see all modules. icn_dir wired in so ICN_DOC modules are addable to a track."""
+    result = _ms.list_modules(source=source, product=product, role=role, q=q, icn_dir=_ICN_DIR)
+    if not current_user.is_trainer:
+        uid = current_user.district_id or ""
+        result["modules"] = [
+            m for m in result.get("modules", [])
+            if not m.get("district_id") or m.get("district_id") == uid
+        ]
+        result["total"] = len(result["modules"])
+    return result
 
 
 @app.get("/api/tracks")
-async def api_list_tracks():
-    return {"tracks": _ms.list_tracks()}
+async def api_list_tracks(
+    request: Request,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """List tracks, scoped by the caller's identity. Trainers see all tracks; learners
+    see only tracks matching their role or untagged (global) tracks."""
+    all_tracks = _ms.list_tracks()
+    force_all = request.query_params.get("all") in ("1", "true")
+    if force_all or current_user.is_trainer:
+        return {"tracks": all_tracks}
+    role = current_user.role
+    filtered = [t for t in all_tracks
+                if not t.get("role_tags") or role in (t.get("role_tags") or [])]
+    return {"tracks": filtered}
 
 
 @app.post("/api/tracks")
@@ -352,29 +377,6 @@ async def api_delete_track(tid: str):
     if not _ms.delete_track(tid):
         raise HTTPException(404, "track not found")
     return {"ok": True}
-
-
-@app.post("/api/tracks/{tid}/progress")
-async def api_track_progress(tid: str, payload: dict = Body(default={})):
-    """Record learner progress; fires non-fatal completion writeback."""
-    track = _ms.load_track(tid)
-    if not track:
-        raise HTTPException(404, "track not found")
-    learner_id = (payload.get("learner_id") or "").strip()
-    if not learner_id:
-        raise HTTPException(400, "learner_id is required")
-    completion_pct = max(0, min(int(payload.get("completion_pct", 0) or 0), 100))
-    certified = bool(payload.get("certified", False))
-    district_id = (payload.get("district_id") or "").strip() or "demo-district"
-    try:
-        await roster_sync.sync_completion(district_id, learner_id, tid, completion_pct, certified)
-    except Exception as exc:
-        import logging
-        logging.getLogger(__name__).warning(
-            "sync_completion failed (non-fatal) learner=%s track=%s: %s", learner_id, tid, exc
-        )
-    return {"track_id": tid, "learner_id": learner_id, "completion_pct": completion_pct,
-            "certified": certified, "stub": roster_sync.is_stub}
 
 
 # Unchanged routes — reuse prod's handlers verbatim (they read/write the same
@@ -493,80 +495,36 @@ def _district_stats(d: dict) -> dict:
 
 
 @app.get("/api/roster")
-async def api_roster(isd: str = ""):
-    """Simulated district roster + per-district roll-up (synthetic demo data, not real students)."""
-    districts = [{**d, **_district_stats(d)} for d in _DISTRICTS]
-    d = next((x for x in _DISTRICTS if x["id"] == isd), _DISTRICTS[0])
-    try:
-        roster = await roster_sync.get_district_roster(d["id"])
-    except Exception as exc:
-        import logging
-        logging.getLogger(__name__).warning("roster_sync failed, using stub: %s", exc)
-        roster = _roster_for(d)
-    return {"districts": districts, "selected": d["id"], "selected_name": d["name"],
-            "roster": roster, "stub": roster_sync.is_stub, "demo": True}
+async def api_roster(
+    request: Request,
+    isd: str = "",
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """District roster + per-district roll-up. Tenant-scoped.
 
-
-# -- Sync status: lets operators verify whether writeback is live ------
-@app.get("/api/sync/status")
-async def api_sync_status():
-    """stub=True = demo mode; stub=False = SCHOOLCAFE_API_URL/KEY set (live)."""
-    return JSONResponse(roster_sync.status())
-
-
-# ── ICN Content catalog ───────────────────────────────────────────────────────
-# Curated, externally-authored training reference material (ICN / USDA + MSDE),
-# imported as a lightweight pack under data/icn/. This is a BROWSE/REFERENCE lane —
-# NOT a generation grounding source — so it never claims the "verified by us"
-# guarantee the generation pipeline earns by construction. ICN Copy & Use Policy is
-# honored by surfacing metadata + attribution + links only: link_only assets link
-# out, embed_only embeds, and attribution_text travels with every card.
-_ICN_DIR = Path(demo.__file__).parent / "data" / "icn"
-
-
-# Generic component names that mean nothing without their parent course.
-_ORPHAN_TITLES = {
-    "instructor's manual", "instructors manual", "participant's workbook",
-    "participants workbook", "post-assessment", "pre-assessment",
-    "manual", "workbook", "assessment", "lesson plan",
-}
-
-
-def _clean_title(t: str, parent: str = "") -> str:
-    """Turn raw asset filenames/labels into human titles:
-      'A Flash of Food Safety_1_eng'      -> 'A Flash of Food Safety — Part 1'
-      'Using Thermometers [360p]'         -> 'Using Thermometers'
-      'Video Clip Calibrating Thermometers' -> 'Calibrating Thermometers'
-      bare 'Instructor's Manual' (+parent) -> 'Food Safety in Schools — Instructor's Manual'
-    Already-clean titles pass through. `parent` is the asset's source_page_title."""
-    t = (t or "").strip()
-    m = re.match(r"^(.*?)[ _]*_(\d+)_eng$", t, re.I)
-    if m:
-        base = re.sub(r"[ _]+", " ", m.group(1)).strip()
-        t = f"{base} — Part {int(m.group(2))}"
+    Tenant isolation enforced at the API layer (BRD NFR): assert_district_access()
+    raises 403 before any data is returned for a district the caller cannot access.
+    Trainers see their book-of-business; learners/directors see only their district.
+    """
+    if isd:
+        assert_district_access(current_user, isd)
+    accessible_ids = set(get_user_districts(current_user))
+    visible = [d for d in _DISTRICTS if d["id"] in accessible_ids] if accessible_ids else [_DISTRICTS[0]]
+    if isd and any(d["id"] == isd for d in visible):
+        selected_id = isd
     else:
-        t = re.sub(r"_eng$", "", t, flags=re.I).replace("_", " ")
-    t = re.sub(r"\s*[\[(]\s*\d{3,4}p\s*[\])]", "", t)        # strip [360p] / (720p)
-    t = re.sub(r"\s+\d{3,4}p\b", "", t)                        # strip trailing 360p
-    t = re.sub(r"^\s*video\s*clip\s*[:\-]?\s*", "", t, flags=re.I)  # strip "Video Clip" prefix
-    t = re.sub(r"\s+", " ", t).strip(" -–—")
-    # Give orphaned component titles their parent course for context.
-    p = re.sub(r"\s*\(formerly[^)]*\)", "", parent or "", flags=re.I).strip()
-    if p and p.lower() not in ("popular resources for school nutrition programs",) \
-       and t.lower() in _ORPHAN_TITLES and not t.lower().startswith(p.lower()):
-        t = f"{p} — {t}"
-    return re.sub(r"\s+", " ", t).strip()
-
-
-def _icn_load():
-    def J(name):
-        p = _ICN_DIR / "data" / name
-        return json.loads(p.read_text(encoding="utf-8")) if p.exists() else None
-    lms = J("lms_mockup_content.json") or {}
-    manifest = J("asset_manifest.json") or []
-    by_id = {a.get("asset_id"): a for a in manifest}
-    return lms, by_id
-
+        selected_id = visible[0]["id"]
+    districts = [{**d, **_district_stats(d)} for d in visible]
+    selected = next(d for d in visible if d["id"] == selected_id)
+    return {
+        "districts": districts,
+        "selected": selected["id"],
+        "selected_name": selected["name"],
+        "roster": _roster_for(selected),
+        "demo": True,
+        "viewer": {"id": current_user.id, "name": current_user.name,
+                    "role": current_user.role, "is_trainer": current_user.is_trainer},
+    }
 
 @app.get("/api/icn")
 async def api_icn():
@@ -1369,19 +1327,6 @@ async def issue_certificate(payload: dict = Body(default={})):
         "issued_at": now.isoformat(timespec="seconds"),
     }
     (CERTS / f"{cid}.json").write_text(json.dumps(cert, indent=2, ensure_ascii=False), encoding="utf-8")
-
-    # Fire completion writeback (certified=True, non-fatal).
-    learner_id = (payload.get("learner_id") or learner).strip()
-    district_id = (payload.get("district_id") or "").strip() or "demo-district"
-    try:
-        await roster_sync.sync_completion(district_id, learner_id, track_id, 100, certified=True)
-    except Exception as exc:
-        import logging
-        logging.getLogger(__name__).warning(
-            "cert sync_completion failed (non-fatal) learner=%s track=%s: %s",
-            learner_id, track_id, exc,
-        )
-
     return JSONResponse(cert)
 
 
