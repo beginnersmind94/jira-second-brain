@@ -2326,6 +2326,47 @@
     .flash-card.flipped .flash-front { display: none; }
     .flash-card.flipped .flash-back { display: block; }
     .flash-back .quiz-src { margin-top: 9px; }
+
+    /* ── B2: Flashcard deck player (lesson-player embedded) ── */
+    .fd-progress-row { display:flex; align-items:center; gap:10px; margin-bottom:18px; }
+    .fd-prog-lbl { font-size:12px; color:var(--muted); white-space:nowrap; }
+    .fd-prog-bar { flex:1; height:5px; background:var(--border); border-radius:3px; overflow:hidden; }
+    .fd-prog-fill { height:100%; background:var(--accent); border-radius:3px; transition:width .3s ease; }
+    .fd-card-wrap { perspective:900px; max-width:520px; margin:0 auto; }
+    .fd-card { position:relative; width:100%; min-height:200px; cursor:pointer;
+               transform-style:preserve-3d; transition:transform 150ms ease;
+               border-radius:var(--radius-lg, 10px); }
+    .fd-card.fd-flipped { transform:rotateY(180deg); }
+    .fd-face { position:absolute; inset:0; backface-visibility:hidden;
+               background:var(--surface); border:1.5px solid var(--border-strong);
+               border-radius:var(--radius-lg, 10px); padding:24px 22px;
+               display:flex; flex-direction:column; justify-content:center; }
+    .fd-back { transform:rotateY(180deg); }
+    .fd-front-label, .fd-back-label { font-size:9.5px; font-weight:700; letter-spacing:.08em;
+               text-transform:uppercase; color:var(--muted); margin-bottom:12px; }
+    .fd-front-text { font-family:var(--serif,serif); font-size:18px; font-weight:650;
+               color:var(--text); line-height:1.4; margin:0; }
+    .fd-back-text { font-size:15px; color:var(--text); line-height:1.55; margin:0 0 14px; }
+    .fd-flip-hint { font-size:10px; color:var(--muted-aa,var(--muted)); margin-top:auto;
+               padding-top:14px; letter-spacing:.04em; }
+    .fd-source { border-top:1px solid var(--border); padding-top:10px; margin-top:auto; }
+    .fd-source-label { font-size:10px; font-weight:700; letter-spacing:.06em;
+               text-transform:uppercase; color:var(--muted); display:block; margin-bottom:4px; }
+    .fd-source-quote { font-size:11.5px; color:var(--text-soft,var(--muted)); font-style:italic; line-height:1.45; }
+    .fd-sort-row { display:flex; gap:12px; justify-content:center; margin-top:18px; }
+    .fd-btn-review { background:var(--surface); border:1.5px solid var(--border-strong); color:var(--text-soft);
+               padding:10px 20px; border-radius:var(--radius-pill, 999px); font-size:14px;
+               cursor:pointer; font-family:var(--font); transition:border-color .14s, background .14s; }
+    .fd-btn-review:hover { border-color:var(--accent); background:var(--panel); }
+    .fd-btn-got { background:var(--accent); border:1.5px solid var(--accent); color:#fff;
+               padding:10px 24px; border-radius:var(--radius-pill, 999px); font-size:14px;
+               cursor:pointer; font-family:var(--font); font-weight:600; transition:opacity .14s; }
+    .fd-btn-got:hover { opacity:.88; }
+    .fd-done { display:flex; flex-direction:column; align-items:center; padding:40px 20px; text-align:center; }
+    .fd-done-icon { font-size:42px; margin-bottom:12px; }
+    .fd-done-msg { font-size:20px; font-weight:700; color:var(--text); margin:0 0 6px; }
+    .fd-done-stats { font-size:14px; color:var(--muted); margin:0; }
+
     /* view-mode toggle (Trainer / Customer) */
     .view-toggle { display: inline-flex; background: var(--panel3); border: 1px solid var(--border); border-radius: var(--radius-pill); padding: 2px; }
     .view-toggle button { border: 1.5px solid transparent; background: none; cursor: pointer; font-family: var(--font); font-size: 11.5px; font-weight: 650;
@@ -3262,6 +3303,7 @@
       <div class="cb-add">
         <button class="secondary" onclick="cbAddGuide()">+ Guide</button>
         <button class="secondary" onclick="cbAddQuiz()">+ Quiz</button>
+        <button class="secondary" onclick="cbAddFlashcards()">+ Flashcards</button>
         <button class="secondary" onclick="cbAddVideo()">+ Video</button>
         <button class="secondary" onclick="cbAddExercise()">+ Exercise</button>
       </div>
@@ -5226,6 +5268,69 @@ async function cbGenQuiz() {
     _cbSetSaveStatus('Quiz added. Note: quiz must be approved before publishing the course.');
   } catch (e) { if (st) st.textContent = 'Could not generate — try another guide.'; }
 }
+// ── Flashcard deck picker (approved decks only — trust guardrail) ──────────
+async function cbAddFlashcards() {
+  document.getElementById('cb-picker').innerHTML = `<div class="cb-pick"><div class="tb-note" style="margin:0;">Loading approved flashcard decks…</div></div>`;
+  let decks = [];
+  try {
+    const d = await (await fetch('/api/flashcards?status=approved')).json();
+    decks = (d.decks || []);
+  } catch (e) { /* fall through */ }
+  const libCache = _demoState.libCache || [];
+  if (!decks.length) {
+    document.getElementById('cb-picker').innerHTML = `<div class="cb-pick">
+      <label class="tb-l">No approved flashcard decks yet — generate one from a guide <span style="color:var(--green-text,#1a5e1a);font-size:11px;">&#x2713; approved only</span></label>
+      <select id="cb-flash-src" class="tb-in">${libCache.slice(0, 40).map(r => `<option value="${escAttr(r.id)}">${escapeHtml((r.module || '?') + ' | ' + (r.template || 'guide'))}</option>`).join('')}</select>
+      <label class="tb-l">Cards (aim for)</label>
+      <select id="cb-flash-n" class="tb-in"><option>5</option><option selected>8</option><option>10</option></select>
+      <button class="secondary" onclick="cbGenFlashcards()" style="margin-top:8px;">Generate &amp; add</button>
+      <div id="cb-flash-status" class="tb-note" style="margin-top:6px;"></div>
+    </div>`;
+    return;
+  }
+  document.getElementById('cb-picker').innerHTML = `<div class="cb-pick">
+    <label class="tb-l">Select an approved flashcard deck <span style="color:var(--green-text,#1a5e1a);font-size:11px;">&#x2713; approved only</span></label>
+    <div class="cb-list">${decks.slice(0, 40).map(d =>
+      `<button class="cb-pick-row" onclick="cbPickFlashcards('${escAttr(d.id)}','${escAttr(d.title||'Flashcards')}')">
+        <div>${escapeHtml(d.title || d.id)}</div>
+        <div class="cb-pick-row-meta">Flashcards \xb7 ${d.total_cards || 0} cards</div>
+      </button>`
+    ).join('')}</div>
+    <div style="margin-top:8px;border-top:1px dashed var(--border);padding-top:8px;">
+      <label class="tb-l" style="font-size:11px;">Or generate a new deck from a guide:</label>
+      <select id="cb-flash-src" class="tb-in">${libCache.slice(0, 40).map(r => `<option value="${escAttr(r.id)}">${escapeHtml((r.module || '?') + ' | ' + (r.template || 'guide'))}</option>`).join('')}</select>
+      <button class="secondary" onclick="cbGenFlashcards()" style="margin-top:6px;">Generate &amp; add</button>
+      <div id="cb-flash-status" class="tb-note" style="margin-top:6px;"></div>
+    </div>
+  </div>`;
+}
+function cbPickFlashcards(deckId, title) {
+  _cb.lessons.push({ type: 'flashcards', ref: deckId, title: title || 'Flashcard Review', duration_est: 5, _badge: 'ai_grounded' });
+  document.getElementById('cb-picker').innerHTML = '';
+  cbRender();
+}
+async function cbGenFlashcards() {
+  const rid = (document.getElementById('cb-flash-src') || {}).value;
+  const n = +((document.getElementById('cb-flash-n') || {}).value || 8);
+  const st = document.getElementById('cb-flash-status');
+  if (!rid) { if (st) st.textContent = 'Select a source guide first.'; return; }
+  if (st) st.textContent = 'Generating grounded flashcard deck…';
+  try {
+    const resp = await fetch('/api/resources/' + encodeURIComponent(rid) + '/flashcards', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ n })
+    });
+    if (!resp.ok) {
+      const j = await resp.json().catch(() => ({}));
+      throw new Error((j.detail && (j.detail.message || j.detail)) || 'HTTP ' + resp.status);
+    }
+    const deck = await resp.json();
+    _cb.lessons.push({ type: 'flashcards', ref: deck.id, title: deck.title || 'Flashcard Review', duration_est: 5, _badge: 'ai_grounded' });
+    document.getElementById('cb-picker').innerHTML = '';
+    cbRender();
+    _cbSetSaveStatus('Flashcard deck added (draft). Approve the deck before publishing the course.');
+  } catch (e) { if (st) st.textContent = 'Could not generate: ' + e.message; }
+}
+
 // ── C1: License-aware ICN video card rendering ─────────────────────────────
 // Trust guardrail: embed/link-out is 100% driven by license_posture from the ICN catalog.
 // No per-lesson override. No raw URL entry. Attribution band is structural.
@@ -7893,6 +7998,27 @@ function _renderLessonPlayer() {
     }
     return;
   }
+  // B2: Flashcard deck lesson — card-flip interaction with "Got it / Review again" sorting.
+  if (l.type === 'flashcards' && l.ref) {
+    const deckRef = l.ref;
+    document.getElementById('lesson-player').innerHTML = topnav + `
+      <div class="lp-scroll" id="lp-scroll">
+        <div class="lp-body">
+          <p class="lp-no">Lesson ${idx + 1}</p>
+          <h2 class="lp-title">${escapeHtml(l.title || 'Flashcard Review')}</h2>
+          <span class="lp-type-chip">🃏 Flashcards</span>
+          <div class="lp-content" id="lp-content-area">
+            <div style="text-align:center;padding:32px 0;color:var(--muted);"><span class="spinner"></span> Loading flashcards…</div>
+          </div>
+        </div>
+      </div>
+      <div class="lp-footer">
+        <button class="lp-btn-prev" onclick="lpPrev()"${idx === 0 ? ' disabled' : ''}>← Prev</button>
+        <button class="lp-btn-next" onclick="lpNext()" id="lp-deck-next" disabled>${isLast ? 'Finish' : 'Continue →'}</button>
+      </div>`;
+    _loadFlashcardDeck(deckRef, cid, idx, isLast);
+    return;
+  }
   // For ICN video lessons with a ref (asset ID), use a placeholder then load the real card.
   const isIcnVideo = l.type === 'video' && l.ref;
   let placeholder = '';
@@ -7946,6 +8072,178 @@ function closeLessonPlayer() {
   document.getElementById('lesson-player').hidden = true;
   _lpState = null;
 }
+
+// ── B2: Flashcard deck player ─────────────────────────────────────────────────
+// Card-flip interaction: front shows question, tap/click reveals back with source quote.
+// "Got it ✓" sorts the card out; "Review again 🔁" cycles it back to the end.
+// All-done state fires lesson-progress and enables Continue.
+//
+// openFlashcardDeck(deckId) — standalone entry point (from catalog / outside player).
+// _loadFlashcardDeck(deckId, cid, idx, isLast) — called from _renderLessonPlayer for
+//   flashcards lesson type; fires lesson progress on completion and enables lpNext().
+
+let _fd = null;  // active flashcard deck state
+
+function _fdRender() {
+  const area = document.getElementById('lp-content-area'); if (!area || !_fd) return;
+  const {cards, pos} = _fd;
+  if (pos >= cards.length) {
+    // All-done state
+    const mastered = _fd.mastered, review = _fd.reviewAgain;
+    area.innerHTML = `
+      <div class="fd-done">
+        <div class="fd-done-icon">🎉</div>
+        <p class="fd-done-msg">Deck complete!</p>
+        <p class="fd-done-stats">${mastered} card${mastered===1?'':'s'} mastered${review?' · '+review+' to review again':''}</p>
+        ${review ? `<button class="secondary" onclick="_fdRestart()" style="margin-top:12px;">Review ${review} card${review===1?'':'s'} again</button>` : ''}
+      </div>`;
+    const nextBtn = document.getElementById('lp-deck-next');
+    if (nextBtn) nextBtn.disabled = false;
+    // Fire lesson-progress if we have a course context.
+    if (_fd.cid != null && _fd.lessonIdx != null) {
+      _courseDoneSet(_fd.cid).add(_fd.lessonIdx);
+    }
+    return;
+  }
+  const card = cards[pos], total = _fd.total, cur = pos + 1;
+  const flipped = _fd.flipped;
+  area.innerHTML = `
+    <div class="fd-progress-row">
+      <span class="fd-prog-lbl">Card ${cur} of ${total}</span>
+      <div class="fd-prog-bar"><div class="fd-prog-fill" style="width:${Math.round((pos/total)*100)}%"></div></div>
+    </div>
+    <div class="fd-card-wrap">
+      <div class="fd-card${flipped ? ' fd-flipped' : ''}" id="fd-card" onclick="_fdFlip()" title="Tap to flip">
+        <div class="fd-face fd-front">
+          <div class="fd-front-label">QUESTION</div>
+          <p class="fd-front-text">${escapeHtml(card.front)}</p>
+          <span class="fd-flip-hint">Tap to reveal answer</span>
+        </div>
+        <div class="fd-face fd-back">
+          <div class="fd-back-label">ANSWER</div>
+          <p class="fd-back-text">${escapeHtml(card.back)}</p>
+          <div class="fd-source">
+            <span class="fd-source-label">Source:</span>
+            <span class="fd-source-quote">"${escapeHtml(card.source_quote)}"</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    ${flipped ? `
+    <div class="fd-sort-row">
+      <button class="fd-btn-review" onclick="_fdSort(false)">🔁 Review again</button>
+      <button class="fd-btn-got" onclick="_fdSort(true)">✓ Got it</button>
+    </div>` : `<p class="fd-sort-hint" style="text-align:center;color:var(--muted);font-size:13px;margin-top:8px;">Flip the card to reveal the answer</p>`}`;
+}
+
+function _fdFlip() {
+  if (!_fd) return;
+  _fd.flipped = !_fd.flipped;
+  _fdRender();
+  // Swipe gesture: simple toggle handled by click; touch swipe for advance after flip.
+}
+
+function _fdSort(gotIt) {
+  if (!_fd) return;
+  if (gotIt) {
+    _fd.mastered++;
+  } else {
+    _fd.cards.push(_fd.cards[_fd.pos]);  // push to end for review
+    _fd.reviewAgain++;
+    _fd.total++;
+  }
+  _fd.pos++;
+  _fd.flipped = false;
+  _fdRender();
+}
+
+function _fdRestart() {
+  if (!_fd) return;
+  // Find remaining review-again cards (they were appended after original total).
+  const reviewCards = _fd.cards.slice(_fd.originalTotal);
+  _fd.cards = reviewCards;
+  _fd.pos = 0;
+  _fd.total = reviewCards.length;
+  _fd.mastered = 0;
+  _fd.reviewAgain = 0;
+  _fd.flipped = false;
+  _fdRender();
+}
+
+async function _loadFlashcardDeck(deckId, cid, idx, isLast) {
+  const area = document.getElementById('lp-content-area'); if (!area) return;
+  try {
+    const r = await fetch('/api/flashcards/' + encodeURIComponent(deckId));
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const deck = await r.json();
+    const cards = (deck.cards || []).filter(c => c.grounded !== false);
+    if (!cards.length) {
+      area.innerHTML = `<div class="lp-fmt-card">No verified flashcards in this deck yet.</div>`;
+      const nb = document.getElementById('lp-deck-next'); if (nb) nb.disabled = false;
+      return;
+    }
+    _fd = {
+      cards: [...cards], pos: 0, total: cards.length, originalTotal: cards.length,
+      mastered: 0, reviewAgain: 0, flipped: false,
+      cid: cid, lessonIdx: idx, isLast,
+    };
+    _fdRender();
+    // Touch swipe support: swipe right = Got it, swipe left = Review again (after flip).
+    const wrap = area.querySelector('.fd-card-wrap');
+    if (wrap) {
+      let startX = null;
+      wrap.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, {passive:true});
+      wrap.addEventListener('touchend', e => {
+        if (startX == null || !_fd || !_fd.flipped) { startX = null; return; }
+        const dx = e.changedTouches[0].clientX - startX;
+        if (Math.abs(dx) > 60) _fdSort(dx > 0);
+        startX = null;
+      }, {passive:true});
+    }
+  } catch(e) {
+    if (area) area.innerHTML = `<div class="lp-fmt-card">Could not load flashcard deck.</div>`;
+    const nb = document.getElementById('lp-deck-next'); if (nb) nb.disabled = false;
+  }
+}
+
+// Standalone deck opener (from catalog, quiz builder, etc.)
+async function openFlashcardDeck(deckId) {
+  const modal = document.getElementById('quiz-modal');
+  const body  = document.getElementById('quiz-body');
+  const foot  = document.getElementById('quiz-foot');
+  const title = document.getElementById('quiz-title');
+  if (!modal || !body || !foot || !title) { alert('Flashcard modal not available'); return; }
+  modal.hidden = false;
+  title.textContent = 'Flashcards';
+  body.innerHTML = '<div style="text-align:center;padding:32px 0;color:var(--muted);"><span class="spinner"></span> Loading cards…</div>';
+  foot.innerHTML = '';
+  try {
+    const r = await fetch('/api/flashcards/' + encodeURIComponent(deckId));
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const deck = await r.json();
+    title.textContent = deck.title || 'Flashcards';
+    const cards = (deck.cards || []).filter(c => c.grounded !== false);
+    if (!cards.length) {
+      body.innerHTML = '<div class="async-error"><p class="ae-title">No verified cards</p><p>All cards failed source verification.</p></div>';
+      return;
+    }
+    // Render the grid view (static, not interactive player — for quick preview).
+    body.innerHTML = '<div class="flash-grid">' + cards.map(c =>
+      `<div class="flash-card" onclick="this.classList.toggle('flipped')">
+        <div class="flash-front">${escapeHtml(c.front)}<span class="flash-hint">tap to flip</span></div>
+        <div class="flash-back">${escapeHtml(c.back)}
+          <div class="quiz-src"><span class="sq">"${escapeHtml(c.source_quote)}"</span>
+          <span class="attr">Source: ${escapeHtml(c.section || 'guide')}</span></div>
+        </div>
+      </div>`
+    ).join('') + '</div>';
+    foot.innerHTML = `<span>✓ ${cards.length} card${cards.length===1?'':'s'}, each verified verbatim against the guide</span>
+      <span class="origin-badge ai-grounded">AI-grounded</span>`;
+  } catch(e) {
+    body.innerHTML = `<div class="async-error"><p class="ae-title">Could not load deck</p><p>${escapeHtml(e.message)}</p></div>`;
+  }
+}
+
 // ── DataCamp-style exercise panel ─────────────────────────────────────────────
 // Fallback constants — used when no rid is available or the grounding gate
 // returns nothing (204). When a rid IS available, _renderLessonPlayer fetches

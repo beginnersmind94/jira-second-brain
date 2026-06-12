@@ -33,6 +33,7 @@ Course schema:
 Lesson types:
   guide         -> published/metadata/<ref>.json must exist AND approved == true
   quiz          -> data/quizzes/<ref>.json must exist AND status == "approved"
+  flashcards    -> data/flashcards/<ref>.json must exist AND status == "approved"
   video         -> ref must appear as an asset_id in the ICN manifest
   external_icn  -> same as video (ICN catalog id)
   exercise      -> always valid (placeholder for future interactive content)
@@ -52,6 +53,7 @@ COURSES_DIR.mkdir(parents=True, exist_ok=True)
 _DRAFTS_DIR = BASE / "drafts"
 _PUB_META_DIR = BASE / "published" / "metadata"
 _QUIZ_DIR = BASE / "quizzes"
+_FLASHCARDS_DIR = BASE / "data" / "flashcards"
 _ICN_DATA_DIR = BASE / "data" / "icn" / "data"
 
 
@@ -237,6 +239,19 @@ def validate_lesson_ref(
             return False, (
                 f"ICN ref '{ref}' not found in the ICN asset catalog -- "
                 "only catalog asset_ids are valid video/external_icn refs"
+            )
+        return True, None
+
+    elif lesson_type == "flashcards":
+        # A flashcard ref must be an approved deck in data/flashcards/.
+        deck_path = _FLASHCARDS_DIR / f"{ref}.json"
+        deck = _read_json(deck_path)
+        if deck is None:
+            return False, f"flashcard deck ref '{ref}' not found in data/flashcards/"
+        if deck.get("status") != "approved":
+            return False, (
+                f"flashcard deck ref '{ref}' is not approved (status={deck.get('status')!r}) -- "
+                "only approved flashcard decks may be added to courses"
             )
         return True, None
 

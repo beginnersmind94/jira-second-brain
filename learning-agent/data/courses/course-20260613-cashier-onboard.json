@@ -24,6 +24,12 @@
       "duration_est": 5
     },
     {
+      "type": "flashcards",
+      "ref": "deck-20260612-demo-seed",
+      "title": "Flashcard Review — Item Management",
+      "duration_est": 5
+    },
+    {
       "type": "quiz",
       "ref": "quiz-20260603-124709-item-management-long-for-e1dbc1",
       "title": "Knowledge Check — Item Management",

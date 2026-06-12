@@ -88,6 +88,8 @@ import intent_agent
 # Quiz Builder — persistence + QA/grounding gate (+ the support judge for the QA pass).
 import quiz_store
 import qbank_gate
+# Flashcard deck store — verbatim gate + drift detection for guide flashcard decks (B2).
+import flashcard_store
 # Quality rubric scorers — Coverage, Clarity, Structure (advisory heuristics, no LLM call).
 from scorers import compute_scores
 # Roster sync + completion writeback -- SchoolCafe / PrimeroEdge integration interface.
@@ -1980,6 +1982,221 @@ async def icn_flashcards(payload: dict = Body(...)):
         "asset_id": asset_id, "topic": topic, "title": title, "attribution": attribution,
         "cards": kept, "generated": len(raw), "kept": len(kept), "dropped": dropped,
     })
+
+
+# ── Guide Flashcard Deck endpoints (B2) ──────────────────────────────────────
+# Generate grounded flashcard decks from APPROVED published guides.  Mirrors the
+# ICN flashcard generator above but persists results and enforces approval gating.
+# Every card's source_quote is a verbatim substring of the (citation-stripped)
+# guide HTML -- the same deterministic guarantee as quizzes.
+
+_GUIDE_FLASH_SYS = """You write study flashcards that help school-nutrition staff learn a topic.
+You have NO tools and NO outside knowledge.
+
+RULES:
+- Base EVERY card ONLY on the provided guide excerpts. Never use outside knowledge or invent facts.
+- PREFER procedural cards: front = "What do you do when <scenario>?" and back = the exact procedure.
+  Definitional cards ("What is X?") are allowed but are second priority.
+- Each card MUST include:
+    "front":        the question or scenario (concise)
+    "back":         the answer/procedure (derivable ONLY from the source_quote below — add nothing not in it)
+    "source_quote": a SHORT verbatim span (5-30 words) copied EXACTLY, character-for-character,
+                    from ONE excerpt that proves the back answer
+    "section":      the excerpt id / section name the card is drawn from
+    "card_type":    "procedural" or "definitional"
+- The back must be DERIVABLE from the source_quote. Do not add any fact not present in the source_quote.
+- Spread cards across different sections.
+
+OUTPUT — your FINAL message is ONLY this JSON object, no prose, no code fence:
+{"cards":[{"front":"...","back":"...","source_quote":"exact words from excerpt","section":"...","card_type":"procedural"}]}"""
+
+
+@app.post("/api/resources/{rid}/flashcards")
+async def resource_flashcards(rid: str, payload: dict = Body(default={})):
+    """Generate a grounded flashcard deck from an APPROVED published guide.
+
+    Trust guardrails:
+    - Returns 409 if the resource is not approved (guide not approved -> no flashcards).
+    - Each card's source_quote is verbatim-checked against the guide HTML; failing cards are
+      dropped by flashcard_store.create_deck().
+    - Returns 422 if fewer than 3 cards survive gating.
+    - status is always "draft" on creation; call /api/flashcards/<deck_id>/approve to approve.
+    """
+    resolved = prod._resolve_resource(rid)
+    if not resolved:
+        raise HTTPException(404, "resource not found")
+    html_path, meta_path, _status = resolved
+
+    # Trust guardrail 1: only generate from approved guides.
+    meta = prod._read_meta(meta_path) or {}
+    guide_approved = (
+        meta.get("approved") is True
+        or meta.get("status") in ("approved", "published")
+        or meta.get("sme_approved") is True
+    )
+    if not guide_approved:
+        raise HTTPException(
+            409,
+            detail={"error": "guide_not_approved",
+                    "message": "Guide is not approved — flashcards can only be generated from approved guides."}
+        )
+
+    try:
+        raw_html = html_path.read_text(encoding="utf-8")
+    except OSError as e:
+        raise HTTPException(500, f"could not read resource: {e}")
+
+    # Strip citation comments before passing to the LLM — same as the quiz endpoint.
+    clean_html = prod._strip_source_comments(raw_html)
+
+    # Split guide into sections (mirrors resource_quiz section extraction).
+    parts = re.split(r"(?is)<h[23][^>]*>(.*?)</h[23]>", clean_html)
+    excerpts_by_id: dict[str, str] = {}
+    if len(parts) >= 3:
+        intro = _strip_tags(parts[0])
+        if len(intro) >= 40:
+            excerpts_by_id["Intro"] = intro
+        for i in range(1, len(parts) - 1, 2):
+            head = (_strip_tags(parts[i]).strip()[:64]) or f"Section {i // 2 + 1}"
+            body = _strip_tags(parts[i + 1])
+            excerpts_by_id[f"{i // 2 + 1}. {head}"] = f"{head}\n{body}"
+    else:
+        excerpts_by_id["Guide"] = _strip_tags(clean_html)
+
+    n = max(3, min(int(payload.get("n", 10) or 10), 20))
+    title_label = meta.get("title") or meta.get("module") or rid
+
+    # Build excerpts string for the prompt.
+    excerpt_text, total = [], 0
+    for eid, txt in excerpts_by_id.items():
+        t = (txt or "").strip()
+        if len(t) < 40:
+            continue
+        excerpt_text.append(f"[{eid}]\n{t}")
+        total += len(t)
+        if total > 18000:
+            break
+
+    if not excerpt_text:
+        raise HTTPException(404, detail={"error": "no_text", "message": "No usable text in guide."})
+
+    prompt = (
+        f"Guide: {title_label}\n"
+        f"Write {n} study flashcards grounded ONLY in these guide sections.\n\n"
+        "EXCERPTS:\n" + "\n\n".join(excerpt_text) + "\n\nEmit ONLY the JSON object."
+    )
+    opts = ClaudeAgentOptions(
+        model="claude-sonnet-4-6", effort="medium", system_prompt=_GUIDE_FLASH_SYS,
+        allowed_tools=[], disallowed_tools=_DISALLOWED, tools=[], max_turns=4,
+    )
+    try:
+        text, _usage = await _run_text(prompt, opts)
+    except Exception as e:
+        raise HTTPException(502, f"flashcard generation failed: {e}")
+
+    raw_cards = (_parse_json(text) or {}).get("cards") or []
+
+    # Trust guardrail 2: verbatim gate inside create_deck; 422 if < 3 survive.
+    try:
+        deck = flashcard_store.create_deck(
+            source_rid=rid,
+            title=payload.get("title") or f"Flashcards — {title_label}",
+            cards=raw_cards,
+            guide_html=raw_html,   # create_deck will strip comments internally
+        )
+    except ValueError as e:
+        raise HTTPException(422, detail={"error": "insufficient_verifiable_cards", "message": str(e)})
+
+    return JSONResponse(deck)
+
+
+@app.get("/api/flashcards")
+async def flashcards_list(status: str = Query(default=None)):
+    """List all flashcard decks, optionally filtered by status."""
+    return JSONResponse({"decks": flashcard_store.list_decks(status=status or None)})
+
+
+@app.get("/api/flashcards/{deck_id}")
+async def flashcards_get(deck_id: str):
+    """Return a single deck by id."""
+    deck = flashcard_store.get_deck(deck_id)
+    if not deck:
+        raise HTTPException(404, "flashcard deck not found")
+    return JSONResponse(deck)
+
+
+@app.post("/api/flashcards/{deck_id}/approve")
+async def flashcards_approve(deck_id: str):
+    """Re-run the verbatim gate against the current guide HTML and approve the deck.
+
+    Returns 404 if the deck doesn't exist, 409 if the gate fails (with violation details),
+    or 200 with the approved deck if clean.
+
+    The gate always runs against the LIVE guide HTML so a guide that has changed since
+    the deck was built is caught here.
+    """
+    deck = flashcard_store.get_deck(deck_id)
+    if not deck:
+        raise HTTPException(404, "flashcard deck not found")
+
+    rid = deck.get("source_resource_id", "")
+    resolved = prod._resolve_resource(rid) if rid else None
+    if not resolved:
+        raise HTTPException(404, f"source guide '{rid}' not found — cannot re-verify")
+    html_path, _meta_path, _status = resolved
+
+    try:
+        raw_html = html_path.read_text(encoding="utf-8")
+    except OSError as e:
+        raise HTTPException(500, f"could not read guide HTML: {e}")
+
+    try:
+        approved = flashcard_store.approve_deck(deck_id, guide_html=raw_html)
+    except KeyError as e:
+        raise HTTPException(404, str(e))
+    except ValueError as e:
+        raise HTTPException(409, detail={"error": "gate_failed", "message": str(e)})
+
+    return JSONResponse(approved)
+
+
+@app.post("/api/flashcards/{deck_id}/check-drift")
+async def flashcards_check_drift(deck_id: str):
+    """Check whether the source guide has changed since the deck was built.
+
+    If drifted, the deck is automatically reverted to 'draft'.
+    Returns {drifted, hash_was, hash_now, status_after}.
+    """
+    deck = flashcard_store.get_deck(deck_id)
+    if not deck:
+        raise HTTPException(404, "flashcard deck not found")
+
+    rid = deck.get("source_resource_id", "")
+    resolved = prod._resolve_resource(rid) if rid else None
+    if not resolved:
+        raise HTTPException(404, f"source guide '{rid}' not found")
+    html_path, _meta_path, _status = resolved
+
+    try:
+        raw_html = html_path.read_text(encoding="utf-8")
+    except OSError as e:
+        raise HTTPException(500, f"could not read guide HTML: {e}")
+
+    try:
+        result = flashcard_store.check_drift(deck_id, guide_html=raw_html)
+    except KeyError as e:
+        raise HTTPException(404, str(e))
+
+    return JSONResponse(result)
+
+
+@app.delete("/api/flashcards/{deck_id}")
+async def flashcards_delete(deck_id: str):
+    """Delete a flashcard deck."""
+    deleted = flashcard_store.delete_deck(deck_id)
+    if not deleted:
+        raise HTTPException(404, "flashcard deck not found")
+    return JSONResponse({"deleted": True, "id": deck_id})
 
 
 @app.get("/icn/thumb/{asset_id}")
