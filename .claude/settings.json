@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python learning-agent/scripts/check_html_js.py learning-agent/static/index.html 2>&1 | tail -3",
+            "description": "JS parse-check after every edit to index.html"
+          }
+        ]
+      }
+    ]
+  }
+}
