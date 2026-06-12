@@ -21,6 +21,7 @@ multi-worker deployment should add file-level locking or migrate to SQLite.
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 import uuid
@@ -238,6 +239,28 @@ def set_module_done(
     return progress
 
 
+def _verification_code(cert_id: str) -> str:
+    """Return a stable 8-char uppercase alphanumeric verification code for a cert.
+
+    Deterministic: same cert_id always produces the same code.
+    Generated from the first 8 hex chars of SHA-256(cert_id), uppercased.
+    Prefixed "CYB-" for branding clarity (prefix is NOT part of the 8 chars).
+    """
+    digest = hashlib.sha256(cert_id.encode()).hexdigest()[:8].upper()
+    return f"CYB-{digest}"
+
+
+def _read_gamification(user_id: str) -> dict:
+    """Read the user's gamification JSON if it exists.  Returns {} on any error.
+
+    D3 stores gamification data at data/gamification/<user_id>.json.
+    The cert issuer reads badge titles from this file to embed in the cert.
+    """
+    gam_path = _BASE / "data" / "gamification" / f"{_safe_id(user_id)}.json"
+    data = _read_json(gam_path)
+    return data or {}
+
+
 def issue_certificate(
     user_id: str,
     track_id: str,
@@ -247,20 +270,49 @@ def issue_certificate(
     product: str = "SchoolCafe",
     role: str | None = None,
     modules: int = 0,
+    score_pct: float | None = None,
+    passed_assessment: bool = False,
+    assessment_title: str = "",
+    user_display_name: str = "",
 ) -> dict:
-    """Issue + persist a completion certificate.
+    """Issue + persist a completion certificate (D7 schema).
+
+    New fields (D7):
+      score_pct           — percentage score if issued via an assessment gate
+      passed_assessment   — True when the cert was gated on a passing assessment
+      assessment_title    — human-readable title of the assessment (optional)
+      user_display_name   — display name (first name) for the cert header
+      verification_code   — deterministic 8-char code derived from cert_id
+      badges_earned       — badge titles from data/gamification/<user_id>.json
 
     Returns:
-        {cert_id, learner_name, track_title, issued_at, track_id, ...}
+        {id, user_id, track_id, track_title, learner_name, ..., verification_code,
+         score_pct, passed_assessment, badges_earned}
 
     Also marks certified=True + cert_issued_at in the progress record.
     """
     now = _now_iso()
     cert_id = f"cert-{datetime.now().strftime('%Y%m%d-%H%M%S')}-{uuid.uuid4().hex[:6]}"
+    verification_code = _verification_code(cert_id)
 
-    cert = {
+    # Read earned badges from D3's gamification store (graceful if D3 not present).
+    gam = _read_gamification(user_id)
+    badges_earned: list[str] = [
+        b.get("title") or b.get("name") or str(b)
+        for b in (gam.get("badges") or [])
+        if isinstance(b, (dict, str)) and (b.get("title") or b.get("name") if isinstance(b, dict) else b)
+    ]
+
+    # Display name: prefer explicit param, fall back to learner_name first word.
+    display = (user_display_name or "").strip()
+    if not display:
+        display = (learner_name or "").strip().split()[0] if (learner_name or "").strip() else "Learner"
+
+    cert: dict = {
         "id": cert_id,
+        "cert_id": cert_id,
         "user_id": user_id,
+        "user_display_name": display,
         "track_id": track_id,
         "track_title": track_title or track_id,
         "learner_name": learner_name or "Learner",
@@ -268,7 +320,16 @@ def issue_certificate(
         "role": role,
         "modules": modules,
         "issued_at": now,
+        "verification_code": verification_code,
+        "passed_assessment": bool(passed_assessment),
+        "badges_earned": badges_earned,
     }
+    # Only include score/title fields when an assessment was actually gated.
+    if score_pct is not None:
+        cert["score_pct"] = round(float(score_pct))
+    if assessment_title:
+        cert["assessment_title"] = assessment_title
+
     _write_json(_cert_path(user_id, cert_id), cert)
 
     # Update progress to reflect certification.
@@ -302,6 +363,38 @@ def get_certificate(cert_id: str) -> dict | None:
         data = _read_json(p)
         if data is not None:
             return data
+    return None
+
+
+def get_certificate_by_verification_code(code: str) -> dict | None:
+    """Look up a certificate by its verification_code across ALL users.
+
+    D7 trust guardrail: callers must NOT return the full cert dict directly —
+    they must construct a response with ONLY {found, user_display_name,
+    track_title, issued_at}.  This function returns the full cert internally;
+    the API layer enforces the field-by-field response construction.
+
+    Scans user subdirectories (acceptable for demo scale).
+    Returns the cert dict or None if not found.
+    """
+    if not _COMPLETION_DIR.exists():
+        return None
+    # Normalise the lookup code: strip any leading "CYB-" prefix so callers can
+    # pass either "CYB-XXXXXXXX" or just "XXXXXXXX".
+    normalized = code.strip().upper()
+    for user_dir in _COMPLETION_DIR.iterdir():
+        if not user_dir.is_dir():
+            continue
+        certs_dir = user_dir / "certs"
+        if not certs_dir.is_dir():
+            continue
+        for cert_file in certs_dir.glob("*.json"):
+            data = _read_json(cert_file)
+            if data is None:
+                continue
+            stored_code = (data.get("verification_code") or "").strip().upper()
+            if stored_code == normalized:
+                return data
     return None
 
 
