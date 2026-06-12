@@ -1,0 +1,9 @@
+{
+  "_note": "DEMO SEED — used for Beat 1 'The Refusal' stage demo. Gate rejects this; that's the point.",
+  "draft_id": "demo-refusal-draft",
+  "title": "Demo: Gate Rejection Example",
+  "content_with_planted_claim": "The system automatically sends email notifications to parents when balance is low and a transaction fails. <!-- Source: [[NXT-9999:AC]] \"The system sends automatic email notifications for all transaction failures\" -->",
+  "planted_violation": "NXT-9999 does not exist; the claimed quote is not verbatim in any source",
+  "expected_gate_result": "FAIL",
+  "expected_reason": "Source ref NXT-9999 not found in knowledge base"
+}

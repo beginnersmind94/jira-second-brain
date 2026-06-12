@@ -4836,6 +4836,217 @@ async def api_practice_missed(
     return {"ok": True, "next_review": next_review}
 
 
+# ── Builder demo beats (D-spec, ANC July 13) ─────────────────────────────────
+# All three endpoints are CONFERENCE_MODE only — they are not reachable in
+# normal or production operation.
+#
+# Beat 1 — /api/demo/run-refusal    : live gate rejection on stage
+# Beat 2 — (seeded artifact, no endpoint; see data/demo/demo-wrong-source-*)
+# Beat 4 — /api/demo/trigger-drift  : live drift cascade demonstration
+
+_DEMO_DIR_PATH = Path(__file__).resolve().parent / "data" / "demo"
+_DRIFT_STATE_PATH = _DEMO_DIR_PATH / "drift-trigger-state.json"
+
+
+@app.post("/api/demo/run-refusal")
+async def demo_run_refusal():
+    """Beat 1 — The Refusal: run the planted bad draft through validate_citations
+    and return the gate rejection with a named violation.
+
+    CONFERENCE_MODE only. This is the live "refusal on stage" button — Dallas
+    clicks it and the screen shows the gate reject with a named reason.
+    A live refusal is believed; a success looks cherry-picked.
+    """
+    if not CONFERENCE_MODE:
+        raise HTTPException(
+            status_code=403,
+            detail={
+                "error": "conference_mode_only",
+                "message": (
+                    "POST /api/demo/run-refusal is only available when DEMO_MODE=conference "
+                    "is set. This endpoint is not reachable in normal operation."
+                ),
+            },
+        )
+
+    seed_path = _DEMO_DIR_PATH / "demo-refusal-seed.json"
+    if not seed_path.exists():
+        raise HTTPException(500, "demo-refusal-seed.json not found — check data/demo/")
+
+    try:
+        seed = json.loads(seed_path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError) as e:
+        raise HTTPException(500, f"could not read demo-refusal-seed.json: {e}")
+
+    draft_html = seed.get("content_with_planted_claim", "")
+    if not draft_html:
+        raise HTTPException(500, "demo-refusal-seed.json is missing content_with_planted_claim")
+
+    # Ensure we're running against the item-management fixture (the planted ticket
+    # NXT-9999 is not in any fixture — that's the point).
+    _ensure_fixture("Item Management")
+
+    integ = validate_citations(draft_html)
+    violations_raw = integ.get("violations", [])
+
+    # Shape violations for the UI: [{ref, tier, reason, quote}]
+    violations = [
+        {
+            "ref": v[0],
+            "tier": v[1],
+            "reason": v[2],
+            "quote": v[3],
+        }
+        for v in violations_raw
+    ]
+
+    passed = integ["tier_lie"] == 0 and integ["quote_not_found"] == 0 and len(violations) == 0
+
+    return JSONResponse({
+        "passed": passed,
+        "violations": violations,
+        "violation_count": len(violations),
+        "gate_summary": (
+            f"Gate rejected: {len(violations)} violation(s) found."
+            if not passed
+            else "Gate passed (unexpected — planted claim should fail)."
+        ),
+        "seed": {
+            "planted_violation": seed.get("planted_violation"),
+            "expected_reason": seed.get("expected_reason"),
+        },
+    })
+
+
+@app.post("/api/demo/trigger-drift")
+async def demo_trigger_drift(body: dict = Body(default={})):
+    """Beat 4 — Live drift demo: simulate a trainer editing a source guide.
+
+    Appends an invisible marker to the guide's published HTML so check_drift()
+    detects a change. Runs check_drift for all quizzes and flashcard decks
+    referencing this guide. Approved items revert to draft on-screen in real time.
+
+    Body: {resource_id: str}
+    Returns: {drifted_quizzes, drifted_decks, message}
+
+    CONFERENCE_MODE only. The change is reversible via POST /api/demo/reset.
+    """
+    if not CONFERENCE_MODE:
+        raise HTTPException(
+            status_code=403,
+            detail={
+                "error": "conference_mode_only",
+                "message": (
+                    "POST /api/demo/trigger-drift is only available when DEMO_MODE=conference "
+                    "is set."
+                ),
+            },
+        )
+
+    resource_id = (body.get("resource_id") or "").strip()
+    if not resource_id:
+        raise HTTPException(400, "resource_id is required")
+
+    # Resolve the guide HTML file.
+    resolved = prod._resolve_resource(resource_id)
+    if not resolved:
+        raise HTTPException(404, f"resource '{resource_id}' not found")
+
+    html_path, _meta_path, _status = resolved
+
+    try:
+        original_html = html_path.read_text(encoding="utf-8")
+    except OSError as e:
+        raise HTTPException(500, f"could not read guide HTML: {e}")
+
+    # Persist the pre-trigger state so reset can restore it.
+    import hashlib
+    original_hash = hashlib.sha256(original_html.encode("utf-8")).hexdigest()[:16]
+    try:
+        _DRIFT_STATE_PATH.write_text(json.dumps({
+            "_note": "Written by POST /api/demo/trigger-drift; read by POST /api/demo/reset.",
+            "triggered_at": datetime.now().isoformat(timespec="seconds"),
+            "resource_id": resource_id,
+            "html_path": str(html_path),
+            "original_hash": original_hash,
+            "original_size": len(original_html),
+            "original_html": original_html,  # store full content for perfect restore
+        }, indent=2), encoding="utf-8")
+    except OSError as e:
+        raise HTTPException(500, f"could not write drift-trigger-state.json: {e}")
+
+    # Apply an invisible, reversible change — append a single HTML comment at EOF.
+    drift_marker = f"\n<!-- DEMO-DRIFT-TRIGGER at {datetime.now().isoformat(timespec='seconds')} -->"
+    try:
+        html_path.write_text(original_html + drift_marker, encoding="utf-8")
+    except OSError as e:
+        raise HTTPException(500, f"could not write drift trigger to guide: {e}")
+
+    # Read the modified HTML to compute the new hash.
+    drifted_html = html_path.read_text(encoding="utf-8")
+
+    # Run drift checks for all quizzes whose source_id matches this resource.
+    drifted_quizzes = []
+    for row in quiz_store.list_quizzes():
+        if row.get("source_id") != resource_id:
+            continue
+        quiz = quiz_store.load_quiz(row["id"])
+        if not quiz:
+            continue
+        source_text = _quiz_source_text(quiz)
+        report = quiz_store.qa_gate(quiz, source_text)
+        if report.get("drifted") and quiz.get("status") == "approved":
+            quiz["status"] = "draft"
+            quiz["approved"] = False
+            quiz["stale"] = True
+            quiz_store.save_quiz(quiz)
+            drifted_quizzes.append({
+                "id": quiz["id"],
+                "title": quiz.get("title", quiz["id"]),
+                "previous_status": "approved",
+                "status_after": "draft",
+            })
+
+    # Run drift checks for all flashcard decks referencing this resource.
+    drifted_decks = []
+    for deck_row in flashcard_store.list_decks():
+        if deck_row.get("source_resource_id") != resource_id:
+            continue
+        deck_id = deck_row.get("id", "")
+        if not deck_id:
+            continue
+        try:
+            result = flashcard_store.check_drift(deck_id, guide_html=drifted_html)
+            if result.get("drifted"):
+                drifted_decks.append({
+                    "id": deck_id,
+                    "title": deck_row.get("title", deck_id),
+                    "previous_status": "approved",
+                    "status_after": result.get("status_after", "draft"),
+                })
+        except KeyError:
+            continue
+
+    n_q = len(drifted_quizzes)
+    n_d = len(drifted_decks)
+    message = (
+        f"Guide updated. "
+        f"{n_q} quiz(zes) and {n_d} flashcard deck(s) reverted to draft. "
+        "Human review required before learners see updated content."
+    )
+
+    print(f"[demo_app] Beat 4 drift triggered on '{resource_id}': "
+          f"{n_q} quizzes + {n_d} decks reverted to draft")
+
+    return JSONResponse({
+        "ok": True,
+        "resource_id": resource_id,
+        "drifted_quizzes": drifted_quizzes,
+        "drifted_decks": drifted_decks,
+        "message": message,
+    })
+
+
 # ── Conference-mode: pristine demo reset ─────────────────────────────────────
 # The demo personas by their actual completion_store user ids (from auth.py).
 _DEMO_PERSONA_IDS = [
@@ -4856,8 +5067,9 @@ async def demo_reset():
     1. Delete completion records + certificates for all demo user ids.
     2. Delete any leads log from data/leads/ (written by the G5 booth flow).
     3. Reset in-memory library index so the next page load re-scans fresh.
+    4. Beat 4 — restore any guide modified by trigger-drift to its pre-trigger state.
 
-    Returns: {ok, reset_at (ISO8601), users_reset, elapsed_ms}
+    Returns: {ok, reset_at (ISO8601), users_reset, elapsed_ms, drift_restored}
     """
     if not CONFERENCE_MODE:
         raise HTTPException(
@@ -4894,15 +5106,41 @@ async def demo_reset():
     _LIB_INDEX["sig"] = None
     _LIB_INDEX["docs"] = None
 
+    # 4. Beat 4 — restore any guide that was modified by trigger-drift.
+    drift_restored: dict | None = None
+    if _DRIFT_STATE_PATH.exists():
+        try:
+            state = json.loads(_DRIFT_STATE_PATH.read_text(encoding="utf-8"))
+            html_path_str = state.get("html_path")
+            original_html = state.get("original_html")
+            rid = state.get("resource_id")
+            if html_path_str and original_html and rid:
+                Path(html_path_str).write_text(original_html, encoding="utf-8")
+                drift_restored = {"resource_id": rid, "restored": True}
+                print(f"[demo_app] Beat 4 restore: '{rid}' reverted to pre-trigger state")
+            # Clear the state file so next reset is a no-op.
+            _DRIFT_STATE_PATH.write_text(json.dumps({
+                "_note": "Written by POST /api/demo/trigger-drift; read by POST /api/demo/reset.",
+                "triggered_at": None,
+                "resource_id": None,
+                "original_hash": None,
+                "original_size": None,
+            }, indent=2), encoding="utf-8")
+        except (json.JSONDecodeError, OSError, KeyError) as e:
+            print(f"[demo_app] Beat 4 restore failed (non-fatal): {e}")
+            drift_restored = {"resource_id": None, "restored": False, "error": str(e)}
+
     elapsed_ms = round((time.time() - t0) * 1000)
     reset_at = datetime.now().isoformat(timespec="seconds")
     print(f"[demo_app] Demo reset complete in {elapsed_ms}ms — "
-          f"users cleared: {cleaned}, leads deleted: {leads_deleted}")
+          f"users cleared: {cleaned}, leads deleted: {leads_deleted}, "
+          f"drift restored: {drift_restored}")
     return JSONResponse({
         "ok": True,
         "reset_at": reset_at,
         "users_reset": cleaned,
         "leads_deleted": leads_deleted,
+        "drift_restored": drift_restored,
         "elapsed_ms": elapsed_ms,
     })
 
