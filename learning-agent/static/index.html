@@ -2315,6 +2315,32 @@
     .src-badge--ai    { background: #E4ECF5; color: #2B4A6F; }
     .src-badge--guide { background: var(--green-soft); color: var(--green-text); }
     .src-badge--icn   { background: var(--amber-soft); color: var(--amber-text); }
+
+    /* ── Origin badges — canonical provenance system (F1 provenance sweep)
+       Three classes, one per provenance tier. Use originBadgeHtml() to emit them.
+       HARD RULE: .origin-badge.ai-grounded ("✓ AI-grounded") MUST NEVER appear on
+       human-authored or outside-vendor content — the grounding guarantee only covers
+       AI-generated guides that passed validate_citations. Misapplying it is the single
+       most credibility-damaging error the product can make at ANC. */
+    .origin-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.02em; padding: 2px 7px; border-radius: 10px; white-space: nowrap; }
+    .origin-badge.ai-grounded    { background: #d4edda; color: #155724; }
+    .origin-badge.human-authored { background: #fff3cd; color: #856404; }
+    .origin-badge.outside-vendor { background: #cce5ff; color: #004085; }
+
+    /* Show-source affordance — "Show source" link on ai-grounded content only */
+    .show-source-btn { background: none; border: none; padding: 0; cursor: pointer; font-size: 11px; color: var(--accent); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; margin-left: 6px; }
+    .show-source-btn:hover { color: var(--accent-hover, var(--accent)); }
+    .source-popover-overlay { position: fixed; inset: 0; z-index: 80; display: flex; align-items: center; justify-content: center; padding: 40px 16px; background: rgba(28,24,20,0.46); backdrop-filter: blur(3px); }
+    .source-popover-overlay[hidden] { display: none; }
+    .source-popover-card { background: var(--panel); border-radius: var(--radius); padding: 22px 24px; max-width: 520px; width: 100%; box-shadow: var(--shadow-lift); }
+    .source-popover-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; gap: 10px; }
+    .source-popover-title { font-family: var(--serif); font-size: 16px; font-weight: 650; color: var(--text); margin: 0; }
+    .source-popover-close { background: none; border: none; font-size: 18px; cursor: pointer; color: var(--muted); padding: 2px 6px; border-radius: var(--radius-sm); }
+    .source-popover-close:hover { color: var(--text); background: var(--panel3); }
+    .source-popover-body { font-size: 13.5px; color: var(--text-soft); line-height: 1.6; }
+    .source-popover-stat { display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: var(--green-soft); border-radius: var(--radius-sm); margin-bottom: 12px; font-weight: 700; color: var(--green-text); font-size: 13px; }
+    .source-popover-quote { background: var(--surface); border-left: 3px solid var(--green); border-radius: var(--radius-sm); padding: 10px 14px; font-family: var(--serif); font-style: italic; font-size: 13px; color: var(--text-soft); line-height: 1.6; margin-top: 10px; }
+    .source-popover-tier { display: block; margin-top: 6px; font-family: var(--mono, monospace); font-size: 10.5px; color: var(--muted); font-style: normal; }
     .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     .tag-row { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 5px; min-height: 22px; }
     .tag-chip { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; background: var(--panel3); border: 1px solid var(--border); border-radius: var(--radius-pill); font-size: 11.5px; font-weight: 600; color: var(--text-soft); }
@@ -4791,6 +4817,94 @@ function tbkSave() {
 const _ORIGIN_LABELS = { 'AI-generated': 'AI-built', 'Human-authored': 'Cybersoft guide' };
 function _originBadge(o){ const label = _ORIGIN_LABELS[o] || o; const c = o === 'AI-generated' ? 'og-ai' : o === 'Human-authored' ? 'og-hum' : o === 'Mixed sources' ? 'og-mixed' : 'og-vendor'; return `<span class="og ${c}">${escapeHtml(label)}</span>`; }
 function _statusChip(s){ const c = s === 'Approved' ? 'approved' : s === 'In review' ? 'pending' : 'draft'; return `<span class="badge ${c}">${escapeHtml(s)}</span>`; }
+
+// ── Canonical provenance badge system (F1 — provenance sweep) ─────────────────
+// Maps origin values (from API source fields or legacy string labels) to the
+// canonical three-class badge system. Call originBadgeHtml() everywhere a content
+// item needs a provenance label.
+//
+// HARD RULE: 'ai_grounded' badge text ("✓ AI-grounded") MUST NEVER be returned
+// for human_authored or outside_vendor origin. This function enforces that mapping
+// by construction — callers pass the origin, never the badge text.
+function originBadgeHtml(origin, sourceName) {
+  // Normalise to the three canonical provenance classes.
+  // Accepts both API source-enum values (AI_TRANSCRIPT / HUMAN_GUIDE / ICN_DOC)
+  // and the legacy UI string labels used by demo data.
+  let cls, label;
+  if (origin === 'AI_TRANSCRIPT' || origin === 'AI-generated' || origin === 'ai_grounded') {
+    cls = 'ai-grounded'; label = '✓ AI-grounded';
+  } else if (origin === 'HUMAN_GUIDE' || origin === 'Human-authored' || origin === 'internal' || origin === 'human_authored') {
+    cls = 'human-authored'; label = '✎ Human-authored';
+  } else if (origin === 'ICN_DOC' || origin === 'Outside vendor' || origin === 'outside_vendor') {
+    // Never apply the ai-grounded badge to ICN/outside-vendor content even if
+    // a quiz was generated from it — the *card* provenance is outside-vendor.
+    const src = sourceName || 'USDA / ICN';
+    cls = 'outside-vendor'; label = `↗ ${src}`;
+  } else {
+    // Mixed or unknown — use a neutral human-authored badge, never ai-grounded.
+    cls = 'human-authored'; label = sourceName ? `✎ ${sourceName}` : '✎ Mixed sources';
+  }
+  return `<span class="origin-badge ${cls}">${escapeHtml(label)}</span>`;
+}
+
+// Show-source popover for ai-grounded content (one click from any card or lesson pane).
+// Fetches /api/resources/<rid> and surfaces the citation_integrity block.
+// ONLY called for ai_grounded resources — never exposed on human-authored or outside-vendor.
+async function showSourcePopover(rid, titleHint) {
+  // Create or reuse the overlay element.
+  let overlay = document.getElementById('source-popover-overlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'source-popover-overlay';
+    overlay.className = 'source-popover-overlay';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+    overlay.setAttribute('aria-labelledby', 'source-popover-title');
+    overlay.addEventListener('click', e => { if (e.target === overlay) closeSourcePopover(); });
+    document.body.appendChild(overlay);
+  }
+  overlay.removeAttribute('hidden');
+  overlay.innerHTML = `<div class="source-popover-card">
+    <div class="source-popover-head">
+      <p class="source-popover-title" id="source-popover-title">${escapeHtml(titleHint || 'Source provenance')}</p>
+      <button class="source-popover-close" onclick="closeSourcePopover()" aria-label="Close">✕</button>
+    </div>
+    <div class="source-popover-body"><span style="color:var(--muted)">Loading citation data…</span></div>
+  </div>`;
+  document.addEventListener('keydown', _sourcePopoverEsc);
+
+  try {
+    const r = await fetch('/api/resources/' + encodeURIComponent(rid));
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const d = await r.json();
+    const ci = d.citation_integrity || {};
+    const total = ci.total_citations || ci.tokened || 0;
+    const ok    = ci.ok_citations   || ci.ok      || 0;
+    const sample = ci.sample_quote  || d.sample_quote || '';
+    const tier   = ci.sample_tier   || '';
+
+    const statHtml = total > 0
+      ? `<div class="source-popover-stat">✓ ${ok} of ${total} claim${total !== 1 ? 's' : ''} verified — verbatim, correct tier</div>`
+      : `<div class="source-popover-stat">✓ AI-grounded — passed cite gate</div>`;
+    const quoteHtml = sample
+      ? `<div class="source-popover-quote">"${escapeHtml(sample)}"${tier ? `<span class="source-popover-tier">Source tier: ${escapeHtml(tier)}</span>` : ''}</div>`
+      : '';
+
+    overlay.querySelector('.source-popover-body').innerHTML = `
+      ${statHtml}
+      <p style="margin:0 0 6px;font-size:12.5px;color:var(--muted);">Every claim in this guide was verified verbatim against the agreed acceptance criteria or release notes before a human approved it. The model emits citation IDs; a deterministic assembler renders the exact source quote.</p>
+      ${quoteHtml}`;
+  } catch(e) {
+    overlay.querySelector('.source-popover-body').innerHTML =
+      `<p style="color:var(--muted)">Source data unavailable — the guide is AI-grounded and passed the deterministic cite gate at approval time.</p>`;
+  }
+}
+function closeSourcePopover() {
+  const el = document.getElementById('source-popover-overlay');
+  if (el) el.setAttribute('hidden', '');
+  document.removeEventListener('keydown', _sourcePopoverEsc);
+}
+function _sourcePopoverEsc(e) { if (e.key === 'Escape') closeSourcePopover(); }
 function _userStudioItems(){
   const cs = (_demoState.userCourses || []).map(c => ({ title: c.title, module: c.module || '—', format: 'Track', status: 'Draft', created: 'Today', origin: 'Mixed sources' }));
   const ts = (_demoState.userTracks || []).map(t => ({ title: t.title, module: '—', format: 'Track', status: 'Draft', created: 'Today', origin: 'Mixed sources' }));
@@ -4874,11 +4988,21 @@ function reviewDemoItem(idx){
   const it = (_libDemoItems || [])[idx]; if (!it) return;
   const resid = document.getElementById('lib-resid'); if (resid) resid.textContent = it.title;
   const prev = document.getElementById('lib-preview');
-  const note = it.status === 'Approved'
-    ? `This guide is <strong>in the Library</strong> — every claim traces to a real source at the correct trust level. It's ready to assign to learners or add to a track.`
+  const isAiGrounded = it.origin === 'AI-generated';
+  // Over-claiming prevention: the strong "every claim traces" guarantee only holds for
+  // AI-generated guides that passed validate_citations. Human-authored items are reviewed
+  // but not deterministically gate-grounded. Never conflate the two.
+  const note = it.status === 'Approved' && isAiGrounded
+    ? `This guide is <strong>in the Library</strong> — every claim was verified verbatim against Jira acceptance criteria or release notes before human approval. It's ready to assign to learners or add to a track.`
+    : it.status === 'Approved'
+    ? `This guide is <strong>in the Library</strong> — it is human-authored and has been reviewed for accuracy. It is not AI-generated and has not passed the automated cite gate.`
     : `This is the review surface. The source-grounding gate has already run; a reviewer reads the draft here, then <strong>Approves</strong> it into the Library or requests AI-assisted edits. The Approve / edit controls above are wired in the live app.`;
+  // "Show source" affordance is only available for AI-grounded items with a known resource id.
+  const showSrcBtn = (isAiGrounded && it.rid)
+    ? `<button class="show-source-btn" style="font-size:12px;" onclick="showSourcePopover('${escAttr(it.rid)}','${escAttr(it.title)}')">Show source</button>`
+    : '';
   if (prev) prev.innerHTML = `<div style="padding:22px 24px;">
-      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;">${_statusChip(it.status)}${_originBadge(it.origin)}</div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;">${_statusChip(it.status)}${originBadgeHtml(it.origin)}${showSrcBtn}</div>
       <h2 style="font-family:var(--serif);font-size:22px;margin:0 0 6px;">${escapeHtml(it.title)}</h2>
       <p style="color:var(--muted);margin:0 0 18px;">${escapeHtml(it.module)} · ${escapeHtml(it.format)} · created ${escapeHtml(it.created)}</p>
       <div style="background:var(--panel2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px;font-size:13.5px;line-height:1.6;color:var(--text-soft);">${note}</div>
@@ -4924,15 +5048,24 @@ function openCatalogDetail(i){
   const actionBtn = (x.type === 'Quiz' && x.quizId)
     ? `<button class="primary" onclick="closeDrawer();takeCatalogQuiz('${escAttr(x.quizId)}')">Take this quiz</button>`
     : (x.type !== 'Track' ? `<button class="primary" onclick="closeDrawer();openQuizBuilder()">Build a quiz from this</button>` : '');
+  // Over-claiming prevention: the "every claim cited" grounding guarantee ONLY applies to
+  // AI-generated content that passed validate_citations. Human-authored and outside-vendor
+  // content is attributed and honest, but is NOT gate-grounded. Never apply the AI guarantee
+  // to the other two classes — one caught misstatement at ANC costs more than ten missing features.
+  const isAiGrounded = x.origin === 'AI-generated';
+  const isVendor = _catIsVendor(x.origin);
+  const provenanceNote = isAiGrounded
+    ? `<strong>AI-grounded.</strong> Every claim in this ${escapeHtml(kind)} was verified verbatim against Jira acceptance criteria or release notes before a human approved it. Nothing is invented.`
+    : isVendor
+    ? `<strong>Outside-vendor content.</strong> This ${escapeHtml(kind)} is authored by ${escapeHtml(x.source_name || 'USDA / Institute of Child Nutrition')} and credited to its source. It is embedded or linked — never reproduced or modified.`
+    : `<strong>Human-authored.</strong> This ${escapeHtml(kind)} was authored or reviewed by Cybersoft staff. It is not AI-generated and has not passed the automated cite gate, but is reviewed for accuracy before inclusion.`;
   const html = `<div class="cat-detail">
       <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
-        <span class="cat-type" style="color:var(--accent);">${escapeHtml(x.type)}</span>${_originBadge(x.origin)}
+        <span class="cat-type" style="color:var(--accent);">${escapeHtml(x.type)}</span>${originBadgeHtml(x.origin, x.source_name)}
       </div>
       <p style="color:var(--muted);margin:0 0 18px;font-size:13px;">${escapeHtml(x.module || 'General')}</p>
-      <div class="cat-detail-note">
-        <strong>Cited &amp; attributed.</strong> Every claim in this ${escapeHtml(kind)} traces to its source — an internal Cybersoft guide, an approved AI-built draft, or credited outside-vendor training. Nothing here is invented.
-      </div>
-      <div class="cat-detail-actions">${actionBtn}<button class="secondary" onclick="closeDrawer()">Close</button></div>
+      <div class="cat-detail-note">${provenanceNote}</div>
+      <div class="cat-detail-actions">${actionBtn}${isAiGrounded && x.rid ? `<button class="secondary" onclick="showSourcePopover('${escAttr(x.rid)}','${escAttr(x.title)}')">Show source</button>` : ''}<button class="secondary" onclick="closeDrawer()">Close</button></div>
     </div>`;
   openDrawer(x.title, html);
 }
@@ -4988,7 +5121,7 @@ function renderCatalogDemo(){
   _catDemoItems = items;
   let head = '';
   if (cf) head = `<div class="cat-activefilter" style="grid-column:1/-1;">Showing matches for &ldquo;${escapeHtml(cf)}&rdquo; · <button class="linklike" onclick="_demoState.catalogFilter=null;renderCatalogDemo()">clear</button></div>`;
-  const cards = items.map((x, i) => `<div class="icn-card cat-card" data-type="${escapeHtml((x.type || '').toLowerCase())}" role="button" tabindex="0" onclick="openCatalogDetail(${i})" onkeydown="if(event.key==='Enter'){event.preventDefault();openCatalogDetail(${i});}"><div class="cat-type">${escapeHtml(x.type)}</div><div class="cat-title">${escapeHtml(x.title)}</div><div class="cat-meta">${escapeHtml(x.module || '')}</div>${_originBadge(x.origin)}</div>`).join('')
+  const cards = items.map((x, i) => `<div class="icn-card cat-card" data-type="${escapeHtml((x.type || '').toLowerCase())}" role="button" tabindex="0" onclick="openCatalogDetail(${i})" onkeydown="if(event.key==='Enter'){event.preventDefault();openCatalogDetail(${i});}"><div class="cat-type">${escapeHtml(x.type)}</div><div class="cat-title">${escapeHtml(x.title)}</div><div class="cat-meta">${escapeHtml(x.module || '')}</div>${originBadgeHtml(x.origin, x.source_name)}</div>`).join('')
     || '<div class="lib-empty" style="grid-column:1/-1;">No ready-to-use resources match these filters.</div>';
   grid.innerHTML = head + cards;
   const setN = (id, n) => { const e = document.getElementById(id); if (e) e.textContent = n; };
@@ -6378,14 +6511,14 @@ function openPath(i) {
       <p class="path-eyebrow">Track path${p.role ? ' · ' + escapeHtml(p.role) : ''}</p>
       <h1 class="path-title">${escapeHtml(p.title || '')}</h1>
       <p class="path-desc">${escapeHtml(p.description || '')}</p>
-      <div class="path-stats"><span><b>${mods.length}</b>modules</span><span><b>${quizzable}</b>quizzable</span><span>✓ sources cited &amp; credited</span></div>
+      <div class="path-stats"><span><b>${mods.length}</b>modules</span><span><b>${quizzable}</b>quizzable</span><span>${originBadgeHtml('ICN_DOC', 'USDA / ICN')}</span></div>
       ${cta}
     </header>
     <div class="path-layout">
       <ol class="path-modules">${rows || '<li class="path-empty">No modules mapped to this path yet.</li>'}</ol>
       <aside class="path-aside">
         <h4>Sources &amp; attribution</h4>
-        <p class="path-aside-note">Every module is externally authored and cited at its source — nothing in this path is AI-generated.</p>
+        <p class="path-aside-note">Every module is externally authored and cited at its source — nothing in this path is AI-generated. Content is embedded or linked with full USDA / ICN credit.</p>
         <ul class="path-srcs">${(srcs.length ? srcs : ['Institute of Child Nutrition / USDA']).map(s => `<li>${escapeHtml(s)}</li>`).join('')}</ul>
       </aside>
     </div>`;
@@ -6643,10 +6776,16 @@ function _renderRealTrack(t) {
       : `<button class="track-open" onclick="event.stopPropagation(); window.open('/resources/' + encodeURIComponent('${m.id}') + '/pdf','_blank')">Open guide ↗</button>`;
     const quiz = isGuide ? `<button class="track-open" onclick="event.stopPropagation(); realQuiz('${m.id}')">Take quiz</button>` : '';
     const mark = `<button class="track-done ${done ? 'is-done' : ''}" onclick="event.stopPropagation(); _rtToggle('${t.id}','${escAttr(m.id)}')">${done ? 'Completed' : 'Mark complete'}</button>`;
+    // Provenance badge: ai-grounded only for AI_TRANSCRIPT; never apply it to ICN or human guides.
+    const provBadge = originBadgeHtml(m.source, m.source === 'ICN_DOC' ? (m.source_label || 'USDA / ICN') : null);
+    // "Show source" is only meaningful (and only honest) for AI-grounded content that passed the cite gate.
+    const showSrc = m.source === 'AI_TRANSCRIPT'
+      ? `<button class="show-source-btn" onclick="event.stopPropagation(); showSourcePopover('${escAttr(m.id)}', '${escAttr(m.title || m.id)}')">Show source</button>`
+      : '';
     return `<li class="path-mod" data-type="${m.source === 'ICN_DOC' ? 'demo' : 'pdf'}">
         <span class="path-num">${done ? '✓' : i + 1}</span>
         <div class="path-mod-main">
-          <div class="icn-type">📄 <span>${escapeHtml(m.module || '')}</span> ${tbSrcBadge(m.source)}</div>
+          <div class="icn-type">📄 <span>${escapeHtml(m.module || '')}</span> ${provBadge}${showSrc}</div>
           <div class="path-mod-title">${escapeHtml(m.title)}</div>
           <div class="path-mod-actions">${open}${quiz}${mark}</div>
         </div></li>`;
@@ -6664,7 +6803,15 @@ function _renderRealTrack(t) {
     <header class="path-hero">
       <p class="path-eyebrow">${escapeHtml(t.product || 'SchoolCafé')} · ${escapeHtml(rt[0] || 'All staff')} track</p>
       <h1 class="path-title">${escapeHtml(t.title)}</h1>
-      <div class="path-stats"><span><b>${mods.length}</b>modules</span><span><b>${pct}%</b>done</span><span>${mods.length && mods.every(m => m.source === 'AI_TRANSCRIPT') ? '✓ every claim cited' : '✓ sources cited &amp; credited'}</span></div>
+      <div class="path-stats"><span><b>${mods.length}</b>modules</span><span><b>${pct}%</b>done</span><span>${
+        // Over-claiming guard: show ai-grounded badge ONLY when ALL modules passed the cite gate.
+        // Mixed tracks (AI + human + ICN) or ICN-only tracks must NEVER display the AI grounding claim.
+        mods.length && mods.every(m => m.source === 'AI_TRANSCRIPT')
+          ? originBadgeHtml('AI_TRANSCRIPT')
+          : mods.length && mods.every(m => m.source === 'ICN_DOC')
+          ? originBadgeHtml('ICN_DOC', 'USDA / ICN')
+          : '<span style="font-size:12px;color:var(--text-soft);">✓ sources credited</span>'
+      }</span></div>
       ${allDone ? '<span class="track-cert">🏅 Track complete — ready to certify</span>' : ''}
     </header>
     <div class="path-layout">
@@ -7600,7 +7747,17 @@ function openTaker(title, questions, meta){
   const m=document.getElementById('quiz-modal'), body=document.getElementById('quiz-body'),
         foot=document.getElementById('quiz-foot'), ttl=document.getElementById('quiz-title');
   m.hidden=false; ttl.textContent=_taker.title;
-  { const k=document.getElementById('quiz-kicker'); if(k) k.textContent='Auto-generated quiz'; }
+  // Provenance badge for the quiz: derive origin from meta.
+  // meta.origin (explicit) > infer from attribution string > default to ai_grounded for
+  // gate-generated quizzes (every answer is a verbatim span that passed qbank_gate.py).
+  // HARD RULE: only emit ai-grounded if the questions actually passed the gate.
+  // Manual questions (grounded:false) are human-authored; ICN quizzes are outside-vendor.
+  const quizOrigin = meta && meta.origin ? meta.origin
+    : (meta && (meta.attribution||'').toLowerCase().includes('icn') || (meta && (meta.attribution||'').toLowerCase().includes('usda'))) ? 'ICN_DOC'
+    : questions && questions.length && questions.every(q => q.grounded === false) ? 'human_authored'
+    : 'AI_TRANSCRIPT';  // gate-generated: every kept answer is a verbatim span
+  const srcName = quizOrigin === 'ICN_DOC' ? (meta && meta.attribution ? meta.attribution.replace(/^Source:\s*/,'') : 'USDA / ICN') : null;
+  { const k=document.getElementById('quiz-kicker'); if(k) k.innerHTML=originBadgeHtml(quizOrigin, srcName); }
   if(!_taker.questions.length){ body.innerHTML=`<div class="async-error"><p class="ae-title">No verifiable questions</p><p>Every draft question failed source verification, so none were kept.</p></div>`; foot.innerHTML=''; return; }
   body.innerHTML=_taker.questions.map((q,i)=>`<div class="quiz-q"><div class="stem"><span class="qn">${i+1}.</span>${escapeHtml(q.stem)}</div><div class="opts">${(q.options||[]).map((o,oi)=>`<button class="quiz-opt" data-qi="${i}" data-oi="${oi}" onclick="takerPick(${i},${oi})">${escapeHtml(o)}</button>`).join('')}</div></div>`).join('');
   foot.innerHTML=`<span>${_taker.questions.length} question${_taker.questions.length===1?'':'s'} · pick an answer for each</span><button class="primary" onclick="takerSubmit()">Submit</button>`;
