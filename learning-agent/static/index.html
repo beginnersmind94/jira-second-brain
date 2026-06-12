@@ -2195,6 +2195,29 @@
     button.link.danger { color:#9a4a2e; }
     .quiz-opt.picked { outline:2px solid var(--accent,#4f7c74); outline-offset:1px; }
     #quiz-modal { z-index: 70; }   /* taker must sit ABOVE the builder when previewing */
+    /* ── B1 question types: TF / FITB / Ordering ──────────────────────────── */
+    .tf-btns { display:flex; gap:10px; margin-top:8px; }
+    .tf-btn { flex:1; min-height:44px; font-size:15px; font-weight:700; border:2px solid var(--border-strong); border-radius:var(--radius-sm); background:var(--panel); color:var(--text); cursor:pointer; transition:border-color .12s,background .12s; }
+    .tf-btn:hover:not(:disabled) { border-color:var(--accent); background:var(--surface); }
+    .tf-btn.correct { border-color:var(--green); background:var(--green-soft); color:var(--green-text); }
+    .tf-btn.wrong { border-color:var(--red,#B3543B); background:var(--red-soft); color:var(--red-text); }
+    .tf-btn.picked { outline:2px solid var(--accent); outline-offset:1px; }
+    .tf-btn:disabled { cursor:default; }
+    .fitb-row { display:flex; gap:8px; align-items:center; margin-top:8px; flex-wrap:wrap; }
+    .fitb-input { flex:1; min-width:0; min-height:44px; padding:8px 12px; border:2px solid var(--border-strong); border-radius:var(--radius-sm); background:var(--panel); color:var(--text); font:inherit; font-size:14px; box-sizing:border-box; }
+    .fitb-input.correct { border-color:var(--green); background:var(--green-soft); color:var(--green-text); }
+    .fitb-input.wrong { border-color:var(--red,#B3543B); background:var(--red-soft); color:var(--red-text); }
+    .fitb-check { min-height:44px; padding:0 18px; white-space:nowrap; }
+    .ordering-list { list-style:none; margin:8px 0 0; padding:0; display:flex; flex-direction:column; gap:6px; }
+    .ordering-item { display:flex; align-items:center; gap:8px; padding:9px 12px; border:1.5px solid var(--border-strong); border-radius:var(--radius-sm); background:var(--panel); font-size:13.5px; color:var(--text); }
+    .ordering-item.correct { border-color:var(--green); background:var(--green-soft); color:var(--green-text); }
+    .ordering-item.wrong { border-color:var(--red,#B3543B); background:var(--red-soft); color:var(--red-text); }
+    .ordering-item-num { width:24px; height:24px; border-radius:50%; background:var(--panel3); color:var(--muted); font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .ordering-move { background:none; border:1px solid var(--border); border-radius:4px; color:var(--muted); cursor:pointer; min-height:28px; min-width:28px; font-size:15px; padding:0; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .ordering-move:hover:not(:disabled) { border-color:var(--accent); color:var(--accent); }
+    .ordering-move:disabled { opacity:0.35; cursor:default; }
+    .ordering-submit-row { margin-top:10px; }
+    @media (max-width:420px) { .tf-btns { flex-direction:column; } .fitb-row { flex-direction:column; align-items:stretch; } }
     .qb-card.flagged { border-color:#d98324; box-shadow: inset 3px 0 0 #d98324; }
     .qb-badge.flag { background:#fdebd0; color:#a85a14; }
     /* roomier builder: fixed header/footer, only the question list scrolls */
@@ -7590,36 +7613,258 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeQuiz();
 // (Replaces the old reveal-on-click model so every quiz behaves identically.)
 let _taker = null;
 function _normQ(q){
-  return { stem: (q.stem!=null?q.stem:(q.q||'')), options: q.options||[],
-           answer_index: (q.answer_index!=null?q.answer_index:(q.answer!=null?q.answer:0)),
-           source_quote: q.source_quote||'', explanation: q.explanation||'',
-           source_url: q.source_url||'', page: q.page, slide: q.slide };
+  // Normalise a question to a common shape for the taker.
+  // Preserves type-specific fields for TF / FITB / ORDERING.
+  const base = {
+    type: q.type || 'mcq',
+    stem: (q.stem!=null?q.stem:(q.q||'')),
+    options: q.options||[],
+    answer_index: (q.answer_index!=null?q.answer_index:(q.answer!=null?q.answer:0)),
+    source_quote: q.source_quote||q.source_span||q.source_sentence||'',
+    explanation: q.explanation||'',
+    source_url: q.source_url||'', page: q.page, slide: q.slide,
+  };
+  // TF
+  if (q.type==='tf') { base.correct=q.correct; base.source_span=q.source_span||q.source_quote||''; }
+  // FITB
+  if (q.type==='fitb') { base.answer=q.answer||''; base.source_sentence=q.source_sentence||q.source_quote||''; }
+  // ORDERING
+  if (q.type==='ordering') {
+    base.steps=q.steps||[]; base.correct_order=q.correct_order||[];
+    base.prompt=q.prompt||'Put these steps in the correct order:';
+    base.source_quote=q.source_quote||'';
+  }
+  return base;
 }
+
+// ── Taker state ───────────────────────────────────────────────────────────────
+// _taker.picks[i]: for mcq=int, tf=bool, fitb=string, ordering=int[]
+// _taker.orderState[i]: current ordering for question i (array of step indices)
+
+function _renderTakerQuestion(q, i) {
+  const qtype = q.type || 'mcq';
+  const stemHtml = `<div class=”stem”><span class=”qn”>${i+1}.</span>${escapeHtml(q.stem||q.prompt||'')}</div>`;
+
+  if (qtype === 'tf') {
+    return `<div class=”quiz-q” id=”tq-${i}”>${stemHtml}
+      <div class=”tf-btns”>
+        <button class=”tf-btn” data-qi=”${i}” data-tv=”true” onclick=”takerPickTF(${i},true)”>True</button>
+        <button class=”tf-btn” data-qi=”${i}” data-tv=”false” onclick=”takerPickTF(${i},false)”>False</button>
+      </div>
+    </div>`;
+  }
+
+  if (qtype === 'fitb') {
+    return `<div class=”quiz-q” id=”tq-${i}”>${stemHtml}
+      <div class=”fitb-row”>
+        <input class=”fitb-input” id=”fitb-${i}” type=”text” placeholder=”Type your answer…”
+               aria-label=”Fill in the blank for question ${i+1}”
+               onkeydown=”if(event.key==='Enter') takerCheckFITB(${i})”>
+        <button class=”secondary fitb-check” onclick=”takerCheckFITB(${i})”>Check</button>
+      </div>
+    </div>`;
+  }
+
+  if (qtype === 'ordering') {
+    const steps = q.steps || [];
+    // Initialise ordering state (shuffled = as presented)
+    if (!_taker.orderState) _taker.orderState = {};
+    if (!_taker.orderState[i]) _taker.orderState[i] = steps.map((_,idx)=>idx);
+    const stepsHtml = steps.map((s, si) => `
+      <li class=”ordering-item” id=”ord-${i}-${si}”>
+        <span class=”ordering-item-num”>${si+1}</span>
+        <span style=”flex:1;”>${escapeHtml(s)}</span>
+        <button class=”ordering-move” onclick=”takerOrderMove(${i},${si},-1)” aria-label=”Move up” ${si===0?'disabled':''}>↑</button>
+        <button class=”ordering-move” onclick=”takerOrderMove(${i},${si},1)” aria-label=”Move down” ${si===steps.length-1?'disabled':''}>↓</button>
+      </li>`).join('');
+    return `<div class=”quiz-q” id=”tq-${i}”>${stemHtml}
+      <ol class=”ordering-list” id=”ord-list-${i}”>${stepsHtml}</ol>
+      <div class=”ordering-submit-row”><button class=”secondary” onclick=”takerSubmitOrdering(${i})”>Lock in order</button></div>
+    </div>`;
+  }
+
+  // MCQ (default)
+  return `<div class=”quiz-q” id=”tq-${i}”>${stemHtml}
+    <div class=”opts”>${(q.options||[]).map((o,oi)=>`<button class=”quiz-opt” data-qi=”${i}” data-oi=”${oi}” onclick=”takerPick(${i},${oi})”>${escapeHtml(o)}</button>`).join('')}
+    </div>
+  </div>`;
+}
+
 function openTaker(title, questions, meta){
-  _taker = { title: title||'Quiz', questions: questions||[], meta: meta||{}, picks: {} };
+  _taker = { title: title||'Quiz', questions: questions||[], meta: meta||{}, picks: {}, orderState: {} };
   const m=document.getElementById('quiz-modal'), body=document.getElementById('quiz-body'),
         foot=document.getElementById('quiz-foot'), ttl=document.getElementById('quiz-title');
   m.hidden=false; ttl.textContent=_taker.title;
   { const k=document.getElementById('quiz-kicker'); if(k) k.textContent='Auto-generated quiz'; }
-  if(!_taker.questions.length){ body.innerHTML=`<div class="async-error"><p class="ae-title">No verifiable questions</p><p>Every draft question failed source verification, so none were kept.</p></div>`; foot.innerHTML=''; return; }
-  body.innerHTML=_taker.questions.map((q,i)=>`<div class="quiz-q"><div class="stem"><span class="qn">${i+1}.</span>${escapeHtml(q.stem)}</div><div class="opts">${(q.options||[]).map((o,oi)=>`<button class="quiz-opt" data-qi="${i}" data-oi="${oi}" onclick="takerPick(${i},${oi})">${escapeHtml(o)}</button>`).join('')}</div></div>`).join('');
-  foot.innerHTML=`<span>${_taker.questions.length} question${_taker.questions.length===1?'':'s'} · pick an answer for each</span><button class="primary" onclick="takerSubmit()">Submit</button>`;
+  if(!_taker.questions.length){ body.innerHTML=`<div class=”async-error”><p class=”ae-title”>No verifiable questions</p><p>Every draft question failed source verification, so none were kept.</p></div>`; foot.innerHTML=''; return; }
+  body.innerHTML = _taker.questions.map((q,i) => _renderTakerQuestion(q, i)).join('');
+  foot.innerHTML=`<span>${_taker.questions.length} question${_taker.questions.length===1?'':'s'} · answer each question</span><button class=”primary” onclick=”takerSubmit()”>Submit all</button>`;
 }
-function takerPick(qi,oi){ if(!_taker) return; _taker.picks[qi]=oi; document.querySelectorAll(`.quiz-opt[data-qi="${qi}"]`).forEach(b=>b.classList.toggle('picked',+b.dataset.oi===oi)); }
+
+// MCQ pick
+function takerPick(qi,oi){ if(!_taker) return; _taker.picks[qi]=oi; document.querySelectorAll(`.quiz-opt[data-qi=”${qi}”]`).forEach(b=>b.classList.toggle('picked',+b.dataset.oi===oi)); }
+
+// TF pick
+function takerPickTF(qi, val) {
+  if(!_taker) return;
+  _taker.picks[qi] = val;
+  document.querySelectorAll(`.tf-btn[data-qi=”${qi}”]`).forEach(b => {
+    const bv = b.dataset.tv === 'true';
+    b.classList.toggle('picked', bv === val);
+  });
+}
+
+// FITB check (immediate per-question feedback)
+function takerCheckFITB(qi) {
+  if(!_taker) return;
+  const inp = document.getElementById(`fitb-${qi}`);
+  if(!inp) return;
+  const submitted = inp.value.trim();
+  _taker.picks[qi] = submitted;
+  const q = _taker.questions[qi];
+  const correct_ans = (q.answer || '').trim();
+  const ok = submitted.toLowerCase() === correct_ans.toLowerCase();
+  inp.disabled = true;
+  inp.classList.add(ok ? 'correct' : 'wrong');
+  const container = document.getElementById(`tq-${qi}`);
+  if(container) {
+    // Remove old feedback if any
+    const old = container.querySelector('.quiz-src');
+    if(old) old.remove();
+    const src = q.source_sentence || q.source_quote || '';
+    const fb = document.createElement('div');
+    fb.className = 'quiz-src';
+    fb.innerHTML = `${ok ? '<b style=”color:var(--green-text)”>✓ Correct</b>' : `<b style=”color:var(--red,#B3543B)”>✗ The answer is: <em>${escapeHtml(correct_ans)}</em></b>`}${src ? `<br><span class=”sq”>”${escapeHtml(src)}”</span>` : ''}`;
+    container.appendChild(fb);
+  }
+  // Also disable the check button
+  const btn = container && container.querySelector('.fitb-check');
+  if(btn) btn.disabled = true;
+}
+
+// ORDERING — move a step up or down
+function takerOrderMove(qi, pos, dir) {
+  if(!_taker||!_taker.orderState) return;
+  const state = _taker.orderState[qi];
+  if(!state) return;
+  const newPos = pos + dir;
+  if(newPos < 0 || newPos >= state.length) return;
+  // Swap in state array
+  [state[pos], state[newPos]] = [state[newPos], state[pos]];
+  // Re-render just the list for this question
+  const q = _taker.questions[qi];
+  const steps = q.steps || [];
+  const list = document.getElementById(`ord-list-${qi}`);
+  if(!list) return;
+  list.innerHTML = state.map((origIdx, si) => `
+    <li class=”ordering-item” id=”ord-${qi}-${si}”>
+      <span class=”ordering-item-num”>${si+1}</span>
+      <span style=”flex:1;”>${escapeHtml(steps[origIdx] || '')}</span>
+      <button class=”ordering-move” onclick=”takerOrderMove(${qi},${si},-1)” aria-label=”Move up” ${si===0?'disabled':''}>↑</button>
+      <button class=”ordering-move” onclick=”takerOrderMove(${qi},${si},1)” aria-label=”Move down” ${si===state.length-1?'disabled':''}>↓</button>
+    </li>`).join('');
+}
+
+// ORDERING — lock in (immediate per-question feedback)
+function takerSubmitOrdering(qi) {
+  if(!_taker||!_taker.orderState) return;
+  const state = _taker.orderState[qi];
+  const q = _taker.questions[qi];
+  _taker.picks[qi] = [...state];
+  const correct_order = q.correct_order || [];
+  const steps = q.steps || [];
+  const list = document.getElementById(`ord-list-${qi}`);
+  if(list) {
+    list.querySelectorAll('.ordering-item').forEach((li, si) => {
+      const origIdx = state[si];
+      // correct if this step's original index equals what correct_order says should be here
+      const posOk = origIdx === correct_order[si];
+      li.classList.add(posOk ? 'correct' : 'wrong');
+      // Disable move buttons
+      li.querySelectorAll('.ordering-move').forEach(b => b.disabled = true);
+    });
+  }
+  // Show source below
+  const container = document.getElementById(`tq-${qi}`);
+  if(container) {
+    const old = container.querySelector('.quiz-src');
+    if(old) old.remove();
+    // Disable the lock-in button
+    const btn = container.querySelector('.ordering-submit-row button');
+    if(btn) btn.disabled = true;
+    const allOk = state.every((origIdx, si) => origIdx === correct_order[si]);
+    const src = q.source_quote || '';
+    const fb = document.createElement('div');
+    fb.className = 'quiz-src';
+    fb.innerHTML = `${allOk ? '<b style=”color:var(--green-text)”>✓ Correct order</b>' : '<b style=”color:var(--red,#B3543B)”>✗ Not quite</b>'}${src ? `<br><span class=”sq”>”${escapeHtml(src)}”</span>` : ''}`;
+    container.appendChild(fb);
+  }
+}
+
+function _srcBlock(q, meta) {
+  const sq = q.source_quote || q.source_span || q.source_sentence || '';
+  const pg = q.page ? ` · p.${q.page}` : (q.slide ? ` · slide ${q.slide}` : '');
+  const link = q.source_url ? ` <a href=”${escAttr(q.source_url)}” target=”_blank” rel=”noopener noreferrer”>View source${escapeHtml(pg)} ↗</a>` : '';
+  const attr = ((meta && meta.attribution) || link) ? `<span class=”attr”>${escapeHtml((meta && meta.attribution) || '')}${link}</span>` : '';
+  return `<div class=”quiz-src”>${sq ? `<span class=”sq”>”${escapeHtml(sq)}”</span>` : '<span class=”sq”>(manual question — not source-verified)</span>'}${q.explanation ? '<br>' + escapeHtml(q.explanation) : ''}${attr}</div>`;
+}
+
 function takerSubmit(){
-  if(!_taker) return; const qs=_taker.questions; let correct=0;
-  const html=qs.map((q,i)=>{
-    const chosen=_taker.picks[i]; const ok=chosen===q.answer_index; if(ok) correct++;
-    const pg=q.page?` · p.${q.page}`:(q.slide?` · slide ${q.slide}`:'');
-    const link=q.source_url?` <a href="${escAttr(q.source_url)}" target="_blank" rel="noopener noreferrer">View source${escapeHtml(pg)} ↗</a>`:'';
-    const attr=(_taker.meta.attribution||link)?`<span class="attr">${escapeHtml(_taker.meta.attribution||'')}${link}</span>`:'';
-    return `<div class="quiz-q"><div class="stem"><span class="qn">${i+1}.</span>${escapeHtml(q.stem)} ${ok?'<b style="color:var(--green-text,#1e7a3d)">✓</b>':'<b style="color:var(--warn-text,#8A4A12)">✗</b>'}</div>
-      <div class="opts">${(q.options||[]).map((o,oi)=>`<button class="quiz-opt ${oi===q.answer_index?'correct':(oi===chosen&&!ok?'wrong':'')}" disabled>${escapeHtml(o)}</button>`).join('')}</div>
-      <div class="quiz-src">${q.source_quote?`<span class="sq">“${escapeHtml(q.source_quote)}”</span>`:'<span class="sq">(manual question — not source-verified)</span>'}${q.explanation?'<br>'+escapeHtml(q.explanation):''}${attr}</div></div>`;
+  if(!_taker) return;
+  const qs = _taker.questions;
+  const meta = _taker.meta || {};
+  let correct = 0;
+  const html = qs.map((q, i) => {
+    const qtype = q.type || 'mcq';
+    const stemHtml = `<div class=”stem”><span class=”qn”>${i+1}.</span>${escapeHtml(q.stem||q.prompt||'')} `;
+
+    if (qtype === 'tf') {
+      const chosen = _taker.picks[i];
+      const ok = chosen === q.correct;
+      if(ok) correct++;
+      return `<div class=”quiz-q”>${stemHtml}${ok ? '<b style=”color:var(--green-text,#1e7a3d)”>✓</b>' : '<b style=”color:var(--warn-text,#8A4A12)”>✗</b>'}</div>
+        <div class=”tf-btns”>
+          <button class=”tf-btn ${q.correct===true?'correct':(chosen===true&&!ok?'wrong':'')}” disabled>True</button>
+          <button class=”tf-btn ${q.correct===false?'correct':(chosen===false&&!ok?'wrong':'')}” disabled>False</button>
+        </div>
+        ${_srcBlock(Object.assign({}, q, {source_quote: q.source_span||q.source_quote||''}), meta)}</div>`;
+    }
+
+    if (qtype === 'fitb') {
+      const submitted = typeof _taker.picks[i] === 'string' ? _taker.picks[i] : '';
+      const ok = submitted.toLowerCase() === (q.answer||'').toLowerCase();
+      if(ok) correct++;
+      return `<div class=”quiz-q”>${stemHtml}${ok ? '<b style=”color:var(--green-text,#1e7a3d)”>✓</b>' : `<b style=”color:var(--warn-text,#8A4A12)”>✗ Answer: <em>${escapeHtml(q.answer||'')}</em></b>`}</div>
+        <div class=”fitb-row”><input class=”fitb-input ${ok?'correct':'wrong'}” value=”${escAttr(submitted)}” disabled></div>
+        ${_srcBlock(Object.assign({}, q, {source_quote: q.source_sentence||q.source_quote||''}), meta)}</div>`;
+    }
+
+    if (qtype === 'ordering') {
+      const state = (_taker.orderState && _taker.orderState[i]) || q.steps.map((_,idx)=>idx);
+      const correct_order = q.correct_order || [];
+      const steps = q.steps || [];
+      const allOk = state.every((origIdx, si) => origIdx === correct_order[si]);
+      if(allOk) correct++;
+      const stepsHtml = state.map((origIdx, si) => {
+        const posOk = origIdx === correct_order[si];
+        return `<li class=”ordering-item ${posOk?'correct':'wrong'}”><span class=”ordering-item-num”>${si+1}</span><span style=”flex:1;”>${escapeHtml(steps[origIdx]||'')}</span></li>`;
+      }).join('');
+      return `<div class=”quiz-q”>${stemHtml}${allOk ? '<b style=”color:var(--green-text,#1e7a3d)”>✓</b>' : '<b style=”color:var(--warn-text,#8A4A12)”>✗</b>'}</div>
+        <ol class=”ordering-list”>${stepsHtml}</ol>
+        ${_srcBlock(q, meta)}</div>`;
+    }
+
+    // MCQ
+    const chosen = _taker.picks[i];
+    const ok = chosen === q.answer_index;
+    if(ok) correct++;
+    return `<div class=”quiz-q”>${stemHtml}${ok ? '<b style=”color:var(--green-text,#1e7a3d)”>✓</b>' : '<b style=”color:var(--warn-text,#8A4A12)”>✗</b>'}</div>
+      <div class=”opts”>${(q.options||[]).map((o,oi)=>`<button class=”quiz-opt ${oi===q.answer_index?'correct':(oi===chosen&&!ok?'wrong':'')}” disabled>${escapeHtml(o)}</button>`).join('')}</div>
+      ${_srcBlock(q, meta)}</div>`;
   }).join('');
-  document.getElementById('quiz-body').innerHTML=html;
-  const pct=qs.length?Math.round(100*correct/qs.length):0;
-  document.getElementById('quiz-foot').innerHTML=`<span>Score: <b>${correct}/${qs.length}</b> (${pct}%)</span><button class="secondary" onclick="takerRetake()">Retake</button>`;
+  document.getElementById('quiz-body').innerHTML = html;
+  const pct = qs.length ? Math.round(100*correct/qs.length) : 0;
+  document.getElementById('quiz-foot').innerHTML = `<span>Score: <b>${correct}/${qs.length}</b> (${pct}%)</span><button class=”secondary” onclick=”takerRetake()”>Retake</button>`;
   if(_taker.meta && typeof _taker.meta.onDone==='function'){ try{ _taker.meta.onDone(pct); }catch(e){} }
 }
 function takerRetake(){ if(_taker) openTaker(_taker.title, _taker.questions, _taker.meta); }

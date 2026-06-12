@@ -19,10 +19,35 @@ A banked question reaches `verified` only if ALL THREE pass, in this order:
 
 Deterministic checks run first (free); the LLM judge runs only when they pass, so
 cross-lane and fabricated-quote questions are rejected with zero model calls.
+
+New question types (B1 — grounded question types beyond MCQ):
+  Each type has a dedicated gate function (_gate_tf, _gate_fitb, _gate_ordering).
+  A question that fails its gate is DROPPED (not modified) — same as MCQ behaviour.
+
+  True/False (_gate_tf):
+    source_span must appear verbatim in content (normalised whitespace).
+    For FALSE questions, source_span is the REAL (true) span; the stem is a mechanical
+    negation of it. The gate verifies the real span is present — it does NOT invent a
+    negated span, and it does NOT introduce any uncited product claim.
+
+  Fill-in-the-blank (_gate_fitb):
+    stem.replace("___", answer) must reconstruct a verbatim substring of content
+    (whitespace-normalised). This proves the blank is a verbatim word/phrase, not invented.
+
+  Step-ordering (_gate_ordering):
+    Every step in `steps` must appear verbatim as a substring in `source_quote`, AND
+    `source_quote` itself must appear verbatim in content. Correct order is their
+    appearance order in source_quote (the canonical source, not reconstruction).
+
+  Gate failure = DROP. The caller (quiz_store.verify_question / _grounded_quiz)
+  is responsible for discarding dropped questions; these functions only report pass/fail.
 """
 import re
 
 VALID_LANES = ("product", "compliance")
+
+# Question types recognised by this module (B1 additions).
+QUESTION_TYPES = ("mcq", "tf", "fitb", "ordering")
 
 
 def _norm(s: str) -> str:
@@ -46,6 +71,117 @@ def check_lane(question: dict, span: dict) -> bool:
 def check_verbatim(quote: str, span: dict) -> bool:
     nq = _norm(quote)
     return bool(nq) and nq in _norm(span.get("text", ""))
+
+
+# ── B1: Deterministic per-type gate functions ─────────────────────────────────
+# Each returns {"pass": bool, "reason": str}.  Callers DROP on fail.
+
+def _gate_tf(question: dict, content: str) -> dict:
+    """Gate for True/False questions.
+
+    The source_span must appear verbatim (normalised) in content.
+    For TRUE questions, the stem IS the source_span (or a reformatting of it).
+    For FALSE questions, source_span is the real/true span; the stem is a mechanical
+    negation. In both cases the gate ONLY checks source_span — it cannot validate
+    that the negation is well-formed (that is a generation-time concern), but it
+    does guarantee that the underlying span exists in the source.
+    """
+    source_span = (question.get("source_span") or "").strip()
+    if not source_span:
+        return {"pass": False, "reason": "TF: missing source_span"}
+    nc = _norm(content)
+    ns = _norm(source_span)
+    if not ns:
+        return {"pass": False, "reason": "TF: source_span is empty after normalisation"}
+    if ns not in nc:
+        return {"pass": False, "reason": "TF: source_span not found verbatim in content"}
+    # For a FALSE question, the distractor_basis must be present and declare 'negation'.
+    correct = question.get("correct")
+    if correct is False:
+        db = question.get("distractor_basis") or {}
+        transform = (db.get("transform") or "").lower()
+        if transform != "negation":
+            return {"pass": False,
+                    "reason": "TF(FALSE): distractor_basis.transform must be 'negation'; "
+                              "other transforms are not valid (they could introduce uncited claims)"}
+    return {"pass": True, "reason": "ok"}
+
+
+def _gate_fitb(question: dict, content: str) -> dict:
+    """Gate for Fill-in-the-blank questions.
+
+    stem.replace('___', answer) must reconstruct a verbatim substring of content
+    (normalised whitespace). This proves both that the blank target is a real span and
+    that the surrounding sentence was not paraphrased.
+    """
+    stem = (question.get("stem") or "")
+    answer = (question.get("answer") or "").strip()
+    if "___" not in stem:
+        return {"pass": False, "reason": "FITB: stem must contain '___' as the blank marker"}
+    if not answer:
+        return {"pass": False, "reason": "FITB: answer is empty"}
+    reconstructed = stem.replace("___", answer)
+    nr = _norm(reconstructed)
+    nc = _norm(content)
+    if not nr:
+        return {"pass": False, "reason": "FITB: reconstructed sentence is empty after normalisation"}
+    if nr not in nc:
+        return {"pass": False,
+                "reason": "FITB: stem.replace('___', answer) does not appear verbatim in content "
+                          "(blank may be paraphrased or sentence is not from the source)"}
+    return {"pass": True, "reason": "ok"}
+
+
+def _gate_ordering(question: dict, content: str) -> dict:
+    """Gate for Step-ordering questions.
+
+    Every step in `steps` must appear verbatim (as a substring) in `source_quote`,
+    AND `source_quote` itself must appear verbatim in content. This ensures:
+    - Steps are real, not invented.
+    - The ordering source is in the guide.
+    - No step was imported from outside the cited section.
+    """
+    source_quote = (question.get("source_quote") or "").strip()
+    steps = question.get("steps") or []
+    if not source_quote:
+        return {"pass": False, "reason": "ORDERING: missing source_quote"}
+    if len(steps) < 2:
+        return {"pass": False, "reason": "ORDERING: need at least 2 steps to order"}
+    nsq = _norm(source_quote)
+    nc = _norm(content)
+    if nsq not in nc:
+        return {"pass": False, "reason": "ORDERING: source_quote not found verbatim in content"}
+    for i, step in enumerate(steps):
+        ns = _norm(str(step))
+        if not ns:
+            return {"pass": False, "reason": f"ORDERING: step {i} is empty"}
+        if ns not in nsq:
+            return {"pass": False,
+                    "reason": f"ORDERING: step {i} ({str(step)[:60]!r}) not found verbatim in source_quote "
+                              "(invented step or taken from outside the cited section)"}
+    return {"pass": True, "reason": "ok"}
+
+
+def gate_question_by_type(question: dict, content: str) -> dict:
+    """Route to the correct deterministic gate based on question type.
+    Returns {"pass": bool, "reason": str}.  Callers DROP on fail.
+
+    MCQ questions are not handled here (they use the 3-step span-based gate in
+    gate_question() which also runs the LLM support judge). This function is the
+    deterministic-only gate for the three B1 types; it is called by quiz_store
+    verify_question() and by the scoring / approval paths.
+    """
+    qtype = (question.get("type") or "mcq").lower()
+    if qtype == "tf":
+        return _gate_tf(question, content)
+    if qtype == "fitb":
+        return _gate_fitb(question, content)
+    if qtype == "ordering":
+        return _gate_ordering(question, content)
+    # Unknown type: fail safely rather than silently pass.
+    if qtype != "mcq":
+        return {"pass": False, "reason": f"Unknown question type '{qtype}'"}
+    return {"pass": True, "reason": "mcq — handled by gate_question()"}
 
 
 async def llm_support_judge(quote: str, stem: str, correct_answer: str) -> dict:
@@ -84,8 +220,10 @@ async def llm_support_judge(quote: str, stem: str, correct_answer: str) -> dict:
 
 
 async def gate_question(q: dict, spans_by_id: dict, judge=llm_support_judge) -> dict:
-    """Run the three-check gate on one question. Returns a verdict dict.
-    `judge` is injectable so tests can stub the semantic step if desired."""
+    """Run the three-check gate on one MCQ question. Returns a verdict dict.
+    `judge` is injectable so tests can stub the semantic step if desired.
+
+    For non-MCQ types use gate_question_by_type() which is deterministic-only."""
     res = {"lane_ok": False, "verbatim_ok": None, "support_ok": None,
            "verdict": "fail", "reasons": []}
     span = spans_by_id.get(q.get("cite_span_id"))
