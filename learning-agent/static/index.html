@@ -1488,6 +1488,8 @@
     /* My Team */
     .mt-banner { margin: 0 0 var(--sp-4); background: var(--amber-soft, #F7ECDA); color: var(--amber-text, #8A5A12); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 14px; font-size: 13px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
     .mt-tools { margin: 0 0 var(--sp-3); }
+    .mt-compliance { display: flex; align-items: center; gap: var(--sp-3); margin: 0 0 var(--sp-3); }
+    .mt-compliance-note { font-size: 12px; color: var(--muted); }
     .r-status.over { background: var(--amber-soft, #F3E0C8); color: var(--amber-text, #8A5A12); }
     .nudged { font-size: 10.5px; color: var(--muted); font-style: italic; }
     .secondary.sm { padding: 4px 9px; font-size: 11.5px; }
@@ -4600,11 +4602,26 @@ function renderMyTeam() {
   let h = `<div class="mt-banner">All staff training due ${_DEMO.due} — <b>${Math.round(100 * done / total)}%</b> complete, <b>${overdue}</b> overdue. <button class="track-open" onclick="nudgeAllOverdue()">Nudge all overdue</button></div>`;
   h += '<div class="roster-cards">' + [['Staff complete', Math.round(100 * done / total) + '%'], ['Overdue', overdue], ['Not started', notStarted], ['Days to go-live', _daysToGoLive()]].map(t => `<div class="roster-stat"><div class="n">${t[1]}</div><div class="l">${escapeHtml(t[0])}</div></div>`).join('') + '</div>';
   h += `<div class="mt-tools"><button class="secondary" onclick="openAssignmentModal('${d.id}')">Assign training</button></div>`;
+  // Compliance export button — Customer view only (CN Director and above).
+  if (_viewMode === 'customer') {
+    h += `<div class="mt-compliance"><button class="secondary" onclick="downloadComplianceReport('${escAttr(d.id)}')">Download compliance report (PDF)</button><span class="mt-compliance-note">Covers your district only &middot; Due Jun 30</span></div>`;
+  }
   h += _renderStaffTable(d);
   body.innerHTML = h;
 }
 function nudgeOne(nk, name) { _demoState.nudged[nk] = true; alert('Reminder sent to ' + name + '.'); renderMyTeam(); }
 function nudgeAllOverdue() { const d = _curDistrict(); let c = 0; d.learners.forEach((l, gi) => { if (l.status === 'Overdue') { _demoState.nudged[d.id + ':' + gi] = true; c++; } }); alert('Reminders sent to ' + c + ' staff.'); renderMyTeam(); }
+function downloadComplianceReport(isd) {
+  // Triggers browser download of the PDF compliance report for the given district.
+  // Endpoint is seeded demo data until SSO + roster sync lands (V1.5).
+  var url = '/api/districts/' + encodeURIComponent(isd) + '/compliance-report/pdf';
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'compliance-report-' + isd + '.pdf';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
 async function openAssign() {
   const d = _curDistrict();
   const tw = document.getElementById('am-tracks');

@@ -61,7 +61,8 @@ Tabs: Create · Library · Content · Quality · Roster · How it works. Trainer
 `EXTERNAL_LEARNING=0` hides the whole external layer.
 
 ## What's next
-1. **Build #1 from `docs/NEXT-EVALS-PLAN.md`:** the semantic-support judge gold set + calibration (measure false-negative rate — the dangerous direction).
+1. **Compliance export scaffolded** — wire to real roster once SSO + multi-tenant isolation land (Tasks 11-13). Endpoints: GET /api/districts/{isd}/compliance-report + /pdf. Tests: tests/test_compliance_export.py (9 cases).
+2. **Build #1 from `docs/NEXT-EVALS-PLAN.md`:** the semantic-support judge gold set + calibration (measure false-negative rate — the dangerous direction).
 2. Then: lane-purity battery, triage balanced set, coverage/omission, drift/bank-freshness, canonical harness + `gate_log` (raise k to ≥3).
 3. Merge the open PR. Draft the **ICN fair-use one-pager** for the ICN meeting. **Consolidate the two `learning-agent` copies** (root cause of drift).
 4. External eval-expert brief lives at `~/Downloads/Learning-Studio-eval-context.md`.

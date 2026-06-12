@@ -2473,3 +2473,143 @@ if __name__ == "__main__":
         asyncio.run(uvicorn.Server(config).serve())
     else:
         uvicorn.run("demo_app:app", host="127.0.0.1", port=8001, reload=False)
+
+# ── Compliance report (BRD FR-RP-03 — CN Director export) ───────────────────
+# V2 scaffold: reads from the SAME seeded roster as /api/roster.
+# Real data requires SSO + roster sync (Platform V1.5, Tasks 11–13).
+# Every response is stamped "DEMO DATA" until real roster data lands.
+
+_COMPLIANCE_NOTE = (
+    "DEMO DATA — roster is seeded. Real data requires SSO + roster sync (Platform V1.5)."
+)
+_COMPLIANCE_DUE = "2026-06-30"
+
+# Role → canonical track name shown on the compliance report
+_ROLE_TRACK: dict[str, str] = {
+    "POS Cashier":                  "New Cashier Onboarding",
+    "Frontline Cafeteria Staff":    "New Cashier Onboarding",
+    "Cafeteria Manager":            "Site Manager Essentials",
+    "District Nutrition Director":  "Eligibility Certification Prep",
+}
+
+
+def _compliance_status(raw_status: str) -> str:
+    """Normalise seeded status strings to report-ready labels."""
+    return {
+        "Completed":    "Complete",
+        "In progress":  "In Progress",
+        "Not started":  "Not Started",
+    }.get(raw_status, raw_status)
+
+
+def _build_compliance_report(isd: str) -> dict:
+    """Build the JSON compliance report for a district from seeded roster data.
+
+    Returns an empty dict when the district ID is unknown so callers can 404.
+    """
+    d = next((x for x in _DISTRICTS if x["id"] == isd), None)
+    if d is None:
+        return {}
+    roster = _roster_for(d)
+    total     = len(roster)
+    complete  = sum(1 for r in roster if r["status"] == "Completed")
+    in_prog   = sum(1 for r in roster if r["status"] == "In progress")
+    not_start = sum(1 for r in roster if r["status"] == "Not started")
+    # "Overdue": In Progress with <20 % completion — proxy for seeded data that
+    # carries no explicit deadline field.
+    overdue   = sum(1 for r in roster if r["status"] == "In progress" and r["progress"] < 20)
+    staff_rows = [
+        {
+            "name":           r["name"],
+            # Derive a human-readable site from the email domain; fall back to em dash.
+            "site":           (r.get("email", "").split("@")[1].split(".")[0]
+                               .replace("-", " ").title() + " Site"
+                               if "@" in r.get("email", "") else "\u2014"),
+            "role":           r["role"],
+            "track":          _ROLE_TRACK.get(r["role"], r.get("assigned", "\u2014")),
+            "completion_pct": r["progress"],
+            "status":         _compliance_status(r["status"]),
+            "last_active":    r["last_active"],
+        }
+        for r in roster
+    ]
+    return {
+        "district":    d["name"],
+        "report_date": datetime.now().strftime("%Y-%m-%d"),
+        "due_date":    _COMPLIANCE_DUE,
+        "summary": {
+            "total":        total,
+            "complete":     complete,
+            "in_progress":  in_prog,
+            "not_started":  not_start,
+            "overdue":      overdue,
+        },
+        "staff": staff_rows,
+        "note":  _COMPLIANCE_NOTE,
+    }
+
+
+@app.get("/api/districts/{isd}/compliance-report")
+async def compliance_report_json(isd: str):
+    """JSON compliance report for a district (BRD FR-RP-03).
+
+    Seeded from the same deterministic roster as /api/roster.
+    Returns 404 for unknown district IDs so callers can detect invalid scopes.
+    The note field in every response advertises the seeded-data caveat.
+    """
+    report = _build_compliance_report(isd)
+    if not report:
+        raise HTTPException(status_code=404, detail=f"District '{isd}' not found.")
+    return JSONResponse(content=report)
+
+
+@app.get("/api/districts/{isd}/compliance-report/pdf")
+async def compliance_report_pdf(isd: str):
+    """PDF compliance report for a district (BRD FR-RP-03).
+
+    Renders via pdf_export.render_html_to_pdf() — same engine as the guide exporter.
+    Stamps a DEMO DATA banner at the top of every page until real roster data lands.
+    Returns 404 for unknown district IDs.
+    """
+    from pdf_export import render_html_to_pdf
+
+    report = _build_compliance_report(isd)
+    if not report:
+        raise HTTPException(status_code=404, detail=f"District '{isd}' not found.")
+
+    summary = report["summary"]
+    rows_html = "".join(
+        f"<tr><td>{r['name']}</td><td>{r['site']}</td><td>{r['role']}</td>"
+        f"<td>{r['track']}</td><td>{r['completion_pct']}%</td>"
+        f"<td>{r['status']}</td><td>{r['last_active']}</td></tr>"
+        for r in report["staff"]
+    )
+    report_html = (
+        f"<h1>Compliance Report \u2014 {report['district']}</h1>"
+        f"<p><strong>Report date:</strong> {report['report_date']} &nbsp;|&nbsp;"
+        f" <strong>Training due:</strong> {report['due_date']}</p>"
+        "<h2>Summary</h2>"
+        "<table><thead><tr><th>Total staff</th><th>Complete</th><th>In Progress</th>"
+        "<th>Not Started</th><th>Overdue</th></tr></thead><tbody><tr>"
+        f"<td>{summary['total']}</td><td>{summary['complete']}</td>"
+        f"<td>{summary['in_progress']}</td><td>{summary['not_started']}</td>"
+        f"<td>{summary['overdue']}</td></tr></tbody></table>"
+        "<h2>Staff Detail</h2>"
+        "<table><thead><tr><th>Name</th><th>Site</th><th>Role</th><th>Track</th>"
+        "<th>Completion</th><th>Status</th><th>Last Active</th></tr></thead>"
+        f"<tbody>{rows_html}</tbody></table>"
+    )
+    banner = "DEMO DATA \u2014 seeded roster. Requires SSO + roster sync (V1.5) for real data."
+    try:
+        pdf_bytes = render_html_to_pdf(report_html, banner=banner)
+    except Exception as exc:  # pragma: no cover
+        raise HTTPException(status_code=500, detail=f"PDF render failed: {exc}") from exc
+
+    filename = f"compliance-report-{isd}-{report['report_date']}.pdf"
+    return Response(
+        content=pdf_bytes,
+        media_type="application/pdf",
+        headers={"Content-Disposition": f'attachment; filename="{filename}"'},
+    )
+
+
