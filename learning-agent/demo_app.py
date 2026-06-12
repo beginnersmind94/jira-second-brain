@@ -90,6 +90,8 @@ import qbank_gate
 # Roster sync + completion writeback -- SchoolCafe / PrimeroEdge integration interface.
 # Stub mode when SCHOOLCAFE_API_URL / SCHOOLCAFE_API_KEY env vars are absent.
 from roster_sync import RosterSyncClient
+# Quality rubric scorers — Coverage, Clarity, Structure (advisory heuristics, no LLM call).
+from scorers import compute_scores
 
 load_dotenv()
 
@@ -1432,6 +1434,65 @@ async def get_certificate(cid: str):
     return JSONResponse(json.loads(p.read_text(encoding="utf-8")))
 
 
+# ─────────────────────────────────────────────────────────────────────────────
+# SCORM 1.2 export (V2) — GET /api/tracks/{id}/scorm
+# Returns a self-contained .zip importable into any SCORM 1.2 LMS.
+# ─────────────────────────────────────────────────────────────────────────────
+
+
+@app.get("/api/tracks/{tid}/scorm")
+async def api_scorm_export(tid: str):
+    """Build and return a SCORM 1.2 package for the given track.
+
+    Returns: application/zip — Content-Disposition: attachment; filename=<title>.zip
+
+    The package contains:
+      - imsmanifest.xml  (SCORM 1.2 manifest listing all modules)
+      - index.html       (SCO launch page with SCORM API shim + iframe nav)
+      - content/         (module HTML from published/ or a placeholder if not found)
+      - quiz/            (quiz JSON per module, when a quiz is attached)
+    """
+    track = _ms.load_track(tid)
+    if not track:
+        raise HTTPException(404, "track not found")
+    expanded = _ms.expand_track(track, icn_dir=_ICN_DIR)
+    modules = expanded.get("modules") or []
+    try:
+        zip_bytes = scorm_export.build_scorm_package(track=expanded, modules=modules)
+    except Exception as exc:
+        raise HTTPException(500, f"SCORM package build failed: {exc}")
+    # Sanitise the track title for use as a filename.
+    safe_title = re.sub(r"[^\w\s-]", "", track.get("title") or tid).strip().replace(" ", "_") or tid
+    filename = f"{safe_title}.zip"
+    return Response(
+        content=zip_bytes,
+        media_type="application/zip",
+        headers={"Content-Disposition": f'attachment; filename="{filename}"'},
+    )
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# xAPI status — GET /api/xapi/status
+# Reports whether the real LRS is configured.
+# ─────────────────────────────────────────────────────────────────────────────
+
+
+@app.get("/api/xapi/status")
+async def api_xapi_status():
+    """Report xAPI client configuration.
+
+    Returns:
+      stub           — True when operating in stub mode (logs to xapi-stub.jsonl).
+      lrs_configured — True when LRS_ENDPOINT + LRS_KEY are set in the environment.
+
+    To activate real LRS writeback, set LRS_ENDPOINT and LRS_KEY in .env and restart.
+    """
+    return JSONResponse({
+        "stub": _xapi.client.stub,
+        "lrs_configured": _xapi.client.lrs_configured,
+    })
+
+
 _FLASH_SYS = """You write study flashcards that help school-nutrition staff learn a topic. You have NO tools.
 
 RULES:
@@ -1867,7 +1928,7 @@ async def _stream_celld_transcript(transcript_path, transcript_id, module, rid, 
         f"{integ['quote_not_found']} unverifiable, {asm['invalid_cite_id']} broken references.\n"})
 
     (prod.DRAFTS / f"{rid}.html").write_text(html, encoding="utf-8")
-    # Grounding score: 5 if fully clean, 3 if ≤2 issues, 1 if more.
+    # Grounding score: no tier_lie possible (transcript-only has no Jira tier), so only count not_found + broken refs.
     _ci_bad_t = integ["quote_not_found"] + asm["invalid_cite_id"]
     _grounding_score_t = 5 if _ci_bad_t == 0 else (3 if _ci_bad_t <= 2 else 1)
     _rubric_scores_t = compute_scores(html, fmt, grounding_score=_grounding_score_t)
