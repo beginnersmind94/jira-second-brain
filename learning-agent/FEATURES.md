@@ -64,6 +64,7 @@ moat violation and does not ship. The header badge "✓ every claim cited" is th
 | Imported guide library | 86 SchoolCafé/ICN guides as approved Library items, honest provenance (human-authored, **not** gate-grounded); Source filter | **Real content, not gate-grounded** | `import_guides.py`, Library view |
 | PDF → markdown upload | Server-side transcript conversion (header/footer strip, multi-column warning, 80pp cap) | **Real** | `pdf_to_md.py`, `app.upload_transcript` |
 | Eval suite | See **Evals** below | **Real** | `eval/*` |
+| Production readiness docs | Env vars, integration checklist, stub→real activation steps for all 7 V1.5 modules (auth/SSO, roster sync, xAPI/LRS, completion store, tenancy, SCORM, ICN flag), zero-to-prod checklist, honest stub-vs-real summary table, and remaining code-change requirements (SSO JWT, DB backend, demo-seed removal) | **Docs** | `docs/PRODUCTION.md` |
 
 ## Evals (what's measured + latest, with honesty caveats)
 - **Regression (REG-01…16):** pins the grounding guarantees. `eval/regression.py`. **Gating, deterministic.**

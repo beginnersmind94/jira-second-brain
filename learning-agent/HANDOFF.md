@@ -59,6 +59,7 @@ warm/terracotta redesign with design tokens + SchoolCafé branding (all in `stat
 `cd <sibling>/learning-agent && ./.venv/Scripts/python.exe demo_app.py` → http://127.0.0.1:8001.
 Tabs: Create · Library · Content · Quality · Roster · How it works. Trainer/Customer toggle top-right.
 `EXTERNAL_LEARNING=0` hides the whole external layer.
+For production activation steps, see `docs/PRODUCTION.md`.
 
 ## What's next
 1. **Compliance export scaffolded** — wire to real roster once SSO + multi-tenant isolation land (Tasks 11-13). Endpoints: GET /api/districts/{isd}/compliance-report + /pdf. Tests: tests/test_compliance_export.py (9 cases).
@@ -75,9 +76,3 @@ Tabs: Create · Library · Content · Quality · Roster · How it works. Trainer
 `xapi_client.py` (`XAPIClient`, `emit_completed`, `emit_progressed`; stub logs to `logs/xapi-stub.jsonl`) ·
 `data/icn/` (ICN pack) · `data/demo/*-fixture.json` (Jira fixtures) · `eval/` (regression + capability) ·
 `docs/` (ADR-001, STATE-OF-EVAL, CASE-STUDY, REPO-WORKFLOW, NEXT-EVALS-PLAN).
-
-## Activating SCORM export + xAPI (V2)
-- **SCORM:** works out of the box — `GET /api/tracks/{id}/scorm` returns a `.zip` a trainer can import into any SCORM 1.2 LMS. The "Export as SCORM" button is in the track builder actions card.
-- **xAPI (stub mode):** statements are written to `logs/xapi-stub.jsonl` by default. No config needed to see it working.
-- **xAPI (production mode):** add `LRS_ENDPOINT=https://your-lrs/xapi/statements` and `LRS_KEY=user:password` (Basic auth) or `LRS_KEY=Bearer <token>` to `.env` and restart. `GET /api/xapi/status` returns `{"stub": false, "lrs_configured": true}`.
-- Both are non-fatal: an unreachable LRS or zip-build error logs and continues; cert issuance and module completion are never blocked.
