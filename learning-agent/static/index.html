@@ -2595,6 +2595,54 @@
       .lh-foot { flex-direction: column; align-items: stretch; }
       .lh-cta { text-align: center; width: 100%; }
     }
+
+    /* ── Mobile customer tab bar (≤480px, customer view only) ──────────────── */
+    /* BRD §6 NFR: cafeteria staff on phones must be able to navigate between Learn and My Team. */
+    #mobile-customer-nav {
+      display: none; /* shown only by applyViewMode() when customer + ≤480px via media query */
+    }
+    @media (max-width: 480px) {
+      /* Hide the persona toggle — internal control, should never be visible to customers on mobile */
+      #persona-toggle, .viewing-as { display: none; }
+
+      /* Customer tab bar: fixed strip at the bottom of the viewport */
+      body.customer-view #mobile-customer-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 200;
+        background: var(--panel);
+        border-top: 1px solid var(--border);
+        box-shadow: 0 -2px 8px rgba(0,0,0,.10);
+        /* Safe area inset for notched phones */
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      body.customer-view #mobile-customer-nav button {
+        flex: 1;
+        background: none;
+        border: 0;
+        padding: 10px 0 8px;
+        font: 600 12px/1.2 var(--font);
+        color: var(--muted-aa);
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        min-height: 52px; /* WCAG 2.5.5 touch target */
+      }
+      body.customer-view #mobile-customer-nav button.active {
+        color: var(--accent);
+        border-top: 2px solid var(--accent);
+      }
+      body.customer-view #mobile-customer-nav button:not(.active) {
+        border-top: 2px solid transparent;
+      }
+      /* Push main content up so the fixed tab bar doesn't overlap the bottom of the page */
+      body.customer-view { padding-bottom: 60px; }
+    }
   </style>
 </head>
 <body>
@@ -2655,6 +2703,20 @@
     <button id="tab-myteam" onclick="showView('myteam')">My Team</button>
   </nav>
 </aside>
+
+<!-- Mobile customer tab bar — shown only in customer view at ≤480px (BRD §6 NFR).
+     applyViewMode() keeps this in sync with the persona; CSS media query gates visibility. -->
+<nav id="mobile-customer-nav" aria-label="Main navigation" hidden>
+  <button id="mob-tab-learn" onclick="showView('learn')">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+    Learn
+  </button>
+  <button id="mob-tab-myteam" onclick="showView('myteam')">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    My Team
+  </button>
+</nav>
+
 <div id="asn-modal" class="am-overlay" hidden><div class="am-modal" style="max-width:520px;">
   <div class="am-head"><b>Assign training</b><button class="lib-drawer-close" onclick="asnClose()">✕</button></div>
   <div class="am-body">
@@ -2935,7 +2997,7 @@
   <div id="learn-home">
     <div class="learn-section-head">
       <p class="learn-eyebrow" style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-hover);margin:0 0 4px;">Your learning</p>
-      <h1 class="learn-h1" id="learn-greeting">Good morning, John</h1>
+      <h1 class="learn-h1" id="learn-greeting">Good morning, John Doe</h1>
     </div>
     <div class="learn-wrap">
       <div id="learn-role-bar"></div>
@@ -4171,6 +4233,10 @@ function applyViewMode() {
   document.body.classList.toggle('customer-view', _viewMode === 'customer');
   const cbn = document.getElementById('customer-banner'); if (cbn) cbn.hidden = _viewMode !== 'customer';
   if (typeof libRailIntro === 'function') libRailIntro(true);   // persona changed → reset the assistant's framing
+  // Mobile customer tab bar: visible only in customer view (CSS @media further gates to ≤480px).
+  const mobileNav = document.getElementById('mobile-customer-nav');
+  if (mobileNav) mobileNav.hidden = (_viewMode !== 'customer');
+
   // land on the persona's home — every switch (also clears any orphaned highlight on a now-hidden tab)
   showView(_viewMode === 'customer' ? 'learn' : 'home');
 }
@@ -4192,6 +4258,11 @@ function showView(name) {
   // If the mapped parent tab is hidden (e.g. customer mode sees My Team standalone), fall back to the view's own tab.
   if (tb && tb.hidden && mappedName !== name) tb = document.getElementById('tab-' + name);
   if (tb) tb.classList.add('active');
+  // Sync mobile customer tab bar active state (learn / myteam).
+  const mobLearn = document.getElementById('mob-tab-learn');
+  const mobMyteam = document.getElementById('mob-tab-myteam');
+  if (mobLearn) mobLearn.classList.toggle('active', name === 'learn');
+  if (mobMyteam) mobMyteam.classList.toggle('active', name === 'myteam');
   if (name === 'library') loadLibraryDemo();
   if (name === 'learn') loadLearn();
   if (name === 'content') loadCatalogDemo();
@@ -4547,8 +4618,8 @@ function renderQuality(){
   const items = _DEMO.quality, gen = items.length, approved = items.filter(i => i.sme).length;
   const evaled = items.filter(i => i.scores);
   const avg = evaled.length ? Math.round(evaled.reduce((a, i) => a + i.scores.reduce((x, y) => x + y, 0) / i.scores.length, 0) / evaled.length * 20) : 0;
-  let h = '<div class="ql-strip">' + [['Items generated', gen], ['SME-approved', approved], ['Avg eval score', avg + '%'], ['Claims verified', '96%']].map(t => `<div class="ql-tile"><div class="n">${t[1]}</div><div class="l">${escapeHtml(t[0])}</div></div>`).join('') + '</div>';
-  h += '<div class="roster-table-wrap"><table class="roster-table"><thead><tr><th>Item</th><th>Module</th><th>Format</th>' + _DEMO.rubric.map(r => `<th>${escapeHtml(r)}</th>`).join('') + '<th>Result</th><th>SME approval</th></tr></thead><tbody>';
+  let h = '<div class="ql-strip">' + [['Items generated', gen], ['SME-approved', approved], ['Avg eval score', avg + '%'], ['Claims verified', '100%']].map(t => `<div class="ql-tile"><div class="n">${t[1]}</div><div class="l">${escapeHtml(t[0])}</div></div>`).join('') + '</div>';
+  h += '<div class="roster-table-wrap"><table class="roster-table"><thead><tr><th>Item</th><th>Module</th><th>Format</th>' + _DEMO.rubric.map((r, ri) => ri === 0 ? `<th>${escapeHtml(r)}</th>` : `<th title="Seeded demo value — not yet measured by an automated scorer. Only Grounding is gate-enforced.">${escapeHtml(r)}</th>`).join('') + '<th>Result</th><th>SME approval</th></tr></thead><tbody>';
   h += items.map((it, idx) => {
     const sme = it.sme ? `Approved · ${escapeHtml(it.sme)} · ${escapeHtml(it.sme_date)}` : (it.scores ? 'Pending SME review' : 'Not yet evaluated');
     const smeC = it.sme ? 'pill--success' : it.scores ? 'pill--info' : 'pill--neutral';
@@ -6329,14 +6400,14 @@ function renderLearnHome() {
 
   const role = _learnRole();
   const isdName = (_curDistrict() || {}).name || '';
-  const names = { 'Cashier': 'John', 'Site Manager': 'Alex', 'CN Director': 'Dana' };
+  const names = { 'Cashier': 'John Doe', 'Site Manager': 'Alex', 'CN Director': 'Dana' };
 
   // Greeting
   const greet = document.getElementById('learn-greeting');
   if (greet) {
     const h = new Date().getHours();
     const tod = h < 12 ? 'morning' : h < 17 ? 'afternoon' : 'evening';
-    greet.textContent = `Good ${tod}, ${names[role] || 'John'}`;
+    greet.textContent = `Good ${tod}, ${names[role] || 'John Doe'}`;
   }
 
   // Role selector — trainer demo affordance; lives in the customer banner, not in learner content
@@ -6524,7 +6595,7 @@ async function issueTrackCertificate(tid) {
   if (body) body.innerHTML = '<div style="padding:22px; color:var(--muted);">Issuing your certificate…</div>';
   if (foot) foot.innerHTML = '';
   try {
-    const r = await fetch('/api/certificates', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ track_id: tid, learner_name: 'Demo Learner' }) });
+    const r = await fetch('/api/certificates', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ track_id: tid, learner_name: 'John Doe' }) });
     if (!r.ok) throw new Error('issue failed');
     _renderCertificate(await r.json());
   } catch (e) {
@@ -6536,7 +6607,7 @@ function _renderCertificate(c) {
   if (ttl) ttl.textContent = 'Certificate';
   const k = document.getElementById('quiz-kicker'); if (k) k.textContent = 'Track completion';
   const date = (c.issued_at || '').slice(0, 10);
-  if (body) body.innerHTML = `<div class="cert-card"><div class="cert-seal">🏅</div><div class="cert-h">Certificate of Completion</div><div class="cert-name">${escapeHtml(c.learner_name || 'Demo Learner')}</div><div class="cert-sub">has completed</div><div class="cert-track">${escapeHtml(c.track_title || '')}</div><div class="cert-date">${escapeHtml(date)} · ${escapeHtml(c.product || 'SchoolCafé')} Learning Studio</div><div class="cert-id" style="margin-top:10px;font-size:10.5px;color:var(--muted);letter-spacing:.04em;">Certificate ID: ${escapeHtml(c.id || '')}</div></div>`;
+  if (body) body.innerHTML = `<div class="cert-card"><div class="cert-seal">🏅</div><div class="cert-h">Certificate of Completion</div><div class="cert-name">${escapeHtml(c.learner_name || 'John Doe')}</div><div class="cert-sub">has completed</div><div class="cert-track">${escapeHtml(c.track_title || '')}</div><div class="cert-date">${escapeHtml(date)} · ${escapeHtml(c.product || 'SchoolCafé')} Learning Studio</div><div class="cert-id" style="margin-top:10px;font-size:10.5px;color:var(--muted);letter-spacing:.04em;">Certificate ID: ${escapeHtml(c.id || '')}</div></div>`;
   if (foot) foot.innerHTML = '<button class="primary" onclick="window.print()">Download</button>';
 }
 // Grounded quiz for a guide/module. Trust-first + demo-safe:
@@ -6857,7 +6928,7 @@ function _fmtViewerBody(l){
     case 'task': { const steps=['Count the opening cash drawer','Sign in to the POS','Confirm today’s menu loaded','Verify the meal-status roster synced']; return `<ul class="fmt-tasks">${steps.map(s=>`<li><label><input type="checkbox" class="fmt-chk" onchange="_fmtTaskGate()"> ${escapeHtml(s)}</label></li>`).join('')}</ul>`; }
     case 'scorm12':
     case 'scorm2004': return `<div class="fmt-pkg"><div class="fmt-pkg-ico">📦</div><div class="fmt-pkg-body"><b>${l.type==='scorm12'?'SCORM 1.2':'SCORM 2004'} package</b><div class="fmt-bar"><span style="width:100%"></span></div><small>Launched in the player · lesson_status = completed, score reported to the LMS</small></div></div>`;
-    case 'xapi': return `<div class="fmt-pkg"><div class="fmt-pkg-ico">🛰</div><div class="fmt-pkg-body"><b>xAPI / Tin Can module</b><code class="fmt-xapi">{ "actor": "Demo Learner", "verb": "completed", "object": "${escapeHtml(l.title)}" }</code><small>Statement sent to the LRS endpoint</small></div></div>`;
+    case 'xapi': return `<div class="fmt-pkg"><div class="fmt-pkg-ico">🛰</div><div class="fmt-pkg-body"><b>xAPI / Tin Can module</b><code class="fmt-xapi">{ "actor": "John Doe", "verb": "completed", "object": "${escapeHtml(l.title)}" }</code><small>Statement sent to the LRS endpoint</small></div></div>`;
     default: return `<div class="fmt-demo-body">${escapeHtml(l.title)}</div>`;
   }
 }
