@@ -1493,30 +1493,28 @@ async def api_roster(
 
     # D3 — aggregate-only gamification summary for director/trainer view.
     # Per-learner XP rankings are explicitly excluded (DEC-4 trust guardrail).
-    # Only totals and averages are returned; individual learner XP is never ranked.
+    # F-spec rescope (Section F): XP is a learner-only metric; avg_xp is NOT returned
+    # to managers. The manager's job is "who is overdue against the deadline" — XP is
+    # noise at this level. Only badges_awarded (achievement signal) and total_streak_days
+    # are surfaced. Learner-own XP is still available via GET /api/users/{uid}/gamification.
     gamif_summary: dict = {}
     if current_user.is_trainer or (current_user.role or "").lower() in ("cn director", "director", "manager"):
         # For demo scale, sum across all stored gamification records for demo users.
         # In production this would be a join against the district's learner roster.
-        total_xp = 0
         total_streak_days = 0
         total_badges = 0
-        learner_count = 0
         _GAMIF_DIR = Path(__file__).resolve().parent / "data" / "gamification"
         if _GAMIF_DIR.exists():
             for gf in _GAMIF_DIR.glob("*.json"):
                 try:
                     g = json.loads(gf.read_text(encoding="utf-8"))
-                    total_xp += g.get("xp", 0)
                     total_streak_days += g.get("streak", 0)
                     total_badges += len(g.get("badges", []))
-                    learner_count += 1
                 except (json.JSONDecodeError, OSError):
                     continue
         gamif_summary = {
-            "avg_xp": round(total_xp / learner_count) if learner_count else 0,
-            "total_streak_days": total_streak_days,
             "badges_awarded": total_badges,
+            "total_streak_days": total_streak_days,
         }
 
     return {
