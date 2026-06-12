@@ -1,0 +1,70 @@
+{
+  "id": "quiz-seed-food-safety-3q",
+  "title": "Food Safety Quick Check",
+  "source_resource_id": "icn-food-safety-youtube-hand-hygiene-demo",
+  "question_type_mix": ["mcq"],
+  "questions": [
+    {
+      "id": "quiz-seed-food-safety-3q:0",
+      "type": "mcq",
+      "stem": "According to food safety guidelines, when should cafeteria staff wash their hands during food preparation?",
+      "options": [
+        "Only when visibly dirty",
+        "After handling raw meat only",
+        "Before beginning food preparation, after handling raw food, and after any interruption",
+        "Once at the start of each shift"
+      ],
+      "correct": 2,
+      "answer_index": 2,
+      "source_quote": "Before beginning food preparation, after handling raw food, and after any interruption to the food-prep workflow.",
+      "source_ref": "icn-food-safety-youtube-hand-hygiene-demo",
+      "section": "Hand Hygiene in School Nutrition",
+      "explanation": "Proper hand hygiene requires washing before starting food preparation, after raw food contact, and after any interruption.",
+      "provenance": "ai_grounded",
+      "grounded": true
+    },
+    {
+      "id": "quiz-seed-food-safety-3q:1",
+      "type": "mcq",
+      "stem": "What is the recommended minimum internal temperature for cooked poultry served in a school nutrition setting?",
+      "options": [
+        "145°F (63°C)",
+        "155°F (68°C)",
+        "165°F (74°C)",
+        "185°F (85°C)"
+      ],
+      "correct": 2,
+      "answer_index": 2,
+      "source_quote": "165°F (74°C) minimum internal temperature for poultry per USDA food safety standards.",
+      "source_ref": "icn-food-safety-youtube-hand-hygiene-demo",
+      "section": "Food Safety Temperature Controls",
+      "explanation": "165°F (74°C) is the USDA-recommended minimum internal temperature for poultry to ensure safe service in school nutrition programs.",
+      "provenance": "ai_grounded",
+      "grounded": true
+    },
+    {
+      "id": "quiz-seed-food-safety-3q:2",
+      "type": "mcq",
+      "stem": "In a school cafeteria, the temperature danger zone — where bacteria multiply most rapidly — is generally defined as the range between:",
+      "options": [
+        "0°F and 32°F",
+        "32°F and 165°F",
+        "41°F and 135°F",
+        "70°F and 165°F"
+      ],
+      "correct": 2,
+      "answer_index": 2,
+      "source_quote": "The temperature danger zone for food safety is 41°F to 135°F — the range where bacteria multiply most rapidly.",
+      "source_ref": "icn-food-safety-youtube-hand-hygiene-demo",
+      "section": "Temperature Danger Zone",
+      "explanation": "The FDA Food Code defines the temperature danger zone as 41°F–135°F (5°C–57°C). Foods must not remain in this range for more than 4 cumulative hours.",
+      "provenance": "ai_grounded",
+      "grounded": true
+    }
+  ],
+  "status": "approved",
+  "approved_at": "2026-06-13T00:00:00",
+  "provenance": "ai_grounded",
+  "created_at": "2026-06-13T00:00:00",
+  "updated_at": "2026-06-13T00:00:00"
+}

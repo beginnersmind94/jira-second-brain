@@ -1,0 +1,70 @@
+{
+  "id": "quiz-seed-manager-essentials",
+  "title": "Knowledge Check — Manager Essentials",
+  "source_resource_id": "20260603-151307-eligibility-long-form-195c99",
+  "question_type_mix": ["mcq"],
+  "questions": [
+    {
+      "id": "quiz-seed-manager-essentials:0",
+      "type": "mcq",
+      "stem": "When a site manager reviews a new eligibility application, which field carries the highest trust for determining the agreed verification workflow?",
+      "options": [
+        "The application's description field, which summarizes the household situation",
+        "The Acceptance Criteria field, which documents the agreed verification workflow",
+        "The Release Notes Internal field, which carries the most recent updates",
+        "The system-generated status field, which reflects current processing state"
+      ],
+      "correct": 1,
+      "answer_index": 1,
+      "source_quote": "Acceptance Criteria — the agreed workflow. This is what the guide should reflect.",
+      "source_ref": "20260603-151307-eligibility-long-form-195c99",
+      "section": "Field read order",
+      "explanation": "Acceptance Criteria is always the highest-trust field for the agreed workflow. Description is the lowest-trust source.",
+      "provenance": "ai_grounded",
+      "grounded": true
+    },
+    {
+      "id": "quiz-seed-manager-essentials:1",
+      "type": "mcq",
+      "stem": "A site manager needs to assign a new track to their staff for the upcoming school year. Which status must a track have before it is visible to learners on their Learn home?",
+      "options": [
+        "draft",
+        "review",
+        "published",
+        "approved"
+      ],
+      "correct": 2,
+      "answer_index": 2,
+      "source_quote": "published — only published tracks appear on learner home screens",
+      "source_ref": "20260603-151307-eligibility-long-form-195c99",
+      "section": "Status Gating",
+      "explanation": "Only published tracks appear on learner home screens. Draft tracks are visible to trainers only.",
+      "provenance": "ai_grounded",
+      "grounded": true
+    },
+    {
+      "id": "quiz-seed-manager-essentials:2",
+      "type": "mcq",
+      "stem": "When a district director downloads the compliance report for their site, what best describes the data source in the demo environment?",
+      "options": [
+        "Live data pulled directly from SchoolCafé in real time",
+        "Seeded demo district data — real district data arrives via the integration phase",
+        "Data exported from the Jira ticket system",
+        "A cached snapshot updated every 24 hours"
+      ],
+      "correct": 1,
+      "answer_index": 1,
+      "source_quote": "The seeded roster is demo scenery; your real data arrives via the integration phase.",
+      "source_ref": "20260603-151307-eligibility-long-form-195c99",
+      "section": "Claims discipline",
+      "explanation": "The compliance report in demo mode uses seeded data. Real district data requires the roster-sync integration.",
+      "provenance": "ai_grounded",
+      "grounded": true
+    }
+  ],
+  "status": "approved",
+  "approved_at": "2026-06-13T00:00:00",
+  "provenance": "ai_grounded",
+  "created_at": "2026-06-13T00:00:00",
+  "updated_at": "2026-06-13T00:00:00"
+}

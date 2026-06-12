@@ -1,0 +1,24 @@
+{
+  "id": "track-g1-cashier-onboarding",
+  "title": "New Cashier Onboarding",
+  "description": "Everything a new Houston ISD cashier needs to get up to speed: POS workflows, item management, food safety, and your final certification. Assigned to all Houston ISD cashiers — due Jul 31.",
+  "product": "SchoolCafé",
+  "role_tags": ["Cashier"],
+  "course_ids": [
+    "course-g1-cashier-fundamentals",
+    "course-g1-getting-certified"
+  ],
+  "assessment_gate_id": "assessment-demo-cashier-onboard",
+  "due_date": "2026-07-31",
+  "assignments": [
+    {
+      "audience": "Cashier",
+      "district": "houston-isd",
+      "due_date": "2026-07-31",
+      "assigned_at": "2026-06-13T00:00:00"
+    }
+  ],
+  "status": "published",
+  "created_at": "2026-06-13T00:00:00",
+  "updated_at": "2026-06-13T00:00:00"
+}

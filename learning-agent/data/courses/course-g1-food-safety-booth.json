@@ -1,0 +1,24 @@
+{
+  "id": "course-g1-food-safety-booth",
+  "title": "3-Minute Food Safety",
+  "description": "A quick food-safety refresher designed to complete in under 3 minutes. Watch, learn, quiz — then earn your certificate.",
+  "product": "SchoolCafé",
+  "role_tags": ["Cashier", "Site Manager"],
+  "lessons": [
+    {
+      "type": "video",
+      "ref": "icn-food-safety-youtube-hand-hygiene-demo",
+      "title": "Food Safety: Hand Hygiene in School Nutrition (ICN/USDA)",
+      "duration_est": 2
+    },
+    {
+      "type": "quiz",
+      "ref": "quiz-seed-food-safety-3q",
+      "title": "Food Safety Quick Check (3 questions)",
+      "duration_est": 1
+    }
+  ],
+  "status": "published",
+  "created_at": "2026-06-13T00:00:00",
+  "updated_at": "2026-06-13T00:00:00"
+}

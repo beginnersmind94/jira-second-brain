@@ -1,0 +1,29 @@
+{
+  "id": "track-g1-manager-essentials",
+  "title": "Manager Essentials",
+  "description": "Core eligibility workflows, financial management resources, and site operations knowledge for site managers and CN directors.",
+  "product": "SchoolCafé",
+  "role_tags": ["Site Manager", "CN Director"],
+  "course_ids": [
+    "course-g1-manager-essentials"
+  ],
+  "assessment_gate_id": null,
+  "due_date": "2026-07-31",
+  "assignments": [
+    {
+      "audience": "Site Manager",
+      "district": "houston-isd",
+      "due_date": "2026-07-31",
+      "assigned_at": "2026-06-13T00:00:00"
+    },
+    {
+      "audience": "CN Director",
+      "district": "houston-isd",
+      "due_date": "2026-07-31",
+      "assigned_at": "2026-06-13T00:00:00"
+    }
+  ],
+  "status": "published",
+  "created_at": "2026-06-13T00:00:00",
+  "updated_at": "2026-06-13T00:00:00"
+}

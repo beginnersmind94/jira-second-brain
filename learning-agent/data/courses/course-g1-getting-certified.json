@@ -1,0 +1,24 @@
+{
+  "id": "course-g1-getting-certified",
+  "title": "Getting Certified",
+  "description": "Review key concepts with flashcards, then prove your knowledge with the timed final assessment to earn your New Cashier Onboarding certificate.",
+  "product": "SchoolCafé",
+  "role_tags": ["Cashier"],
+  "lessons": [
+    {
+      "type": "flashcards",
+      "ref": "deck-20260612-demo-seed",
+      "title": "Flashcard Review — Item Management Key Workflows",
+      "duration_est": 5
+    },
+    {
+      "type": "assessment",
+      "ref": "assessment-demo-cashier-onboard",
+      "title": "New Cashier Onboarding — Final Assessment",
+      "duration_est": 15
+    }
+  ],
+  "status": "published",
+  "created_at": "2026-06-13T00:00:00",
+  "updated_at": "2026-06-13T00:00:00"
+}
