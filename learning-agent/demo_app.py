@@ -36,7 +36,7 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 from dotenv import load_dotenv
-from fastapi import Body, Depends, FastAPI, HTTPException, Query, Request
+from fastapi import Body, FastAPI, HTTPException, Query
 from fastapi.responses import HTMLResponse, JSONResponse, Response
 from sse_starlette.sse import EventSourceResponse
 
@@ -78,8 +78,6 @@ from demo_d import (
 )
 from demo import ALLOWED_TOOLS as DEMO_ALLOWED_TOOLS, MCP_SERVER_NAME, demo_mcp_server
 import pricing
-# Real rubric scorers — coverage/clarity/structure (no LLM call for clarity/structure).
-from scorers import compute_scores
 # AI-assisted review step — edit agent + edit-triage agent (network-free import).
 import revise
 # Intent-and-scope front end — "describe what you need" (network-free import).
@@ -87,15 +85,12 @@ import intent_agent
 # Quiz Builder — persistence + QA/grounding gate (+ the support judge for the QA pass).
 import quiz_store
 import qbank_gate
-# Roster sync + completion writeback -- SchoolCafe / PrimeroEdge integration interface.
-# Stub mode when SCHOOLCAFE_API_URL / SCHOOLCAFE_API_KEY env vars are absent.
+# Roster sync + completion writeback.
 from roster_sync import RosterSyncClient
 
 load_dotenv()
 
-# -- Roster sync client -- single instance for the lifetime of the server -----
-# is_stub=True when SCHOOLCAFE_API_URL / SCHOOLCAFE_API_KEY are not set (demo mode).
-# Production: set both vars in .env and restart; no code change required.
+# Roster sync client (stub until SCHOOLCAFE_API_URL/KEY are set).
 roster_sync = RosterSyncClient()
 
 # ── Discover ALL available module fixtures; load one to start ─────────────────
@@ -281,26 +276,8 @@ async def api_list_modules(source: str = "", product: str = "", role: str = "", 
 
 
 @app.get("/api/tracks")
-async def api_list_tracks(
-    request: Request,
-    current_user: CurrentUser = Depends(get_current_user),
-):
-    """List tracks, scoped by the caller's identity.
-
-    Trainers see ALL tracks (they manage and build them).
-    Learners see only tracks that match their role (role_tags contains their role,
-    or role_tags is empty — untagged tracks are visible to everyone).
-    The ?all=1 query param lets a trainer-mode client force the full list explicitly.
-    """
-    all_tracks = _ms.list_tracks()
-    force_all = request.query_params.get("all") in ("1", "true")
-    if force_all or current_user.is_trainer:
-        return {"tracks": all_tracks}
-    # Learner: filter to role-matching tracks.
-    role = current_user.role
-    filtered = [t for t in all_tracks
-                if not t.get("role_tags") or role in (t.get("role_tags") or [])]
-    return {"tracks": filtered}
+async def api_list_tracks():
+    return {"tracks": _ms.list_tracks()}
 
 
 @app.post("/api/tracks")
@@ -379,26 +356,16 @@ async def api_delete_track(tid: str):
 
 @app.post("/api/tracks/{tid}/progress")
 async def api_track_progress(tid: str, payload: dict = Body(default={})):
-    """Record a learner's progress update for a track and fire completion writeback.
-
-    Body: {learner_id: str, completion_pct: int, certified?: bool, district_id?: str}
-
-    After persisting the progress record the endpoint fires sync_completion() to
-    SchoolCafe / PrimeroEdge.  The writeback is non-fatal: if it fails the learner's
-    progress is still returned successfully (the error is logged, not surfaced to the learner).
-    """
+    """Record learner progress; fires non-fatal completion writeback."""
     track = _ms.load_track(tid)
     if not track:
         raise HTTPException(404, "track not found")
-
     learner_id = (payload.get("learner_id") or "").strip()
     if not learner_id:
         raise HTTPException(400, "learner_id is required")
     completion_pct = max(0, min(int(payload.get("completion_pct", 0) or 0), 100))
     certified = bool(payload.get("certified", False))
     district_id = (payload.get("district_id") or "").strip() or "demo-district"
-
-    # Non-fatal writeback -- sync failures log and continue so the learner is never blocked.
     try:
         await roster_sync.sync_completion(district_id, learner_id, tid, completion_pct, certified)
     except Exception as exc:
@@ -406,15 +373,8 @@ async def api_track_progress(tid: str, payload: dict = Body(default={})):
         logging.getLogger(__name__).warning(
             "sync_completion failed (non-fatal) learner=%s track=%s: %s", learner_id, tid, exc
         )
-
-    return {
-        "track_id": tid,
-        "learner_id": learner_id,
-        "completion_pct": completion_pct,
-        "certified": certified,
-        "synced": roster_sync.is_stub or True,  # True = queued/written (stub or live)
-        "stub": roster_sync.is_stub,
-    }
+    return {"track_id": tid, "learner_id": learner_id, "completion_pct": completion_pct,
+            "certified": certified, "stub": roster_sync.is_stub}
 
 
 # Unchanged routes — reuse prod's handlers verbatim (they read/write the same
@@ -534,22 +494,24 @@ def _district_stats(d: dict) -> dict:
 
 @app.get("/api/roster")
 async def api_roster(isd: str = ""):
-    """District roster + per-district roll-up.
-
-    Production: delegates to RosterSyncClient.get_district_roster() which calls
-    the SchoolCafe API.  Stub: returns deterministic seeded data (no real students).
-    """
+    """Simulated district roster + per-district roll-up (synthetic demo data, not real students)."""
     districts = [{**d, **_district_stats(d)} for d in _DISTRICTS]
     d = next((x for x in _DISTRICTS if x["id"] == isd), _DISTRICTS[0])
     try:
         roster = await roster_sync.get_district_roster(d["id"])
     except Exception as exc:
-        # Non-fatal: fall back to seeded data so the UI never breaks.
         import logging
-        logging.getLogger(__name__).warning("roster_sync.get_district_roster failed, using stub: %s", exc)
+        logging.getLogger(__name__).warning("roster_sync failed, using stub: %s", exc)
         roster = _roster_for(d)
     return {"districts": districts, "selected": d["id"], "selected_name": d["name"],
             "roster": roster, "stub": roster_sync.is_stub, "demo": True}
+
+
+# -- Sync status: lets operators verify whether writeback is live ------
+@app.get("/api/sync/status")
+async def api_sync_status():
+    """stub=True = demo mode; stub=False = SCHOOLCAFE_API_URL/KEY set (live)."""
+    return JSONResponse(roster_sync.status())
 
 
 # ── ICN Content catalog ───────────────────────────────────────────────────────
@@ -1408,8 +1370,7 @@ async def issue_certificate(payload: dict = Body(default={})):
     }
     (CERTS / f"{cid}.json").write_text(json.dumps(cert, indent=2, ensure_ascii=False), encoding="utf-8")
 
-    # Fire completion writeback to SchoolCafe / PrimeroEdge (certified=True).
-    # Non-fatal: if writeback fails the cert is still returned to the learner.
+    # Fire completion writeback (certified=True, non-fatal).
     learner_id = (payload.get("learner_id") or learner).strip()
     district_id = (payload.get("district_id") or "").strip() or "demo-district"
     try:
@@ -1758,10 +1719,6 @@ async def _stream_celld(transcript_path, transcript_id, module, rid, log, fmt="l
         f"{asm['invalid_cite_id']} broken references.\n"})
 
     (prod.DRAFTS / f"{rid}.html").write_text(html, encoding="utf-8")
-    # Grounding score: 5 if fully clean, 3 if ≤2 issues, 1 if more.
-    _ci_bad = integ["tier_lie"] + integ["quote_not_found"] + asm["invalid_cite_id"]
-    _grounding_score = 5 if _ci_bad == 0 else (3 if _ci_bad <= 2 else 1)
-    _rubric_scores = compute_scores(html, fmt, grounding_score=_grounding_score)
     draft_meta = {
         "id": rid, "status": "draft", "module": module, "template": fmt,
         "transcript_id": transcript_id, "transcript_filename": None,
@@ -1769,7 +1726,6 @@ async def _stream_celld(transcript_path, transcript_id, module, rid, log, fmt="l
         "demo": True, "method": "sectioned+registry",
         "citation_integrity": {"verified": integ["ok"], "tier_lie": integ["tier_lie"],
                                "not_found": integ["quote_not_found"], "invalid_cite_id": asm["invalid_cite_id"]},
-        "scores": _rubric_scores,
         "cost_usd": cost["cost_usd"], "cost": cost,
     }
     (prod.DRAFTS / f"{rid}.json").write_text(json.dumps(draft_meta, indent=2), encoding="utf-8")
@@ -1867,10 +1823,6 @@ async def _stream_celld_transcript(transcript_path, transcript_id, module, rid, 
         f"{integ['quote_not_found']} unverifiable, {asm['invalid_cite_id']} broken references.\n"})
 
     (prod.DRAFTS / f"{rid}.html").write_text(html, encoding="utf-8")
-    # Grounding score: 5 if fully clean, 3 if ≤2 issues, 1 if more.
-    _ci_bad_t = integ["quote_not_found"] + asm["invalid_cite_id"]
-    _grounding_score_t = 5 if _ci_bad_t == 0 else (3 if _ci_bad_t <= 2 else 1)
-    _rubric_scores_t = compute_scores(html, fmt, grounding_score=_grounding_score_t)
     draft_meta = {
         "id": rid, "status": "draft", "module": module, "template": fmt,
         "transcript_id": transcript_id, "transcript_filename": None,
@@ -1878,7 +1830,6 @@ async def _stream_celld_transcript(transcript_path, transcript_id, module, rid, 
         "demo": True, "method": "transcript+registry", "source": "transcript-only",
         "citation_integrity": {"verified": integ["ok"], "tier_lie": integ["tier_lie"],
                                "not_found": integ["quote_not_found"], "invalid_cite_id": asm["invalid_cite_id"]},
-        "scores": _rubric_scores_t,
         "cost_usd": cost["cost_usd"], "cost": cost,
     }
     (prod.DRAFTS / f"{rid}.json").write_text(json.dumps(draft_meta, indent=2), encoding="utf-8")
@@ -2158,10 +2109,6 @@ async def _stream_from_scope(module: str, fmt: str, sections_plan: list[dict], t
     cost = pricing.cost_of([s.get("usage") for s in ordered])
 
     (prod.DRAFTS / f"{rid}.html").write_text(html, encoding="utf-8")
-    # Grounding score: 5 if fully clean, 3 if ≤2 issues, 1 if more.
-    _ci_bad_s = integ["tier_lie"] + integ["quote_not_found"] + asm["invalid_cite_id"]
-    _grounding_score_s = 5 if _ci_bad_s == 0 else (3 if _ci_bad_s <= 2 else 1)
-    _rubric_scores_s = compute_scores(html, fmt, grounding_score=_grounding_score_s)
     draft_meta = {
         "id": rid, "status": "draft", "module": module, "template": fmt,
         "transcript_id": None, "transcript_filename": None,
@@ -2169,7 +2116,6 @@ async def _stream_from_scope(module: str, fmt: str, sections_plan: list[dict], t
         "demo": True, "method": "scope+registry", "source": "intent-scope", "topic": topic,
         "citation_integrity": {"verified": integ["ok"], "tier_lie": integ["tier_lie"],
                                "not_found": integ["quote_not_found"], "invalid_cite_id": asm["invalid_cite_id"]},
-        "scores": _rubric_scores_s,
         "cost_usd": cost["cost_usd"], "cost": cost,
     }
     (prod.DRAFTS / f"{rid}.json").write_text(json.dumps(draft_meta, indent=2), encoding="utf-8")

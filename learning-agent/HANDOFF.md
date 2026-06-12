@@ -36,7 +36,8 @@ construction." The product's whole value is trust, so the gates below are the sp
 - **Grounding by construction:** a registry of verbatim source spans is built deterministically; the model emits only `[CITE:<id>]` markers; a deterministic assembler renders the exact quote + tier; `validate_citations` re-checks every quote is a verbatim substring of its source. Mis-citation is structurally impossible.
 - **Two source LANES that must never cross-cite:** **Product** (jira-brain Jira NXT tickets at tiers AC > RN > Description, + curated guides) and **Compliance** (the ICN/USDA pack in `data/icn/`: 85 assets, ~1,970 chunks, 30 ingestible). Lane is the first segment of every `span_id`; the gate refuses a cross-lane citation.
 - **Three gate checks:** *verify* (deterministic, quote∈source) → *lane-match* (deterministic) → *support* (semantic LLM-judge — **needs calibration**, see eval plan). Distractors are exempt from grounding.
-- **Question-bank curation gate** (`qbank_curation.py` + `qbank_gate_hooks.py`): state machine `pending_review → {auto_approved | needs_human} → human_approved → committed` (`rejected` terminal). `commit_to_bank` is the only writer; a **PreToolUse hook** denies it unless status is approved; a `canUseTool` callback handles human approval; `score_candidate` is pure + unit-tested.
+- **Question-bank curation gate** (`roster_sync.py` (roster import + completion writeback; stub when SCHOOLCAFE_API_URL/KEY absent; to go live: set both in .env) ·
+`qbank_curation.py` + `qbank_gate_hooks.py`): state machine `pending_review → {auto_approved | needs_human} → human_approved → committed` (`rejected` terminal). `commit_to_bank` is the only writer; a **PreToolUse hook** denies it unless status is approved; a `canUseTool` callback handles human approval; `score_candidate` is pure + unit-tested.
 
 ## What was built this session
 Transcript-only grounding mode · ICN **Content** tab (catalog of 85 assets, license-aware
@@ -76,8 +77,15 @@ Tabs: Create · Library · Content · Quality · Roster · How it works. Trainer
 4. External eval-expert brief lives at `~/Downloads/Learning-Studio-eval-context.md`.
 
 ## Key files
-`demo_app.py` (FastAPI server, all routes incl. /generate, /api/icn*, /api/roster, /api/config) ·
+`demo_app.py` (FastAPI server, all routes incl. /generate, /api/icn*, /api/roster, /api/sync/status, /api/config) ·
 `demo_d.py` (registry / assemble / section writers) · `demo.py` (offline tools + `validate_citations`) ·
 `qbank_curation.py`, `qbank_gate_hooks.py`, `qbank_gate.py` (gates) · `static/index.html` (the entire UI — one large file) ·
+`scorm_export.py` (SCORM 1.2 package builder — `build_scorm_package()` → zip bytes with manifest + SCO launch page + module HTML + quiz JSON) ·
+`xapi_client.py` (xAPI emitter — `XAPIClient.emit_completed/emit_progressed`; stub logs to `logs/xapi-stub.jsonl`; production via `LRS_ENDPOINT`/`LRS_KEY`) ·
 `data/icn/` (ICN pack) · `data/demo/*-fixture.json` (Jira fixtures) · `eval/` (regression + capability) ·
 `docs/` (ADR-001, STATE-OF-EVAL, CASE-STUDY, REPO-WORKFLOW, NEXT-EVALS-PLAN).
+
+## SCORM / xAPI activation (V2)
+- **Stub mode (default):** xAPI statements log to `logs/xapi-stub.jsonl`. No credentials needed.
+- **Production:** set `LRS_ENDPOINT` (full statements URL) and `LRS_KEY` (`user:password` or `Bearer <token>`) in `.env` and restart. Confirm with `GET /api/xapi/status`.
+- SCORM packages: `GET /api/tracks/{id}/scorm` (trainer only). The zip is self-contained and importable into any SCORM 1.2 LMS (Moodle, Canvas, SCORM Cloud, etc.).
