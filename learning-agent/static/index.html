@@ -3156,6 +3156,7 @@
     <button id="tab-library" onclick="openLibraryTab()">Library</button>
     <button id="tab-manage" onclick="showView('manage')">Districts</button>
     <button id="tab-learn" onclick="showView('learn')">Learn</button>
+    <button id="tab-practice" onclick="showView('practice')">Practice</button>
     <button id="tab-myteam" onclick="showView('myteam')">My Team</button>
   </nav>
 </aside>
@@ -3496,6 +3497,44 @@
   <!-- Sub-view 4: Unified course player for real tracks (D1) -->
   <!-- D6: role="dialog" + aria-label for WCAG 2.1 AA; swipe hint injected by JS -->
   <div id="cp-player" hidden role="dialog" aria-label="Course player"></div>
+</section>
+
+<!-- ═══ D4: Practice mode ═══ -->
+<section id="view-practice" class="view">
+  <div class="learn-wrap" style="max-width:640px;margin:0 auto;padding:24px 16px;">
+    <div class="learn-section-head" style="margin-bottom:20px;">
+      <p class="learn-eyebrow" style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-hover);margin:0 0 4px;">Daily practice</p>
+      <h1 class="learn-h1" style="margin:0;">Practice</h1>
+      <p style="color:var(--muted);font-size:13px;margin:4px 0 0;">5 quick items each day to make it stick.</p>
+    </div>
+    <div id="practice-home-body">
+      <!-- Populated by loadPractice() -->
+      <div class="empty-state"><p class="empty-headline">Loading practice session…</p></div>
+    </div>
+  </div>
+  <!-- Practice taker overlay -->
+  <div id="practice-taker-overlay" hidden style="position:fixed;inset:0;background:var(--bg);z-index:900;overflow-y:auto;">
+    <div style="max-width:600px;margin:0 auto;padding:16px 16px 80px;">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+        <button class="secondary" style="min-height:44px;min-width:44px;" onclick="closePracticeTaker()" aria-label="Close practice">&#x2715;</button>
+        <span style="font-weight:700;font-size:16px;">Daily Practice</span>
+      </div>
+      <!-- Progress bar -->
+      <div id="pt-progress-bar" style="margin-bottom:20px;">
+        <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:4px;">
+          <span id="pt-progress-label">Item 1 of 5</span>
+          <span id="pt-progress-pct">0%</span>
+        </div>
+        <div style="height:4px;background:var(--border);border-radius:2px;">
+          <div id="pt-progress-fill" style="height:4px;background:var(--green);border-radius:2px;width:0%;transition:width .3s;"></div>
+        </div>
+      </div>
+      <!-- Item render area -->
+      <div id="pt-item-area"></div>
+      <!-- Navigation -->
+      <div id="pt-nav" style="display:flex;justify-content:flex-end;margin-top:20px;"></div>
+    </div>
+  </div>
 </section>
 
 <!-- ═══ persona placeholders (real content lands later) ═══ -->
@@ -4765,9 +4804,9 @@ function applyViewMode() {
   // (Learn / My Team / Catalog). Quality lives behind the header gear, not the nav.
   // "Districts" (tab-manage) is the trainer's single customer entity — one portfolio that
   // drills into one district. There is no separate Projects/My Team noun in trainer view.
-  const ALL_TABS = ['tab-home','tab-author','tab-library','tab-manage','tab-learn','tab-myteam'];
+  const ALL_TABS = ['tab-home','tab-author','tab-library','tab-manage','tab-learn','tab-practice','tab-myteam'];
   const VISIBLE = _viewMode === 'customer'
-    ? ['tab-library','tab-learn','tab-myteam']
+    ? ['tab-library','tab-learn','tab-practice','tab-myteam']
     : ['tab-home','tab-author','tab-library','tab-manage'];
   ALL_TABS.forEach(id => show(id, VISIBLE.includes(id)));
   // Quality (grounding QA) is a trainer-only admin affordance — header gear, hidden for customers.
@@ -4834,7 +4873,7 @@ function showView(name) {
   // Persona guard: a customer can only reach customer-facing views. Trainer-only views
   // (district management, Create, Studio, Quality, the add-district flow) redirect to the
   // customer home — so a stale #project/... hash or stray call can't leak the internal UI.
-  const CUSTOMER_OK = ['learn','content','myteam','howitworks'];
+  const CUSTOMER_OK = ['learn','content','myteam','howitworks','practice'];
   if (_viewMode === 'customer' && !CUSTOMER_OK.includes(name)) name = 'learn';
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
@@ -12323,9 +12362,10 @@ function updateTabVisibility(role) {
   if (_viewMode !== 'customer') return;  // trainer nav is managed by applyViewMode()
   const hide = function(id) { const el = document.getElementById(id); if (el) el.hidden = true; };
   const show = function(id) { const el = document.getElementById(id); if (el) el.hidden = false; };
-  // Always show learn + library in customer view.
+  // Always show learn + library + practice in customer view.
   show('tab-learn');
   show('tab-library');
+  show('tab-practice');  // D4: Practice visible to all learner roles (cashier, director, etc.)
   if (role === 'director') {
     show('tab-myteam');
   } else {
@@ -12597,6 +12637,456 @@ function _d2PatchCatalogQuizEmpty() {
     </div>`;
   }
 }
+
+// ── D4: Practice mode (spaced repetition) ────────────────────────────────────
+// State for the practice taker.
+let _pt = null;  // { items, pos, missed, uid }
+
+/**
+ * loadPractice()
+ * Called by showView('practice').  Fetches or builds today's session and renders
+ * the home card in #practice-home-body.
+ */
+async function loadPractice() {
+  const body = document.getElementById('practice-home-body');
+  if (!body) return;
+  body.innerHTML = '<div class="empty-state"><p class="empty-headline">Loading…</p></div>';
+
+  const uid = _demoUserHeader();
+  try {
+    const resp = await fetch('/api/users/' + encodeURIComponent(uid) + '/practice', {
+      headers: { 'X-Demo-User': uid },
+    });
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const data = await resp.json();
+    body.innerHTML = _renderPracticeHome(data, uid);
+  } catch (e) {
+    body.innerHTML = '<div class="empty-state"><p class="empty-headline">Could not load practice.</p><p class="empty-body">' + escapeHtml(e.message) + '</p></div>';
+  }
+}
+
+/**
+ * _renderPracticeHome(data, uid)
+ * Renders the session card or empty state for the Practice home.
+ */
+function _renderPracticeHome(data, uid) {
+  const { session, session_ready, items_count, queue_count } = data;
+
+  // Empty state: no approved content in pool yet.
+  if (!session || items_count === 0) {
+    return `<div class="empty-state">
+      <div class="empty-icon">&#128218;</div>
+      <p class="empty-headline">Complete a lesson to unlock daily practice</p>
+      <p class="empty-body">Once you've worked through a course, daily practice will appear here — 5 quick questions to make it stick.</p>
+    </div>`;
+  }
+
+  // Already completed today.
+  if (session && session.completed) {
+    const streak = ''; // D3 streak will surface here once built
+    return `<div class="track-hero" style="margin-bottom:16px;">
+      <div class="track-hero-done" style="font-size:22px;">&#10003;</div>
+      <div class="track-hero-body">
+        <div class="track-hero-title">Practice done for today</div>
+        <div class="track-hero-sub">${streak || 'Great work — see you tomorrow!'}</div>
+      </div>
+      <button class="track-hero-cta btn" style="background:var(--surface-2);color:var(--text);border:1px solid var(--border);"
+        onclick="rebuildPracticeSession('${escAttr(uid)}')">Review again?</button>
+    </div>
+    <div class="path-aside-note" style="margin-top:8px;font-size:12px;color:var(--muted);">
+      ${queue_count > 0 ? queue_count + ' missed item' + (queue_count > 1 ? 's' : '') + ' queued for tomorrow.' : 'Nothing in your review queue right now.'}
+    </div>`;
+  }
+
+  // Session ready — show the card.
+  const timeEst = Math.ceil(items_count * 0.75) + '–' + (items_count + 1) + ' min';
+  return `<div class="track-hero" style="margin-bottom:16px;">
+    <div class="track-hero-ring">
+      <svg viewBox="0 0 44 44" width="44" height="44" aria-hidden="true">
+        <circle cx="22" cy="22" r="18" fill="none" stroke="var(--border)" stroke-width="4"/>
+        <circle cx="22" cy="22" r="18" fill="none" stroke="var(--accent)" stroke-width="4"
+          stroke-dasharray="30 83.1" stroke-dashoffset="0" transform="rotate(-90 22 22)"/>
+      </svg>
+      <span class="track-hero-pct" style="font-size:11px;">${items_count}</span>
+    </div>
+    <div class="track-hero-body">
+      <div class="track-hero-title">Today's Practice</div>
+      <div class="track-hero-sub">${items_count} item${items_count !== 1 ? 's' : ''} · ~${timeEst}</div>
+      ${queue_count > 0 ? '<div class="track-hero-next">Includes ' + queue_count + ' review item' + (queue_count > 1 ? 's' : '') + '</div>' : ''}
+    </div>
+    <button class="track-hero-cta btn btn-primary" style="min-height:44px;"
+      onclick="openPracticeSession('${escAttr(uid)}')">Start Practice</button>
+  </div>`;
+}
+
+/**
+ * openPracticeSession(uid)
+ * Loads today's session and opens the practice taker overlay.
+ */
+async function openPracticeSession(uid) {
+  const overlay = document.getElementById('practice-taker-overlay');
+  const itemArea = document.getElementById('pt-item-area');
+  if (!overlay || !itemArea) return;
+
+  itemArea.innerHTML = '<div style="text-align:center;padding:40px;color:var(--muted);">Loading…</div>';
+  overlay.hidden = false;
+
+  try {
+    const resp = await fetch('/api/users/' + encodeURIComponent(uid) + '/practice', {
+      headers: { 'X-Demo-User': uid },
+    });
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const data = await resp.json();
+    const items = (data.session && data.session.items) || [];
+    if (!items.length) {
+      itemArea.innerHTML = '<div class="empty-state"><p class="empty-headline">No items in this session.</p></div>';
+      return;
+    }
+    _pt = { items, pos: 0, missed: 0, uid };
+    _ptRenderItem();
+  } catch(e) {
+    if (itemArea) itemArea.innerHTML = '<div class="async-error"><p class="ae-title">Could not load practice items</p><p>' + escapeHtml(e.message) + '</p></div>';
+  }
+}
+
+/**
+ * closePracticeTaker()
+ * Dismiss the practice taker overlay without marking complete.
+ */
+function closePracticeTaker() {
+  const overlay = document.getElementById('practice-taker-overlay');
+  if (overlay) overlay.hidden = true;
+  _pt = null;
+}
+
+/**
+ * _ptRenderItem()
+ * Render the current practice item (flashcard or question).
+ */
+function _ptRenderItem() {
+  if (!_pt) return;
+  const { items, pos } = _pt;
+  const total = items.length;
+  const item = items[pos];
+
+  // Update progress UI.
+  const pctVal = Math.round((pos / total) * 100);
+  const fill = document.getElementById('pt-progress-fill');
+  const label = document.getElementById('pt-progress-label');
+  const pctEl = document.getElementById('pt-progress-pct');
+  if (fill) fill.style.width = pctVal + '%';
+  if (label) label.textContent = 'Item ' + (pos + 1) + ' of ' + total;
+  if (pctEl) pctEl.textContent = pctVal + '%';
+
+  const area = document.getElementById('pt-item-area');
+  const nav = document.getElementById('pt-nav');
+  if (!area) return;
+
+  if (item.type === 'flashcard') {
+    _ptRenderFlashcard(item, area, nav);
+  } else if (item.type === 'question') {
+    _ptRenderQuestion(item, pos, area, nav);
+  }
+}
+
+/**
+ * _ptRenderFlashcard(item, area, nav)
+ * Render a flashcard using the same flip pattern as _fdRender().
+ * Shows "Got it / Review again" actions after flip.
+ */
+function _ptRenderFlashcard(item, area, nav) {
+  let flipped = false;
+
+  function render() {
+    area.innerHTML = `
+      <div class="fd-card-wrap" style="touch-action:manipulation;">
+        <div class="fd-card${flipped ? ' fd-flipped' : ''}" id="pt-fd-card" onclick="_ptFlipCard()" title="Tap to flip" style="cursor:pointer;">
+          <div class="fd-face fd-front">
+            <div class="fd-front-label">QUESTION</div>
+            <p class="fd-front-text">${escapeHtml(item.front)}</p>
+            <span class="fd-flip-hint">Tap to reveal answer</span>
+          </div>
+          <div class="fd-face fd-back">
+            <div class="fd-back-label">ANSWER</div>
+            <p class="fd-back-text">${escapeHtml(item.back)}</p>
+            <div class="fd-source">
+              <span class="fd-source-label">Source:</span>
+              <span class="fd-source-quote">"${escapeHtml(item.source_quote || '')}"</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      ${flipped ? `<div class="fd-sort-row" style="margin-top:16px;">
+        <button class="fd-btn-review" style="min-height:44px;" onclick="_ptCardMissed()">&#x1F501; Review again</button>
+        <button class="fd-btn-got" style="min-height:44px;" onclick="_ptCardGotIt()">&#x2713; Got it</button>
+      </div>` : `<p style="text-align:center;color:var(--muted);font-size:13px;margin-top:8px;">Flip the card to reveal the answer</p>`}`;
+    if (nav) nav.innerHTML = '';
+  }
+
+  window._ptFlipCard = function() {
+    flipped = !flipped;
+    render();
+  };
+  render();
+}
+
+function _ptCardGotIt() {
+  _ptAdvance(true);
+}
+
+function _ptCardMissed() {
+  _ptAdvance(false);
+}
+
+/**
+ * _ptRenderQuestion(item, pos, area, nav)
+ * Render a quiz question in practice mode.
+ * Reuses the question_data shape and shows source quote after answer.
+ */
+function _ptRenderQuestion(item, pos, area, nav) {
+  const q = item.question_data || {};
+  const qtype = (q.type || 'mcq').toLowerCase();
+  // Build a minimal _taker-compatible structure so we can use takerPick* functions.
+  // We use a practice-namespaced state to avoid colliding with the quiz modal _taker.
+  if (!window._ptTakerState) window._ptTakerState = {};
+  window._ptTakerState[pos] = { picked: null, answered: false };
+
+  const stemHtml = `<div class="stem" style="font-size:15px;font-weight:600;margin-bottom:16px;">${escapeHtml(q.stem || q.prompt || '')}</div>`;
+
+  let body = '';
+  if (qtype === 'tf') {
+    body = `<div class="tf-btns">
+      <button class="tf-btn" style="min-height:44px;" id="pt-tf-true" onclick="_ptPickTF(${pos}, true)">True</button>
+      <button class="tf-btn" style="min-height:44px;" id="pt-tf-false" onclick="_ptPickTF(${pos}, false)">False</button>
+    </div>`;
+  } else if (qtype === 'fitb') {
+    body = `<div class="fitb-row">
+      <input class="fitb-input" id="pt-fitb-${pos}" type="text" placeholder="Type your answer…"
+             style="font-size:16px;" aria-label="Fill in the blank"
+             onkeydown="if(event.key==='Enter') _ptCheckFITB(${pos})">
+      <button class="secondary fitb-check" style="min-height:44px;" onclick="_ptCheckFITB(${pos})">Check</button>
+    </div>`;
+  } else if (qtype === 'ordering') {
+    const steps = q.steps || [];
+    body = `<ol class="ordering-list" id="pt-ord-list-${pos}">` +
+      steps.map((s, si) => `<li class="ordering-item" id="pt-ord-${pos}-${si}" style="min-height:44px;">
+        <span class="ordering-item-num">${si+1}</span>
+        <span style="flex:1;">${escapeHtml(s)}</span>
+        <button class="ordering-move" style="min-height:44px;" onclick="_ptOrderMove(${pos},${si},-1)" aria-label="Move up" ${si===0?'disabled':''}>&#x2191;</button>
+        <button class="ordering-move" style="min-height:44px;" onclick="_ptOrderMove(${pos},${si},1)" aria-label="Move down" ${si===steps.length-1?'disabled':''}>&#x2193;</button>
+      </li>`).join('') +
+    `</ol><div class="ordering-submit-row"><button class="secondary" style="min-height:44px;" onclick="_ptSubmitOrdering(${pos})">Lock in order</button></div>`;
+  } else {
+    // MCQ
+    const opts = q.options || [];
+    body = `<div class="opts">${opts.map((o, oi) =>
+      `<button class="quiz-opt" style="display:block;width:100%;text-align:left;min-height:44px;padding:12px 14px;"
+        data-pt-qi="${pos}" data-pt-oi="${oi}" onclick="_ptPickMCQ(${pos},${oi})">${escapeHtml(o)}</button>`
+    ).join('')}</div>`;
+  }
+
+  area.innerHTML = `<div class="quiz-q" id="pt-q-${pos}">${stemHtml}${body}</div>`;
+  if (nav) nav.innerHTML = '';
+
+  // Store ordering state
+  if (qtype === 'ordering') {
+    if (!window._ptOrderState) window._ptOrderState = {};
+    window._ptOrderState[pos] = (q.steps || []).map((_, idx) => idx);
+  }
+}
+
+// ── Practice question interaction functions ───────────────────────────────────
+
+window._ptPickMCQ = function(pos, oi) {
+  if (!_pt || !window._ptTakerState) return;
+  if (window._ptTakerState[pos] && window._ptTakerState[pos].answered) return;
+  window._ptTakerState[pos] = window._ptTakerState[pos] || {};
+  window._ptTakerState[pos].picked = oi;
+  document.querySelectorAll(`[data-pt-qi="${pos}"]`).forEach(b => b.classList.toggle('picked', +b.dataset.ptOi === oi));
+  // Show check answer button.
+  const nav = document.getElementById('pt-nav');
+  if (nav) nav.innerHTML = `<button class="primary" style="min-height:44px;" onclick="_ptCheckMCQ(${pos})">Check answer</button>`;
+};
+
+window._ptCheckMCQ = function(pos) {
+  if (!_pt) return;
+  const item = _pt.items[pos];
+  const q = (item && item.question_data) || {};
+  const state = (window._ptTakerState || {})[pos] || {};
+  const chosen = state.picked;
+  const correct = chosen === q.answer_index;
+  _ptShowFeedback(pos, correct, item);
+};
+
+window._ptPickTF = function(pos, val) {
+  if (!_pt) return;
+  if ((window._ptTakerState || {})[pos] && (window._ptTakerState[pos] || {}).answered) return;
+  window._ptTakerState = window._ptTakerState || {};
+  window._ptTakerState[pos] = window._ptTakerState[pos] || {};
+  window._ptTakerState[pos].picked = val;
+  document.querySelectorAll(`#pt-tf-true, #pt-tf-false`).forEach(b => {
+    const bv = b.id === 'pt-tf-true';
+    b.classList.toggle('picked', bv === val);
+  });
+  const nav = document.getElementById('pt-nav');
+  if (nav) nav.innerHTML = `<button class="primary" style="min-height:44px;" onclick="_ptCheckTF(${pos})">Check answer</button>`;
+};
+
+window._ptCheckTF = function(pos) {
+  if (!_pt) return;
+  const item = _pt.items[pos];
+  const q = (item && item.question_data) || {};
+  const state = (window._ptTakerState || {})[pos] || {};
+  const correct = state.picked === q.correct;
+  _ptShowFeedback(pos, correct, item);
+};
+
+window._ptCheckFITB = function(pos) {
+  if (!_pt) return;
+  const item = _pt.items[pos];
+  const q = (item && item.question_data) || {};
+  const inp = document.getElementById(`pt-fitb-${pos}`);
+  if (!inp) return;
+  const submitted = inp.value.trim();
+  const answer = (q.answer || '').trim();
+  const correct = submitted.toLowerCase() === answer.toLowerCase();
+  inp.disabled = true;
+  inp.classList.add(correct ? 'correct' : 'wrong');
+  _ptShowFeedback(pos, correct, item);
+};
+
+window._ptOrderMove = function(pos, si, dir) {
+  if (!window._ptOrderState || !window._ptOrderState[pos]) return;
+  const state = window._ptOrderState[pos];
+  const newPos = si + dir;
+  if (newPos < 0 || newPos >= state.length) return;
+  [state[si], state[newPos]] = [state[newPos], state[si]];
+  // Re-render list items.
+  const item = _pt && _pt.items[pos];
+  const q = (item && item.question_data) || {};
+  const steps = q.steps || [];
+  const list = document.getElementById(`pt-ord-list-${pos}`);
+  if (!list) return;
+  list.innerHTML = steps.map((s, idx) => `<li class="ordering-item" id="pt-ord-${pos}-${idx}" style="min-height:44px;">
+    <span class="ordering-item-num">${idx+1}</span>
+    <span style="flex:1;">${escapeHtml(s)}</span>
+    <button class="ordering-move" style="min-height:44px;" onclick="_ptOrderMove(${pos},${idx},-1)" aria-label="Move up" ${idx===0?'disabled':''}>&#x2191;</button>
+    <button class="ordering-move" style="min-height:44px;" onclick="_ptOrderMove(${pos},${idx},1)" aria-label="Move down" ${idx===steps.length-1?'disabled':''}>&#x2193;</button>
+  </li>`).join('');
+};
+
+window._ptSubmitOrdering = function(pos) {
+  if (!_pt) return;
+  const item = _pt.items[pos];
+  const q = (item && item.question_data) || {};
+  const state = (window._ptOrderState || {})[pos] || [];
+  const correct = JSON.stringify(state) === JSON.stringify(q.correct_order || []);
+  _ptShowFeedback(pos, correct, item);
+};
+
+/**
+ * _ptShowFeedback(pos, correct, item)
+ * Render inline correct/incorrect feedback with the source quote.
+ * Missed items are queued; correct items advance.
+ */
+function _ptShowFeedback(pos, correct, item) {
+  if (!_pt) return;
+  const state = window._ptTakerState || {};
+  if (state[pos]) state[pos].answered = true;
+
+  const container = document.getElementById(`pt-q-${pos}`);
+  const sq = item.source_quote || ((item.question_data || {}).source_span) || '';
+  const expl = (item.question_data || {}).explanation || '';
+
+  if (container) {
+    // Remove old feedback if present.
+    const old = container.querySelector('.quiz-src');
+    if (old) old.remove();
+    const fb = document.createElement('div');
+    fb.className = 'quiz-src';
+    fb.style.marginTop = '12px';
+    fb.innerHTML = (correct
+      ? '<b style="color:var(--green-text);">&#10003; Correct!</b>'
+      : '<b style="color:var(--red,#B3543B);">&#10007; Incorrect</b>') +
+      (sq ? `<br><span class="sq" style="display:block;margin-top:4px;">"${escapeHtml(sq)}"</span>` : '') +
+      (expl ? `<br><span style="font-size:12px;color:var(--muted);">${escapeHtml(expl)}</span>` : '');
+    container.appendChild(fb);
+  }
+
+  // Queue missed items for next session.
+  if (!correct) {
+    _pt.missed++;
+    const uid = _pt.uid || _demoUserHeader();
+    fetch('/api/users/' + encodeURIComponent(uid) + '/practice/missed', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Demo-User': uid },
+      body: JSON.stringify(item),
+    }).catch(() => {}); // Non-fatal
+  }
+
+  // Show "Next" or "Finish" button.
+  const nav = document.getElementById('pt-nav');
+  if (nav) {
+    const isLast = (pos === _pt.items.length - 1);
+    if (isLast) {
+      nav.innerHTML = `<button class="primary" style="min-height:44px;" onclick="_ptFinish()">Finish practice &#x1F525;</button>`;
+    } else {
+      nav.innerHTML = `<button class="primary" style="min-height:44px;" onclick="_ptNext()">Next &#x2192;</button>`;
+    }
+  }
+}
+
+function _ptNext() {
+  if (!_pt) return;
+  _pt.pos++;
+  if (window._ptTakerState) window._ptTakerState[_pt.pos] = { picked: null, answered: false };
+  _ptRenderItem();
+}
+
+/**
+ * _ptFinish()
+ * Mark the session complete, award XP toast, close taker, refresh home.
+ */
+async function _ptFinish() {
+  if (!_pt) return;
+  const uid = _pt.uid || _demoUserHeader();
+
+  // Mark complete server-side.
+  try {
+    await fetch('/api/users/' + encodeURIComponent(uid) + '/practice/complete', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Demo-User': uid },
+    });
+  } catch(e) { /* non-fatal */ }
+
+  closePracticeTaker();
+
+  // XP toast (D3 integration: fires here even before D3 is fully built)
+  _showToast('Practice complete! See you tomorrow &#x1F525;', 3000);
+
+  // Refresh the practice home.
+  loadPractice();
+}
+
+/**
+ * rebuildPracticeSession(uid)
+ * Called from the "Review again?" button on the completed-today state.
+ * Asks the server to build a fresh session (the GET endpoint always returns
+ * the existing session if already built; to rebuild we'd need a PUT, so for
+ * now we just open the existing session again).
+ */
+async function rebuildPracticeSession(uid) {
+  openPracticeSession(uid);
+}
+
+// ── Patch showView to load practice when switching to that tab ────────────────
+const _origShowView = showView;
+showView = function(name) {
+  _origShowView(name);
+  if (name === 'practice') {
+    loadPractice();
+  }
+};
 
 // ── D2: "modules" → "lessons" jargon sweep ────────────────────────────────────
 // The one learner-visible "modules" string in _renderRealTrack path-stats is
