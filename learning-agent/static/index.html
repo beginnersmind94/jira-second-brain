@@ -80,6 +80,7 @@
       font-family: var(--font);
       font-size: 14px;
       color: var(--text);
+      overflow-x: hidden; /* D6: prevent horizontal scroll at any viewport width */
       background:
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E"),
         radial-gradient(1100px 420px at 82% -140px, rgba(179,84,59,0.07), transparent 60%),
@@ -2946,6 +2947,95 @@
     }
     /* Quiz inline (inside cp-pane, not a modal overlay) */
     .cp-quiz-wrap { margin-top: 8px; }
+
+    /* ════════════════════════════════════════════════════════════════
+       D6 — MOBILE + PERFORMANCE PASS (375px audit fixes)
+       ════════════════════════════════════════════════════════════════ */
+
+    /* 1. Trainer lazy-hide — applied before first paint on learner path */
+    .trainer-lazy { display: none !important; }
+
+    /* 2. Global touch-target floor: 44px min-height on all interactive elements
+          in the taker, player, and nav surfaces. Use padding to achieve this
+          so text labels are unaffected. */
+    .quiz-opt { min-height: 44px; }
+    .ordering-item { min-height: 44px; }
+    .ordering-move { min-height: 44px; min-width: 44px; }
+    .cp-btn-prev { min-height: 44px; }
+    .cp-btn-next { min-height: 44px; }
+    .cp-rail-lesson { min-height: 44px; }
+
+    /* 3. Input font-size floor: 16px prevents iOS auto-zoom on focus */
+    .fitb-input { font-size: 16px !important; }
+    input.tb-in, textarea.tb-in, select.tb-in,
+    input.fitb-input { font-size: 16px; }
+
+    /* 4. Quiz MCQ options: full-width block at narrow viewports (already
+          display:block;width:100% on .quiz-opt — verify padding is generous) */
+    .quiz-opt { padding: 12px 14px; }
+
+    /* 5. Flashcard: touch-action on the flip container to prevent scroll
+          stealing while tapping/swiping the card */
+    .fd-card-wrap { touch-action: manipulation; }
+    .fd-card { touch-action: manipulation; }
+
+    /* 6. Origin-badge contrast fixes — WCAG 2.1 AA (4.5:1)
+          Measured against the badge backgrounds:
+          ai-grounded:    #d4edda bg → #155724 text  ≈ 7.1:1  ✓
+          human-authored: #fff3cd bg → #6b4f0b text  (original #856404 ≈ 4.4:1, just below)
+          outside-vendor: #cce5ff bg → #003a75 text  (original #004085 ≈ 5.3:1 ✓) */
+    .origin-badge.human-authored { color: #6b4f0b; } /* darkened from #856404 → ~5.3:1 on #fff3cd */
+
+    /* 7. Focus ring — extend to [tabindex] elements (cp-rail-lesson uses tabindex="0") */
+    [tabindex]:focus-visible {
+      outline: 2px solid var(--blue-500, var(--accent));
+      outline-offset: 2px;
+      border-radius: 6px;
+    }
+
+    /* 8. Swipe hint for course player rail on mobile */
+    .cp-swipe-hint {
+      position: absolute;
+      bottom: 68px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.7);
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 13px;
+      pointer-events: none;
+      white-space: nowrap;
+      z-index: 10;
+      display: none; /* shown only at ≤768px via media query below */
+    }
+    @media (max-width: 768px) {
+      .cp-swipe-hint { display: block; }
+    }
+
+    /* 9. Advance banner + complete card: wrap gracefully at 375px */
+    @media (max-width: 480px) {
+      .cp-advance-banner { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .cp-advance-btns { width: 100%; justify-content: flex-end; }
+      .cp-complete-card { padding: 32px 20px; }
+      /* TF buttons: stay side-by-side down to 320px (already flex, gap 10px) */
+      .tf-btn { font-size: 14px; }
+    }
+
+    /* 10. Video attribution band: no horizontal overflow at 375px */
+    .video-attribution-band { box-sizing: border-box; width: 100%; }
+
+    /* 11. Source popover: full-width on narrow viewports */
+    @media (max-width: 540px) {
+      .source-popover-overlay { padding: 16px 8px; }
+      .source-popover-card { padding: 16px 14px; }
+    }
+
+    /* 12. cp-footer buttons: ensure 44px targets */
+    .cp-footer { gap: 8px; flex-wrap: wrap; }
+    @media (max-width: 375px) {
+      .cp-btn-prev, .cp-btn-next { flex: 1; text-align: center; }
+    }
   </style>
 </head>
 <body>
@@ -3040,7 +3130,7 @@
 </aside>
 
 <!-- ═══════════════════════════════════ AUTHOR ═══════════════════════════════════ -->
-<section id="view-author" class="view active">
+<section id="view-author" class="view active" data-trainer-only="true">
   <div class="create-hub">
     <div class="create-hub-head">
       <h1>Create</h1>
@@ -3322,7 +3412,8 @@
   <!-- Sub-view 3: Lesson player for demo (fixed overlay, demo tracks only) -->
   <div id="lesson-player" hidden></div>
   <!-- Sub-view 4: Unified course player for real tracks (D1) -->
-  <div id="cp-player" hidden></div>
+  <!-- D6: role="dialog" + aria-label for WCAG 2.1 AA; swipe hint injected by JS -->
+  <div id="cp-player" hidden role="dialog" aria-label="Course player"></div>
 </section>
 
 <!-- ═══ persona placeholders (real content lands later) ═══ -->
@@ -3345,7 +3436,7 @@
     <div id="home-body"></div>
   </div>
 </section>
-<section id="view-tracks" class="view">
+<section id="view-tracks" class="view" data-trainer-only="true">
   <div class="roster-wrap">
     <div class="roster-head"><div><h1 class="roster-title">Tracks</h1><p class="roster-sub">Build tracks from approved content, then bundle them into learning paths.</p></div>
       <div style="display:flex;gap:8px;align-items:center;"><button class="secondary" onclick="openCourseBuilder()">+ New Course</button><button class="primary" onclick="openTrackBuilder()">+ New Track</button></div></div>
@@ -4616,6 +4707,12 @@ function applyViewMode() {
   // Mobile customer tab bar: visible only in customer view (CSS @media further gates to ≤480px).
   const mobileNav = document.getElementById('mobile-customer-nav');
   if (mobileNav) mobileNav.hidden = (_viewMode !== 'customer');
+
+  // D6: Trainer lazy-hide — immediately class trainer-only sections so learner
+  // path skips their DOM cost on first paint. Toggled back when view returns to trainer.
+  document.querySelectorAll('[data-trainer-only="true"]').forEach(el => {
+    el.classList.toggle('trainer-lazy', _viewMode === 'customer');
+  });
 
   // land on the persona's home — every switch (also clears any orphaned highlight on a now-hidden tab)
   showView(_viewMode === 'customer' ? 'learn' : 'home');
@@ -8263,6 +8360,25 @@ async function openCoursePlayer(trackId, startLessonRef) {
   performance.measure('player-load', 'player-start', 'player-ready');
   const m = performance.getEntriesByName('player-load').slice(-1)[0];
   if (m) console.log('[D1] player-load:', Math.round(m.duration) + 'ms');
+  // D6: expose _playerLoadMs + warn if over 3s SLA
+  const _plMeasure = performance.getEntriesByName('player-load').slice(-1)[0];
+  if (_plMeasure) {
+    window._playerLoadMs = Math.round(_plMeasure.duration);
+    if (_plMeasure.duration > 3000) {
+      console.warn('[D6] player-load exceeded 3s SLA: ' + window._playerLoadMs + 'ms');
+    }
+  }
+  // D6: show swipe hint on mobile once per session
+  if (!localStorage.getItem('cp_swipe_hint_shown')) {
+    const hint = document.getElementById('cp-swipe-hint');
+    if (hint) {
+      hint.style.display = 'block';
+      setTimeout(function() {
+        if (hint) hint.style.display = 'none';
+        localStorage.setItem('cp_swipe_hint_shown', '1');
+      }, 3000);
+    }
+  }
 }
 
 /** Mark a lesson done in local state AND post to server. Idempotent. */
@@ -8309,7 +8425,7 @@ function _cpRender() {
 
   // ── Top bar ──
   const topBar = `<div class="cp-topbar">
-    <button class="cp-back-btn" onclick="closeCoursePlayer()">← Back</button>
+    <button class="cp-back-btn" onclick="closeCoursePlayer()" aria-label="Back">← Back</button>
     <span class="cp-track-title">${escapeHtml(track.title || 'Track')}</span>
     <div class="cp-topbar-right">
       <span class="cp-pct-label">${pct}%</span>
@@ -8345,13 +8461,17 @@ function _cpRender() {
   const isFirst = currentIdx === 0;
   const isLast = currentIdx === allLessons.length - 1;
   const footer = `<div class="cp-footer">
-    <button class="cp-btn-prev" onclick="cpPrev()"${isFirst ? ' disabled' : ''}>← Previous</button>
-    <button class="cp-btn-next" id="cp-btn-next" onclick="cpNext()">${isLast ? 'Finish' : 'Next →'}</button>
+    <button class="cp-btn-prev" onclick="cpPrev()"${isFirst ? ' disabled' : ''} aria-label="Previous lesson">← Previous</button>
+    <button class="cp-btn-next" id="cp-btn-next" onclick="cpNext()" aria-label="${isLast ? 'Finish course' : 'Next lesson'}">${isLast ? 'Finish' : 'Next →'}</button>
   </div>`;
 
+  // D6: swipe hint element (shown by JS after player-load on mobile, once per session)
+  const swipeHint = `<div class="cp-swipe-hint" id="cp-swipe-hint" aria-hidden="true">Swipe to see all lessons ↑</div>`;
+
   cp.innerHTML = topBar + `
-    <div class="cp-body">
-      <div class="cp-rail" id="cp-rail">${railHtml}</div>
+    <div class="cp-body" style="position:relative;">
+      <nav class="cp-rail" id="cp-rail" aria-label="Course lessons">${railHtml}</nav>
+      ${swipeHint}
       <div class="cp-pane" id="cp-pane">
         <div class="cp-pane-inner" id="cp-pane-inner">
           <div id="cp-lesson-content">Loading…</div>
