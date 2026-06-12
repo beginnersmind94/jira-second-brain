@@ -94,6 +94,10 @@ from scorers import compute_scores
 # Stub mode when SCHOOLCAFE_API_URL / SCHOOLCAFE_API_KEY env vars are absent.
 from roster_sync import RosterSyncClient
 import completion_store as _cs
+# SCORM 1.2 package export (V2).
+import scorm_export
+# xAPI statement emitter — stub mode until LRS_ENDPOINT + LRS_KEY are set in .env (V2).
+import xapi_client as _xapi
 
 load_dotenv()
 
@@ -430,6 +434,18 @@ async def api_mark_module_done(
             "sync_completion failed (non-fatal) learner=%s track=%s: %s",
             current_user.id, tid, exc,
         )
+
+    # Emit xAPI 'progressed' statement (non-fatal).
+    if module_id:
+        try:
+            actor = {
+                "name": current_user.name or current_user.id,
+                "id": current_user.id,
+                "email": f"{current_user.id}@learning.cybersoft.net",
+            }
+            await _xapi.client.emit_progressed(actor=actor, track=track, module_id=module_id)
+        except Exception:
+            pass  # non-fatal by design
 
     return progress
 
@@ -1394,6 +1410,18 @@ async def issue_certificate(
             "cert sync_completion failed (non-fatal) learner=%s track=%s: %s",
             current_user.id, track_id, exc,
         )
+
+    # Emit xAPI 'completed' statement (non-fatal — LRS outage must never block cert issuance).
+    try:
+        learner_id = (payload.get("learner_id") or current_user.id or "").strip()
+        actor = {
+            "name": learner,
+            "email": payload.get("learner_email") or f"{learner_id}@learning.cybersoft.net",
+            "id": learner_id,
+        }
+        await _xapi.client.emit_completed(actor=actor, track=track, score=100.0)
+    except Exception:
+        pass  # non-fatal by design
 
     return JSONResponse(cert)
 

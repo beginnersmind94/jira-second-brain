@@ -2850,6 +2850,15 @@
           </button>
           <div style="margin-left:auto;display:flex;gap:8px;">
             <button class="secondary" id="tb-save-meta-btn" onclick="tbSaveMeta()">Save changes</button>
+            <button class="secondary" id="tb-scorm-btn" onclick="tbExportSCORM()"
+                    title="Download a SCORM 1.2 package — import into your LMS">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor"
+                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+              Export as SCORM
+            </button>
             <button class="primary" id="tb-publish-btn" onclick="tbPublishTrack()">
               <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor"
                    stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -8874,7 +8883,37 @@ async function tbPublishTrack() {
 }
 
 // ── Delete track ──
-async function tbConfirmDeleteTrack() {
+async async function tbExportSCORM() {
+  if (!_tbCurrentTrack) { tbShowToast('Select a track first.'); return; }
+  const tid = _tbCurrentTrack.id;
+  const title = _tbCurrentTrack.title || tid;
+  const btn = document.getElementById('tb-scorm-btn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Building…'; }
+  try {
+    const r = await fetch('/api/tracks/' + encodeURIComponent(tid) + '/scorm');
+    if (!r.ok) {
+      const err = await r.json().catch(() => ({}));
+      throw new Error(err.detail || ('HTTP ' + r.status));
+    }
+    const blob = await r.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = title.replace(/[^\w\s-]/g, '').trim().replace(/\s+/g, '_') + '.zip';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    tbShowToast('SCORM package downloaded.', 'success');
+  } catch (e) {
+    tbShowToast('Export failed: ' + e.message, 'error');
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Export as SCORM';
+    }
+  }
+}
+
+function tbConfirmDeleteTrack() {
   if (!_tbCurrentTrack) return;
   if (!confirm('Delete "' + _tbCurrentTrack.title + '"? This cannot be undone.')) return;
   try {

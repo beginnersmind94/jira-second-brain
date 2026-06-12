@@ -71,5 +71,13 @@ Tabs: Create · Library · Content · Quality · Roster · How it works. Trainer
 `completion_store.py` (disk-backed per-learner completion records; keyed by user_id; feeds /api/tracks/{id} progress + /api/tracks/{id}/progress + /api/certificates) · `auth.py` (identity interface: `CurrentUser` + `get_current_user` FastAPI dependency; demo stub until Task 11 SSO) · `demo_app.py` (FastAPI server, all routes incl. /generate, /api/icn*, /api/roster, /api/config) ·
 `demo_d.py` (registry / assemble / section writers) · `demo.py` (offline tools + `validate_citations`) ·
 `qbank_curation.py`, `qbank_gate_hooks.py`, `qbank_gate.py` (gates) · `static/index.html` (the entire UI — one large file) ·
+`scorm_export.py` (SCORM 1.2 package builder — `build_scorm_package(track, modules) -> bytes`) ·
+`xapi_client.py` (`XAPIClient`, `emit_completed`, `emit_progressed`; stub logs to `logs/xapi-stub.jsonl`) ·
 `data/icn/` (ICN pack) · `data/demo/*-fixture.json` (Jira fixtures) · `eval/` (regression + capability) ·
 `docs/` (ADR-001, STATE-OF-EVAL, CASE-STUDY, REPO-WORKFLOW, NEXT-EVALS-PLAN).
+
+## Activating SCORM export + xAPI (V2)
+- **SCORM:** works out of the box — `GET /api/tracks/{id}/scorm` returns a `.zip` a trainer can import into any SCORM 1.2 LMS. The "Export as SCORM" button is in the track builder actions card.
+- **xAPI (stub mode):** statements are written to `logs/xapi-stub.jsonl` by default. No config needed to see it working.
+- **xAPI (production mode):** add `LRS_ENDPOINT=https://your-lrs/xapi/statements` and `LRS_KEY=user:password` (Basic auth) or `LRS_KEY=Bearer <token>` to `.env` and restart. `GET /api/xapi/status` returns `{"stub": false, "lrs_configured": true}`.
+- Both are non-fatal: an unreachable LRS or zip-build error logs and continues; cert issuance and module completion are never blocked.
