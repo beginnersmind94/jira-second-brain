@@ -245,6 +245,32 @@ def get_certificate(cert_id: str) -> dict | None:
     return None
 
 
+def reset_demo_users(demo_user_ids: list[str]) -> list[str]:
+    """Delete all completion records and certificates for the given demo user ids.
+
+    Idempotent: calling with an id that has no records is a no-op (no error).
+    Returns the list of user ids that were actually found and cleaned.
+
+    This is the backend for POST /api/demo/reset (conference mode only).
+    Only touches users whose ids are in ``demo_user_ids`` — real user records
+    are never modified.
+    """
+    import shutil
+
+    cleaned: list[str] = []
+    for uid in demo_user_ids:
+        ud = _user_dir(uid)
+        if not ud.exists():
+            continue
+        try:
+            shutil.rmtree(ud)
+            cleaned.append(uid)
+        except OSError:
+            # Best-effort: log and continue so a single bad file doesn't abort the reset.
+            pass
+    return cleaned
+
+
 def get_all_progress(user_id: str) -> dict:
     """Return all stored progress records for a user.
 

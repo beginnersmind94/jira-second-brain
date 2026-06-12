@@ -101,6 +101,19 @@ import xapi_client as _xapi
 
 load_dotenv()
 
+# ── Conference demo mode ──────────────────────────────────────────────────────
+# Set DEMO_MODE=conference to enable clean presentation mode:
+#   - Watermarks / "DEMO DATA" banners suppressed on seeded artifacts
+#   - Internal/debug chrome hidden
+#   - Boot pre-warm runs (resources + ICN catalog cached eagerly)
+#   - POST /api/demo/reset available (pristine reset in <10s)
+#   - /api/config exposes conferenceMode: true
+#
+# NEVER set in a real district deployment — this flag suppresses honest labels.
+CONFERENCE_MODE: bool = os.getenv("DEMO_MODE", "").strip().lower() == "conference"
+if CONFERENCE_MODE:
+    print("[demo_app] CONFERENCE MODE active — watermarks suppressed, reset endpoint enabled")
+
 # ── Discover ALL available module fixtures; load one to start ─────────────────
 # The offline tools read demo._FIX (a single module's fixture). For multi-module
 # we discover every data/demo/*-fixture.json and swap demo._FIX per request to the
@@ -702,9 +715,10 @@ async def resource_pdf(rid: str):
 
     # Stamp a "pending review" banner until a human has approved the guide.
     # Approval (the Library gate) is the human sign-off — approved downloads are clean.
+    # In conference mode the banner is suppressed so the demo renders clean on stage.
     meta = prod._read_meta(meta_path) or {}
     banner = None
-    if not (meta.get("approved") or meta.get("sme_approved")):
+    if not CONFERENCE_MODE and not (meta.get("approved") or meta.get("sme_approved")):
         banner = ("⚠ PENDING REVIEW — provisional draft, grounding auto-verified "
                   "but not yet approved by a human reviewer. Do not treat as final.")
 
@@ -1901,9 +1915,17 @@ async def config():
     # mode needs NO fixture, so it also offers `extra_modules` (free, label-only) —
     # e.g. Financials — letting you generate + verify against your own domain.
     extra = [m for m in TRANSCRIPT_EXTRA_MODULES if m not in AVAILABLE_MODULES]
-    return {"modules": sorted(AVAILABLE_MODULES), "extra_modules": extra,
-            "templates": list(demo_d.VALID_FORMATS),
-            "external_learning": EXTERNAL_LEARNING}
+    return {
+        "modules": sorted(AVAILABLE_MODULES),
+        "extra_modules": extra,
+        "templates": list(demo_d.VALID_FORMATS),
+        "external_learning": EXTERNAL_LEARNING,
+        # Conference demo mode — the UI reads this to gate operator-only controls.
+        # NEVER true in production; only when DEMO_MODE=conference is set.
+        "conferenceMode": CONFERENCE_MODE,
+        "offlineDemo": True,
+        "demoMode": "conference" if CONFERENCE_MODE else "default",
+    }
 
 
 @app.get("/api/evals")
@@ -2386,6 +2408,16 @@ async def generate(
         raise HTTPException(400, f"unknown format: {template}")
     if source not in ("jira", "transcript"):
         raise HTTPException(400, f"unknown source: {source} (expected 'jira' or 'transcript')")
+
+    # Conference-mode generation theater: if a pre-recorded replay exists for the
+    # resource id that WOULD be generated (same deterministic key), stream it instead.
+    # Falls through to a live LLM call if no replay file is found.
+    if CONFERENCE_MODE:
+        rid_preview = prod._resource_id(module, template)
+        replay_path = _REPLAY_DIR / f"generation-replay-{rid_preview}.jsonl"
+        if replay_path.exists():
+            return EventSourceResponse(_stream_replay(rid_preview, replay_path))
+
     return EventSourceResponse(_stream_generation_demo(transcript_id, module, template, directive, source))
 
 
@@ -2852,6 +2884,133 @@ async def delete_resource(rid: str):
     return {"deleted": rid, "files": removed}
 
 
+# ── Conference-mode: pristine demo reset ─────────────────────────────────────
+# The demo personas by their actual completion_store user ids (from auth.py).
+_DEMO_PERSONA_IDS = [
+    "demo-user-001",  # john-cashier
+    "demo-user-002",  # dana-director
+    "demo-user-003",  # sam-trainer
+]
+
+
+@app.post("/api/demo/reset")
+async def demo_reset():
+    """Restore demo state to pristine for the next booth visitor.
+
+    ONLY available when DEMO_MODE=conference is set. Returns 403 otherwise.
+    Must complete in <10 seconds — a functional requirement for the booth loop.
+
+    Reset actions:
+    1. Delete completion records + certificates for all demo user ids.
+    2. Delete any leads log from data/leads/ (written by the G5 booth flow).
+    3. Reset in-memory library index so the next page load re-scans fresh.
+
+    Returns: {ok, reset_at (ISO8601), users_reset, elapsed_ms}
+    """
+    if not CONFERENCE_MODE:
+        raise HTTPException(
+            status_code=403,
+            detail={
+                "error": "conference_mode_only",
+                "message": (
+                    "POST /api/demo/reset is only available when DEMO_MODE=conference "
+                    "is set. This endpoint is not reachable in normal operation."
+                ),
+            },
+        )
+
+    t0 = time.time()
+
+    # 1. Delete completion records for all demo users.
+    cleaned = _cs.reset_demo_users(_DEMO_PERSONA_IDS)
+
+    # 2. Delete the booth leads log (G5 — written by the booth flow; may not exist).
+    leads_dir = Path(__file__).resolve().parent / "data" / "leads"
+    leads_deleted = []
+    if leads_dir.exists():
+        for lf in leads_dir.glob("*.jsonl"):
+            try:
+                lf.unlink()
+                leads_deleted.append(lf.name)
+            except OSError:
+                pass
+
+    # 3. Invalidate the in-memory library index so next /api/library/ask re-scans.
+    _LIB_INDEX["sig"] = None
+    _LIB_INDEX["docs"] = None
+
+    elapsed_ms = round((time.time() - t0) * 1000)
+    reset_at = datetime.now().isoformat(timespec="seconds")
+    print(f"[demo_app] Demo reset complete in {elapsed_ms}ms — "
+          f"users cleared: {cleaned}, leads deleted: {leads_deleted}")
+    return JSONResponse({
+        "ok": True,
+        "reset_at": reset_at,
+        "users_reset": cleaned,
+        "leads_deleted": leads_deleted,
+        "elapsed_ms": elapsed_ms,
+    })
+
+
+# ── Conference-mode: boot pre-warm ───────────────────────────────────────────
+# When CONFERENCE_MODE is True, eagerly load all published resources and the ICN
+# catalog into their in-memory caches on startup so first-load feels instant.
+# This runs after the FastAPI app is fully constructed (startup event).
+
+@app.on_event("startup")
+async def _conference_prewarm():
+    if not CONFERENCE_MODE:
+        return
+    try:
+        # Pre-warm the library document index (scans drafts/ + published/).
+        docs = _library_docs()
+        print(f"[demo_app] Conference pre-warm: {len(docs)} library docs cached")
+    except Exception as e:
+        print(f"[demo_app] Conference pre-warm (library) failed (non-fatal): {e}")
+    try:
+        # Pre-warm the ICN catalog.
+        _icn_load()
+        print("[demo_app] Conference pre-warm: ICN catalog cached")
+    except Exception as e:
+        print(f"[demo_app] Conference pre-warm (ICN) failed (non-fatal): {e}")
+    print("[demo_app] Conference mode: pre-warm complete")
+
+
+# ── Conference-mode: SSE generation replay ───────────────────────────────────
+# If DEMO_MODE=conference and a pre-recorded trace file exists at
+#   data/demo/generation-replay-<rid>.jsonl
+# the /generate endpoint will stream it line-by-line (with a small delay)
+# instead of calling the LLM. This enables the "watch it build" moment on stage
+# without the 2–4 min live-generation wait.
+#
+# If no replay file exists, generation falls through to the live LLM call.
+# To record a replay: run a live generation, find the trace at logs/<rid>.jsonl,
+# then copy it to data/demo/generation-replay-<rid>.jsonl.
+# The replay format is the existing JSONL log format: {"k": event_kind, "p": payload}
+
+_REPLAY_DIR = Path(__file__).resolve().parent / "data" / "demo"
+_REPLAY_DELAY_MS = float(os.getenv("DEMO_REPLAY_DELAY_MS", "80"))  # ms between events
+
+
+async def _stream_replay(rid: str, replay_path: Path):
+    """Stream a pre-recorded SSE generation trace from disk."""
+    print(f"[demo_app] Conference replay: streaming {replay_path.name}")
+    yield prod._sse_event("system", {"subtype": "replaying_recorded_generation"})
+    for line in replay_path.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            entry = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        kind = entry.get("k", "text")
+        payload = entry.get("p", {})
+        yield prod._sse_event(kind, payload)
+        if _REPLAY_DELAY_MS > 0:
+            await asyncio.sleep(_REPLAY_DELAY_MS / 1000.0)
+
+
 if __name__ == "__main__":
     import uvicorn
     # Windows: the Claude Agent SDK spawns the `claude` CLI as a child process,
@@ -2992,7 +3151,12 @@ async def compliance_report_pdf(isd: str):
         "<th>Completion</th><th>Status</th><th>Last Active</th></tr></thead>"
         f"<tbody>{rows_html}</tbody></table>"
     )
-    banner = "DEMO DATA \u2014 seeded roster. Requires SSO + roster sync (V1.5) for real data."
+    # In conference mode the watermark is suppressed so the demo renders clean.
+    # In default mode the watermark is always shown \u2014 honest labeling of seeded data.
+    banner = (
+        None if CONFERENCE_MODE
+        else "DEMO DATA \u2014 seeded roster. Requires SSO + roster sync (V1.5) for real data."
+    )
     try:
         pdf_bytes = render_html_to_pdf(report_html, banner=banner)
     except Exception as exc:  # pragma: no cover
