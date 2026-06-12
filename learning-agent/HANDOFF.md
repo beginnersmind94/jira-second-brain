@@ -49,6 +49,15 @@ cold-start → cited quiz probe) · **ISD roster/login simulation** (`/api/roste
 **Trainer vs Customer two-view toggle** · **`EXTERNAL_LEARNING` on/off feature flag** ·
 warm/terracotta redesign with design tokens + SchoolCafé branding (all in `static/index.html`).
 
+**Home panel role audit (2026-06-12):** Audited all content-event actor/action pairs in the
+Home "Content updates" panel and Notifications inbox drawer. Found one inconsistency: the
+inbox drawer (`openInboxDrawer`) was labelling all inbox items (including `flagged`, `updated`,
+`aging` types) as "approved" and rendering them under "Approved by PM team". Fixed: drawer now
+filters to `approved`-type items only; meta line shows the responsible PO name (from
+`_DEMO.smes`) rather than the generic "PM team"; section count reflects approved items only.
+No Jaime-as-approver instances found anywhere in rendered output. Feed-panel `smes` table
+has no Jaime entry. `notifyPO` correctly routes flagged/aging events to the module PO.
+
 ## Norms & boss constraints (honor these)
 - **External-learning (ICN content + roster + study sets) stays behind the `EXTERNAL_LEARNING` flag** until an ICN **fair-use agreement** is signed. Always **credit ICN** (attribution travels with every card/quiz). Respect `link_only` assets — link out, never reproduce.
 - **Don't get too far down the rabbit hole.** Endorsed scope = basic quizzes + a customer content view. Bigger features (full question-bank UI, learning paths, drift) are explored but parked.

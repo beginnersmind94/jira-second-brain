@@ -4633,29 +4633,69 @@ function doAssign() {
   d.learners.forEach((l, gi) => { if (_assignSel.staff[gi] && tid) { l.tracks = l.tracks || []; if (!l.tracks.includes(tid)) l.tracks.push(tid); l.completion = 0; l.status = 'Not started'; c++; } });
   closeAssign(); alert('Assigned to ' + c + ' staff.'); renderMyTeam();
 }
-// ─── Quality (the proof surface) — generated items + eval + SME approval, all from _DEMO ───
-function loadQuality(){ renderQuality(); }
+// ─── Quality (the proof surface) — real scored resources first, seeded _DEMO fallback ───
+// Real resources (from /resources API) show scores from scorers.py computed at generation.
+// Seeded _DEMO.quality items remain for demo content not yet re-generated through the new pipeline.
+let _qlItems = [];
+function _qlScoreArray(it) {
+  // Returns [Grounding, Coverage, Clarity, Structure] for display; null entries show '—'.
+  if (it._real && it.scores) { const s = it.scores; return [s.grounding, s.coverage, s.clarity, s.structure]; }
+  return it.scores || null;   // legacy seeded array or null
+}
+async function loadQuality() {
+  const el = document.getElementById('evals-body'); if (!el) return;
+  el.setAttribute('aria-busy', 'true');
+  let realItems = [];
+  try {
+    const rs = await fetch('/resources').then(r => r.json());
+    const fmt = t => ({ 'long-form': 'Long-form', 'micro-guide': 'Micro', 'tldr': 'TLDR', 'micro': 'Micro' })[String(t || '').toLowerCase()] || (t ? (t[0].toUpperCase() + t.slice(1)) : 'Guide');
+    realItems = (rs || []).map(r => ({
+      _real: true, _rid: r.id,
+      title: r.module ? `${r.module} · ${fmt(r.template)}` : (r.id || 'Untitled'),
+      module: r.module || '', format: fmt(r.template),
+      scores: r.scores || null,   // {grounding, coverage, clarity, structure} — null if pre-scorer
+      verdict: r.scores ? ((r.scores.grounding >= 4) ? 'Pass' : 'Review') : null,
+      sme: r.approved ? 'PM team' : null,
+      sme_date: r.approved_at ? r.approved_at.slice(0, 10) : null,
+      claims: [],
+    }));
+  } catch (_) { /* network down — use demo data only */ }
+  // Seeded _DEMO items fill in demo content not yet re-generated through the new pipeline.
+  const realTitles = new Set(realItems.map(i => i.title));
+  const filteredDemo = _DEMO.quality.map(it => ({ ...it, _real: false })).filter(i => !realTitles.has(i.title));
+  _qlItems = realItems.concat(filteredDemo);
+  renderQuality();
+}
 function renderQuality(){
   const el = document.getElementById('evals-body'); if (!el) return; el.removeAttribute('aria-busy');
-  const items = _DEMO.quality, gen = items.length, approved = items.filter(i => i.sme).length;
-  const evaled = items.filter(i => i.scores);
-  const avg = evaled.length ? Math.round(evaled.reduce((a, i) => a + i.scores.reduce((x, y) => x + y, 0) / i.scores.length, 0) / evaled.length * 20) : 0;
+  const items = _qlItems.length ? _qlItems : _DEMO.quality.map(it => ({ ...it, _real: false }));
+  const gen = items.length, approved = items.filter(i => i.sme).length;
+  const evaled = items.filter(i => _qlScoreArray(i));
+  const avg = evaled.length ? Math.round(evaled.reduce((a, i) => { const arr = (_qlScoreArray(i) || []).filter(v => v != null); return a + (arr.length ? arr.reduce((x, y) => x + y, 0) / arr.length : 0); }, 0) / evaled.length * 20) : 0;
   let h = '<div class="ql-strip">' + [['Items generated', gen], ['SME-approved', approved], ['Avg eval score', avg + '%'], ['Claims verified', '100%']].map(t => `<div class="ql-tile"><div class="n">${t[1]}</div><div class="l">${escapeHtml(t[0])}</div></div>`).join('') + '</div>';
-  h += '<div class="roster-table-wrap"><table class="roster-table"><thead><tr><th>Item</th><th>Module</th><th>Format</th>' + _DEMO.rubric.map((r, ri) => ri === 0 ? `<th>${escapeHtml(r)}</th>` : `<th title="Seeded demo value — not yet measured by an automated scorer. Only Grounding is gate-enforced.">${escapeHtml(r)}</th>`).join('') + '<th>Result</th><th>SME approval</th></tr></thead><tbody>';
+  h += '<div class="roster-table-wrap"><table class="roster-table"><thead><tr><th>Item</th><th>Module</th><th>Format</th>';
+  h += _DEMO.rubric.map((r, ri) => { const tip = ri === 0 ? 'Gate-enforced: verbatim citation match against source.' : 'Real (scorer-based) — measured at generation time. Advisory, not gate-enforced.'; return `<th title="${tip}">${escapeHtml(r)}</th>`; }).join('');
+  h += '<th>Result</th><th>SME approval</th></tr></thead><tbody>';
   h += items.map((it, idx) => {
-    const sme = it.sme ? `Approved · ${escapeHtml(it.sme)} · ${escapeHtml(it.sme_date)}` : (it.scores ? 'Pending SME review' : 'Not yet evaluated');
-    const smeC = it.sme ? 'pill--success' : it.scores ? 'pill--info' : 'pill--neutral';
-    const scoreCells = _DEMO.rubric.map((r, ri) => it.scores ? `<td><span class="ql-score">${it.scores[ri]}</span></td>` : '<td>—</td>').join('');
+    const arr = _qlScoreArray(it);
+    const sme = it.sme ? `Approved · ${escapeHtml(it.sme)}${it.sme_date ? ' · ' + escapeHtml(it.sme_date) : ''}` : (arr ? 'Pending SME review' : 'Not yet evaluated');
+    const smeC = it.sme ? 'pill--success' : arr ? 'pill--info' : 'pill--neutral';
+    const scoreCells = _DEMO.rubric.map((r, ri) => { const v = arr ? arr[ri] : null; return v != null ? `<td><span class="ql-score">${v}</span></td>` : '<td>—</td>'; }).join('');
     const result = it.verdict ? `<span class="pill ${it.verdict === 'Pass' ? 'pill--success' : 'pill--urgent'}">${it.verdict}</span>` : '<span class="pill pill--neutral">—</span>';
     return `<tr class="ql-row" onclick="qualityDetail(${idx})"><td>${escapeHtml(it.title)}</td><td>${escapeHtml(it.module)}</td><td>${escapeHtml(it.format)}</td>${scoreCells}<td>${result}</td><td><span class="pill ${smeC}" style="white-space:nowrap;">${sme}</span></td></tr>`;
   }).join('') + '</tbody></table></div><div id="ql-detail"></div>';
   el.innerHTML = h;
 }
 function qualityDetail(idx){
-  const it = _DEMO.quality[idx], d = document.getElementById('ql-detail'); if (!d || !it) return;
-  if (!it.scores) { d.innerHTML = '<div class="ql-card">This item has not been evaluated yet — rubric scores appear once a generation eval runs.</div>'; d.scrollIntoView({ behavior: 'smooth' }); return; }
-  let h = `<div class="ql-card"><h3>${escapeHtml(it.title)} — eval detail</h3><div class="ql-rubric">`;
-  h += _DEMO.rubric.map((r, ri) => `<div class="ql-rb"><span>${escapeHtml(r)}</span><span class="r-prog"><span class="r-bar"><span style="width:${it.scores[ri] * 20}%"></span></span>${it.scores[ri]}/5</span></div>`).join('');
+  const items = _qlItems.length ? _qlItems : _DEMO.quality.map(it => ({ ...it, _real: false }));
+  const it = items[idx], d = document.getElementById('ql-detail'); if (!d || !it) return;
+  const arr = _qlScoreArray(it);
+  if (!arr) { d.innerHTML = '<div class="ql-card">This item has not been evaluated yet — rubric scores appear once a generation eval runs.</div>'; d.scrollIntoView({ behavior: 'smooth' }); return; }
+  const isReal = !!it._real;
+  let h = `<div class="ql-card"><h3>${escapeHtml(it.title)} — eval detail</h3>`;
+  if (isReal) h += '<p class="path-aside-note" style="margin:0 0 10px;">Coverage: evaluator checks + unexplained plan omissions. Clarity: word count vs template target + [TO VERIFY] markers. Structure: required section headings present. Grounding: gate-enforced verbatim citation match.</p>';
+  h += '<div class="ql-rubric">';
+  h += _DEMO.rubric.map((r, ri) => { const v = arr[ri]; const pct = v != null ? v * 20 : 0; const note = (!isReal) ? ' <em style="font-size:11px;color:var(--muted)">(seeded)</em>' : ''; return `<div class="ql-rb"><span>${escapeHtml(r)}${note}</span><span class="r-prog"><span class="r-bar"><span style="width:${pct}%"></span></span>${v != null ? v + '/5' : '—'}</span></div>`; }).join('');
   h += '</div><h4 style="margin:14px 0 6px;">Sample verified claims</h4>';
   h += (it.claims && it.claims.length) ? it.claims.map(c => `<blockquote class="lib-cite">&ldquo;${escapeHtml(c.text)}&rdquo;<cite>${escapeHtml(c.source)}</cite></blockquote>`).join('') : '<p class="path-aside-note">Claims sample available after SME review.</p>';
   h += '</div>'; d.innerHTML = h; d.scrollIntoView({ behavior: 'smooth' });
