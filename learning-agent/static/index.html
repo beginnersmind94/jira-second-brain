@@ -2645,6 +2645,106 @@
       /* Push main content up so the fixed tab bar doesn't overlap the bottom of the page */
       body.customer-view { padding-bottom: 60px; }
     }
+
+    /* ── C1: License-aware ICN video card ──────────────────────────────────── */
+    .video-card {
+      position: relative;
+      width: 100%;
+      max-width: 720px;
+      margin: 0 auto 8px;
+    }
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 */
+      height: 0;
+      overflow: hidden;
+      border-radius: var(--radius, 6px) var(--radius, 6px) 0 0;
+      background: #000;
+    }
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: 0;
+    }
+    .video-offline-fallback {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #111;
+      gap: 12px;
+    }
+    .video-offline-fallback img {
+      max-width: 100%;
+      max-height: 70%;
+      object-fit: cover;
+    }
+    .video-offline-fallback a {
+      color: #fff;
+      background: var(--accent, #2563EB);
+      padding: 6px 16px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    /* Attribution band — structural: always block, never overlay, never hideable */
+    .video-attribution-band {
+      display: block; /* INTENTIONAL: must survive all CSS resets */
+      margin-top: 0;
+      padding: 6px 10px;
+      background: var(--surface-2, #f5f5f5);
+      border: 1px solid var(--border, #e5e7eb);
+      border-top: none;
+      border-radius: 0 0 var(--radius, 6px) var(--radius, 6px);
+      font-size: 0.75rem;
+      color: var(--muted, #6b7280);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .attribution-logo { font-weight: 700; color: var(--text, #111); }
+    .attribution-title { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .attribution-source-link { color: var(--accent, #2563EB); text-decoration: none; white-space: nowrap; }
+    .attribution-source-link:hover { text-decoration: underline; }
+    /* outside-vendor badge: blue/teal, distinct from ai-grounded (green) */
+    .attribution-badge.outside-vendor {
+      background: #DBEAFE;
+      color: #1E40AF;
+      padding: 1px 6px;
+      border-radius: 9999px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    /* link-out card variant */
+    .video-card--linkout .linkout-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      padding: 12px;
+      background: var(--surface-1, #fff);
+      border: 1px solid var(--border, #e5e7eb);
+      border-radius: var(--radius, 6px) var(--radius, 6px) 0 0;
+    }
+    .linkout-thumb { width: 80px; height: 60px; object-fit: cover; border-radius: 4px; flex-shrink: 0; }
+    .linkout-info { display: flex; flex-direction: column; gap: 2px; }
+    .linkout-title { font-weight: 600; font-size: 0.9rem; color: var(--text, #111); }
+    .linkout-source { font-size: 0.75rem; color: var(--muted, #6b7280); }
+    .linkout-cta { font-size: 0.8rem; color: var(--accent, #2563EB); margin-top: 4px; }
+    @media (max-width: 375px) {
+      .video-attribution-band { flex-direction: column; align-items: flex-start; }
+      .attribution-title { white-space: normal; }
+      .video-card--linkout .linkout-card { flex-direction: column; }
+      .linkout-thumb { width: 100%; height: 120px; }
+    }
   </style>
 </head>
 <body>
@@ -3691,7 +3791,7 @@ const _DEMO = (() => {
   const DUE = 'Jun 30';
   // A COURSE is a sequence of lessons (guide / quiz / video) — this is what the builder makes.
   const courses = [
-    { id:'c-pos', title:'POS Fundamentals', module:'POS', lessons:[{type:'guide',title:'POS Basics'},{type:'video',title:'Meal Service Walkthrough',dur:'6 min'},{type:'guide',title:'Counting Meals Correctly'},{type:'exercise',title:'Reimbursable Meal Check',xp:70},{type:'quiz',title:'POS Knowledge Check',n:5}] },
+    { id:'c-pos', title:'POS Fundamentals', module:'POS', lessons:[{type:'guide',title:'POS Basics'},{type:'video',ref:'icn-food-safety-youtube-hand-hygiene-demo',title:'Food Safety: Hand Hygiene in School Nutrition',dur:'4 min',license_posture:'embed_only'},{type:'guide',title:'Counting Meals Correctly'},{type:'exercise',title:'Reimbursable Meal Check',xp:70},{type:'quiz',title:'POS Knowledge Check',n:5}] },
     { id:'c-item', title:'Item Management Core', module:'Item Management', milestone:'Training', lessons:[{type:'guide',title:'Managing Item Categories'},{type:'guide',title:'Bulk Updates'},{type:'quiz',title:'Item Management Check',n:6}] },
     { id:'c-inv', title:'Inventory Basics', module:'Inventory', milestone:'Training', lessons:[{type:'guide',title:'Inventory Overview'},{type:'video',title:'Receiving & Storage',dur:'8 min'},{type:'guide',title:'Physical Inventory Counts'}] },
     { id:'c-elig', title:'Eligibility Core', module:'Eligibility', milestone:'Pre-launch', lessons:[{type:'guide',title:'Eligibility Overview'},{type:'guide',title:'Direct Certification Workflow'},{type:'guide',title:'Verification Rules'},{type:'quiz',title:'Eligibility Exam',n:8}] },
@@ -4765,8 +4865,187 @@ async function cbGenQuiz() {
   try { const q = await (await fetch('/api/quizzes/generate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ source_type: 'resource', source_id: rid, n }) })).json(); _cb.lessons.push({ type: 'quiz', title: q.title || 'Knowledge check', n }); document.getElementById('cb-picker').innerHTML = ''; cbRender(); }
   catch (e) { if (st) st.textContent = 'Could not generate — try another guide.'; }
 }
-function cbAddVideo() { document.getElementById('cb-picker').innerHTML = `<div class="cb-pick"><label class="tb-l">Video title</label><input id="cb-vid-t" class="tb-in" placeholder="e.g. Receiving &amp; Storage" autocomplete="off"><label class="tb-l">Duration</label><input id="cb-vid-d" class="tb-in" placeholder="e.g. 6 min" autocomplete="off"><button class="secondary" onclick="cbAddVideoDo()">Add video</button></div>`; }
-function cbAddVideoDo() { const t = (document.getElementById('cb-vid-t').value || 'Video lesson'), d = (document.getElementById('cb-vid-d').value || '5 min'); _cb.lessons.push({ type: 'video', title: t, dur: d }); document.getElementById('cb-picker').innerHTML = ''; cbRender(); }
+// ── C1: License-aware ICN video card rendering ─────────────────────────────
+// Trust guardrail: embed/link-out is 100% driven by license_posture from the ICN catalog.
+// No per-lesson override. No raw URL entry. Attribution band is structural.
+// NEVER badge video lessons as 'ai-grounded' — they are 'outside-vendor' provenance.
+// No ICN content is downloaded, transcoded, or scraped here.
+
+/**
+ * renderVideoCard(asset, opts) → HTML string
+ *
+ * asset: full ICN asset object from /api/icn/<id>
+ *   .content_type    'youtube' | 'pdf' | 'web' | ...
+ *   .license_posture 'embed_only' | 'download_allowed' | 'link_only'
+ *   .youtube_id      YouTube video id (for embed_only / download_allowed youtube assets)
+ *   .source_url      full external URL (YouTube watch URL, etc.)
+ *   .thumbnail_url   thumbnail image URL or null
+ *   .attribution     { source, program, url }
+ *   .title           human-readable title
+ * opts.autoFallback  default true — add 6s offline fallback check
+ */
+function renderVideoCard(asset, opts) {
+  opts = opts || {};
+  const autoFallback = opts.autoFallback !== false;
+  const id = asset.id || '';
+  const title = escapeHtml(asset.title || 'ICN Video');
+  const lp = asset.license_posture || 'link_only';
+  const sourceUrl = asset.source_url || '#';
+  const thumbUrl = asset.thumbnail_url || '';
+  const attr = asset.attribution || {};
+  const attrSource = escapeHtml(attr.source || 'USDA / ICN');
+  const attrUrl = attr.url || sourceUrl;
+  const canEmbed = (lp === 'embed_only' || lp === 'download_allowed') &&
+                   asset.content_type === 'youtube' && asset.youtube_id;
+  const ytId = asset.youtube_id || '';
+  const embedSrc = canEmbed ? `https://www.youtube-nocookie.com/embed/${encodeURIComponent(ytId)}?rel=0` : '';
+  const cardAttr = id ? ` data-asset-id="${escAttr(id)}"` : '';
+  const attrBand = `<div class="video-attribution-band">
+    <span class="attribution-logo">${attrSource}</span>
+    <span class="attribution-title">${title}</span>
+    <a href="${escAttr(attrUrl)}" target="_blank" rel="noopener noreferrer" class="attribution-source-link">View on source ↗</a>
+    <span class="attribution-badge outside-vendor">Outside vendor content</span>
+  </div>`;
+  if (canEmbed) {
+    const fallbackId = `vof-${id.replace(/[^a-z0-9]/gi,'')}-${Date.now()}`;
+    const iframeId = `vif-${id.replace(/[^a-z0-9]/gi,'')}-${Date.now()}`;
+    const fallbackHtml = thumbUrl
+      ? `<img src="${escAttr(thumbUrl)}" alt="${title}"><a href="${escAttr(sourceUrl)}" target="_blank" rel="noopener">▶ Watch on YouTube</a>`
+      : `<a href="${escAttr(sourceUrl)}" target="_blank" rel="noopener">▶ Watch on YouTube</a>`;
+    const html = `<div class="video-card"${cardAttr}>
+  <div class="video-wrapper">
+    <iframe id="${iframeId}" src="${escAttr(embedSrc)}" title="${title}" allowfullscreen loading="lazy"></iframe>
+    <div class="video-offline-fallback" id="${fallbackId}" style="display:none">${fallbackHtml}</div>
+  </div>
+  ${attrBand}
+</div>`;
+    // Offline fallback: schedule via setTimeout after inserting into DOM.
+    // We use a data attribute on the wrapper so _scheduleVideoFallback() can
+    // locate the right iframe/fallback pair without injecting a nested <script>
+    // tag (which would confuse the JS parse-check and HTML parsers).
+    if (autoFallback) {
+      setTimeout(function() { _checkVideoOffline(iframeId, fallbackId); }, 6000);
+    }
+    return html;
+  } else {
+    // link_only — never embeds
+    const thumbHtml = thumbUrl
+      ? `<img src="${escAttr(thumbUrl)}" alt="${title}" class="linkout-thumb">`
+      : `<div class="linkout-thumb" style="background:#ddd;display:flex;align-items:center;justify-content:center;font-size:1.5rem;">▶</div>`;
+    return `<div class="video-card video-card--linkout"${cardAttr}>
+  <a href="${escAttr(sourceUrl)}" target="_blank" rel="noopener noreferrer" class="linkout-card">
+    ${thumbHtml}
+    <div class="linkout-info">
+      <span class="linkout-title">${title}</span>
+      <span class="linkout-source">${attrSource}</span>
+      <span class="linkout-cta">Open resource ↗</span>
+    </div>
+  </a>
+  <div class="video-attribution-band">
+    <span class="attribution-badge outside-vendor">Outside vendor content</span>
+    <span class="attribution-source">${attrSource} — linked, not embedded</span>
+  </div>
+</div>`;
+  }
+}
+
+/**
+ * Offline Wi-Fi fallback for ICN video embeds.
+ * Called via setTimeout(fn, 6000) by renderVideoCard — NOT via an injected
+ * nested <script> tag (which would confuse the HTML/JS parser). Checks
+ * window._config.offlineDemo or an unresponsive iframe and swaps in the
+ * thumbnail+link fallback panel.
+ */
+function _checkVideoOffline(iframeId, fallbackId) {
+  var f = document.getElementById(iframeId);
+  var o = document.getElementById(fallbackId);
+  if (!f || !o) return;
+  if ((window._config && window._config.offlineDemo) || !f.contentWindow) {
+    o.style.display = 'flex';
+    f.style.display = 'none';
+  }
+}
+
+/** Load a single ICN asset from /api/icn/<id> and render a video card into `el`. */
+async function loadAndRenderVideoCard(assetId, el) {
+  if (!assetId || !el) return;
+  if (!(_extLearning !== false)) {
+    el.innerHTML = '<div class="lp-fmt-card" style="color:var(--muted);">External learning is disabled for this environment.</div>';
+    return;
+  }
+  try {
+    el.innerHTML = '<div class="lp-fmt-card" style="color:var(--muted);">Loading video…</div>';
+    const r = await fetch('/api/icn/' + encodeURIComponent(assetId));
+    if (!r.ok) throw new Error('ICN asset not found');
+    const asset = await r.json();
+    el.innerHTML = renderVideoCard(asset, { autoFallback: true });
+  } catch (e) {
+    el.innerHTML = `<div class="lp-fmt-card">▶ Video lesson<br><span style="color:var(--muted);font-size:.8rem;">Could not load video — <a href="#" target="_blank">view on source</a></span></div>`;
+  }
+}
+
+// cbAddVideo: replaced with ICN picker. No free-text URL entry — provenance by construction.
+function cbAddVideo() {
+  if (!(_extLearning !== false)) {
+    document.getElementById('cb-picker').innerHTML =
+      '<div class="cb-pick"><p style="color:var(--muted);">External learning is disabled. Set EXTERNAL_LEARNING=1 to enable ICN video content.</p></div>';
+    return;
+  }
+  // Load ICN catalog and show picker filtered to youtube assets
+  document.getElementById('cb-picker').innerHTML =
+    '<div class="cb-pick"><p style="color:var(--muted);font-size:.85rem;">Loading ICN video catalog…</p></div>';
+  fetch('/api/icn')
+    .then(r => r.json())
+    .then(data => {
+      const cards = (data.cards || []).filter(c =>
+        c.asset_type === 'YouTube Video' || (c.asset_type || '').toLowerCase().includes('video')
+      );
+      if (!cards.length) {
+        document.getElementById('cb-picker').innerHTML =
+          '<div class="cb-pick"><p style="color:var(--muted);">No video assets in ICN catalog.</p></div>';
+        return;
+      }
+      const rows = cards.map(c => {
+        const lp = c.license_posture || 'link_only';
+        const badge = lp === 'link_only'
+          ? '<span class="attribution-badge outside-vendor" style="margin-left:4px;">Link-out ↗</span>'
+          : '<span class="attribution-badge outside-vendor" style="background:#D1FAE5;color:#065F46;margin-left:4px;">▶ Embed</span>';
+        return `<button class="cb-pick-row" style="display:flex;align-items:center;gap:6px;text-align:left;" onclick="cbPickVideo('${escAttr(c.asset_id)}','${escAttr(c.title||'')}','${escAttr(lp)}','${escAttr(String(c.duration_min||''))}')">
+          <span style="flex:1">${escapeHtml(c.title || c.asset_id)}</span>${badge}
+        </button>`;
+      }).join('');
+      document.getElementById('cb-picker').innerHTML =
+        `<div class="cb-pick">
+          <label class="tb-l">Select an ICN video lesson</label>
+          <p class="tb-note" style="margin:0 0 6px;">▶ Embed = plays inline · Link-out ↗ = opens externally (license_posture determines this automatically)</p>
+          <div class="cb-list">${rows}</div>
+          <p class="tb-note" style="margin-top:6px;font-size:.75rem;color:var(--muted);">Source: Institute of Child Nutrition / USDA. No raw URL entry — ICN asset ID is stored, not a URL.</p>
+        </div>`;
+    })
+    .catch(() => {
+      document.getElementById('cb-picker').innerHTML =
+        '<div class="cb-pick"><p style="color:var(--muted);">Could not load ICN catalog. Is the server running?</p></div>';
+    });
+}
+
+/**
+ * Called when the user selects an ICN video from the picker.
+ * Stores { type:'video', ref: assetId, title, dur, license_posture } as the lesson.
+ * Stores the ICN asset ID (ref), NOT a raw URL — provenance by construction.
+ */
+function cbPickVideo(assetId, title, licensePosure, durMin) {
+  if (!assetId) return;
+  const dur = durMin ? durMin + ' min' : '';
+  _cb.lessons.push({
+    type: 'video',
+    ref: assetId,           // ICN asset id — this is what gets stored, never a raw URL
+    title: title || 'Video lesson',
+    dur: dur,
+    license_posture: licensePosure || 'link_only',
+  });
+  document.getElementById('cb-picker').innerHTML = '';
+  cbRender();
+}
 function cbSave() {
   const name = (document.getElementById('cb-name').value || '').trim() || 'Untitled track', module = (document.getElementById('cb-module').value || '').trim();
   if (!_cb.lessons.length) { alert('Add at least one lesson.'); return; }
@@ -5188,6 +5467,8 @@ async function loadConfig() {
   const r = await fetch('/api/config');
   const cfg = await r.json();
   _extLearning = cfg.external_learning !== false;
+  // Expose server config to the video player (offlineDemo triggers iframe→thumbnail fallback).
+  window._config = { offlineDemo: cfg.offline_demo === true, externalLearning: _extLearning };
   applyViewMode();
   window._extraModules = cfg.extra_modules || [];
   for (const sid of ['module', 'lib-module']) {
@@ -6859,8 +7140,11 @@ function _renderLessonPlayer() {
     }
     return;
   }
+  // For ICN video lessons with a ref (asset ID), use a placeholder then load the real card.
+  const isIcnVideo = l.type === 'video' && l.ref;
   let placeholder = '';
   if (l.type === 'guide') placeholder = `<p style="color:var(--muted);padding:16px 0;">Loading guide content…</p>`;
+  else if (isIcnVideo) placeholder = `<div class="lp-fmt-card" style="padding:16px 0;text-align:left;">Loading video…</div>`;
   else if (l.type === 'video') placeholder = `<div class="lp-fmt-card">▶ Video lesson<br><span>Video playback available in the full product</span></div>`;
   else placeholder = `<div class="lp-fmt-card">${_lessonIcon(l.type)} ${escapeHtml(l.type)}<br><span>Available in the full product</span></div>`;
   document.getElementById('lesson-player').innerHTML = topnav + `
@@ -6877,6 +7161,8 @@ function _renderLessonPlayer() {
       <button class="lp-btn-next" onclick="lpNext()">${isLast ? 'Finish' : 'Continue →'}</button>
     </div>`;
   if (l.type === 'guide' && rid) _loadLessonGuide(rid);
+  // C1: ICN video — load asset from /api/icn/<ref> and render the license-aware card.
+  if (isIcnVideo) loadAndRenderVideoCard(l.ref, document.getElementById('lp-content-area'));
 }
 async function _loadLessonGuide(rid) {
   const area = document.getElementById('lp-content-area'); if (!area) return;

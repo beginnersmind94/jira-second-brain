@@ -106,6 +106,33 @@
       "source_url": "https://theicn.org/resources/174/food-safety-videos/104805/a-flash-of-food-safety_5_eng.mp4"
     },
     {
+      "card_id": "card-icn-food-safety-youtube-hand-hygiene-demo",
+      "title": "Food Safety: Hand Hygiene in School Nutrition",
+      "subtitle": "USDA / ICN demonstration of proper handwashing and glove use for school nutrition staff. Embeddable under ICN educational license.",
+      "role_tags": [
+        "Cafeteria Manager",
+        "Frontline Cafeteria Staff"
+      ],
+      "topic_tags": [
+        "Food Safety",
+        "Hand Hygiene",
+        "Staff Training"
+      ],
+      "asset_type": "YouTube Video",
+      "thumbnail_path": null,
+      "thumbnail_url": "https://i.ytimg.com/vi/_KqmOKFY748/hqdefault.jpg",
+      "preview_images": [],
+      "primary_action_label": "Watch Video",
+      "source_label": "Institute of Child Nutrition / USDA",
+      "asset_id": "icn-food-safety-youtube-hand-hygiene-demo",
+      "license_posture": "embed_only",
+      "youtube_id": "_KqmOKFY748",
+      "embed_url": "https://www.youtube-nocookie.com/embed/_KqmOKFY748?rel=0",
+      "source_url": "https://www.youtube.com/watch?v=_KqmOKFY748",
+      "local_path": null,
+      "duration_min": 4
+    },
+    {
       "card_id": "card-icn-discovery-best-practices-for-operations-and-teamwork",
       "title": "Best Practices for Operations and Teamwork",
       "subtitle": "This colorful 17″ X 22″ poster offers “at a glance” information on recipe abbreviations, measurement conversions, portioning tools, and steamtable pan capacity. Post it in the kitc",
@@ -1922,7 +1949,7 @@
     {
       "card_id": "card-msde-school-nutrition-training-point-of-service-duty",
       "title": "School Nutrition Training: Point of Service Duty",
-      "subtitle": "MSDE and MSNA pages identify this as a YouTube video player, but the static HTML available during ingestion did not expose a clean YouTube video URL. Resolve manually before embedd",
+      "subtitle": "USDA School Nutrition Programs. Staff training video on POS duty and meal service procedures. Source: Maryland State Dept. of Education / USDA.",
       "role_tags": [
         "POS Cashier",
         "Cafeteria Manager",
@@ -1943,7 +1970,10 @@
       "asset_id": "msde-school-nutrition-training-point-of-service-duty",
       "license_posture": "embed_only",
       "local_path": null,
-      "source_url": "https://marylandpublicschools.org/programs/SchoolandCommunityNutrition/pages/tta.aspx"
+      "source_url": "https://www.youtube.com/watch?v=H1ypfMCnLco",
+      "youtube_id": "H1ypfMCnLco",
+      "embed_url": "https://www.youtube-nocookie.com/embed/H1ypfMCnLco?rel=0",
+      "thumbnail_url": "https://i.ytimg.com/vi/H1ypfMCnLco/hqdefault.jpg"
     }
   ],
   "suggested_learning_paths": [
