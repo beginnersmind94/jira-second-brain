@@ -1,0 +1,88 @@
+{
+  "id": "deck-20260612-demo-seed",
+  "title": "Item Management — Key Workflows",
+  "source_resource_id": "20260603-124709-item-management-long-form-68d6de",
+  "source_content_hash": "1aa05c74f82a930c",
+  "cards": [
+    {
+      "id": "card-1",
+      "front": "What do you do when setting up a bulk item import to ensure each row is accepted?",
+      "back": "Make sure every configuration record (Item Category, Storage Category, Valuation Group, Brand, Manufacturer, Allergens) already exists in the system, because the import engine validates each value against its corresponding configuration table — any mismatch causes that row to be rejected.",
+      "source_quote": "The import engine validates each value against its corresponding configuration table — any mismatch causes that row to be rejected.",
+      "section": "3. Prerequisites",
+      "card_type": "procedural",
+      "grounded": true
+    },
+    {
+      "id": "card-2",
+      "front": "What do you do when you need to define multiple pack sizes for a non-food item?",
+      "back": "Go to the Units card and use the add button to insert a new row in the Units grid for each pack size you need.",
+      "source_quote": "Use the add button to insert a new row in the Units grid for each pack size you need.",
+      "section": "5. Workflow: Create a Non-Food Item",
+      "card_type": "procedural",
+      "grounded": true
+    },
+    {
+      "id": "card-3",
+      "front": "What does the Inventory Readiness banner tell you about an item's status?",
+      "back": "An Inventory Readiness banner is always displayed and operates as a live status indicator — not a one-time gate. Each banner version carries clear, specific messaging so you know exactly what is still required.",
+      "source_quote": "An Inventory Readiness banner is always displayed and operates as a live status indicator — not a one-time gate.",
+      "section": "5. Workflow: Create a Non-Food Item",
+      "card_type": "definitional",
+      "grounded": true
+    },
+    {
+      "id": "card-4",
+      "front": "When do you enter cost and value fields when creating an item?",
+      "back": "Cost and value fields are completed during the final finish tasks, not during initial pack size setup. You select the specific pack size unit on which to record the price.",
+      "source_quote": "Cost and value fields are completed during the final finish tasks, not during initial pack size setup.",
+      "section": "5. Workflow: Create a Non-Food Item",
+      "card_type": "procedural",
+      "grounded": true
+    },
+    {
+      "id": "card-5",
+      "front": "What do you do when an item needs to become inventory-ready?",
+      "back": "Link a serving size that has Amount = 1 to a pack size via Sub-Qty. The system prompts: how many serving units fit inside the pack unit. Unlinked items remain inventory-ineligible.",
+      "source_quote": "To achieve Inventory Readiness, a serving size with Amount = 1 must be linked to a pack size via Sub-Qty.",
+      "section": "6. Workflow: Create a Food Item",
+      "card_type": "procedural",
+      "grounded": true
+    },
+    {
+      "id": "card-6",
+      "front": "Which nutrient fields are mandatory for a food item?",
+      "back": "For food items, five fields are mandatory — Calories, Total Fat, Saturated Fat, Carbohydrate, and Protein.",
+      "source_quote": "For food items, five fields are mandatory — Calories, Total Fat, Saturated Fat, Carbohydrate, and Protein.",
+      "section": "7. Workflow: Configure Nutrient & Ingredient Information",
+      "card_type": "definitional",
+      "grounded": true
+    },
+    {
+      "id": "card-7",
+      "front": "What is the default value for Edible Yield Factor on a new item?",
+      "back": "The Edible Yield Factor defaults to 100 unless a different value is explicitly provided.",
+      "source_quote": "The Edible Yield Factor defaults to 100 unless a different value is explicitly provided.",
+      "section": "7. Workflow: Configure Nutrient & Ingredient Information",
+      "card_type": "definitional",
+      "grounded": true
+    },
+    {
+      "id": "card-8",
+      "front": "What do you do first when using the Excel bulk import path for a large item catalog?",
+      "back": "Navigate to the Import Dashboard and use the Pre-Upload step to select the import type and data source (defaults to Local), then download the system template if needed.",
+      "source_quote": "Pre-Upload — Select import type and data source. The data source defaults to Local; other sources are out of scope. Download the system template at this step if needed.",
+      "section": "4. Excel Bulk Import — Entry Point",
+      "card_type": "procedural",
+      "grounded": true
+    }
+  ],
+  "status": "approved",
+  "approved_at": "2026-06-12T00:00:00",
+  "provenance": "ai_grounded",
+  "generated": 8,
+  "kept": 8,
+  "dropped": 0,
+  "created_at": "2026-06-12T00:00:00",
+  "updated_at": "2026-06-12T00:00:00"
+}
