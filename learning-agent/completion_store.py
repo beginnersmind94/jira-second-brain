@@ -657,6 +657,42 @@ def get_gamification(user_id: str) -> dict:
     }
 
 
+# ── LX-3 Segment-level progress ──────────────────────────────────────────────
+# Stored in data/gamification/<uid>.json under a ``segment_progress`` dict keyed
+# by resource_id.  This file already exists for gamification; we add a new top-
+# level key so the two concerns stay co-located without touching lessons_done.
+#
+# Do NOT touch the lessons_done set or the add_xp / award_badge logic — those
+# are owned by LX-2's idempotency guarantee.  Only the segment_progress keys
+# are written here.
+
+
+def set_segment_progress(user_id: str, resource_id: str, segment_index: int) -> None:
+    """Store the learner's current (last completed) segment for a resource.
+
+    Not idempotent-safe — just overwrites; the lesson-level idempotency guard
+    lives in demo_app.py (it never double-fires XP from segment completion).
+    """
+    g = _load_gamif(user_id)
+    sp: dict = g.get("segment_progress") or {}
+    sp[resource_id] = segment_index
+    g["segment_progress"] = sp
+    _save_gamif(user_id, g)
+
+
+def get_segment_progress(user_id: str, resource_id: str) -> int:
+    """Return last completed segment index, or -1 if none started."""
+    g = _load_gamif(user_id)
+    sp: dict = g.get("segment_progress") or {}
+    val = sp.get(resource_id)
+    if val is None:
+        return -1
+    try:
+        return int(val)
+    except (TypeError, ValueError):
+        return -1
+
+
 def get_all_progress(user_id: str) -> dict:
     """Return all stored progress records for a user.
 

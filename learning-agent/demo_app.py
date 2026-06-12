@@ -5423,6 +5423,504 @@ async def api_practice_missed(
     return {"ok": True, "next_review": next_review}
 
 
+# ── LX-3 — Guided lesson experience ─────────────────────────────────────────
+# Segmentation engine: splits a published guide at H2 boundaries so the learner
+# sees one section at a time (paced, survivable lesson).
+#
+# Core invariant: NO generated instructional text.
+#   - Objectives   = verbatim H2 titles from the guide
+#   - Inline checks = approved questions from the quiz store only
+#   - Recap        = approved flashcards from the flashcard store only
+#
+# Auth: cashier / director / trainer may all call the segment endpoints.
+#       Hook endpoint is trainer/director only (write path).
+# ─────────────────────────────────────────────────────────────────────────────
+
+import segment_store as _seg
+
+_FORMATIVE_DIR = Path(__file__).resolve().parent / "data" / "formative"
+
+
+def _load_guide_html_for_rid(rid: str) -> str | None:
+    """Load raw guide HTML for segmentation (citation comments included — we strip
+    them for display but keep them here so segmentation is against the real HTML)."""
+    resolved = prod._resolve_resource(rid)
+    if not resolved:
+        return None
+    html_path, _meta_path, _status = resolved
+    try:
+        return html_path.read_text(encoding="utf-8")
+    except OSError:
+        return None
+
+
+def _load_meta_for_rid(rid: str) -> dict:
+    """Load published metadata JSON for a resource. Returns {} on any error."""
+    resolved = prod._resolve_resource(rid)
+    if not resolved:
+        return {}
+    _html_path, meta_path, _status = resolved
+    return prod._read_meta(meta_path) or {}
+
+
+@app.get("/api/resources/{rid}/segments")
+async def api_resource_segments(
+    rid: str,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Return the segmented guide for lesson-player consumption.
+
+    Auth: learners, directors, AND trainers may call this (all roles).
+
+    Response:
+        {resource_id, title, provenance, section_titles, segments, total_segments}
+    Each segment: {index, heading, body_html, anchor, estimated_seconds?}
+
+    estimated_seconds is read from published/metadata/<rid>.json →
+    cb3_duration_seconds_per_section[heading] if it exists; otherwise the field
+    is omitted entirely (never 0, never null).
+    """
+    raw_html = _load_guide_html_for_rid(rid)
+    if raw_html is None:
+        raise HTTPException(404, "resource not found")
+
+    meta = _load_meta_for_rid(rid)
+
+    # Strip citation comments for display — the losslessness invariant is
+    # maintained on the clean HTML so segment bodies are citation-free.
+    clean_html = prod._strip_source_comments(raw_html)
+
+    segments = _seg.segment_guide(clean_html)
+    section_titles = _seg.get_section_titles(clean_html)
+
+    # Derive provenance from metadata (mirrors _cpRenderLesson logic).
+    origin = meta.get("origin") or meta.get("provenance") or "ai_grounded"
+    # Map storage keys to badge keys used in index.html.
+    if origin == "internal" or origin == "HUMAN_GUIDE":
+        provenance = "human_authored"
+    elif origin == "ICN_DOC":
+        provenance = "outside_vendor"
+    else:
+        provenance = "ai_grounded"
+
+    title = meta.get("title") or meta.get("module") or rid
+
+    # Duration per section (optional — read from metadata, never synthesised).
+    dur_map: dict = meta.get("cb3_duration_seconds_per_section") or {}
+
+    out_segments = []
+    for s in segments:
+        seg_out: dict = {
+            "index":     s["index"],
+            "heading":   s["heading"],
+            "body_html": s["body_html"],
+            "anchor":    s["anchor"],
+        }
+        # Only include estimated_seconds when the key is present and has a real int/float.
+        heading_key = s["heading"]
+        if heading_key and heading_key in dur_map:
+            try:
+                secs = int(dur_map[heading_key])
+                if secs > 0:
+                    seg_out["estimated_seconds"] = secs
+            except (TypeError, ValueError):
+                pass
+        out_segments.append(seg_out)
+
+    return {
+        "resource_id":    rid,
+        "title":          title,
+        "provenance":     provenance,
+        "section_titles": section_titles,
+        "segments":       out_segments,
+        "total_segments": len(out_segments),
+    }
+
+
+@app.get("/api/resources/{rid}/current-segment")
+async def api_resource_current_segment(
+    rid: str,
+    uid: str = Query(default=""),
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Return the learner's last completed segment index (-1 if none started).
+
+    Returns: {current_segment: int}
+    """
+    effective_uid = uid if uid else current_user.id
+    current = _cs.get_segment_progress(effective_uid, rid)
+    return {"current_segment": current}
+
+
+@app.post("/api/resources/{rid}/segment-progress")
+async def api_resource_segment_progress(
+    rid: str,
+    body: dict = Body(default={}),
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Update the learner's current (last completed) segment.
+
+    Body: {uid: str, segment_index: int}
+    Returns: {ok: true}
+    """
+    uid = (body.get("uid") or "").strip() or current_user.id
+    seg_idx = body.get("segment_index")
+    if seg_idx is None:
+        raise HTTPException(400, "segment_index is required")
+    try:
+        seg_idx = int(seg_idx)
+    except (TypeError, ValueError):
+        raise HTTPException(400, "segment_index must be an integer")
+
+    _cs.set_segment_progress(uid, rid, seg_idx)
+    return {"ok": True}
+
+
+def _get_approved_questions_for_resource(rid: str) -> list[dict]:
+    """Return all approved, non-stale questions from quizzes whose source_id
+    matches this resource id.
+
+    Returns a flat list of question dicts with an added 'quiz_id' field for tracing.
+    """
+    import quiz_store as _qs
+    quizzes = _qs.list_quizzes()
+    approved = []
+    for qmeta in quizzes:
+        if qmeta.get("status") != "approved":
+            continue
+        if qmeta.get("stale"):
+            continue
+        if qmeta.get("source_id") != rid:
+            continue
+        qobj = _qs.load_quiz(qmeta["id"])
+        if not qobj:
+            continue
+        for q in (qobj.get("questions") or []):
+            if not q.get("grounded"):
+                continue
+            q2 = dict(q)
+            q2["quiz_id"] = qmeta["id"]
+            approved.append(q2)
+    return approved
+
+
+@app.get("/api/resources/{rid}/segment-check/{segment_index}")
+async def api_segment_check_get(
+    rid: str,
+    segment_index: int,
+    uid: str = Query(default=""),
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Return the approved check question for a segment, if one exists.
+
+    Selection logic (deterministic):
+    1. Load segments for rid; get the heading for segment_index.
+    2. Search approved (non-stale, grounded) questions whose section field
+       matches the heading (exact or substring).
+    3. Prefer highest tier (AC > RN > Description); break ties by stable id sort.
+    4. Return first eligible, or {has_check: false} if none.
+
+    BLOCKING (AC4, AC5, AC6): never returns a non-approved, stale, or
+    draft-guide question.
+    """
+    raw_html = _load_guide_html_for_rid(rid)
+    if raw_html is None:
+        raise HTTPException(404, "resource not found")
+
+    clean_html = prod._strip_source_comments(raw_html)
+    segments = _seg.segment_guide(clean_html)
+
+    # Find the target segment.
+    target_seg = next((s for s in segments if s["index"] == segment_index), None)
+    if target_seg is None:
+        return {"has_check": False}
+
+    heading = target_seg["heading"]
+    if not heading:
+        return {"has_check": False}
+
+    # AC6: also guard against the guide itself being in draft/non-approved state.
+    meta = _load_meta_for_rid(rid)
+    guide_approved = meta.get("approved") or meta.get("sme_approved")
+    if not guide_approved:
+        return {"has_check": False}
+
+    questions = _get_approved_questions_for_resource(rid)
+
+    # Filter to questions whose section matches this heading.
+    heading_lower = heading.lower()
+    matching = [
+        q for q in questions
+        if heading_lower in (q.get("section") or "").lower()
+        or (q.get("section") or "").lower() in heading_lower
+    ]
+
+    if not matching:
+        return {"has_check": False}
+
+    # Tier ordering for preference.
+    _TIER_RANK = {"AC": 0, "RN": 1, "Description": 2}
+
+    def _tier_key(q: dict) -> int:
+        # source_ref often contains the ticket ref; tier is stored in the question
+        # provenance or a 'tier' field if present.  Fall back to 2 (Description-level).
+        return _TIER_RANK.get(q.get("tier") or "", 2)
+
+    matching.sort(key=lambda q: (_tier_key(q), q.get("id") or q.get("stem") or ""))
+    chosen = matching[0]
+
+    # Build the response shape: verbatim source quote, tier, source_ref.
+    q_type = (chosen.get("type") or "mcq").lower()
+    if q_type == "tf":
+        source_quote = chosen.get("source_span") or chosen.get("source_quote") or ""
+    elif q_type == "fitb":
+        source_quote = chosen.get("source_sentence") or chosen.get("source_quote") or ""
+    else:
+        source_quote = chosen.get("source_quote") or ""
+
+    return {
+        "has_check": True,
+        "question": {
+            "id":             chosen.get("id") or chosen.get("stem", "")[:24],
+            "type":           q_type,
+            "stem":           chosen.get("stem") or chosen.get("prompt") or "",
+            "options":        chosen.get("options"),
+            "answer_index":   chosen.get("answer_index"),
+            "correct":        chosen.get("correct"),
+            "answer":         chosen.get("answer"),
+            "steps":          chosen.get("steps"),
+            "correct_order":  chosen.get("correct_order"),
+            "source_ref":     chosen.get("source_ref") or chosen.get("quiz_id") or "",
+            "tier":           chosen.get("tier") or "AC",
+            "verbatim_quote": source_quote,
+        },
+    }
+
+
+@app.post("/api/resources/{rid}/segment-check/{segment_index}")
+async def api_segment_check_post(
+    rid: str,
+    segment_index: int,
+    body: dict = Body(default={}),
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Submit a formative check answer for a segment.
+
+    Body: {uid: str, answer: any}
+
+    Returns: {correct: bool, verbatim_quote: str, tier: str, source_ref: str}
+
+    BLOCKING (AC4, AC7):
+    - Formative only — result is stored in data/formative/<uid>/<rid>/<seg>.json
+      but NEVER written to assessment or cert state.
+    - Incorrect answer returns correct: false AND verbatim_quote, does not block
+      the learner (continue button stays enabled).
+    """
+    uid = (body.get("uid") or "").strip() or current_user.id
+    answer = body.get("answer")
+
+    # Re-run the check selection to get the correct question.
+    raw_html = _load_guide_html_for_rid(rid)
+    if raw_html is None:
+        raise HTTPException(404, "resource not found")
+
+    clean_html = prod._strip_source_comments(raw_html)
+    segments = _seg.segment_guide(clean_html)
+    target_seg = next((s for s in segments if s["index"] == segment_index), None)
+    if target_seg is None:
+        raise HTTPException(404, "segment not found")
+
+    meta = _load_meta_for_rid(rid)
+    if not (meta.get("approved") or meta.get("sme_approved")):
+        raise HTTPException(400, "guide not approved — no checks available")
+
+    questions = _get_approved_questions_for_resource(rid)
+    heading_lower = (target_seg["heading"] or "").lower()
+    matching = [
+        q for q in questions
+        if heading_lower in (q.get("section") or "").lower()
+        or (q.get("section") or "").lower() in heading_lower
+    ]
+    if not matching:
+        raise HTTPException(404, "no check question for this segment")
+
+    _TIER_RANK = {"AC": 0, "RN": 1, "Description": 2}
+    matching.sort(key=lambda q: (_TIER_RANK.get(q.get("tier") or "", 2), q.get("id") or ""))
+    chosen = matching[0]
+
+    # Score the answer.
+    import quiz_store as _qs
+    q_type = (chosen.get("type") or "mcq").lower()
+    if q_type == "tf":
+        result = _qs._score_tf(chosen, answer)
+    elif q_type == "fitb":
+        result = _qs._score_fitb(chosen, answer)
+    elif q_type == "ordering":
+        result = _qs._score_ordering(chosen, answer)
+    else:
+        # MCQ
+        chosen_idx = answer if isinstance(answer, int) else None
+        right = chosen.get("answer_index", 0)
+        result = {
+            "type": "mcq",
+            "correct": chosen_idx == right,
+            "chosen": chosen_idx,
+            "answer_index": right,
+        }
+
+    correct = bool(result.get("correct"))
+
+    # Source quote for display.
+    if q_type == "tf":
+        source_quote = chosen.get("source_span") or chosen.get("source_quote") or ""
+    elif q_type == "fitb":
+        source_quote = chosen.get("source_sentence") or chosen.get("source_quote") or ""
+    else:
+        source_quote = chosen.get("source_quote") or ""
+
+    tier = chosen.get("tier") or "AC"
+    source_ref = chosen.get("source_ref") or chosen.get("quiz_id") or ""
+
+    # Persist formative result (lightweight, no scoring effect, no cert/assessment touch).
+    try:
+        import time as _time
+        formative_path = (
+            _FORMATIVE_DIR
+            / prod._strip_source_comments.__module__.replace(".", "_")  # unused — just build path
+        )
+        # Build path: data/formative/<uid>/<rid>/<segment_index>.json
+        # Use _safe_id from completion_store for safe file names.
+        formative_file = (
+            _FORMATIVE_DIR
+            / re.sub(r"[^\w\-]", "_", uid)[:80]
+            / re.sub(r"[^\w\-]", "_", rid)[:80]
+            / f"{segment_index}.json"
+        )
+        formative_file.parent.mkdir(parents=True, exist_ok=True)
+        formative_file.write_text(json.dumps({
+            "question_id": chosen.get("id") or chosen.get("stem", "")[:24],
+            "correct": correct,
+            "answered_at": _time.strftime("%Y-%m-%dT%H:%M:%S"),
+        }, indent=2), encoding="utf-8")
+    except OSError:
+        pass  # formative persistence is best-effort; never block the learner
+
+    return {
+        "correct":        correct,
+        "verbatim_quote": source_quote,
+        "tier":           tier,
+        "source_ref":     source_ref,
+    }
+
+
+@app.get("/api/resources/{rid}/recap")
+async def api_resource_recap(
+    rid: str,
+    uid: str = Query(default=""),
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Return recap items for the end of the lesson.
+
+    Logic (priority order):
+    1. If approved flashcards exist for this resource → return them with provenance.
+    2. If no flashcards but the guide has H2 headings → return headings as fallback.
+    3. If neither → return {source: 'none', items: []}.
+
+    BLOCKING (AC8): never returns a non-approved flashcard; provenance field
+    is present on every item.
+    """
+    # Load approved flashcards for this resource.
+    approved_decks = flashcard_store.list_decks(status="approved")
+    target_decks = [d for d in approved_decks if d.get("source_resource_id") == rid]
+
+    if target_decks:
+        # Use the newest approved deck.
+        target_decks.sort(key=lambda d: d.get("created_at") or "", reverse=True)
+        deck_meta = target_decks[0]
+        full_deck = flashcard_store.get_deck(deck_meta["id"])
+        if full_deck and full_deck.get("status") == "approved":
+            items = []
+            for card in (full_deck.get("cards") or []):
+                items.append({
+                    "front":      card.get("front") or "",
+                    "back":       card.get("back") or "",
+                    "source_ref": card.get("source_quote") or "",
+                    "tier":       "AC",
+                    "provenance": full_deck.get("provenance") or "ai_grounded",
+                })
+            return {"source": "flashcards", "items": items}
+
+    # Fallback: H2 headings from the guide.
+    raw_html = _load_guide_html_for_rid(rid)
+    if raw_html:
+        clean_html = prod._strip_source_comments(raw_html)
+        titles = _seg.get_section_titles(clean_html)
+        if titles:
+            items = [
+                {"front": t, "back": None, "source_ref": "", "tier": "AC", "provenance": "ai_grounded"}
+                for t in titles
+            ]
+            return {"source": "headings", "items": items}
+
+    return {"source": "none", "items": []}
+
+
+@app.post("/api/resources/{rid}/hook")
+async def api_resource_hook(
+    rid: str,
+    body: dict = Body(default={}),
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Save an SME-authored hook_text to the resource metadata.
+
+    Trainer/director only.  SME hook is human_authored — not gate-grounded.
+
+    DEC-3 lint: scans hook_text for product-claim language patterns.
+    If matched: saves it anyway (human-authored decision) but returns lint_warning.
+
+    Body:   {hook_text: str}
+    Returns:{saved: bool, lint_warning: str|null, matched_patterns: [str]}
+    """
+    if not (current_user.is_trainer or current_user.role in ("CN Director", "Trainer")):
+        raise HTTPException(403, "trainer or director required")
+
+    hook_text = (body.get("hook_text") or "").strip()
+    if not hook_text:
+        raise HTTPException(400, "hook_text is required")
+
+    # DEC-3 lint: flag product-claim language.
+    _CLAIM_PATTERN = re.compile(
+        r"\b(will|auto|100%|always|never|guarantee|sync|all records)\b",
+        re.IGNORECASE,
+    )
+    matches = _CLAIM_PATTERN.findall(hook_text)
+    matched_patterns = list({m.lower() for m in matches})
+
+    lint_warning = None
+    if matched_patterns:
+        lint_warning = (
+            "Hook contains product-claim language. Human-authored content is not "
+            "checked by the grounding gate — review before publish."
+        )
+
+    # Save to published metadata (or drafts metadata if not yet published).
+    resolved = prod._resolve_resource(rid)
+    if not resolved:
+        raise HTTPException(404, "resource not found")
+    _html_path, meta_path, _status = resolved
+
+    meta = prod._read_meta(meta_path) or {}
+    meta["hook_text"] = hook_text
+    meta_path.parent.mkdir(parents=True, exist_ok=True)
+    meta_path.write_text(json.dumps(meta, indent=2, ensure_ascii=False), encoding="utf-8")
+
+    return {
+        "saved":            True,
+        "lint_warning":     lint_warning,
+        "matched_patterns": matched_patterns,
+    }
+
+
 # ── Builder demo beats (D-spec, ANC July 13) ─────────────────────────────────
 # All three endpoints are CONFERENCE_MODE only — they are not reachable in
 # normal or production operation.

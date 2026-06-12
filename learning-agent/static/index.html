@@ -3222,6 +3222,64 @@
     @media (max-width: 375px) {
       .cp-btn-prev, .cp-btn-next { flex: 1; text-align: center; }
     }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       LX-3 — Guided Lesson Player styles
+       HARD RULE: .origin-badge.ai-grounded MUST NEVER appear on
+       human_authored content (and vice-versa). Mirror of F1 rule.
+    ═══════════════════════════════════════════════════════════════════ */
+    .lx3-segment { max-width: 680px; margin: 0 auto; padding: 8px 0 24px; }
+    .lx3-segment-meta { font-size: 12px; color: var(--muted); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+    .lx3-dur-chip { background: var(--panel2); border-radius: var(--radius-pill); padding: 2px 8px; font-size: 11px; font-weight: 600; }
+    .lx3-segment-body { font-size: 16px; line-height: 1.6; }
+
+    .lx3-objective { background: var(--panel2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 18px; margin-bottom: 20px; }
+    .lx3-objective h3 { margin: 0 0 8px; font-size: 13px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+    .lx3-objective ul { margin: 0; padding-left: 18px; }
+    .lx3-objective li { font-size: 14px; color: var(--text); margin-bottom: 4px; }
+    .lx3-hook { font-size: 14px; color: var(--text); background: var(--amber-soft); border-left: 3px solid var(--amber-text); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 10px 14px; margin-top: 8px; }
+
+    .lx3-check-slot { margin: 20px 0; }
+    .lx3-check-question { font-size: 15px; font-weight: 600; margin-bottom: 12px; }
+    .lx3-check-options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+    .lx3-check-opt { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; font-size: 15px; min-height: 44px; background: var(--bg); }
+    .lx3-check-opt:hover { background: var(--panel2); }
+    .lx3-check-opt input[type=radio] { accent-color: var(--accent); width: 16px; height: 16px; flex-shrink: 0; }
+    .lx3-check-submit { margin-top: 4px; }
+    .lx3-check-result { margin-top: 10px; padding: 10px 14px; border-radius: var(--radius-sm); font-size: 14px; }
+    .lx3-check-result.correct { background: var(--green-soft); color: var(--green-text); }
+    .lx3-check-result.incorrect { background: var(--red-soft); color: var(--red-text); }
+    .lx3-check-source { font-size: 12px; margin-top: 6px; opacity: .8; }
+
+    .lx3-continue-btn { display: block; width: 100%; padding: 12px 20px; min-height: 44px; font-size: 16px; font-weight: 600; background: var(--accent); color: #fff; border: none; border-radius: var(--radius-sm); cursor: pointer; text-align: center; margin-top: 16px; }
+    .lx3-continue-btn:hover { opacity: .9; }
+    .lx3-continue-btn:disabled { opacity: .4; cursor: not-allowed; }
+
+    .lx3-segment-map { margin-bottom: 16px; font-size: 14px; }
+    .lx3-segment-map summary { cursor: pointer; color: var(--accent); font-weight: 600; padding: 4px 0; }
+    .lx3-segment-map ol { margin: 8px 0 0; padding-left: 20px; }
+    .lx3-segment-map li { margin-bottom: 4px; }
+    .lx3-segment-map li button { background: none; border: none; color: var(--accent); font-size: 14px; cursor: pointer; text-decoration: underline; padding: 0; }
+    .lx3-segment-map li.locked { color: var(--muted); }
+    .lx3-segment-map li.locked button { color: var(--muted); text-decoration: none; cursor: default; }
+
+    .lx3-recap { padding: 20px 0; }
+    .lx3-recap h3 { font-size: 15px; font-weight: 700; margin-bottom: 14px; }
+    .lx3-recap-cards { display: flex; flex-direction: column; gap: 10px; }
+    .lx3-recap-card { background: var(--panel2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; font-size: 14px; }
+    .lx3-recap-front { font-weight: 600; margin-bottom: 4px; }
+    .lx3-recap-back { color: var(--text); margin-bottom: 6px; }
+    .lx3-resume-banner { background: var(--accent-soft); border: 1px solid var(--accent); border-radius: var(--radius-sm); padding: 10px 14px; margin-bottom: 16px; font-size: 14px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .lx3-resume-btn { background: var(--accent); color: #fff; border: none; border-radius: var(--radius-pill); padding: 5px 14px; font-size: 13px; font-weight: 600; cursor: pointer; }
+    .lx3-lint-banner { background: var(--amber-soft); border: 1px solid var(--amber-text); border-radius: var(--radius-sm); padding: 8px 12px; font-size: 13px; color: var(--amber-text); margin-top: 8px; }
+
+    /* 375px mobile overrides */
+    @media (max-width: 480px) {
+      .lx3-segment-body { font-size: 16px; /* maintain min size — iOS no-zoom */ }
+      .lx3-continue-btn { width: 100%; font-size: 16px; min-height: 44px; }
+      .lx3-segment-map { font-size: 15px; }
+      .lx3-check-opt { min-height: 44px; }
+    }
   </style>
 </head>
 <body>
@@ -10425,6 +10483,426 @@ function closeCoursePlayer() {
   renderLearnHome();
 }
 // ── End D1 course player ──────────────────────────────────────────────────────
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// LX-3 — Guided Lesson Experience
+// Converts a scrolling reference wall into a paced, survivable lesson:
+//   Objective header (verbatim H2s)  →  segment pane (one H2 section at a time)
+//   →  inline formative check (approved questions only)
+//   →  recap (approved flashcards or heading list)
+//
+// CORE INVARIANT: no generated instructional text, ever.
+//   - Objectives  = guide's own H2 titles verbatim (from /api/resources/{rid}/segments)
+//   - Checks      = already-approved questions only (from /api/resources/{rid}/segment-check/{i})
+//   - Recap       = already-approved flashcards (from /api/resources/{rid}/recap)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+/** LX-3 state */
+let _lx3 = null;
+// {
+//   rid, uid, trackId, totalSegments, segments, provenance,
+//   currentSegment, recapData, checkState: {loaded, question, answered, correct}
+// }
+
+/**
+ * Entry point — called from _cpRenderLesson when type === 'guide' and
+ * the feature flag lx3_enabled is present on the lesson object.
+ *
+ * For plain guide lessons in the existing D1 player, the old _cpLoadGuideHtml
+ * path is unaffected; LX-3 is only activated when the lesson carries
+ * {lx3_enabled: true} or when loadLesson() is called directly.
+ *
+ * @param {string} rid       - Resource id (the guide).
+ * @param {string} uid       - Learner user id.
+ * @param {string} trackId   - Track id (for lesson-progress completion call).
+ * @param {string} courseId  - Course id (for lesson-progress completion call).
+ * @param {string} lessonRef - Lesson ref (for lesson-progress completion call).
+ * @param {Element} container - DOM element to render into.
+ */
+async function lx3LoadLesson(rid, uid, trackId, courseId, lessonRef, container) {
+  if (!container) return;
+  container.innerHTML = '<div style="padding:16px;color:var(--muted);">Loading lesson…</div>';
+
+  // Parallel fetch: segments + resume position.
+  let segData, resumeData;
+  try {
+    const headers = { 'X-Demo-User': _demoUserHeader() };
+    const [segRes, resumeRes] = await Promise.all([
+      fetch('/api/resources/' + encodeURIComponent(rid) + '/segments', { headers }),
+      fetch('/api/resources/' + encodeURIComponent(rid) + '/current-segment?uid=' + encodeURIComponent(uid), { headers }),
+    ]);
+    if (!segRes.ok) throw new Error('segments ' + segRes.status);
+    segData   = await segRes.json();
+    resumeData = resumeRes.ok ? await resumeRes.json() : { current_segment: -1 };
+  } catch (e) {
+    container.innerHTML = '<div style="color:var(--muted);padding:16px;">Guide content unavailable.</div>';
+    return;
+  }
+
+  const segments = segData.segments || [];
+  const total    = segData.total_segments || segments.length;
+  const provenance = segData.provenance || 'ai_grounded';
+  const currentSaved = (resumeData.current_segment ?? -1);
+
+  // Start at currentSaved+1 (or 0 if none started).
+  const startIdx = currentSaved >= 0 ? Math.min(currentSaved + 1, total - 1) : 0;
+
+  _lx3 = {
+    rid, uid, trackId, courseId, lessonRef,
+    totalSegments: total,
+    segments,
+    provenance,
+    currentSegment: startIdx,
+    lastSavedSegment: currentSaved,
+    recapData: null,
+    checkState: null,
+    container,
+    sectionTitles: segData.section_titles || [],
+    hookText: segData.hook_text || null,
+  };
+
+  // Render objective header.
+  _lx3RenderObjective(container, segData, provenance, currentSaved);
+
+  // Resume banner if previously started.
+  if (currentSaved >= 0 && currentSaved < total - 1) {
+    _lx3RenderResumeBanner(container, currentSaved, startIdx);
+  }
+
+  // Render segment map.
+  _lx3RenderSegmentMap(container);
+
+  // Segment content area.
+  const segArea = document.createElement('div');
+  segArea.id = 'lx3-segment-area';
+  container.appendChild(segArea);
+
+  _lx3RenderSegment(startIdx);
+}
+
+function _lx3RenderObjective(container, segData, provenance, currentSaved) {
+  const titles = (segData.section_titles || []);
+  if (!titles.length) return;
+
+  const hookHtml = segData.hook_text
+    ? `<p class="lx3-hook" data-provenance="human_authored">${escapeHtml(segData.hook_text)}</p>`
+    : '';
+
+  const liItems = titles.map(t => `<li>${escapeHtml(t)}</li>`).join('');
+  const badgeHtml = originBadgeHtml(provenance);
+
+  const div = document.createElement('div');
+  div.className = 'lx3-objective';
+  div.innerHTML = `
+    <h3>In this lesson</h3>
+    <ul>${liItems}</ul>
+    ${hookHtml}
+    <div style="margin-top:8px;">${badgeHtml}</div>
+  `;
+  container.appendChild(div);
+}
+
+function _lx3RenderResumeBanner(container, currentSaved, startIdx) {
+  const banner = document.createElement('div');
+  banner.className = 'lx3-resume-banner';
+  banner.id = 'lx3-resume-banner';
+  banner.innerHTML = `
+    <span>You left off at Part ${currentSaved + 1}.</span>
+    <button class="lx3-resume-btn" onclick="lx3JumpTo(${startIdx})">Resume from Part ${startIdx + 1}</button>
+  `;
+  container.appendChild(banner);
+}
+
+function _lx3RenderSegmentMap(container) {
+  if (!_lx3 || !_lx3.segments.length) return;
+  const items = _lx3.segments.map((s, i) => {
+    const unlocked = i <= _lx3.lastSavedSegment + 1;
+    const label = s.heading ? escapeHtml(s.heading) : `Part ${i + 1}`;
+    if (unlocked) {
+      return `<li><button onclick="lx3JumpTo(${i})">${label}</button></li>`;
+    }
+    return `<li class="locked" aria-disabled="true">${label}</li>`;
+  }).join('');
+
+  const map = document.createElement('details');
+  map.className = 'lx3-segment-map';
+  map.innerHTML = `<summary>Lesson outline</summary><ol>${items}</ol>`;
+  container.appendChild(map);
+}
+
+function _lx3RenderSegment(idx) {
+  if (!_lx3) return;
+  const area = document.getElementById('lx3-segment-area');
+  if (!area) return;
+
+  const seg = _lx3.segments[idx];
+  if (!seg) return;
+
+  _lx3.currentSegment = idx;
+  _lx3.checkState = null;
+
+  const n = idx + 1;
+  const m = _lx3.totalSegments;
+  const isLast = idx === m - 1;
+
+  const durChip = seg.estimated_seconds
+    ? `<span class="lx3-dur-chip">${Math.ceil(seg.estimated_seconds / 60)} min</span>`
+    : '';
+
+  const badgeHtml = originBadgeHtml(_lx3.provenance);
+
+  area.innerHTML = `
+    <div class="lx3-segment" role="region"
+         aria-label="Part ${n} of ${m}: ${escapeHtml(seg.heading || '')}"
+         aria-live="polite">
+      <div class="lx3-segment-meta">
+        ${badgeHtml}
+        <span>Part ${n} of ${m}</span>
+        ${durChip}
+      </div>
+      <div class="lx3-segment-body" id="lx3-body-${idx}">${seg.body_html}</div>
+      <div class="lx3-check-slot" id="lx3-check-slot-${idx}"></div>
+      <button class="lx3-continue-btn" id="lx3-continue-btn" onclick="lx3Continue()"
+              aria-label="Continue to next section">
+        ${isLast ? 'Finish lesson' : 'Continue →'}
+      </button>
+    </div>`;
+
+  // Focus segment meta for screen reader.
+  const meta = area.querySelector('.lx3-segment-meta');
+  if (meta) { meta.setAttribute('tabindex', '-1'); meta.focus({ preventScroll: false }); }
+
+  // Non-blocking: try to load a knowledge check for this segment.
+  _lx3LoadCheck(idx);
+}
+
+async function _lx3LoadCheck(segIdx) {
+  if (!_lx3) return;
+  const { rid, uid } = _lx3;
+  try {
+    const r = await fetch(
+      '/api/resources/' + encodeURIComponent(rid) +
+      '/segment-check/' + segIdx + '?uid=' + encodeURIComponent(uid),
+      { headers: { 'X-Demo-User': _demoUserHeader() } }
+    );
+    if (!r.ok) throw new Error('check ' + r.status);
+    const data = await r.json();
+    if (!data.has_check) return;
+
+    // Store check state and render the question before the continue button.
+    _lx3.checkState = { loaded: true, question: data.question, answered: false, correct: null };
+    _lx3RenderCheck(segIdx, data.question);
+  } catch (e) {
+    // Non-blocking: log to console, skip check, leave Continue enabled.
+    console.log('[LX-3] Check score endpoint down or no check available:', e.message);
+  }
+}
+
+function _lx3RenderCheck(segIdx, q) {
+  const slot = document.getElementById('lx3-check-slot-' + segIdx);
+  if (!slot) return;
+
+  const qtype = (q.type || 'mcq').toLowerCase();
+  let optionsHtml = '';
+
+  if (qtype === 'mcq' && Array.isArray(q.options)) {
+    optionsHtml = q.options.map((opt, i) => `
+      <label class="lx3-check-opt">
+        <input type="radio" name="lx3-check-${segIdx}" value="${i}" />
+        ${escapeHtml(String(opt))}
+      </label>`).join('');
+  } else if (qtype === 'tf') {
+    optionsHtml = `
+      <label class="lx3-check-opt">
+        <input type="radio" name="lx3-check-${segIdx}" value="true" /> True
+      </label>
+      <label class="lx3-check-opt">
+        <input type="radio" name="lx3-check-${segIdx}" value="false" /> False
+      </label>`;
+  } else if (qtype === 'fitb') {
+    optionsHtml = `<input type="text" id="lx3-fitb-${segIdx}" placeholder="Your answer…"
+      style="width:100%;padding:10px 12px;font-size:15px;border:1px solid var(--border);border-radius:var(--radius-sm);" />`;
+  } else {
+    // Ordering or unknown — skip rendering check (not worth the complexity inline).
+    return;
+  }
+
+  slot.innerHTML = `
+    <div style="border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px;background:var(--panel2);">
+      <div class="lx3-check-question">Knowledge check: ${escapeHtml(q.stem || '')}</div>
+      <div class="lx3-check-options" id="lx3-opts-${segIdx}">${optionsHtml}</div>
+      <button class="primary lx3-check-submit" style="font-size:14px;padding:8px 18px;"
+              onclick="lx3SubmitCheck(${segIdx})">Check answer</button>
+      <div id="lx3-check-result-${segIdx}"></div>
+    </div>`;
+}
+
+async function lx3SubmitCheck(segIdx) {
+  if (!_lx3 || !_lx3.checkState) return;
+  const { rid, uid } = _lx3;
+  const q = _lx3.checkState.question;
+  const qtype = (q.type || 'mcq').toLowerCase();
+
+  let answer;
+  if (qtype === 'mcq') {
+    const sel = document.querySelector(`input[name="lx3-check-${segIdx}"]:checked`);
+    answer = sel ? parseInt(sel.value, 10) : null;
+  } else if (qtype === 'tf') {
+    const sel = document.querySelector(`input[name="lx3-check-${segIdx}"]:checked`);
+    answer = sel ? sel.value === 'true' : null;
+  } else if (qtype === 'fitb') {
+    const inp = document.getElementById('lx3-fitb-' + segIdx);
+    answer = inp ? inp.value : '';
+  } else {
+    return;
+  }
+  if (answer === null || answer === undefined) return;
+
+  try {
+    const r = await fetch(
+      '/api/resources/' + encodeURIComponent(rid) + '/segment-check/' + segIdx,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Demo-User': _demoUserHeader() },
+        body: JSON.stringify({ uid, answer }),
+      }
+    );
+    if (!r.ok) throw new Error('submit check ' + r.status);
+    const result = await r.json();
+
+    _lx3.checkState.answered = true;
+    _lx3.checkState.correct  = result.correct;
+
+    const resultEl = document.getElementById('lx3-check-result-' + segIdx);
+    if (resultEl) {
+      const icon = result.correct ? '✓ Correct' : '✗ Incorrect';
+      const cls  = result.correct ? 'correct' : 'incorrect';
+      const badgeHtml = result.tier ? originBadgeHtml('ai_grounded') : '';
+      resultEl.innerHTML = `
+        <div class="lx3-check-result ${cls}">
+          <strong>${icon}</strong>
+          ${result.verbatim_quote
+            ? `<div class="lx3-check-source">${badgeHtml} Source: "${escapeHtml(result.verbatim_quote)}"</div>`
+            : ''}
+        </div>`;
+    }
+
+    // Disable submit button; Continue is always enabled (formative — AC7).
+    const submitBtn = document.querySelector('.lx3-check-submit');
+    if (submitBtn) submitBtn.disabled = true;
+
+  } catch (e) {
+    console.log('[LX-3] Check submit failed:', e.message);
+  }
+}
+
+async function lx3Continue() {
+  if (!_lx3) return;
+  const { rid, uid, currentSegment, totalSegments, trackId, courseId, lessonRef } = _lx3;
+  const nextIdx = currentSegment + 1;
+
+  // Persist segment progress (non-blocking fire-and-forget).
+  fetch('/api/resources/' + encodeURIComponent(rid) + '/segment-progress', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-Demo-User': _demoUserHeader() },
+    body: JSON.stringify({ uid, segment_index: currentSegment }),
+  }).catch(() => {});
+  _lx3.lastSavedSegment = currentSegment;
+
+  // Refresh map to unlock the next entry.
+  const container = _lx3.container;
+  const existingMap = container ? container.querySelector('.lx3-segment-map') : null;
+  if (existingMap) existingMap.remove();
+  if (container) _lx3RenderSegmentMap(container);
+
+  if (nextIdx < totalSegments) {
+    _lx3RenderSegment(nextIdx);
+    // Scroll to top of segment area.
+    const area = document.getElementById('lx3-segment-area');
+    if (area) area.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } else {
+    // Last segment done — show recap, then mark lesson complete.
+    await _lx3ShowRecap();
+    _lx3MarkLessonDone();
+  }
+}
+
+function lx3JumpTo(idx) {
+  if (!_lx3) return;
+  // Only allow jumping to already-unlocked segments.
+  if (idx > _lx3.lastSavedSegment + 1) return;
+  _lx3RenderSegment(idx);
+  const area = document.getElementById('lx3-segment-area');
+  if (area) area.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+async function _lx3ShowRecap() {
+  if (!_lx3) return;
+  const { rid, uid, container } = _lx3;
+  if (!container) return;
+
+  let recapData = _lx3.recapData;
+  if (!recapData) {
+    try {
+      const r = await fetch(
+        '/api/resources/' + encodeURIComponent(rid) + '/recap?uid=' + encodeURIComponent(uid),
+        { headers: { 'X-Demo-User': _demoUserHeader() } }
+      );
+      recapData = r.ok ? await r.json() : { source: 'none', items: [] };
+    } catch (e) {
+      recapData = { source: 'none', items: [] };
+    }
+    _lx3.recapData = recapData;
+  }
+
+  if (recapData.source === 'none' || !(recapData.items || []).length) return;
+
+  const area = document.getElementById('lx3-segment-area');
+  if (!area) return;
+
+  let cardsHtml = '';
+  if (recapData.source === 'flashcards') {
+    cardsHtml = (recapData.items || []).map(item => {
+      const prov = item.provenance || 'ai_grounded';
+      const badge = originBadgeHtml(prov);
+      const sourceBtn = item.source_ref
+        ? `<details style="margin-top:4px;font-size:12px;"><summary style="cursor:pointer;color:var(--accent);">Show source</summary><span style="opacity:.8;">${escapeHtml(item.source_ref)}</span></details>`
+        : '';
+      return `<div class="lx3-recap-card">
+        <div class="lx3-recap-front">${escapeHtml(item.front || '')}</div>
+        <div class="lx3-recap-back">${escapeHtml(item.back || '')}</div>
+        <div style="margin-top:6px;">${badge}${sourceBtn}</div>
+      </div>`;
+    }).join('');
+  } else if (recapData.source === 'headings') {
+    const bullet = (recapData.items || []).map(item =>
+      `<li>${escapeHtml(item.front || '')}</li>`).join('');
+    cardsHtml = `<ul style="padding-left:18px;font-size:14px;">${bullet}</ul>`;
+  }
+
+  const recapDiv = document.createElement('div');
+  recapDiv.className = 'lx3-recap';
+  recapDiv.innerHTML = `
+    <h3>Key takeaways ${originBadgeHtml(_lx3.provenance)}</h3>
+    <div class="lx3-recap-cards">${cardsHtml}</div>`;
+  area.appendChild(recapDiv);
+}
+
+function _lx3MarkLessonDone() {
+  if (!_lx3) return;
+  const { trackId, courseId, lessonRef } = _lx3;
+  if (!trackId || !courseId || !lessonRef) return;
+  // Use the existing lesson-progress endpoint (D1) — do NOT call completion_store directly.
+  fetch('/api/tracks/' + encodeURIComponent(trackId) + '/lesson-progress', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-Demo-User': _demoUserHeader() },
+    body: JSON.stringify({ course_id: courseId, lesson_ref: lessonRef }),
+  }).catch(() => {});
+  // Fire XP toast via existing D3 hook.
+  try { _cpMarkDone(courseId, lessonRef, trackId); } catch(e) {}
+}
+
+// ── End LX-3 ──────────────────────────────────────────────────────────────────
 
 // ── B2: Flashcard deck player ─────────────────────────────────────────────────
 // Card-flip interaction: front shows question, tap/click reveals back with source quote.
