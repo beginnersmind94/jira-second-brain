@@ -104,6 +104,8 @@ import nudge_store as _ns
 import scorm_export
 # xAPI statement emitter — stub mode until LRS_ENDPOINT + LRS_KEY are set in .env (V2).
 import xapi_client as _xapi
+# Section E — grounding audit: exhaustive claim-level citation extraction.
+import grounding_audit as _ga
 
 load_dotenv()
 
@@ -2006,6 +2008,47 @@ async def api_roster_report(
         'border-radius:4px;margin-bottom:16px;">DEMO — live rows are real; '
         'seeded rows are demo scenery.</p>'
     )
+
+    # ── E-spec: grounding summary line ────────────────────────────────────────
+    # Aggregate citation_integrity across all guide lessons in this track's
+    # courses.  The summary is one line in the board-ready packet; the full
+    # audit is available on request via /api/resources/{rid}/audit.
+    _grounding_total = 0
+    _grounding_verified = 0
+    _grounding_computed = False
+    try:
+        _track_obj = _ms.load_track(track_id) or {}
+        for _cid in (_track_obj.get("course_ids") or []):
+            _c = _course_store.load_course(_cid)
+            if not _c:
+                continue
+            for _lesson in (_c.get("lessons") or []):
+                if (_lesson.get("type") or "").strip() != "guide":
+                    continue
+                _ref = (_lesson.get("ref") or "").strip()
+                if not _ref:
+                    continue
+                _resolved = prod._resolve_resource(_ref)
+                if not _resolved:
+                    continue
+                _html_path, _meta_path, _st = _resolved
+                _m = prod._read_meta(_meta_path) or {}
+                _ci = _m.get("citation_integrity")
+                if _ci and isinstance(_ci.get("verified"), int):
+                    _grounding_total += _ci.get("verified", 0) + _ci.get("not_found", 0)
+                    _grounding_verified += _ci.get("verified", 0)
+                    _grounding_computed = True
+    except Exception:
+        pass
+    if _grounding_computed and _grounding_total > 0:
+        _grounding_line = (
+            f'<p style="font-size:12px;color:#374151;border:1px solid #d1fae5;'
+            f'background:#f0fdf4;padding:8px 12px;border-radius:4px;margin:12px 0;">'
+            f'Content grounding: {_grounding_verified}/{_grounding_total} claims verified '
+            f'verbatim against source system. Audit available on request.</p>'
+        )
+    else:
+        _grounding_line = ""
     def _report_row_html(r: dict) -> str:
         live_style = ' style="font-weight:600;background:#f0fdf4;"' if r["is_live"] else ""
         live_chip = '&nbsp;<span style="font-size:10px;color:#16a34a;">live</span>' if r["is_live"] else ""
@@ -2042,6 +2085,7 @@ tr:last-child td{{border-bottom:none}}
 <body>
 {watermark_note}
 <h1>Compliance Report &mdash; {track_title}</h1>
+{_grounding_line}
 <div class="district">DEMO DISTRICT &mdash; {district_name} &middot; Report date: {report_date} &middot; Due: {due_date or 'N/A'}</div>
 <div class="summary">
   <div class="stat"><div class="n">{enrolled}</div><div class="l">Enrolled</div></div>
@@ -4653,6 +4697,487 @@ async def review_log(rid: str | None = None, limit: int = 200):
     for e in entries:
         counts[e.get("outcome", "?")] = counts.get(e.get("outcome", "?"), 0) + 1
     return JSONResponse({"total": len(entries), "counts": counts, "entries": entries[-limit:]})
+
+
+# ── Section E — Grounding Audit (exhaustive claim-by-claim) ──────────────────
+#
+# Three read-only surfaces:
+#   GET /api/resources/{rid}/audit          — per-guide citation list (JSON)
+#   GET /api/resources/{rid}/audit/export   — HTML download for filing
+#   GET /api/courses/{cid}/audit            — course-level aggregated audit (JSON)
+#
+# All three are trainer/director only.  Cashier/learner roles receive 403.
+# The audit is READ-ONLY — no write path, no auto-approval, no dismiss endpoint.
+# ---------------------------------------------------------------------------
+
+def _audit_role_check(current_user: CurrentUser) -> None:
+    """Raise 403 if the caller is not a trainer or director."""
+    is_director = (current_user.role or "").lower() in ("cn director", "director")
+    if not current_user.is_trainer and not is_director:
+        raise HTTPException(
+            status_code=403,
+            detail={"error": "trainer_or_director_only",
+                    "message": "Grounding audit is restricted to trainers and directors."},
+        )
+
+
+def _load_resource_for_audit(rid: str) -> tuple[str, dict, str]:
+    """Return (raw_html, meta, title) for a resource, with Source comments intact.
+
+    Prefers published/, falls back to drafts/ (draft guides may still be
+    audited so a PO can see grounding before approval).
+
+    Raises HTTPException(404) if not found.
+    """
+    resolved = prod._resolve_resource(rid)
+    if not resolved:
+        raise HTTPException(404, f"Resource '{rid}' not found.")
+    html_path, meta_path, _status = resolved
+    raw_html = html_path.read_text(encoding="utf-8", errors="replace")
+    meta = prod._read_meta(meta_path) or {}
+    title = (
+        meta.get("title")
+        or meta.get("module")
+        or rid
+    )
+    return raw_html, meta, title
+
+
+@app.get("/api/resources/{rid}/audit")
+async def api_resource_audit(
+    rid: str,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """E-spec: Exhaustive grounding audit for a single guide.
+
+    Trainer/director only.  Returns every Source-comment citation plus any
+    [TO VERIFY] markers, drift flags, and a fully_grounded summary.
+
+    The ``_note`` field is non-negotiable: if parsing failed or returned a
+    partial result, the note says so — we never claim exhaustive coverage
+    when we can only see part of the document.
+    """
+    _audit_role_check(current_user)
+    raw_html, meta, title = _load_resource_for_audit(rid)
+
+    result = _ga.extract_citations(resource_id=rid, html=raw_html)
+    citations = result["citations"]
+    to_verify = result["to_verify"]
+    parse_error = result["parse_error"]
+    exhaustive = result["exhaustive"]
+
+    # Apply drift flags where content-hash data is available.
+    drift_flagged = _ga.augment_drift_flags(citations, meta)
+
+    payload = _ga.build_audit_payload(
+        resource_id=rid,
+        title=title,
+        citations=citations,
+        to_verify=to_verify,
+        parse_error=parse_error,
+        exhaustive=exhaustive,
+        drift_flagged=drift_flagged,
+    )
+    return JSONResponse(payload)
+
+
+@app.get("/api/resources/{rid}/audit/export")
+async def api_resource_audit_export(
+    rid: str,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """E-spec: HTML audit export suitable for filing.
+
+    Returns an HTML document with:
+      - Title: "Grounding Audit — {title} — {date}"
+      - Table: Section | Claim | Source Ref | Tier | Verbatim Quote
+      - Footer: claim counts + generation date
+      - Content-Disposition: attachment
+
+    In CONFERENCE_MODE: no watermark.
+    """
+    _audit_role_check(current_user)
+    raw_html, meta, title = _load_resource_for_audit(rid)
+
+    result = _ga.extract_citations(resource_id=rid, html=raw_html)
+    citations = result["citations"]
+    to_verify = result["to_verify"]
+    drift_flagged = _ga.augment_drift_flags(citations, meta)
+
+    report_date = datetime.now().strftime("%Y-%m-%d")
+    verified = sum(1 for c in citations if c.get("grounded"))
+    total = len(citations)
+    to_verify_count = len(to_verify)
+
+    def _esc(s: object) -> str:
+        return str(s or "").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+
+    watermark = "" if CONFERENCE_MODE else (
+        '<p style="color:#888;font-size:11px;border:1px solid #ddd;padding:6px 10px;'
+        'border-radius:4px;margin-bottom:16px;">'
+        'DEMO — this report reflects citations embedded in the guide at export time.</p>'
+    )
+
+    drift_banner = ""
+    if drift_flagged > 0:
+        drift_banner = (
+            f'<p style="color:#92400e;background:#fef3c7;padding:8px 12px;'
+            f'border-radius:4px;font-size:12px;">'
+            f'⚠️ {drift_flagged} citation(s) may reference updated sources — '
+            f'review flagged rows.</p>'
+        )
+
+    to_verify_rows = ""
+    if to_verify:
+        rows_html = "".join(
+            f"<tr><td>{_esc(tv['section'])}</td>"
+            f"<td>{_esc(tv['marker_text'])}</td>"
+            f"<td>{_esc(tv['surrounding_context'])}</td></tr>"
+            for tv in to_verify
+        )
+        to_verify_rows = f"""
+<h2>Unsourced Claims Flagged for SME Review ({to_verify_count})</h2>
+<table>
+<thead><tr><th>Section</th><th>Marker</th><th>Context</th></tr></thead>
+<tbody>{rows_html}</tbody></table>
+"""
+
+    def _citation_row_html(c: dict) -> str:
+        drift_style = '  style="background:#fef3c7"' if c.get("drift_flag") else ""
+        tier_cell = _esc(c["tier"] or ("transcript" if c.get("is_transcript") else "—"))
+        if c.get("verbatim_quote"):
+            quote_cell = _esc(c["verbatim_quote"])
+        elif c.get("is_transcript"):
+            quote_cell = '<em style="color:#999">[transcript timestamp]</em>'
+        else:
+            quote_cell = '<strong style="color:#dc2626">⚠ MISSING</strong>'
+        return (
+            f"<tr{drift_style}>"
+            f"<td>{_esc(c['section'])}</td>"
+            f"<td>{_esc(c['claim_text'])}</td>"
+            f"<td>{_esc(c['source_ref'])}</td>"
+            f"<td>{tier_cell}</td>"
+            f"<td>{quote_cell}</td>"
+            f"</tr>"
+        )
+
+    citation_rows = "".join(_citation_row_html(c) for c in citations)
+
+    doc = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Grounding Audit &mdash; {_esc(title)} &mdash; {report_date}</title>
+<style>
+body{{font-family:system-ui,sans-serif;max-width:1100px;margin:32px auto;padding:0 16px;color:#1a1a1a}}
+h1{{font-size:20px;margin-bottom:4px}}
+h2{{font-size:15px;margin-top:28px;color:#374151}}
+.meta{{font-size:12px;color:#6b7280;margin-bottom:20px}}
+table{{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px}}
+th{{text-align:left;font-weight:700;text-transform:uppercase;font-size:10px;color:#6b7280;
+    padding:7px 10px;border-bottom:2px solid #e5e7eb;background:#f9fafb}}
+td{{padding:8px 10px;border-bottom:1px solid #f3f4f6;vertical-align:top;word-break:break-word}}
+tr:last-child td{{border-bottom:none}}
+.footer{{font-size:11px;color:#9ca3af;margin-top:24px;border-top:1px solid #e5e7eb;padding-top:10px}}
+</style>
+</head>
+<body>
+{watermark}
+{drift_banner}
+<h1>Grounding Audit &mdash; {_esc(title)}</h1>
+<div class="meta">
+  Resource ID: {_esc(rid)} &middot; Generated: {report_date}
+</div>
+
+<h2>Citations ({total} total &middot; {verified} verified)</h2>
+<table>
+<thead><tr>
+  <th>Section</th><th>Claim</th><th>Source Ref</th><th>Tier</th><th>Verbatim Quote</th>
+</tr></thead>
+<tbody>{citation_rows}</tbody>
+</table>
+
+{to_verify_rows}
+
+<div class="footer">
+  Total: {total} claims &middot; {verified} verified &middot;
+  {to_verify_count} flagged [TO VERIFY] &middot;
+  Generated {report_date} &middot;
+  Exhaustive &mdash; every claim in this guide listed. Not sampled.
+</div>
+</body>
+</html>"""
+
+    filename = f"grounding-audit-{rid}-{report_date}.html"
+    return Response(
+        content=doc,
+        media_type="text/html",
+        headers={"Content-Disposition": f'attachment; filename="{filename}"'},
+    )
+
+
+@app.get("/api/courses/{cid}/audit")
+async def api_course_audit(
+    cid: str,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """E-spec: Course-level grounding audit — aggregates citations across all
+    guide lessons in the course.
+
+    Non-guide lessons (video, quiz, flashcards, assessment) are skipped —
+    they have their own grounding guarantees and are noted in the response.
+
+    Trainer/director only.
+    """
+    _audit_role_check(current_user)
+
+    # Load course.
+    try:
+        course = _course_store.load_course(cid)
+    except Exception:
+        course = None
+    if not course:
+        raise HTTPException(404, f"Course '{cid}' not found.")
+
+    course_title = course.get("title") or cid
+    lessons = course.get("lessons") or []
+
+    by_resource: list[dict] = []
+    all_citations: list[dict] = []
+    all_to_verify: list[dict] = []
+    skipped_non_guide: list[str] = []
+    any_parse_error = False
+
+    for lesson in lessons:
+        lesson_type = (lesson.get("type") or "").strip()
+        ref = (lesson.get("ref") or "").strip()
+        if lesson_type != "guide":
+            skipped_non_guide.append(
+                f"{lesson.get('title') or ref or lesson_type} ({lesson_type})"
+            )
+            continue
+        if not ref:
+            continue
+
+        # Resolve the guide HTML.
+        try:
+            raw_html, meta, title = _load_resource_for_audit(ref)
+        except HTTPException:
+            by_resource.append({
+                "resource_id": ref,
+                "title": lesson.get("title") or ref,
+                "claims": 0,
+                "verified": 0,
+                "error": "guide not found",
+            })
+            any_parse_error = True
+            continue
+
+        result = _ga.extract_citations(resource_id=ref, html=raw_html)
+        if not result["exhaustive"]:
+            any_parse_error = True
+
+        cits = result["citations"]
+        tvs = result["to_verify"]
+        _ga.augment_drift_flags(cits, meta)
+
+        all_citations.extend(cits)
+        all_to_verify.extend(tvs)
+
+        verified_count = sum(1 for c in cits if c.get("grounded"))
+        by_resource.append({
+            "resource_id": ref,
+            "title": title,
+            "claims": len(cits),
+            "verified": verified_count,
+        })
+
+    total = len(all_citations)
+    verified = sum(1 for c in all_citations if c.get("grounded"))
+    to_verify_count = len(all_to_verify)
+    exhaustive = not any_parse_error and len(by_resource) > 0
+
+    # fully_grounded: same rule as per-resource
+    jira_cits = [c for c in all_citations if not c.get("is_transcript")]
+    all_jira_quoted = all(bool(c.get("verbatim_quote")) for c in jira_cits)
+    fully_grounded = (
+        to_verify_count == 0 and all_jira_quoted and exhaustive
+        and len(skipped_non_guide) == 0  # only if ALL lessons were guide type
+    )
+
+    if not exhaustive:
+        note = (
+            "PARTIAL — one or more guides could not be fully parsed. "
+            "Do not treat this as an exhaustive course audit."
+        )
+    else:
+        note = (
+            "Exhaustive — every claim across all guides in this course. Not sampled."
+        )
+
+    payload: dict = {
+        "course_id": cid,
+        "course_title": course_title,
+        "total_claims": total,
+        "verified_claims": verified,
+        "to_verify_count": to_verify_count,
+        "fully_grounded": fully_grounded,
+        "by_resource": by_resource,
+        "_note": note,
+    }
+    if skipped_non_guide:
+        payload["skipped_lesson_types"] = skipped_non_guide
+    return JSONResponse(payload)
+
+
+@app.get("/api/courses/{cid}/audit/export")
+async def api_course_audit_export(
+    cid: str,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """E-spec: HTML download of the full course-level grounding audit."""
+    _audit_role_check(current_user)
+
+    try:
+        course = _course_store.load_course(cid)
+    except Exception:
+        course = None
+    if not course:
+        raise HTTPException(404, f"Course '{cid}' not found.")
+
+    course_title = course.get("title") or cid
+    lessons = course.get("lessons") or []
+
+    all_citations: list[dict] = []
+    all_to_verify: list[dict] = []
+
+    for lesson in lessons:
+        if (lesson.get("type") or "").strip() != "guide":
+            continue
+        ref = (lesson.get("ref") or "").strip()
+        if not ref:
+            continue
+        try:
+            raw_html, meta, _title = _load_resource_for_audit(ref)
+        except HTTPException:
+            continue
+        result = _ga.extract_citations(resource_id=ref, html=raw_html)
+        _ga.augment_drift_flags(result["citations"], meta)
+        all_citations.extend(result["citations"])
+        all_to_verify.extend(result["to_verify"])
+
+    report_date = datetime.now().strftime("%Y-%m-%d")
+    total = len(all_citations)
+    verified = sum(1 for c in all_citations if c.get("grounded"))
+    to_verify_count = len(all_to_verify)
+    drift_flagged = sum(1 for c in all_citations if c.get("drift_flag"))
+
+    def _esc(s: object) -> str:
+        return str(s or "").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+
+    watermark = "" if CONFERENCE_MODE else (
+        '<p style="color:#888;font-size:11px;border:1px solid #ddd;padding:6px 10px;'
+        'border-radius:4px;margin-bottom:16px;">'
+        'DEMO — export reflects citations embedded in guides at export time.</p>'
+    )
+
+    drift_banner = ""
+    if drift_flagged > 0:
+        drift_banner = (
+            f'<p style="color:#92400e;background:#fef3c7;padding:8px 12px;'
+            f'border-radius:4px;font-size:12px;">'
+            f'⚠️ {drift_flagged} citation(s) may reference updated sources — review flagged rows.</p>'
+        )
+
+    def _cit_row(c: dict) -> str:
+        drift_style = '  style="background:#fef3c7"' if c.get("drift_flag") else ""
+        tier_cell = _esc(c["tier"] or ("transcript" if c.get("is_transcript") else "—"))
+        if c.get("verbatim_quote"):
+            quote_cell = _esc(c["verbatim_quote"])
+        elif c.get("is_transcript"):
+            quote_cell = '<em style="color:#999">[transcript timestamp]</em>'
+        else:
+            quote_cell = '<strong style="color:#dc2626">⚠ MISSING</strong>'
+        return (
+            f"<tr{drift_style}>"
+            f"<td>{_esc(c['section'])}</td>"
+            f"<td>{_esc(c['claim_text'])}</td>"
+            f"<td>{_esc(c['source_ref'])}</td>"
+            f"<td>{tier_cell}</td>"
+            f"<td>{quote_cell}</td>"
+            f"</tr>"
+        )
+
+    citation_rows = "".join(_cit_row(c) for c in all_citations)
+
+    to_verify_section = ""
+    if all_to_verify:
+        tv_rows = "".join(
+            f"<tr><td>{_esc(tv['section'])}</td>"
+            f"<td>{_esc(tv['marker_text'])}</td>"
+            f"<td>{_esc(tv['surrounding_context'])}</td></tr>"
+            for tv in all_to_verify
+        )
+        to_verify_section = f"""
+<h2>Unsourced Claims Flagged for SME Review ({to_verify_count})</h2>
+<table>
+<thead><tr><th>Section</th><th>Marker</th><th>Context</th></tr></thead>
+<tbody>{tv_rows}</tbody></table>
+"""
+
+    doc = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Grounding Audit &mdash; {_esc(course_title)} &mdash; {report_date}</title>
+<style>
+body{{font-family:system-ui,sans-serif;max-width:1100px;margin:32px auto;padding:0 16px;color:#1a1a1a}}
+h1{{font-size:20px;margin-bottom:4px}}
+h2{{font-size:15px;margin-top:28px;color:#374151}}
+.meta{{font-size:12px;color:#6b7280;margin-bottom:20px}}
+table{{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px}}
+th{{text-align:left;font-weight:700;text-transform:uppercase;font-size:10px;color:#6b7280;
+    padding:7px 10px;border-bottom:2px solid #e5e7eb;background:#f9fafb}}
+td{{padding:8px 10px;border-bottom:1px solid #f3f4f6;vertical-align:top;word-break:break-word}}
+tr:last-child td{{border-bottom:none}}
+.footer{{font-size:11px;color:#9ca3af;margin-top:24px;border-top:1px solid #e5e7eb;padding-top:10px}}
+</style>
+</head>
+<body>
+{watermark}
+{drift_banner}
+<h1>Grounding Audit &mdash; {_esc(course_title)}</h1>
+<div class="meta">
+  Course ID: {_esc(cid)} &middot; Generated: {report_date}
+</div>
+
+<h2>All Citations ({total} total &middot; {verified} verified)</h2>
+<table>
+<thead><tr>
+  <th>Section</th><th>Claim</th><th>Source Ref</th><th>Tier</th><th>Verbatim Quote</th>
+</tr></thead>
+<tbody>{citation_rows}</tbody>
+</table>
+
+{to_verify_section}
+
+<div class="footer">
+  Total: {total} claims &middot; {verified} verified &middot;
+  {to_verify_count} flagged [TO VERIFY] &middot;
+  Generated {report_date} &middot;
+  Exhaustive &mdash; every claim across all guides in this course. Not sampled.
+</div>
+</body>
+</html>"""
+
+    filename = f"grounding-audit-{cid}-{report_date}.html"
+    return Response(
+        content=doc,
+        media_type="text/html",
+        headers={"Content-Disposition": f'attachment; filename="{filename}"'},
+    )
 
 
 # ── DELETE /resources/{rid} — remove a guide + its metadata + eval ────────────
