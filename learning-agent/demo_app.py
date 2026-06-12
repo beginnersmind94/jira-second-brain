@@ -389,6 +389,27 @@ async def api_get_track(
         current_user.id, tid, module_ids=module_ids
     )
 
+    # A3 — Due date injection: find the applicable assignment for this user and
+    # surface due_date / days_remaining / is_overdue in the response.
+    _asn = _find_applicable_assignment(track.get("assignments") or [], current_user)
+    _due_fields = _assignment_due_fields(_asn, expanded["progress"])
+    expanded.update(_due_fields)
+
+    # A3 — Prerequisite lock: if any prereq track is incomplete, surface locked=True.
+    _all_tracks = _ms.list_tracks()
+    _lock_state = _check_prerequisites(track, current_user.id, _all_tracks)
+    if _lock_state:
+        expanded.update(_lock_state)
+    else:
+        expanded["locked"] = False
+        expanded["locked_by"] = None
+
+    # A3 — Surface milestones as-is (cosmetic section dividers in the player).
+    if "milestones" not in expanded:
+        expanded["milestones"] = track.get("milestones") or []
+    if "prerequisites" not in expanded:
+        expanded["prerequisites"] = track.get("prerequisites") or []
+
     # A1 — Track schema migration shim:
     # If the track has 'module_ids' but no 'course_ids', synthesize a response-only
     # implicit Course 1 so every existing seeded track renders with a 'courses' key.
@@ -480,6 +501,195 @@ async def api_delete_track(tid: str):
     if not _ms.delete_track(tid):
         raise HTTPException(404, "track not found")
     return {"ok": True}
+
+
+# ── A3 — Track assignment, deadlines & milestones ─────────────────────────────
+# Assignments are persisted inside the track JSON as track["assignments"]:
+#   [{ audience_type, audience_value, district?, due_date, assigned_at, assigned_by }]
+#
+# due_date resolution for GET /api/tracks/{tid}:
+#   1. Find the first assignment matching the caller's role (audience_type=="role")
+#      or district (audience_type=="district"), or user id (audience_type=="user").
+#   2. Inject due_date, days_remaining, is_overdue into the expanded response.
+#   3. is_overdue = days_remaining < 0 AND track is not 100% complete.
+#
+# Prerequisite lock: if track["prerequisites"] contains a track id, check
+# completion_store for 100% on that track for the current user. If not complete,
+# return locked: true, locked_by: {track_id, title}.
+
+def _today_date():
+    from datetime import date
+    return date.today()
+
+
+def _find_applicable_assignment(assignments: list, user: "CurrentUser") -> dict | None:
+    """Return the first assignment that applies to this user.
+
+    Matching priority: user > district > role.
+    """
+    if not assignments:
+        return None
+    user_id = user.id
+    district = user.district_id or ""
+    role = user.role or ""
+
+    # Pass 1 — user-level
+    for a in assignments:
+        if a.get("audience_type") == "user" and a.get("audience_value") == user_id:
+            return a
+    # Pass 2 — district-level
+    for a in assignments:
+        if a.get("audience_type") == "district" and a.get("audience_value") == district:
+            return a
+    # Pass 3 — role-level
+    for a in assignments:
+        if a.get("audience_type") == "role" and a.get("audience_value") == role:
+            return a
+    return None
+
+
+def _assignment_due_fields(
+    assignment: dict | None,
+    progress: dict,
+) -> dict:
+    """Return due_date, days_remaining, is_overdue given an assignment + progress."""
+    if not assignment or not assignment.get("due_date"):
+        return {"due_date": None, "days_remaining": None, "is_overdue": False}
+
+    from datetime import date
+    due_str = assignment["due_date"]
+    try:
+        due = date.fromisoformat(due_str)
+    except ValueError:
+        return {"due_date": due_str, "days_remaining": None, "is_overdue": False}
+
+    today = _today_date()
+    days_remaining = (due - today).days
+    certified = progress.get("certified", False)
+    pct = progress.get("pct", 0)
+    completed = certified or pct >= 100
+    is_overdue = days_remaining < 0 and not completed
+    return {
+        "due_date": due_str,
+        "days_remaining": days_remaining,
+        "is_overdue": is_overdue,
+    }
+
+
+def _check_prerequisites(
+    track: dict,
+    user_id: str,
+    all_tracks: list,
+) -> dict | None:
+    """Return locked state dict if any prerequisite track is incomplete, else None.
+
+    Returns: {"locked": True, "locked_by": {"track_id": ..., "title": ...}}
+             or None if all prerequisites are met.
+    """
+    prereqs = track.get("prerequisites") or []
+    if not prereqs:
+        return None
+    for prereq_id in prereqs:
+        prog = _cs.get_progress(user_id, prereq_id)
+        certified = prog.get("certified", False)
+        pct = prog.get("pct", 0)
+        if not (certified or pct >= 100):
+            # Find the prerequisite track title.
+            prereq_title = prereq_id
+            for t in (all_tracks or []):
+                if t.get("id") == prereq_id:
+                    prereq_title = t.get("title", prereq_id)
+                    break
+            if not prereq_title or prereq_title == prereq_id:
+                # Try loading directly.
+                prereq_track = _ms.load_track(prereq_id)
+                if prereq_track:
+                    prereq_title = prereq_track.get("title", prereq_id)
+            return {"locked": True, "locked_by": {"track_id": prereq_id, "title": prereq_title}}
+    return None
+
+
+@app.get("/api/tracks/{tid}/assignments")
+async def api_list_assignments(
+    tid: str,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """List all assignments for a track. Readable by trainer and learner."""
+    track = _ms.load_track(tid)
+    if not track:
+        raise HTTPException(404, "track not found")
+    return {"assignments": track.get("assignments") or []}
+
+
+@app.post("/api/tracks/{tid}/assign")
+async def api_assign_track(
+    tid: str,
+    body: dict = Body(default={}),
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Add an assignment to a track. Trainer-only.
+
+    Body: {audience_type, audience_value, district?, due_date}
+    """
+    if not current_user.is_trainer:
+        raise HTTPException(403, "trainer role required")
+    track = _ms.load_track(tid)
+    if not track:
+        raise HTTPException(404, "track not found")
+
+    audience_type = body.get("audience_type", "")
+    if audience_type not in ("role", "district", "user"):
+        raise HTTPException(422, {"error": "invalid_audience_type",
+                                  "detail": "audience_type must be role, district, or user"})
+    audience_value = body.get("audience_value", "").strip()
+    if not audience_value:
+        raise HTTPException(422, {"error": "missing_audience_value",
+                                  "detail": "audience_value is required"})
+    due_date = body.get("due_date", "").strip()
+    if due_date:
+        # Validate ISO date format.
+        from datetime import date as _date_cls
+        try:
+            _date_cls.fromisoformat(due_date)
+        except ValueError:
+            raise HTTPException(422, {"error": "invalid_due_date",
+                                      "detail": "due_date must be YYYY-MM-DD"})
+
+    now_iso = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S")
+    new_assignment = {
+        "audience_type": audience_type,
+        "audience_value": audience_value,
+        "district": body.get("district") or None,
+        "due_date": due_date or None,
+        "assigned_at": now_iso,
+        "assigned_by": current_user.id,
+    }
+    assignments = list(track.get("assignments") or [])
+    assignments.append(new_assignment)
+    track["assignments"] = assignments
+    _ms.save_track(track)
+    return track
+
+
+@app.delete("/api/tracks/{tid}/assign/{idx}")
+async def api_remove_assignment(
+    tid: str,
+    idx: int,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Remove the assignment at the given index. Trainer-only."""
+    if not current_user.is_trainer:
+        raise HTTPException(403, "trainer role required")
+    track = _ms.load_track(tid)
+    if not track:
+        raise HTTPException(404, "track not found")
+    assignments = list(track.get("assignments") or [])
+    if idx < 0 or idx >= len(assignments):
+        raise HTTPException(404, "assignment index out of range")
+    assignments.pop(idx)
+    track["assignments"] = assignments
+    _ms.save_track(track)
+    return {"assignments": assignments}
 
 
 @app.post("/api/tracks/{tid}/progress")

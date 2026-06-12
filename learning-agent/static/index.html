@@ -2630,6 +2630,21 @@
     .lh-cta.lh-cert { background: var(--green); }
     .lh-cta.lh-cert:hover { background: var(--green-text); }
     .lh-due { font-size: 12px; color: var(--muted); }
+    /* ── A3 due-date chip ─────────────────────────────────────────────────── */
+    .due-chip { display: inline-flex; align-items: center; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 10px; background: var(--border); color: var(--muted-aa); white-space: nowrap; }
+    .due-chip.due-soon { background: #fef3c7; color: #92400e; }
+    .due-chip.overdue { background: #fee2e2; color: #991b1b; }
+    /* ── A3 track-locked overlay ─────────────────────────────────────────── */
+    .track-locked-banner { display: flex; align-items: center; gap: 10px; padding: 14px 18px; background: var(--panel2); border: 1px solid var(--border); border-radius: var(--radius-sm); margin-bottom: 18px; color: var(--text); font-size: 14px; }
+    .track-locked-banner .tl-icon { font-size: 20px; flex-shrink: 0; }
+    .track-locked-banner .tl-msg { font-weight: 600; }
+    .track-locked-banner .tl-sub { font-size: 12px; color: var(--muted-aa); margin-top: 2px; }
+    /* ── A3 assign builder modal ─────────────────────────────────────────── */
+    #assign-builder-modal .ab-toast { display: none; margin-top: 10px; padding: 8px 12px; background: var(--green-soft); color: var(--green-text); border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; }
+    #assign-builder-modal .ab-assignment-list { margin-top: 12px; font-size: 13px; }
+    #assign-builder-modal .ab-asgn-row { display: flex; align-items: center; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border); gap: 8px; }
+    #assign-builder-modal .ab-asgn-row:last-child { border-bottom: 0; }
+    #assign-builder-modal .ab-asgn-remove { background: none; border: none; cursor: pointer; color: var(--muted-aa); font-size: 14px; padding: 2px 6px; }
     .learn-track-label { font-size: 11.5px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--label); margin: 0 0 10px; }
     .learn-track-desc { font-size: 14px; color: var(--text-soft); line-height: 1.6; margin: 0 0 14px; max-width: 620px; }
     .learn-lessons { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
@@ -3332,6 +3347,10 @@
               </svg>
               Export as SCORM
             </button>
+            <!-- A3: Assign button — opens the assign builder for the current track -->
+            <button class="secondary" id="tb-assign-btn" onclick="tbAssignTrack()" title="Assign this track to learners with a due date">
+              ✋ Assign
+            </button>
             <button class="primary" id="tb-publish-btn" onclick="tbPublishTrack()">
               <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor"
                    stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -3597,6 +3616,35 @@
     </div>
     <div class="am-foot"><span class="tb-note">A track is a sequence of courses.</span><button class="primary" onclick="tbkSave()">Create track</button></div>
   </div></div>
+  <!-- ── A3: Assign Builder modal (≤3 interactions: audience + due date + Assign) ── -->
+  <div id="assign-builder-modal" class="am-overlay" hidden>
+    <div class="am-modal" style="max-width:440px;">
+      <div class="am-head"><b>Assign Track</b><button class="lib-drawer-close" onclick="abClose()">&#x2715;</button></div>
+      <div class="am-body">
+        <label class="tb-l">Audience</label>
+        <select id="ab-audience" class="tb-in" onchange="abUpdateCount()">
+          <option value="role:Cashier">All Cashiers</option>
+          <option value="role:Site Manager">All Site Managers</option>
+          <option value="role:CN Director">All CN Directors</option>
+          <option value="district:houston-isd">Houston ISD (all roles)</option>
+          <option value="user:">Specific user…</option>
+        </select>
+        <div id="ab-user-row" style="display:none;margin-top:8px;">
+          <label class="tb-l">User ID</label>
+          <input id="ab-user-id" type="text" class="tb-in" placeholder="e.g. john-cashier" autocomplete="off">
+        </div>
+        <label class="tb-l" style="margin-top:12px;">Due date <span style="font-weight:400;color:var(--muted-aa);">(optional)</span></label>
+        <input id="ab-due" type="date" class="tb-in">
+        <p id="ab-count" style="font-size:12px;color:var(--muted-aa);margin-top:6px;"></p>
+        <div id="ab-toast" class="ab-toast"></div>
+        <div id="ab-existing-list" class="ab-assignment-list"></div>
+      </div>
+      <div class="am-foot">
+        <span class="tb-note">Auto-enrolls matching learners now.</span>
+        <button class="primary" onclick="abCommit()">Assign</button>
+      </div>
+    </div>
+  </div>
 </section>
 <!-- ── Projects: project_create / csv_upload / project_dashboard ───────── -->
 <section id="view-projects" class="view">
@@ -7970,6 +8018,11 @@ function renderLearnHome() {
   // automatically resumes at the first incomplete lesson.
   const openFn = isReal ? `openCoursePlayer('${t.id}')` : `openTrack('${t.id}')`;
 
+  // A3 — Due chip: for real tracks use server-supplied due_date/days_remaining/is_overdue;
+  // for demo tracks fall back to t.due string (no chip state).
+  const dueChipHtml = isReal ? _dueChipHtml(t) : '';
+  const dueMeta = isReal ? '' : (due ? ` · Due ${escapeHtml(due)}` : '');
+
   // Render hero card
   if (pct === 100) {
     heroWrap.innerHTML = `<div class="learn-hero lh-complete">
@@ -7983,21 +8036,21 @@ function renderLearnHome() {
     </div>`;
   } else if (pct === 0) {
     heroWrap.innerHTML = `<div class="learn-hero lh-firstrun">
-      <p class="lh-eyebrow">Up next for you</p>
+      <p class="lh-eyebrow">Up next for you${dueChipHtml ? ' &ensp;' + dueChipHtml : ''}</p>
       <h2 class="lh-title">${escapeHtml(t.title)}</h2>
-      <p class="lh-meta">${totalLessons} lesson${totalLessons !== 1 ? 's' : ''} · ~${totalLessons * 8} min · Due ${escapeHtml(due)}</p>
+      <p class="lh-meta">${totalLessons} lesson${totalLessons !== 1 ? 's' : ''} · ~${totalLessons * 8} min${dueMeta}</p>
       <div class="lh-foot">
         <button class="lh-cta" onclick="${openFn}">Start training</button>
       </div>
     </div>`;
   } else {
     heroWrap.innerHTML = `<div class="learn-hero">
-      <p class="lh-eyebrow">Continue where you left off</p>
+      <p class="lh-eyebrow">Continue where you left off${dueChipHtml ? ' &ensp;' + dueChipHtml : ''}</p>
       <h2 class="lh-title">${escapeHtml(t.title)}</h2>
       <p class="lh-meta">${remMin > 0 ? `~${remMin} min to go · ` : ''}${doneLessons} of ${totalLessons} done</p>
       <div class="lh-prog-wrap">
         <div class="lh-prog"><div class="lh-prog-fill" style="width:${pct}%"></div></div>
-        <div class="lh-prog-lbl"><span>${pct}% complete</span><span>Due ${escapeHtml(due)}</span></div>
+        <div class="lh-prog-lbl"><span>${pct}% complete</span>${isReal ? '' : `<span>Due ${escapeHtml(due)}</span>`}</div>
       </div>
       <div class="lh-foot">
         <button class="lh-cta" onclick="${openFn}">Continue</button>
@@ -8042,6 +8095,175 @@ function renderLearnHome() {
 function _rtDoneSet(tid) { _demoState.rtDone = _demoState.rtDone || {}; return (_demoState.rtDone[tid] = _demoState.rtDone[tid] || new Set()); }
 function _rtPct(t) { const ids = (t && t.module_ids) || []; const s = _rtDoneSet(t.id); const done = ids.filter(id => s.has(id)).length; return ids.length ? Math.round(100 * done / ids.length) : 0; }
 function _rtToggle(tid, mid) { const s = _rtDoneSet(tid); if (s.has(mid)) s.delete(mid); else s.add(mid); if (_curRealTrack && _curRealTrack.id === tid) _renderRealTrack(_curRealTrack); }
+
+// ── A3: Due chip helper ────────────────────────────────────────────────────────
+// Returns an HTML string for the due-date chip based on track.due_date,
+// track.days_remaining, track.is_overdue, and track.progress.certified/pct.
+// Returns '' when no due_date is present or track is fully complete.
+function _dueChipHtml(track) {
+  if (!track) return '';
+  const progress = track.progress || {};
+  const certified = progress.certified || false;
+  const pct = progress.pct || 0;
+  if (certified || pct >= 100) return ''; // hide chip on completed tracks
+  const dueDate = track.due_date;
+  if (!dueDate) return '';
+  const daysRemaining = track.days_remaining;
+  const isOverdue = track.is_overdue;
+  if (isOverdue) {
+    return `<span class="due-chip overdue" aria-label="Overdue">Overdue</span>`;
+  }
+  if (typeof daysRemaining === 'number' && daysRemaining <= 7) {
+    const label = daysRemaining === 0 ? 'Due today'
+                : daysRemaining === 1 ? 'Due tomorrow'
+                : `Due in ${daysRemaining} days`;
+    return `<span class="due-chip due-soon" aria-label="${label}">${escapeHtml(label)}</span>`;
+  }
+  // Neutral chip: format the due date for display (e.g. "Due Jul 31")
+  let displayDate = dueDate;
+  try {
+    const d = new Date(dueDate + 'T00:00:00');
+    displayDate = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  } catch (_) {}
+  return `<span class="due-chip" aria-label="Due ${displayDate}">Due ${escapeHtml(displayDate)}</span>`;
+}
+
+// ── A3: Assign builder ─────────────────────────────────────────────────────────
+let _abTrackId = null;  // track id the assign builder is currently open for
+
+function openAssignBuilder(trackId) {
+  _abTrackId = trackId;
+  const m = document.getElementById('assign-builder-modal');
+  if (!m) return;
+  // Pre-select default due date as 2026-07-31 for the demo track (convenience)
+  const dueInput = document.getElementById('ab-due');
+  if (dueInput && !dueInput.value) dueInput.value = '2026-07-31';
+  // Clear toast
+  const toast = document.getElementById('ab-toast');
+  if (toast) { toast.style.display = 'none'; toast.textContent = ''; }
+  abUpdateCount();
+  _abLoadExisting(trackId);
+  m.hidden = false;
+}
+
+function abClose() {
+  const m = document.getElementById('assign-builder-modal');
+  if (m) m.hidden = true;
+  _abTrackId = null;
+}
+
+function abUpdateCount() {
+  const val = (document.getElementById('ab-audience') || {}).value || '';
+  const userRow = document.getElementById('ab-user-row');
+  const countEl = document.getElementById('ab-count');
+  if (userRow) userRow.style.display = val.startsWith('user:') ? 'block' : 'none';
+  if (!countEl) return;
+  const counts = {
+    'role:Cashier': '28 Houston ISD cashiers',
+    'role:Site Manager': '6 site managers',
+    'role:CN Director': '2 CN directors',
+    'district:houston-isd': '36 Houston ISD learners (all roles)',
+  };
+  countEl.textContent = counts[val] ? `→ ${counts[val]}` : '';
+}
+
+async function _abLoadExisting(tid) {
+  const listEl = document.getElementById('ab-existing-list');
+  if (!listEl || !tid) return;
+  listEl.innerHTML = '';
+  try {
+    const r = await fetch(`/api/tracks/${encodeURIComponent(tid)}/assignments`,
+      { headers: { 'X-Demo-User': _demoUserHeader() } });
+    if (!r.ok) return;
+    const data = await r.json();
+    const assignments = data.assignments || [];
+    if (!assignments.length) return;
+    let rows = assignments.map((a, i) => {
+      const label = a.audience_type === 'role' ? `All ${a.audience_value}`
+                  : a.audience_type === 'district' ? `${a.audience_value} (district)`
+                  : a.audience_value;
+      const due = a.due_date || '—';
+      return `<div class="ab-asgn-row">
+        <span>${escapeHtml(label)} · Due ${escapeHtml(due)}</span>
+        <button class="ab-asgn-remove" title="Remove" onclick="abRemove(${i})">✕</button>
+      </div>`;
+    }).join('');
+    listEl.innerHTML = `<p style="font-size:12px;font-weight:700;color:var(--label);margin:10px 0 4px;">Current assignments</p>${rows}`;
+  } catch (_) {}
+}
+
+async function abRemove(idx) {
+  if (!_abTrackId) return;
+  try {
+    const r = await fetch(
+      `/api/tracks/${encodeURIComponent(_abTrackId)}/assign/${idx}`,
+      { method: 'DELETE', headers: { 'X-Demo-User': _demoUserHeader() } }
+    );
+    if (r.ok) {
+      _abLoadExisting(_abTrackId);
+      _realTracks = null; // invalidate cache so learn home refreshes
+    }
+  } catch (_) {}
+}
+
+async function abCommit() {
+  if (!_abTrackId) return;
+  const audienceRaw = (document.getElementById('ab-audience') || {}).value || 'role:Cashier';
+  const [audience_type, ...audienceRest] = audienceRaw.split(':');
+  let audience_value = audienceRest.join(':');
+  if (audience_type === 'user') {
+    audience_value = ((document.getElementById('ab-user-id') || {}).value || '').trim();
+    if (!audience_value) { alert('Enter a user ID.'); return; }
+  }
+  const due_date = ((document.getElementById('ab-due') || {}).value || '').trim();
+
+  try {
+    const r = await fetch(
+      `/api/tracks/${encodeURIComponent(_abTrackId)}/assign`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Demo-User': _demoUserHeader() },
+        body: JSON.stringify({ audience_type, audience_value, due_date: due_date || null }),
+      }
+    );
+    if (!r.ok) {
+      const err = await r.json().catch(() => ({}));
+      alert('Assignment failed: ' + (err.detail || r.status));
+      return;
+    }
+    // Success toast
+    const toast = document.getElementById('ab-toast');
+    const countHints = {
+      'role:Cashier': '28 Houston ISD cashiers',
+      'role:Site Manager': '6 site managers',
+      'role:CN Director': '2 CN directors',
+      'district:houston-isd': '36 Houston ISD learners',
+    };
+    const who = countHints[audienceRaw] || audience_value;
+    const dueLabel = due_date ? ` · due ${due_date}` : '';
+    if (toast) {
+      toast.textContent = `Assigned to ${who}${dueLabel}`;
+      toast.style.display = 'block';
+    }
+    _realTracks = null; // invalidate cache
+    _abLoadExisting(_abTrackId);
+  } catch (_) {
+    alert('Network error — try again.');
+  }
+}
+
+// Hook into track builder: "✋ Assign" button calls this.
+function tbAssignTrack() {
+  // _tbCurrentTrack is the track object loaded in the builder.
+  const tid = (typeof _tbCurrentTrack !== 'undefined' && _tbCurrentTrack && _tbCurrentTrack.id)
+    || null;
+  if (!tid) {
+    if (typeof tbShowToast === 'function') tbShowToast('Select or create a track first, then assign it.');
+    else alert('Select or create a track first, then assign it.');
+    return;
+  }
+  openAssignBuilder(tid);
+}
 // A REAL published track (built + assigned this session). Lists its mixed modules — AI-grounded
 // guide (opens its PDF), Cybersoft guide, and credited ICN/USDA reference (links out). Guides
 // offer a grounded quiz; finishing every module unlocks a downloadable completion certificate.
@@ -8085,11 +8307,20 @@ function _renderRealTrack(t) {
           : '<span class="track-soon">Complete every lesson to unlock</span>'}</div>
       </div></li>`;
   const _bcRT = _bcHtml([{label:'Learn', onclick:'renderLearnHome()'}, {label:t.title}]);
+  // A3: due chip and lock icon for real tracks
+  const _rtDueChip = _dueChipHtml(t);
+  const _rtLockBanner = t.locked && t.locked_by
+    ? `<div class="track-locked-banner" style="margin-bottom:12px;">
+        <span class="tl-icon">🔒</span>
+        <div><div class="tl-msg">This track is locked</div>
+        <div class="tl-sub">Complete <strong>${escapeHtml(t.locked_by.title || t.locked_by.track_id || 'a prerequisite track')}</strong> first to unlock this track.</div></div>
+      </div>` : '';
   document.getElementById('track-detail').innerHTML = `
     ${_bcRT}
+    ${_rtLockBanner}
     <header class="path-hero">
-      <p class="path-eyebrow">${escapeHtml(t.product || 'SchoolCafé')} · ${escapeHtml(rt[0] || 'All staff')} track</p>
-      <h1 class="path-title">${escapeHtml(t.title)}</h1>
+      <p class="path-eyebrow">${escapeHtml(t.product || 'SchoolCafé')} · ${escapeHtml(rt[0] || 'All staff')} track${_rtDueChip ? ' &ensp;' + _rtDueChip : ''}</p>
+      <h1 class="path-title">${escapeHtml(t.title)}${t.locked ? ' 🔒' : ''}</h1>
       <div class="path-stats"><span><b>${mods.length}</b>lessons</span><span><b>${pct}%</b>done</span><span>${
         // Over-claiming guard: show ai-grounded badge ONLY when ALL modules passed the cite gate.
         // Mixed tracks (AI + human + ICN) or ICN-only tracks must NEVER display the AI grounding claim.
@@ -8553,15 +8784,28 @@ function _cpRender() {
   const doneLessons = allLessons.filter(x => _cpIsDone(x.courseId, x.lessonRef)).length;
   const pct = totalLessons ? Math.round(100 * doneLessons / totalLessons) : 0;
 
-  // ── Top bar ──
+  // ── Top bar (A3: include due chip when track has a due_date) ──
+  const _cpDueChip = _dueChipHtml(track);
   const topBar = `<div class="cp-topbar">
     <button class="cp-back-btn" onclick="closeCoursePlayer()" aria-label="Back">← Back</button>
     <span class="cp-track-title">${escapeHtml(track.title || 'Track')}</span>
+    ${_cpDueChip ? `<span style="margin-left:6px;">${_cpDueChip}</span>` : ''}
     <div class="cp-topbar-right">
       <span class="cp-pct-label">${pct}%</span>
       <div class="lp-prog-bar" style="width:56px;"><div class="lp-prog-bar-fill" style="width:${pct}%"></div></div>
     </div>
   </div>`;
+
+  // ── A3: Prerequisite lock banner ──
+  let lockBanner = '';
+  if (track.locked && track.locked_by) {
+    const lockedTitle = escapeHtml(track.locked_by.title || track.locked_by.track_id || 'a prerequisite track');
+    lockBanner = `<div class="track-locked-banner">
+      <span class="tl-icon">🔒</span>
+      <div><div class="tl-msg">This track is locked</div>
+      <div class="tl-sub">Complete <strong>${lockedTitle}</strong> first to unlock this track.</div></div>
+    </div>`;
+  }
 
   // ── Left rail (courses + lessons) ──
   let railHtml = '';
@@ -8604,6 +8848,7 @@ function _cpRender() {
       ${swipeHint}
       <div class="cp-pane" id="cp-pane">
         <div class="cp-pane-inner" id="cp-pane-inner">
+          ${lockBanner}
           <div id="cp-lesson-content">Loading…</div>
         </div>
       </div>
