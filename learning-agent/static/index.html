@@ -2283,7 +2283,9 @@
     .ava-menu[hidden] { display: none; }
     .ava-menu button { display: block; width: 100%; text-align: left; background: none; border: 0; padding: 9px 11px; border-radius: var(--radius-sm); cursor: pointer; font: inherit; font-size: 12.5px; color: var(--text); }
     .ava-menu button:hover { background: var(--panel3); }
-    body.customer-view #ava-menu .ava-qa { display: none; }   /* Quality is trainer-only — no dead click for customers */
+    /* .ava-qa is visible in both views; applyViewMode() scopes its text + destination by persona.
+       Customer view: "AI-built guides: every claim cited" → howitworks (customer-safe explainer).
+       Trainer view:  "Every claim cited — why this matters" → evals (grounding QA dashboard). */
     body.customer-view .lib-subnav { display: none; }         /* Studio tab — authoring workspace, trainer-only */
     body.customer-view .cat-quiz-btn { display: none; }       /* + Quiz button — build action, trainer-only */
 
@@ -4148,6 +4150,19 @@ function applyViewMode() {
       ava.textContent = d ? d.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase() : 'DC';
     } else {
       ava.textContent = 'SR';
+    }
+  }
+  // "Every claim cited" avatar-menu button: scoped in customer view so the badge text only
+  // claims what the gate actually covers (AI-built guides), not imported/ICN content.
+  // Customer lands on howitworks (customer-safe explainer); trainer lands on evals (QA dashboard).
+  const avaQa = document.querySelector('#ava-menu .ava-qa');
+  if (avaQa) {
+    if (_viewMode === 'customer') {
+      avaQa.textContent = 'AI-built guides: every claim cited';
+      avaQa.onclick = () => { closeAvaMenu(); showView('howitworks'); };
+    } else {
+      avaQa.textContent = 'Every claim cited — why this matters';
+      avaQa.onclick = () => { closeAvaMenu(); showView('evals'); };
     }
   }
   const ibtn = document.getElementById('inbox-btn'); if (ibtn) ibtn.hidden = _viewMode === 'customer';   // approvals inbox is a trainer concept

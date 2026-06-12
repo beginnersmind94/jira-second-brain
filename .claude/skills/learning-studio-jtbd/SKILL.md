@@ -96,16 +96,26 @@ Sources: BRD §4 (User Roles & Personas) + §5.3 (enrollment) + the built views 
 
 ### 1. Jaime's team — the internal customer (Customer Success / Implementation)
 - **Who:** BRD's *"primary internal user of the platform."* In the calls, Jaime is the
-  understaffed head of Implementation; her team runs onboarding/training for new customers.
-- **Job (JTBD):** *"Turn our training recordings into consistent, trustworthy, role-tagged
-  content fast, review/approve it, and get leverage — without hiring a content team or buying
-  a $50–100k tool."* Plus (BRD FR-RP-01/03): *see each customer's onboarding progress against
-  go-live milestones in real time.*
-- **Where:** the Trainer view — Create (upload → generate), Library/Studio (review/edit/approve),
-  Districts/Manage (customer portfolio + roster), Quality (grounding QA).
-- **Success:** a trustworthy guide is published and assigned faster than hand-writing it, and
-  she can *prove* every claim is cited. **Failure:** can't tell grounded from not; approves
-  blind; or screen-shares internal chrome to a customer by accident.
+  understaffed head of Implementation; her team manages and runs district implementation —
+  assigning approved content to customer districts and tracking onboarding progress.
+- **Job (JTBD):** *"Take approved training content and get it deployed to the right customer
+  districts fast — see each district's progress against go-live milestones in real time, and
+  act on anything that's falling behind."* (BRD FR-RP-01/03.) **Jaime does not author or
+  approve content.** Her job starts after a guide reaches the Library.
+- **Who approves:** **Product Owners (PM team)** act as SMEs and are the approval gate. A PO
+  reviews a generated draft for accuracy and approves it into the Library. Jaime is
+  **downstream** of that gate — she sees what's been approved and assigns it to districts.
+  She is a *consumer* of the content pipeline, not its gatekeeper. Design errors that put
+  Jaime in the approval loop (e.g. "awaiting your review" queues surfaced on her Home view)
+  are wrong persona assignments, not polish issues.
+- **Where:** the Trainer view — Library (browse approved content ready to assign),
+  Districts/Manage (customer portfolio + roster, help requests, overdue learners), Quality
+  (read grounding evidence for approved content — not to approve, but to understand what
+  was verified).
+- **Success:** newly approved guides are visible and assignable the moment POs publish them;
+  she can see at a glance which districts are on track vs. behind; action is one click from
+  the signal. **Failure:** can't see what's newly approved and ready to assign; assignment has
+  too much ceremony; or she accidentally screen-shares internal chrome to a customer.
 - **Design caution (from the calls):** Jaime *"just wants to be told what to do,"* gives
   feedback as complaint, and *"half of them don't even know what LMS stands for"* (Dallas,
   Jun-04 [28:09], [38:36]). Design for **low ceremony, show-don't-spec** — no prompt-craft, no
