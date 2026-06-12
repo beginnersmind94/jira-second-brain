@@ -1,0 +1,88 @@
+{
+  "user_id": "john-cashier",
+  "sessions": [
+    {
+      "date": "2026-06-12",
+      "items": [
+        {
+          "type": "flashcard",
+          "deck_id": "deck-20260612-demo-seed",
+          "card_id": "card-1",
+          "front": "What do you do when setting up a bulk item import to ensure each row is accepted?",
+          "back": "Make sure every configuration record (Item Category, Storage Category, Valuation Group, Brand, Manufacturer, Allergens) already exists in the system, because the import engine validates each value against its corresponding configuration table — any mismatch causes that row to be rejected.",
+          "source_quote": "The import engine validates each value against its corresponding configuration table — any mismatch causes that row to be rejected.",
+          "section": "3. Prerequisites"
+        },
+        {
+          "type": "flashcard",
+          "deck_id": "deck-20260612-demo-seed",
+          "card_id": "card-5",
+          "front": "What do you do when an item needs to become inventory-ready?",
+          "back": "Link a serving size that has Amount = 1 to a pack size via Sub-Qty. The system prompts: how many serving units fit inside the pack unit. Unlinked items remain inventory-ineligible.",
+          "source_quote": "To achieve Inventory Readiness, a serving size with Amount = 1 must be linked to a pack size via Sub-Qty.",
+          "section": "6. Workflow: Create a Food Item"
+        },
+        {
+          "type": "flashcard",
+          "deck_id": "deck-20260612-demo-seed",
+          "card_id": "card-8",
+          "front": "What do you do first when using the Excel bulk import path for a large item catalog?",
+          "back": "Navigate to the Import Dashboard and use the Pre-Upload step to select the import type and data source (defaults to Local), then download the system template if needed.",
+          "source_quote": "Pre-Upload — Select import type and data source. The data source defaults to Local; other sources are out of scope. Download the system template at this step if needed.",
+          "section": "4. Excel Bulk Import — Entry Point"
+        },
+        {
+          "type": "question",
+          "quiz_id": "quiz-seed-cashier-demo",
+          "question_idx": 0,
+          "stem": "What is the first step a cashier must complete before starting a new meal service period at the POS terminal?",
+          "qtype": "mcq",
+          "source_quote": "Log in with your assigned employee ID and verify the correct meal period is selected before accepting any transactions.",
+          "question_data": {
+            "type": "mcq",
+            "stem": "What is the first step a cashier must complete before starting a new meal service period at the POS terminal?",
+            "options": [
+              "Log in with your assigned employee ID and verify the correct meal period is selected",
+              "Count the cash drawer and submit a cash report to the manager",
+              "Enter the day's menu items manually into the item list",
+              "Verify that all student accounts have a positive balance"
+            ],
+            "answer_index": 0,
+            "explanation": "Logging in with your employee ID and confirming the meal period ensures accurate transaction records and accountability for each service period.",
+            "source_quote": "Log in with your assigned employee ID and verify the correct meal period is selected before accepting any transactions.",
+            "source_ref": "course-20260613-cashier-onboard",
+            "provenance": "manual_grounded",
+            "grounded": true,
+            "sme_verified": true
+          }
+        },
+        {
+          "type": "question",
+          "quiz_id": "quiz-seed-cashier-demo",
+          "question_idx": 5,
+          "stem": "True or False: SchoolCafé automatically applies free or reduced-price meal benefits when a qualifying student is identified at the POS.",
+          "qtype": "tf",
+          "source_quote": "SchoolCafé automatically applies free or reduced-price meal benefits when a qualifying student is identified at the POS.",
+          "question_data": {
+            "type": "tf",
+            "stem": "True or False: SchoolCafé automatically applies free or reduced-price meal benefits when a qualifying student is identified at the POS.",
+            "correct": true,
+            "source_span": "SchoolCafé automatically applies free or reduced-price meal benefits when a qualifying student is identified at the POS.",
+            "distractor_basis": {
+              "span": "SchoolCafé automatically applies free or reduced-price meal benefits when a qualifying student is identified at the POS.",
+              "transform": "negation"
+            },
+            "section": "Free and Reduced Meal Processing",
+            "explanation": "Automatic benefit application ensures eligible students receive their entitlement without manual cashier intervention, protecting student privacy.",
+            "provenance": "manual_grounded",
+            "grounded": true,
+            "sme_verified": true
+          }
+        }
+      ],
+      "completed": false,
+      "completed_at": null
+    }
+  ],
+  "review_queue": []
+}

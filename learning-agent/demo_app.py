@@ -96,6 +96,8 @@ from scorers import compute_scores
 # Stub mode when SCHOOLCAFE_API_URL / SCHOOLCAFE_API_KEY env vars are absent.
 from roster_sync import RosterSyncClient
 import completion_store as _cs
+# D4: practice-mode spaced-repetition store.
+import practice_store as _ps
 # SCORM 1.2 package export (V2).
 import scorm_export
 # xAPI statement emitter — stub mode until LRS_ENDPOINT + LRS_KEY are set in .env (V2).
@@ -4223,6 +4225,82 @@ async def api_onboarding_state(
         "recommended_track": recommended_track,
         "completed_any_lesson": completed_any_lesson,
     }
+
+
+# ── D4: Practice mode (spaced repetition) ────────────────────────────────────
+
+@app.get("/api/users/{uid}/practice")
+async def api_practice_get(
+    uid: str,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Return (or build) today's practice session for the learner.
+
+    Learners may only query their own session; trainers may query any.
+
+    Response:
+        {
+            session: {date, items, completed, completed_at},
+            session_ready: bool,   # True if items exist and session not yet done today
+            items_count: int,
+            queue_count: int,      # overdue review items waiting for next session
+        }
+
+    Builds a 5-item session on first call of the day (idempotent — subsequent
+    calls return the same session).  Pool = approved flashcard decks + approved
+    quiz questions only.  Draft content never enters the pool.
+    """
+    effective_uid = uid if current_user.is_trainer else current_user.id
+    from datetime import date as _date
+    today = _date.today().isoformat()
+
+    # Build the session if it doesn't exist yet; otherwise return the existing one.
+    _ps.get_today_session(effective_uid, today)
+    return _ps.get_session_status(effective_uid, today)
+
+
+@app.post("/api/users/{uid}/practice/complete")
+async def api_practice_complete(
+    uid: str,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Mark today's practice session as completed.
+
+    Fires D3 streak credit non-fatally (no-op if D3 not yet built).
+
+    Returns: {ok: true, session: {date, completed, completed_at}}
+    """
+    effective_uid = uid if current_user.is_trainer else current_user.id
+    from datetime import date as _date
+    today = _date.today().isoformat()
+
+    session = _ps.complete_session(effective_uid, today)
+    return {"ok": True, "session": session}
+
+
+@app.post("/api/users/{uid}/practice/missed")
+async def api_practice_missed(
+    uid: str,
+    body: dict = Body(default={}),
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Add a missed practice item to the learner's review queue.
+
+    Body: the item object as returned in the session's ``items`` list.
+
+    The item will appear in the next available session with
+    ``next_review = today + 1 day``.
+
+    Returns: {ok: true, next_review: "YYYY-MM-DD"}
+    """
+    effective_uid = uid if current_user.is_trainer else current_user.id
+    if not body:
+        raise HTTPException(400, "item body is required")
+    from datetime import date as _date, timedelta
+    today = _date.today().isoformat()
+    _ps.add_to_review_queue(effective_uid, body, today)
+    next_review = (_date.today() + timedelta(days=1)).isoformat()
+    return {"ok": True, "next_review": next_review}
 
 
 # ── Conference-mode: pristine demo reset ─────────────────────────────────────
