@@ -819,6 +819,67 @@ async def resource_quiz(rid: str, payload: dict = Body(default={})):
     return JSONResponse({"resource_id": rid, "sections": list(excerpts_by_id.keys()), **res})
 
 
+@app.get("/api/resources/{rid}/exercise")
+async def resource_exercise(rid: str):
+    """Return ONE grounded exercise item for a guide-type lesson.
+
+    Reuses the quiz grounding gate (_grounded_quiz / _QUIZ_SYS) but requests
+    n=1 question and reshapes the result into the exercise wire format:
+
+        { "question": "...",
+          "choices": [{"text": "...", "source_quote": "..."}],
+          "correct_index": 0,
+          "source_span": "..." }
+
+    Every choice is grounded: the correct choice carries a verbatim source_quote
+    found in the guide text; distractor choices carry an empty source_quote.
+    Returns 404 when the resource doesn't exist and 204 (no content) when the
+    grounding gate produces no kept questions — both signal the client to fall
+    back to hardcoded constants."""
+    resolved = prod._resolve_resource(rid)
+    if not resolved:
+        raise HTTPException(404, "resource not found")
+    html_path, meta_path, _status = resolved
+    try:
+        raw_html = html_path.read_text(encoding="utf-8")
+    except OSError as e:
+        raise HTTPException(500, f"could not read resource: {e}")
+    clean = prod._strip_source_comments(raw_html)
+    parts = re.split(r"(?is)<h[23][^>]*>(.*?)</h[23]>", clean)
+    excerpts_by_id: dict = {}
+    if len(parts) >= 3:
+        intro = _strip_tags(parts[0])
+        if len(intro) >= 40:
+            excerpts_by_id["Intro"] = intro
+        for i in range(1, len(parts) - 1, 2):
+            head = (_strip_tags(parts[i]).strip()[:64]) or f"Section {i // 2 + 1}"
+            body = _strip_tags(parts[i + 1])
+            excerpts_by_id[f"{i // 2 + 1}. {head}"] = f"{head}\n{body}"
+    else:
+        excerpts_by_id["Guide"] = _strip_tags(clean)
+    meta = prod._read_meta(meta_path) or {}
+    title = meta.get("title") or meta.get("module") or rid
+    try:
+        res = await _grounded_quiz(excerpts_by_id, title, n=1,
+                                   attribution=f"From guide {rid}: {title}", src_url=None)
+    except Exception as e:
+        raise HTTPException(502, f"exercise generation failed: {e}")
+    questions = res.get("questions") or []
+    if not questions:
+        return Response(status_code=204)
+    q = questions[0]
+    choices = [
+        {"text": opt, "source_quote": q.get("source_quote", "") if i == q["answer"] else ""}
+        for i, opt in enumerate(q["options"])
+    ]
+    return JSONResponse({
+        "question": q.get("q", ""),
+        "choices": choices,
+        "correct_index": q["answer"],
+        "source_span": q.get("source_quote", ""),
+    })
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # Library assistant — grounded Q&A over ALL library guides (the rail's "reply").
 # Same grounding-by-construction as the generator and the quiz: the model may
