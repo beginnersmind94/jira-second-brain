@@ -5188,6 +5188,8 @@ async function loadConfig() {
   const r = await fetch('/api/config');
   const cfg = await r.json();
   _extLearning = cfg.external_learning !== false;
+  // Expose config globally so other surfaces (C1 offline fallback, G5 booth) can read it.
+  window._config = cfg;
   applyViewMode();
   window._extraModules = cfg.extra_modules || [];
   for (const sid of ['module', 'lib-module']) {
@@ -5207,6 +5209,102 @@ async function loadConfig() {
     });
   }
   syncModuleOptions();  // reflect the current source's module choices
+
+  // Conference mode: mount the operator reset widget (invisible to visitors).
+  if (cfg.conferenceMode) _initOperatorReset();
+}
+
+// ─── Operator reset (conference mode only) ──────────────────────────
+// The reset button is hidden unless the operator activates it via:
+//   1. URL param ?operator=1  (reveals a floating button in the corner)
+//   2. Triple-R chord: press R three times within 2 seconds anywhere on the page
+//      when focused on the hidden #operator-reset-anchor element
+//
+// Neither mechanism is accessible from normal navigation or visible UI.
+// A booth visitor browsing normally cannot trigger it.
+function _initOperatorReset() {
+  // Insert the hidden anchor and floating button into the DOM.
+  const anchor = document.createElement('div');
+  anchor.id = 'operator-reset-anchor';
+  anchor.tabIndex = -1;  // focusable but not in tab order
+  anchor.style.cssText = 'position:fixed;bottom:0;right:0;width:1px;height:1px;opacity:0;pointer-events:none;';
+  anchor.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(anchor);
+
+  const btn = document.createElement('button');
+  btn.id = 'operator-reset-btn';
+  btn.textContent = 'Reset demo';
+  btn.style.cssText = (
+    'display:none;position:fixed;bottom:16px;right:16px;z-index:9999;' +
+    'background:#1a1a2e;color:#fff;border:2px solid #e94560;border-radius:6px;' +
+    'padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;' +
+    'box-shadow:0 2px 12px rgba(0,0,0,.4);'
+  );
+  btn.setAttribute('aria-label', 'Reset demo (operator only)');
+  document.body.appendChild(btn);
+
+  // Show button via ?operator=1 URL param.
+  if (new URLSearchParams(location.search).get('operator') === '1') {
+    btn.style.display = 'block';
+  }
+
+  // Triple-R chord: track keydowns on the hidden anchor.
+  let _rCount = 0, _rTimer = null;
+  anchor.addEventListener('keydown', e => {
+    if (e.key !== 'r' && e.key !== 'R') { _rCount = 0; return; }
+    _rCount++;
+    clearTimeout(_rTimer);
+    if (_rCount >= 3) {
+      _rCount = 0;
+      btn.style.display = btn.style.display === 'block' ? 'none' : 'block';
+    } else {
+      _rTimer = setTimeout(() => { _rCount = 0; }, 2000);
+    }
+  });
+
+  // Reset action.
+  btn.addEventListener('click', async () => {
+    btn.disabled = true;
+    btn.textContent = 'Resetting…';
+    try {
+      const res = await fetch('/api/demo/reset', { method: 'POST' });
+      const data = await res.json();
+      if (data.ok) {
+        _showToast('Demo reset — ready for next visitor', 2000);
+        setTimeout(() => {
+          // Reload to Learn home as john-cashier.
+          window.location.href = '/?demo_user=john-cashier';
+        }, 1500);
+      } else {
+        _showToast('Reset failed — check server log', 3000);
+        btn.disabled = false;
+        btn.textContent = 'Reset demo';
+      }
+    } catch (err) {
+      _showToast('Reset error: ' + err.message, 3000);
+      btn.disabled = false;
+      btn.textContent = 'Reset demo';
+    }
+  });
+}
+
+function _showToast(msg, ms) {
+  // Reuse an existing toast mechanism if the SPA has one; otherwise create one.
+  let t = document.getElementById('_op-toast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = '_op-toast';
+    t.style.cssText = (
+      'position:fixed;top:20px;left:50%;transform:translateX(-50%);' +
+      'background:#222;color:#fff;padding:10px 20px;border-radius:6px;' +
+      'font-size:14px;z-index:10000;opacity:0;transition:opacity .2s;'
+    );
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.opacity = '1';
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => { t.style.opacity = '0'; }, ms);
 }
 
 // Transcript-only mode needs no fixture, so it offers extra label-only modules
