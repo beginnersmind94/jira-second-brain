@@ -1,0 +1,140 @@
+{
+  "id": "quiz-seed-cashier-demo",
+  "title": "Cashier Core Skills — Knowledge Check",
+  "status": "approved",
+  "source_type": "guide",
+  "source_id": "course-20260613-cashier-onboard",
+  "source_label": "Cashier Core Skills",
+  "source_content_hash": "a1b2c3d4e5f6a7b8",
+  "stale": false,
+  "created_at": "2026-06-13T00:00:00",
+  "updated_at": "2026-06-13T00:00:00",
+  "questions": [
+    {
+      "type": "mcq",
+      "stem": "What is the first step a cashier must complete before starting a new meal service period at the POS terminal?",
+      "options": [
+        "Log in with your assigned employee ID and verify the correct meal period is selected",
+        "Count the cash drawer and submit a cash report to the manager",
+        "Enter the day's menu items manually into the item list",
+        "Verify that all student accounts have a positive balance"
+      ],
+      "answer_index": 0,
+      "explanation": "Logging in with your employee ID and confirming the meal period ensures accurate transaction records and accountability for each service period.",
+      "source_quote": "Log in with your assigned employee ID and verify the correct meal period is selected before accepting any transactions.",
+      "source_ref": "course-20260613-cashier-onboard",
+      "provenance": "manual_grounded",
+      "grounded": true,
+      "sme_verified": true
+    },
+    {
+      "type": "tf",
+      "stem": "True or False: A cashier may override a student's meal account balance restriction without manager approval.",
+      "correct": false,
+      "source_span": "Only a cafeteria manager or authorized supervisor may override a student account balance restriction.",
+      "distractor_basis": {
+        "span": "Only a cafeteria manager or authorized supervisor may override a student account balance restriction.",
+        "transform": "negation"
+      },
+      "section": "Permissions and Overrides",
+      "explanation": "Balance overrides require manager-level authorization to protect program integrity and financial accountability.",
+      "provenance": "manual_grounded",
+      "grounded": true,
+      "sme_verified": true
+    },
+    {
+      "type": "mcq",
+      "stem": "When a student forgets their ID number, what is the correct procedure?",
+      "options": [
+        "Ask the student to use the keypad to look up their own account",
+        "Skip the student and ask them to return with their ID",
+        "Process the transaction without recording it",
+        "Charge the meal to a generic account"
+      ],
+      "answer_index": 0,
+      "explanation": "Students may use the POS keypad to look up their own account number, which maintains accurate records while keeping service moving.",
+      "source_quote": "Ask the student to use the keypad to look up their own account",
+      "source_ref": "course-20260613-cashier-onboard",
+      "provenance": "manual_grounded",
+      "grounded": true,
+      "sme_verified": true
+    },
+    {
+      "type": "fitb",
+      "stem": "A cashier should press the ___ button at the end of each meal service to finalize the period totals.",
+      "answer": "End of Period",
+      "source_sentence": "A cashier should press the End of Period button at the end of each meal service to finalize the period totals.",
+      "section": "Closing the Service Period",
+      "explanation": "The End of Period function closes out the session and generates the daily tally for the cafeteria manager.",
+      "provenance": "manual_grounded",
+      "grounded": true,
+      "sme_verified": true
+    },
+    {
+      "type": "mcq",
+      "stem": "Which item category typically requires a separate payment category code in SchoolCafé POS?",
+      "options": [
+        "A la carte items sold individually (snacks, extra entrees)",
+        "Standard reimbursable meals",
+        "Water and milk included in a meal combo",
+        "All items regardless of type"
+      ],
+      "answer_index": 0,
+      "explanation": "A la carte items sold outside of the standard meal must be tracked separately to distinguish reimbursable meals from non-reimbursable sales.",
+      "source_quote": "A la carte items sold individually (snacks, extra entrees) require a separate payment category code",
+      "source_ref": "course-20260613-cashier-onboard",
+      "provenance": "manual_grounded",
+      "grounded": true,
+      "sme_verified": true
+    },
+    {
+      "type": "tf",
+      "stem": "True or False: SchoolCafé automatically applies free or reduced-price meal benefits when a qualifying student is identified at the POS.",
+      "correct": true,
+      "source_span": "SchoolCafé automatically applies free or reduced-price meal benefits when a qualifying student is identified at the POS.",
+      "distractor_basis": {
+        "span": "SchoolCafé automatically applies free or reduced-price meal benefits when a qualifying student is identified at the POS.",
+        "transform": "negation"
+      },
+      "section": "Free and Reduced Meal Processing",
+      "explanation": "Automatic benefit application ensures eligible students receive their entitlement without manual cashier intervention, protecting student privacy.",
+      "provenance": "manual_grounded",
+      "grounded": true,
+      "sme_verified": true
+    },
+    {
+      "type": "ordering",
+      "prompt": "Put these steps in the correct order for processing a cash transaction at the POS:",
+      "steps": [
+        "Enter the student account or select 'Cash Sale'",
+        "Ring up the items selected by the student",
+        "Collect payment and enter the cash amount tendered",
+        "Provide change and a receipt if requested"
+      ],
+      "correct_order": [0, 1, 2, 3],
+      "source_quote": "Enter the student account or select 'Cash Sale', ring up the items selected by the student, collect payment and enter the cash amount tendered, provide change and a receipt if requested.",
+      "section": "Cash Transaction Workflow",
+      "explanation": "Following this sequence ensures accurate totals and a proper receipt trail for cash reconciliation.",
+      "provenance": "manual_grounded",
+      "grounded": true,
+      "sme_verified": true
+    },
+    {
+      "type": "mcq",
+      "stem": "What should a cashier do if the POS screen freezes during a transaction?",
+      "options": [
+        "Note the student name, close the application, and reopen; report to the manager",
+        "Force-restart the computer immediately without saving",
+        "Complete the transaction by hand and enter it later",
+        "Ask another cashier to process all remaining students"
+      ],
+      "answer_index": 0,
+      "explanation": "Noting the student and reporting to the manager ensures no transaction is lost and the incident is documented for IT follow-up.",
+      "source_quote": "Note the student name, close the application, and reopen; report to the manager",
+      "source_ref": "course-20260613-cashier-onboard",
+      "provenance": "manual_grounded",
+      "grounded": true,
+      "sme_verified": true
+    }
+  ]
+}

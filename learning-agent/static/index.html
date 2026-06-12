@@ -2258,6 +2258,33 @@
     .qb-status { display:inline-flex; align-items:center; gap:8px; flex-wrap:wrap; }
     #qb-modal .quiz-body { max-height:none; flex:1 1 auto; overflow-y:auto; }
     #qb-modal .quiz-head, #qb-modal .quiz-foot { flex:0 0 auto; }
+    /* B3 — Assessment taker & builder */
+    #assessment-modal { padding: 28px 16px; }
+    #assessment-modal .quiz-sheet { display:flex; flex-direction:column; height:calc(100vh - 56px); max-height:920px; }
+    #assessment-modal .quiz-body { max-height:none; flex:1 1 auto; overflow-y:auto; }
+    #assessment-modal .quiz-head, #assessment-modal .quiz-foot { flex:0 0 auto; }
+    #ab-modal { padding: 28px 16px; }
+    #ab-modal .quiz-sheet { display:flex; flex-direction:column; height:calc(100vh - 56px); max-height:900px; }
+    #ab-modal .quiz-body { max-height:none; flex:1 1 auto; overflow-y:auto; }
+    #ab-modal .quiz-head, #ab-modal .quiz-foot { flex:0 0 auto; }
+    .at-prescreen { text-align:center; padding:32px 24px; }
+    .at-prescreen h4 { margin:0 0 8px; font-size:1.15rem; }
+    .at-meta-row { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; margin:16px 0 24px; }
+    .at-meta-pill { background:var(--surface); border:1px solid var(--border); border-radius:20px; padding:6px 14px; font-size:.85rem; color:var(--text-soft); }
+    .at-result-header { text-align:center; padding:20px 16px 8px; }
+    .at-result-header .at-score { font-size:2.4rem; font-weight:800; line-height:1; }
+    .at-result-header.passed .at-score { color:var(--green-text,#1e7a3d); }
+    .at-result-header.failed .at-score { color:var(--red-text,#8A4A12); }
+    .at-cert-block { background:var(--green-soft,#e8f5e9); border:1px solid var(--green,#2e7d32); border-radius:8px; padding:16px; text-align:center; margin:16px 0; }
+    .ab-q-row { display:flex; align-items:flex-start; gap:10px; padding:10px 0; border-bottom:1px solid var(--border); }
+    .ab-q-row label { display:flex; align-items:flex-start; gap:10px; cursor:pointer; flex:1; }
+    .ab-q-row input[type=checkbox] { margin-top:3px; width:18px; height:18px; flex-shrink:0; accent-color:var(--accent); }
+    .ab-q-meta { font-size:.78rem; color:var(--muted); margin-top:2px; }
+    .ab-section-head { font-size:.75rem; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--muted-aa,#5E5B53); margin:14px 0 4px; padding-bottom:4px; border-bottom:2px solid var(--border-strong); }
+    .ab-slider-row { display:flex; align-items:center; gap:10px; margin:8px 0; }
+    .ab-slider-row label { min-width:140px; font-size:.85rem; color:var(--text-soft); }
+    .ab-slider-row input[type=range] { flex:1; accent-color:var(--accent); }
+    .ab-slider-row span { min-width:48px; text-align:right; font-size:.85rem; font-weight:700; color:var(--text); }
     /* design-system alignment + grounding emphasis + a11y (design-critique pass) */
     .qb-card textarea:focus, .qb-card input[type=text]:focus { border-color:var(--accent); outline:none; box-shadow:0 0 0 2px var(--accent-soft, rgba(179,84,59,.18)); }
     .qb-fieldlabel { font-size:10.5px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--muted-aa,#5E5B53); margin:9px 0 2px; }
@@ -3290,8 +3317,12 @@
             </svg>
             Delete track
           </button>
-          <div style="margin-left:auto;display:flex;gap:8px;">
+          <div style="margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;">
             <button class="secondary" id="tb-save-meta-btn" onclick="tbSaveMeta()">Save changes</button>
+            <button class="secondary" id="tb-assess-btn" onclick="_tbOpenAssessmentBuilder()"
+                    title="Build a timed assessment for this track (B3)">
+              ✎ Assessment
+            </button>
             <button class="secondary" id="tb-scorm-btn" onclick="tbExportSCORM()"
                     title="Download a SCORM 1.2 package — import into your LMS">
               <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor"
@@ -3837,6 +3868,36 @@
     </div>
     <div id="qb-body" class="quiz-body"></div>
     <div id="qb-foot" class="quiz-foot"></div>
+  </div>
+</div>
+
+<!-- B3: Assessment Taker modal -->
+<div id="assessment-modal" class="quiz-modal" hidden style="z-index:75;">
+  <div class="quiz-sheet" role="dialog" aria-modal="true" aria-labelledby="at-title" style="max-width:760px;">
+    <div class="quiz-head">
+      <div>
+        <div class="quiz-kicker" id="at-kicker">Track assessment</div>
+        <h3 id="at-title">Assessment</h3>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span id="at-timer" class="quiz-kicker" style="font-size:1rem;font-weight:700;color:var(--accent);min-width:52px;text-align:right;"></span>
+        <button class="quiz-close" onclick="closeAssessmentTaker()" aria-label="Close">✕</button>
+      </div>
+    </div>
+    <div id="at-body" class="quiz-body"></div>
+    <div id="at-foot" class="quiz-foot"></div>
+  </div>
+</div>
+
+<!-- B3: Assessment Builder modal -->
+<div id="ab-modal" class="quiz-modal" hidden style="z-index:72;">
+  <div class="quiz-sheet" style="max-width:880px;" role="dialog" aria-modal="true" aria-label="Assessment builder">
+    <div class="quiz-head">
+      <div><div class="quiz-kicker">Assessment builder · B3</div><h3>Build a track assessment</h3></div>
+      <button class="quiz-close" onclick="closeAssessmentBuilder()" aria-label="Close">✕</button>
+    </div>
+    <div id="ab-body" class="quiz-body"></div>
+    <div id="ab-foot" class="quiz-foot"></div>
   </div>
 </div>
 
@@ -8058,7 +8119,21 @@ async function issueTrackCertificate(tid) {
   if (foot) foot.innerHTML = '';
   try {
     const r = await fetch('/api/certificates', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Demo-User': _demoUserHeader() }, body: JSON.stringify({ track_id: tid }) });
-    if (!r.ok) throw new Error('issue failed');
+    if (!r.ok) {
+      const j = await r.json().catch(()=>({}));
+      // B3 gate: 409 means assessment must be passed first.
+      if (r.status === 409 && j.error === 'must_pass_assessment') {
+        const assessmentId = j.assessment_id || '';
+        if (body) body.innerHTML = `<div class="async-error" style="padding:26px;">
+          <p class="ae-title">Assessment required</p>
+          <p>${escapeHtml(j.detail || 'You must pass the track assessment before receiving a certificate.')}</p>
+          ${assessmentId ? `<div style="margin-top:16px;"><button class="primary" onclick="closeQuiz();openAssessmentTaker('${escAttr(assessmentId)}')">Take assessment</button></div>` : ''}
+        </div>`;
+        if (foot) foot.innerHTML = `<button class="secondary" onclick="closeQuiz()">Close</button>`;
+        return;
+      }
+      throw new Error((j.detail && (j.detail.detail || j.detail)) || 'issue failed');
+    }
     _renderCertificate(await r.json());
   } catch (e) {
     if (body) body.innerHTML = '<div class="async-error" style="padding:26px;"><p class="ae-title">Could not issue the certificate</p><p>Please try again in a moment.</p></div>';
@@ -8069,7 +8144,11 @@ function _renderCertificate(c) {
   if (ttl) ttl.textContent = 'Certificate';
   const k = document.getElementById('quiz-kicker'); if (k) k.textContent = 'Track completion';
   const date = (c.issued_at || '').slice(0, 10);
-  if (body) body.innerHTML = `<div class="cert-card"><div class="cert-seal">🏅</div><div class="cert-h">Certificate of Completion</div><div class="cert-name">${escapeHtml(c.learner_name || 'John Doe')}</div><div class="cert-sub">has completed</div><div class="cert-track">${escapeHtml(c.track_title || '')}</div><div class="cert-date">${escapeHtml(date)} · ${escapeHtml(c.product || 'SchoolCafé')} Learning Studio</div><div class="cert-id" style="margin-top:10px;font-size:10.5px;color:var(--muted);letter-spacing:.04em;">Certificate ID: ${escapeHtml(c.id || '')}</div></div>`;
+  // B3: show "Passed assessment — N%" line when the cert was issued via the gate path.
+  const scoreBlock = (typeof c.assessment_score_pct === 'number')
+    ? `<div style="margin:6px 0 2px;font-size:.9rem;color:var(--green-text,#1e7a3d);font-weight:700;">Passed assessment — ${c.assessment_score_pct}%</div>`
+    : '';
+  if (body) body.innerHTML = `<div class="cert-card"><div class="cert-seal">🏅</div><div class="cert-h">Certificate of Completion</div><div class="cert-name">${escapeHtml(c.learner_name || 'John Doe')}</div><div class="cert-sub">has completed</div><div class="cert-track">${escapeHtml(c.track_title || '')}</div>${scoreBlock}<div class="cert-date">${escapeHtml(date)} · ${escapeHtml(c.product || 'SchoolCafé')} Learning Studio</div><div class="cert-id" style="margin-top:10px;font-size:10.5px;color:var(--muted);letter-spacing:.04em;">Certificate ID: ${escapeHtml(c.id || '')}</div></div>`;
   if (foot) foot.innerHTML = '<button class="primary" onclick="window.print()">Download</button>';
 }
 // Grounded quiz for a guide/module. Trust-first + demo-safe:
@@ -8845,18 +8924,34 @@ function _cpShowAdvanceBanner(nextIdx) {
   }, 1000);
 }
 
-/** Show track-complete celebration state. */
+/** Show track-complete celebration state.
+ * B3: if the track has an assessment_gate_id, show "Take assessment" instead of
+ * "Get certificate" — the cert can only be issued after passing.
+ */
 function _cpShowComplete() {
   const inner = document.getElementById('cp-pane-inner');
   if (!inner) return;
   const existing = inner.querySelector('.cp-complete-card');
   if (existing) return;  // already shown
+
+  const track = (_cpState && _cpState.trackData) || {};
+  const gateId = (track.assessment_gate_id || '').trim();
+
+  let ctaHtml;
+  if (gateId) {
+    ctaHtml = `<p style="font-size:.85rem;color:var(--text-soft);margin:0 0 12px;">Pass the track assessment to receive your certificate.</p>
+      <button class="primary" onclick="openAssessmentTaker('${escAttr(gateId)}')">Take assessment</button>
+      <button class="secondary" style="margin-left:8px;" onclick="cpGetCertificate()">Get certificate</button>`;
+  } else {
+    ctaHtml = `<button class="primary" onclick="cpGetCertificate()">Get certificate</button>`;
+  }
+
   const completeCard = document.createElement('div');
   completeCard.innerHTML = `<div class="cp-complete-card">
     <div class="cp-complete-seal">🏅</div>
     <div class="cp-complete-h">Track complete!</div>
     <div class="cp-complete-sub">You've finished every lesson.</div>
-    <button class="primary" onclick="cpGetCertificate()">Get certificate</button>
+    ${ctaHtml}
   </div>`;
   inner.appendChild(completeCard);
 }
@@ -10037,6 +10132,544 @@ async function genQuiz(assetId) {
   } catch (e) {
     body.innerHTML = `<div class="async-error"><p class="ae-title">Couldn't generate the quiz</p><p>${escapeHtml(e.message)}</p></div>`;
   }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// B3 — Assessment Taker  (openAssessmentTaker / closeAssessmentTaker)
+// ═══════════════════════════════════════════════════════════════════════════
+let _at = null;  // { aid, assessment, questions, picks, orderState, timerSec, timerInterval }
+
+function closeAssessmentTaker() {
+  const m = document.getElementById('assessment-modal');
+  if (m) m.hidden = true;
+  if (_at && _at.timerInterval) { clearInterval(_at.timerInterval); }
+  _at = null;
+}
+
+document.addEventListener('keydown', e => {
+  const m = document.getElementById('assessment-modal');
+  if (!m || m.hidden) return;
+  if (e.key === 'Escape') { closeAssessmentTaker(); }
+});
+
+// Entry point — called from the course player cert-gate button or track page.
+async function openAssessmentTaker(assessmentId) {
+  const m = document.getElementById('assessment-modal');
+  const body = document.getElementById('at-body');
+  const foot = document.getElementById('at-foot');
+  const ttl  = document.getElementById('at-title');
+  const kicker = document.getElementById('at-kicker');
+  const timer  = document.getElementById('at-timer');
+  if (!m) return;
+  m.hidden = false;
+  ttl.textContent = 'Loading assessment…';
+  kicker.textContent = 'Track assessment';
+  timer.textContent = '';
+  body.innerHTML = '<div style="text-align:center;padding:48px 0;color:var(--muted);"><span class="spinner"></span></div>';
+  foot.innerHTML = '';
+
+  let data;
+  try {
+    const r = await fetch(`/api/assessments/${assessmentId}`);
+    if (!r.ok) { const j = await r.json().catch(()=>{}); throw new Error((j&&(j.detail||j.error))||'HTTP '+r.status); }
+    data = await r.json();
+  } catch(e) {
+    body.innerHTML = `<div class="async-error"><p class="ae-title">Couldn't load assessment</p><p>${escapeHtml(e.message)}</p></div>`;
+    return;
+  }
+
+  // Fetch attempt history to show attempts used.
+  let attemptsUsed = 0, attemptsAllowed = data.attempts_allowed || 3;
+  try {
+    const ar = await fetch(`/api/assessments/${assessmentId}/attempts`);
+    if (ar.ok) { const aj = await ar.json(); attemptsUsed = aj.attempts_used || 0; attemptsAllowed = aj.attempts_allowed || attemptsAllowed; }
+  } catch {}
+
+  ttl.textContent = data.title || 'Assessment';
+
+  const qs = data.questions || [];
+  const n = qs.length;
+  const timeMins = data.time_limit_min || 15;
+  const passPct = data.pass_pct || 70;
+  const attemptsLeft = attemptsAllowed - attemptsUsed;
+
+  if (attemptsLeft <= 0) {
+    body.innerHTML = `<div class="at-prescreen">
+      <h4>No attempts remaining</h4>
+      <p>You've used all ${attemptsAllowed} attempt(s) for this assessment.</p>
+      ${attemptsUsed > 0 ? '<p>Review your attempt history below or contact your trainer.</p>' : ''}
+    </div>`;
+    foot.innerHTML = `<button class="secondary" onclick="closeAssessmentTaker()">Close</button>`;
+    return;
+  }
+
+  // Pre-screen
+  body.innerHTML = `<div class="at-prescreen">
+    <h4>${escapeHtml(data.title||'Assessment')}</h4>
+    <p style="color:var(--text-soft);margin:0 0 12px;">Complete all questions within the time limit and score at least ${passPct}% to receive your certificate.</p>
+    <div class="at-meta-row">
+      <span class="at-meta-pill">📋 ${n} question${n===1?'':'s'}</span>
+      <span class="at-meta-pill">⏱ ${timeMins} min</span>
+      <span class="at-meta-pill">✅ Pass at ${passPct}%</span>
+      <span class="at-meta-pill">🔁 ${attemptsLeft} attempt${attemptsLeft===1?'':'s'} remaining</span>
+    </div>
+    <p style="font-size:.82rem;color:var(--muted);">Source quotes are shown only after you submit. Questions are shuffled.</p>
+  </div>`;
+  foot.innerHTML = `<span></span><button class="primary" onclick="_atStart('${assessmentId}')">Start assessment</button>`;
+  _at = { aid: assessmentId, assessment: data, questions: qs, picks: {}, orderState: {}, timerSec: timeMins*60, timerInterval: null };
+}
+
+function _atStart(aid) {
+  if (!_at) return;
+  // Shuffle question order client-side.
+  const shuffled = [..._at.questions];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  _at.shuffled = shuffled;
+  _at.picks = {};
+  _at.orderState = {};
+
+  _atRenderQuestions();
+  _atStartTimer();
+}
+
+function _atRenderQuestions() {
+  const body = document.getElementById('at-body');
+  const foot = document.getElementById('at-foot');
+  const qs = _at.shuffled || [];
+  body.innerHTML = qs.map((q, i) => {
+    // Re-use the existing _renderTakerQuestion renderer (same function as quiz taker).
+    return _renderTakerQuestion(q, i, { prefix: 'at_' });
+  }).join('');
+  foot.innerHTML = `<span id="at-progress">${qs.length} question${qs.length===1?'':'s'} · answer each</span>
+    <button class="primary" onclick="_atSubmit()">Submit</button>`;
+}
+
+// _renderTakerQuestion already exists in the quiz taker — but it uses global _taker.
+// We provide a wrapper that routes callbacks through _at instead.
+function _atRenderQ(q, i) {
+  const qtype = (q.type || 'mcq');
+  const stem = `<div class="stem"><span class="qn">${i+1}.</span>${escapeHtml(q.stem||q.prompt||'')}</div>`;
+  if (qtype === 'tf') {
+    return `<div class="quiz-q" id="atq-${i}">${stem}
+      <div class="tf-btns">
+        <button class="tf-btn" data-atqi="${i}" data-tv="true" onclick="_atPickTF(${i},true)">True</button>
+        <button class="tf-btn" data-atqi="${i}" data-tv="false" onclick="_atPickTF(${i},false)">False</button>
+      </div></div>`;
+  }
+  if (qtype === 'fitb') {
+    return `<div class="quiz-q" id="atq-${i}">${stem}
+      <div class="fitb-row"><input class="fitb-input" id="at-fitb-${i}" placeholder="Type your answer…" oninput="_atPickFITB(${i},this.value)"></div></div>`;
+  }
+  if (qtype === 'ordering') {
+    const steps = q.steps || [];
+    if (!_at.orderState[i]) _at.orderState[i] = steps.map((_,idx)=>idx);
+    const stepsHtml = _at.orderState[i].map((origIdx, si) =>
+      `<li class="ordering-item" id="ato-${i}-${si}">
+        <span class="ordering-item-num">${si+1}</span>
+        <span style="flex:1">${escapeHtml(steps[origIdx]||'')}</span>
+        <button class="ordering-move" onclick="_atOrderMove(${i},${si},-1)" ${si===0?'disabled':''} aria-label="Move up">↑</button>
+        <button class="ordering-move" onclick="_atOrderMove(${i},${si},1)" ${si===steps.length-1?'disabled':''} aria-label="Move down">↓</button>
+      </li>`).join('');
+    return `<div class="quiz-q" id="atq-${i}">${stem}
+      <ol class="ordering-list" id="ato-list-${i}">${stepsHtml}</ol>
+      <div class="ordering-submit-row"><button class="secondary" onclick="_atLockOrder(${i})">Lock in order</button></div></div>`;
+  }
+  // MCQ
+  const opts = (q.options||[]).map((o,oi) =>
+    `<button class="quiz-opt" data-atqi="${i}" data-oi="${oi}" onclick="_atPick(${i},${oi})">${escapeHtml(o)}</button>`).join('');
+  return `<div class="quiz-q" id="atq-${i}">${stem}<div class="opts">${opts}</div></div>`;
+}
+
+function _atPick(qi, oi) {
+  if (!_at) return;
+  _at.picks[qi] = oi;
+  document.querySelectorAll(`.quiz-opt[data-atqi="${qi}"]`).forEach(b => b.classList.toggle('picked', +b.dataset.oi === oi));
+}
+function _atPickTF(qi, val) {
+  if (!_at) return;
+  _at.picks[qi] = val;
+  document.querySelectorAll(`.tf-btn[data-atqi="${qi}"]`).forEach(b => {
+    const bv = b.dataset.tv === 'true';
+    b.classList.toggle('picked', bv === val);
+  });
+}
+function _atPickFITB(qi, val) { if (_at) _at.picks[qi] = val; }
+function _atOrderMove(qi, si, dir) {
+  if (!_at || !_at.orderState) return;
+  const state = _at.orderState[qi];
+  if (!state) return;
+  const ti = si + dir;
+  if (ti < 0 || ti >= state.length) return;
+  [state[si], state[ti]] = [state[ti], state[si]];
+  // Re-render just this ordering list
+  const q = (_at.shuffled||[])[qi];
+  if (!q) return;
+  const steps = q.steps || [];
+  const list = document.getElementById(`ato-list-${qi}`);
+  if (list) {
+    list.innerHTML = state.map((origIdx, s) =>
+      `<li class="ordering-item" id="ato-${qi}-${s}">
+        <span class="ordering-item-num">${s+1}</span>
+        <span style="flex:1">${escapeHtml(steps[origIdx]||'')}</span>
+        <button class="ordering-move" onclick="_atOrderMove(${qi},${s},-1)" ${s===0?'disabled':''} aria-label="Move up">↑</button>
+        <button class="ordering-move" onclick="_atOrderMove(${qi},${s},1)" ${s===state.length-1?'disabled':''} aria-label="Move down">↓</button>
+      </li>`).join('');
+  }
+}
+function _atLockOrder(qi) {
+  if (!_at || !_at.orderState) return;
+  _at.picks[qi] = [...(_at.orderState[qi] || [])];
+  const container = document.getElementById(`atq-${qi}`);
+  if (container) {
+    const btn = container.querySelector('.ordering-submit-row button');
+    if (btn) { btn.textContent = '✓ Order locked'; btn.disabled = true; }
+  }
+}
+
+// Re-render all questions using the assessment-aware renderer.
+function _atRenderQuestions() {
+  const body = document.getElementById('at-body');
+  const foot = document.getElementById('at-foot');
+  const qs = _at.shuffled || [];
+  body.innerHTML = qs.map((q, i) => _atRenderQ(q, i)).join('');
+  foot.innerHTML = `<span id="at-progress">${qs.length} question${qs.length===1?'':'s'} · answer each</span>
+    <button class="primary" onclick="_atSubmit()">Submit</button>`;
+}
+
+function _atStartTimer() {
+  const timerEl = document.getElementById('at-timer');
+  if (!timerEl) return;
+  const update = () => {
+    if (!_at) return;
+    const s = _at.timerSec;
+    const mm = String(Math.floor(s/60)).padStart(2,'0');
+    const ss = String(s%60).padStart(2,'0');
+    timerEl.textContent = `${mm}:${ss}`;
+    timerEl.style.color = s <= 60 ? 'var(--red-text,#8A4A12)' : 'var(--accent)';
+    if (s <= 0) { clearInterval(_at.timerInterval); _atSubmit(); return; }
+    _at.timerSec--;
+  };
+  update();
+  _at.timerInterval = setInterval(update, 1000);
+}
+
+async function _atSubmit() {
+  if (!_at) return;
+  if (_at.timerInterval) { clearInterval(_at.timerInterval); _at.timerInterval = null; }
+  const timerEl = document.getElementById('at-timer');
+  if (timerEl) timerEl.textContent = '';
+
+  const body = document.getElementById('at-body');
+  const foot = document.getElementById('at-foot');
+  body.innerHTML = '<div style="text-align:center;padding:40px;color:var(--muted);"><span class="spinner"></span> Scoring…</div>';
+  foot.innerHTML = '';
+
+  // Build answers dict keyed by _ptr
+  const answers = {};
+  const qs = _at.shuffled || [];
+  qs.forEach((q, i) => {
+    const ptr = q._ptr;
+    if (!ptr) return;
+    if (i in _at.picks) answers[ptr] = _at.picks[i];
+    else if (_at.orderState && i in _at.orderState) answers[ptr] = [..._at.orderState[i]];
+  });
+
+  let result;
+  try {
+    const r = await fetch(`/api/assessments/${_at.aid}/attempt`, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ answers })
+    });
+    if (!r.ok) {
+      const j = await r.json().catch(()=>({}));
+      if (r.status === 409 && j.error === 'no_attempts_remaining') {
+        body.innerHTML = `<div class="at-prescreen"><h4>No attempts remaining</h4><p>${escapeHtml(j.detail||'Maximum attempts reached.')}</p></div>`;
+        foot.innerHTML = `<button class="secondary" onclick="closeAssessmentTaker()">Close</button>`;
+        return;
+      }
+      throw new Error((j.detail&&(j.detail.detail||j.detail))||'HTTP '+r.status);
+    }
+    result = await r.json();
+  } catch(e) {
+    body.innerHTML = `<div class="async-error"><p class="ae-title">Submission failed</p><p>${escapeHtml(e.message)}</p></div>`;
+    foot.innerHTML = `<button class="secondary" onclick="closeAssessmentTaker()">Close</button>`;
+    return;
+  }
+
+  const { score_pct, passed, per_question, attempts_used, attempts_allowed, certificate } = result;
+  const passPct = (_at.assessment || {}).pass_pct || 70;
+  const passCls = passed ? 'passed' : 'failed';
+  const passMsg = passed ? `You passed — ${score_pct}%` : `${score_pct}% — need ${passPct}% to pass`;
+  const attemptsLeft = Math.max(0, (attempts_allowed||3) - (attempts_used||0));
+
+  // Build results screen with per-question breakdown (source quotes now revealed).
+  const perQHtml = (per_question || []).map((r, i) => {
+    const correct = r.correct;
+    const sq = r.source_quote || r.source_span || r.source_sentence || '';
+    const exp = r.explanation || '';
+    return `<div class="quiz-q" style="margin-bottom:10px;">
+      <div class="stem">
+        <span class="qn">${i+1}.</span>${escapeHtml(r.stem||'')}
+        ${correct ? ' <b style="color:var(--green-text,#1e7a3d)">✓</b>' : ' <b style="color:var(--red-text,#8A4A12)">✗</b>'}
+      </div>
+      ${!correct && sq ? `<div class="quiz-src"><span class="sq">"${escapeHtml(sq)}"</span>${exp?'<br>'+escapeHtml(exp):''}</div>` : ''}
+      ${correct && sq ? `<div class="quiz-src" style="opacity:.7"><span class="sq">"${escapeHtml(sq)}"</span></div>` : ''}
+    </div>`;
+  }).join('');
+
+  let certBlock = '';
+  if (passed && certificate) {
+    certBlock = `<div class="at-cert-block">
+      <div style="font-size:1.5rem;margin-bottom:6px;">🎓</div>
+      <b>Certificate issued!</b><br>
+      <span style="font-size:.88rem;color:var(--text-soft);">${escapeHtml(certificate.track_title||'')} · ${escapeHtml(certificate.learner_name||'')}</span><br>
+      <button class="secondary" style="margin-top:12px;" onclick="closeAssessmentTaker()">View certificate</button>
+    </div>`;
+  }
+
+  let retryBlock = '';
+  if (!passed) {
+    if (attemptsLeft > 0) {
+      retryBlock = `<button class="secondary" onclick="openAssessmentTaker('${_at.aid}')">Try again (${attemptsLeft} attempt${attemptsLeft===1?'':'s'} left)</button>`;
+    } else {
+      retryBlock = `<span style="color:var(--muted);font-size:.85rem;">No attempts remaining</span>`;
+    }
+  }
+
+  body.innerHTML = `<div class="at-result-header ${passCls}">
+    <div class="at-score">${score_pct}%</div>
+    <div style="margin-top:4px;font-size:.95rem;font-weight:700;color:${passed?'var(--green-text,#1e7a3d)':'var(--red-text,#8A4A12)'};">${escapeHtml(passMsg)}</div>
+    <div style="font-size:.8rem;color:var(--muted);margin-top:4px;">${attempts_used} of ${attempts_allowed} attempt${attempts_allowed===1?'':'s'} used</div>
+  </div>
+  ${certBlock}
+  <div style="padding:0 16px 8px;font-size:.85rem;font-weight:700;color:var(--muted-aa,#5E5B53);text-transform:uppercase;letter-spacing:.04em;margin-top:8px;">Per-question review</div>
+  <div style="padding:0 16px;">${perQHtml}</div>`;
+
+  foot.innerHTML = `${retryBlock}<button class="secondary" onclick="closeAssessmentTaker()">Close</button>`;
+}
+
+
+// ═══════════════════════════════════════════════════════════════════════════
+// B3 — Assessment Builder  (openAssessmentBuilder / closeAssessmentBuilder)
+// ═══════════════════════════════════════════════════════════════════════════
+let _ab = { trackId: null, selectedPtrs: new Set(), timeLimitMin: 15, passPct: 70, attemptsAllowed: 3, certGate: false, assessmentId: null };
+
+function closeAssessmentBuilder() {
+  const m = document.getElementById('ab-modal');
+  if (m) m.hidden = true;
+}
+
+async function openAssessmentBuilder(trackId) {
+  _ab = { trackId, selectedPtrs: new Set(), timeLimitMin: 15, passPct: 70, attemptsAllowed: 3, certGate: false, assessmentId: null };
+  const m = document.getElementById('ab-modal');
+  const body = document.getElementById('ab-body');
+  const foot = document.getElementById('ab-foot');
+  if (!m) return;
+  m.hidden = false;
+  body.innerHTML = '<div style="text-align:center;padding:40px;color:var(--muted);"><span class="spinner"></span> Loading approved questions…</div>';
+  foot.innerHTML = '';
+
+  // Load all approved quizzes to show available questions.
+  let quizzes = [];
+  try {
+    const r = await fetch('/api/quizzes?status=approved');
+    if (r.ok) { const j = await r.json(); quizzes = j.quizzes || []; }
+  } catch {}
+
+  // Also fetch each quiz's questions.
+  const quizDetails = [];
+  for (const q of quizzes) {
+    if (q.status !== 'approved') continue;
+    try {
+      const r = await fetch(`/api/quizzes/${q.id}`);
+      if (r.ok) quizDetails.push(await r.json());
+    } catch {}
+  }
+
+  if (!quizDetails.length) {
+    body.innerHTML = `<div class="async-error"><p class="ae-title">No approved quizzes</p><p>Approve at least one quiz before building an assessment.</p></div>`;
+    foot.innerHTML = `<button class="secondary" onclick="closeAssessmentBuilder()">Close</button>`;
+    return;
+  }
+
+  _abRender(quizDetails);
+}
+
+function _abRender(quizDetails) {
+  const body = document.getElementById('ab-body');
+  const foot = document.getElementById('ab-foot');
+
+  const qSections = quizDetails.map(qz => {
+    const qs = (qz.questions || []).map((q, i) => {
+      const ptr = `${qz.id}:${i}`;
+      const checked = _ab.selectedPtrs.has(ptr) ? 'checked' : '';
+      const badge = q.type ? `<span class="src-badge" style="font-size:.7rem;padding:2px 6px;">${q.type.toUpperCase()}</span>` : '';
+      const sq = (q.source_quote || q.source_span || q.source_sentence || '').slice(0, 80);
+      return `<div class="ab-q-row">
+        <label>
+          <input type="checkbox" value="${escAttr(ptr)}" ${checked} onchange="_abToggle('${escAttr(ptr)}', this.checked)">
+          <div>
+            <div style="font-size:.88rem;">${badge} ${escapeHtml(q.stem||q.prompt||'')}</div>
+            ${sq ? `<div class="ab-q-meta">"${escapeHtml(sq)}${sq.length>=80?'…':''}"</div>` : ''}
+          </div>
+        </label>
+      </div>`;
+    }).join('');
+    return `<div class="ab-section-head">${escapeHtml(qz.title||qz.id)} (${qz.questions?qz.questions.length:0} questions)</div>${qs}`;
+  }).join('');
+
+  body.innerHTML = `<div style="padding:0 4px;">
+    <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap;">
+      <button class="secondary" onclick="_abAutoAssemble()">Auto-assemble 8 questions</button>
+      <span id="ab-sel-count" style="font-size:.82rem;color:var(--muted);">0 selected</span>
+    </div>
+    <div id="ab-q-list">${qSections}</div>
+    <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border);">
+      <div class="ab-slider-row">
+        <label for="ab-time">Time limit</label>
+        <input type="range" id="ab-time" min="5" max="60" step="5" value="${_ab.timeLimitMin}" oninput="_ab.timeLimitMin=+this.value;document.getElementById('ab-time-val').textContent=this.value+' min'">
+        <span id="ab-time-val">${_ab.timeLimitMin} min</span>
+      </div>
+      <div class="ab-slider-row">
+        <label for="ab-pass">Pass threshold</label>
+        <input type="range" id="ab-pass" min="50" max="100" step="5" value="${_ab.passPct}" oninput="_ab.passPct=+this.value;document.getElementById('ab-pass-val').textContent=this.value+'%'">
+        <span id="ab-pass-val">${_ab.passPct}%</span>
+      </div>
+      <div class="ab-slider-row">
+        <label for="ab-att">Attempts allowed</label>
+        <input type="range" id="ab-att" min="1" max="5" step="1" value="${_ab.attemptsAllowed}" oninput="_ab.attemptsAllowed=+this.value;document.getElementById('ab-att-val').textContent=this.value">
+        <span id="ab-att-val">${_ab.attemptsAllowed}</span>
+      </div>
+      <div style="margin-top:12px;display:flex;align-items:center;gap:8px;">
+        <input type="checkbox" id="ab-cert-gate" ${_ab.certGate?'checked':''} onchange="_ab.certGate=this.checked" style="width:18px;height:18px;accent-color:var(--accent);">
+        <label for="ab-cert-gate" style="font-size:.88rem;cursor:pointer;">Certificate requires passing this assessment</label>
+      </div>
+    </div>
+  </div>`;
+
+  _abUpdateCount();
+  foot.innerHTML = `<button class="secondary" onclick="closeAssessmentBuilder()">Cancel</button>
+    <button class="secondary" id="ab-save-btn" onclick="_abSave(false)">Save as draft</button>
+    <button class="primary" id="ab-pub-btn" onclick="_abSave(true)">Save &amp; publish</button>`;
+}
+
+function _abToggle(ptr, checked) {
+  if (checked) _ab.selectedPtrs.add(ptr);
+  else _ab.selectedPtrs.delete(ptr);
+  _abUpdateCount();
+}
+
+function _abUpdateCount() {
+  const el = document.getElementById('ab-sel-count');
+  if (el) el.textContent = `${_ab.selectedPtrs.size} selected`;
+}
+
+async function _abAutoAssemble() {
+  const body = document.getElementById('ab-body');
+  const save = document.getElementById('ab-save-btn');
+  const pub  = document.getElementById('ab-pub-btn');
+  if (save) save.disabled = true;
+  if (pub)  pub.disabled = true;
+
+  try {
+    const r = await fetch('/api/assessments/auto-assemble', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ track_id: _ab.trackId, n: 8 })
+    });
+    const j = await r.json();
+    if (!r.ok) throw new Error((j.detail&&(j.detail.detail||j.detail))||'HTTP '+r.status);
+    _ab.assessmentId = j.id;
+    // Show success
+    const cnt = document.getElementById('ab-sel-count');
+    if (cnt) cnt.textContent = `Auto-assembled ${j.question_ids ? j.question_ids.length : '?'} questions`;
+    _showToast(`Assessment auto-assembled (${j.question_ids ? j.question_ids.length : '?'} questions)`);
+
+    // If cert gate is on and we have a track id, offer to publish directly.
+    if (save) save.disabled = false;
+    if (pub)  pub.disabled = false;
+
+    // Apply cert gate if requested.
+    if (_ab.certGate && j.id) {
+      await _abSetGate(j.id);
+    }
+  } catch(e) {
+    _showToast('Auto-assemble failed: ' + e.message);
+    if (save) save.disabled = false;
+    if (pub)  pub.disabled = false;
+  }
+}
+
+async function _abSave(publish) {
+  const qIds = [..._ab.selectedPtrs];
+  const save = document.getElementById('ab-save-btn');
+  const pub  = document.getElementById('ab-pub-btn');
+  if (save) save.disabled = true;
+  if (pub)  pub.disabled = true;
+
+  // If we already have an auto-assembled id, just publish it.
+  if (_ab.assessmentId && !qIds.length) {
+    if (publish) {
+      try {
+        const r = await fetch(`/api/assessments/${_ab.assessmentId}/publish`, { method: 'POST' });
+        if (!r.ok) { const j = await r.json(); throw new Error((j.detail&&(j.detail.detail||j.detail))||'HTTP '+r.status); }
+        if (_ab.certGate) await _abSetGate(_ab.assessmentId);
+        _showToast('Assessment published!');
+        closeAssessmentBuilder();
+        return;
+      } catch(e) { _showToast('Publish failed: ' + e.message); }
+    }
+    if (save) save.disabled = false;
+    if (pub)  pub.disabled = false;
+    return;
+  }
+
+  if (qIds.length < 3 && !_ab.assessmentId) {
+    _showToast('Select at least 3 questions before saving.');
+    if (save) save.disabled = false;
+    if (pub)  pub.disabled = false;
+    return;
+  }
+
+  try {
+    const body = { title: 'Track Assessment', track_id: _ab.trackId, question_ids: qIds,
+      time_limit_min: _ab.timeLimitMin, pass_pct: _ab.passPct, attempts_allowed: _ab.attemptsAllowed };
+    const r = await fetch('/api/assessments', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+    const j = await r.json();
+    if (!r.ok) throw new Error((j.detail&&(j.detail.detail||j.detail))||'HTTP '+r.status);
+    _ab.assessmentId = j.id;
+
+    if (publish) {
+      const pr = await fetch(`/api/assessments/${j.id}/publish`, { method: 'POST' });
+      if (!pr.ok) { const pj = await pr.json(); throw new Error((pj.detail&&(pj.detail.detail||pj.detail))||'HTTP '+pr.status); }
+      if (_ab.certGate) await _abSetGate(j.id);
+      _showToast('Assessment published!');
+      closeAssessmentBuilder();
+    } else {
+      _showToast('Assessment saved as draft.');
+      if (save) save.disabled = false;
+      if (pub)  pub.disabled = false;
+    }
+  } catch(e) {
+    _showToast('Save failed: ' + e.message);
+    if (save) save.disabled = false;
+    if (pub)  pub.disabled = false;
+  }
+}
+
+async function _abSetGate(assessmentId) {
+  if (!_ab.trackId) return;
+  try {
+    await fetch(`/api/tracks/${_ab.trackId}/assessment-gate`, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ assessment_id: assessmentId })
+    });
+  } catch {}
 }
 
 // ─── Quiz Builder (Content "+" → grounded generate → hybrid edit → approve) ───
@@ -11258,6 +11891,12 @@ async function tbSaveMeta() {
     tbShowToast('Track saved.', 'success'); tbRenderEditor();
   } catch (e) { tbShowToast('Save failed: ' + e.message, 'error'); }
   finally { if (btn) { btn.disabled = false; btn.textContent = 'Save changes'; } }
+}
+
+// ── B3: Assessment Builder entry point from Track Builder ──
+function _tbOpenAssessmentBuilder() {
+  if (!_tbCurrentTrack) { tbShowToast('Select a track first.'); return; }
+  openAssessmentBuilder(_tbCurrentTrack.id);
 }
 
 // ── Publish ──

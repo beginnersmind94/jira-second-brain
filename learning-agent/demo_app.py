@@ -717,6 +717,285 @@ async def api_delete_course(
     return {"ok": True}
 
 
+# ─────────────────────────────────────────────────────────────────────────────
+# B3 — Skill Assessment / Track Exam
+# Assessments are assembled from approved questions in the quiz bank.
+# Every trust guardrail is server-side (attempts_allowed, gate check, cert gate).
+# ─────────────────────────────────────────────────────────────────────────────
+import assessment_store as _as
+
+
+@app.post("/api/assessments")
+async def api_create_assessment(
+    body: dict = Body(default={}),
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Create a new draft assessment. Trainer only.
+
+    Body: {title, track_id, question_ids, time_limit_min?, pass_pct?, attempts_allowed?}
+    """
+    if not current_user.is_trainer:
+        raise HTTPException(403, "trainer access required to create assessments")
+    title = (body.get("title") or "").strip()
+    track_id = (body.get("track_id") or "").strip()
+    if not title:
+        raise HTTPException(400, "title is required")
+    if not track_id:
+        raise HTTPException(400, "track_id is required")
+    question_ids = list(body.get("question_ids") or [])
+    assessment = _as.create_assessment(
+        title=title,
+        track_id=track_id,
+        question_ids=question_ids,
+        time_limit_min=int(body.get("time_limit_min") or 15),
+        pass_pct=int(body.get("pass_pct") or 70),
+        attempts_allowed=int(body.get("attempts_allowed") or 3),
+    )
+    return JSONResponse(assessment, status_code=201)
+
+
+@app.get("/api/assessments")
+async def api_list_assessments(
+    track_id: str = Query(default=""),
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """List assessments. Optional ?track_id= filter."""
+    assessments = _as.list_assessments(track_id=track_id)
+    if not current_user.is_trainer:
+        # Learners only see published assessments.
+        assessments = [a for a in assessments if a.get("status") == "published"]
+    return {"assessments": assessments}
+
+
+@app.get("/api/assessments/{aid}")
+async def api_get_assessment(
+    aid: str,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Get assessment with resolved questions.
+
+    Trainer sees all statuses; learner sees only published.
+    Source quotes are ALWAYS withheld — they are returned only in attempt results.
+    """
+    a = _as.get_assessment(aid)
+    if not a:
+        raise HTTPException(404, "assessment not found")
+    if not current_user.is_trainer and a.get("status") != "published":
+        raise HTTPException(403, "assessment not published")
+    resolved = _as.get_questions(a, include_source_quotes=False)
+    return {**a, "questions": resolved, "question_count": len(resolved)}
+
+
+@app.put("/api/assessments/{aid}")
+async def api_update_assessment(
+    aid: str,
+    body: dict = Body(default={}),
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Update an assessment. Trainer only."""
+    if not current_user.is_trainer:
+        raise HTTPException(403, "trainer access required to update assessments")
+    updated = _as.update_assessment(aid, body)
+    if not updated:
+        raise HTTPException(404, "assessment not found")
+    return updated
+
+
+@app.post("/api/assessments/{aid}/publish")
+async def api_publish_assessment(
+    aid: str,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Publish an assessment. Trainer only. Requires ≥3 resolved approved questions."""
+    if not current_user.is_trainer:
+        raise HTTPException(403, "trainer access required to publish assessments")
+    published, err = _as.publish_assessment(aid)
+    if err:
+        if "not found" in err:
+            raise HTTPException(404, err)
+        raise HTTPException(422, {"error": "publish_blocked", "detail": err})
+    return published
+
+
+@app.delete("/api/assessments/{aid}")
+async def api_delete_assessment(
+    aid: str,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Delete an assessment. Trainer only."""
+    if not current_user.is_trainer:
+        raise HTTPException(403, "trainer access required to delete assessments")
+    if not _as.delete_assessment(aid):
+        raise HTTPException(404, "assessment not found")
+    return {"ok": True}
+
+
+@app.post("/api/assessments/auto-assemble")
+async def api_auto_assemble(
+    body: dict = Body(default={}),
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Auto-assemble N approved questions into a draft assessment.
+
+    Body: {track_id: str, n?: int (default 8)}
+    Pulls from ALL approved quizzes; aims for type diversity (≥1 MCQ, ≥1 TF, ≥1 FITB).
+    Returns 422 if fewer than 3 approved questions exist.
+    """
+    if not current_user.is_trainer:
+        raise HTTPException(403, "trainer access required to auto-assemble assessments")
+    track_id = (body.get("track_id") or "").strip()
+    if not track_id:
+        raise HTTPException(400, "track_id is required")
+    n = max(3, int(body.get("n") or 8))
+    assessment, err = _as.auto_assemble(track_id=track_id, n=n)
+    if err:
+        raise HTTPException(422, {"error": "auto_assemble_failed", "detail": err})
+    return JSONResponse(assessment, status_code=201)
+
+
+@app.post("/api/assessments/{aid}/attempt")
+async def api_submit_attempt(
+    aid: str,
+    body: dict = Body(default={}),
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Submit an assessment attempt.
+
+    Body: {answers: {"<quiz_id>:<question_index>": <answer_value>, ...}}
+
+    Trust guardrails (server-side):
+    - attempts_allowed is enforced; returns 409 if already at limit.
+    - Source quotes are NOT returned (they are stripped from resolved questions).
+    - If passed and the track has this as the cert gate, certificate is auto-issued.
+
+    Returns:
+        {score_pct, passed, per_question, attempts_used, attempts_allowed}
+    """
+    a = _as.get_assessment(aid)
+    if not a:
+        raise HTTPException(404, "assessment not found")
+    if a.get("status") != "published":
+        raise HTTPException(422, "assessment is not published")
+
+    # Enforce attempt limit (server-side hard gate).
+    used = _as.count_attempts(current_user.id, aid)
+    allowed = a.get("attempts_allowed", 3)
+    if used >= allowed:
+        raise HTTPException(
+            409,
+            {
+                "error": "no_attempts_remaining",
+                "detail": f"maximum {allowed} attempt(s) reached",
+                "attempts_used": used,
+                "attempts_allowed": allowed,
+            },
+        )
+
+    answers: dict = body.get("answers") or {}
+    score_pct, passed, per_question = _as.score_attempt(a, answers)
+
+    # Persist the attempt (without source quotes — they are in per_question only for
+    # the response payload and are NOT stored in the attempt record).
+    _as.save_attempt(
+        user_id=current_user.id,
+        assessment_id=aid,
+        answers=answers,
+        score_pct=score_pct,
+        passed=passed,
+        per_question=per_question,
+    )
+    used += 1
+
+    # Certificate gate: if the assessment's track has this as the cert gate and
+    # the learner just passed, auto-issue the certificate.
+    cert = None
+    if passed:
+        track_id = a.get("track_id") or ""
+        track = _ms.load_track(track_id) if track_id else None
+        if track and track.get("assessment_gate_id") == aid:
+            learner = (current_user.name or "").strip() or "Demo Learner"
+            cert = _cs.issue_certificate(
+                current_user.id,
+                track_id,
+                learner,
+                track_title=track.get("title") or track_id,
+                product=track.get("product") or "SchoolCafé",
+                role=(track.get("role_tags") or [None])[0],
+                modules=len(track.get("module_ids") or []),
+            )
+            # Attach score to cert record for D7.
+            if cert:
+                cert["assessment_score_pct"] = round(score_pct)
+
+    return {
+        "score_pct": round(score_pct),
+        "passed": passed,
+        "per_question": per_question,
+        "attempts_used": used,
+        "attempts_allowed": allowed,
+        "certificate": cert,
+    }
+
+
+@app.get("/api/assessments/{aid}/attempts")
+async def api_get_attempts(
+    aid: str,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Return the current learner's attempt history for an assessment."""
+    a = _as.get_assessment(aid)
+    if not a:
+        raise HTTPException(404, "assessment not found")
+    attempts = _as.get_attempts(current_user.id, aid)
+    used = len(attempts)
+    allowed = a.get("attempts_allowed", 3)
+    return {
+        "attempts": attempts,
+        "attempts_used": used,
+        "attempts_allowed": allowed,
+        "attempts_remaining": max(0, allowed - used),
+    }
+
+
+# ── B3: Certificate gate on track ────────────────────────────────────────────
+
+@app.post("/api/tracks/{tid}/assessment-gate")
+async def api_set_assessment_gate(
+    tid: str,
+    body: dict = Body(default={}),
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Set or clear the assessment gate on a track. Trainer only.
+
+    Body: {assessment_id: str}  — set the gate
+    Body: {assessment_id: ""}   — clear the gate
+    """
+    if not current_user.is_trainer:
+        raise HTTPException(403, "trainer access required to set the assessment gate")
+    track = _ms.load_track(tid)
+    if not track:
+        raise HTTPException(404, "track not found")
+    assessment_id = (body.get("assessment_id") or "").strip()
+    if assessment_id:
+        # Verify the assessment exists and is published.
+        a = _as.get_assessment(assessment_id)
+        if not a:
+            raise HTTPException(404, "assessment not found")
+        if a.get("status") != "published":
+            raise HTTPException(422, "assessment must be published before being set as a gate")
+        track["assessment_gate_id"] = assessment_id
+    else:
+        track.pop("assessment_gate_id", None)
+    _ms.save_track(track)
+    return track
+
+
+# ── Override POST /api/certificates to honour the assessment gate ─────────────
+# The original handler is registered below (after this block).  We shadow it
+# here so the gate check runs BEFORE a cert is issued.
+_original_issue_certificate = None  # defined after the route registration below
+
+
 # Unchanged routes — reuse prod's handlers verbatim (they read/write the same
 # drafts/, published/, logs/, transcripts/ dirs).
 app.get("/", response_class=HTMLResponse)(prod.index)
@@ -1862,13 +2141,39 @@ async def issue_certificate(
     current_user: CurrentUser = Depends(get_current_user),
 ):
     """Issue + persist a completion certificate for a track. Validates the track
-    exists; records the learner, track, and issue time. Returns the certificate."""
+    exists; records the learner, track, and issue time. Returns the certificate.
+
+    B3 trust guardrail (server-side — no client bypass possible):
+    If the track has assessment_gate_id set, the learner must have a passing
+    attempt on that assessment before a cert is issued.  Returns 409 otherwise.
+    """
     track_id = (payload.get("track_id") or "").strip()
     if not track_id:
         raise HTTPException(400, "track_id is required")
     track = _ms.load_track(track_id)
     if not track:
         raise HTTPException(404, "track not found")
+
+    # B3 — Certificate gate: if the track requires passing an assessment, enforce it.
+    gate_id = (track.get("assessment_gate_id") or "").strip()
+    if gate_id:
+        gate = _as.get_assessment(gate_id)
+        if gate and gate.get("status") == "published":
+            pass_pct = gate.get("pass_pct", 70)
+            if not _as.has_passing_attempt(current_user.id, gate_id, pass_pct):
+                raise HTTPException(
+                    409,
+                    {
+                        "error": "must_pass_assessment",
+                        "detail": (
+                            f"This track requires passing the assessment "
+                            f"'{gate.get('title', gate_id)}' before a certificate "
+                            f"can be issued (pass threshold: {pass_pct}%)."
+                        ),
+                        "assessment_id": gate_id,
+                    },
+                )
+
     # Learner name: prefer payload override, fall back to identity.
     learner = (payload.get("learner_name") or current_user.name or "").strip() or "Demo Learner"
 
