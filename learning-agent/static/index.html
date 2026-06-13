@@ -1492,21 +1492,21 @@
     @media (max-width: 760px) {
       #track-detail .bc-nav, #path-detail .bc-nav { margin-left: 16px; margin-right: 16px; }
     }
-    /* bold dark-warm hero (borrowed structure; our espresso/terracotta palette) */
+    /* bold dark-warm hero (Cafeteria Modernism: ink-green gradient) */
     .path-hero { margin: var(--sp-3) 30px var(--sp-5); padding: var(--sp-6); border-radius: var(--radius);
-                 background: linear-gradient(135deg, #2A2018 0%, #3B2C20 100%); color: #F3ECE0; box-shadow: var(--shadow-lift); }
+                 background: linear-gradient(135deg, var(--ink) 0%, var(--green-deep) 100%); color: var(--accent-soft); box-shadow: var(--shadow-lift); }
     .path-eyebrow { font-family: var(--font); font-size: var(--cfs-micro); font-weight: 700; letter-spacing: .12em;
-                    text-transform: uppercase; color: #E7B79A; margin: 0 0 var(--sp-2); }
-    .path-title { font-family: var(--serif); font-size: 32px; font-weight: 600; line-height: 1.1; color: #FFF; margin: 0 0 var(--sp-3); }
-    .path-desc { font-size: var(--cfs-body); line-height: 1.6; color: #D9CDBC; margin: 0 0 var(--sp-4); max-width: 640px; }
-    .path-stats { display: flex; flex-wrap: wrap; gap: var(--sp-5); font-size: var(--cfs-body); color: #D9CDBC; margin-bottom: var(--sp-5); }
-    .path-stats b { color: #FFF; font-family: var(--serif); font-size: 18px; font-weight: 650; margin-right: 4px; }
-    .path-cta-btn { display: inline-flex; align-items: center; gap: 6px; background: var(--accent); color: #FFF; text-decoration: none;
+                    text-transform: uppercase; color: var(--marigold); margin: 0 0 var(--sp-2); }
+    .path-title { font-family: var(--serif); font-size: 32px; font-weight: 600; line-height: 1.1; color: var(--bg); margin: 0 0 var(--sp-3); }
+    .path-desc { font-size: var(--cfs-body); line-height: 1.6; color: var(--accent-soft); margin: 0 0 var(--sp-4); max-width: 640px; }
+    .path-stats { display: flex; flex-wrap: wrap; gap: var(--sp-5); font-size: var(--cfs-body); color: var(--accent-soft); margin-bottom: var(--sp-5); }
+    .path-stats b { color: var(--bg); font-family: var(--serif); font-size: 18px; font-weight: 650; margin-right: 4px; }
+    .path-cta-btn { display: inline-flex; align-items: center; gap: 6px; background: var(--accent); color: var(--accent-ink); text-decoration: none;
                     font-family: var(--font); font-weight: 700; font-size: var(--cfs-body); padding: 11px 22px; border-radius: var(--radius-sm); }
     .path-cta-btn:hover { background: var(--accent-hover, var(--accent)); }
     .path-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(220px, 280px); gap: var(--sp-5); margin: 0 30px; align-items: start; }
     .path-modules { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--sp-3); }
-    .path-mod { display: flex; gap: var(--sp-4); background: #FFF; border: 1px solid var(--border); border-left: 3px solid var(--t, var(--border-strong));
+    .path-mod { display: flex; gap: var(--sp-4); background: var(--panel); border: 1px solid var(--border); border-left: 3px solid var(--t, var(--border-strong));
                 border-radius: var(--radius); padding: var(--sp-4); transition: box-shadow .16s ease; }
     .path-mod:hover { box-shadow: var(--shadow-sm); }
     .path-mod[data-type="video"]   { --t: var(--type-video); }
@@ -2045,7 +2045,7 @@
 
     /* ── Simulated sign-in ── */
     .login-modal { position: fixed; inset: 0; z-index: 80; display: flex; align-items: center; justify-content: center;
-                   background: linear-gradient(135deg, #2A2018, #3B2C20); }
+                   background: linear-gradient(135deg, var(--ink), var(--green-deep)); }
     .login-modal[hidden] { display: none; }
     .login-card { width: 100%; max-width: 360px; background: var(--panel); border-radius: var(--radius); padding: var(--sp-6); box-shadow: var(--shadow-lift); }
     .login-brand { display: flex; flex-direction: column; gap: 2px; margin-bottom: var(--sp-5); }
@@ -2975,7 +2975,7 @@
     .lp-ex-choices { display: flex; flex-direction: column; gap: 8px; margin-top: 6px; }
     .lp-ex-choice { display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; border: 1.5px solid #1C2E24; border-radius: 6px; cursor: pointer; color: #D8E8DC; font-size: 13.5px; line-height: 1.55; transition: border-color .12s, background .12s; }
     .lp-ex-choice:hover { border-color: var(--stamp); background: rgba(30,90,138,.08); }
-    .lp-ex-choice.sel { border-color: var(--stamp); background: rgba(30,90,138,.15); color: #F0F8FF; }
+    .lp-ex-choice.sel { border-color: var(--stamp); background: rgba(30,90,138,.15); color: var(--stamp-ink); }
     .lp-ex-choice.correct { border-color: var(--accent); background: rgba(34,87,62,.14); color: #C8E8D4; }
     .lp-ex-choice.wrong { border-color: var(--stop); background: rgba(194,59,52,.10); }
     .lp-ex-key { font-weight: 700; min-width: 20px; color: #4E7060; font-size: 13px; flex-shrink: 0; }
@@ -4469,9 +4469,9 @@
           approves them into the Library (or requests AI-assisted edits), while a guide that needs a rewrite loops
           back to Draft.</desc>
         <defs>
-          <marker id="ah" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#908C82"/></marker>
-          <marker id="ah-pass" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#4F7A4E"/></marker>
-          <marker id="ah-fail" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#C23B34"/></marker>
+          <marker id="ah" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" style="fill:var(--muted-soft)"/></marker>
+          <marker id="ah-pass" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" style="fill:var(--accent)"/></marker>
+          <marker id="ah-fail" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" style="fill:var(--stop)"/></marker>
         </defs>
 
         <!-- grounding cluster (top) -->
