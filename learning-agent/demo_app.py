@@ -5381,6 +5381,61 @@ async def api_practice_get(
     return _ps.get_session_status(effective_uid, today)
 
 
+# LRN-4: shift-ready micro-refresher — compact session summary for the learner home card.
+@app.get("/api/users/{uid}/refresher")
+async def api_user_refresher(
+    uid: str,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Return a compact refresher summary for the learner home card.
+
+    Builds today's practice session if none exists, then returns a brief
+    snapshot — item count, item previews, streak, and completion state.
+    Learners may only query their own; trainers may query any.
+
+    Response:
+        {
+            "item_count": int,
+            "session_complete": bool,
+            "streak_days": int,
+            "items_preview": [{"type": str, "title": str}],   # first 3 items only
+        }
+    """
+    effective_uid = uid if current_user.is_trainer else current_user.id
+    from datetime import date as _date
+    today = _date.today().isoformat()
+
+    # Ensure a session exists for today (idempotent).
+    _ps.get_today_session(effective_uid, today)
+    status = _ps.get_session_status(effective_uid, today)
+
+    # Streak from gamification (best-effort).
+    streak_days = 0
+    try:
+        gamif = _cs.get_gamification(effective_uid)
+        streak_days = gamif.get("streak", 0) or 0
+    except Exception:
+        pass
+
+    # Build item previews (type + first 40 chars of title — no full question data).
+    session = status.get("session") or {}
+    items_raw = (session.get("items") or [])[:3]
+    items_preview = []
+    for item in items_raw:
+        if item.get("type") == "flashcard":
+            title = (item.get("front") or "")[:40]
+        else:
+            title = (item.get("stem") or item.get("question", ""))[:40]
+        items_preview.append({"type": item.get("type", "quiz"), "title": title})
+
+    return {
+        "item_count": status.get("items_count", 0),
+        "session_complete": not status.get("session_ready", False) and status.get("items_count", 0) > 0,
+        "streak_days": streak_days,
+        "items_preview": items_preview,
+    }
+
+
 @app.post("/api/users/{uid}/practice/complete")
 async def api_practice_complete(
     uid: str,

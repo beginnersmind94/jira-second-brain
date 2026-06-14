@@ -3816,6 +3816,8 @@
       <!-- D3: Gamification strip (XP · streak · badges) -->
       <div id="learn-gamif-wrap"></div>
       <div id="learn-hero-wrap"></div>
+      <!-- LRN-4: shift-ready micro-refresher card -->
+      <div id="learn-refresher-wrap"></div>
       <div id="learn-track-wrap"></div>
     </div>
   </div>
@@ -9332,6 +9334,17 @@ function renderLearnHome() {
     }
   }
 
+  // LRN-4: micro-refresher card (non-blocking — clears slot if trainer view).
+  const refresherWrap = document.getElementById('learn-refresher-wrap');
+  if (refresherWrap) {
+    if (_viewMode !== 'trainer') {
+      refresherWrap.innerHTML = '';
+      _renderRefresherCard(_demoUserHeader());
+    } else {
+      refresherWrap.innerHTML = '';
+    }
+  }
+
   if (!hero) {
     heroWrap.innerHTML = `<div class="learn-hero lh-firstrun">
       <p class="lh-eyebrow">No training assigned yet</p>
@@ -14749,6 +14762,50 @@ function _d2PatchCatalogQuizEmpty() {
       <p class="empty-headline">No quizzes published yet.</p>
       <p class="empty-body">Your trainer will add quizzes to your courses.</p>
     </div>`;
+  }
+}
+
+// ── LRN-4: Shift-ready micro-refresher card ──────────────────────────────────
+// Async-fills #learn-refresher-wrap with a compact practice-session summary.
+// Non-blocking: silently clears the slot on any network/parse error.
+async function _renderRefresherCard(uid) {
+  const wrap = document.getElementById('learn-refresher-wrap');
+  if (!wrap) return;
+  try {
+    const r = await fetch('/api/users/' + encodeURIComponent(uid) + '/refresher',
+      { headers: { 'X-Demo-User': _demoUserHeader() } });
+    if (!r.ok) { wrap.innerHTML = ''; return; }
+    const d = await r.json();
+    const count = d.item_count || 0;
+    if (count === 0) { wrap.innerHTML = ''; return; }
+    const done = d.session_complete;
+    const streak = d.streak_days || 0;
+    const streakHtml = streak > 0
+      ? `<span style="font-size:12px;color:var(--marigold);font-weight:700;">🔥 ${streak}-day streak</span>`
+      : '';
+    if (done) {
+      wrap.innerHTML = `
+        <div style="border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;background:var(--panel2);display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;">
+          <div>
+            <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:3px;">Quick review</div>
+            <div style="font-size:14px;font-weight:600;color:var(--text);">✓ Today's review done</div>
+            ${streakHtml ? `<div style="margin-top:4px;">${streakHtml}</div>` : ''}
+          </div>
+        </div>`;
+    } else {
+      wrap.innerHTML = `
+        <div style="border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;background:var(--panel2);display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;">
+          <div>
+            <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:3px;">Before your shift</div>
+            <div style="font-size:14px;font-weight:600;color:var(--text);">${count} quick item${count !== 1 ? 's' : ''} to review</div>
+            ${streakHtml ? `<div style="margin-top:4px;">${streakHtml}</div>` : ''}
+          </div>
+          <button class="primary" style="flex-shrink:0;font-size:13px;padding:8px 16px;" onclick="showView('practice')">Start refresh</button>
+        </div>`;
+    }
+  } catch (_) {
+    const wrap2 = document.getElementById('learn-refresher-wrap');
+    if (wrap2) wrap2.innerHTML = '';
   }
 }
 
