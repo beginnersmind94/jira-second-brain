@@ -98,6 +98,8 @@ from roster_sync import RosterSyncClient
 import completion_store as _cs
 # D4: practice-mode spaced-repetition store.
 import practice_store as _ps
+# LRN-6: formative confidence aggregation.
+import formative_store as _fms
 # E1 — nudge persistence: disk-backed nudge records per track.
 import nudge_store as _ns
 # SCORM 1.2 package export (V2).
@@ -5718,6 +5720,7 @@ async def api_segment_check_post(
     """
     uid = (body.get("uid") or "").strip() or current_user.id
     answer = body.get("answer")
+    confidence = body.get("confidence")  # LRN-6: optional 1–5 learner confidence rating
 
     # Re-run the check selection to get the correct question.
     raw_html = _load_guide_html_for_rid(rid)
@@ -5797,11 +5800,15 @@ async def api_segment_check_post(
             / f"{segment_index}.json"
         )
         formative_file.parent.mkdir(parents=True, exist_ok=True)
-        formative_file.write_text(json.dumps({
+        formative_payload: dict = {
             "question_id": chosen.get("id") or chosen.get("stem", "")[:24],
             "correct": correct,
             "answered_at": _time.strftime("%Y-%m-%dT%H:%M:%S"),
-        }, indent=2), encoding="utf-8")
+        }
+        # LRN-6: persist confidence rating if provided and in valid range.
+        if isinstance(confidence, (int, float)) and 1 <= confidence <= 5:
+            formative_payload["confidence"] = int(confidence)
+        formative_file.write_text(json.dumps(formative_payload, indent=2), encoding="utf-8")
     except OSError:
         pass  # formative persistence is best-effort; never block the learner
 
@@ -5811,6 +5818,35 @@ async def api_segment_check_post(
         "tier":           tier,
         "source_ref":     source_ref,
     }
+
+
+# LRN-6: confidence-calibrated check summary for educators.
+@app.get("/api/resources/{rid}/confidence-summary")
+async def api_confidence_summary(
+    rid: str,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Return aggregated learner confidence ratings for all check segments in a resource.
+
+    Trainer/director only — this is aggregate analytics data, not for individual learners.
+    Reads data/formative/<uid>/<rid>/<seg>.json written by segment-check POST.
+
+    Response:
+        {
+            "resource_id": str,
+            "segments": [{seg_idx, confidence_avg, confidence_count, pct_correct, answer_count}],
+            "overall_confidence_avg": float | null,
+        }
+    """
+    if not current_user.is_trainer and current_user.role != "CN Director":
+        raise HTTPException(403, "confidence summary is available to trainers and directors only")
+
+    # 404 if resource doesn't exist or isn't approved.
+    raw_html = _load_guide_html_for_rid(rid)
+    if raw_html is None:
+        raise HTTPException(404, "resource not found")
+
+    return _fms.get_confidence_summary(rid)
 
 
 @app.get("/api/resources/{rid}/recap")
@@ -6510,6 +6546,23 @@ async def api_track_insights(
         for row in (merged.get("question_difficulty") or [])
     ]
 
+    # LRN-6: confidence data per resource in the track (best-effort — empty if no responses).
+    track_meta_path = Path(__file__).resolve().parent / "data" / "tracks" / f"{re.sub(r'[^\\w\\-]', '_', tid)[:60]}.json"
+    confidence_data: list[dict] = []
+    try:
+        if track_meta_path.exists():
+            tdata = json.loads(track_meta_path.read_text(encoding="utf-8"))
+            for mid in (tdata.get("module_ids") or []):
+                cs_result = _fms.get_confidence_summary(mid)
+                if cs_result.get("overall_confidence_avg") is not None:
+                    confidence_data.append({
+                        "resource_id": mid,
+                        "confidence_avg": cs_result["overall_confidence_avg"],
+                        "segment_count": len(cs_result["segments"]),
+                    })
+    except (OSError, json.JSONDecodeError):
+        pass
+
     return {
         "_data_notice": "Includes seeded demonstration data. Live analytics coming in v2.",
         "track_id": tid,
@@ -6517,6 +6570,7 @@ async def api_track_insights(
         "question_difficulty": question_difficulty,
         "avg_completion_days": merged.get("avg_completion_days"),
         "completion_rate_pct": merged.get("completion_rate_pct"),
+        "confidence_data": confidence_data,
     }
 
 

@@ -5971,6 +5971,23 @@ function _renderInsightBody(data) {
     h += '</div></div>';
   }
 
+  // Section 4 — Confidence calibration (LRN-6: present only when data exists).
+  const confData = data.confidence_data || [];
+  if (confData.length > 0) {
+    h += '<div class="insight-section"><div class="insight-section-label">Confidence calibration</div>';
+    h += '<div class="insight-qd">';
+    confData.forEach(row => {
+      const avg = row.confidence_avg != null ? row.confidence_avg.toFixed(1) : '—';
+      const avgNum = row.confidence_avg || 0;
+      const pillCls = avgNum >= 4 ? 'green' : avgNum >= 2.5 ? 'yellow' : 'red';
+      h += `<div class="insight-qd-row">`;
+      h += `<div class="insight-qd-q">${escapeHtml(row.resource_id || '—')}</div>`;
+      h += `<span class="insight-pct-pill ${pillCls}" title="Avg confidence ${avg}/5">${avg}</span>`;
+      h += `</div>`;
+    });
+    h += '</div></div>';
+  }
+
   return h;
 }
 
@@ -10896,10 +10913,24 @@ function _lx3RenderCheck(segIdx, q) {
     <div style="border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px;background:var(--panel2);">
       <div class="lx3-check-question">Knowledge check: ${escapeHtml(q.stem || '')}</div>
       <div class="lx3-check-options" id="lx3-opts-${segIdx}">${optionsHtml}</div>
+      <div style="margin:12px 0 4px;font-size:12px;font-weight:600;color:var(--muted);">How confident are you?</div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
+        <span style="font-size:11.5px;color:var(--muted);">Guessing</span>
+        <input type="range" id="lx3-conf-${segIdx}" min="1" max="5" value="3"
+               style="flex:1;accent-color:var(--stamp);" aria-label="Confidence 1 to 5" />
+        <span style="font-size:11.5px;color:var(--muted);">Certain</span>
+        <span id="lx3-conf-val-${segIdx}" style="font-size:12px;font-weight:700;color:var(--stamp);min-width:14px;">3</span>
+      </div>
       <button class="primary lx3-check-submit" style="font-size:14px;padding:8px 18px;"
               onclick="lx3SubmitCheck(${segIdx})">Check answer</button>
       <div id="lx3-check-result-${segIdx}"></div>
     </div>`;
+  // Live-update the confidence value label.
+  const confSlider = document.getElementById('lx3-conf-' + segIdx);
+  const confVal    = document.getElementById('lx3-conf-val-' + segIdx);
+  if (confSlider && confVal) {
+    confSlider.addEventListener('input', () => { confVal.textContent = confSlider.value; });
+  }
 }
 
 async function lx3SubmitCheck(segIdx) {
@@ -10923,13 +10954,16 @@ async function lx3SubmitCheck(segIdx) {
   }
   if (answer === null || answer === undefined) return;
 
+  const confSlider = document.getElementById('lx3-conf-' + segIdx);
+  const confidence = confSlider ? parseInt(confSlider.value, 10) : null;
+
   try {
     const r = await fetch(
       '/api/resources/' + encodeURIComponent(rid) + '/segment-check/' + segIdx,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-Demo-User': _demoUserHeader() },
-        body: JSON.stringify({ uid, answer }),
+        body: JSON.stringify({ uid, answer, ...(confidence !== null ? { confidence } : {}) }),
       }
     );
     if (!r.ok) throw new Error('submit check ' + r.status);
