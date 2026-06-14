@@ -1263,6 +1263,7 @@
       .stepper .task-pill.active .node::after { animation: none !important; opacity: .4; }
       .view.active, .step { animation: none !important; }
       .score-ring .arc { transition: none; }
+      .cert-card { animation: none !important; }
       * { scroll-behavior: auto; }
     }
 
@@ -1569,8 +1570,8 @@
     #view-learn .track-blurb { font-size: 12px; }
     /* ── D7 Certificate (frame-worthy redesign) ─────────────────────────────── */
     @keyframes cert-shimmer {
-      0%   { box-shadow: 0 0 0 0 rgba(37,99,235,.55), 0 4px 24px rgba(0,0,0,.10); }
-      50%  { box-shadow: 0 0 0 8px rgba(37,99,235,.18), 0 4px 32px rgba(37,99,235,.22); }
+      0%   { box-shadow: 0 0 0 0 rgba(30,90,138,.55), 0 4px 24px rgba(0,0,0,.10); }
+      50%  { box-shadow: 0 0 0 8px rgba(30,90,138,.18), 0 4px 32px rgba(30,90,138,.22); }
       100% { box-shadow: 0 4px 20px rgba(0,0,0,.10); }
     }
     .cert-card {
@@ -1586,12 +1587,13 @@
     .cert-accent-bar { height: 6px; background: var(--stamp, #1E5A8A); }
     .cert-inner { padding: 28px 24px 22px; }
     .cert-seal { font-size: 36px; margin-bottom: 4px; }
-    .cert-brand { font-family: var(--sans, system-ui); font-size: 10.5px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
-    .cert-h { font-family: var(--sans, system-ui); font-size: 10.5px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
+    .cert-seal-svg { width: 48px; height: 48px; display: block; margin: 0 auto; }
+    .cert-brand { font-family: var(--font); font-size: 10.5px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
+    .cert-h { font-family: var(--font); font-size: 10.5px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
     .cert-name { font-family: var(--serif); font-size: 30px; font-weight: 700; color: var(--text); margin-bottom: 6px; line-height: 1.2; }
     .cert-sub { color: var(--muted); font-size: 13px; margin-bottom: 10px; }
     .cert-track { font-family: var(--serif); font-size: 19px; font-weight: 600; color: var(--stamp, #1E5A8A); margin-bottom: 14px; line-height: 1.3; }
-    .cert-score { font-family: var(--sans, system-ui); font-size: 13px; font-weight: 700; color: var(--green-text, #1A4530); margin-bottom: 12px; }
+    .cert-score { font-family: var(--font); font-size: 13px; font-weight: 700; color: var(--green-text, #1A4530); margin-bottom: 12px; }
     .cert-badge-strip { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin-bottom: 16px; }
     .cert-badge-chip { font-size: 11px; font-weight: 600; background: var(--stamp-soft); color: var(--stamp); border: 1px solid var(--border-strong); border-radius: 20px; padding: 3px 9px; }
     .cert-divider { border: none; border-top: 1px solid var(--border); margin: 14px 0; }
@@ -1654,7 +1656,7 @@
     .g2-gate-big { font-size: clamp(48px, 8vw, 96px); font-weight: 700; line-height: 1.05; letter-spacing: -.02em; color: var(--bg); font-variant-numeric: tabular-nums; }
     .g2-gate-label { font-size: clamp(18px, 2.5vw, 28px); font-weight: 400; color: rgba(255,255,255,0.75); margin-left: 16px; }
     .g2-gate-row { display: flex; align-items: baseline; margin-bottom: 8px; }
-    .g2-gate-row.fail .g2-gate-big { color: #f87171; }
+    .g2-gate-row.fail .g2-gate-big { color: var(--red-text); }
     .g2-gate-divider { border: none; border-top: 1px solid rgba(255,255,255,0.2); margin: 32px 0; }
     .g2-tier-label { font-size: clamp(13px, 1.6vw, 18px); color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: .08em; font-size: 13px; margin-bottom: 16px; }
     .g2-tier-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
@@ -2233,7 +2235,7 @@
     .quality-btn:hover { border-color: var(--accent); color: var(--accent); }
     /* Manage sub-tab strip — horizontal tabs inside merged Manage section */
     .manage-nav { display: flex; gap: 2px; background: var(--panel2); border: 1px solid var(--border); border-radius: var(--radius); padding: 3px; margin-bottom: 18px; width: fit-content; }
-    .manage-nav button { border: none; background: transparent; padding: 7px 16px; border-radius: calc(var(--radius) - 2px); font-size: 13px; font-weight: 600; color: var(--muted); cursor: pointer; transition: all .15s; font-family: var(--sans); }
+    .manage-nav button { border: none; background: transparent; padding: 7px 16px; border-radius: calc(var(--radius) - 2px); font-size: 13px; font-weight: 600; color: var(--muted); cursor: pointer; transition: all .15s; font-family: var(--font); }
     .manage-nav button:hover { color: var(--text); background: var(--surface); }
     .manage-nav button.active { background: var(--surface); color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,.08); }
     /* Rollout command center — KPI strip at the top of the Manage › Projects page */
@@ -2991,7 +2993,7 @@
     .lp-ex-btn-next { background: var(--accent); border: none; color: var(--accent-ink); font-size: 13.5px; font-weight: 800; padding: 8px 22px; border-radius: 6px; cursor: pointer; }
     .lp-ex-output { padding: 9px 20px; background: #0D1611; border-top: 1px solid #1C2E24; min-height: 40px; font-size: 13px; color: #5E8070; font-family: inherit; flex-shrink: 0; }
     .lp-ex-output.correct { color: #2ecc71; }
-    .lp-ex-output.wrong { color: #e74c3c; }
+    .lp-ex-output.wrong { color: var(--stop); }
     @media (max-width: 720px) { .lp-ex-wrap { grid-template-columns: 1fr; grid-template-rows: auto 1fr; } .lp-ex-left { max-height: 45vh; border-right: 0; border-bottom: 1px solid var(--border); } .lp-ex-right { overflow-y: auto; -webkit-overflow-scrolling: touch; } }
     .lp-footer { background: var(--panel); border-top: 1px solid var(--border); padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex: none; }
     .lp-btn-prev { background: none; border: 1px solid var(--border); color: var(--text); border-radius: var(--radius); padding: 10px 18px; cursor: pointer; font: 600 14px var(--font); }
@@ -3098,7 +3100,7 @@
     }
     .video-offline-fallback a {
       color: #fff;
-      background: var(--accent, #2563EB);
+      background: var(--accent, #22573E);
       padding: 6px 16px;
       border-radius: 4px;
       text-decoration: none;
@@ -3122,7 +3124,7 @@
     }
     .attribution-logo { font-weight: 700; color: var(--text, #111); }
     .attribution-title { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .attribution-source-link { color: var(--accent, #2563EB); text-decoration: none; white-space: nowrap; }
+    .attribution-source-link { color: var(--accent, #22573E); text-decoration: none; white-space: nowrap; }
     .attribution-source-link:hover { text-decoration: underline; }
     /* outside-vendor badge: blue/teal, distinct from ai-grounded (green) */
     .attribution-badge.outside-vendor {
@@ -3151,7 +3153,7 @@
     .linkout-info { display: flex; flex-direction: column; gap: 2px; }
     .linkout-title { font-weight: 600; font-size: 0.9rem; color: var(--text, #111); }
     .linkout-source { font-size: 0.75rem; color: var(--muted, #6b7280); }
-    .linkout-cta { font-size: 0.8rem; color: var(--accent, #2563EB); margin-top: 4px; }
+    .linkout-cta { font-size: 0.8rem; color: var(--accent, #22573E); margin-top: 4px; }
     @media (max-width: 375px) {
       .video-attribution-band { flex-direction: column; align-items: flex-start; }
       .attribution-title { white-space: normal; }
@@ -9727,7 +9729,7 @@ function _renderCertificate(c) {
     <div class="cert-card">
       <div class="cert-accent-bar"></div>
       <div class="cert-inner">
-        <div class="cert-seal">🏅</div>
+        <div class="cert-seal"><svg class="cert-seal-svg" width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-label="Completion seal"><circle cx="24" cy="24" r="21" fill="none" stroke="var(--stamp,#1E5A8A)" stroke-width="1.5"/><circle cx="24" cy="24" r="17" fill="var(--stamp-soft,rgba(30,90,138,0.10))" stroke="var(--stamp,#1E5A8A)" stroke-width="1.5"/><circle cx="24" cy="24" r="11" fill="var(--stamp,#1E5A8A)"/><path d="M20 24.5L23 27.5L29 20.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></div>
         <div class="cert-brand">CN Learning Studio &mdash; Cybersoft</div>
         <div class="cert-h">Certificate of Completion</div>
         <div class="cert-name">${escapeHtml(displayName)}</div>
@@ -11420,7 +11422,7 @@ function showCertificate(tid) {
         <div class="cert-card">
           <div class="cert-accent-bar"></div>
           <div class="cert-inner">
-            <div class="cert-seal">🏅</div>
+            <div class="cert-seal"><svg class="cert-seal-svg" width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-label="Completion seal"><circle cx="24" cy="24" r="21" fill="none" stroke="var(--stamp,#1E5A8A)" stroke-width="1.5"/><circle cx="24" cy="24" r="17" fill="var(--stamp-soft,rgba(30,90,138,0.10))" stroke="var(--stamp,#1E5A8A)" stroke-width="1.5"/><circle cx="24" cy="24" r="11" fill="var(--stamp,#1E5A8A)"/><path d="M20 24.5L23 27.5L29 20.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></div>
             <div class="cert-brand">CN Learning Studio &mdash; Cybersoft</div>
             <div class="cert-h">Certificate of Completion</div>
             <div class="cert-name">John</div>
@@ -11439,7 +11441,7 @@ function showCertificate(tid) {
         <div class="cert-card">
           <div class="cert-accent-bar"></div>
           <div class="cert-inner">
-            <div class="cert-seal">🏅</div>
+            <div class="cert-seal"><svg class="cert-seal-svg" width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-label="Completion seal"><circle cx="24" cy="24" r="21" fill="none" stroke="var(--stamp,#1E5A8A)" stroke-width="1.5"/><circle cx="24" cy="24" r="17" fill="var(--stamp-soft,rgba(30,90,138,0.10))" stroke="var(--stamp,#1E5A8A)" stroke-width="1.5"/><circle cx="24" cy="24" r="11" fill="var(--stamp,#1E5A8A)"/><path d="M20 24.5L23 27.5L29 20.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></div>
             <div class="cert-brand">CN Learning Studio &mdash; Cybersoft</div>
             <div class="cert-h">Certificate of Completion</div>
             <div class="cert-name">John</div>
