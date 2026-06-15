@@ -357,6 +357,8 @@ Build once in `static/index.html`; do not duplicate the CSS.
 
 **Every new feature in `learning-agent/` gets an epic + linked user stories.** This is not optional cleanup — tracking docs are part of the feature and are updated in the same commit as the code they describe.
 
+**Stories are written to — and closed against — the Story Spec Standard: [`../docs/STORY-SPEC-STANDARD.md`](../docs/STORY-SPEC-STANDARD.md)** (shared across jira-brain + learning-agent). It is the seven-part spec contract (pinned dependencies · in/out scope · numbered exact requirements · edge/empty/error table · defaults · Given/When/Then acceptance criteria · deferred future option) plus the **Definition of Done** gate. The DoD is the feature-side equivalent of the citation grounding gate: a story is `Done ✓` only when every acceptance criterion is *demonstrated* green against the running app with **real (non-seeded) data** — out-of-scope untouched, every edge row exercised, cross-surface values consistent, machine-checkable ACs tested, and no new façade. Façade ("seeded data that looks finished") is never a done state — it is a labeled, time-boxed spike. This exists because the recurring failure here is wide, shallow façades that read as shipped.
+
 ### When starting a new feature
 1. Run `/new-feature <slug> "<Epic title>"` — creates `docs/features/<slug>/EPIC.md` + `STORY-NNN.md` files from the canonical template
 2. Write the epic problem statement and user stories before or immediately after the first working code lands
@@ -367,7 +369,7 @@ Build once in `static/index.html`; do not duplicate the CSS.
 2. Check off any acceptance criteria now met
 3. Update `**Status:**` on stories that are now done
 4. Add implementation notes to the epic (new classes, functions, data fields changed)
-5. If a story is fully checked off, mark it `Done ✓`
+5. Mark a story `Done ✓` **only when it passes the full Definition of Done** (every AC demonstrated green on real data with an evidence note, out-of-scope untouched, edge rows exercised, cross-surface consistency, tests for machine-checkable ACs, no new façade). A bare checked AC with no evidence note is not done.
 
 ### Canonical docs location
 ```
@@ -381,6 +383,8 @@ learning-agent/docs/features/
 
 ### Existing feature docs
 - [Content updates panel](docs/features/content-updates-panel/EPIC.md) — subscribed content event feed on Home
+- [Real overdue — deadline-bound computation](docs/features/real-overdue-deadlines/EPIC.md) — one timezone-aware overdue value across KPI / roster / compliance report. STORY-001 doubles as the reference exemplar for the Story Spec Standard.
+- [Implementation Workspace](docs/features/implementation-workspace/EPIC.md) — turn the district page into a PM-first onboarding cockpit (milestone checklist · tasks · notes · activity log), demo-real (synthetic data, real behavior). The BRD's actual MVP, authored for Sonnet 4.6 agent devs.
 
 ---
 

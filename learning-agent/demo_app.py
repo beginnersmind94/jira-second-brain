@@ -42,6 +42,7 @@ from sse_starlette.sse import EventSourceResponse
 
 from auth import CurrentUser, get_current_user
 from tenancy import assert_district_access, filter_to_accessible_districts, get_user_districts
+import project_workspace_store as _ws   # Epic: implementation-workspace (STORY-001)
 
 from claude_agent_sdk import (
     AssistantMessage,
@@ -96,18 +97,35 @@ from scorers import compute_scores
 # Stub mode when SCHOOLCAFE_API_URL / SCHOOLCAFE_API_KEY env vars are absent.
 from roster_sync import RosterSyncClient
 import completion_store as _cs
-# D4: practice-mode spaced-repetition store.
-import practice_store as _ps
 # LRN-6: formative confidence aggregation.
 import formative_store as _fms
+# LRN-5: peer knowledge-board comment store.
+import comment_store as _coms
+# AUTH-1: per-resource lesson translations.
+import translation_store as _ts
+# AUTH-2: per-resource segment narration stubs.
+import narration_store as _nar
+# AUTH-3: printable job aid + shared QR utility.
+import jobaid_store as _jas
+# PLT-2: QR code generation + scan analytics.
+import qr_store as _qrs
 # E1 — nudge persistence: disk-backed nudge records per track.
 import nudge_store as _ns
+# S3 — nudge-all-overdue throttle state: {track_id -> last_fire_unix_ts}.
+# In-memory only (resets on server restart); 60-second cooldown per track.
+_nudge_all_last: dict[str, float] = {}
 # SCORM 1.2 package export (V2).
 import scorm_export
 # xAPI statement emitter — stub mode until LRS_ENDPOINT + LRS_KEY are set in .env (V2).
 import xapi_client as _xapi
 # Section E — grounding audit: exhaustive claim-level citation extraction.
 import grounding_audit as _ga
+# OPS-1: content gap analysis (refusal log + manual gap records).
+import gap_store as _gs
+# OPS-2: assignment rules engine.
+import rules_store as _rs
+# OPS-3: regulatory compliance calendar.
+import deadline_store as _dl
 
 load_dotenv()
 
@@ -354,6 +372,64 @@ async def api_list_modules(
     return result
 
 
+@app.get("/api/roles")
+async def api_roles():
+    """Return the canonical learner-role vocabulary.
+
+    This is the authoritative list of role strings used in current_user.role
+    and in role_tags on modules, tracks, and courses. All role pickers in the
+    UI (generate form, content library editor, new-track modal, course builder)
+    MUST render from this list so filtering works reliably.
+    """
+    from auth import ROLE_VOCAB
+    return {"roles": ROLE_VOCAB}
+
+
+@app.put("/api/modules/{mid}/role-tags")
+async def api_update_module_role_tags(
+    mid: str,
+    body: dict = Body(...),
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Update a module's role_tags without touching its content or grounding status.
+
+    Role tags are routing metadata only.  Editing them does NOT alter source
+    citations, grounding status, or content — so this endpoint does NOT
+    re-open approval or downgrade status to draft.  The deterministic grounding
+    gate remains intact; only the role_tags array is written.
+
+    Callers: Content Library inline editor (trainers only).
+    Body: {"role_tags": ["Cashier", ...]}  — must be a subset of ROLE_VOCAB.
+    Returns: updated module metadata dict.
+    """
+    if not current_user.is_trainer:
+        raise HTTPException(403, "Trainer / Product Owner access required to edit role tags")
+
+    from auth import ROLE_VOCAB
+    raw_tags = body.get("role_tags")
+    if not isinstance(raw_tags, list):
+        raise HTTPException(400, "role_tags must be a list")
+    # Validate every tag against the canonical vocabulary.
+    bad = [t for t in raw_tags if t not in ROLE_VOCAB]
+    if bad:
+        raise HTTPException(
+            400,
+            f"Unknown role(s): {bad}. Allowed: {ROLE_VOCAB}",
+        )
+    role_tags = list(dict.fromkeys(raw_tags))  # deduplicate, preserve order
+
+    # Resolve the resource metadata file (published/metadata/<mid>.json or drafts/<mid>.json).
+    resolved = prod._resolve_resource(mid)
+    if not resolved:
+        raise HTTPException(404, f"Module '{mid}' not found")
+    _html_path, meta_path, _status = resolved
+
+    meta = prod._read_meta(meta_path) or {}
+    meta["role_tags"] = role_tags
+    meta_path.write_text(json.dumps(meta, indent=2), encoding="utf-8")
+    return meta
+
+
 @app.get("/api/tracks")
 async def api_list_tracks(
     request: Request,
@@ -462,9 +538,74 @@ async def api_set_track_modules(tid: str, body: dict):
     track = _ms.load_track(tid)
     if not track:
         raise HTTPException(404, "track not found")
+    # Guard: course-based tracks are composed via course_ids; writing module_ids
+    # would create a divergent parallel list that forks what the learner player
+    # renders.  Reject rather than silently accept and corrupt composition.
+    if track.get("course_ids"):
+        raise HTTPException(
+            409,
+            {
+                "error": "course_based_track",
+                "detail": (
+                    "This track is composed via courses — edit its courses instead of "
+                    "module_ids.  Writing module_ids on a course-based track would fork "
+                    "the composition the learner player renders."
+                ),
+            },
+        )
     track["module_ids"] = body.get("module_ids") or []
     _ms.save_track(track)
     return {"module_ids": track["module_ids"]}
+
+
+@app.put("/api/tracks/{tid}/courses")
+async def api_set_track_courses(
+    tid: str,
+    body: dict,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Set the ordered list of courses that compose a track (the A1 composition path).
+
+    This is the write-side counterpart to the course expansion in GET /api/tracks/{tid}:
+    the learner player renders a track via its course_ids, so this is the single
+    endpoint a trainer uses to compose / reorder a track's courses. Trainer only.
+
+    Body: {"course_ids": [str]} — full ordered replacement list.
+    Every id must resolve to an existing course (422 otherwise) so a track can never
+    reference a phantom course — same identifier-resolution discipline used at ingestion
+    and for lesson refs. Returns the updated raw track.
+    """
+    if not current_user.is_trainer:
+        raise HTTPException(403, "trainer access required to edit track composition")
+    track = _ms.load_track(tid)
+    if not track:
+        raise HTTPException(404, "track not found")
+    course_ids = body.get("course_ids")
+    if not isinstance(course_ids, list):
+        raise HTTPException(422, {"error": "invalid_body", "detail": "course_ids must be a list"})
+    # Guard: refuse to blank a legacy module-based track by setting empty courses,
+    # which would hide its content (GET expansion switches to the course branch the
+    # moment a course_ids key exists).
+    if not course_ids and track.get("module_ids") and "course_ids" not in track:
+        raise HTTPException(
+            422,
+            {"error": "would_orphan_modules", "detail": (
+                "This track is module-based; setting empty courses would hide its content. "
+                "Add at least one course instead."
+            )},
+        )
+    # Never let a track point at a phantom course.
+    missing = [cid for cid in course_ids if not _course_store.load_course(cid)]
+    if missing:
+        raise HTTPException(
+            422,
+            {"error": "unknown_course",
+             "detail": f"course id(s) not found: {', '.join(missing)}",
+             "missing": missing},
+        )
+    track["course_ids"] = list(course_ids)
+    _ms.save_track(track)
+    return track
 
 
 @app.put("/api/tracks/{tid}")
@@ -480,11 +621,17 @@ async def api_update_track(tid: str, body: dict):
 
 
 @app.post("/api/tracks/{tid}/publish")
-async def api_publish_track(tid: str):
+async def api_publish_track(tid: str, current_user: CurrentUser = Depends(get_current_user)):
+    if not current_user.is_trainer:
+        raise HTTPException(403, "trainer access required to publish tracks")
     track = _ms.load_track(tid)
     if not track:
         raise HTTPException(404, "track not found")
-    if not track.get("module_ids"):
+    # A track may be composed via module_ids (legacy) OR course_ids (A1).
+    # A course-based track with at least one course is considered non-empty.
+    _has_modules = bool(track.get("module_ids"))
+    _has_courses = bool(track.get("course_ids"))
+    if not _has_modules and not _has_courses:
         raise HTTPException(409, {"error": "no_modules", "detail": "Add at least one module before publishing."})
     track["status"] = "published"
     _ms.save_track(track)
@@ -509,6 +656,42 @@ async def api_delete_track(tid: str):
     if not _ms.delete_track(tid):
         raise HTTPException(404, "track not found")
     return {"ok": True}
+
+
+# ── What's New feed — read-only, no LLM, role-scoped ─────────────────────────
+@app.get("/api/whats-new")
+async def api_whats_new(
+    role: str = "Cashier",
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Return newest approved training content relevant to the requested role.
+
+    Deterministic — no LLM call.  Grounded against wiki concept/workflow pages;
+    items without a matching wiki page are silently dropped.
+    """
+    from whats_new import build_whats_new
+    result = build_whats_new(role)
+    result["generated_at"] = datetime.utcnow().isoformat() + "Z"
+    return result
+
+
+@app.get("/api/whats-next")
+async def api_whats_next(current_user: CurrentUser = Depends(get_current_user)):
+    """Return the "What's Next for You" post-completion benefits shelf config.
+
+    Pure config read — no LLM, no product claims, zero vendor integration.  Every
+    entry is an external link-out (link + one-liner + provenance), never reproduced
+    vendor content (trust rule: ICN/USDA/etc. are credited and linked, not embedded).
+    The JSON file is the single source of truth so a district can later customise
+    which resources appear by editing one file.
+    """
+    cfg_path = Path(__file__).parent / "data" / "whats-next.json"
+    if not cfg_path.exists():
+        raise HTTPException(status_code=404, detail="whats-next config not found")
+    try:
+        return json.loads(cfg_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as e:
+        raise HTTPException(status_code=500, detail=f"whats-next config invalid: {e}")
 
 
 # ── A3 — Track assignment, deadlines & milestones ─────────────────────────────
@@ -645,6 +828,13 @@ async def api_assign_track(
     if not track:
         raise HTTPException(404, "track not found")
 
+    # S3 guard: draft tracks cannot be assigned (STORY-003 Req 7).
+    if track.get("status", "draft") != "published":
+        raise HTTPException(409, {
+            "error": "draft_track",
+            "detail": "This track is still in draft. Publish it before assigning learners.",
+        })
+
     audience_type = body.get("audience_type", "")
     if audience_type not in ("role", "district", "user"):
         raise HTTPException(422, {"error": "invalid_audience_type",
@@ -698,6 +888,176 @@ async def api_remove_assignment(
     track["assignments"] = assignments
     _ms.save_track(track)
     return {"assignments": assignments}
+
+
+# ── S3 — Individual assign / unassign by user ID ─────────────────────────────
+# Completion records are NEVER touched by unassign — unassign only removes the
+# audience rule; the learner's progress/certification lives in completion_store
+# and is untouched.  This enforces STORY-003 Req 4: "Unassign preserves history".
+
+@app.post("/api/tracks/{tid}/assign/user/{uid}")
+async def api_assign_user(
+    tid: str,
+    uid: str,
+    body: dict = Body(default={}),
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Individually assign a specific learner to a track. Trainer-only.
+
+    Idempotent — if a user-level assignment already exists for this uid the
+    due_date is updated and the existing entry is returned (no duplicate).
+
+    Body: {due_date?: "YYYY-MM-DD"}
+    Returns: {assignments: [...], user_id: uid}
+    """
+    if not current_user.is_trainer:
+        raise HTTPException(403, "trainer role required")
+    track = _ms.load_track(tid)
+    if not track:
+        raise HTTPException(404, "track not found")
+
+    # S3 guard: draft tracks cannot be assigned (STORY-003 Req 7).
+    if track.get("status", "draft") != "published":
+        raise HTTPException(409, {
+            "error": "draft_track",
+            "detail": "This track is still in draft. Publish it before assigning learners.",
+        })
+
+    due_date = (body.get("due_date") or "").strip()
+    if due_date:
+        from datetime import date as _date_cls
+        try:
+            _date_cls.fromisoformat(due_date)
+        except ValueError:
+            raise HTTPException(422, {"error": "invalid_due_date",
+                                      "detail": "due_date must be YYYY-MM-DD"})
+
+    now_iso = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S")
+    assignments = list(track.get("assignments") or [])
+
+    # Idempotent — update existing user-level entry if present.
+    for a in assignments:
+        if a.get("audience_type") == "user" and a.get("audience_value") == uid:
+            if due_date:
+                a["due_date"] = due_date
+            a["assigned_by"] = current_user.id
+            a["assigned_at"] = now_iso
+            track["assignments"] = assignments
+            _ms.save_track(track)
+            return {"assignments": assignments, "user_id": uid}
+
+    new_assignment = {
+        "audience_type": "user",
+        "audience_value": uid,
+        "district": body.get("district") or None,
+        "due_date": due_date or None,
+        "assigned_at": now_iso,
+        "assigned_by": current_user.id,
+    }
+    assignments.append(new_assignment)
+    track["assignments"] = assignments
+    _ms.save_track(track)
+    return {"assignments": assignments, "user_id": uid}
+
+
+@app.delete("/api/tracks/{tid}/assign/user/{uid}")
+async def api_unassign_user(
+    tid: str,
+    uid: str,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Remove a specific learner's user-level assignment. Trainer-only.
+
+    Completion records (completion_store) are NOT touched — the learner's
+    progress and certification are preserved.  Unassign only removes the
+    audience rule.
+
+    Returns: {assignments: [...], user_id: uid, completion_retained: true}
+    """
+    if not current_user.is_trainer:
+        raise HTTPException(403, "trainer role required")
+    track = _ms.load_track(tid)
+    if not track:
+        raise HTTPException(404, "track not found")
+    assignments = list(track.get("assignments") or [])
+    new_assignments = [
+        a for a in assignments
+        if not (a.get("audience_type") == "user" and a.get("audience_value") == uid)
+    ]
+    track["assignments"] = new_assignments
+    _ms.save_track(track)
+    # completion_store is deliberately not touched here.
+    return {"assignments": new_assignments, "user_id": uid, "completion_retained": True}
+
+
+@app.get("/api/tracks/{tid}/unassigned")
+async def api_unassigned_learners(
+    tid: str,
+    isd: str = "houston-isd",
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Return learners who have no user-level or bulk assignment for this track.
+
+    Director/trainer only.  Tenancy-scoped.
+
+    The response cross-references the demo roster (live + seeded rows) against
+    the track's assignments list.  A learner is considered assigned if there is
+    a user-level entry (audience_type='user', audience_value=their id) OR if
+    there is a role/district assignment that matches them.
+
+    Returns: {unassigned: [{user_id, name, role, email?}], track_id}
+    """
+    is_director = (current_user.role or "").lower() in ("cn director", "director")
+    if not current_user.is_trainer and not is_director:
+        raise HTTPException(403, {"error": "director_only",
+                                  "detail": "Unassigned view requires Director or Trainer role."})
+
+    assert_district_access(current_user, isd)
+
+    try:
+        track = _ms.load_track(tid) or {}
+    except Exception:
+        track = {}
+
+    assignments = track.get("assignments") or []
+    import hashlib
+    seed = int(hashlib.md5(f"{tid}-{isd}".encode()).hexdigest(), 16) % (2 ** 32)
+    nudge_records = _ns.get_nudges(tid)
+    nudged_ids = {r["user_id"] for r in nudge_records}
+    due_date = track.get("due_date")
+    seeded = _e1_seeded_rows(
+        track_id=tid,
+        track_title=track.get("title", tid),
+        due_date=due_date,
+        nudged_ids=nudged_ids,
+        count=28,
+        seed=seed,
+    )
+
+    def _learner_is_assigned(learner_id: str, learner_role: str) -> bool:
+        for a in assignments:
+            at = a.get("audience_type")
+            av = a.get("audience_value")
+            if at == "user" and av == learner_id:
+                return True
+            if at == "role" and av == learner_role:
+                return True
+            if at == "district":
+                return True  # whole-district assignment covers everyone
+        return False
+
+    unassigned = []
+    for row in seeded:
+        lid = row.get("user_id", "")
+        lrole = row.get("role", "")
+        if not _learner_is_assigned(lid, lrole):
+            unassigned.append({
+                "user_id": lid,
+                "name": row.get("name", lid),
+                "role": lrole,
+            })
+
+    return {"unassigned": unassigned, "track_id": tid}
 
 
 @app.post("/api/tracks/{tid}/progress")
@@ -1230,6 +1590,284 @@ async def api_set_assessment_gate(
 # The original handler is registered below (after this block).  We shadow it
 # here so the gate check runs BEFORE a cert is issued.
 _original_issue_certificate = None  # defined after the route registration below
+
+
+# PLT-1: serve sw.js from the root path so the service worker has scope "/"
+# (a SW at /static/sw.js would only scope /static/*).
+@app.get("/sw.js", include_in_schema=False)
+async def serve_sw():
+    from fastapi.responses import FileResponse
+    sw_path = Path(__file__).resolve().parent / "static" / "sw.js"
+    return FileResponse(str(sw_path), media_type="application/javascript")
+
+# Serve course illustration images (e.g. POS screenshots) attached to courses/lessons.
+# Path-traversal-safe: only the basename is used, served from static/course-img/.
+@app.get("/course-img/{name}", include_in_schema=False)
+async def serve_course_image(name: str):
+    from fastapi.responses import FileResponse
+    safe = Path(name).name
+    p = Path(__file__).resolve().parent / "static" / "course-img" / safe
+    if not p.exists() or not p.is_file():
+        return Response(status_code=404)
+    return FileResponse(str(p))
+
+
+# ── POST /api/courses/images — trainer-only image upload ──────────────────────
+# Accepts PNG / JPEG / WebP only (content-type SNIFFED from magic bytes, never
+# trusted from the extension or the multipart Content-Type header).
+#
+# Size cap: 5 MB → 413.  Wrong type → 415.  Empty alt → 422.
+# Dimension cap: 1600 px on either axis → 413 (Pillow is NOT available in this
+#   venv; dimensions are parsed from the binary header via stdlib struct so we
+#   can reject obvious retina bloat without Pillow).  Images within the limit are
+#   stored as-is (no lossy recompression without Pillow).
+#
+# Filename: SHA-256 content hash + original extension → collision-safe, immutable.
+# Returns: {"url": "/course-img/<filename>", "filename": "<filename>"}
+#
+# VENDOR GUARD (Req 6 / AC4): attaching media to an existing video/external_icn
+# lesson is refused.  This endpoint only creates a NEW image-typed lesson ref;
+# it does not modify existing lessons.  The client must not pass an image ref for
+# video/ICN lessons — the server validates lesson type at PUT /api/courses/{id}.
+#
+# PII REMINDER (Req 7 / AC7): the response includes a privacy advisory.  The
+# client MUST surface this to the trainer before the image is attached to a lesson.
+#
+# INV-1: origin_badge is always "human_authored" for image lessons (set in
+# course_store.lesson_origin_badge).  This endpoint never touches grounding metadata.
+import hashlib
+import struct
+
+_COURSE_IMG_DIR = Path(__file__).resolve().parent / "static" / "course-img"
+_COURSE_IMG_DIR.mkdir(parents=True, exist_ok=True)
+
+# Max upload size in bytes.
+_IMG_MAX_BYTES: int = 5 * 1024 * 1024  # 5 MB
+
+# Max dimension (width or height) in pixels.  Images exceeding this are rejected
+# with a 413 and a resize instruction.  Without Pillow we cannot downscale — the
+# trainer must resize client-side or with an external tool.
+_IMG_MAX_DIM: int = 1600
+
+
+def _sniff_image_type(data: bytes) -> str | None:
+    """Return 'png', 'jpeg', or 'webp' by inspecting the first 12 bytes.
+    Returns None if the data doesn't match any allowed magic signature.
+    Uses stdlib only (no Pillow).
+    """
+    if data[:8] == b'\x89PNG\r\n\x1a\n':
+        return 'png'
+    if data[:3] == b'\xff\xd8\xff':
+        return 'jpeg'
+    if data[:4] == b'RIFF' and data[8:12] == b'WEBP':
+        return 'webp'
+    return None
+
+
+def _parse_image_dimensions(data: bytes, img_type: str) -> tuple[int, int] | None:
+    """Return (width, height) from the image header using stdlib struct.
+    Returns None if parsing fails (non-fatal — caller should treat as unresolvable).
+    """
+    try:
+        if img_type == 'png':
+            # PNG IHDR: bytes 16-24 = width (4B big-endian) + height (4B big-endian).
+            if len(data) < 24:
+                return None
+            w, h = struct.unpack('>II', data[16:24])
+            return w, h
+
+        elif img_type == 'jpeg':
+            # Scan for SOF marker (0xFF 0xC0..0xC3, 0xC5..0xC7, 0xC9..0xCB, 0xCD..0xCF).
+            # SOF payload: 2B length, 1B precision, 2B height, 2B width.
+            i = 2
+            while i + 4 < len(data):
+                if data[i] != 0xFF:
+                    break
+                marker = data[i + 1]
+                if marker in (0xC0, 0xC1, 0xC2, 0xC3, 0xC5, 0xC6, 0xC7,
+                               0xC9, 0xCA, 0xCB, 0xCD, 0xCE, 0xCF):
+                    if i + 9 <= len(data):
+                        h, w = struct.unpack('>HH', data[i + 5:i + 9])
+                        return w, h
+                    return None
+                # Skip this segment: length is at i+2 (includes the 2-byte length field).
+                if i + 4 > len(data):
+                    break
+                seg_len = struct.unpack('>H', data[i + 2:i + 4])[0]
+                i += 2 + seg_len
+            return None
+
+        elif img_type == 'webp':
+            # VP8L (lossless) at offset 21: 'L' signature 0x2F, then 4 bytes: width-1
+            # (14 bits) + height-1 (14 bits). VP8 (lossy) at offset 26: 2B width, 2B height.
+            # VP8X (extended) at offset 24: 3B canvas width minus 1 (LE24) + 3B height.
+            if len(data) < 30:
+                return None
+            chunk_type = data[12:16]
+            if chunk_type == b'VP8 ':
+                # Lossy: frame tag (3B) + start code (3B) at offset 23+3=26
+                if len(data) >= 30:
+                    w = struct.unpack('<H', data[26:28])[0] & 0x3FFF
+                    h = struct.unpack('<H', data[28:30])[0] & 0x3FFF
+                    return w, h
+            elif chunk_type == b'VP8L':
+                if len(data) >= 25:
+                    bits = struct.unpack('<I', data[21:25])[0]
+                    w = (bits & 0x3FFF) + 1
+                    h = ((bits >> 14) & 0x3FFF) + 1
+                    return w, h
+            elif chunk_type == b'VP8X':
+                if len(data) >= 30:
+                    canvas_w = struct.unpack('<I', data[24:28])[0] & 0xFFFFFF
+                    canvas_h = struct.unpack('<I', data[27:31])[0] & 0xFFFFFF
+                    return (canvas_w + 1), (canvas_h + 1)
+        return None
+    except (struct.error, IndexError):
+        return None
+
+
+@app.post("/api/courses/images")
+async def api_upload_course_image(
+    request: Request,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Upload a PNG / JPEG / WebP image for use as an image-type lesson step.
+
+    Trainer-only (INV-2).  Returns {"url", "filename", "pii_reminder"}.
+
+    Validation order:
+      1. Trainer auth check.
+      2. multipart/form-data with field 'file' and field 'alt' (non-empty).
+      3. Size: raw bytes ≤ 5 MB → 413.
+      4. Type: magic-byte sniff for PNG / JPEG / WebP → 415 on mismatch.
+      5. Dimension: parse header; reject if width OR height > 1600 px → 413.
+      6. Store as <sha256[:16]>.<ext> in static/course-img/.
+      7. Return url + pii_reminder.
+
+    PII reminder (AC7): the response always carries a privacy advisory.
+    The client surfaces it to the trainer before the lesson is attached.
+    """
+    from fastapi import UploadFile
+    from fastapi.datastructures import FormData
+
+    if not current_user.is_trainer:
+        raise HTTPException(403, "trainer access required to upload course images")
+
+    # Parse multipart form.
+    try:
+        form: FormData = await request.form()
+    except Exception:
+        raise HTTPException(400, "multipart/form-data required")
+
+    file_field = form.get("file")
+    alt_raw = form.get("alt") or ""
+    alt = alt_raw.strip() if isinstance(alt_raw, str) else ""
+
+    if not file_field or not hasattr(file_field, "read"):
+        raise HTTPException(400, "form field 'file' (image upload) is required")
+
+    # --- Alt text mandatory (AC2 / Req 4 / WCAG 1.1.1) ---
+    if not alt:
+        raise HTTPException(
+            422,
+            {
+                "error": "alt_required",
+                "detail": (
+                    "Alt text is required for accessibility (WCAG 1.1.1). "
+                    "Describe what the image shows — e.g. 'POS screen showing the "
+                    "Open Session button highlighted'. Avoid generic text like 'image'."
+                ),
+            },
+        )
+
+    # --- Read raw bytes; enforce size cap (AC3 / Req 2) ---
+    raw: bytes = await file_field.read()
+    if len(raw) > _IMG_MAX_BYTES:
+        raise HTTPException(
+            413,
+            {
+                "error": "file_too_large",
+                "detail": (
+                    f"Image is {len(raw) // 1024} KB — maximum is "
+                    f"{_IMG_MAX_BYTES // 1024 // 1024} MB. "
+                    "Resize or compress the image before uploading."
+                ),
+            },
+        )
+
+    # --- Sniff content type from magic bytes (AC3 / Req 2) ---
+    img_type = _sniff_image_type(raw)
+    if img_type is None:
+        raise HTTPException(
+            415,
+            {
+                "error": "unsupported_media_type",
+                "detail": (
+                    "Only PNG, JPEG, and WebP images are accepted. "
+                    "SVG and other formats are not allowed. "
+                    "The file type is determined from the image content, not the filename."
+                ),
+            },
+        )
+
+    # --- Dimension cap (AC6 / Req 3) ---
+    # Pillow is not available in this venv.  Dimensions are parsed from the binary
+    # header using stdlib struct.  Images exceeding _IMG_MAX_DIM on either axis are
+    # rejected.  The trainer must resize before uploading.
+    dims = _parse_image_dimensions(raw, img_type)
+    if dims is not None:
+        w, h = dims
+        if w > _IMG_MAX_DIM or h > _IMG_MAX_DIM:
+            raise HTTPException(
+                413,
+                {
+                    "error": "image_too_large",
+                    "detail": (
+                        f"Image dimensions are {w}×{h} px — maximum is "
+                        f"{_IMG_MAX_DIM}×{_IMG_MAX_DIM} px on either axis. "
+                        "Please resize to 1600 px or smaller before uploading "
+                        "(this keeps the learner player load time under 3 seconds). "
+                        "NOTE: server-side downscale is not available without Pillow; "
+                        "resize the image in your image editor or browser before uploading."
+                    ),
+                },
+            )
+
+    # --- Content-hash filename (Req 2) ---
+    ext = {"png": "png", "jpeg": "jpg", "webp": "webp"}[img_type]
+    sha = hashlib.sha256(raw).hexdigest()[:16]
+    filename = f"{sha}.{ext}"
+    dest = _COURSE_IMG_DIR / filename
+
+    # Write only if not already present (hash = same bytes = same file).
+    if not dest.exists():
+        dest.write_bytes(raw)
+
+    url = f"/course-img/{filename}"
+
+    # AC7 / Req 7: PII reminder — always included; client must surface before attach.
+    pii_reminder = (
+        "Privacy reminder: cafeteria and POS screenshots may contain student names, "
+        "meal account balances, or other student information. Review this image before "
+        "attaching it to a lesson to ensure no personally identifiable information (PII) "
+        "is visible. If PII is present, blur or crop it before uploading."
+    )
+
+    return JSONResponse(
+        {"url": url, "filename": filename, "pii_reminder": pii_reminder},
+        status_code=201,
+    )
+
+
+# ── Vendor guard helper (Req 6 / AC4) ────────────────────────────────────────
+# This is enforced at the course-write level in course_store.validate_lesson_ref:
+# an 'image' ref is valid only when the lesson type == 'image'.  Attaching an
+# image to a 'video' or 'external_icn' lesson is impossible via the API because:
+#   - PUT /api/courses/{id} calls validate_all_lessons for every lesson.
+#   - validate_lesson_ref for type 'video'/'external_icn' validates the ICN catalog,
+#     NOT static/course-img/ — so a course-img filename would be rejected.
+# The upload endpoint creates a filename for use with type='image' only.
+# No additional guard needed at the upload level; the lesson-write gate handles it.
 
 
 # Unchanged routes — reuse prod's handlers verbatim (they read/write the same
@@ -1898,13 +2536,32 @@ async def api_roster_nudge_all_overdue(
     """E1: Convenience — nudge all overdue learners for a track.
 
     Director/trainer only. Delivery is simulated (writes to data/nudges/).
-    Returns: {nudged: N, message: "Reminder sent to N learners"}
+
+    Throttle: the second call within NUDGE_ALL_THROTTLE_SECS (60 s) for the
+    same track returns throttled=True so the UI can surface "last nudged" and
+    prevent spamming.
+
+    Returns: {nudged: N, message: "...", throttled: bool, last_nudged_at: iso|None}
     """
     is_director = (current_user.role or "").lower() in ("cn director", "director")
     if not current_user.is_trainer and not is_director:
         raise HTTPException(status_code=403, detail={
             "error": "director_only",
             "detail": "Nudge is only accessible to CN Directors and Trainers.",
+        })
+
+    NUDGE_ALL_THROTTLE_SECS = 60
+    last_ts = _nudge_all_last.get(track_id)
+    now_ts = time.time()
+    last_iso = datetime.utcfromtimestamp(last_ts).strftime("%Y-%m-%dT%H:%M:%SZ") if last_ts else None
+
+    if last_ts and (now_ts - last_ts) < NUDGE_ALL_THROTTLE_SECS:
+        secs_left = int(NUDGE_ALL_THROTTLE_SECS - (now_ts - last_ts))
+        return JSONResponse({
+            "nudged": 0,
+            "message": f"Throttled — wait {secs_left}s before nudging all again.",
+            "throttled": True,
+            "last_nudged_at": last_iso,
         })
 
     try:
@@ -1925,11 +2582,21 @@ async def api_roster_nudge_all_overdue(
     overdue_ids = [r["user_id"] for r in rows if r["is_overdue"]]
 
     if not overdue_ids:
-        return JSONResponse({"nudged": 0, "message": "No overdue learners to nudge."})
+        return JSONResponse({
+            "nudged": 0, "message": "No overdue learners to nudge.",
+            "throttled": False, "last_nudged_at": last_iso,
+        })
 
     _ns.add_nudges_batch(track_id, overdue_ids, nudged_by=current_user.id)
+    _nudge_all_last[track_id] = now_ts
     n = len(overdue_ids)
-    return JSONResponse({"nudged": n, "message": f"Reminder sent to {n} learner{'s' if n != 1 else ''}."})
+    new_iso = datetime.utcfromtimestamp(now_ts).strftime("%Y-%m-%dT%H:%M:%SZ")
+    return JSONResponse({
+        "nudged": n,
+        "message": f"Reminder sent to {n} learner{'s' if n != 1 else ''}.",
+        "throttled": False,
+        "last_nudged_at": new_iso,
+    })
 
 
 @app.get("/api/roster/{track_id}/report")
@@ -2900,7 +3567,9 @@ async def quizzes_qa(qid: str):
 
 
 @app.post("/api/quizzes/{qid}/approve")
-async def quizzes_approve(qid: str, payload: dict = Body(default={})):
+async def quizzes_approve(qid: str, payload: dict = Body(default={}), current_user: CurrentUser = Depends(get_current_user)):
+    if not current_user.is_trainer:
+        raise HTTPException(403, "Product Owner / trainer access required to approve quizzes")
     quiz = quiz_store.load_quiz(qid)
     if not quiz:
         raise HTTPException(404, "quiz not found")
@@ -3666,7 +4335,7 @@ async def flashcards_get(deck_id: str):
 
 
 @app.post("/api/flashcards/{deck_id}/approve")
-async def flashcards_approve(deck_id: str):
+async def flashcards_approve(deck_id: str, current_user: CurrentUser = Depends(get_current_user)):
     """Re-run the verbatim gate against the current guide HTML and approve the deck.
 
     Returns 404 if the deck doesn't exist, 409 if the gate fails (with violation details),
@@ -3675,6 +4344,8 @@ async def flashcards_approve(deck_id: str):
     The gate always runs against the LIVE guide HTML so a guide that has changed since
     the deck was built is caught here.
     """
+    if not current_user.is_trainer:
+        raise HTTPException(403, "Product Owner / trainer access required to approve flashcards")
     deck = flashcard_store.get_deck(deck_id)
     if not deck:
         raise HTTPException(404, "flashcard deck not found")
@@ -3900,7 +4571,7 @@ def _find_long_form_html(transcript_id: str) -> str | None:
 # All three formats (long-form / micro-guide / tldr) flow through this same
 # registry + CITE-ID + deterministic-render path. Grounding guaranteed by
 # construction; only the section plan + budget differ by format.
-async def _stream_celld(transcript_path, transcript_id, module, rid, log, fmt="long-form", directive=""):
+async def _stream_celld(transcript_path, transcript_id, module, rid, log, fmt="long-form", directive="", role_tags=None):
     _celld_wall_start = time.monotonic()  # G-Rule-4: wall-clock start for gen_seconds
     yield prod._sse_event("system", {"subtype": f"planning {fmt} (research)"})
     log("system", {"subtype": f"planning {fmt}"})
@@ -4019,6 +4690,7 @@ async def _stream_celld(transcript_path, transcript_id, module, rid, log, fmt="l
         "cost_usd": cost["cost_usd"], "cost": cost,
         "gen_seconds": _gen_secs,          # for stats/content avg_gen_seconds
         "generation_stats": _gen_stats,    # G-Rule-4 scoreboard block
+        "role_tags": list(role_tags) if role_tags else [],  # routing metadata — not a product claim
     }
     (prod.DRAFTS / f"{rid}.json").write_text(json.dumps(draft_meta, indent=2), encoding="utf-8")
     yield prod._sse_event("done", {"resource_id": rid, "status": "draft", **draft_meta})
@@ -4030,7 +4702,7 @@ async def _stream_celld(transcript_path, transcript_id, module, rid, log, fmt="l
 # span ids to sections (no tools, no Jira), section writers emit [CITE:T####] only,
 # and the gate re-verifies every span verbatim against the transcript. For
 # navigation/procedure an SME demos live (Jira is behavior-only) and no-fixture modules.
-async def _stream_celld_transcript(transcript_path, transcript_id, module, rid, log, fmt="long-form", directive=""):
+async def _stream_celld_transcript(transcript_path, transcript_id, module, rid, log, fmt="long-form", directive="", role_tags=None):
     _celld_t_wall_start = time.monotonic()  # G-Rule-4: wall-clock start for gen_seconds
     yield prod._sse_event("system", {"subtype": f"planning {fmt} (transcript-only)"})
     log("system", {"subtype": f"planning {fmt} transcript-only"})
@@ -4143,6 +4815,7 @@ async def _stream_celld_transcript(transcript_path, transcript_id, module, rid, 
         "cost_usd": cost["cost_usd"], "cost": cost,
         "gen_seconds": _gen_secs_t,          # for stats/content avg_gen_seconds
         "generation_stats": _gen_stats_t,    # G-Rule-4 scoreboard block
+        "role_tags": list(role_tags) if role_tags else [],  # routing metadata — not a product claim
     }
     (prod.DRAFTS / f"{rid}.json").write_text(json.dumps(draft_meta, indent=2), encoding="utf-8")
     _deterministic_eval(rid, html, transcript_text=transcript_text)  # write eval.json with transcript verify
@@ -4151,7 +4824,8 @@ async def _stream_celld_transcript(transcript_path, transcript_id, module, rid, 
 
 # ── /generate — offline generation against the fixture ────────────────────────
 async def _stream_generation_demo(transcript_id: str, module: str, template: str,
-                                  directive: str = "", source: str = "jira"):
+                                  directive: str = "", source: str = "jira",
+                                  role_tags: list | None = None):
     _ensure_fixture(module)  # ground against THIS module's Jira, not whatever loaded last
     meta = prod._read_meta(prod.TRANSCRIPT_META / f"{transcript_id}.json")
     if not meta:
@@ -4173,14 +4847,14 @@ async def _stream_generation_demo(transcript_id: str, module: str, template: str
 
     # Transcript-only mode: ground solely in the uploaded transcript (no Jira).
     if source == "transcript" and template in demo_d.VALID_FORMATS:
-        async for ev in _stream_celld_transcript(transcript_path, transcript_id, module, rid, log, fmt=template, directive=directive):
+        async for ev in _stream_celld_transcript(transcript_path, transcript_id, module, rid, log, fmt=template, directive=directive, role_tags=role_tags):
             yield ev
         return
 
     # ALL formats use the validated Cell D sectioned+registry pipeline — grounding
     # guaranteed by construction (long-form, micro-guide, tldr, release-notes).
     if template in demo_d.VALID_FORMATS:
-        async for ev in _stream_celld(transcript_path, transcript_id, module, rid, log, fmt=template, directive=directive):
+        async for ev in _stream_celld(transcript_path, transcript_id, module, rid, log, fmt=template, directive=directive, role_tags=role_tags):
             yield ev
         return
 
@@ -4266,6 +4940,7 @@ async def _stream_generation_demo(transcript_id: str, module: str, template: str
         "transcript_id": transcript_id, "transcript_filename": meta.get("filename"),
         "created_at": datetime.now().isoformat(timespec="seconds"),
         "demo": True, **result_meta,
+        "role_tags": list(role_tags) if role_tags else [],  # routing metadata — not a product claim
     }
     if deriving:
         draft_meta["derived_from"] = "long-form"
@@ -4280,7 +4955,15 @@ async def generate(
     template: str = Query(...),
     directive: str = Query("", description="optional authoring directive: audience/focus/tone (framing only)"),
     source: str = Query("jira", description="grounding source: 'jira' (default) or 'transcript' (transcript-only mode)"),
+    roles: str = Query("", description="comma-separated role tags from ROLE_VOCAB, e.g. 'Cashier,Site Manager'"),
 ):
+    """Stream content generation as SSE.
+
+    role_tags routing metadata is written to the draft JSON so it is preserved
+    through approval.  Tags must be from the canonical ROLE_VOCAB; unknown tags
+    are silently dropped (not a grounding violation — they are routing metadata,
+    not product claims).
+    """
     # Jira mode needs an offline fixture; transcript-only mode does NOT (it grounds
     # in the uploaded transcript itself, so it works for any module).
     if source != "transcript" and module not in AVAILABLE_MODULES:
@@ -4289,6 +4972,15 @@ async def generate(
         raise HTTPException(400, f"unknown format: {template}")
     if source not in ("jira", "transcript"):
         raise HTTPException(400, f"unknown source: {source} (expected 'jira' or 'transcript')")
+
+    # Parse and validate role tags against the canonical vocabulary.
+    from auth import ROLE_VOCAB as _VOCAB
+    role_tags: list[str] = []
+    if roles:
+        for r in roles.split(","):
+            r = r.strip()
+            if r in _VOCAB:
+                role_tags.append(r)
 
     # Conference-mode generation theater: if a pre-recorded replay exists for the
     # resource id that WOULD be generated (same deterministic key), stream it instead.
@@ -4299,7 +4991,7 @@ async def generate(
         if replay_path.exists():
             return EventSourceResponse(_stream_replay(rid_preview, replay_path))
 
-    return EventSourceResponse(_stream_generation_demo(transcript_id, module, template, directive, source))
+    return EventSourceResponse(_stream_generation_demo(transcript_id, module, template, directive, source, role_tags=role_tags))
 
 
 # ── /resources/{rid}/evaluate — DETERMINISTIC grounding gate ──────────────────
@@ -4341,7 +5033,9 @@ async def evaluate_resource(rid: str):
 # SME sign-off is the human floor. This action releases a provably-grounded doc
 # for use + download, stamped "Pending Review by SME" until a human approves.
 @app.post("/resources/{rid}/publish_pending")
-async def publish_pending(rid: str):
+async def publish_pending(rid: str, current_user: CurrentUser = Depends(get_current_user)):
+    if not current_user.is_trainer:
+        raise HTTPException(403, "Product Owner / trainer access required to release content")
     resolved = prod._resolve_resource(rid)
     if not resolved:
         raise HTTPException(404, "resource not found")
@@ -4551,7 +5245,9 @@ async def intent_confirm(payload: dict = Body(...)):
 # the edit stylistic vs substantive so stylistic tweaks approve fast and
 # substantive ones get flagged. An edit un-approves the doc (must re-approve).
 @app.post("/resources/{rid}/revise")
-async def revise_resource(rid: str, payload: dict = Body(...)):
+async def revise_resource(rid: str, payload: dict = Body(...), current_user: CurrentUser = Depends(get_current_user)):
+    if not current_user.is_trainer:
+        raise HTTPException(403, "Product Owner / trainer access required to edit content")
     instruction = (payload.get("instruction") or "").strip()
     if not instruction:
         raise HTTPException(400, "instruction is required")
@@ -4694,7 +5390,9 @@ async def revise_resource(rid: str, payload: dict = Body(...)):
 # Approval is the human floor on top of the machine grounding floor. Only an
 # approved resource appears in the Library. Grounding must be clean to approve.
 @app.post("/resources/{rid}/approve")
-async def approve_resource(rid: str):
+async def approve_resource(rid: str, current_user: CurrentUser = Depends(get_current_user)):
+    if not current_user.is_trainer:
+        raise HTTPException(403, "Product Owner / trainer access required to approve content")
     resolved = prod._resolve_resource(rid)
     if not resolved:
         raise HTTPException(404, "resource not found")
@@ -5349,137 +6047,6 @@ async def api_onboarding_state(
     }
 
 
-# ── D4: Practice mode (spaced repetition) ────────────────────────────────────
-
-@app.get("/api/users/{uid}/practice")
-async def api_practice_get(
-    uid: str,
-    current_user: CurrentUser = Depends(get_current_user),
-):
-    """Return (or build) today's practice session for the learner.
-
-    Learners may only query their own session; trainers may query any.
-
-    Response:
-        {
-            session: {date, items, completed, completed_at},
-            session_ready: bool,   # True if items exist and session not yet done today
-            items_count: int,
-            queue_count: int,      # overdue review items waiting for next session
-        }
-
-    Builds a 5-item session on first call of the day (idempotent — subsequent
-    calls return the same session).  Pool = approved flashcard decks + approved
-    quiz questions only.  Draft content never enters the pool.
-    """
-    effective_uid = uid if current_user.is_trainer else current_user.id
-    from datetime import date as _date
-    today = _date.today().isoformat()
-
-    # Build the session if it doesn't exist yet; otherwise return the existing one.
-    _ps.get_today_session(effective_uid, today)
-    return _ps.get_session_status(effective_uid, today)
-
-
-# LRN-4: shift-ready micro-refresher — compact session summary for the learner home card.
-@app.get("/api/users/{uid}/refresher")
-async def api_user_refresher(
-    uid: str,
-    current_user: CurrentUser = Depends(get_current_user),
-):
-    """Return a compact refresher summary for the learner home card.
-
-    Builds today's practice session if none exists, then returns a brief
-    snapshot — item count, item previews, streak, and completion state.
-    Learners may only query their own; trainers may query any.
-
-    Response:
-        {
-            "item_count": int,
-            "session_complete": bool,
-            "streak_days": int,
-            "items_preview": [{"type": str, "title": str}],   # first 3 items only
-        }
-    """
-    effective_uid = uid if current_user.is_trainer else current_user.id
-    from datetime import date as _date
-    today = _date.today().isoformat()
-
-    # Ensure a session exists for today (idempotent).
-    _ps.get_today_session(effective_uid, today)
-    status = _ps.get_session_status(effective_uid, today)
-
-    # Streak from gamification (best-effort).
-    streak_days = 0
-    try:
-        gamif = _cs.get_gamification(effective_uid)
-        streak_days = gamif.get("streak", 0) or 0
-    except Exception:
-        pass
-
-    # Build item previews (type + first 40 chars of title — no full question data).
-    session = status.get("session") or {}
-    items_raw = (session.get("items") or [])[:3]
-    items_preview = []
-    for item in items_raw:
-        if item.get("type") == "flashcard":
-            title = (item.get("front") or "")[:40]
-        else:
-            title = (item.get("stem") or item.get("question", ""))[:40]
-        items_preview.append({"type": item.get("type", "quiz"), "title": title})
-
-    return {
-        "item_count": status.get("items_count", 0),
-        "session_complete": not status.get("session_ready", False) and status.get("items_count", 0) > 0,
-        "streak_days": streak_days,
-        "items_preview": items_preview,
-    }
-
-
-@app.post("/api/users/{uid}/practice/complete")
-async def api_practice_complete(
-    uid: str,
-    current_user: CurrentUser = Depends(get_current_user),
-):
-    """Mark today's practice session as completed.
-
-    Fires D3 streak credit non-fatally (no-op if D3 not yet built).
-
-    Returns: {ok: true, session: {date, completed, completed_at}}
-    """
-    effective_uid = uid if current_user.is_trainer else current_user.id
-    from datetime import date as _date
-    today = _date.today().isoformat()
-
-    session = _ps.complete_session(effective_uid, today)
-    return {"ok": True, "session": session}
-
-
-@app.post("/api/users/{uid}/practice/missed")
-async def api_practice_missed(
-    uid: str,
-    body: dict = Body(default={}),
-    current_user: CurrentUser = Depends(get_current_user),
-):
-    """Add a missed practice item to the learner's review queue.
-
-    Body: the item object as returned in the session's ``items`` list.
-
-    The item will appear in the next available session with
-    ``next_review = today + 1 day``.
-
-    Returns: {ok: true, next_review: "YYYY-MM-DD"}
-    """
-    effective_uid = uid if current_user.is_trainer else current_user.id
-    if not body:
-        raise HTTPException(400, "item body is required")
-    from datetime import date as _date, timedelta
-    today = _date.today().isoformat()
-    _ps.add_to_review_queue(effective_uid, body, today)
-    next_review = (_date.today() + timedelta(days=1)).isoformat()
-    return {"ok": True, "next_review": next_review}
-
-
 # ── LX-3 — Guided lesson experience ─────────────────────────────────────────
 # Segmentation engine: splits a published guide at H2 boundaries so the learner
 # sees one section at a time (paced, survivable lesson).
@@ -5904,6 +6471,620 @@ async def api_confidence_summary(
     return _fms.get_confidence_summary(rid)
 
 
+# LRN-5: peer knowledge board — comments per resource.
+@app.get("/api/resources/{rid}/comments")
+async def api_get_comments(
+    rid: str,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Return all comments for a resource, pinned first then chronological.
+
+    Visible to any authenticated user — comments are peer-knowledge, not sensitive.
+    """
+    raw_html = _load_guide_html_for_rid(rid)
+    if raw_html is None:
+        raise HTTPException(404, "resource not found")
+    return {"resource_id": rid, "comments": _coms.list_comments(rid)}
+
+
+@app.post("/api/resources/{rid}/comments", status_code=201)
+async def api_post_comment(
+    rid: str,
+    body: dict,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Post a new comment on a resource.
+
+    Body: { "body": str }
+    Returns: the created comment object.
+    """
+    raw_html = _load_guide_html_for_rid(rid)
+    if raw_html is None:
+        raise HTTPException(404, "resource not found")
+
+    text = (body.get("body") or "").strip()
+    if not text:
+        raise HTTPException(422, "body is required")
+
+    try:
+        comment = _coms.add_comment(
+            rid=rid,
+            author_id=current_user.id,
+            author_name=current_user.name,
+            body=text,
+        )
+    except ValueError as exc:
+        raise HTTPException(422, str(exc))
+    except OverflowError as exc:
+        raise HTTPException(429, str(exc))
+
+    return comment
+
+
+@app.post("/api/comments/{comment_id}/pin")
+async def api_pin_comment(
+    comment_id: str,
+    body: dict,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Toggle pin on a comment. Trainer/director only.
+
+    Body: { "resource_id": str }
+    Returns: updated comment object.
+    """
+    if not current_user.is_trainer and current_user.role != "CN Director":
+        raise HTTPException(403, "pinning requires trainer or director role")
+
+    rid = (body.get("resource_id") or "").strip()
+    if not rid:
+        raise HTTPException(422, "resource_id is required")
+
+    result = _coms.pin_comment(comment_id, rid)
+    if result is None:
+        raise HTTPException(404, "comment not found")
+
+    return result
+
+
+# AUTH-1: multilingual lesson generation.
+@app.post("/api/resources/{rid}/translate", status_code=201)
+async def api_translate_resource(
+    rid: str,
+    body: dict,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Generate stub translation of all lesson segments into the requested language.
+
+    Body: { "lang": "es" }
+    Returns: {resource_id, lang, segments_count, generated_at, stub: true}
+
+    Trainer/director only — producing translated content is a content-creation action.
+
+    # [BLD-3] Production: replace stub translator below with an MT service call
+    # (e.g. DeepL or Azure Translator) and set stub=False in the saved record.
+    """
+    if not current_user.is_trainer and current_user.role != "CN Director":
+        raise HTTPException(403, "translation requires trainer or director role")
+
+    raw_html = _load_guide_html_for_rid(rid)
+    if raw_html is None:
+        raise HTTPException(404, "resource not found")
+
+    lang = (body.get("lang") or "").strip().lower()
+    if not lang:
+        raise HTTPException(422, "lang is required")
+
+    try:
+        # Load and segment the resource the same way the lesson player does.
+        clean_html = prod._strip_source_comments(raw_html)
+        raw_segs = _seg.segment_guide(clean_html)
+    except Exception as exc:
+        raise HTTPException(500, f"segmentation failed: {exc}")
+
+    # Stub translator: wraps each segment's body_html with a visible translation notice.
+    # [BLD-3] Replace this with a real MT call.
+    lang_upper = lang.upper()
+    translated_segs = []
+    for s in raw_segs:
+        translated_body = (
+            f'<div class="lx3-trans-notice" aria-label="Machine-translated content">'
+            f'<span class="lx3-trans-badge-inline">&#127760; Translated to {lang_upper}</span>'
+            f'</div>'
+            + s["body_html"]
+        )
+        translated_segs.append({"index": s["index"], "body_html": translated_body})
+
+    try:
+        record = _ts.save_translation(rid, lang, translated_segs, stub=True)
+    except ValueError as exc:
+        raise HTTPException(422, str(exc))
+
+    return {
+        "resource_id":    rid,
+        "lang":           lang,
+        "segments_count": len(translated_segs),
+        "generated_at":   record["generated_at"],
+        "stub":           True,
+    }
+
+
+@app.get("/api/resources/{rid}/translations")
+async def api_list_translations(
+    rid: str,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Return available translation languages for a resource.
+
+    Returns: {resource_id, languages: [{lang, generated_at, stub}]}
+    Accessible by any authenticated user (learners need this to populate the picker).
+    """
+    raw_html = _load_guide_html_for_rid(rid)
+    if raw_html is None:
+        raise HTTPException(404, "resource not found")
+    return {"resource_id": rid, "languages": _ts.list_languages(rid)}
+
+
+@app.get("/api/resources/{rid}/translations/{lang}")
+async def api_get_translation(
+    rid: str,
+    lang: str,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Return the translated segments for a resource+language pair.
+
+    Returns: {resource_id, lang, segments: [{index, body_html}], generated_at, stub}
+    """
+    raw_html = _load_guide_html_for_rid(rid)
+    if raw_html is None:
+        raise HTTPException(404, "resource not found")
+
+    record = _ts.get_translation(rid, lang.lower())
+    if record is None:
+        raise HTTPException(404, f"no translation found for lang '{lang}'")
+
+    return record
+
+
+# AUTH-2: voice narration endpoints.
+@app.post("/api/resources/{rid}/narration", status_code=201)
+async def api_generate_narration(
+    rid: str,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Generate stub TTS narration for all lesson segments.
+
+    Returns: {resource_id, segments_count, generated_at, stub: true}
+
+    Trainer/director only — producing narration is a content-creation action.
+
+    # [AUTH-2-TTS] Production: replace stub audio_url with real TTS service URLs.
+    """
+    if not current_user.is_trainer and current_user.role != "CN Director":
+        raise HTTPException(403, "narration generation requires trainer or director role")
+
+    raw_html = _load_guide_html_for_rid(rid)
+    if raw_html is None:
+        raise HTTPException(404, "resource not found")
+
+    try:
+        clean_html = prod._strip_source_comments(raw_html)
+        raw_segs = _seg.segment_guide(clean_html)
+    except Exception as exc:
+        raise HTTPException(500, f"segmentation failed: {exc}")
+
+    # Stub: audio_url is a silent placeholder data-URI; duration_seconds is 0.
+    # [AUTH-2-TTS] Replace with real TTS call per segment.
+    stub_segs = [
+        {
+            "index":            s["index"],
+            "audio_url":        "data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=",
+            "duration_seconds": 0.0,
+        }
+        for s in raw_segs
+    ]
+
+    try:
+        record = _nar.save_narration(rid, stub_segs, stub=True)
+    except ValueError as exc:
+        raise HTTPException(422, str(exc))
+
+    return {
+        "resource_id":    rid,
+        "segments_count": len(stub_segs),
+        "generated_at":   record["generated_at"],
+        "stub":           True,
+    }
+
+
+@app.get("/api/resources/{rid}/narration")
+async def api_get_narration(
+    rid: str,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Return stored narration metadata for a resource.
+
+    Returns: {resource_id, segments: [{index, audio_url, duration_seconds, stub}], generated_at, stub}
+    """
+    raw_html = _load_guide_html_for_rid(rid)
+    if raw_html is None:
+        raise HTTPException(404, "resource not found")
+
+    record = _nar.get_narration(rid)
+    if record is None:
+        raise HTTPException(404, "no narration generated for this resource")
+
+    return record
+
+
+# AUTH-3: shared QR utility + printable job aid.
+import base64 as _b64
+import urllib.parse as _urlparse
+
+def _gen_qr(url: str, size: int = 120) -> str:
+    """Thin wrapper — delegates to qr_store.gen_qr_svg (PLT-2 reuse point)."""
+    return _qrs.gen_qr_svg(url, size)
+
+
+@app.post("/api/qr")
+async def api_gen_qr(
+    body: dict,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Generate a stub QR code SVG for a URL.
+
+    Body: { "url": str, "label"?: str }
+    Returns: {qr_data_uri: str, url: str, label: str}
+
+    Shared by AUTH-3 (job-aid QR) and PLT-2 (deep-link QR sheet).
+    [PLT-2] Reuse: POST /api/qr with the deep-link URL from hash routing.
+    """
+    url = (body.get("url") or "").strip()
+    if not url:
+        raise HTTPException(422, "url is required")
+    label = (body.get("label") or url)[:120]
+    return {"qr_data_uri": _gen_qr(url), "url": url, "label": label}
+
+
+# PLT-2: QR scan analytics.
+@app.get("/api/qr/analytics")
+async def api_qr_analytics(
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Return aggregated QR scan counts.
+
+    Returns: {scans: [{url, count}]}
+    Trainer/director only — scan data is an operational metric.
+    """
+    if not current_user.is_trainer and current_user.role != "CN Director":
+        raise HTTPException(403, "QR analytics requires trainer or director role")
+    return {"scans": _qrs.get_analytics()}
+
+
+# ── OPS-1: Content gap analysis ───────────────────────────────────────────────
+
+@app.get("/api/gaps")
+async def api_get_gaps(
+    status: str | None = None,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Return content gap records (unanswered learner questions + missing coverage).
+
+    Query params:
+      status — filter to "open" or "resolved" (default: all)
+
+    Returns: {gaps: [GapRecord], total: int}
+    Trainer/director only.
+    """
+    if not current_user.is_trainer and current_user.role != "CN Director":
+        raise HTTPException(403, "Gap analysis requires trainer or director role")
+    if status and status not in ("open", "resolved"):
+        raise HTTPException(400, "status must be 'open' or 'resolved'")
+    gaps = _gs.get_gaps(status=status)
+    return {"gaps": gaps, "total": len(gaps)}
+
+
+@app.patch("/api/gaps/{gap_id}/resolve")
+async def api_resolve_gap(
+    gap_id: str,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Mark a gap as resolved.
+
+    Returns: {gap: GapRecord}
+    Trainer/director only.
+    """
+    if not current_user.is_trainer and current_user.role != "CN Director":
+        raise HTTPException(403, "Gap resolution requires trainer or director role")
+    gap = _gs.resolve_gap(gap_id)
+    if gap is None:
+        raise HTTPException(404, "Gap not found")
+    return {"gap": gap}
+
+
+# ── OPS-2: Assignment rules engine ────────────────────────────────────────────
+
+@app.get("/api/assignment-rules")
+async def api_list_rules(
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Return all assignment rules (active and inactive).
+
+    Returns: {rules: [RuleRecord], total: int}
+    Trainer/director only.
+    """
+    if not current_user.is_trainer and current_user.role != "CN Director":
+        raise HTTPException(403, "Assignment rules require trainer or director role")
+    rules = _rs.get_rules()
+    return {"rules": rules, "total": len(rules)}
+
+
+@app.post("/api/assignment-rules")
+async def api_create_rule(
+    body: dict,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Create a new assignment rule.
+
+    Body: {label, assign_modules: [str], role_tags?: [str], district_ids?: [str]}
+    Returns: {rule: RuleRecord}
+    Trainer/director only.
+    """
+    if not current_user.is_trainer and current_user.role != "CN Director":
+        raise HTTPException(403, "Assignment rules require trainer or director role")
+    label          = (body.get("label") or "").strip()
+    assign_modules = body.get("assign_modules") or []
+    if not label:
+        raise HTTPException(400, "label is required")
+    if not assign_modules:
+        raise HTTPException(400, "assign_modules must not be empty")
+    try:
+        rule = _rs.add_rule(
+            label=label,
+            assign_modules=assign_modules,
+            role_tags=body.get("role_tags") or [],
+            district_ids=body.get("district_ids") or [],
+        )
+    except ValueError as exc:
+        raise HTTPException(400, str(exc))
+    return {"rule": rule}
+
+
+@app.delete("/api/assignment-rules/{rule_id}")
+async def api_delete_rule(
+    rule_id: str,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Deactivate (soft-delete) an assignment rule.
+
+    Returns: {deleted: bool}
+    Trainer/director only.
+    """
+    if not current_user.is_trainer and current_user.role != "CN Director":
+        raise HTTPException(403, "Assignment rules require trainer or director role")
+    deleted = _rs.delete_rule(rule_id)
+    if not deleted:
+        raise HTTPException(404, "Rule not found")
+    return {"deleted": True}
+
+
+@app.post("/api/assignment-rules/{rule_id}/dry-run")
+async def api_rule_dry_run(
+    rule_id: str,
+    body: dict,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Preview which districts a rule would match without applying it.
+
+    Body: {districts: [{id, role_tags?: [str]}]}
+    Returns: {rule_id, matches: [{district_id, would_assign}], unmatched: [str]}
+    Trainer/director only.
+    """
+    if not current_user.is_trainer and current_user.role != "CN Director":
+        raise HTTPException(403, "Assignment rules require trainer or director role")
+    districts = body.get("districts") or []
+    try:
+        result = _rs.dry_run(rule_id, districts)
+    except ValueError as exc:
+        raise HTTPException(400, str(exc))
+    return result
+
+
+@app.get("/api/assignment-rules/audit")
+async def api_rules_audit(
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Return the rule application audit log.
+
+    Returns: {entries: [{rule_id, matches, applied_at}]}
+    Trainer/director only.
+    """
+    if not current_user.is_trainer and current_user.role != "CN Director":
+        raise HTTPException(403, "Audit log requires trainer or director role")
+    return {"entries": _rs.get_audit_log()}
+
+
+# ── OPS-3: Regulatory compliance calendar ────────────────────────────────────
+
+@app.get("/api/regulatory-dates")
+async def api_get_deadlines(
+    upcoming: bool = False,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Return regulatory compliance deadlines.
+
+    Query params:
+      upcoming — if true, return only future dates (>= today)
+
+    Returns: {deadlines: [DeadlineRecord], total: int}
+    Any authenticated user.
+    """
+    deadlines = _dl.get_deadlines(upcoming_only=upcoming)
+    return {"deadlines": deadlines, "total": len(deadlines)}
+
+
+@app.post("/api/regulatory-dates")
+async def api_add_deadline(
+    body: dict,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Add a regulatory compliance deadline.
+
+    Body: {title, date (YYYY-MM-DD), module?, scope? ("federal"|"state"|"district"), notes?}
+    Returns: {deadline: DeadlineRecord}
+    Trainer/director only.
+    """
+    if not current_user.is_trainer and current_user.role != "CN Director":
+        raise HTTPException(403, "Adding regulatory dates requires trainer or director role")
+    title = (body.get("title") or "").strip()
+    date  = (body.get("date")  or "").strip()
+    if not title:
+        raise HTTPException(400, "title is required")
+    if not date:
+        raise HTTPException(400, "date is required (YYYY-MM-DD)")
+    try:
+        deadline = _dl.add_deadline(
+            title=title,
+            date=date,
+            module=body.get("module") or "",
+            scope=body.get("scope") or "federal",
+            notes=body.get("notes") or "",
+        )
+    except ValueError as exc:
+        raise HTTPException(400, str(exc))
+    return {"deadline": deadline}
+
+
+@app.delete("/api/regulatory-dates/{deadline_id}")
+async def api_delete_deadline(
+    deadline_id: str,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Remove a regulatory deadline.
+
+    Returns: {deleted: bool}
+    Trainer/director only.
+    """
+    if not current_user.is_trainer and current_user.role != "CN Director":
+        raise HTTPException(403, "Deleting regulatory dates requires trainer or director role")
+    deleted = _dl.delete_deadline(deadline_id)
+    if not deleted:
+        raise HTTPException(404, "Deadline not found")
+    return {"deleted": True}
+
+
+def _build_job_aid_html(title: str, segments: list[dict], qr_data_uri: str, rid: str) -> str:
+    """Build a self-contained printable HTML job aid."""
+    from html import escape
+
+    sections = []
+    for s in segments[:6]:  # cap at 6 sections to keep it one page
+        heading = escape(s.get("heading") or "")
+        body = s.get("body_html") or ""
+        if heading:
+            sections.append(f"<h3>{heading}</h3>{body}")
+        else:
+            sections.append(body)
+
+    qr_block = (
+        f'<div class="qr-block">'
+        f'<img src="{qr_data_uri}" alt="QR code" width="96" height="96"/>'
+        f'<p class="qr-caption">Scan to open in Learning Academy</p>'
+        f'</div>'
+    ) if qr_data_uri else ""
+
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>{escape(title)} — Job Aid</title>
+<style>
+  @page {{ size: letter; margin: 0.75in; }}
+  body {{ font-family: 'Public Sans', Arial, sans-serif; font-size: 11pt; color: #14201A; }}
+  h1 {{ font-size: 16pt; margin: 0 0 4pt; }}
+  .eyebrow {{ font-size: 9pt; color: #555; margin: 0 0 12pt; }}
+  h3 {{ font-size: 11pt; font-weight: 700; margin: 10pt 0 3pt; border-bottom: 1pt solid #ccc; padding-bottom: 2pt; }}
+  p, li {{ margin: 2pt 0; line-height: 1.45; }}
+  .qr-block {{ float: right; margin: 0 0 12pt 16pt; text-align: center; }}
+  .qr-caption {{ font-size: 8pt; color: #555; margin: 3pt 0 0; }}
+  @media print {{ body {{ -webkit-print-color-adjust: exact; }} }}
+</style>
+</head>
+<body>
+<div class="qr-block-wrap">
+  {qr_block}
+  <h1>{escape(title)}</h1>
+  <p class="eyebrow">Job Aid · Learning Academy · {escape(rid)}</p>
+</div>
+{"".join(sections)}
+</body>
+</html>"""
+
+
+@app.post("/api/resources/{rid}/job-aid", status_code=201)
+async def api_generate_job_aid(
+    rid: str,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Generate a printable job aid HTML page for a resource.
+
+    Returns: {resource_id, generated_at, qr_data_uri}
+
+    Trainer/director only — content-creation action.
+    """
+    if not current_user.is_trainer and current_user.role != "CN Director":
+        raise HTTPException(403, "job aid generation requires trainer or director role")
+
+    raw_html = _load_guide_html_for_rid(rid)
+    if raw_html is None:
+        raise HTTPException(404, "resource not found")
+
+    meta   = _load_meta_for_rid(rid)
+    title  = meta.get("title") or meta.get("module") or rid
+
+    try:
+        clean_html = prod._strip_source_comments(raw_html)
+        raw_segs   = _seg.segment_guide(clean_html)
+    except Exception as exc:
+        raise HTTPException(500, f"segmentation failed: {exc}")
+
+    # Build deep-link URL for QR code (relative — production would be absolute).
+    deep_link = f"/?lesson={_urlparse.quote(rid)}"
+    qr_data_uri = _gen_qr(deep_link)
+
+    html = _build_job_aid_html(title, raw_segs, qr_data_uri, rid)
+
+    try:
+        record = _jas.save_job_aid(rid, html, qr_data_uri)
+    except ValueError as exc:
+        raise HTTPException(422, str(exc))
+
+    return {
+        "resource_id":  rid,
+        "generated_at": record["generated_at"],
+        "qr_data_uri":  qr_data_uri,
+    }
+
+
+@app.get("/api/resources/{rid}/job-aid")
+async def api_get_job_aid(
+    rid: str,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Return the stored job-aid HTML for a resource.
+
+    Returns: {resource_id, html, qr_data_uri, generated_at}
+    """
+    raw_html = _load_guide_html_for_rid(rid)
+    if raw_html is None:
+        raise HTTPException(404, "resource not found")
+
+    record = _jas.get_job_aid(rid)
+    if record is None:
+        raise HTTPException(404, "no job aid generated for this resource")
+
+    return record
+
+
 @app.get("/api/resources/{rid}/recap")
 async def api_resource_recap(
     rid: str,
@@ -6321,6 +7502,69 @@ async def demo_reset():
     })
 
 
+# ── Implementation Workspace (Epic: implementation-workspace · STORY-001) ─────
+# Per-district onboarding PROJECT workspace: milestone checklist + tasks + notes
+# + activity log. Tenant-guarded (assert_district_access); seeded-on-first-read;
+# every mutation persists to data/workspaces/<id>.json. Contract is locked in
+# docs/features/implementation-workspace/EPIC.md.
+
+def _ws_actor(u: CurrentUser) -> str:
+    return getattr(u, "name", None) or "Trainer"
+
+
+@app.get("/api/districts/{isd}/workspace")
+async def api_workspace_get(isd: str, current_user: CurrentUser = Depends(get_current_user)):
+    assert_district_access(current_user, isd)
+    return {"workspace": _ws.get_workspace(isd),
+            "viewer": {"name": current_user.name, "is_trainer": current_user.is_trainer}}
+
+
+@app.post("/api/districts/{isd}/workspace/items/{item_id}/toggle")
+async def api_workspace_toggle_item(isd: str, item_id: str,
+                                    current_user: CurrentUser = Depends(get_current_user)):
+    assert_district_access(current_user, isd)
+    try:
+        return {"workspace": _ws.toggle_item(isd, item_id, _ws_actor(current_user))}
+    except KeyError:
+        raise HTTPException(404, f"unknown checklist item: {item_id}")
+
+
+@app.post("/api/districts/{isd}/workspace/tasks")
+async def api_workspace_add_task(isd: str, request: Request,
+                                 current_user: CurrentUser = Depends(get_current_user)):
+    assert_district_access(current_user, isd)
+    body = await request.json()
+    try:
+        task = _ws.add_task(isd, body.get("title", ""), body.get("owner", "Shared"),
+                            body.get("due", ""), _ws_actor(current_user))
+    except ValueError as e:
+        raise HTTPException(400, str(e))
+    return {"task": task, "workspace": _ws.get_workspace(isd)}
+
+
+@app.post("/api/districts/{isd}/workspace/tasks/{task_id}/toggle")
+async def api_workspace_toggle_task(isd: str, task_id: str,
+                                    current_user: CurrentUser = Depends(get_current_user)):
+    assert_district_access(current_user, isd)
+    task = _ws.toggle_task(isd, task_id, _ws_actor(current_user))
+    if task is None:
+        raise HTTPException(404, f"unknown task: {task_id}")
+    return {"task": task, "workspace": _ws.get_workspace(isd)}
+
+
+@app.post("/api/districts/{isd}/workspace/notes")
+async def api_workspace_add_note(isd: str, request: Request,
+                                 current_user: CurrentUser = Depends(get_current_user)):
+    assert_district_access(current_user, isd)
+    body = await request.json()
+    try:
+        note = _ws.add_note(isd, body.get("body", ""), body.get("subject_type", "district"),
+                            body.get("subject_id", ""), _ws_actor(current_user))
+    except ValueError as e:
+        raise HTTPException(400, str(e))
+    return {"note": note, "workspace": _ws.get_workspace(isd)}
+
+
 # ── Conference-mode: boot pre-warm ───────────────────────────────────────────
 # When CONFERENCE_MODE is True, eagerly load all published resources and the ICN
 # catalog into their in-memory caches on startup so first-load feels instant.
@@ -6602,7 +7846,8 @@ async def api_track_insights(
     ]
 
     # LRN-6: confidence data per resource in the track (best-effort — empty if no responses).
-    track_meta_path = Path(__file__).resolve().parent / "data" / "tracks" / f"{re.sub(r'[^\\w\\-]', '_', tid)[:60]}.json"
+    _safe_tid = re.sub(r'[^\w\-]', '_', tid)[:60]
+    track_meta_path = Path(__file__).resolve().parent / "data" / "tracks" / f"{_safe_tid}.json"
     confidence_data: list[dict] = []
     try:
         if track_meta_path.exists():

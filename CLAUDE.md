@@ -11,6 +11,8 @@ Codified slash commands live in `.claude/commands/`. Each fires a self-contained
 
 Add new workflows by dropping a `.md` file in `.claude/commands/`; the filename (sans `.md`) is the command name and the file contents are the prompt. Use `$1`, `$2`, `$ARGUMENTS` for positional arguments.
 
+- `/new-feature <slug> "<Epic title>"` — scaffold an epic + stories for a new feature (any sub-project). Stories are written to the **Story Spec Standard**: [`docs/STORY-SPEC-STANDARD.md`](docs/STORY-SPEC-STANDARD.md) — a seven-part spec contract + a **Definition of Done** that blocks `Done ✓` until every acceptance criterion is demonstrated against **real (non-seeded) data**. This is the standing standard for *every* unit of work in this repo (FIN/Jira stories included), not just learning-agent. Read it before specifying or closing any story; it guards against wide, shallow façades that read as shipped.
+
 ## Directory Rules
 - `raw/tickets/` — one file per issue, filename = issue key (FIN-1234.md). **Filename is stable; field contents mirror Jira.** Each ingestion run rewrites a ticket file when its Jira fields differ from what's on disk; identical content is a no-op.
 - `raw/comments/` — comments grouped by issue key. Append-only.
