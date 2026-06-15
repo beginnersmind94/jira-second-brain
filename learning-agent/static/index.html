@@ -6211,9 +6211,13 @@ function applyViewMode() {
   // Catalog, so hide the Studio/Catalog sub-tab strip for them.
   document.querySelectorAll('.lib-subnav').forEach(el => { el.hidden = _viewMode === 'customer'; });
   show('cmode-studyset', _extLearning && _viewMode === 'trainer');
-  // district switcher: hide entirely in customer view (no tenant-hopping); show a static label instead
+  // District switcher removed from the GLOBAL chrome entirely. The trainer manages a PORTFOLIO,
+  // not a single-district scope — a global "Houston ISD ▾" wrongly implies the whole app is scoped
+  // to one district and lingers nonsensically on Library/Create (which aren't district-scoped).
+  // Trainers select a district by drilling into the Districts portfolio; customer view shows a
+  // static district label (cust-district-label) below.
   const isdSwitch = document.querySelector('.isd-switch');
-  if (isdSwitch) isdSwitch.hidden = _viewMode === 'customer';
+  if (isdSwitch) isdSwitch.hidden = true;
   const custLabel = document.getElementById('cust-district-label');
   if (custLabel) {
     custLabel.hidden = _viewMode !== 'customer';
