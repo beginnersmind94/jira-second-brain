@@ -1965,6 +1965,15 @@
     .dds-progress { border:1px solid var(--border); border-radius:var(--radius-sm); background:var(--panel); padding:8px 10px; margin-bottom:12px; }
     .dds-prog-row { display:flex; justify-content:space-between; font-size:12.5px; padding:2px 0; }
     .dds-prog-row span { color:var(--muted); }
+    /* Generic modal (used by _openRuleCreateModal — classes were previously unstyled,
+       so the rule form rendered as a raw block at the bottom of the page). */
+    .modal-backdrop { position:fixed; inset:0; z-index:1000; background:rgba(20,32,26,0.45); display:flex; align-items:center; justify-content:center; padding:20px; }
+    .modal-box { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); box-shadow:0 12px 40px rgba(0,0,0,.22); width:100%; max-width:420px; max-height:90vh; overflow:auto; }
+    .modal-head { display:flex; align-items:center; justify-content:space-between; padding:14px 18px; border-bottom:1px solid var(--border); }
+    .modal-head h3 { margin:0; font-size:15px; }
+    .modal-close { background:none; border:none; font-size:16px; line-height:1; cursor:pointer; color:var(--muted); padding:4px; }
+    .modal-close:hover { color:var(--text); }
+    .modal-body { padding:16px 18px; }
     .dd-kpi-item { flex:1; min-width:90px; padding:12px 18px; }
     .dd-kpi-item+.dd-kpi-item { border-left:1px solid var(--border); }
     .dd-kpi-n { font-family:var(--serif); font-size:21px; font-weight:700; color:var(--text); line-height:1; }
