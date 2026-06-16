@@ -4087,6 +4087,10 @@
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
     Learn
   </button>
+  <button id="mob-tab-library" onclick="openLibraryTab()">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+    Library
+  </button>
   <button id="mob-tab-practice" onclick="showView('practice')">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
     What&rsquo;s next
@@ -6294,11 +6298,13 @@ function showView(name) {
   // If the mapped parent tab is hidden (e.g. customer mode sees My Team standalone), fall back to the view's own tab.
   if (tb && tb.hidden && mappedName !== name) tb = document.getElementById('tab-' + name);
   if (tb) tb.classList.add('active');
-  // Sync mobile customer tab bar active state (learn / myteam).
+  // Sync mobile customer tab bar active state (learn / library / practice / myteam).
   const mobLearn = document.getElementById('mob-tab-learn');
+  const mobLibrary = document.getElementById('mob-tab-library');
   const mobMyteam = document.getElementById('mob-tab-myteam');
   const mobPractice = document.getElementById('mob-tab-practice');
   if (mobLearn) mobLearn.classList.toggle('active', name === 'learn');
+  if (mobLibrary) mobLibrary.classList.toggle('active', name === 'content');
   if (mobMyteam) mobMyteam.classList.toggle('active', name === 'myteam');
   if (mobPractice) mobPractice.classList.toggle('active', name === 'practice');
   if (name === 'library') loadLibraryDemo();
@@ -17020,6 +17026,7 @@ function updateTabVisibility(role) {
   // Always show learn + library + practice in customer view.
   show('tab-learn');
   show('tab-library');
+  show('mob-tab-library');   // Library is reachable from the mobile bottom nav too
   show('tab-practice');  // D4: Practice visible to all learner roles (cashier, director, etc.)
   show('mob-tab-practice');  // What's next is reachable from the mobile bottom nav too
   if (role === 'director') {

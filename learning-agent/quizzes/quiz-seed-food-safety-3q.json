@@ -9,13 +9,13 @@
       "type": "mcq",
       "stem": "According to food safety guidelines, when should cafeteria staff wash their hands during food preparation?",
       "options": [
+        "Before beginning food preparation, after handling raw food, and after any interruption",
         "Only when visibly dirty",
         "After handling raw meat only",
-        "Before beginning food preparation, after handling raw food, and after any interruption",
         "Once at the start of each shift"
       ],
-      "correct": 2,
-      "answer_index": 2,
+      "correct": 0,
+      "answer_index": 0,
       "source_quote": "Before beginning food preparation, after handling raw food, and after any interruption to the food-prep workflow.",
       "source_ref": "icn-food-safety-youtube-hand-hygiene-demo",
       "section": "Hand Hygiene in School Nutrition",
@@ -48,12 +48,12 @@
       "stem": "In a school cafeteria, the temperature danger zone — where bacteria multiply most rapidly — is generally defined as the range between:",
       "options": [
         "0°F and 32°F",
-        "32°F and 165°F",
         "41°F and 135°F",
+        "32°F and 165°F",
         "70°F and 165°F"
       ],
-      "correct": 2,
-      "answer_index": 2,
+      "correct": 1,
+      "answer_index": 1,
       "source_quote": "The temperature danger zone for food safety is 41°F to 135°F — the range where bacteria multiply most rapidly.",
       "source_ref": "icn-food-safety-youtube-hand-hygiene-demo",
       "section": "Temperature Danger Zone",
