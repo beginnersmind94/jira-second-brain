@@ -4606,18 +4606,6 @@
     <div class="roster-head"><div><h1 class="roster-title" id="myteam-title">My Team</h1><p class="roster-sub">Your district&rsquo;s training compliance.</p></div><span class="demo-tag">Demo data</span></div>
     <div id="myteam-body"></div>
   </div>
-  <div class="fd-backdrop" id="assign-bd" onclick="closeAssign()"></div>
-  <aside id="assign-modal" class="fd-drawer" data-bd="assign-bd" role="dialog" aria-modal="true" aria-labelledby="assign-modal-title">
-    <div class="fd-head">
-      <span id="assign-modal-title">Assign a track</span>
-      <button class="fd-x" onclick="closeAssign()" aria-label="Close">✕</button>
-    </div>
-    <div class="fd-body">
-      <label class="tb-l">Track</label><div id="am-tracks"></div>
-      <label class="tb-l">Staff</label><div id="am-staff"></div>
-    </div>
-    <div class="fd-foot"><button class="primary" onclick="doAssign()">Assign</button></div>
-  </aside>
 </section>
 
 <!-- G2: Gate Reveal overlay — full-screen citation integrity panel (Ctrl+Shift+G) -->
@@ -6163,8 +6151,11 @@ function applyViewMode() {
   // "Districts" (tab-manage) is the trainer's single customer entity — one portfolio that
   // drills into one district. There is no separate Projects/My Team noun in trainer view.
   const ALL_TABS = ['tab-home','tab-author','tab-library','tab-manage','tab-learn','tab-practice','tab-myteam'];
+  // tab-myteam is director-only within customer view — Cashier and Site Manager never manage a team.
+  const _custRoleForNav = (_learnRole ? _learnRole() : '').toLowerCase();
+  const _custCanSeeTeam = _custRoleForNav.includes('director');
   const VISIBLE = _viewMode === 'customer'
-    ? ['tab-library','tab-learn','tab-practice','tab-myteam']
+    ? ['tab-library','tab-learn','tab-practice', ...(_custCanSeeTeam ? ['tab-myteam'] : [])]
     : ['tab-home','tab-author','tab-library','tab-manage'];
   ALL_TABS.forEach(id => show(id, VISIBLE.includes(id)));
   // Quality (grounding QA) is a trainer-only admin affordance — header gear, hidden for customers.
@@ -6230,6 +6221,9 @@ function applyViewMode() {
   // Mobile customer tab bar: visible only in customer view (CSS @media further gates to ≤480px).
   const mobileNav = document.getElementById('mobile-customer-nav');
   if (mobileNav) mobileNav.hidden = (_viewMode !== 'customer');
+  // Mobile My Team button: same role-gate as desktop tab-myteam — director only.
+  const mobMyteamBtn = document.getElementById('mob-tab-myteam');
+  if (mobMyteamBtn) mobMyteamBtn.hidden = !_custCanSeeTeam;
 
   // D6: Trainer lazy-hide — immediately class trainer-only sections so learner
   // path skips their DOM cost on first paint. Toggled back when view returns to trainer.
@@ -6863,8 +6857,6 @@ function renderMyTeam() {
     h += `<button class="secondary insights-btn" onclick="openInsightPanel('${escAttr(tid)}','${escAttr(ttitle)}')">&#128202; Insights</button>`;
   })();
   h += '</div>';
-  // Compliance export button — Customer view only (CN Director and above).
-  h += `<div class="mt-tools"><button class="secondary" onclick="openAssignmentModal('${d.id}')">Assign training</button></div>`;
   if (_viewMode === 'customer') {
     h += `<div class="mt-compliance"><button class="secondary" onclick="downloadComplianceReport('${escAttr(d.id)}')">Download compliance report (PDF)</button><span class="mt-compliance-note">Covers your district only &middot; Due Jun 30</span></div>`;
   }
@@ -6892,11 +6884,11 @@ async function e1NudgeOne(trackId, userId, name) {
       body: JSON.stringify({ user_ids: [userId] }),
     });
     const data = resp.ok ? await resp.json() : null;
-    _showToast(data ? data.message : `Reminder sent to ${name}.`);
+    _showToast(data ? data.message : `Couldn’t send the reminder to ${name} — try again.`);
     // Refresh the E1 roster so nudged state shows immediately.
     _loadE1Roster(trackId).then(renderMyTeamE1).catch(() => {});
   } catch (_) {
-    _showToast('Reminder sent to ' + name + '.');
+    _showToast('Couldn’t reach the server — reminder to ' + name + ' not sent.');
   }
 }
 
@@ -6907,10 +6899,10 @@ async function e1NudgeAllOverdue(trackId) {
       headers: { 'X-Demo-User': _demoUserHeader() },
     });
     const data = resp.ok ? await resp.json() : null;
-    _showToast(data ? data.message : 'Reminders sent.');
+    _showToast(data ? data.message : 'Couldn’t send reminders — try again.');
     _loadE1Roster(trackId).then(renderMyTeamE1).catch(() => {});
   } catch (_) {
-    _showToast('Reminders sent.');
+    _showToast('Couldn’t reach the server — reminders not sent.');
   }
 }
 
@@ -7078,34 +7070,6 @@ function _renderInsightBody(data) {
   return h;
 }
 
-async function openAssign() {
-  const d = _curDistrict();
-  const tw = document.getElementById('am-tracks');
-  const sw = document.getElementById('am-staff');
-  const m  = document.getElementById('assign-modal');
-  // Render staff immediately so the modal opens without waiting on the API
-  if (sw) sw.innerHTML = d.learners.map((l, gi) => `<label class="am-row"><input type="checkbox" onclick="_assignSel.staff[${gi}]=this.checked"> ${escapeHtml(l.name)} <span class="meta">${escapeHtml(l.role)} · ${escapeHtml(l.site)}</span></label>`).join('');
-  if (tw) tw.innerHTML = '<div style="padding:8px;color:var(--muted);font-size:13px;">Loading tracks…</div>';
-  _assignSel = { track: null, staff: {} };
-  if (m) openFD('assign-modal', 'assign-bd');
-  // Fetch real tracks from the API
-  let tracks = [];
-  try {
-    const r = await fetch('/api/tracks');
-    tracks = r.ok ? ((await r.json()).tracks || []) : [];
-  } catch (_) { /* fall through to demo data */ }
-  if (!tracks.length) tracks = _allDemoTracks();  // graceful fallback while tracks dir is empty
-  _assignSel.track = tracks[0] ? tracks[0].id : null;
-  if (tw) tw.innerHTML = tracks.length
-    ? tracks.map(t => `<label class="am-row"><input type="radio" name="am-tk" ${t.id === _assignSel.track ? 'checked' : ''} onclick="_assignSel.track='${t.id}'"> ${escapeHtml(t.title)}${t.status === 'published' ? ' <span class="meta">published</span>' : ''}</label>`).join('')
-    : '<div style="padding:8px;color:var(--muted);font-size:13px;">No tracks yet — build one in Track Builder.</div>';
-}
-function closeAssign() { closeFD('assign-modal', 'assign-bd'); }
-function doAssign() {
-  const d = _curDistrict(), tid = _assignSel.track; let c = 0;
-  d.learners.forEach((l, gi) => { if (_assignSel.staff[gi] && tid) { l.tracks = l.tracks || []; if (!l.tracks.includes(tid)) l.tracks.push(tid); l.completion = 0; l.status = 'Not started'; c++; } });
-  closeAssign(); alert('Assigned to ' + c + ' staff.'); renderMyTeam();
-}
 // ─── Quality (the proof surface) — real scored resources first, seeded _DEMO fallback ───
 // Real resources (from /resources API) show scores from scorers.py computed at generation.
 // Seeded _DEMO.quality items remain for demo content not yet re-generated through the new pipeline.
@@ -10317,10 +10281,18 @@ async function loadLearn() {
 }
 function _learnRoleChanged(val) {
   _demoState.learnRole = val;
-  const active = document.querySelector('.view.active');
-  if (active && active.id === 'view-content') renderCatalogDemo();
+  // Re-gate nav tabs for the new role (tab-myteam hidden for non-director).
+  const normRole = val.toLowerCase().includes('director') ? 'director'
+                 : val.toLowerCase().includes('trainer') ? 'trainer' : 'cashier';
+  updateTabVisibility(normRole);
+  // If user is on My Team and switches to a role that can't see it, redirect to Learn.
+  const activeView = document.querySelector('.view.active');
+  if (normRole !== 'director' && activeView && activeView.id === 'view-myteam') {
+    showView('learn');
+    return;
+  }
+  if (activeView && activeView.id === 'view-content') renderCatalogDemo();
   else renderLearnHome();
-  // Re-fetch What's New strip for the new role
   _renderWhatsNewStrip(_demoUserHeader());
 }
 // ── D3 Gamification ───────────────────────────────────────────────────────────
@@ -10348,7 +10320,7 @@ function renderGamificationStrip(state) {
 
   // Fresh learner: locked-reward teaser — specificity + endowment effect > quiet encouragement.
   if (streak === 0 && xp === 0 && !badges.length) {
-    return `<a class="gamif-strip gamif-strip--unlock" id="gamif-strip" href="#" onclick="showView('practice'); return false;" aria-label="Preview What's next — benefits unlocked when you finish">
+    return `<button class="gamif-strip gamif-strip--unlock" id="gamif-strip" onclick="showView('practice')" aria-label="Preview What's next — benefits unlocked when you finish">
       <div class="gamif-unlock-icons" aria-hidden="true">
         ${isoIconHtml('shelter','green')}${isoIconHtml('grow','stamp')}${isoIconHtml('horizon','warn')}
       </div>
@@ -10357,7 +10329,7 @@ function renderGamificationStrip(state) {
         <span class="gamif-unlock-sub">SmartDollar &middot; Google Certificates &middot; ICN Training</span>
       </div>
       <span class="gamif-unlock-arrow" aria-hidden="true">&#8594;</span>
-    </a>`;
+    </button>`;
   }
 
   const badgeChips = badges.length
@@ -14949,7 +14921,11 @@ async function initStudySet() {
   const sel = document.getElementById('ss-topic'); if (!sel || sel._init) return;
   try {
     if (!_icnData) { const r = await fetch('/api/icn'); _icnData = await r.json(); }
-  } catch (e) { return; }
+  } catch (e) {
+    const hint = sel.closest('.field') && sel.closest('.field').querySelector('.hint');
+    if (hint) hint.textContent = 'Topics unavailable — check connection';
+    return;
+  }
   (_icnData.quiz_topics || []).forEach(t => sel.add(new Option(t, t)));
   sel._init = true;
   const toggle = () => { const on = !!sel.value;
@@ -17022,9 +16998,11 @@ function updateTabVisibility(role) {
   show('tab-practice');  // D4: Practice visible to all learner roles (cashier, director, etc.)
   if (role === 'director') {
     show('tab-myteam');
+    show('mob-tab-myteam');
   } else {
     // cashier, trainer-in-customer-mode, fallback — hide myteam tab.
     hide('tab-myteam');
+    hide('mob-tab-myteam');
   }
   // quizzes / admin / create / districts tabs are handled by applyViewMode() — don't touch them here.
 }
