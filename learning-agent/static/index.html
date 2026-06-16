@@ -6729,8 +6729,10 @@ function renderMyTeamE1() {
 
   const s = data.summary || {};
   const overdue = s.overdue || 0;
-  const trackId = data.track_id || _E1_DEFAULT_TRACK;
-  const trackTitle = data.track_title || 'New Cashier Onboarding';
+  const _rawTrackTitle = data.track_title || '';
+  const _trackTitleIsTest = !_rawTrackTitle || /^s3 test/i.test(_rawTrackTitle);
+  const trackId = _trackTitleIsTest ? _E1_DEFAULT_TRACK : (data.track_id || _E1_DEFAULT_TRACK);
+  const trackTitle = _trackTitleIsTest ? 'New Cashier Onboarding' : _rawTrackTitle;
   const dueDate = data.due_date || '';
 
   // Overdue badge text for tab/header.
@@ -6763,9 +6765,9 @@ function renderMyTeamE1() {
   }
   if (_viewMode === 'customer') {
     h += `<button class="secondary" onclick="e1ComplianceReport('${escAttr(trackId)}')" style="margin-left:auto;">&#128203; Compliance Report</button>`;
-    // E-spec: Grounding Audit button — opens the course-level audit export
-    // for the primary course in this track.  Trainer/director only (customer
-    // view is director here, so allowed).
+  }
+  if (_viewMode === 'trainer') {
+    // Grounding Audit is internal trainer terminology — not shown in customer/director view.
     const primaryCourseId = (d.primaryCourseId || d.course_ids && d.course_ids[0]) || null;
     if (primaryCourseId) {
       h += `<button class="secondary" onclick="e1GroundingAudit('${escAttr(primaryCourseId)}')" title="Download exhaustive claim-by-claim grounding audit" style="color:#1E5A8A;border-color:#E3EEF7;">&#128203; Grounding Audit</button>`;
@@ -6855,7 +6857,7 @@ function renderMyTeam() {
   // Insights button — show for director/trainer; uses the first real published track for the district.
   // E3-lite: 20-second aside, "see exactly where learners get stuck."
   (function() {
-    const firstRealTrack = (_realTracks && _realTracks.length > 0) ? _realTracks[0] : null;
+    const firstRealTrack = (_realTracks || []).find(t => t.title && !/^s3 test/i.test(t.title)) || null;
     const tid = firstRealTrack ? firstRealTrack.id : 'track-cashier-onboard';
     const ttitle = firstRealTrack ? firstRealTrack.title : 'New Cashier Onboarding';
     h += `<button class="secondary insights-btn" onclick="openInsightPanel('${escAttr(tid)}','${escAttr(ttitle)}')">&#128202; Insights</button>`;
@@ -6942,8 +6944,8 @@ function openGuideAudit(rid) {
 }
 
 // Legacy nudge helpers (used by _renderStaffTable in trainer district-detail view).
-function nudgeOne(nk, name) { _demoState.nudged[nk] = true; _showToast('Reminder sent to ' + name + '.'); renderMyTeam(); }
-function nudgeAllOverdue() { const d = _curDistrict(); let c = 0; d.learners.forEach((l, gi) => { if (l.status === 'Overdue') { _demoState.nudged[d.id + ':' + gi] = true; c++; } }); _showToast('Reminders sent to ' + c + ' staff.'); renderMyTeam(); }
+function nudgeOne(nk, name) { _demoState.nudged[nk] = true; _showToast('Nudge logged for ' + name + ' — delivery requires roster sync.'); renderMyTeam(); }
+function nudgeAllOverdue() { const d = _curDistrict(); let c = 0; d.learners.forEach((l, gi) => { if (l.status === 'Overdue') { _demoState.nudged[d.id + ':' + gi] = true; c++; } }); _showToast(c + ' nudge(s) logged — delivery requires roster sync.'); renderMyTeam(); }
 function downloadComplianceReport(isd) {
   // Legacy seeded compliance report (kept for trainer view; E1 uses e1ComplianceReport for customer).
   var url = '/api/districts/' + encodeURIComponent(isd) + '/compliance-report/pdf';
@@ -11023,18 +11025,18 @@ function openTrack(tid) {
     const lk = _courseLockInfo(t, c, i), shared = _courseSharedCount(c.id) > 1;
     const action = lk.locked
       ? `<span class="path-locked">🔒 ${escapeHtml(lk.reason)}</span>`
-      : `<button class="track-open" onclick="event.stopPropagation(); openCourse('${c.id}')">${cp > 0 ? 'Continue' : 'Start'} track →</button><span class="course-prog"><span class="r-bar"><span style="width:${cp}%"></span></span>${cp}%</span>`;
+      : `<button class="track-open" onclick="event.stopPropagation(); openCourse('${c.id}')">${cp > 0 ? 'Continue' : 'Start'} course →</button><span class="course-prog"><span class="r-bar"><span style="width:${cp}%"></span></span>${cp}%</span>`;
     return `<li class="path-mod${lk.locked ? ' path-locked-row' : ''}" data-type="${done ? 'pdf' : 'web'}">
         <span class="path-num">${lk.locked ? '🔒' : (done ? '✓' : i + 1)}</span>
         <div class="path-mod-main">
-          <div class="icn-type">📚 <span>track · ${escapeHtml(c.module || '')}</span>${shared ? '<span class="shared-tag">shared</span>' : ''}</div>
+          <div class="icn-type">📚 <span>course · ${escapeHtml(c.module || '')}</span>${shared ? '<span class="shared-tag">shared</span>' : ''}</div>
           <div class="path-mod-title">${escapeHtml(c.title)}</div>
           <div class="path-mod-actions">${action}</div>
         </div></li>`;
   }).join('');
   const certRow = `<li class="path-mod" data-type="certify"><span class="path-num">${certified ? '🏅' : cs.length + 1}</span>
       <div class="path-mod-main"><div class="icn-type">🏅 <span>certify</span></div><div class="path-mod-title">Track certificate</div>
-        <div class="path-mod-actions">${certified ? `<button class="track-open" onclick="event.stopPropagation(); showCertificate('${tid}')">View certificate</button>` : '<span class="track-soon">Finish every track to unlock</span>'}</div>
+        <div class="path-mod-actions">${certified ? `<button class="track-open" onclick="event.stopPropagation(); showCertificate('${tid}')">View certificate</button>` : '<span class="track-soon">Finish every course to unlock</span>'}</div>
       </div></li>`;
   const _bcOT = _bcHtml([{label:'Learn', onclick:'renderLearnHome()'}, {label:t.title}]);
   document.getElementById('track-detail').innerHTML = `
@@ -11042,8 +11044,8 @@ function openTrack(tid) {
     <header class="path-hero">
       <p class="path-eyebrow">${escapeHtml(t.product || '')}${t.product ? ' · ' : ''}${escapeHtml(t.role)} track${t.sequential ? ' · sequential' : ''}</p>
       <h1 class="path-title">${escapeHtml(t.title)}</h1>
-      <div class="path-stats"><span><b>${cs.length}</b>tracks</span><span><b>~${_trackEst(t)}</b></span><span><b>${pct}%</b>done</span><span>Due ${escapeHtml(t.due || _DEMO.due)}</span></div>
-      ${certified ? '<span class="track-cert">🏅 Track complete — certified</span>' : '<span class="track-cert-todo">Complete all tracks to certify</span>'}
+      <div class="path-stats"><span><b>${cs.length}</b>courses</span><span><b>~${_trackEst(t)}</b></span><span><b>${pct}%</b>done</span><span>Due ${escapeHtml(t.due || _DEMO.due)}</span></div>
+      ${certified ? '<span class="track-cert">🏅 Track complete — certified</span>' : '<span class="track-cert-todo">Complete all courses to certify</span>'}
     </header>
     <div class="path-layout">
       <ol class="path-modules">${rows}${certRow}</ol>
@@ -11630,9 +11632,9 @@ async function _cpRenderLesson() {
       ${lessonNum}${lessonTitle}${metaRow}
       <div class="cp-stub-card">
         <div style="font-size:2rem;margin-bottom:12px;">🃏</div>
-        <div style="font-weight:700;margin-bottom:8px;">Flashcard deck coming soon</div>
+        <div style="font-weight:700;margin-bottom:8px;">Flashcards coming soon</div>
         <div style="font-size:13px;color:var(--muted);margin-bottom:20px;">
-          Interactive flashcards for this lesson will be available in Wave 2.
+          Flashcards for this lesson aren&rsquo;t ready yet — you can continue for now.
         </div>
         ${!isDone ? `<button class="primary" onclick="cpMarkStubDone()">Done — continue</button>` : `<div style="color:var(--accent);font-weight:700;">✓ Completed</div>`}
       </div>`;
@@ -11673,7 +11675,7 @@ async function _cpRenderLesson() {
         <div style="font-size:2rem;margin-bottom:12px;">⚡</div>
         <div style="font-weight:700;margin-bottom:8px;">Interactive exercise coming soon</div>
         <div style="font-size:13px;color:var(--muted);margin-bottom:20px;">
-          This exercise type will be interactive in a future wave.
+          This exercise isn&rsquo;t ready yet — you can continue for now.
         </div>
         ${!isDone ? `<button class="primary" onclick="cpMarkStubDone()">Done — continue</button>` : `<div style="color:var(--accent);font-weight:700;">✓ Completed</div>`}
       </div>`;
@@ -17317,7 +17319,10 @@ async function _renderWhatsNewStrip(uid) {
     const data = await resp.json();
     // Exclude the track the learner is already enrolled in (the hero) — otherwise it shows
     // in both the hero and "What's New" (the duplication that cluttered Home).
-    const items = (data.items || []).filter(i => !(i.open && i.open.ref === _demoState.learnHeroTrackId));
+    const items = (data.items || []).filter(i =>
+      !(i.open && i.open.ref === _demoState.learnHeroTrackId) &&
+      i.title && !/^s3 test/i.test(i.title)
+    );
     if (items.length === 0) { wrap.innerHTML = ''; return; }
     wrap.innerHTML = _buildWhatsNewHtml(items, role);
   } catch(e) { wrap.innerHTML = ''; }
