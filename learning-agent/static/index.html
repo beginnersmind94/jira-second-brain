@@ -5558,14 +5558,21 @@ const _DEMO = (() => {
   districts.forEach((d, di) => {
     const r = rng(di * 97 + 13), n = 10 + Math.floor(r() * 5);
     d.stage = ['Training','Setup','Pre-launch','Go-live','Training','Kickoff'][di] || 'Go-live';   // FR-LP-05 implementation stage
-    const forced = ['Complete','Complete','Overdue','Overdue','Not started','Not started'];   // guarantee every state per district
+    // 'Overdue' is no longer a hardcoded status — it is DERIVED from a real per-learner due date
+    // via _isOverdue (mirrors overdue.py). The overdue cohort gets a passed deadline; everyone
+    // else a future one. Change a learner's `due` and their status recomputes.
+    const forced = ['Complete','Complete','Overdue','Overdue','Not started','Not started'];   // intended state mix per district
+    const PAST_DUE = '2026-06-08', FUTURE_DUE = '2026-06-30';   // vs demo today 2026-06-15
     d.learners = [];
     for (let i = 0; i < n; i++) {
       const role = i % 7 === 0 ? 'CN Director' : (i % 3 === 0 ? 'Site Manager' : 'Cashier');
-      const status = forced[i] || ['Complete','In progress','In progress','Not started','Overdue'][Math.floor(r() * 5)];
-      const completion = status === 'Complete' ? 100 : status === 'Not started' ? 0 : status === 'Overdue' ? Math.floor(r() * 45) : 25 + Math.floor(r() * 65);
+      const base = forced[i] || ['Complete','In progress','In progress','Not started','Overdue'][Math.floor(r() * 5)];
+      const completion = base === 'Complete' ? 100 : base === 'Not started' ? 0 : base === 'Overdue' ? Math.floor(r() * 45) : 25 + Math.floor(r() * 65);
+      const due = base === 'Overdue' ? PAST_DUE : FUTURE_DUE;
+      const completed = completion >= 100;
+      const status = completed ? 'Complete' : (_isOverdue(false, due) ? 'Overdue' : (completion > 0 ? 'In progress' : 'Not started'));
       const track = role === 'Cashier' ? 't-cashier' : role === 'Site Manager' ? 't-sitemgr' : 't-elig';
-      d.learners.push({ name: `${FN[(di * 7 + i) % FN.length]} ${LN[(di * 5 + i * 3) % LN.length]}`, role, site: d.sites[i % d.sites.length], tracks: [track], completion, status, last_active: ACT[Math.floor(r() * ACT.length)] });
+      d.learners.push({ name: `${FN[(di * 7 + i) % FN.length]} ${LN[(di * 5 + i * 3) % LN.length]}`, role, site: d.sites[i % d.sites.length], tracks: [track], completion, status, due, last_active: ACT[Math.floor(r() * ACT.length)] });
     }
   });
   const inbox = [
@@ -5614,6 +5621,14 @@ const _DEMO = (() => {
 })();
 // session-scoped mutations (reset on reload)
 let _demoState = { helpCleared:{}, nudged:{}, progress:{}, userTracks:[], approvedRids:null, assignments:null, asnSeq:0, homeFilter:null };
+// Client mirror of overdue.py (server is the authority). Used to DERIVE the seeded demo
+// roster's "Overdue" status from a real per-learner due date instead of hardcoding the string.
+// Demo "today" = 2026-06-15 (matches the rest of the demo timeline). Not complete AND past
+// end-of-day of the due date → overdue. Keep in sync with overdue.is_overdue.
+function _isOverdue(completed, due, now){
+  if (completed || !due) return false;
+  return new Date((now || '2026-06-15') + 'T23:59:59') > new Date(due + 'T23:59:59');
+}
 function _districtCompletion(d){ return d.learners && d.learners.length ? Math.round(d.learners.reduce((a,l)=>a+l.completion,0)/d.learners.length) : 0; }
 const _CURRENT_TRAINER = 'Sam Rivera';   // the logged-in trainer (SR avatar) — a trainer only ever sees their OWN districts + content
 function _myDistricts(){ const m = _DEMO.districts.filter(d => d.trainer === _CURRENT_TRAINER); return m.length ? m : _DEMO.districts; }
@@ -13414,14 +13429,16 @@ function _ddCommitUpload(did){
   const FN=['Maria','James','Aisha','Carlos','Linda','Wei','Diego','Sarah'];
   const LN=['Garcia','Johnson','Patel','Nguyen','Smith','Williams','Brown','Lee'];
   const roles=['Cashier','Cashier','Site Manager','Cashier','CN Director','Cashier','Site Manager','Cashier'];
-  const sts=['In progress','Not started','In progress','Overdue','In progress','Complete','Not started','In progress'];
+  const base=['In progress','Not started','In progress','Overdue','In progress','Complete','Not started','In progress'];
   const sites=d.sites&&d.sites.length?d.sites:['Site A','Site B'];
-  d.learners=FN.map((fn,i)=>({
-    name:fn+' '+LN[i], role:roles[i], site:sites[i%sites.length],
-    tracks:[roles[i]==='Cashier'?'t-cashier':roles[i]==='Site Manager'?'t-sitemgr':'t-elig'],
-    completion:sts[i]==='Complete'?100:sts[i]==='Not started'?0:sts[i]==='Overdue'?15+i*7:30+i*8,
-    status:sts[i], last_active:['Today','Yesterday','2 days ago','Last week'][i%4]
-  }));
+  d.learners=FN.map((fn,i)=>{
+    const completion=base[i]==='Complete'?100:base[i]==='Not started'?0:base[i]==='Overdue'?15+i*7:30+i*8;
+    const due=base[i]==='Overdue'?'2026-06-08':'2026-06-30';   // overdue cohort = passed deadline (vs demo today 2026-06-15)
+    const status=completion>=100?'Complete':(_isOverdue(false,due)?'Overdue':(completion>0?'In progress':'Not started'));
+    return { name:fn+' '+LN[i], role:roles[i], site:sites[i%sites.length],
+      tracks:[roles[i]==='Cashier'?'t-cashier':roles[i]==='Site Manager'?'t-sitemgr':'t-elig'],
+      completion, status, due, last_active:['Today','Yesterday','2 days ago','Last week'][i%4] };
+  });
   _ddFilters={site:'',role:'',status:'',q:''}; _ddSortCol='name'; _ddSortAsc=true;
   renderDistrictDetail();
 }
