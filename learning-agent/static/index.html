@@ -6572,13 +6572,14 @@ function _fmtTodoTime(t) {
   const h12 = h % 12 || 12;
   return m ? `${h12}:${String(m).padStart(2, '0')}${ampm}` : `${h12}${ampm}`;
 }
+let _todosExpanded = false;
 function renderTodos(){
   _initTodos();
   const ul = document.getElementById('todo-list'); if (!ul) return;
   const all = _demoState.todos.slice().sort((a, b) => (a.done - b.done) || (a.time || '').localeCompare(b.time || ''));
-  const maxShow = 5, visible = all.slice(0, maxShow), rest = all.length - maxShow;
+  const maxShow = _todosExpanded ? all.length : 5, visible = all.slice(0, maxShow), rest = all.length - maxShow;
   ul.innerHTML = visible.map(t => `<li class="todo-item${t.done ? ' done' : ''}"><input type="checkbox" class="todo-check" ${t.done ? 'checked' : ''} onclick="toggleTodo(${t.id})"><span class="todo-time">${escapeHtml(_fmtTodoTime(t.time))}</span><span class="todo-text">${escapeHtml(t.text)}</span><button class="todo-del" title="Remove" aria-label="Remove task" onclick="removeTodo(${t.id})">✕</button></li>`).join('') || '<li class="todo-empty">No tasks yet — add one above.</li>';
-  if (rest > 0) ul.innerHTML += `<li style="list-style:none;border-top:1px solid var(--border);padding:7px 0 2px;text-align:center;"><button style="background:none;border:0;font:inherit;font-size:12.5px;color:var(--accent);cursor:pointer;font-weight:600;padding:0;" onclick="alert('All ${all.length} tasks shown in full view.')">View all (${all.length})</button></li>`;
+  if (all.length > 5) ul.innerHTML += `<li style="list-style:none;border-top:1px solid var(--border);padding:7px 0 2px;text-align:center;"><button style="background:none;border:0;font:inherit;font-size:12.5px;color:var(--accent);cursor:pointer;font-weight:600;padding:0;" onclick="_todosExpanded=!_todosExpanded;renderTodos()">${_todosExpanded ? 'Show less' : 'View all (' + all.length + ')'}</button></li>`;
 }
 function addTodo(){
   _initTodos();
