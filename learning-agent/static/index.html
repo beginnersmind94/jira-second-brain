@@ -2002,6 +2002,19 @@
     .dd-grid td.dd-name-cell { font-weight:650; color:var(--ink); }
     .dd-grid td.dd-secondary { color:var(--text-soft); font-size:13px; }
     .dd-prog-cell { display:flex; align-items:center; gap:8px; }
+    /* Mobile: the roster table doesn't fit 375px (it clipped, since the wrap is overflow:hidden).
+       Stack each learner as a card so nothing is cut off and there's no side-scroll. */
+    @media (max-width: 600px) {
+      .dd-grid-wrap { overflow:visible; border:none; background:transparent; box-shadow:none; }
+      .dd-grid { display:block; font-size:13px; }
+      .dd-grid thead { display:none; }
+      .dd-grid tbody { display:block; }
+      .dd-grid tr { display:block; border:1px solid var(--border); border-radius:var(--radius-sm); background:var(--panel); box-shadow:var(--shadow-sm); padding:10px 12px; margin-bottom:8px; }
+      .dd-grid td { display:block; border:none; padding:2px 0; }
+      .dd-grid td.dd-name-cell { font-size:14px; margin-bottom:2px; }
+      .dd-grid td.dd-secondary { display:inline-block; color:var(--muted); font-size:12px; margin-right:12px; }
+      .dd-prog-cell { margin-top:6px; flex-wrap:wrap; }
+    }
     .dd-prog-bar-wrap { width:60px; flex-shrink:0; height:5px; background:var(--panel3); border-radius:3px; overflow:hidden; }
     .dd-prog-bar-fill { height:100%; background:var(--accent); border-radius:3px; }
     .dd-prog-pct { font-size:13px; color:var(--text-soft); min-width:26px; font-weight:500; }
