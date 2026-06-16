@@ -1962,7 +1962,7 @@
     .dd-ws-act { display:flex; justify-content:space-between; gap:10px; padding:4px 0; font-size:12px; }
     .dd-ws-act-meta { color:var(--muted); white-space:nowrap; font-size:10.5px; }
     .mg-impl-pct { font-size:10.5px; color:var(--muted); margin-top:3px; }
-    .mg-rules-badge { display:inline-block; background:var(--stamp); color:#fff; border-radius:9px; padding:0 6px; font-size:10.5px; font-weight:700; margin-left:5px; }
+    .afeed-routed { display:inline-block; font-size:11px; font-weight:600; color:var(--green-deep); white-space:nowrap; }
     .dds-progress { border:1px solid var(--border); border-radius:var(--radius-sm); background:var(--panel); padding:8px 10px; margin-bottom:12px; }
     .dds-prog-row { display:flex; justify-content:space-between; font-size:12.5px; padding:2px 0; }
     .dds-prog-row span { color:var(--muted); }
@@ -6439,13 +6439,14 @@ function renderHome(){
   h += `<div class="afeed-list">`;
   h += _feedShow.map(function(it) {
     const sme = _DEMO.smes[it.module] || 'PM team';
+    const routedTo = (_demoState.routed || {})[it.title];
     const icoMap = { approved:'✓', updated:'↑', flagged:'⚑', aging:'⏰' };
     const ico = icoMap[it.type] || '·';
     const rowCls = it.type === 'flagged' ? ' row-flagged' : '';
     let meta = '', note = '', btn = '';
     if (it.type === 'approved') {
       meta = `${escapeHtml(it.module)} · ${escapeHtml(sme)} approved · ${escapeHtml(it.date)}`;
-      btn  = `<button class="secondary afeed-btn" onclick="openAssignmentModal()">Assign</button>`;
+      btn  = `<button class="secondary afeed-btn" onclick="inboxCatalog(${_DEMO.inbox.indexOf(it)})">Open in Library</button>`;
     } else if (it.type === 'updated') {
       meta = `${escapeHtml(it.module)} · ${escapeHtml(sme)} updated · ${escapeHtml(it.date)}`;
       note = it.note ? `<div class="afeed-note">${escapeHtml(it.note)}</div>` : '';
@@ -6453,10 +6454,14 @@ function renderHome(){
     } else if (it.type === 'flagged') {
       meta = `${escapeHtml(it.module)} · ${escapeHtml(it.flaggedBy || 'flagged')} · ${escapeHtml(it.date)}`;
       note = it.note ? `<div class="afeed-note">${escapeHtml(it.note)}</div>` : '';
-      btn  = `<button class="secondary afeed-btn btn-flag" onclick="notifyPO('${escapeHtml(it.module)}','${escapeHtml(it.title)}','flag')">Notify ${escapeHtml(sme)}</button>`;
+      btn  = routedTo
+        ? `<span class="afeed-routed">Flagged to ${escapeHtml(routedTo)} &#10003;</span>`
+        : `<button class="secondary afeed-btn btn-flag" onclick="notifyPO('${escapeHtml(it.module)}','${escapeHtml(it.title)}','flag')">Notify ${escapeHtml(sme)}</button>`;
     } else if (it.type === 'aging') {
       meta = `${escapeHtml(it.module)} · last reviewed ${escapeHtml(it.date)} · ${it.assignedDistricts || 0} district${it.assignedDistricts === 1 ? '' : 's'}`;
-      btn  = `<button class="secondary afeed-btn btn-nudge" onclick="notifyPO('${escapeHtml(it.module)}','${escapeHtml(it.title)}','aging')">Nudge ${escapeHtml(sme)}</button>`;
+      btn  = routedTo
+        ? `<span class="afeed-routed">Nudged ${escapeHtml(routedTo)} &#10003;</span>`
+        : `<button class="secondary afeed-btn btn-nudge" onclick="notifyPO('${escapeHtml(it.module)}','${escapeHtml(it.title)}','aging')">Nudge ${escapeHtml(sme)}</button>`;
     }
     return `<div class="afeed-row${rowCls}">`
          + `<span class="afeed-ico ico-${it.type}" aria-hidden="true">${ico}</span>`
@@ -6601,7 +6606,6 @@ function openDistrictDrawer(id){
   html += `<div class="dr-actions"><button class="primary" onclick="openDistrictInManage('${id}'); closeDrawer()">View full roster →</button></div>`;
   openDrawer(d.name, html);
 }
-function showHelpPanel(id){ const d = _DEMO.districts.find(x => x.id === id); if (d) alert('🖐 ' + d.name + ' raised a hand:\n\n"' + d.help_msg + '"'); }
 async function respondHelp(id){
   // STORY-007: real recorded action — logs a response to the district's workspace activity
   // (no fake "Reply sent"; we don't claim a message was delivered through a channel we don't have).
@@ -6630,10 +6634,13 @@ function inboxCatalog(i){ _demoState.catalogFilter = _DEMO.inbox[i].title; showV
 // She is a signal router, not a fixer; her action is always "tell the right person."
 function notifyPO(module, title, reason) {
   const sme = _DEMO.smes[module] || 'the PM team';
-  const msg = reason === 'flag'
-    ? `Flagging "${title}" to ${sme} for review.\n\nThe issue will appear in ${sme}'s queue as a high-priority review request.`
-    : `Nudging ${sme} to review "${title}".\n\nThe guide hasn't been PO-reviewed in 90+ days. ${sme} will receive a review reminder.`;
-  alert(msg + '\n\n(Demo: notification sent.)');
+  // Record the routing in-session and flip the feed item to a visible "routed" state — an honest,
+  // persistent effect. No fake "notification sent" for a delivery channel we don't have.
+  _demoState.routed = _demoState.routed || {};
+  _demoState.routed[title] = sme;
+  if (typeof _showToast === 'function')
+    _showToast(reason === 'flag' ? `Flagged “${title}” to ${sme} for review.` : `Nudged ${sme} to review “${title}”.`);
+  renderHome();
 }
 let _focusDistrict = '';
 function openDistrictInManage(id){ _curISD = id; showView('district'); }
