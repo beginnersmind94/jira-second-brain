@@ -4748,14 +4748,14 @@
     <div class="icn-hero-main">
       <p class="icn-eyebrow">Training library · Cybersoft + ICN / USDA</p>
       <h1 class="icn-hero-title">Sourced, role-ready training for your nutrition team</h1>
-      <p class="icn-hero-sub">Cybersoft's own SchoolCafé / Family Hub guides alongside a curated set of externally-authored training from the Institute of Child Nutrition, USDA, and partners. Use the <strong>Source</strong> filter to switch between internal and outside-vendor content. Every asset is cited and attributed, and labeled by source — internal Cybersoft guides, approved AI-built guides, and outside-vendor training.</p>
+      <p class="icn-hero-sub">Cybersoft's own SchoolCafé / Family Hub guides alongside a curated set of externally-authored training from the Institute of Child Nutrition, USDA, and partners. Use the <strong>Source</strong> filter to switch between internal and outside-vendor content. Every asset is credited to its source and labeled by provenance — internal Cybersoft guides, approved AI-built guides, and outside-vendor training. Only approved AI-built guides carry the verbatim-citation guarantee; outside-vendor content is credited and linked, not reproduced.</p>
     </div>
     <div class="icn-hero-stats">
       <div class="icn-stat"><span class="num" id="icn-stat-total">—</span><span class="lbl">ready-to-use</span></div>
       <div class="icn-stat"><span class="num" id="icn-stat-guides">—</span><span class="lbl">guides</span></div>
       <div class="icn-stat"><span class="num" id="icn-stat-quizzes">—</span><span class="lbl">quizzes</span></div>
       <div class="icn-stat"><span class="num" id="icn-stat-tracks">—</span><span class="lbl">tracks</span></div>
-      <div class="icn-stat icn-stat-trust"><span class="num">100%</span><span class="lbl">cited &amp; attributed</span></div>
+      <div class="icn-stat icn-stat-trust"><span class="num">100%</span><span class="lbl">credited &amp; labeled</span></div>
     </div>
   </header>
   <div class="lib-filterbar cat-filterbar">
@@ -8148,7 +8148,7 @@ function openCatalogDetail(i){
   const kind = (x.type || 'asset').toLowerCase();
   const actionBtn = (x.type === 'Quiz' && x.quizId)
     ? `<button class="primary" onclick="closeDrawer();takeCatalogQuiz('${escAttr(x.quizId)}')">Take this quiz</button>`
-    : (x.type !== 'Track' ? `<button class="primary" onclick="closeDrawer();openQuizBuilder()">Build a quiz from this</button>` : '');
+    : (x.type !== 'Track' ? `<button class="primary cat-quiz-btn" onclick="closeDrawer();openQuizBuilder()">Build a quiz from this</button>` : '');
   // Over-claiming prevention: the "every claim cited" grounding guarantee ONLY applies to
   // AI-generated content that passed validate_citations. Human-authored and outside-vendor
   // content is attributed and honest, but is NOT gate-grounded. Never apply the AI guarantee
