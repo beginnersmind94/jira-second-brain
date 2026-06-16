@@ -1962,6 +1962,7 @@
     .dd-ws-act { display:flex; justify-content:space-between; gap:10px; padding:4px 0; font-size:12px; }
     .dd-ws-act-meta { color:var(--muted); white-space:nowrap; font-size:10.5px; }
     .mg-impl-pct { font-size:10.5px; color:var(--muted); margin-top:3px; }
+    .mg-rules-badge { display:inline-block; background:var(--stamp); color:#fff; border-radius:9px; padding:0 6px; font-size:10.5px; font-weight:700; margin-left:5px; }
     .dds-progress { border:1px solid var(--border); border-radius:var(--radius-sm); background:var(--panel); padding:8px 10px; margin-bottom:12px; }
     .dds-prog-row { display:flex; justify-content:space-between; font-size:12.5px; padding:2px 0; }
     .dds-prog-row span { color:var(--muted); }
@@ -13279,10 +13280,9 @@ async function loadManage(){
   if (body) { body.setAttribute('aria-busy', 'true'); body.innerHTML = _manageSkeleton(); }
   await _refreshCreatedDistricts(); _demoISDInit();
   await _loadPortfolioWorkspaces();
+  await _loadRulesCount();
   if (body) body.removeAttribute('aria-busy');
   renderManage();
-  // OPS-2: load assignment rules panel non-blocking.
-  _loadRulesPanel().catch(() => {});
 }
 function _trackCompletionForDistrict(d, tid){ const ls = d.learners.filter(l => (l.tracks || []).includes(tid)); return ls.length ? Math.round(ls.reduce((a, l) => a + l.completion, 0) / ls.length) : null; }
 function _districtStatus(d){ if (d.help_request && !_demoState.helpCleared[d.id]) return 'Needs help'; return _districtCompletion(d) >= 70 ? 'On track' : 'Behind'; }
@@ -13694,8 +13694,10 @@ function renderManage(){
   if (needAttn) h += `<div class="mg-kpi mg-kpi-warn"><div class="mg-kpi-n">${needAttn}</div><div class="mg-kpi-l">Need attention</div></div>`;
   h += '</div>';
 
-  /* ── PLT-2: QR sheet action ── */
-  h += '<div style="display:flex;justify-content:flex-end;margin-bottom:12px;">';
+  /* ── Header actions: assignment rules (was buried at page bottom) + QR sheet ── */
+  h += '<div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:12px;">';
+  if (_viewMode === 'trainer' || _learnRole() === 'CN Director')
+    h += `<button class="secondary" style="font-size:13px;" onclick="_openRulesModal()">⚙ Assignment rules<span id="mg-rules-badge" class="mg-rules-badge"${_rulesCount ? '' : ' hidden'}>${_rulesCount || ''}</span></button>`;
   h += '<button class="secondary" style="font-size:13px;" onclick="_generateQrSheet()">📋 Download QR sheet</button>';
   h += '</div>';
 
@@ -13731,12 +13733,7 @@ function renderManage(){
   });
   h += '</tbody></table></div>';
 
-  /* ── OPS-2: Assignment rules skeleton (filled async by _loadRulesPanel) ── */
-  if (_viewMode === 'trainer' || _learnRole() === 'CN Director') {
-    h += '<div class="mg-section-head" style="margin-top:24px;"><h3>Assignment rules</h3>'
-      + '<button class="secondary" style="font-size:13px;" onclick="_openRuleCreateModal()">+ New rule</button></div>';
-    h += '<div id="manage-rules-list" class="rules-list"><div class="rules-empty">Loading…</div></div>';
-  }
+  /* Assignment rules moved to a header action (_openRulesModal) — no longer buried below the table. */
 
   if (body) body.innerHTML = h;
   /* Focus handling for openDistrictInManage */
@@ -13747,6 +13744,17 @@ function renderManage(){
   }
 }
 // OPS-2: fetch assignment rules and populate the manage rules list.
+let _rulesCount = 0;
+async function _loadRulesCount(){
+  try{ const r = await fetch('/api/assignment-rules', { headers: { 'X-Demo-User': _demoUserHeader() } });
+    if (r.ok) { const { rules } = await r.json(); _rulesCount = (rules || []).filter(x => x.active !== false).length; }
+  }catch(e){ _rulesCount = 0; }
+}
+function _openRulesModal(){
+  const html = `<div class="modal-backdrop" id="rules-modal-bg" onclick="if(event.target===this)this.remove()"><div class="modal-box" style="max-width:520px;" role="dialog" aria-modal="true" aria-label="Assignment rules"><div class="modal-head"><h3>Assignment rules</h3><button class="modal-close" onclick="document.getElementById('rules-modal-bg').remove()">✕</button></div><div class="modal-body"><p style="font-size:12.5px;color:var(--muted);margin:0 0 12px;">Auto-assign content to districts by role — new joiners inherit matching rules.</p><div style="display:flex;justify-content:flex-end;margin-bottom:10px;"><button class="secondary" style="font-size:13px;" onclick="_openRuleCreateModal()">+ New rule</button></div><div id="manage-rules-list" class="rules-list"><div class="rules-empty">Loading…</div></div></div></div></div>`;
+  document.body.insertAdjacentHTML('beforeend', html);
+  _loadRulesPanel().catch(()=>{});
+}
 async function _loadRulesPanel() {
   if (_viewMode !== 'trainer' && _learnRole() !== 'CN Director') return;
   const r = await fetch('/api/assignment-rules', { headers: { 'X-Demo-User': _demoUserHeader() } });
@@ -13755,6 +13763,8 @@ async function _loadRulesPanel() {
   const list = document.getElementById('manage-rules-list');
   if (!list) return;
   const active = (rules || []).filter(r => r.active !== false);
+  _rulesCount = active.length;
+  const _b = document.getElementById('mg-rules-badge'); if (_b) { _b.textContent = _rulesCount || ''; _b.hidden = !_rulesCount; }
   if (!active.length) {
     list.innerHTML = '<div class="rules-empty">No rules yet — create one to auto-assign content to districts by role.</div>';
     return;
