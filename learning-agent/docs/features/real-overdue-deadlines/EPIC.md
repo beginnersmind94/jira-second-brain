@@ -38,4 +38,5 @@ real notification delivery; relative-due resolution ("7 days from join"); a time
 - [ ] [STORY-001: Bind overdue to one real, timezone-aware deadline computation](STORY-001-bind-deadline-to-overdue.md) — the vertical slice.
 
 ## Implementation notes
-- _(filled as code lands — new module for the computation, `due_date`/`timezone` fields, the three call sites, tests.)_
+- **Slice 1 (done):** `overdue.py` — one `is_overdue(completed, due_date, now, tz)` (pure, defensive, end-of-day in tz with a naive fallback) + `tests/test_overdue.py` (7 tests). Wired into `demo_app._build_compliance_report`: the old `<20% complete` proxy is replaced by the real computation for both `summary.overdue` and per-staff status. Verified: report builds, `summary.overdue=0` honestly (deadline 2026-06-30 is future vs report_date 2026-06-15) where the proxy used to show a fake count.
+- **Remaining:** wire the same computation into the district-detail KPI + roster pill + portfolio (replace the `status==='Overdue'` string match); add per-assignment `due_date` + per-district `timezone`; add a demo scenario with a *passed* deadline (or per-learner dates) so the deck can show overdue learners honestly.

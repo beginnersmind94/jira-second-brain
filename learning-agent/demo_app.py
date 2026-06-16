@@ -43,6 +43,7 @@ from sse_starlette.sse import EventSourceResponse
 from auth import CurrentUser, get_current_user
 from tenancy import assert_district_access, filter_to_accessible_districts, get_user_districts
 import project_workspace_store as _ws   # Epic: implementation-workspace (STORY-001)
+import overdue as _ov   # Epic: real-overdue (STORY-001) — one "overdue" definition
 
 from claude_agent_sdk import (
     AssistantMessage,
@@ -7680,9 +7681,9 @@ def _build_compliance_report(isd: str) -> dict:
     complete  = sum(1 for r in roster if r["status"] == "Completed")
     in_prog   = sum(1 for r in roster if r["status"] == "In progress")
     not_start = sum(1 for r in roster if r["status"] == "Not started")
-    # "Overdue": In Progress with <20 % completion — proxy for seeded data that
-    # carries no explicit deadline field.
-    overdue   = sum(1 for r in roster if r["status"] == "In progress" and r["progress"] < 20)
+    # Overdue: REAL computation — not complete AND past the compliance deadline (end-of-day,
+    # tz-aware) via overdue.is_overdue. Replaces the old "<20% complete" proxy (Epic: real-overdue).
+    overdue   = sum(1 for r in roster if _ov.is_overdue(r["status"] == "Completed", _COMPLIANCE_DUE))
     staff_rows = [
         {
             "name":           r["name"],
@@ -7693,7 +7694,8 @@ def _build_compliance_report(isd: str) -> dict:
             "role":           r["role"],
             "track":          _ROLE_TRACK.get(r["role"], r.get("assigned", "\u2014")),
             "completion_pct": r["progress"],
-            "status":         _compliance_status(r["status"]),
+            "status":         ("Overdue" if _ov.is_overdue(r["status"] == "Completed", _COMPLIANCE_DUE)
+                               else _compliance_status(r["status"])),
             "last_active":    r["last_active"],
         }
         for r in roster
