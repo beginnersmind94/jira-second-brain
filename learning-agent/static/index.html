@@ -4043,6 +4043,9 @@
     <button class="quality-btn" id="quality-btn" onclick="showView('evals')" title="Quality — grounding checks &amp; every claim cited" aria-label="Quality dashboard">
       <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
     </button>
+    <button class="quality-btn" id="settings-btn" onclick="showView('settings')" title="Settings — assignment rules &amp; configuration" aria-label="Settings">
+      <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+    </button>
     <button class="inbox-btn" id="inbox-btn" onclick="openInboxDrawer()" title="Notifications — approvals &amp; activity" aria-label="Notifications">
       <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
       <span class="inbox-badge" id="inbox-badge"></span>
@@ -4918,7 +4921,7 @@
   <div class="roster-wrap">
     <div class="roster-head">
       <div><h1 class="roster-title" id="manage-title">Districts</h1><p class="roster-sub" id="manage-sub">Training rollout across your districts.</p></div>
-      <div class="roster-head-actions"><button class="secondary" onclick="openAssignmentModal()">Assign training</button><button class="primary" onclick="showView('projects')">+ Add district</button><span class="demo-tag">Demo data</span></div>
+      <div class="roster-head-actions"><button class="primary" onclick="showView('projects')">+ Add district</button><span class="demo-tag">Demo data</span></div>
     </div>
     <div id="manage-body"></div>
   </div>
@@ -4934,9 +4937,21 @@
         <div id="district-stage-row" class="district-stage-row"></div>
         <p class="roster-sub" id="district-sub"></p>
       </div>
-      <div style="display:flex;gap:8px;align-items:center;"><span class="demo-tag">Demo data</span><button class="primary" onclick="openAssignmentModal(_curISD)">Design training</button></div>
+      <div style="display:flex;gap:8px;align-items:center;"><span class="demo-tag">Demo data</span><button class="primary" onclick="openAssignmentModal(_curISD)">Assign training</button></div>
     </div>
     <div id="district-body"></div>
+  </div>
+</section>
+
+<!-- ═══ SETTINGS — trainer configuration (assignment rules live here, not on the portfolio) ═══ -->
+<section id="view-settings" class="view">
+  <div class="roster-wrap">
+    <div class="roster-head"><div><h1 class="roster-title">Settings</h1><p class="roster-sub">Trainer configuration.</p></div></div>
+    <div style="max-width:760px;">
+      <div class="mg-section-head" style="margin-top:8px;"><h3>Assignment rules</h3><button class="secondary" style="font-size:13px;" onclick="_openRuleCreateModal()">+ New rule</button></div>
+      <p style="font-size:12.5px;color:var(--muted);margin:2px 0 12px;">Auto-assign content to districts by role — new joiners inherit matching rules.</p>
+      <div id="manage-rules-list" class="rules-list"><div class="rules-empty">Loading…</div></div>
+    </div>
   </div>
 </section>
 
@@ -6199,6 +6214,7 @@ function applyViewMode() {
   ALL_TABS.forEach(id => show(id, VISIBLE.includes(id)));
   // Quality (grounding QA) is a trainer-only admin affordance — header gear, hidden for customers.
   const qbtn = document.getElementById('quality-btn'); if (qbtn) qbtn.hidden = _viewMode === 'customer';
+  const sbtn = document.getElementById('settings-btn'); if (sbtn) sbtn.hidden = _viewMode === 'customer';
   // G2: stat overlay buttons — only shown in trainer view AND when conferenceMode is on.
   const isConference = window._config && window._config.conferenceMode;
   const g2Gate = document.getElementById('g2-gate-btn');
@@ -6327,6 +6343,7 @@ function showView(name) {
   if (name === 'manage') loadManage();
   if (name === 'district') loadDistrict();
   if (name === 'home') loadHome();
+  if (name === 'settings') loadSettings();
   if (name === 'myteam' && typeof loadMyTeam === 'function') loadMyTeam();
   if (name === 'tracks' && typeof loadTracks === 'function') loadTracks();
   if (name === 'track-builder') { if (typeof loadTrackBuilder === 'function') loadTrackBuilder(); return; }
@@ -13281,7 +13298,6 @@ async function loadManage(){
   if (body) { body.setAttribute('aria-busy', 'true'); body.innerHTML = _manageSkeleton(); }
   await _refreshCreatedDistricts(); _demoISDInit();
   await _loadPortfolioWorkspaces();
-  await _loadRulesCount();
   if (body) body.removeAttribute('aria-busy');
   renderManage();
 }
@@ -13695,10 +13711,8 @@ function renderManage(){
   if (needAttn) h += `<div class="mg-kpi mg-kpi-warn"><div class="mg-kpi-n">${needAttn}</div><div class="mg-kpi-l">Need attention</div></div>`;
   h += '</div>';
 
-  /* ── Header actions: assignment rules (was buried at page bottom) + QR sheet ── */
-  h += '<div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:12px;">';
-  if (_viewMode === 'trainer' || _learnRole() === 'CN Director')
-    h += `<button class="secondary" style="font-size:13px;" onclick="_openRulesModal()">⚙ Assignment rules<span id="mg-rules-badge" class="mg-rules-badge"${_rulesCount ? '' : ' hidden'}>${_rulesCount || ''}</span></button>`;
+  /* ── Header action: QR sheet (assignment rules live in Settings, header gear) ── */
+  h += '<div style="display:flex;justify-content:flex-end;margin-bottom:12px;">';
   h += '<button class="secondary" style="font-size:13px;" onclick="_generateQrSheet()">📋 Download QR sheet</button>';
   h += '</div>';
 
@@ -13745,17 +13759,8 @@ function renderManage(){
   }
 }
 // OPS-2: fetch assignment rules and populate the manage rules list.
-let _rulesCount = 0;
-async function _loadRulesCount(){
-  try{ const r = await fetch('/api/assignment-rules', { headers: { 'X-Demo-User': _demoUserHeader() } });
-    if (r.ok) { const { rules } = await r.json(); _rulesCount = (rules || []).filter(x => x.active !== false).length; }
-  }catch(e){ _rulesCount = 0; }
-}
-function _openRulesModal(){
-  const html = `<div class="modal-backdrop" id="rules-modal-bg" onclick="if(event.target===this)this.remove()"><div class="modal-box" style="max-width:520px;" role="dialog" aria-modal="true" aria-label="Assignment rules"><div class="modal-head"><h3>Assignment rules</h3><button class="modal-close" onclick="document.getElementById('rules-modal-bg').remove()">✕</button></div><div class="modal-body"><p style="font-size:12.5px;color:var(--muted);margin:0 0 12px;">Auto-assign content to districts by role — new joiners inherit matching rules.</p><div style="display:flex;justify-content:flex-end;margin-bottom:10px;"><button class="secondary" style="font-size:13px;" onclick="_openRuleCreateModal()">+ New rule</button></div><div id="manage-rules-list" class="rules-list"><div class="rules-empty">Loading…</div></div></div></div></div>`;
-  document.body.insertAdjacentHTML('beforeend', html);
-  _loadRulesPanel().catch(()=>{});
-}
+// Assignment rules live on the Settings page (header gear → showView('settings')).
+function loadSettings(){ _loadRulesPanel().catch(()=>{}); }
 async function _loadRulesPanel() {
   if (_viewMode !== 'trainer' && _learnRole() !== 'CN Director') return;
   const r = await fetch('/api/assignment-rules', { headers: { 'X-Demo-User': _demoUserHeader() } });
@@ -13764,8 +13769,6 @@ async function _loadRulesPanel() {
   const list = document.getElementById('manage-rules-list');
   if (!list) return;
   const active = (rules || []).filter(r => r.active !== false);
-  _rulesCount = active.length;
-  const _b = document.getElementById('mg-rules-badge'); if (_b) { _b.textContent = _rulesCount || ''; _b.hidden = !_rulesCount; }
   if (!active.length) {
     list.innerHTML = '<div class="rules-empty">No rules yet — create one to auto-assign content to districts by role.</div>';
     return;
