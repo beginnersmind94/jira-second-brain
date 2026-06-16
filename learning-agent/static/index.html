@@ -13786,6 +13786,8 @@ function _asnAudLabel(a){ const arr=Array.isArray(a.audVal)?a.audVal:[a.audVal];
 function _asnCount(a){ const d=_curDistrict()||{}; const ls=d.learners||[]; const vals=Array.isArray(a.audVal)?a.audVal:[a.audVal]; if(a.audType==='org') return _districtPeople(d); if(a.audType==='role') return ls.filter(l=>l.role===a.audVal).length; if(a.audType==='site') return ls.filter(l=>vals.includes(l.site)).length; if(a.audType==='people') return vals.length; return 0; }
 // Does assignment `a` apply to district `d`? (for the per-district "Assigned training" list)
 function _asnAppliesTo(a, d){ const vals=Array.isArray(a.audVal)?a.audVal:[a.audVal]; if(a.audType==='org') return true; if(a.audType==='district') return vals.includes(d.id); if(a.audType==='role') return (d.learners||[]).some(l=>l.role===a.audVal) || d.source==='created'; if(a.audType==='site') return (d.sites||[]).some(s=>vals.includes(s)); return false; }
+// Does a single learner fall in an assignment's audience? (for stamping the assignment's due date)
+function _asnLearnerMatch(t, audVal, l){ const vals=Array.isArray(audVal)?audVal:[audVal]; if(t==='org') return true; if(t==='role') return l.role===audVal; if(t==='site') return vals.includes(l.site); if(t==='people') return vals.includes(l.name); return false; }
 function renderAssignments(){
   _initAssignments();
   const rows = _demoState.assignments.map(a=>{ const c=_asnContent(a), past=_dueIsPast(a.due); return `<tr><td>${escapeHtml(c.title)} <span class="chip behind" style="margin-left:4px;">${c.type}</span></td><td>${escapeHtml(_asnAudLabel(a))}${a.dyn?' · dynamic':''}${a.drip?' · drip':''}</td><td>${_asnCount(a)}</td><td>Due ${escapeHtml(a.due)}</td><td><span class="pill ${past?'pill--urgent':'pill--success'}">${past?'Past due':'Active'}</span></td></tr>`; }).join('') || '<tr><td colspan="5" class="lib-empty">No assignments yet.</td></tr>';
@@ -13848,6 +13850,14 @@ async function asnSave(){
   }
   const due = dyn ? '7 days from join' : (_fmtDue((document.getElementById('asn-due')||{}).value) || _DEMO.due);
   _demoState.assignments.unshift({ id:++_demoState.asnSeq, contentType:ct, contentId:content, audType:t, audVal, due, created:'Today', dyn, drip });
+  // Per-assignment due date DRIVES overdue: stamp the chosen ISO deadline on the matching
+  // learners in this district and recompute their status via _isOverdue (same definition as
+  // overdue.py). Assign with a past deadline → those not-complete learners go Overdue at once.
+  const _isoDue=(document.getElementById('asn-due')||{}).value;
+  if(_isoDue && !dyn){
+    const _d=_curDistrict();
+    (_d&&_d.learners||[]).forEach(l=>{ if(_asnLearnerMatch(t,audVal,l)){ l.due=_isoDue; l.status=l.completion>=100?'Complete':(_isOverdue(false,l.due)?'Overdue':(l.completion>0?'In progress':'Not started')); } });
+  }
   asnClose();
   const _av=(document.querySelector('.view.active')||{}).id;
   if(_av==='view-district') loadDistrict(); else if(_av==='view-myteam') renderMyTeam(); else renderManage();

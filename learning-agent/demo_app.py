@@ -2053,10 +2053,12 @@ async def api_get_gamification(
 # switch between districts. This is SYNTHETIC, clearly-labeled demo data — no real
 # students. Deterministic per district (seeded) so it doesn't churn on refresh.
 _DISTRICTS = [
-    {"id": "houston-isd", "name": "Houston ISD", "domain": "houstonisd"},
-    {"id": "dallas-isd", "name": "Dallas ISD", "domain": "dallasisd"},
-    {"id": "austin-isd", "name": "Austin ISD", "domain": "austinisd"},
-    {"id": "cy-fair-isd", "name": "Cypress-Fairbanks ISD", "domain": "cfisd"},
+    # timezone is used for overdue math ("overdue at midnight" = the DISTRICT's midnight).
+    # All seeded districts are Texas (Central); a multi-state deployment would vary this.
+    {"id": "houston-isd", "name": "Houston ISD", "domain": "houstonisd", "timezone": "America/Chicago"},
+    {"id": "dallas-isd", "name": "Dallas ISD", "domain": "dallasisd", "timezone": "America/Chicago"},
+    {"id": "austin-isd", "name": "Austin ISD", "domain": "austinisd", "timezone": "America/Chicago"},
+    {"id": "cy-fair-isd", "name": "Cypress-Fairbanks ISD", "domain": "cfisd", "timezone": "America/Chicago"},
 ]
 _ROSTER_FIRST = ["Maria", "James", "Aisha", "Carlos", "Linda", "Wei", "Diego", "Sarah", "Robert",
                  "Priya", "Kenji", "Grace", "Marcus", "Elena", "Tyler", "Fatima", "Rosa", "Andre",
@@ -7677,13 +7679,14 @@ def _build_compliance_report(isd: str) -> dict:
     if d is None:
         return {}
     roster = _roster_for(d)
+    _tz       = d.get("timezone", "America/Chicago")   # overdue is computed in the district's tz
     total     = len(roster)
     complete  = sum(1 for r in roster if r["status"] == "Completed")
     in_prog   = sum(1 for r in roster if r["status"] == "In progress")
     not_start = sum(1 for r in roster if r["status"] == "Not started")
     # Overdue: REAL computation — not complete AND past the compliance deadline (end-of-day,
     # tz-aware) via overdue.is_overdue. Replaces the old "<20% complete" proxy (Epic: real-overdue).
-    overdue   = sum(1 for r in roster if _ov.is_overdue(r["status"] == "Completed", _COMPLIANCE_DUE))
+    overdue   = sum(1 for r in roster if _ov.is_overdue(r["status"] == "Completed", _COMPLIANCE_DUE, tz=_tz))
     staff_rows = [
         {
             "name":           r["name"],
@@ -7694,7 +7697,7 @@ def _build_compliance_report(isd: str) -> dict:
             "role":           r["role"],
             "track":          _ROLE_TRACK.get(r["role"], r.get("assigned", "\u2014")),
             "completion_pct": r["progress"],
-            "status":         ("Overdue" if _ov.is_overdue(r["status"] == "Completed", _COMPLIANCE_DUE)
+            "status":         ("Overdue" if _ov.is_overdue(r["status"] == "Completed", _COMPLIANCE_DUE, tz=_tz)
                                else _compliance_status(r["status"])),
             "last_active":    r["last_active"],
         }
