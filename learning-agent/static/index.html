@@ -6036,64 +6036,10 @@ function _restoreFromQueryParams() {
   return false;
 }
 
-// PLT-2: generate a printable QR sheet for all approved library modules.
-async function _generateQrSheet() {
-  const btn = document.querySelector('[onclick="_generateQrSheet()"]');
-  if (btn) { btn.disabled = true; btn.textContent = '…'; }
-
-  try {
-    // Fetch approved modules from the library.
-    const r = await fetch('/api/modules', { headers: { 'X-Demo-User': _demoUserHeader() } });
-    if (!r.ok) throw new Error('modules ' + r.status);
-    const data = await r.json();
-    const modules = (data.modules || []).slice(0, 20); // cap at 20 for print
-
-    if (!modules.length) {
-      alert('No approved modules found. Publish some content first.');
-      return;
-    }
-
-    // Generate QR codes in parallel (POST /api/qr for each).
-    const qrResults = await Promise.all(modules.map(m =>
-      fetch('/api/qr', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-Demo-User': _demoUserHeader() },
-        body: JSON.stringify({ url: '/?lesson=' + encodeURIComponent(m.id), label: m.title }),
-      }).then(res => res.ok ? res.json() : null)
-    ));
-
-    const cards = modules.map((m, i) => {
-      const qr = qrResults[i];
-      if (!qr) return '';
-      return `<div class="qr-card">
-        <img src="${escapeHtml(qr.qr_data_uri)}" width="80" height="80" alt="QR code for ${escapeHtml(m.title)}"/>
-        <div class="qr-title">${escapeHtml(m.title)}</div>
-        <div class="qr-meta">${escapeHtml(m.module || '')}${m.module && m.role_tags && m.role_tags.length ? ' · ' : ''}${escapeHtml((m.role_tags || []).join(', '))}</div>
-      </div>`;
-    }).join('');
-
-    const html = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"/>
-<title>QR Sheet — Learning Academy</title>
-<style>
-  @page{size:letter;margin:0.5in} body{font-family:Arial,sans-serif;font-size:10pt}
-  h1{font-size:14pt;margin:0 0 12pt} .grid{display:flex;flex-wrap:wrap;gap:16pt}
-  .qr-card{width:120pt;text-align:center;border:1pt solid #ddd;border-radius:4pt;padding:8pt}
-  .qr-title{font-size:8pt;font-weight:bold;margin-top:4pt;word-break:break-word}
-  .qr-meta{font-size:7pt;color:#666;margin-top:2pt}
-  @media print{body{-webkit-print-color-adjust:exact}}
-</style></head><body>
-<h1>Learning Academy — QR Sheet</h1>
-<div class="grid">${cards}</div>
-</body></html>`;
-
-    const win = window.open('', '_blank');
-    if (win) { win.document.write(html); win.document.close(); win.focus(); win.print(); }
-  } catch (e) {
-    console.log('[PLT-2] QR sheet failed:', e.message);
-  } finally {
-    if (btn) { btn.disabled = false; btn.textContent = '📋 Download QR sheet'; }
-  }
-}
+// PLT-2 QR sheet removed from the UI: the printable sheet's QR codes were stubs (qr_store
+// gen_qr_svg is "not scannable; demo only") and the button was mislocated on the Districts
+// portfolio (it QR-codes Library modules, not districts). The qr_store backend + POST /api/qr
+// remain for a future Library-scoped QR-access feature built on a real QR encoder.
 
 window.addEventListener('popstate', () => { _restoreFromHash(); });
 
@@ -13706,15 +13652,13 @@ function renderManage(){
   h += `<div class="mg-kpi"><div class="mg-kpi-n">${totLearners}</div><div class="mg-kpi-l">Learners</div></div>`;
   h += `<div class="mg-kpi"><div class="mg-kpi-n">${avg}%</div><div class="mg-kpi-l">Avg completion</div></div>`;
   h += `<div class="mg-kpi"><div class="mg-kpi-n">${activeWk}</div><div class="mg-kpi-l">Active this week</div></div>`;
-  if (helps.length) h += `<div class="mg-kpi mg-kpi-warn"><div class="mg-kpi-n">${helps.length}</div><div class="mg-kpi-l">Need help</div></div>`;
-  const needAttn = ds.filter(d => { const s = (_wsCache[d.id] || {}).status; return s === 'blocked' || s === 'at_risk'; }).length;
+  // ONE "needs your action" signal: blocked / at-risk implementation OR an open help request,
+  // de-duped (a district that is both counts once). Help requests also appear as cards above.
+  const needAttn = ds.filter(d => { const s = (_wsCache[d.id] || {}).status; const helpOpen = d.help_request && !_demoState.helpCleared[d.id]; return s === 'blocked' || s === 'at_risk' || helpOpen; }).length;
   if (needAttn) h += `<div class="mg-kpi mg-kpi-warn"><div class="mg-kpi-n">${needAttn}</div><div class="mg-kpi-l">Need attention</div></div>`;
   h += '</div>';
 
-  /* ── Header action: QR sheet (assignment rules live in Settings, header gear) ── */
-  h += '<div style="display:flex;justify-content:flex-end;margin-bottom:12px;">';
-  h += '<button class="secondary" style="font-size:13px;" onclick="_generateQrSheet()">📋 Download QR sheet</button>';
-  h += '</div>';
+  /* (QR sheet button removed — stub-QR Library feature mislocated on the Districts page.) */
 
   /* ── 3. DISTRICT TABLE — no Trainer column, inline track progress ── */
   h += '<div class="mg-section-head"><h3>All districts</h3></div>';
