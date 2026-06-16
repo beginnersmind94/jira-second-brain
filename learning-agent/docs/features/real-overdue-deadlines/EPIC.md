@@ -1,6 +1,6 @@
 # Epic: Real overdue — one deadline-bound computation across every surface
 
-**Status:** In progress
+**Status:** Done ✓ — STORY-001 shipped (3 slices), verified live (2026-06-15)
 **Component:** Districts (Manage / district-detail / compliance report)   ·   **Persona:** CN Director (Dana) + Implementation (Jaime's team)   ·   **Last updated:** 2026-06-15
 **Depends on:** `deadline_store.py` (exists); per-track due dates already used by the E1 roster (`demo_app.py` `/api/roster/{track_id}`)
 
@@ -39,4 +39,6 @@ real notification delivery; relative-due resolution ("7 days from join"); a time
 
 ## Implementation notes
 - **Slice 1 (done):** `overdue.py` — one `is_overdue(completed, due_date, now, tz)` (pure, defensive, end-of-day in tz with a naive fallback) + `tests/test_overdue.py` (7 tests). Wired into `demo_app._build_compliance_report`: the old `<20% complete` proxy is replaced by the real computation for both `summary.overdue` and per-staff status. Verified: report builds, `summary.overdue=0` honestly (deadline 2026-06-30 is future vs report_date 2026-06-15) where the proxy used to show a fake count.
-- **Remaining:** wire the same computation into the district-detail KPI + roster pill + portfolio (replace the `status==='Overdue'` string match); add per-assignment `due_date` + per-district `timezone`; add a demo scenario with a *passed* deadline (or per-learner dates) so the deck can show overdue learners honestly.
+- **Slice 2 (done):** `static/index.html` `_isOverdue` (client mirror of overdue.py); every demo learner seeded with a real `due` date and `status` DERIVED from it (overdue cohort = passed deadline). District KPI / roster pill / My Team / Home overdue counts all became deadline-driven with no call-site changes (they read `l.status`). Verified: Houston 2 / Aldine 3 / Klein 3, derivation consistent.
+- **Slice 3 (done):** per-assignment due dates drive overdue — `asnSave` stamps the chosen ISO deadline on matching learners (`_asnLearnerMatch`) + recomputes status; per-district `timezone` added to `_DISTRICTS` and threaded into the compliance report's `is_overdue`. Verified: past deadline → matching learners Overdue; report builds tz-aware.
+- **Status:** STORY-001 complete — one deadline-driven, tz-aware "overdue" across the compliance report, district surfaces, and assignment flow. The three-definitions problem is closed. (Future polish: client `_isOverdue` could compute per-district tz via `Intl` instead of local end-of-day; all seeded districts are Central so it's not observable today.)
