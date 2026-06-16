@@ -216,8 +216,68 @@ def list_modules(source: str = "", product: str = "", role: str = "", q: str = "
 
 
 def expand_track(track: dict, icn_dir: Path | None = None) -> dict:
-    """Return track with 'modules' key containing expanded module objects."""
+    """Return track with 'modules' key containing expanded module objects.
+
+    For module_ids-based tracks (legacy):
+        Looks up each id in the aggregated module catalog.
+
+    For course_ids-based tracks (A1 schema):
+        Loads each course from course_store and flattens its lessons into
+        module-shaped stub dicts so the Track Builder can display real content
+        instead of an empty list.  Each stub carries _from_courses=True so the
+        builder knows the list is read-only (editing must go through the course
+        layer, not PUT /api/tracks/:id/modules).
+
+    Preserves existing behavior for pure module_ids tracks (no course_ids key).
+    """
     all_mods_resp = list_modules(icn_dir=icn_dir)
     by_id = {m["id"]: m for m in all_mods_resp["modules"]}
-    expanded = [by_id[mid] for mid in (track.get("module_ids") or []) if mid in by_id]
+
+    module_ids: list = track.get("module_ids") or []
+    course_ids: list = track.get("course_ids") or []
+
+    if course_ids:
+        # Course-based track: flatten courses → lessons into module-shaped stubs.
+        # Import here to avoid a circular import at module level.
+        import course_store as _cs  # noqa: PLC0415
+        expanded = []
+        for cid in course_ids:
+            course = _cs.load_course(cid)
+            if not course:
+                continue
+            for lesson in (course.get("lessons") or []):
+                ref = lesson.get("ref") or ""
+                # Try to resolve a rich module object from the catalog first.
+                rich = by_id.get(ref)
+                if rich:
+                    stub = dict(rich)
+                else:
+                    stub = {
+                        "id": ref,
+                        "title": lesson.get("title") or ref,
+                        "module": course.get("title") or "",
+                        "product": track.get("product") or "SchoolCafé",
+                        "source": _lesson_source(lesson),
+                        "template": lesson.get("type"),
+                        "role_tags": list(track.get("role_tags") or []),
+                        "duration_min": lesson.get("duration_est"),
+                        "status": "approved",
+                        "created_at": "",
+                    }
+                stub["_from_courses"] = True
+                stub["_course_id"] = cid
+                stub["_lesson_type"] = lesson.get("type") or ""
+                expanded.append(stub)
+        return {**track, "modules": expanded}
+
+    # Legacy module_ids path — unchanged.
+    expanded = [by_id[mid] for mid in module_ids if mid in by_id]
     return {**track, "modules": expanded}
+
+
+def _lesson_source(lesson: dict) -> str:
+    """Map a lesson type to a module source badge value."""
+    t = (lesson.get("type") or "").strip()
+    if t in ("video", "external_icn"):
+        return "ICN_DOC"
+    return "HUMAN_GUIDE"

@@ -19,10 +19,12 @@ Course schema:
       "role_tags": [],
       "lessons": [
         {
-          "type": "guide|quiz|video|external_icn|flashcards|assessment|exercise",
-          "ref": "<resource-id or quiz-id or icn-asset-id or assessment-id>",
+          "type": "guide|quiz|video|external_icn|flashcards|assessment|exercise|image",
+          "ref": "<resource-id or quiz-id or icn-asset-id or assessment-id or image-filename>",
           "title": "string",
-          "duration_est": 5
+          "duration_est": 5,
+          "alt": "string (required for image lessons — WCAG 1.1.1)",
+          "caption": "string (optional short descriptive caption for image lessons)"
         }
       ],
       "status": "draft",
@@ -38,6 +40,10 @@ Lesson types:
   external_icn  -> same as video (ICN catalog id)
   assessment    -> data/assessments/<ref>.json must exist AND status == "published"
   exercise      -> always valid (placeholder for future interactive content)
+  image         -> ref (filename) must exist in static/course-img/ AND alt must be
+                   non-empty (WCAG 1.1.1). Origin badge: human_authored (never
+                   ai_grounded — trainer-uploaded, INV-1). Caption is an optional
+                   short label (not a product-claim body; kept to ≤200 chars).
 """
 from __future__ import annotations
 
@@ -57,6 +63,8 @@ _QUIZ_DIR = BASE / "quizzes"
 _FLASHCARDS_DIR = BASE / "data" / "flashcards"
 _ASSESSMENTS_DIR = BASE / "data" / "assessments"
 _ICN_DATA_DIR = BASE / "data" / "icn" / "data"
+# Trainer-uploaded course illustration images (served at GET /course-img/<name>).
+_COURSE_IMG_DIR = BASE / "static" / "course-img"
 
 
 # -- ID helpers ----------------------------------------------------------------
@@ -274,6 +282,30 @@ def validate_lesson_ref(
         # Always valid -- placeholder for future interactive content.
         return True, None
 
+    elif lesson_type == "image":
+        # Image lessons: ref is the filename in static/course-img/.
+        # Provenance: human_authored (trainer-uploaded) — NEVER ai_grounded (INV-1).
+        # alt is mandatory for WCAG 1.1.1 — block save if empty.
+        alt = (lesson.get("alt") or "").strip()
+        if not alt:
+            return False, (
+                "image lesson is missing alt text — alt is required for accessibility (WCAG 1.1.1). "
+                "Describe what the image shows so screen-reader users aren't excluded."
+            )
+        # ref must be a safe filename (basename only, no path traversal).
+        safe_ref = Path(ref).name
+        if safe_ref != ref:
+            return False, (
+                f"image ref '{ref}' contains path separators — only a bare filename is allowed"
+            )
+        img_path = _COURSE_IMG_DIR / safe_ref
+        if not img_path.exists() or not img_path.is_file():
+            return False, (
+                f"image ref '{ref}' does not exist in static/course-img/ — "
+                "upload the image via POST /api/courses/images before referencing it"
+            )
+        return True, None
+
     else:
         return False, f"unknown lesson type '{lesson_type}'"
 
@@ -317,6 +349,12 @@ def lesson_origin_badge(lesson: dict) -> str:
 
     if lesson_type == "exercise":
         # Exercises are human-assembled (no AI-claim channel yet).
+        return "human_authored"
+
+    if lesson_type == "image":
+        # Trainer-uploaded screenshots/diagrams — provenance is always human_authored.
+        # NEVER badge as ai_grounded (INV-1): the trainer took this screenshot; it is
+        # not a product claim, not AI-generated, and not ICN/USDA vendor content.
         return "human_authored"
 
     if lesson_type == "guide":
@@ -366,6 +404,14 @@ def expand_lesson(lesson: dict, all_module_meta: dict[str, dict] | None = None) 
         elif lesson_type == "quiz":
             quiz = _read_json(_QUIZ_DIR / f"{ref}.json") or {}
             expanded["title"] = quiz.get("title") or ref
+
+        elif lesson_type == "image":
+            # Title falls back to caption, then alt text, then filename.
+            expanded["title"] = (
+                lesson.get("caption")
+                or lesson.get("alt")
+                or ref
+            )
 
         else:
             expanded["title"] = ref

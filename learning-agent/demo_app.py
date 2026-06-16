@@ -2526,7 +2526,7 @@ async def api_roster_nudge(
 
     _ns.add_nudges_batch(track_id, user_ids, nudged_by=current_user.id)
     n = len(user_ids)
-    return JSONResponse({"nudged": n, "message": f"Reminder sent to {n} learner{'s' if n != 1 else ''}."})
+    return JSONResponse({"nudged": n, "message": f"Reminder logged for {n} learner{'s' if n != 1 else ''} — delivery requires roster sync."})
 
 
 @app.post("/api/roster/{track_id}/nudge-all-overdue")
@@ -2596,7 +2596,7 @@ async def api_roster_nudge_all_overdue(
     new_iso = datetime.utcfromtimestamp(now_ts).strftime("%Y-%m-%dT%H:%M:%SZ")
     return JSONResponse({
         "nudged": n,
-        "message": f"Reminder sent to {n} learner{'s' if n != 1 else ''}.",
+        "message": f"Reminder logged for {n} learner{'s' if n != 1 else ''} — delivery requires roster sync.",
         "throttled": False,
         "last_nudged_at": new_iso,
     })
@@ -3802,24 +3802,134 @@ async def get_certificate(cid: str):
 # ─────────────────────────────────────────────────────────────────────────────
 
 @app.get("/api/certificates/verify/{code}")
-async def verify_certificate(code: str):
+async def verify_certificate(code: str, request: Request):
     """Public verification lookup by verification_code.
 
     D7 trust guardrail: response contains ONLY {found, user_display_name,
     track_title, issued_at}.  No user_id, no district, no email, no other PII.
     The response dict is built field-by-field — never a passthrough of the
     internal cert object.
+
+    Content-negotiation: browsers (Accept: text/html) receive a human-readable
+    HTML verification page.  API/programmatic callers receive the same JSON as
+    before so nothing else breaks.
     """
+    import html as _html
+
+    def _wants_html() -> bool:
+        accept = request.headers.get("accept", "")
+        return "text/html" in accept
+
     cert = _cs.get_certificate_by_verification_code(code)
+
+    # ── JSON path (programmatic callers) ────────────────────────────────────
+    if not _wants_html():
+        if cert is None:
+            return JSONResponse({"found": False})
+        return JSONResponse({
+            "found": True,
+            "user_display_name": cert.get("user_display_name") or cert.get("learner_name") or "Learner",
+            "track_title": cert.get("track_title") or "",
+            "issued_at": cert.get("issued_at") or "",
+        })
+
+    # ── HTML path (browsers) ─────────────────────────────────────────────────
+    def esc(v: object) -> str:
+        return _html.escape(str(v) if v is not None else "")
+
     if cert is None:
-        return JSONResponse({"found": False})
-    # Field-by-field construction — explicit PII guardrail.
-    return JSONResponse({
-        "found": True,
-        "user_display_name": cert.get("user_display_name") or cert.get("learner_name") or "Learner",
-        "track_title": cert.get("track_title") or "",
-        "issued_at": cert.get("issued_at") or "",
-    })
+        html_404 = """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Certificate not found — CN Learning Studio</title>
+<style>
+  body{font-family:system-ui,sans-serif;background:#f4f6f8;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}
+  .card{background:#fff;border-radius:12px;box-shadow:0 2px 16px rgba(0,0,0,.10);padding:48px 40px;max-width:440px;width:100%;text-align:center}
+  .icon{font-size:48px;margin-bottom:16px}
+  h1{font-size:1.4rem;color:#c0392b;margin:0 0 12px}
+  p{color:#555;font-size:.95rem;line-height:1.5;margin:0 0 8px}
+  .brand{margin-top:32px;font-size:.8rem;color:#999}
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="icon">&#10060;</div>
+    <h1>Certificate not found</h1>
+    <p>No certificate matches that verification code.</p>
+    <p>The code may be incorrect, or the certificate may have been revoked.</p>
+    <div class="brand">CN Learning Studio &mdash; Cybersoft</div>
+  </div>
+</body>
+</html>"""
+        return HTMLResponse(content=html_404, status_code=404)
+
+    # Format issued date for display
+    issued_raw = cert.get("issued_at") or ""
+    try:
+        from datetime import datetime as _dt
+        issued_dt = _dt.fromisoformat(issued_raw.replace("Z", "+00:00"))
+        issued_fmt = issued_dt.strftime("%B %-d, %Y")
+    except Exception:
+        try:
+            from datetime import datetime as _dt
+            issued_dt = _dt.fromisoformat(issued_raw.replace("Z", "+00:00"))
+            issued_fmt = issued_dt.strftime("%B %d, %Y").replace(" 0", " ")
+        except Exception:
+            issued_fmt = issued_raw[:10] if issued_raw else ""
+
+    user_name = esc(cert.get("user_display_name") or cert.get("learner_name") or "Learner")
+    track_title = esc(cert.get("track_title") or "")
+    issued_disp = esc(issued_fmt)
+    vcode_disp = esc(code)
+
+    html_ok = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Certificate verified &mdash; CN Learning Studio</title>
+<style>
+  body{{font-family:system-ui,sans-serif;background:#f4f6f8;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}}
+  .card{{background:#fff;border-radius:12px;box-shadow:0 2px 16px rgba(0,0,0,.10);padding:48px 40px;max-width:480px;width:100%;text-align:center}}
+  .seal{{width:72px;height:72px;margin:0 auto 20px;background:#1E5A8A;border-radius:50%;display:flex;align-items:center;justify-content:center}}
+  .seal svg{{display:block}}
+  .verified-label{{font-size:.85rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#1E5A8A;margin-bottom:8px}}
+  h1{{font-size:1.5rem;color:#1a1a1a;margin:0 0 24px}}
+  .field-label{{font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#888;margin:16px 0 4px}}
+  .field-value{{font-size:1.05rem;color:#1a1a1a;font-weight:500}}
+  .code-block{{margin-top:24px;background:#f4f6f8;border-radius:8px;padding:12px 16px;font-family:monospace;font-size:.9rem;color:#444;word-break:break-all}}
+  .code-label{{font-size:.75rem;color:#888;margin-bottom:4px}}
+  .brand{{margin-top:32px;font-size:.8rem;color:#999}}
+  hr{{border:none;border-top:1px solid #eee;margin:24px 0}}
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="seal">
+      <svg width="36" height="36" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" aria-label="Verified">
+        <path d="M10 18.5L15 23.5L26 12.5" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
+    </div>
+    <div class="verified-label">Verified</div>
+    <h1>Certificate of Completion</h1>
+    <hr>
+    <div class="field-label">Awarded to</div>
+    <div class="field-value">{user_name}</div>
+    <div class="field-label">Track completed</div>
+    <div class="field-value">{track_title}</div>
+    <div class="field-label">Date issued</div>
+    <div class="field-value">{issued_disp}</div>
+    <div class="code-block">
+      <div class="code-label">Verification code</div>
+      {vcode_disp}
+    </div>
+    <div class="brand">CN Learning Studio &mdash; Cybersoft</div>
+  </div>
+</body>
+</html>"""
+    return HTMLResponse(content=html_ok, status_code=200)
 
 
 # ─────────────────────────────────────────────────────────────────────────────

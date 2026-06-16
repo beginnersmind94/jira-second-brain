@@ -558,7 +558,7 @@
     /* ───────────────────────── Buttons: three tiers ───────────────────────── */
     button.primary {
       width: 100%;
-      min-height: 40px;
+      min-height: 44px; /* AC1 — WCAG 2.2 touch target ≥44px */
       padding: 12px 18px;
       border: 0;
       border-radius: var(--radius-sm);
@@ -575,7 +575,7 @@
     button.primary:disabled { background: var(--panel3); color: var(--muted-soft); box-shadow: none; cursor: not-allowed; }
 
     button.secondary {
-      min-height: 40px;
+      min-height: 44px; /* AC1 — WCAG 2.2 touch target ≥44px */
       padding: 7px 14px;
       border-radius: var(--radius-sm);
       background: var(--panel);
@@ -2831,7 +2831,8 @@
     .tb-shell .mod-card-title { font-size: 13px; font-weight: 700; color: var(--text); margin: 0 0 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .tb-shell .mod-card-meta { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
     .tb-shell .mod-card-module { font-size: 11px; color: var(--muted); font-family: var(--mono); }
-    .tb-shell .mod-card-add { flex: none; width: 28px; height: 28px; border: 1px solid var(--border-strong); border-radius: 50%; background: var(--panel); color: var(--muted); font-size: 15px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background .14s, border-color .14s, color .14s; flex-shrink: 0; }
+    /* .mod-card-add is aria-hidden decorative; the whole .mod-card row is the hit target (≥44px tall). */
+    .tb-shell .mod-card-add { flex: none; width: 28px; height: 28px; border: 1px solid var(--border-strong); border-radius: 50%; background: var(--panel); color: var(--muted); font-size: 15px; display: flex; align-items: center; justify-content: center; transition: background .14s, border-color .14s, color .14s; flex-shrink: 0; }
     .tb-shell .mod-card-add:hover { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
     .tb-shell .mod-card.in-track .mod-card-add { background: var(--green-soft); border-color: var(--green); color: var(--green-text); font-size: 12px; }
     .tb-shell .editor-pane { display: flex; flex-direction: column; gap: 18px; padding: 20px 24px 36px; overflow-y: auto; }
@@ -2909,7 +2910,7 @@
     .tbv-back-btn:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
     .tbv-topbar-sep { color:var(--muted-soft); font-size:14px; }
     .tbv-track-switcher { display:flex; align-items:center; gap:8px; min-width:0; flex:1; }
-    .tbv-track-sel { flex:1; min-width:160px; max-width:320px; padding:7px 32px 7px 10px; background:var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236B6860' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 8px center; appearance:none; -webkit-appearance:none; border:1px solid var(--border-strong); border-radius:var(--radius-sm); font:inherit; font-size:13px; color:var(--text); outline:none; cursor:pointer; }
+    .tbv-track-sel { flex:1; min-width:160px; max-width:320px; min-height:44px; padding:12px 32px 12px 10px; background:var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236B6860' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 8px center; appearance:none; -webkit-appearance:none; border:1px solid var(--border-strong); border-radius:var(--radius-sm); font:inherit; font-size:13px; color:var(--text); outline:none; cursor:pointer; }
     .tbv-track-sel:focus { border-color:var(--accent); box-shadow:var(--ring); }
     .tbv-btn-sm { padding:7px 13px; font-size:13px; }
     /* Workspace two-col layout */
@@ -2923,13 +2924,15 @@
     .tbv-lib-search { width:100%; padding:7px 10px; background:var(--surface); border:1px solid var(--border-strong); border-radius:var(--radius-sm); font:inherit; font-size:13px; color:var(--text); outline:none; margin-bottom:6px; box-sizing:border-box; }
     .tbv-lib-search:focus { border-color:var(--accent); box-shadow:var(--ring); }
     .tbv-lib-filter-row { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:6px; }
-    .tbv-lib-sel { padding:5px 28px 5px 9px; background:var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236B6860' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 8px center; appearance:none; -webkit-appearance:none; border:1px solid var(--border-strong); border-radius:var(--radius-sm); font:inherit; font-size:12px; color:var(--text); outline:none; cursor:pointer; flex:1; min-width:88px; }
+    /* AC1 — filter select touch target: min-height 44px (WCAG 2.2 + Apple/Material) */
+    .tbv-lib-sel { padding:12px 28px 12px 9px; min-height:44px; background:var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236B6860' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 8px center; appearance:none; -webkit-appearance:none; border:1px solid var(--border-strong); border-radius:var(--radius-sm); font:inherit; font-size:12px; color:var(--text); outline:none; cursor:pointer; flex:1; min-width:88px; box-sizing:border-box; }
     .tbv-lib-sel:focus { border-color:var(--accent); box-shadow:var(--ring); }
     /* Role filter row */
     .tbv-role-filter-row { display:flex; align-items:center; gap:6px; flex-wrap:wrap; padding-bottom:8px; }
     .tbv-role-filter-label { font-size:11px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; white-space:nowrap; }
     .tbv-role-chips { display:flex; gap:5px; flex-wrap:wrap; }
-    .tbv-role-chip { display:inline-flex; align-items:center; gap:4px; padding:3px 9px; border-radius:var(--radius-pill); font-size:11px; font-weight:700; border:1.5px solid var(--border-strong); background:var(--surface); color:var(--muted-aa); cursor:pointer; transition:background .12s,border-color .12s,color .12s; user-select:none; }
+    /* AC1 — role chip touch target: min-height 44px + min-width 44px */
+    .tbv-role-chip { display:inline-flex; align-items:center; gap:4px; padding:10px 12px; min-height:44px; min-width:44px; border-radius:var(--radius-pill); font-size:11px; font-weight:700; border:1.5px solid var(--border-strong); background:var(--surface); color:var(--muted-aa); cursor:pointer; transition:background .12s,border-color .12s,color .12s; user-select:none; }
     .tbv-role-chip.active { background:var(--accent-soft); border-color:var(--accent); color:var(--accent-ink-dark,var(--accent)); }
     .tbv-role-chip:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
     .tbv-role-all-btn { font-size:11px; font-weight:600; border:0; background:none; color:var(--muted); cursor:pointer; padding:3px 6px; border-radius:var(--radius-sm); transition:color .12s,background .12s; white-space:nowrap; }
@@ -2989,14 +2992,15 @@
     .tbv-course-expand-icon { font-size:13px; color:var(--muted); transition:transform .18s; flex-shrink:0; }
     .tbv-course-item[aria-expanded="true"] .tbv-course-expand-icon { transform:rotate(180deg); }
     .tbv-course-actions { display:flex; gap:4px; flex-shrink:0; }
-    .tbv-course-action-btn { border:0; background:none; cursor:pointer; color:var(--muted); font-size:13px; padding:4px 7px; border-radius:var(--radius-sm); transition:background .12s,color .12s; line-height:1; }
+    /* AC1 — course-level action buttons (reorder + remove): min 44×44 */
+    .tbv-course-action-btn { border:0; background:none; cursor:pointer; color:var(--muted); font-size:13px; min-width:44px; min-height:44px; padding:0; display:inline-flex; align-items:center; justify-content:center; border-radius:var(--radius-sm); transition:background .12s,color .12s; line-height:1; }
     .tbv-course-action-btn:hover { background:var(--panel3); color:var(--text); }
     .tbv-course-action-btn.danger:hover { background:var(--red-soft); color:var(--red-text); }
     .tbv-course-action-btn:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
-    /* Keyboard reorder buttons (up/down arrows, visible on focus) */
-    .tbv-kbd-move { border:0; background:none; cursor:pointer; color:var(--muted); font-size:13px; padding:3px 6px; border-radius:var(--radius-sm); transition:background .12s,color .12s; line-height:1; }
-    .tbv-kbd-move:hover,:focus-visible { background:var(--panel3); color:var(--text); }
-    .tbv-kbd-move:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+    /* Keyboard reorder buttons (up/down arrows) — AC1: min 44×44 touch target */
+    .tbv-kbd-move { border:0; background:none; cursor:pointer; color:var(--muted); font-size:13px; min-width:44px; min-height:44px; padding:0; display:inline-flex; align-items:center; justify-content:center; border-radius:var(--radius-sm); transition:background .12s,color .12s; line-height:1; }
+    .tbv-kbd-move:hover { background:var(--panel3); color:var(--text); }
+    .tbv-kbd-move:focus-visible { outline:2px solid var(--accent); outline-offset:2px; background:var(--panel3); color:var(--text); }
     /* Course body: lesson list */
     .tbv-course-body { padding:0 16px 14px; }
     .tbv-lessons-list { list-style:none; padding:0; margin:8px 0 10px; display:flex; flex-direction:column; gap:4px; }
@@ -3009,7 +3013,8 @@
     .tbv-lesson-body { flex:1; min-width:0; }
     .tbv-lesson-title { font-size:13px; font-weight:700; color:var(--text); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
     .tbv-lesson-meta  { display:flex; align-items:center; gap:6px; margin-top:2px; }
-    .tbv-lesson-remove { flex:none; border:0; background:none; cursor:pointer; color:var(--muted); font-size:14px; padding:3px 5px; border-radius:6px; transition:background .12s,color .12s; }
+    /* AC1 — lesson remove button: min 44×44 */
+    .tbv-lesson-remove { flex:none; border:0; background:none; cursor:pointer; color:var(--muted); font-size:14px; min-width:44px; min-height:44px; padding:0; display:inline-flex; align-items:center; justify-content:center; border-radius:6px; transition:background .12s,color .12s; }
     .tbv-lesson-remove:hover { background:var(--red-soft); color:var(--red-text); }
     .tbv-lesson-remove:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
     .tbv-lesson-ro-hint { font-size:11px; color:var(--muted); font-style:italic; }
@@ -3019,7 +3024,8 @@
     /* "Add lesson from library" row inside a course */
     .tbv-add-lesson-row { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:4px; }
     .tbv-add-lesson-hint { font-size:12px; color:var(--muted); }
-    .tbv-add-lesson-btn { border:0; background:none; cursor:pointer; font:inherit; font-size:12px; font-weight:600; color:var(--accent); padding:5px 8px; border-radius:var(--radius-sm); transition:background .12s; display:inline-flex; align-items:center; gap:4px; }
+    /* AC1 — add-lesson button: min-height 44px touch target */
+    .tbv-add-lesson-btn { border:0; background:none; cursor:pointer; font:inherit; font-size:12px; font-weight:600; color:var(--accent); padding:12px 8px; min-height:44px; border-radius:var(--radius-sm); transition:background .12s; display:inline-flex; align-items:center; gap:4px; }
     .tbv-add-lesson-btn:hover { background:var(--accent-soft); }
     .tbv-add-lesson-btn:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
     /* Image lesson: thumbnail in builder lesson row */
@@ -3035,7 +3041,9 @@
     .tb-img-dialog label { font-size:13px; font-weight:600; color:var(--text); display:block; margin-bottom:4px; }
     .tb-img-dialog input[type=text], .tb-img-dialog textarea { width:100%; box-sizing:border-box; border:1px solid var(--border); border-radius:var(--radius-sm); padding:7px 10px; font:inherit; font-size:13px; background:var(--bg); color:var(--text); }
     .tb-img-dialog input[type=text]:focus, .tb-img-dialog textarea:focus { outline:2px solid var(--accent); outline-offset:1px; }
+    /* AC1 — image dialog action buttons: min-height 44px touch target */
     .tb-img-dialog-actions { display:flex; gap:8px; justify-content:flex-end; margin-top:4px; }
+    .tb-img-dialog-actions button { min-height:44px; min-width:44px; }
     .tb-img-pii-notice { background:var(--amber-soft); border:1px solid var(--amber-text); border-radius:var(--radius-sm); padding:9px 12px; font-size:12px; color:var(--amber-text); line-height:1.5; }
     .tb-img-pii-notice b { display:block; margin-bottom:3px; }
     /* No-lessons empty state inside a course */
@@ -3076,6 +3084,8 @@
     .tbv-rp-table th { padding:9px 12px; text-align:left; font-weight:600; font-size:12px; letter-spacing:.04em; text-transform:uppercase; color:var(--muted-aa); border-bottom:1px solid var(--border); white-space:nowrap; }
     .tbv-rp-th-sort { cursor:pointer; user-select:none; }
     .tbv-rp-th-sort:hover { color:var(--text); }
+    /* AC2 — visible focus ring on sortable roster headers (≥3:1, WCAG 2.4.11) */
+    .tbv-rp-th-sort:focus-visible { outline:2px solid var(--accent); outline-offset:2px; color:var(--text); }
     .tbv-rp-table td { padding:9px 12px; border-bottom:1px solid var(--border); vertical-align:middle; }
     .tbv-rp-table tr:last-child td { border-bottom:none; }
     .tbv-rp-table tr:hover td { background:var(--hover); }
@@ -3694,10 +3704,11 @@
     .cp-complete-sub { font-size: 14px; color: var(--muted); margin-bottom: 20px; }
     /* Footer nav */
     .cp-footer { background: var(--panel); border-top: 1px solid var(--border); padding: 12px 24px; display: flex; justify-content: flex-end; align-items: center; gap: 12px; flex: none; }
-    .cp-btn-prev { background: none; border: 1px solid var(--border); color: var(--text); border-radius: var(--radius); padding: 9px 18px; cursor: pointer; font: 600 14px var(--font); }
+    /* AC1 — learner player prev/next: min-height 44px */
+    .cp-btn-prev { background: none; border: 1px solid var(--border); color: var(--text); border-radius: var(--radius); padding: 12px 18px; min-height: 44px; cursor: pointer; font: 600 14px var(--font); }
     .cp-btn-prev:hover { border-color: var(--accent); color: var(--accent); }
     .cp-btn-prev:disabled { opacity: .4; cursor: default; }
-    .cp-btn-next { background: var(--accent); color: var(--accent-ink); border: 0; border-radius: var(--radius); padding: 11px 28px; font: 700 15px var(--font); cursor: pointer; transition: background .14s; min-width: 120px; text-align: center; }
+    .cp-btn-next { background: var(--accent); color: var(--accent-ink); border: 0; border-radius: var(--radius); padding: 12px 28px; min-height: 44px; font: 700 15px var(--font); cursor: pointer; transition: background .14s; min-width: 120px; text-align: center; }
     .cp-btn-next:hover { background: var(--accent-hover); }
     /* Mobile: collapse rail to progress strip */
     @media (max-width: 768px) {
@@ -5325,11 +5336,11 @@
         <table class="tbv-rp-table" id="tbv-rp-table" aria-label="Learner progress by deadline">
           <thead>
             <tr>
-              <th scope="col" class="tbv-rp-th-sort" onclick="rosterPanelSort('name')" tabindex="0" role="columnheader" aria-sort="none">Name <span aria-hidden="true">⇅</span></th>
+              <th scope="col" class="tbv-rp-th-sort" onclick="rosterPanelSort('name')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();rosterPanelSort('name')}" tabindex="0" role="columnheader" aria-sort="none">Name <span aria-hidden="true">⇅</span></th>
               <th scope="col">Role</th>
-              <th scope="col" class="tbv-rp-th-sort" onclick="rosterPanelSort('status')" tabindex="0" role="columnheader" aria-sort="none">Status <span aria-hidden="true">⇅</span></th>
+              <th scope="col" class="tbv-rp-th-sort" onclick="rosterPanelSort('status')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();rosterPanelSort('status')}" tabindex="0" role="columnheader" aria-sort="none">Status <span aria-hidden="true">⇅</span></th>
               <th scope="col">Progress</th>
-              <th scope="col" class="tbv-rp-th-sort" onclick="rosterPanelSort('overdue')" tabindex="0" role="columnheader" aria-sort="none">Due <span aria-hidden="true">⇅</span></th>
+              <th scope="col" class="tbv-rp-th-sort" onclick="rosterPanelSort('overdue')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();rosterPanelSort('overdue')}" tabindex="0" role="columnheader" aria-sort="none">Due <span aria-hidden="true">⇅</span></th>
               <th scope="col">Actions</th>
             </tr>
           </thead>
@@ -10874,7 +10885,9 @@ function _renderCertificate(c) {
   // D7: format the issued date as "Month D, YYYY"
   let issuedFmt = '';
   try {
-    const d = new Date((c.issued_at || '').replace('Z','') + 'Z');
+    const raw = (c.issued_at || '');
+    const hasTz = /[Zz]$|[+\-]\d{2}:?\d{2}$/.test(raw);
+    const d = new Date(hasTz ? raw : (raw + 'Z'));
     if (!isNaN(d)) issuedFmt = d.toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
   } catch(_) {}
   issuedFmt = issuedFmt || (c.issued_at || '').slice(0,10);
@@ -10901,10 +10914,12 @@ function _renderCertificate(c) {
     ? `<div class="cert-badge-strip">${badgeTitles.map(b=>`<span class="cert-badge-chip">🏅 ${escapeHtml(b)}</span>`).join('')}</div>`
     : '';
 
-  // D7: verification code
+  // D7: verification code — use real origin so printed URL == shared URL and
+  // a browser opening it gets the human-readable HTML verification page.
   const vcode = c.verification_code || '';
+  const verifyUrl = vcode ? (window.location.origin + '/api/certificates/verify/' + encodeURIComponent(vcode)) : '';
   const verifyLine = vcode
-    ? `<div class="cert-verify">Verify: cyb.io/v/${escapeHtml(vcode)}</div>`
+    ? `<div class="cert-verify">Verify: ${escapeHtml(verifyUrl)}</div>`
     : `<div class="cert-id">Certificate ID: ${escapeHtml(c.id || c.cert_id || '')}</div>`;
 
   // D7: display name
@@ -11473,6 +11488,10 @@ function _cpRenderWelcome() {
   if (!area || !_cpState) return;
   const { trackData, allLessons } = _cpState;
   const total = allLessons.length;
+  if (total === 0) {
+    area.innerHTML = '<div class="cp-empty-course"><p>No lessons in this track yet — check back soon.</p></div>';
+    return;
+  }
   const doneCount = allLessons.filter(x => _cpIsDone(x.courseId, x.lessonRef)).length;
   const started = doneCount > 0;
   const items = allLessons.map((x, i) => {
@@ -11849,7 +11868,7 @@ function _cpSubmitInlineQuiz(courseId, lessonRef) {
   const pct = qs.length ? Math.round(100 * correct / qs.length) : 0;
   const scoreLine = '<div style="margin-top:4px;margin-bottom:16px;padding:12px 16px;background:var(--panel2);border-radius:var(--radius);">' +
     '<b>Score: ' + correct + '/' + qs.length + ' (' + pct + '%)</b>' +
-    (pct >= 60 ? ' &#x2713; Good work!' : ' &mdash; Review the guide and try again.') +
+    (pct >= 60 ? ' &#x2713; Good work!' : ' &mdash; Worth another look at the guide; your progress is saved.') +
     '</div>';
 
   // Replace the entire quiz area content with: score summary + per-question results.
@@ -17740,9 +17759,10 @@ async function rosterPanelLoadAssignments() {
       var label = _rp_asnLabel(a);
       var due   = a.due_date ? (' · Due ' + a.due_date) : '';
       var isUser = a.audience_type === 'user';
+      /* AC1 — assignment-list action buttons: min-height 44px */
       var removeBtn = isUser
-        ? '<button class="secondary tbv-btn-sm" onclick="rosterPanelUnassignUser(\'' + escAttr(a.audience_value) + '\')" style="font-size:11px;padding:3px 8px;" title="Unassign (preserves completion record)">Unassign</button>'
-        : '<button class="secondary tbv-btn-sm" onclick="rosterPanelRemoveAssignment(' + i + ')" style="font-size:11px;padding:3px 8px;" title="Remove assignment rule">Remove</button>';
+        ? '<button class="secondary tbv-btn-sm" onclick="rosterPanelUnassignUser(\'' + escAttr(a.audience_value) + '\')" style="font-size:11px;min-height:44px;padding:6px 10px;" title="Unassign (preserves completion record)">Unassign</button>'
+        : '<button class="secondary tbv-btn-sm" onclick="rosterPanelRemoveAssignment(' + i + ')" style="font-size:11px;min-height:44px;padding:6px 10px;" title="Remove assignment rule">Remove</button>';
       return '<div class="tbv-rp-asn-row"><span class="tbv-rp-asn-label">' + escapeHtml(label) + escapeHtml(due) + '</span>' + removeBtn + '</div>';
     }).join('');
   } catch(e) {
@@ -17829,10 +17849,11 @@ function rosterPanelRenderTable() {
     var pct  = typeof row.progress === 'number' ? row.progress : (row.pct || 0);
     var due  = row.due_date || '—';
     var overdueCls = row.is_overdue ? ' class="tbv-rp-overdue-row"' : '';
+    /* AC1 — roster action buttons: min-height 44px (WCAG 2.2 touch target) */
     var nudgeBtn = !row.completed
-      ? '<button class="secondary tbv-btn-sm" onclick="rosterPanelNudgeOne(\'' + escAttr(row.user_id) + '\')" style="font-size:11px;padding:3px 8px;">Nudge</button>'
+      ? '<button class="secondary tbv-btn-sm" onclick="rosterPanelNudgeOne(\'' + escAttr(row.user_id) + '\')" style="font-size:11px;min-height:44px;padding:6px 10px;">Nudge</button>'
       : '';
-    var unassignBtn = '<button class="secondary tbv-btn-sm" onclick="rosterPanelUnassignUser(\'' + escAttr(row.user_id) + '\')" style="font-size:11px;padding:3px 8px;margin-left:4px;" title="Unassign (preserves completion)">Unassign</button>';
+    var unassignBtn = '<button class="secondary tbv-btn-sm" onclick="rosterPanelUnassignUser(\'' + escAttr(row.user_id) + '\')" style="font-size:11px;min-height:44px;padding:6px 10px;margin-left:4px;" title="Unassign (preserves completion)">Unassign</button>';
     return '<tr' + overdueCls + '>'
       + '<td><strong>' + escapeHtml(row.name || row.user_id) + '</strong></td>'
       + '<td>' + escapeHtml(row.role || '—') + '</td>'
@@ -17915,7 +17936,8 @@ async function rosterPanelNudgeOne(uid) {
       body: JSON.stringify({ user_ids: [uid] }),
     });
     if (!r.ok) throw new Error('HTTP ' + r.status);
-    tbShowToast('Reminder sent to ' + uid + '.');
+    var d = await r.json();
+    tbShowToast(d.message || 'Reminder logged.');
     rosterPanelLoadRoster();
   } catch(e) { tbShowToast('Nudge failed: ' + e.message, 'error'); }
 }
@@ -17939,7 +17961,7 @@ async function rosterPanelLoadUnassigned() {
       + ua.map(function(u) {
           return '<div class="tbv-rp-unassigned-row">'
             + '<span><strong>' + escapeHtml(u.name) + '</strong> <span style="color:var(--muted);font-size:12px;">' + escapeHtml(u.role) + '</span></span>'
-            + '<button class="primary tbv-btn-sm" style="font-size:11px;padding:4px 10px;" onclick="rosterPanelQuickAssignUser(\'' + escAttr(u.user_id) + '\')">Assign</button>'
+            + '<button class="primary tbv-btn-sm" style="font-size:11px;min-height:44px;padding:6px 10px;" onclick="rosterPanelQuickAssignUser(\'' + escAttr(u.user_id) + '\')">Assign</button>'
             + '</div>';
         }).join('')
       + '</div>';
