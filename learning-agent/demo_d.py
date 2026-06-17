@@ -338,6 +338,39 @@ def build_section_options(module: str, title: str, budget: str,
     )
 
 
+def friendly_agent_error(result_text: str | None = None,
+                         api_error_status: int | None = None,
+                         exc: Exception | None = None) -> str:
+    """Turn an agent/CLI failure into a human-actionable message.
+
+    The Agent SDK collapses a CLI ``is_error`` result whose ``errors`` list is
+    empty into the cryptic ``"Claude Code returned an error result: <subtype>"``.
+    For an API auth failure the CLI's legacy ``subtype`` is still ``"success"``,
+    so the surfaced text becomes the actively-misleading ``"...error result:
+    success"``. Prefer the ResultMessage's own ``result`` text when we captured
+    it (e.g. ``"Failed to authenticate. API Error: 401 ..."``) and append a fix
+    hint when the failure smells like expired CLI auth.
+    """
+    msg = (result_text or "").strip()
+    if not msg and exc is not None:
+        msg = str(exc).strip()
+    if not msg:
+        msg = "the content agent returned an error"
+    low = msg.lower()
+    is_auth = (
+        api_error_status == 401
+        or "authenticat" in low          # "authenticate" / "authentication"
+        or "401" in low
+        or "error result: success" in low  # the SDK's masked-401 signature
+    )
+    if is_auth:
+        msg += (
+            " — the Claude CLI's OAuth token has expired or is invalid; "
+            "run `claude login` to re-authenticate, then retry."
+        )
+    return msg
+
+
 async def _run(prompt: str, options: ClaudeAgentOptions) -> dict:
     """Run one query(); capture text, stop_reason, usage, timing."""
     t0 = time.monotonic()
@@ -352,12 +385,25 @@ async def _run(prompt: str, options: ClaudeAgentOptions) -> dict:
             elif isinstance(msg, ResultMessage):
                 out["stop_reason"] = getattr(msg, "stop_reason", None)
                 out["usage"] = getattr(msg, "usage", None)
+                if getattr(msg, "is_error", False):
+                    # Capture the CLI's real error text NOW — the SDK will
+                    # otherwise collapse the trailing ProcessError into the
+                    # misleading "error result: success" (see friendly_agent_error).
+                    out["error"] = friendly_agent_error(
+                        getattr(msg, "result", None),
+                        getattr(msg, "api_error_status", None),
+                    )
     except Exception as e:
-        out["text"] = f"<!-- ERROR: {e} -->"
+        # Keep the specific result-level error if we already captured one.
+        if not out.get("error"):
+            out["error"] = friendly_agent_error(exc=e)
+        out["text"] = f"<!-- ERROR: {out['error']} -->"
         out["secs"] = time.monotonic() - t0
-        out["error"] = str(e)
         return out
     out["text"] = "\n".join(chunks)
+    # is_error with no exception (clean stream end): make _section_ok fail loudly.
+    if out.get("error") and not out["text"].strip():
+        out["text"] = f"<!-- ERROR: {out['error']} -->"
     out["secs"] = time.monotonic() - t0
     return out
 
@@ -401,10 +447,13 @@ async def write_section(sec: dict, registry: dict, by_ticket: dict, module: str,
     )
     total_secs = 0.0
     last_frag = ""
+    last_error = ""
     async with sem:
         for attempt in range(1, max_attempts + 1):
             r = await _run(prompt, build_section_options(module, title, budget, system_tmpl=section_tmpl))
             total_secs += r["secs"]
+            if r.get("error"):
+                last_error = r["error"]
             frag = r["text"].strip()
             frag = re.sub(r"^```html\s*", "", frag, flags=re.I)
             frag = re.sub(r"```$", "", frag).strip()
@@ -414,9 +463,10 @@ async def write_section(sec: dict, registry: dict, by_ticket: dict, module: str,
                         "secs": total_secs, "errored": False, "attempts": attempt,
                         "usage": r.get("usage")}
     # Exhausted retries — flag it so pass-criteria fails loudly instead of silently shipping a gap.
-    return {"title": title, "html": f"<h2>{title}</h2>\n<p>[ERROR: section failed after {max_attempts} attempts]</p>",
+    reason = f" — {last_error}" if last_error else ""
+    return {"title": title, "html": f"<h2>{title}</h2>\n<p>[ERROR: section failed after {max_attempts} attempts{reason}]</p>",
             "stop_reason": "error", "secs": total_secs, "errored": True, "attempts": max_attempts,
-            "usage": None}
+            "usage": None, "error_reason": last_error}
 
 
 # ============================================================================

@@ -1,0 +1,213 @@
+{
+  "district_id": "klein-isd",
+  "template": "schoolcafe-onboarding",
+  "sections": [
+    {
+      "key": "kickoff",
+      "label": "Kickoff & Discovery",
+      "auto": false,
+      "weight": 1,
+      "items": [
+        {
+          "id": "kickoff-call",
+          "label": "Kickoff call held",
+          "owner": "Cybersoft",
+          "status": "done",
+          "done_at": "2026-06-12T12:00:00+00:00",
+          "due": "",
+          "updated_at": "2026-06-12T12:00:00+00:00"
+        },
+        {
+          "id": "kickoff-stakeholders",
+          "label": "Stakeholders identified",
+          "owner": "Shared",
+          "status": "done",
+          "done_at": "2026-06-12T12:00:00+00:00",
+          "due": "",
+          "updated_at": "2026-06-12T12:00:00+00:00"
+        },
+        {
+          "id": "kickoff-plan",
+          "label": "Implementation plan shared",
+          "owner": "Cybersoft",
+          "status": "done",
+          "done_at": "2026-06-12T12:00:00+00:00",
+          "due": "",
+          "updated_at": "2026-06-12T12:00:00+00:00"
+        }
+      ]
+    },
+    {
+      "key": "data",
+      "label": "Data Migration",
+      "auto": false,
+      "weight": 3,
+      "items": [
+        {
+          "id": "data-sites",
+          "label": "Site list imported",
+          "owner": "District",
+          "status": "done",
+          "done_at": "2026-06-12T12:00:00+00:00",
+          "due": "",
+          "updated_at": "2026-06-12T12:00:00+00:00"
+        },
+        {
+          "id": "data-roster",
+          "label": "Staff roster imported",
+          "owner": "District",
+          "status": "done",
+          "done_at": "2026-06-12T12:00:00+00:00",
+          "due": "",
+          "updated_at": "2026-06-12T12:00:00+00:00"
+        },
+        {
+          "id": "data-validate",
+          "label": "Historical data validated",
+          "owner": "Shared",
+          "status": "done",
+          "done_at": "2026-06-12T12:00:00+00:00",
+          "due": "",
+          "updated_at": "2026-06-12T12:00:00+00:00"
+        }
+      ]
+    },
+    {
+      "key": "config",
+      "label": "Configuration",
+      "auto": false,
+      "weight": 2,
+      "items": [
+        {
+          "id": "config-prices",
+          "label": "Meal prices configured",
+          "owner": "District",
+          "status": "done",
+          "done_at": "2026-06-12T12:00:00+00:00",
+          "due": "",
+          "updated_at": "2026-06-12T12:00:00+00:00"
+        },
+        {
+          "id": "config-eligibility",
+          "label": "Eligibility rules set",
+          "owner": "Shared",
+          "status": "done",
+          "done_at": "2026-06-12T12:00:00+00:00",
+          "due": "",
+          "updated_at": "2026-06-12T12:00:00+00:00"
+        },
+        {
+          "id": "config-pos",
+          "label": "POS hardware check",
+          "owner": "District",
+          "status": "done",
+          "done_at": "2026-06-12T12:00:00+00:00",
+          "due": "",
+          "updated_at": "2026-06-12T12:00:00+00:00"
+        }
+      ]
+    },
+    {
+      "key": "training",
+      "label": "Staff Training",
+      "auto": true,
+      "weight": 3,
+      "items": [
+        {
+          "id": "train-cashiers",
+          "label": "Cashiers trained",
+          "owner": "District",
+          "status": "done",
+          "done_at": "2026-06-12T12:00:00+00:00",
+          "due": "",
+          "updated_at": "2026-06-12T12:00:00+00:00",
+          "role": "Cashier"
+        },
+        {
+          "id": "train-managers",
+          "label": "Site managers trained",
+          "owner": "District",
+          "status": "done",
+          "done_at": "2026-06-12T12:00:00+00:00",
+          "due": "",
+          "updated_at": "2026-06-12T12:00:00+00:00",
+          "role": "Site Manager"
+        },
+        {
+          "id": "train-director",
+          "label": "CN Director onboarded",
+          "owner": "District",
+          "status": "done",
+          "done_at": "2026-06-12T12:00:00+00:00",
+          "due": "",
+          "updated_at": "2026-06-12T12:00:00+00:00",
+          "role": "CN Director"
+        }
+      ]
+    },
+    {
+      "key": "uat",
+      "label": "UAT & Go-Live",
+      "auto": false,
+      "weight": 3,
+      "items": [
+        {
+          "id": "uat-signoff",
+          "label": "UAT sign-off",
+          "owner": "Shared",
+          "status": "done",
+          "done_at": "2026-06-12T12:00:00+00:00",
+          "due": "",
+          "updated_at": "2026-06-12T12:00:00+00:00"
+        },
+        {
+          "id": "uat-date",
+          "label": "Go-live date confirmed",
+          "owner": "Cybersoft",
+          "status": "done",
+          "done_at": "2026-06-12T12:00:00+00:00",
+          "due": "",
+          "updated_at": "2026-06-12T12:00:00+00:00"
+        },
+        {
+          "id": "uat-golive",
+          "label": "Go-live",
+          "owner": "Shared",
+          "status": "todo",
+          "done_at": null,
+          "due": "",
+          "updated_at": null
+        }
+      ]
+    }
+  ],
+  "tasks": [
+    {
+      "id": "02bc7561d316",
+      "title": "Confirm go-live comms with CN Director",
+      "owner": "Shared",
+      "due": "2026-06-19",
+      "status": "open",
+      "created_at": "2026-06-12T12:00:00+00:00"
+    }
+  ],
+  "notes": [
+    {
+      "id": "18f1e3c72b7c",
+      "subject_type": "district",
+      "subject_id": "klein-isd",
+      "body": "UAT signed off. Go-live date locked; just need final go-live confirmation.",
+      "author": "Sam Rivera",
+      "created_at": "2026-06-11T16:00:00+00:00"
+    }
+  ],
+  "activity": [
+    {
+      "id": "67c9f2c3132d",
+      "type": "seed",
+      "label": "Onboarding project created",
+      "actor": "System",
+      "at": "2026-06-10T08:00:00+00:00"
+    }
+  ]
+}

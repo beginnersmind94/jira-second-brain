@@ -1,0 +1,789 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SchoolCafé 2.0 Learning — District Admin (CN Director) Prototype</title>
+<!--
+  STANDALONE PROTOTYPE — empathy/demo artifact for the District Admin (CN Director) view.
+  Not wired into the SPA. Single file: all CSS/JS/data inline. No build, no server, no
+  network, no localStorage/sessionStorage. State lives in memory and resets on refresh.
+
+  SCOPE: this view supervises PEOPLE + COMPLETION, not content. Four surfaces only —
+    1) Compliance overview   2) Roster accountability   3) Audit-ready proof
+    4) Manage assignments (per individual, role, or site — the WHOLE workflow)
+  No authoring / generation / template / approval-pipeline / project-management UI.
+
+  Brand tokens ("Cafeteria Modernism": Public Sans / Fraunces / Spline Sans Mono ·
+  ink-green / stamp-blue) are reproduced from the real app's static/index.html; the
+  Citation Stamp (AG-03) is byte-near-identical to static/index.html:3016.
+
+  REAL repo content (citations verbatim from real Jira tickets, verified):
+    • New Cashier Onboarding — NXT-24910, NXT-35898, NXT-37110 (Acceptance Criteria)
+    • Manager Essentials     — NXT-70380 (RN+AC), NXT-66798 (AC) from the eligibility guide
+    • ICN/USDA video + ICN management resource — outside-vendor, link-out, NO citation guarantee
+  SYNTHETIC + LABELLED: district "Northgate ISD", admin "Dana Whitman", all staff, the
+  completion spread, the USDA hours-per-track mapping, the compliance cut-offs, required-by-role.
+-->
+<style>
+/* ============================ BRAND TOKENS ============================ */
+:root{
+  --bg:#FBFAF7; --bg-2:#F4F3EE; --surface:#FFFFFF; --panel2:#F4F6F3; --panel3:#E9EDEA;
+  --ink:#14201A; --text:#14201A; --text-soft:#2C3D35; --muted:#56695E; --muted-aa:#47604F; --label:#3D5147;
+  --accent:#22573E; --accent-hover:#1A4530; --accent-press:#163B2A; --accent-soft:#E4F0E9; --accent-ink:#FBFAF7;
+  --green-text:#1A4530;
+  --stamp:#1E5A8A; --stamp-soft:#E6F0F8; --stamp-text:#15527d; --stamp-ink:#FBFAF7;
+  --marigold:#E8A23C; --warn-text:#7A520A; --warn-soft:#FBF0D6;
+  --red:#C23B34; --red-soft:#FBEAE8; --red-text:#8B2B27;
+  --r-xl:24px; --r-lg:20px; --r-md:14px; --r-sm:10px; --r-pill:999px;
+  --hair:rgba(20,32,26,.07); --hair-2:rgba(20,32,26,.11);
+  --sh-card:0 1px 2px rgba(20,32,26,.04), 0 10px 26px -14px rgba(20,32,26,.20);
+  --sh-pop:0 24px 60px -16px rgba(20,32,26,.34);
+  --sh-btn:0 1px 2px rgba(20,32,26,.10), 0 10px 20px -10px rgba(34,87,62,.5);
+  --ring:0 0 0 3px rgba(34,87,62,.30);
+  --font:'Public Sans',ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --display:'Fraunces',Georgia,"Times New Roman",serif;
+  --mono:'Spline Sans Mono',ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;}
+html,body{height:100%;}
+body{
+  margin:0; font-family:var(--font); color:var(--text); overflow:hidden;
+  background:radial-gradient(900px 520px at 50% 0, #F1F4F0 0%, #E6EAE5 100%);
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+}
+
+/* ============================ APP SHELL ============================ */
+.app{
+  width:100%; max-width:880px; margin:0 auto; height:100vh; height:100dvh;
+  display:flex; flex-direction:column; background:var(--bg); overflow:hidden;
+  box-shadow:0 0 0 1px var(--hair), 0 30px 90px -36px rgba(20,32,26,.34);
+}
+.topbar{flex:none; display:flex; align-items:center; gap:12px; padding:13px 24px; background:var(--surface); box-shadow:inset 0 -1px 0 var(--hair);}
+.brand{font:600 14.5px/1 var(--font); letter-spacing:.01em; color:var(--accent); display:inline-flex; align-items:center; gap:9px;}
+.brand .mark{width:21px; height:21px; border-radius:6px; background:var(--accent); position:relative; flex:none;}
+.brand .mark::after{content:""; position:absolute; inset:5px; border-radius:2px; background:var(--accent-ink); clip-path:polygon(0 60%,42% 60%,42% 0,58% 0,58% 60%,100% 60%,100% 100%,0 100%);}
+.proto-tag{font:600 9.5px/1 var(--mono); letter-spacing:.12em; text-transform:uppercase; color:var(--stamp); background:var(--stamp-soft); padding:5px 8px; border-radius:5px; cursor:help;}
+.userchip{margin-left:auto; display:inline-flex; align-items:center; gap:8px;}
+.userchip .uc-av{width:30px; height:30px; border-radius:50%; background:var(--accent-soft); color:var(--green-text); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:11.5px;}
+.userchip .uc-n{font-size:13px; font-weight:600; color:var(--text-soft); line-height:1.15;}
+.userchip .uc-r{font-size:11px; color:var(--muted);}
+
+.appbar{flex:none; padding:20px 28px 8px; background:var(--bg);}
+.appbar .ab-role{display:inline-block; font-size:11px; font-weight:600; color:var(--muted-aa); background:var(--panel2); padding:4px 11px; border-radius:var(--r-pill); margin-bottom:10px;}
+.appbar h1{font-family:var(--display); font-weight:600; font-size:31px; line-height:1.05; margin:0; color:var(--ink); letter-spacing:-.01em;}
+.appbar .ab-sub{font-size:14px; color:var(--muted); margin-top:6px;}
+
+.tabbar{flex:none; display:flex; gap:6px; padding:8px 22px 0; background:var(--bg); box-shadow:inset 0 -1px 0 var(--hair); overflow-x:auto;}
+.tabbar::-webkit-scrollbar{height:0;}
+.tabbar button{flex:0 0 auto; appearance:none; border:0; background:transparent; cursor:pointer; display:inline-flex;
+  align-items:center; gap:8px; padding:11px 14px; color:var(--muted); font:600 14px/1 var(--font); min-height:46px;
+  border-radius:10px 10px 0 0; border-bottom:2.5px solid transparent; transition:color .15s, border-color .15s; white-space:nowrap;}
+.tabbar button svg{width:20px; height:20px;}
+.tabbar button[aria-selected="true"]{color:var(--accent); border-bottom-color:var(--accent);}
+.tabbar button:hover{color:var(--text);}
+.tabbar button:focus-visible{outline:none; box-shadow:var(--ring);}
+
+.scroll{flex:1 1 auto; min-height:0; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:0; position:relative;}
+.scroll::-webkit-scrollbar{width:9px;}
+.scroll::-webkit-scrollbar-thumb{background:var(--panel3); border-radius:999px; border:2px solid transparent; background-clip:content-box;}
+.vpad{padding:20px 28px 30px; max-width:680px; margin:0 auto;}
+
+/* ============================ CARDS / LISTS ============================ */
+.card{background:var(--surface); border-radius:var(--r-lg); box-shadow:var(--sh-card); margin-bottom:14px; overflow:hidden;}
+.card-h{display:flex; align-items:center; gap:8px; padding:15px 18px 2px; font:600 14px/1.2 var(--font); color:var(--ink);}
+.card-h .ch-right{margin-left:auto; font-size:12px; color:var(--muted); font-weight:500;}
+.card-b{padding:14px 18px 18px;}
+.card-h + .card-b{padding-top:11px;}
+.sec-title{font:600 13px/1 var(--font); color:var(--muted-aa); margin:20px 4px 9px;}
+.sec-title:first-child{margin-top:4px;}
+.list{background:var(--surface); border-radius:var(--r-lg); box-shadow:var(--sh-card); overflow:hidden; margin-bottom:14px;}
+.list > *{position:relative;}
+.list > * + *{box-shadow:inset 0 1px 0 var(--hair);}
+
+/* ============================ COMPLIANCE GLANCE ============================ */
+.glance{display:flex; gap:18px; align-items:center;}
+.ring-wrap{flex:none; width:132px; height:132px; position:relative;}
+.ring-wrap svg{transform:rotate(-90deg);}
+.ring-center{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;}
+.ring-center .pct{font-family:var(--display); font-weight:600; font-size:36px; color:var(--ink); line-height:1; letter-spacing:-.02em;}
+.ring-center .pl{font-size:10px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; color:var(--muted); margin-top:3px;}
+.glance-side{flex:1; min-width:0; display:flex; flex-direction:column; gap:9px;}
+.gs-line{display:flex; align-items:center; gap:8px; font-size:13px; color:var(--text-soft);}
+.gs-line b{color:var(--ink); font-weight:700;}
+.gl{min-width:0; flex:1;}
+.gs-ic{display:inline-flex; width:17px; justify-content:center; flex:none;}
+.bar-row{display:flex; align-items:center; gap:11px; margin:11px 0;}
+.bar-row .bl{flex:none; width:104px; font-size:13px; color:var(--text-soft); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.bar-row .bt{flex:1; height:10px; background:var(--panel3); border-radius:var(--r-pill); overflow:hidden;}
+.bar-row .bf{display:block; height:100%; border-radius:var(--r-pill); transition:width .5s ease;}
+.bar-row .bv{flex:none; width:66px; text-align:right; font-size:12px; font-weight:700; color:var(--ink); display:flex; align-items:center; justify-content:flex-end; gap:5px;}
+.bf.ok{background:var(--accent);} .bf.warn{background:var(--marigold);} .bf.over{background:var(--red);}
+.nudge{display:flex; gap:13px; align-items:flex-start; padding:15px; border-radius:var(--r-lg); background:var(--warn-soft); margin-bottom:14px;}
+.nudge .nx{flex:none; color:var(--warn-text); margin-top:1px;}
+.nudge .nbody{flex:1; min-width:0;}
+.nudge .nbody p{margin:0 0 11px; font-size:13px; color:var(--warn-text); line-height:1.5;}
+.nudge .nbody p b{font-weight:700;}
+
+/* ============================ CITATION STAMP (AG-03) + PROVENANCE ============================ */
+.cite-stamp{display:inline-flex; align-items:center; gap:5px; padding:3px 9px; background:var(--stamp-soft); color:var(--stamp);
+  border:1.5px solid var(--stamp); border-radius:3px; font-family:var(--mono); font-size:10.5px; font-weight:700;
+  letter-spacing:.06em; text-transform:uppercase; white-space:nowrap; transform:rotate(-1deg); opacity:.93; user-select:none; line-height:1.4;}
+.cite-stamp--straight{transform:none; opacity:1;}
+.cite-stamp--compact{padding:2px 7px; font-size:10px; letter-spacing:.04em;}
+.origin-badge{display:inline-flex; align-items:center; gap:4px; padding:3px 9px; border-radius:var(--r-pill); font-size:10.5px; font-weight:700; white-space:nowrap;}
+.origin-badge svg{width:12px; height:12px;}
+.origin-badge.ai-grounded{background:var(--accent-soft); color:var(--green-text);}
+.origin-badge.outside-vendor{background:#EEF1F6; color:#3C4A63;}
+
+/* ============================ BUTTONS / CONTROLS ============================ */
+.btn{appearance:none; cursor:pointer; min-height:50px; padding:13px 18px; border-radius:var(--r-md); font:700 15px/1 var(--font);
+  border:0; display:inline-flex; align-items:center; justify-content:center; gap:8px; transition:background .16s, transform .12s, box-shadow .16s, border-color .16s;}
+.btn svg{width:18px; height:18px;}
+.btn:focus-visible{outline:none; box-shadow:var(--ring);}
+.btn--primary{background:var(--accent); color:var(--accent-ink); box-shadow:var(--sh-btn);}
+.btn--primary:hover:not(:disabled){background:var(--accent-hover); transform:translateY(-1px);}
+.btn--primary:active:not(:disabled){background:var(--accent-press); transform:none;}
+.btn--secondary{background:var(--surface); color:var(--text); box-shadow:inset 0 0 0 1px var(--hair-2);}
+.btn--secondary:hover:not(:disabled){box-shadow:inset 0 0 0 1px var(--muted); }
+.btn--ghost{background:transparent; color:var(--accent); min-height:40px; padding:9px 8px; font-weight:700;}
+.btn--ghost:hover{text-decoration:underline; text-underline-offset:3px;}
+.btn--danger{background:var(--surface); color:var(--red-text); box-shadow:inset 0 0 0 1px var(--red-soft);}
+.btn--danger:hover:not(:disabled){box-shadow:inset 0 0 0 1px var(--red);}
+.btn:disabled{background:var(--panel3); color:var(--muted-aa); cursor:not-allowed; box-shadow:none; transform:none;}
+.btn--block{width:100%;} .btn--sm{min-height:42px; padding:10px 14px; font-size:13.5px;}
+
+.filters{display:flex; flex-direction:column; gap:14px; margin-bottom:16px;}
+.filter-group{display:flex; flex-direction:column; gap:8px;}
+.fg-label{font:600 12px/1 var(--font); color:var(--muted-aa);}
+.chips{display:flex; gap:7px; flex-wrap:wrap;}
+.chip{appearance:none; cursor:pointer; background:var(--surface); box-shadow:inset 0 0 0 1px var(--hair-2);
+  color:var(--text-soft); border:0; border-radius:var(--r-pill); padding:9px 14px; min-height:40px; font:600 13px/1 var(--font); transition:.15s;}
+.chip[aria-pressed="true"]{background:var(--accent); color:var(--accent-ink); box-shadow:none;}
+.chip:focus-visible{outline:none; box-shadow:var(--ring);}
+select.input, input.input{width:100%; padding:13px 14px; border:0; box-shadow:inset 0 0 0 1px var(--hair-2); border-radius:var(--r-md);
+  font:inherit; font-size:15px; background:var(--surface); color:var(--text); min-height:50px; -webkit-appearance:none; appearance:none;}
+select.input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2356695E' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 13px center; padding-right:38px;}
+.input:focus{outline:none; box-shadow:inset 0 0 0 1.5px var(--accent), var(--ring);}
+.field{display:flex; flex-direction:column; gap:8px; margin-bottom:15px;}
+.field label{font:600 13px/1 var(--font); color:var(--label);}
+.field .hint{font-size:12px; color:var(--muted); line-height:1.5;}
+
+/* ============================ ROWS (roster / proof / staff) ============================ */
+.rrow{display:flex; gap:13px; align-items:center; width:100%; text-align:left; appearance:none; cursor:pointer;
+  background:transparent; border:0; padding:13px 16px; min-height:66px; transition:background .14s;}
+.rrow:hover{background:var(--panel2);}
+.rrow:focus-visible{outline:none; box-shadow:inset 0 0 0 2px var(--accent); border-radius:14px;}
+.rrow .av{flex:none; width:42px; height:42px; border-radius:50%; background:var(--accent-soft); color:var(--green-text);
+  display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px;}
+.rrow .rb{flex:1; min-width:0; display:flex; flex-direction:column;}
+.rrow .rn{font-weight:700; font-size:14.5px; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.rrow .rm{font-size:12.5px; color:var(--muted); margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.rrow .rr{flex:none; display:flex; flex-direction:column; align-items:flex-end; gap:6px;}
+.rrow .rdue{font-size:11px; color:var(--muted);}
+.rrow .rdue.late{color:var(--red-text); font-weight:700;}
+.rtracks{display:flex; flex-wrap:wrap; gap:5px; margin-top:6px;}
+
+/* status pills */
+.pill{display:inline-flex; align-items:center; gap:5px; padding:4px 11px; border-radius:var(--r-pill); font-size:11.5px; font-weight:700; white-space:nowrap;}
+.pill svg{width:13px; height:13px; flex:none;}
+.pill.ok{background:var(--accent-soft); color:var(--green-text);}
+.pill.prog{background:var(--stamp-soft); color:var(--stamp-text);}
+.pill.over{background:var(--red-soft); color:var(--red-text);}
+.pill.none{background:var(--warn-soft); color:var(--warn-text);}
+.pill.na{background:var(--panel3); color:var(--muted-aa);}
+.pill--mini{padding:3px 9px; font-size:11px; gap:4px; font-weight:600;}
+.pill--mini svg{width:11px; height:11px;}
+
+/* helpers */
+.muted{color:var(--muted);} .small{font-size:12.5px;} .tiny{font-size:11.5px;}
+.empty{text-align:center; padding:38px 20px; color:var(--muted);}
+.empty .ei{width:46px; height:46px; margin:0 auto 12px; color:#C7CFC9;}
+.empty p{margin:0 0 5px; font-size:14px; color:var(--text-soft);} .empty .es{font-size:12.5px; color:var(--muted);}
+.note{font-size:12.5px; color:var(--muted); line-height:1.55; background:var(--panel2); border-radius:var(--r-md); padding:13px 15px;}
+.note b{color:var(--text-soft); font-weight:600;}
+.note svg{width:15px; height:15px; vertical-align:-2px;}
+.kv{display:flex; justify-content:space-between; gap:12px; padding:11px 0; box-shadow:inset 0 -1px 0 var(--hair); font-size:14px;}
+.kv:last-child{box-shadow:none;} .kv .k{color:var(--muted);} .kv .v{color:var(--ink); font-weight:700; text-align:right;}
+
+/* assignment manage rows */
+.asg{padding:13px 0; box-shadow:inset 0 -1px 0 var(--hair);}
+.asg:last-child{box-shadow:none;}
+.asg .asg-t{display:flex; align-items:center; gap:9px; flex-wrap:wrap;}
+.asg .asg-name{font-weight:700; font-size:14px; color:var(--ink); flex:1; min-width:120px;}
+.asg .asg-meta{font-size:12px; color:var(--muted); margin-top:4px;}
+.asg .asg-meta.late{color:var(--red-text); font-weight:700;}
+.asg .asg-actions{display:flex; gap:7px; flex-wrap:wrap; margin-top:10px;}
+.asg-edit{margin-top:11px; padding:13px; background:var(--panel2); border-radius:var(--r-md);}
+
+/* skeleton */
+.skel{background:linear-gradient(90deg,var(--panel3) 25%,#EFF2EE 37%,var(--panel3) 63%); background-size:400% 100%; animation:sh 1.3s ease infinite; border-radius:var(--r-lg);}
+@keyframes sh{0%{background-position:100% 0;}100%{background-position:-100% 0;}}
+.spin{width:28px; height:28px; border-radius:50%; border:3px solid var(--panel3); border-top-color:var(--accent); animation:rot .8s linear infinite; margin:0 auto;}
+@keyframes rot{to{transform:rotate(360deg);}}
+
+/* ============================ MODAL (sheet) ============================ */
+.modal-bd{position:fixed; inset:0; z-index:200; background:rgba(13,22,17,.5); backdrop-filter:blur(3px); display:flex; align-items:center; justify-content:center; padding:24px; animation:fade .2s ease;}
+@keyframes fade{from{opacity:0;}to{opacity:1;}}
+.modal{width:100%; max-width:540px; max-height:88vh; background:var(--bg); border-radius:20px; display:flex; flex-direction:column; box-shadow:var(--sh-pop); overflow:hidden; animation:pop .22s cubic-bezier(.2,.8,.2,1);}
+@keyframes pop{from{transform:translateY(12px) scale(.985); opacity:.5;}to{transform:none; opacity:1;}}
+.modal-h{flex:none; position:relative; display:flex; align-items:center; gap:10px; padding:18px 18px 14px;}
+.modal-h h2{font-family:var(--display); font-weight:600; font-size:20px; margin:0; flex:1; min-width:0; color:var(--ink);}
+.modal-back{appearance:none; border:0; background:var(--panel2); cursor:pointer; width:36px; height:36px; border-radius:50%; color:var(--text-soft); display:flex; align-items:center; justify-content:center; flex:none;}
+.modal-back svg{width:18px;height:18px;}
+.modal-back:focus-visible{outline:none; box-shadow:var(--ring);}
+.modal-close{appearance:none; border:0; background:var(--panel2); cursor:pointer; width:36px; height:36px; border-radius:50%; color:var(--text-soft); font-size:17px; display:flex; align-items:center; justify-content:center; flex:none;}
+.modal-close:focus-visible{outline:none; box-shadow:var(--ring);}
+.modal-b{flex:1 1 auto; overflow-y:auto; padding:4px 16px 16px;}
+.modal-f{flex:none; padding:12px 16px; box-shadow:inset 0 1px 0 var(--hair); background:var(--surface); display:flex; gap:10px;}
+
+.src-item{border-radius:var(--r-md); padding:13px 14px; margin-bottom:10px; background:var(--surface); box-shadow:var(--sh-card);}
+.src-item .si-h{display:flex; align-items:center; gap:8px; margin-bottom:8px; flex-wrap:wrap;}
+.si-tier{font:700 9.5px/1 var(--mono); letter-spacing:.06em; text-transform:uppercase; color:var(--stamp); background:var(--stamp-soft); border:1px solid var(--stamp); border-radius:4px; padding:3px 7px;}
+.si-key{font:700 12px/1 var(--mono); color:var(--text-soft);}
+.src-item blockquote{margin:0; padding:9px 12px; border-left:3px solid var(--stamp); background:var(--panel2); border-radius:0 var(--r-sm) var(--r-sm) 0; font-size:13px; color:var(--text-soft); line-height:1.5; font-style:italic;}
+
+.prov-row{padding:13px 0; box-shadow:inset 0 -1px 0 var(--hair);}
+.prov-row:last-child{box-shadow:none;}
+.prov-row .pr-t{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:8px;}
+.prov-row .pr-name{font-weight:700; font-size:14px; color:var(--ink); flex:1; min-width:120px;}
+.prov-row .pr-stamp{display:flex; align-items:center; gap:8px; flex-wrap:wrap;}
+
+/* compliance record (print) */
+.cr-paper{background:#fff; color:#111; max-width:412px; margin:0 auto; border-radius:var(--r-lg); box-shadow:var(--sh-card); padding:28px 26px; font-size:13px; line-height:1.55;}
+.cr-paper .cr-letter{display:flex; align-items:center; gap:11px; border-bottom:2px solid var(--ink); padding-bottom:13px; margin-bottom:16px;}
+.cr-paper .cr-letter .mark{width:30px; height:30px; border-radius:8px; background:var(--accent); position:relative; flex:none;}
+.cr-paper .cr-letter .mark::after{content:""; position:absolute; inset:7px; border-radius:3px; background:#fff;}
+.cr-paper h1{font-family:var(--display); font-weight:600; font-size:21px; margin:0; color:var(--ink); line-height:1.1;}
+.cr-paper .cr-org{font-size:11.5px; color:#555; margin-top:2px;}
+.cr-paper h3{font:600 11px/1 var(--font); letter-spacing:.04em; text-transform:uppercase; color:#777; margin:20px 0 9px; border-bottom:1px solid #e5e5e5; padding-bottom:6px;}
+.cr-paper .crkv{display:flex; justify-content:space-between; gap:14px; padding:5px 0; font-size:13px;}
+.cr-paper .crkv .k{color:#555;} .cr-paper .crkv .v{font-weight:700; color:#111; text-align:right;}
+.cr-paper .cr-prov{font-size:12.5px; color:#333; background:#f5f8f5; border-radius:8px; padding:13px 14px; margin-top:6px; line-height:1.55;}
+.cr-paper .cr-sign{margin-top:28px; display:flex; gap:26px;}
+.cr-paper .cr-sign .sg{flex:1;} .cr-paper .cr-sign .sl{border-top:1px solid #111; margin-top:32px; padding-top:6px; font-size:11px; color:#555;}
+.cr-paper .cr-foot{margin-top:20px; font-size:10px; color:#888; border-top:1px solid #e5e5e5; padding-top:11px; line-height:1.55;}
+
+.vh{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;}
+
+@media (max-width:680px){
+  .app{max-width:none; box-shadow:none;}
+  .topbar{padding:11px 15px; gap:9px;}
+  .userchip .uc-n,.userchip .uc-r{display:none;}
+  .appbar{padding:15px 17px 4px;} .appbar h1{font-size:26px;}
+  .tabbar{padding:5px 12px 0; gap:3px;} .tabbar button{padding:10px 11px; font-size:13px;}
+  .vpad{padding:15px 16px 26px;}
+}
+@media (prefers-reduced-motion:reduce){ *,*::before,*::after{animation-duration:.001ms !important; transition-duration:.001ms !important;} }
+
+@media print{
+  body{background:#fff; display:block; padding:0;}
+  body.modal-open .app{display:none !important;}   /* print only the compliance record, not the app behind it */
+  .modal-h, .modal-f, .cr-actions{display:none !important;}
+  .modal-bd{position:static; background:#fff; padding:0; display:block; backdrop-filter:none;}
+  .modal{max-width:none; max-height:none; box-shadow:none; border-radius:0; animation:none;}
+  .modal-b{overflow:visible; padding:0;}
+  .cr-paper{box-shadow:none; border-radius:0; max-width:none; padding:0; font-size:12px;}
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <header class="topbar">
+    <span class="brand"><span class="mark"></span>SchoolCafé 2.0 · Learning</span>
+    <span class="proto-tag" title="Standalone prototype of the District Admin (CN Director) view. Not part of the real app. State is in-memory and resets on refresh.">Prototype</span>
+    <span class="userchip" title="Signed in as the district training supervisor (demo)">
+      <span class="uc-av" aria-hidden="true">DW</span>
+      <span><span class="uc-n">Dana Whitman</span><br><span class="uc-r">CN Director · Northgate ISD</span></span>
+    </span>
+  </header>
+  <header class="appbar">
+    <span class="ab-role">CN Director</span>
+    <h1 id="ab-title">Compliance</h1>
+    <div class="ab-sub" id="ab-sub">Northgate ISD</div>
+  </header>
+  <nav class="tabbar" id="tabbar" role="tablist" aria-label="Sections"></nav>
+  <main class="scroll" id="view" tabindex="-1"></main>
+</div>
+
+<div class="vh" id="live" aria-live="polite"></div>
+<div id="modal-root"></div>
+
+<script>
+"use strict";
+const SVG = {
+  gauge:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 14l4-4"/><path d="M3.5 18a9 9 0 1 1 17 0"/><circle cx="12" cy="14" r="1.4" fill="currentColor" stroke="none"/></svg>',
+  roster:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 19v-1a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v1"/><circle cx="9" cy="7" r="3.2"/><path d="M22 19v-1a4 4 0 0 0-3-3.8"/><path d="M16 3.6A4 4 0 0 1 16 11"/></svg>',
+  proof:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12.5l2 2 4-4.5"/><path d="M12 2l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V5z"/></svg>',
+  assign:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>',
+  badge:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6"/><path d="M9 14.5L8 22l4-2.2L16 22l-1-7.5"/></svg>',
+  check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>',
+  half:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" stroke="none"/></svg>',
+  warn:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4.5"/><circle cx="12" cy="17" r=".6" fill="currentColor" stroke="none"/></svg>',
+  circle:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8.5"/></svg>',
+  dash:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 12h12"/></svg>',
+  guide:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5A1.5 1.5 0 0 1 5.5 3H18a2 2 0 0 1 2 2v15a1 1 0 0 0-1-1H5.5A1.5 1.5 0 0 1 4 17.5z"/><path d="M8 7.5h8M8 11h6"/></svg>',
+  bell:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>',
+  doc:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 16h4"/></svg>',
+  print:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6"/><path d="M6 18H4a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="7" rx="1"/></svg>',
+  link:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1"/></svg>',
+  trash:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m2 0v12a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V7"/><path d="M10 11v6M14 11v6"/></svg>',
+  swap:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4L3 8l4 4"/><path d="M3 8h13a4 4 0 0 1 0 8h-1"/><path d="M17 20l4-4-4-4"/></svg>',
+  calendar:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="16" rx="2"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/></svg>',
+  back:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>',
+  chev:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>',
+};
+
+const TODAY='2026-06-16', DISTRICT='Northgate ISD', SITES=['Lincoln Elementary','Roosevelt Middle','Northgate High','Central Kitchen'];
+
+/* ====================================================================
+   CATALOG — REAL tracks. Citations verbatim from real Jira tickets.
+   Hours + standards-area mapping are illustrative (labeled in-app).
+   ==================================================================== */
+const CATALOG = {
+  'cashier-onboarding':{
+    id:'track-g1-cashier-onboarding', title:'New Cashier Onboarding', hours:2.0,
+    standardsArea:'Key Area 2 — Operations (illustrative)',
+    courses:[
+      { id:'c1', title:'Cashier Fundamentals', lessons:[
+        { id:'l1', type:'guide', title:'Item Setup: Configuration Prerequisites', origin:'ai_grounded', cites:[
+            {tier:'AC',key:'NXT-24910',quote:'Values provided against Configuration related fields are absolutely matched'},
+            {tier:'AC',key:'NXT-24910',quote:'Item Category should be a valid item category (Validate against Item Category Configuration)'},
+            {tier:'AC',key:'NXT-24910',quote:'Brand Association with manufacturer need NOT be followed'}]},
+        { id:'l2', type:'video', title:'Food Safety: Hand Hygiene', origin:'outside_vendor', vendor:'ICN / USDA' },
+        { id:'l3', type:'quiz', title:'Knowledge Check — Cashier Fundamentals', origin:'ai_grounded' } ]},
+      { id:'c2', title:'Getting Certified', lessons:[
+        { id:'l4', type:'guide', title:'Pack Sizes & Units', origin:'ai_grounded', cites:[
+            {tier:'AC',key:'NXT-35898',quote:'Provide the new Units card in the item creation header which is the combination of the pack size and serving size sections'},
+            {tier:'AC',key:'NXT-35898',quote:'Provide Food item and Fluid item questions in the header bar of the card before enabling the grid'},
+            {tier:'AC',key:'NXT-37110',quote:'Provide the ability to add pack size units in the combined Units grid'},
+            {tier:'AC',key:'NXT-37110',quote:'Bring attention to the appropriate Sub-Qty fields as required to link Pack Sizes'}]},
+        { id:'l5', type:'quiz', title:'Final Assessment', origin:'ai_grounded' } ]}
+    ]
+  },
+  'manager-essentials':{
+    id:'track-g1-manager-essentials', title:'Manager Essentials', hours:2.5,
+    standardsArea:'Key Area 3 — Administration (illustrative)',
+    courses:[
+      { id:'mc1', title:'Eligibility Essentials', lessons:[
+        { id:'m1', type:'guide', title:'Auto-Processing Income Surveys', origin:'ai_grounded', cites:[
+            {tier:'RN',key:'NXT-70380',quote:'A new system setting has been added, *_Auto-Process all Income Surveys_*, which will allow greater flexibility over if and when to automatically process a survey that has been submitted online.'},
+            {tier:'AC',key:'NXT-70380',quote:'Verify manual entry behavior is unchanged'}]},
+        { id:'m2', type:'guide', title:'Matching Pending Students', origin:'ai_grounded', cites:[
+            {tier:'AC',key:'NXT-66798',quote:'User can see instruction text on the Pending Students tab, the View window, and a Success message when matching'},
+            {tier:'AC',key:'NXT-66798',quote:'User must select 1 of the potential matches to proceed'},
+            {tier:'AC',key:'NXT-66798',quote:'Links are created when a potential match is found'}]} ]},
+      { id:'mc2', title:'Management Resources & Certification', lessons:[
+        { id:'m3', type:'video', title:'Financial Management for Managers', origin:'outside_vendor', vendor:'ICN / USDA' },
+        { id:'m4', type:'quiz', title:'Knowledge Check — Manager Essentials', origin:'ai_grounded' } ]}
+    ]
+  },
+  'food-safety':{
+    id:'track-g1-food-safety-booth', title:'Food Safety: Hand Hygiene (ICN/USDA)', hours:0.5,
+    standardsArea:'Key Area 1 — Nutrition (illustrative)',
+    courses:[
+      { id:'fc1', title:'Food Safety Basics', lessons:[
+        { id:'f1', type:'video', title:'Hand Hygiene in School Nutrition', origin:'outside_vendor', vendor:'ICN / USDA' } ]}
+    ]
+  }
+};
+const TRACK_ORDER = ['cashier-onboarding','manager-essentials','food-safety'];
+const trackTitle = k => CATALOG[k] ? CATALOG[k].title : k;
+const allLessonsOf = t => t.courses.flatMap(c=>c.lessons);
+const lessonCiteCount = l => (l.cites||[]).length;
+const trackCiteCount = t => allLessonsOf(t).reduce((n,l)=>n+lessonCiteCount(l),0);
+function anyLessonById(id){ for(const k in CATALOG){ const l=allLessonsOf(CATALOG[k]).find(x=>x.id===id); if(l) return l; } return null; }
+
+/* ====================================================================
+   ROSTER — single source of truth. SYNTHETIC people, labeled in-app.
+   assignments[]: {track, raw, due, last, score}. raw ∈ not_started|in_progress|complete.
+   Overdue is COMPUTED (never stored).
+   ==================================================================== */
+function A(track, raw, due, last, score){ return { track, raw, due:due||'—', last:last||'—', score:(score==null?null:score) }; }
+function mk(id,name,site,role,assignments){ return {id,name,site,role,assignments:assignments||[]}; }
+const ROSTER=[
+  mk('marcus-bell','Marcus Bell','Lincoln Elementary','Cashier',[A('cashier-onboarding','in_progress','2026-07-31','Jun 15',null)]),
+  mk('aisha','Aisha Rahman','Lincoln Elementary','Cashier',[A('cashier-onboarding','complete','2026-07-31','Jun 14',88)]),
+  mk('devon','Devon Brooks','Lincoln Elementary','Cafeteria Manager',[A('manager-essentials','in_progress','2026-06-10','Jun 2',null)]),
+  mk('lucia','Lucia Ortiz','Lincoln Elementary','Cashier',[A('cashier-onboarding','not_started','2026-07-31','—',null)]),
+  mk('leah','Leah Kim','Lincoln Elementary','Cashier',[A('cashier-onboarding','complete','2026-07-31','Jun 12',80)]),
+  mk('maya','Maya Cordero','Lincoln Elementary','Cafeteria Manager',[A('manager-essentials','complete','2026-06-30','Jun 8',90)]),
+  mk('sofia','Sofia Marin','Lincoln Elementary','Cashier',[A('cashier-onboarding','in_progress','2026-07-31','Jun 15',null)]),
+  mk('henry','Henry Cole','Roosevelt Middle','Cashier',[A('cashier-onboarding','complete','2026-07-31','Jun 11',76)]),
+  mk('priya','Priya Nair','Roosevelt Middle','Nutritionist',[A('manager-essentials','in_progress','2026-07-31','Jun 13',null)]),
+  mk('sam','Sam Whitfield','Roosevelt Middle','Cafeteria Manager',[A('manager-essentials','in_progress','2026-06-05','May 28',null)]),
+  mk('tara','Tara Liu','Roosevelt Middle','Cashier',[A('cashier-onboarding','complete','2026-07-31','Jun 9',94)]),
+  mk('trevor','Trevor Nash','Roosevelt Middle','Cashier',[A('cashier-onboarding','not_started','2026-07-31','—',null)]),
+  mk('eli','Eli Foster','Roosevelt Middle','Cashier',[A('cashier-onboarding','in_progress','2026-06-12','Jun 3',null)]),
+  mk('grace','Grace Okafor','Northgate High','Cafeteria Manager',[A('manager-essentials','complete','2026-06-30','Jun 7',91)]),
+  mk('diego','Diego Salas','Northgate High','Cashier',[A('cashier-onboarding','in_progress','2026-07-31','Jun 15',null)]),
+  mk('beth','Bethany Frost','Northgate High','Cashier',[A('cashier-onboarding','in_progress','2026-06-12','Jun 1',null)]),
+  mk('omar','Omar Haddad','Northgate High','Inventory Manager',[A('manager-essentials','not_started','2026-07-31','—',null)]),
+  mk('fatima','Fatima Ali','Northgate High','Nutritionist',[A('manager-essentials','in_progress','2026-07-31','Jun 14',null)]),
+  mk('hannah','Hannah Reyes','Northgate High','Cashier',[A('cashier-onboarding','complete','2026-07-31','Jun 13',72)]),
+  mk('nina','Nina Petrov','Central Kitchen','Inventory Manager',[A('manager-essentials','complete','2026-06-30','Jun 6',83)]),
+  mk('gordon','Gordon Pratt','Central Kitchen','Inventory Manager',[A('manager-essentials','complete','2026-06-30','Jun 5',87)]),
+  mk('rosa','Rosa Mendez','Central Kitchen','Cafeteria Manager',[A('manager-essentials','in_progress','2026-06-08','May 30',null)]),
+  mk('carl','Carl Jensen','Central Kitchen','Technology',[]),
+  mk('victor','Victor Cho','Central Kitchen','Central Office',[]),
+];
+const staffById = id => ROSTER.find(s=>s.id===id);
+const ALL_ROLES = [...new Set(ROSTER.map(r=>r.role))];
+const NO_TRAINING_ROLES = ['Technology','Central Office']; // demo required-by-role: these have none by default
+
+/* ---- status model (computed) ---- */
+const STATUS={ complete:{label:'Complete',icon:SVG.check,cls:'ok'}, in_progress:{label:'In progress',icon:SVG.half,cls:'prog'},
+  overdue:{label:'Overdue',icon:SVG.warn,cls:'over'}, not_started:{label:'Not started',icon:SVG.circle,cls:'none'}, na:{label:'Not required',icon:SVG.dash,cls:'na'} };
+const isLate=d=>d&&d!=='—'&&d<TODAY;
+function asgStatus(a){ if(a.raw==='complete') return 'complete'; if(isLate(a.due)) return 'overdue'; if(a.raw==='in_progress') return 'in_progress'; return 'not_started'; }
+function staffStatus(s){ const as=s.assignments; if(!as.length) return 'na';
+  const sts=as.map(asgStatus);
+  if(sts.some(x=>x==='overdue')) return 'overdue';
+  if(sts.every(x=>x==='complete')) return 'complete';
+  if(sts.some(x=>x==='in_progress'||x==='complete')) return 'in_progress';
+  return 'not_started'; }
+const hasTraining=s=>s.assignments.length>0;
+function staffSoonestDue(s){ const open=s.assignments.filter(a=>asgStatus(a)!=='complete'); if(!open.length) return '—';
+  const od=open.filter(a=>isLate(a.due)); const pool=(od.length?od:open).map(a=>a.due).filter(d=>d&&d!=='—'); return pool.length?pool.sort()[0]:'—'; }
+
+const state={ dirTab:'overview', loading:true, filter:{site:'all', role:'all', status:'all'}, sort:'name', nudged:false, lastAssign:null, manage:null };
+
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const initials=n=>n.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
+function announce(m){ const l=$('#live'); if(l){ l.textContent=''; setTimeout(()=>l.textContent=m,30); } }
+const pill=s=>`<span class="pill ${STATUS[s].cls}">${STATUS[s].icon}${esc(STATUS[s].label)}</span>`;
+const miniPill=s=>STATUS[s];
+function fmtDate(d){ if(!d||d==='—')return '—'; const [y,m,da]=d.split('-'); return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+m-1]+' '+(+da)+', '+y; }
+
+const DIR_TABS=[['overview','Overview',SVG.gauge],['roster','Roster',SVG.roster],['proof','Proof',SVG.proof],['assign','Assign',SVG.assign]];
+function renderTabs(){ $('#tabbar').innerHTML=DIR_TABS.map(([id,label,icon])=>`<button role="tab" id="tab-${id}" aria-selected="${state.dirTab===id}" aria-controls="view" onclick="App.setTab('${id}')">${icon}<span>${esc(label)}</span></button>`).join(''); }
+
+const App={
+  setTab(id){ state.dirTab=id; renderTabs(); App.render(); },
+  render(){ const v=$('#view'); v.scrollTop=0;
+    const wrap=html=>'<div class="vpad">'+html+'</div>';
+    if(state.loading){ v.innerHTML=wrap(skeleton()); return; }
+    $('#ab-title').textContent={overview:'Compliance',roster:'Roster',proof:'Audit-ready proof',assign:'Assign training'}[state.dirTab];
+    $('#ab-sub').textContent=DISTRICT+' · '+ROSTER.filter(hasTraining).length+' staff with required training';
+    v.innerHTML=wrap(({overview:viewOverview,roster:viewRoster,proof:viewProof,assign:viewAssign}[state.dirTab])());
+    if(state.dirTab==='overview') drawRing();
+  }
+};
+/* COHERENCE: every state mutation calls commit() → re-renders the active surface AND
+   refreshes the top modal (if it's dynamic). No derived surface is left stale. */
+function commit(msg){ App.render(); refreshTopModal(); if(msg) announce(msg); }
+
+function skeleton(){ return `<div aria-busy="true" aria-label="Loading"><div class="spin" style="margin:22px auto 18px"></div>
+  <div class="skel" style="height:170px;margin-bottom:14px"></div><div class="skel" style="height:120px;margin-bottom:14px"></div>
+  <div class="skel" style="height:120px"></div><p class="muted small" style="text-align:center;margin-top:16px">Loading your district…</p></div>`; }
+
+/* ============================ OVERVIEW ============================ */
+function compliance(rows){ const a=rows.filter(hasTraining); const by=s=>a.filter(r=>staffStatus(r)===s).length;
+  return {assigned:a.length, complete:by('complete'), overdue:by('overdue'), prog:by('in_progress'), none:by('not_started'),
+    pct:a.length?Math.round(by('complete')/a.length*100):0}; }
+const band=p=>p>=90?'ok':p>=70?'warn':'over';
+const bandWord=p=>p>=90?'On track':p>=70?'At risk':'Behind';
+function groupPct(fn){ const m={}; ROSTER.filter(hasTraining).forEach(r=>{const k=fn(r);(m[k]=m[k]||{t:0,c:0});m[k].t++;if(staffStatus(r)==='complete')m[k].c++;});
+  return Object.entries(m).map(([k,v])=>({k,pct:Math.round(v.c/v.t*100),n:v.t})).sort((a,b)=>a.pct-b.pct); }
+
+function viewOverview(){
+  const c=compliance(ROSTER);
+  if(!c.assigned){ return `<div class="empty"><div class="ei">${SVG.gauge}</div><p>No required training assigned yet.</p>
+    <p class="es">Assign a track from the <b>Assign</b> tab or a roster row, and this overview fills in.</p></div>`; }
+  const byS=groupPct(r=>r.site), byR=groupPct(r=>r.role);
+  const bars=arr=>arr.map(g=>{const bd=band(g.pct);
+    const ic=bd==='over'?`<span style="color:var(--red)">${STATUS.overdue.icon}</span>`:bd==='warn'?`<span style="color:var(--warn-text)">${SVG.warn}</span>`:`<span style="color:var(--accent)">${SVG.check}</span>`;
+    return `<div class="bar-row"><span class="bl" title="${esc(g.k)}">${esc(g.k)}</span><span class="bt"><i class="bf ${bd}" style="width:${g.pct}%"></i></span><span class="bv">${g.pct}%<span class="vh"> ${bandWord(g.pct)}</span>${ic}</span></div>`; }).join('');
+  let nudge='';
+  if(c.overdue>0&&!state.nudged) nudge=`<div class="nudge"><span class="nx">${SVG.warn}</span><div class="nbody">
+    <p><b>${c.overdue} staff are overdue</b> on required training. A short, respectful reminder usually clears most within a few days.</p>
+    <button class="btn btn--primary btn--sm" onclick="App.nudge(${c.overdue})">${SVG.bell}Remind the ${c.overdue} overdue</button></div></div>`;
+  else if(c.overdue>0&&state.nudged) nudge=`<div class="note" style="display:flex;gap:9px;align-items:center;margin-bottom:14px"><span style="color:var(--accent)">${SVG.check}</span><span>Reminder queued for ${c.overdue} overdue staff — one respectful notification, no repeat nagging.</span></div>`;
+  const bw=bandWord(c.pct), bd=band(c.pct);
+  const bpill=`<span class="pill ${bd==='ok'?'ok':bd==='warn'?'none':'over'}">${bd==='over'?STATUS.overdue.icon:bd==='warn'?SVG.warn:SVG.check}${bw}</span>`;
+  return `<div class="card"><div class="card-b"><div class="glance">
+      <div class="ring-wrap"><svg id="ring" width="132" height="132" viewBox="0 0 132 132"></svg><div class="ring-center"><span class="pct">${c.pct}%</span><span class="pl">current</span></div></div>
+      <div class="glance-side"><div>${bpill}</div>
+        <div class="gs-line"><span class="gs-ic" style="color:var(--accent)">${SVG.check}</span><span class="gl"><b>${c.complete}</b> complete of ${c.assigned}</span></div>
+        <div class="gs-line"><span class="gs-ic" style="color:var(--stamp)">${SVG.half}</span><span class="gl"><b>${c.prog}</b> in progress</span></div>
+        <div class="gs-line"><span class="gs-ic" style="color:var(--red)">${SVG.warn}</span><span class="gl"><b>${c.overdue}</b> overdue · ${c.none} not started</span></div>
+      </div></div></div></div>
+    ${nudge}
+    <div class="card"><div class="card-h">By site</div><div class="card-b">${bars(byS)}</div></div>
+    <div class="card"><div class="card-h">By role</div><div class="card-b">${bars(byR)}</div></div>
+    <p class="note">The % is staff <b>complete</b> out of those with required training. Overdue and not-started show separately so a high % never hides who's behind — and status always carries an icon + label, not colour alone. <span class="muted">Cut-offs (green ≥90%, at-risk ≥70%) and the staff roster are illustrative demo values.</span></p>`;
+}
+function drawRing(){ const c=compliance(ROSTER), svg=$('#ring'); if(!svg)return;
+  const r=57,cx=66,cy=66,circ=2*Math.PI*r,bd=band(c.pct), col=bd==='ok'?'#22573E':bd==='warn'?'#E8A23C':'#C23B34', off=circ*(1-c.pct/100);
+  svg.innerHTML=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#E9EDEA" stroke-width="12"/><circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${col}" stroke-width="12" stroke-linecap="round" stroke-dasharray="${circ.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}"/>`; }
+
+/* ============================ ROSTER ============================ */
+function viewRoster(){
+  const chip=(g,v,l,cur)=>`<button class="chip" aria-pressed="${cur===v}" onclick="App.setFilter('${g}','${v}')">${esc(l)}</button>`;
+  const siteChips=['all',...SITES].map(s=>chip('site',s,s==='all'?'All sites':s,state.filter.site)).join('');
+  const roleChips=['all',...ALL_ROLES].map(r=>chip('role',r,r==='all'?'All roles':r,state.filter.role)).join('');
+  const statusChips=[['all','All'],['overdue','Overdue'],['in_progress','In progress'],['not_started','Not started'],['complete','Complete']].map(([v,l])=>chip('status',v,l,state.filter.status)).join('');
+  let rows=ROSTER.slice();
+  if(state.filter.site!=='all') rows=rows.filter(r=>r.site===state.filter.site);
+  if(state.filter.role!=='all') rows=rows.filter(r=>r.role===state.filter.role);
+  if(state.filter.status!=='all') rows=rows.filter(r=>staffStatus(r)===state.filter.status);
+  const ord={overdue:0,not_started:1,in_progress:2,complete:3,na:4};
+  rows.sort((a,b)=>state.sort==='name'?a.name.localeCompare(b.name):state.sort==='due'?String(staffSoonestDue(a)).localeCompare(String(staffSoonestDue(b))):state.sort==='status'?(ord[staffStatus(a)]-ord[staffStatus(b)])||a.name.localeCompare(b.name):0);
+  const list=rows.length?`<div class="list">`+rows.map(r=>{ const st=staffStatus(r), due=staffSoonestDue(r);
+    // assigned-track(s) line — per-course mini-pills when >1, plain name when 1, hint when 0
+    let tline;
+    if(!r.assignments.length){ tline='<span class="rm">No required training</span>'; }
+    else if(r.assignments.length===1){ tline=`<span class="rm">${esc(trackTitle(r.assignments[0].track))}</span>`; }
+    else { tline='<span class="rtracks">'+r.assignments.map(a=>{const as=asgStatus(a),m=miniPill(as);
+      return `<span class="pill pill--mini ${m.cls}">${m.icon}${esc(trackTitle(a.track))}</span>`;}).join('')+'</span>'; }
+    const dueTxt = st==='na' ? '—' : st==='complete' ? 'Up to date' : (due==='—'?'No due date':'Due '+fmtDate(due));
+    const dueLate = isLate(due)&&st!=='complete'&&st!=='na';
+    let aria=`${r.name}, ${r.role}, ${r.site}, overall ${STATUS[st].label}.`;
+    if(r.assignments.length>1) aria+=' Courses: '+r.assignments.map(a=>trackTitle(a.track)+' '+STATUS[asgStatus(a)].label).join(', ')+'.';
+    aria+=' Open to manage courses.';
+    return `<button class="rrow" onclick="App.openStaff('${r.id}')" aria-label="${esc(aria)}">
+      <span class="av" aria-hidden="true">${initials(r.name)}</span>
+      <span class="rb"><span class="rn">${esc(r.name)}</span>
+        <span class="rm">${esc(r.role)} · ${esc(r.site)}</span>${tline}</span>
+      <span class="rr">${pill(st)}<span class="rdue ${dueLate?'late':''}">${dueTxt}</span></span></button>`; }).join('')+`</div>`
+    : `<div class="empty"><div class="ei">${SVG.roster}</div><p>No staff match these filters.</p><p class="es">Clear a filter to widen the list.</p></div>`;
+  return `<div class="filters">
+    <div class="filter-group"><span class="fg-label">Site</span><div class="chips">${siteChips}</div></div>
+    <div class="filter-group"><span class="fg-label">Role</span><div class="chips">${roleChips}</div></div>
+    <div class="filter-group"><span class="fg-label">Status</span><div class="chips">${statusChips}</div></div>
+    <div class="filter-group"><label class="fg-label" for="sort">Sort by</label>
+      <select class="input" id="sort" onchange="App.setSort(this.value)">
+        <option value="name"${state.sort==='name'?' selected':''}>Name (A–Z)</option>
+        <option value="status"${state.sort==='status'?' selected':''}>Status (overdue first)</option>
+        <option value="due"${state.sort==='due'?' selected':''}>Due date (soonest)</option></select></div></div>
+    <div class="small muted" style="margin:0 4px 12px">${rows.length} of ${ROSTER.length} staff${state.filter.site==='all'&&state.filter.role==='all'&&state.filter.status==='all'?'':' (filtered)'}</div>${list}`;
+}
+
+/* ============================ PROOF / RECORDS ============================ */
+function completedAssignments(){ const out=[]; ROSTER.forEach(r=>r.assignments.forEach(a=>{ if(asgStatus(a)==='complete') out.push({r,a}); })); return out; }
+function viewProof(){
+  const done=completedAssignments();
+  if(!done.length) return `<div class="empty"><div class="ei">${SVG.proof}</div><p>No completed training yet.</p><p class="es">Completed tracks appear here with who finished, when, their score, and full content provenance.</p></div>`;
+  const list=`<div class="list">`+done.map(({r,a})=>`<button class="rrow" onclick="App.openRecord('${r.id}','${a.track}')" aria-label="Open completion record for ${esc(r.name)}, ${esc(trackTitle(a.track))}">
+    <span class="av" aria-hidden="true">${initials(r.name)}</span>
+    <span class="rb"><span class="rn">${esc(r.name)}</span><span class="rm">${esc(trackTitle(a.track))}</span><span class="rm">Completed ${esc(a.last)} · ${a.score!=null?'score '+a.score+'%':'score n/a'}</span></span>
+    <span class="rr">${pill('complete')}<span class="rdue">View record</span></span></button>`).join('')+`</div>`;
+  return `<p class="note" style="margin-bottom:14px"><b>Audit-ready.</b> Each record shows who completed the track, when, their score, the professional-standards hours logged, and the <b>provenance of every claim</b>. Tap one, then <b>Generate compliance record</b> for a print-ready attestation.</p>
+    <div class="sec-title">Completed (${done.length})</div>${list}`;
+}
+function recordHtml(r,trackKey){ const t=CATALOG[trackKey], a=r.assignments.find(x=>x.track===trackKey)||{};
+  const courseProv=t.courses.map(c=>{const lessons=c.lessons.map(l=>{let right='';
+    if(l.origin==='ai_grounded'){ const n=lessonCiteCount(l);
+      right=`<span class="origin-badge ai-grounded">${SVG.check} AI-grounded</span>`+(l.type==='quiz'?'':`<span class="cite-stamp cite-stamp--compact cite-stamp--straight">✓ ${n}/${n} cited</span>`);
+      if(n) right+=`<button class="btn btn--ghost btn--sm" onclick="App.showSources('${l.id}')" aria-label="Show sources for ${esc(l.title)}">Show sources</button>`;
+    } else right=`<span class="origin-badge outside-vendor">${SVG.link} ${esc(l.vendor)}</span>`;
+    return `<div class="prov-row"><div class="pr-t"><span class="pr-name">${esc(l.title)}</span></div><div class="pr-stamp">${right}</div></div>`; }).join('');
+    return `<div class="card"><div class="card-h">${esc(c.title)}</div><div class="card-b" style="padding-top:2px">${lessons}</div></div>`; }).join('');
+  const hasCites=trackCiteCount(t)>0;
+  const provNote = hasCites
+    ? `<div class="sec-title">Content provenance</div><p class="small muted" style="margin:0 4px 11px">Every product claim traces to an approved Jira source at the correct trust tier. ICN/USDA video is outside-vendor — credited and linked, not part of the citation guarantee.</p>`
+    : `<div class="sec-title">Content provenance</div><p class="small muted" style="margin:0 4px 11px">This track is outside-vendor content (ICN/USDA) — credited and linked, not reproduced and not part of the AI-grounding citation guarantee.</p>`;
+  return `<div class="card"><div class="card-b">
+      <div class="kv"><span class="k">Staff member</span><span class="v">${esc(r.name)}</span></div>
+      <div class="kv"><span class="k">Role · Site</span><span class="v">${esc(r.role)} · ${esc(r.site)}</span></div>
+      <div class="kv"><span class="k">Track</span><span class="v">${esc(t.title)}</span></div>
+      <div class="kv"><span class="k">Completed</span><span class="v">${esc(a.last||'—')}, 2026</span></div>
+      <div class="kv"><span class="k">Final score</span><span class="v">${a.score!=null?a.score+'% (pass ≥ 70%)':'n/a'}</span></div>
+      <div class="kv"><span class="k">Prof. standards hours</span><span class="v">${t.hours.toFixed(1)} hrs</span></div></div></div>
+    <div class="note" style="margin-bottom:14px">${SVG.badge} <b>${t.hours.toFixed(1)} training hours</b> logged toward USDA Professional Standards — ${esc(t.standardsArea)}. <span class="muted">The hours-to-key-area mapping is illustrative for the prototype.</span></div>
+    ${provNote}${courseProv}`;
+}
+
+/* ============================ ASSIGN (bulk by role / site) ============================ */
+function trackOptions(selected){ return TRACK_ORDER.map(k=>`<option value="${k}"${selected===k?' selected':''}>${esc(CATALOG[k].title)}</option>`).join(''); }
+function viewAssign(){
+  const roleOpts=ALL_ROLES.map(r=>`<option>${esc(r)}</option>`).join('');
+  return `<div class="card"><div class="card-h">Assign a track to a group</div><div class="card-b">
+      <div class="field"><label for="as-track">Track</label><select class="input" id="as-track">${trackOptions('cashier-onboarding')}</select></div>
+      <div class="field"><label for="as-aud">Assign to</label><select class="input" id="as-aud" onchange="App.assignAudChange(this.value)"><option value="role">A role (district-wide)</option><option value="site">A whole site</option></select></div>
+      <div class="field"><label for="as-target" id="as-target-label">Role</label><select class="input" id="as-target">${roleOpts}</select></div>
+      <div class="field"><label for="as-due">Due date</label><input class="input" id="as-due" type="date" value="2026-07-31"></div>
+      <button class="btn btn--primary btn--block" onclick="App.doAssign()">${SVG.assign}Assign training</button>
+      ${state.lastAssign?`<div class="note" style="margin-top:12px;display:flex;gap:9px;align-items:flex-start"><span style="color:var(--accent)">${SVG.check}</span><span>${esc(state.lastAssign)}</span></div>`:''}
+      <p class="note" style="margin-top:13px">To assign, reassign, change a due date, or remove a course for <b>one person</b>, open them from the <b>Roster</b>. <span class="muted">${esc(NO_TRAINING_ROLES.join(' & '))} have no required training in this demo and are skipped by group-assign.</span></p></div></div>
+    <p class="note">${SVG.warn} The <b>assignment-rules engine</b> (auto-enrol by hire date, recurrence) and the <b>compliance calendar</b> are out of scope for this prototype — assignment here updates the roster in memory only.</p>`;
+}
+App.assignAudChange=v=>{ const lbl=$('#as-target-label'), sel=$('#as-target');
+  if(v==='site'){ lbl.textContent='Site'; sel.innerHTML=SITES.map(s=>`<option>${esc(s)}</option>`).join(''); }
+  else { lbl.textContent='Role'; sel.innerHTML=ALL_ROLES.map(r=>`<option>${esc(r)}</option>`).join(''); } };
+App.doAssign=()=>{ const track=$('#as-track').value, aud=$('#as-aud').value, target=$('#as-target').value, due=$('#as-due').value;
+  if(!due){ state.lastAssign='Pick a due date before assigning.'; App.render(); announce(state.lastAssign); return; }
+  let n=0, skipped=0;
+  ROSTER.forEach(r=>{ const match=aud==='role'?r.role===target:r.site===target; if(!match) return;
+    if(NO_TRAINING_ROLES.indexOf(r.role)>=0){ skipped++; return; }
+    const ex=r.assignments.find(a=>a.track===track);
+    if(ex){ ex.due=due; } else { r.assignments.push(A(track,'not_started',due,'—',null)); }
+    n++; });
+  state.lastAssign = n? `${trackTitle(track)} assigned to ${n} staff (${target}) — due ${fmtDate(due)}. Roster + compliance updated.${skipped?' '+skipped+' skipped (no required training).':''}`
+                       : `No eligible staff matched ${target}.${skipped?' '+skipped+' have no required training.':''}`;
+  commit(state.lastAssign); };
+
+/* ============================ MANAGE ONE STAFF (per-individual) ============================
+   Roster row → this sheet. Full workflow: assign → due → confirm → reassign → change due → remove.
+   Every mutation runs through commit() so overview + roster update live underneath. */
+App.openStaff=id=>{ state.manage={id, mode:'view', idx:null};
+  openModal('Manage — '+staffById(id).name, manageBody(), null, ()=>{ state.manage=null; }, ()=>({body:manageBody()})); };
+function unassignedTracks(r){ return TRACK_ORDER.filter(k=>!r.assignments.some(a=>a.track===k)); }
+function manageBody(){
+  const m=state.manage; if(!m) return ''; const r=staffById(m.id); const st=staffStatus(r);
+  const head=`<div class="card"><div class="card-b">
+    <div class="kv"><span class="k">Role · Site</span><span class="v">${esc(r.role)} · ${esc(r.site)}</span></div>
+    <div class="kv"><span class="k">Overall status</span><span class="v">${pill(st)}</span></div></div></div>`;
+
+  let asgHtml;
+  if(!r.assignments.length){
+    asgHtml=`<div class="empty" style="padding:22px 12px"><div class="ei">${SVG.guide}</div><p>No courses assigned.</p><p class="es">Use “Assign a course” below to give ${esc(r.name.split(' ')[0])} their first course.</p></div>`;
+  } else {
+    asgHtml='<div class="card"><div class="card-b" style="padding-top:6px">'+r.assignments.map((a,i)=>{
+      const as=asgStatus(a), editing=(m.idx===i); let edit='';
+      if(editing && m.mode==='duedate'){
+        edit=`<div class="asg-edit"><div class="field" style="margin:0 0 10px"><label for="ed-due">New due date</label><input class="input" id="ed-due" type="date" value="${a.due&&a.due!=='—'?a.due:'2026-07-31'}"></div>
+          <div style="display:flex;gap:8px"><button class="btn btn--secondary btn--sm" onclick="App.cancelEdit()">Cancel</button><button class="btn btn--primary btn--sm" style="flex:1" onclick="App.saveDue(${i})">${SVG.calendar} Save due date</button></div></div>`;
+      } else if(editing && m.mode==='reassign'){
+        const opts=unassignedTracks(r).map(k=>`<option value="${k}">${esc(CATALOG[k].title)}</option>`).join('');
+        edit = opts
+          ? `<div class="asg-edit"><div class="field" style="margin:0 0 10px"><label for="ed-track">Replace with a different course</label><select class="input" id="ed-track">${opts}</select></div>
+             <div class="field" style="margin:0 0 10px"><label for="ed-rdue">Due date</label><input class="input" id="ed-rdue" type="date" value="${a.due&&a.due!=='—'?a.due:'2026-07-31'}"></div>
+             <p class="hint" style="margin:0 0 10px">Reassigning replaces this course and resets its progress.</p>
+             <div style="display:flex;gap:8px"><button class="btn btn--secondary btn--sm" onclick="App.cancelEdit()">Cancel</button><button class="btn btn--primary btn--sm" style="flex:1" onclick="App.saveReassign(${i})">${SVG.swap} Save</button></div></div>`
+          : `<div class="asg-edit"><p class="small muted" style="margin:0 0 10px">No other course to reassign to — ${esc(r.name.split(' ')[0])} already has every available course.</p><button class="btn btn--secondary btn--sm" onclick="App.cancelEdit()">OK</button></div>`;
+      }
+      const rec = as==='complete' ? `<button class="btn btn--ghost btn--sm" onclick="App.openRecord('${r.id}','${a.track}')">View record</button>` : '';
+      const meta = as==='complete' ? ('Completed '+esc(a.last)+(a.score!=null?' · '+a.score+'%':'')) : ((a.due&&a.due!=='—'?'Due '+fmtDate(a.due):'No due date')+' · last activity '+esc(a.last));
+      return `<div class="asg"><div class="asg-t"><span class="asg-name">${esc(trackTitle(a.track))}</span>${pill(as)}</div>
+        <div class="asg-meta ${isLate(a.due)&&as!=='complete'?'late':''}">${meta}</div>
+        <div class="asg-actions">
+          <button class="btn btn--secondary btn--sm" onclick="App.editDue(${i})">${SVG.calendar} Change due date</button>
+          <button class="btn btn--secondary btn--sm" onclick="App.editReassign(${i})">${SVG.swap} Reassign</button>
+          <button class="btn btn--danger btn--sm" onclick="App.removeAsg(${i})">${SVG.trash} Remove</button>
+          ${rec}</div>${edit}</div>`;
+    }).join('')+'</div>';
+  }
+
+  const avail=unassignedTracks(r);
+  let addHtml;
+  if(m.mode==='add'){
+    addHtml=`<div class="card"><div class="card-h">Assign a course</div><div class="card-b">
+      <div class="field"><label for="add-track">Course</label><select class="input" id="add-track">${avail.map(k=>`<option value="${k}">${esc(CATALOG[k].title)}</option>`).join('')}</select></div>
+      <div class="field"><label for="add-due">Due date</label><input class="input" id="add-due" type="date" value="2026-07-31"></div>
+      <div id="add-err" class="small" style="color:var(--red-text);margin:-6px 0 10px;display:none">Pick a due date first.</div>
+      <div style="display:flex;gap:8px"><button class="btn btn--secondary" onclick="App.cancelEdit()">Cancel</button><button class="btn btn--primary" style="flex:1" onclick="App.confirmAdd()">${SVG.check} Confirm assignment</button></div></div></div>`;
+  } else {
+    addHtml=`<button class="btn btn--primary btn--block" ${avail.length?'':'disabled'} onclick="App.startAdd()">${SVG.assign} Assign a course${avail.length?'':' — none left'}</button>`;
+  }
+  const reminder = (st==='overdue'||st==='not_started'||st==='in_progress')
+    ? `<button class="btn btn--secondary btn--block btn--sm" style="margin-top:10px" onclick="App.nudgeOne('${r.id}')">${SVG.bell} Send ${esc(r.name.split(' ')[0])} a reminder</button>` : '';
+
+  return `${head}<div class="sec-title">Assigned courses</div>${asgHtml}<div style="margin-top:8px">${addHtml}${reminder}</div>
+    <p class="note" style="margin-top:14px">Changes here update the <b>Roster</b> and <b>Compliance overview</b> immediately (visible when you close this sheet). Demo only — in memory, resets on refresh.</p>`;
+}
+App.startAdd=()=>{ state.manage.mode='add'; state.manage.idx=null; refreshTopModal(); focusSoon('#add-track'); };
+App.confirmAdd=()=>{ const r=staffById(state.manage.id); const k=$('#add-track').value, due=$('#add-due').value;
+  if(!due){ const e=$('#add-err'); if(e)e.style.display='block'; return; }
+  r.assignments.push(A(k,'not_started',due,'—',null)); state.manage.mode='view';
+  commit(`${trackTitle(k)} assigned to ${r.name}, due ${fmtDate(due)}. Roster and compliance updated.`); };
+App.editDue=i=>{ state.manage.mode='duedate'; state.manage.idx=i; refreshTopModal(); focusSoon('#ed-due'); };
+App.saveDue=i=>{ const r=staffById(state.manage.id), due=$('#ed-due').value; if(!due) return; r.assignments[i].due=due; state.manage.mode='view'; state.manage.idx=null;
+  commit(`Due date for ${trackTitle(r.assignments[i].track)} changed to ${fmtDate(due)}.`); };
+App.editReassign=i=>{ state.manage.mode='reassign'; state.manage.idx=i; refreshTopModal(); focusSoon('#ed-track'); };
+App.saveReassign=i=>{ const r=staffById(state.manage.id), sel=$('#ed-track'); if(!sel) return; const k=sel.value, due=$('#ed-rdue').value||r.assignments[i].due;
+  r.assignments[i]=A(k,'not_started',due,'—',null); state.manage.mode='view'; state.manage.idx=null;
+  commit(`Reassigned to ${trackTitle(k)}, due ${fmtDate(due)}. Progress reset; roster and compliance updated.`); };
+App.removeAsg=i=>{ const r=staffById(state.manage.id), t=trackTitle(r.assignments[i].track); r.assignments.splice(i,1); state.manage.mode='view'; state.manage.idx=null;
+  commit(`Removed ${t} from ${r.name}. Roster and compliance updated.`); };
+App.cancelEdit=()=>{ state.manage.mode='view'; state.manage.idx=null; refreshTopModal(); };
+App.nudgeOne=id=>{ const r=staffById(id);
+  openModal('Reminder queued',`<div class="empty"><div class="ei" style="color:var(--accent)">${SVG.check}</div><p>A single reminder was queued for <b>${esc(r.name)}</b>.</p><p class="es">No repeat nagging — one respectful notification.</p></div>`,
+    `<button class="btn btn--primary btn--block" onclick="closeModal()">Done</button>`); };
+
+/* records (from proof rows + manage sheet) */
+App.openRecord=(id,trackKey)=>{ const r=staffById(id);
+  openModal('Completion record',recordHtml(r,trackKey),`<button class="btn btn--secondary" onclick="closeModal()">Close</button><button class="btn btn--primary" style="flex:1" onclick="App.complianceRecord('${id}','${trackKey}')">${SVG.doc} Compliance record</button>`); };
+App.showSources=lid=>{ const l=anyLessonById(lid), cites=l.cites||[];
+  const list=cites.map(c=>`<div class="src-item"><div class="si-h"><span class="si-tier">${esc(c.tier==='AC'?'Acceptance Criteria':c.tier==='RN'?'Release Notes':c.tier)}</span><span class="si-key">${esc(c.key)}</span></div><blockquote>${esc(c.quote)}</blockquote></div>`).join('');
+  openModal('Source provenance',`<div class="cite-stamp cite-stamp--straight" style="margin-bottom:14px">✓ ${cites.length}/${cites.length} cited</div>
+    <p class="small muted" style="margin:0 0 14px">Each claim in <b>${esc(l.title)}</b> traces to a verbatim quote from an approved Jira ticket at its trust tier. Acceptance Criteria is the highest-trust source.</p>${list}`,
+    `<button class="btn btn--primary btn--block" onclick="closeModal()">Close</button>`); };
+App.complianceRecord=(id,trackKey)=>{ const r=staffById(id), t=CATALOG[trackKey], a=r.assignments.find(x=>x.track===trackKey)||{};
+  const cites=trackCiteCount(t), aiL=allLessonsOf(t).filter(l=>l.origin==='ai_grounded'&&l.type!=='quiz').length, hasV=allLessonsOf(t).some(l=>l.origin==='outside_vendor');
+  const prov = cites>0
+    ? `Every product claim in this training traces to an approved source at the correct trust tier. <b>${cites} citations verified</b> across ${aiL} AI-grounded guide${aiL===1?'':'s'} (Acceptance-Criteria / Release-Notes tiers).${hasV?' One lesson is outside-vendor content (ICN / USDA) — credited and linked, not part of the citation guarantee.':''}`
+    : `This track is outside-vendor content (ICN / USDA) — credited and linked, not reproduced and not part of the AI-grounding citation guarantee.`;
+  const html=`<div class="cr-paper" id="cr-paper"><div class="cr-letter"><span class="mark"></span><div><h1>Training Completion Attestation</h1><div class="cr-org">${esc(DISTRICT)} · Child Nutrition Department</div></div></div>
+    <h3>Staff member</h3>
+    <div class="crkv"><span class="k">Name</span><span class="v">${esc(r.name)}</span></div>
+    <div class="crkv"><span class="k">Role</span><span class="v">${esc(r.role)}</span></div>
+    <div class="crkv"><span class="k">Site</span><span class="v">${esc(r.site)}</span></div>
+    <h3>Training completed</h3>
+    <div class="crkv"><span class="k">Track</span><span class="v">${esc(t.title)}</span></div>
+    <div class="crkv"><span class="k">Completion date</span><span class="v">${esc(a.last||'—')}, 2026</span></div>
+    <div class="crkv"><span class="k">Final score</span><span class="v">${a.score!=null?a.score+'% (pass ≥ 70%)':'n/a'}</span></div>
+    <div class="crkv"><span class="k">USDA Professional Standards</span><span class="v">${t.hours.toFixed(1)} hours · ${esc(t.standardsArea)}</span></div>
+    <h3>Content provenance</h3>
+    <div class="cr-prov">${prov}</div>
+    <div class="cr-sign"><div class="sg"><div class="sl">Dana Whitman · CN Director</div></div><div class="sg"><div class="sl">Date</div></div></div>
+    <div class="cr-foot">PROTOTYPE / DEMO ARTIFACT — ${esc(DISTRICT)} and "Dana Whitman" are fictional and the figures are illustrative. The Professional Standards hours-to-key-area mapping is illustrative, not an official determination. Citation counts and source quotes are drawn from real repository content. Generated by SchoolCafé 2.0 Learning.</div></div>`;
+  openModal('Compliance record',html,`<button class="btn btn--secondary cr-actions" onclick="closeModal()">Close</button><button class="btn btn--primary cr-actions" style="flex:1" onclick="window.print()">${SVG.print} Print / Save as PDF</button>`); };
+
+/* simple state setters */
+App.setFilter=(g,v)=>{ state.filter[g]=v; App.render(); };
+App.setSort=v=>{ state.sort=v; App.render(); };
+App.nudge=n=>{ state.nudged=true; App.render(); announce('Reminder queued for '+n+' overdue staff'); };
+
+/* ============================ MODAL STACK ============================
+   A small stack so record/sources/reminder opened FROM the manage sheet return to
+   it (Back / Esc), instead of dead-ending. Each frame may carry a render() for
+   dynamic refresh (the manage sheet uses it). */
+let modalStack=[];
+function focusSoon(sel){ setTimeout(()=>{ const e=$(sel); if(e)e.focus(); },20); }
+function openModal(title, body, footer, onClose, render){
+  modalStack.push({title, body, footer:footer||null, onClose:onClose||null, render:render||null, lastFocus:document.activeElement});
+  paintModal();
+}
+function paintModal(){
+  const f=modalStack[modalStack.length-1]; if(!f) return;
+  if(f.render){ const o=f.render(); f.body=o.body; if(o.footer!==undefined) f.footer=o.footer; }
+  document.body.classList.add('modal-open');
+  const back = modalStack.length>1 ? `<button class="modal-back" onclick="closeModal()" aria-label="Back">${SVG.back}</button>` : '';
+  $('#modal-root').innerHTML=`<div class="modal-bd" id="mbd"><div class="modal" role="dialog" aria-modal="true" aria-label="${esc(f.title)}">
+    <div class="modal-h">${back}<h2>${esc(f.title)}</h2><button class="modal-close" onclick="closeModal()" aria-label="Close">✕</button></div>
+    <div class="modal-b" id="modal-b">${f.body}</div>${f.footer?`<div class="modal-f">${f.footer}</div>`:''}</div></div>`;
+  const bd=$('#mbd'); bd.addEventListener('click',e=>{ if(e.target===bd) closeModal(); });
+  const c=bd.querySelector('.modal-close'); if(c) c.focus();
+}
+function refreshTopModal(){ const f=modalStack[modalStack.length-1]; if(!f) return;
+  if(f.render){ const o=f.render(); f.body=o.body; if(o.footer!==undefined) f.footer=o.footer; }
+  const mb=$('#modal-b'); if(mb) mb.innerHTML=f.body;
+  const mf=document.querySelector('#mbd .modal-f'); if(f.footer && mf) mf.innerHTML=f.footer; }
+function closeModal(){ const f=modalStack.pop(); if(f && f.onClose) f.onClose();
+  if(modalStack.length){ paintModal(); }
+  else { $('#modal-root').innerHTML=''; document.body.classList.remove('modal-open'); if(f && f.lastFocus && f.lastFocus.focus){ try{ f.lastFocus.focus(); }catch(e){} } } }
+window.closeModal=closeModal;
+
+/* keyboard: Escape closes top modal; Tab is trapped within it. Bound once. */
+document.addEventListener('keydown',function(e){
+  if(!modalStack.length) return;
+  if(e.key==='Escape'){ e.preventDefault(); closeModal(); return; }
+  if(e.key==='Tab'){ const m=$('#mbd'); if(!m)return; const f=[...m.querySelectorAll('button,select,input,textarea,[tabindex]')].filter(x=>!x.disabled&&x.offsetParent!==null); if(!f.length)return;
+    const first=f[0],last=f[f.length-1]; if(e.shiftKey&&document.activeElement===first){ e.preventDefault(); last.focus(); } else if(!e.shiftKey&&document.activeElement===last){ e.preventDefault(); first.focus(); } } });
+
+$('#tabbar').addEventListener('keydown',e=>{ if(e.key!=='ArrowRight'&&e.key!=='ArrowLeft')return;
+  const btns=[...$('#tabbar').querySelectorAll('button')], i=btns.indexOf(document.activeElement); if(i<0)return; e.preventDefault();
+  const n=e.key==='ArrowRight'?(i+1)%btns.length:(i-1+btns.length)%btns.length; btns[n].focus(); btns[n].click(); });
+
+renderTabs(); App.render();
+setTimeout(()=>{ state.loading=false; App.render(); },600);
+
+/* read-only hook for headless QA (no effect on UX) */
+window.__proto={ state, ROSTER, CATALOG, compliance:()=>compliance(ROSTER), staffStatus, asgStatus, staffById, groupPct, modalDepth:()=>modalStack.length };
+</script>
+</body>
+</html>

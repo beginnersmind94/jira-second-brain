@@ -212,7 +212,14 @@ async def upload_transcript(file: UploadFile, module: str | None = None):
     if suffix == ".pdf":
         # Intermediate step: convert the PDF to markdown for our pipeline. Word-export-fast
         # (<30s), pitfall-aware (reuses guide_text_cleanup); stored as .md like any upload.
-        import pdf_to_md
+        try:
+            import pdf_to_md
+        except ImportError as e:
+            # PDF support needs `pypdf`. Fail with an actionable message, not a raw 500.
+            raise HTTPException(503, "PDF support isn't installed on the server "
+                                     "(missing 'pypdf'). Run: pip install pypdf — "
+                                     "or upload a .md / .txt transcript instead. "
+                                     f"({e})")
         try:
             res = pdf_to_md.convert(body, title=Path(file.filename).stem)
         except pdf_to_md.PdfConversionError as e:

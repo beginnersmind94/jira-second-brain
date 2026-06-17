@@ -1,0 +1,10 @@
+{
+  "track_id": "track-20260615-171318-780e77",
+  "nudges": [
+    {
+      "user_id": "s3-nudge-one-test",
+      "nudged_at": "2026-06-15T22:13:18+00:00",
+      "nudged_by": "demo-user-003"
+    }
+  ]
+}

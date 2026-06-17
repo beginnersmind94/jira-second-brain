@@ -23,65 +23,88 @@ _CONTENT_RECT = pymupdf.Rect(
     _PAGE_RECT.y1 - _MARGIN,
 )
 
-# Simple print stylesheet: readable serif body, sized headings, bordered tables,
-# list spacing. Kept minimal — the Story CSS engine supports a subset of CSS.
+# Print stylesheet: readable serif body, sized headings, bordered tables,
+# callout boxes for blockquotes. Story CSS engine supports a useful subset of CSS.
 _PRINT_CSS = """
 body {
     font-family: "Georgia", "Times New Roman", serif;
     font-size: 11pt;
-    line-height: 1.5;
+    line-height: 1.55;
     color: #1a1a1a;
 }
 h1 {
     font-family: "Helvetica", "Arial", sans-serif;
-    font-size: 22pt;
-    color: #11324d;
+    font-size: 26pt;
+    color: #0b2540;
     margin-top: 0;
-    margin-bottom: 12pt;
-    border-bottom: 2px solid #11324d;
-    padding-bottom: 4pt;
+    margin-bottom: 6pt;
+    padding-bottom: 6pt;
+    border-bottom: 3px solid #0b2540;
 }
 h2 {
     font-family: "Helvetica", "Arial", sans-serif;
-    font-size: 16pt;
+    font-size: 15pt;
     color: #11324d;
-    margin-top: 16pt;
-    margin-bottom: 6pt;
+    margin-top: 20pt;
+    margin-bottom: 5pt;
+    padding-bottom: 2pt;
+    border-bottom: 1px solid #c8d8e8;
 }
 h3 {
     font-family: "Helvetica", "Arial", sans-serif;
-    font-size: 13pt;
-    color: #244;
+    font-size: 12pt;
+    color: #1a3d5c;
     margin-top: 12pt;
-    margin-bottom: 4pt;
+    margin-bottom: 3pt;
+}
+h4 {
+    font-family: "Helvetica", "Arial", sans-serif;
+    font-size: 11pt;
+    color: #244;
+    font-style: italic;
+    margin-top: 10pt;
+    margin-bottom: 2pt;
 }
 p { margin-top: 0; margin-bottom: 8pt; }
 ul, ol { margin-top: 4pt; margin-bottom: 8pt; }
-li { margin-bottom: 4pt; }
+li { margin-bottom: 3pt; }
+hr {
+    border: none;
+    border-top: 1px solid #c8d8e8;
+    margin: 14pt 0;
+}
 table {
     border-collapse: collapse;
     width: 100%;
     margin-top: 8pt;
-    margin-bottom: 12pt;
+    margin-bottom: 14pt;
+    font-size: 10.5pt;
 }
 th, td {
-    border: 1px solid #888;
-    padding: 5pt 7pt;
+    border: 1px solid #aac;
+    padding: 5pt 8pt;
     text-align: left;
     vertical-align: top;
 }
-th { background-color: #eef2f6; font-family: "Helvetica", "Arial", sans-serif; }
-blockquote {
-    margin: 8pt 0;
-    padding: 4pt 12pt;
-    border-left: 3px solid #b0c4d8;
-    color: #444;
-    font-style: italic;
+th {
+    background-color: #dde8f0;
+    font-family: "Helvetica", "Arial", sans-serif;
+    font-size: 10pt;
 }
+blockquote {
+    margin: 10pt 0;
+    padding: 7pt 14pt;
+    border-left: 4px solid #2a6496;
+    background-color: #eef4fa;
+    color: #1a2a3a;
+    font-style: normal;
+}
+blockquote p { margin-bottom: 4pt; }
 code {
     font-family: "Courier New", monospace;
-    font-size: 10pt;
-    background-color: #f2f2f2;
+    font-size: 9.5pt;
+    background-color: #f0f0f0;
+    padding: 0 2pt;
 }
 .pending-banner {
     font-family: "Helvetica", "Arial", sans-serif;

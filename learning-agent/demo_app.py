@@ -35,6 +35,16 @@ from pathlib import Path
 
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
+# Windows: live generation/evaluation spawns the `claude` CLI as a child process,
+# which REQUIRES the ProactorEventLoop. Set the policy at IMPORT time (not only under
+# __main__ below) so generation works no matter how the app is launched — `python
+# demo_app.py`, `uvicorn demo_app:app`, or an embedded `uvicorn.run(...)`. On a
+# SelectorEventLoop, Windows can't spawn subprocesses, so every generation 502s with
+# "Claude Code returned an error result". The __main__ block re-asserts this for the
+# canonical run; setting it here covers all the other launch paths too.
+if sys.platform == "win32":
+    asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
+
 from dotenv import load_dotenv
 from fastapi import Body, Depends, FastAPI, HTTPException, Query, Request
 from fastapi.responses import HTMLResponse, JSONResponse, Response
@@ -242,6 +252,13 @@ async def _run_text(prompt: str, options) -> tuple[str, object]:
                     parts.append(block.text)
         elif isinstance(message, ResultMessage):
             usage = getattr(message, "usage", None)
+            if getattr(message, "is_error", False):
+                # Surface the real CLI error (e.g. 401 auth) instead of letting
+                # the SDK collapse it into "error result: success" on exit.
+                raise RuntimeError(demo_d.friendly_agent_error(
+                    getattr(message, "result", None),
+                    getattr(message, "api_error_status", None),
+                ))
     return "\n".join(parts).strip(), usage
 
 
@@ -864,7 +881,20 @@ async def api_assign_track(
         "assigned_by": current_user.id,
     }
     assignments = list(track.get("assignments") or [])
-    assignments.append(new_assignment)
+    # Idempotent: re-assigning the same audience updates its due date in place rather
+    # than appending a duplicate, so re-walking the demo flow stays deterministic.
+    _existing = next(
+        (a for a in assignments
+         if a.get("audience_type") == audience_type
+         and a.get("audience_value") == audience_value),
+        None,
+    )
+    if _existing:
+        _existing["due_date"] = due_date or None
+        _existing["assigned_at"] = now_iso
+        _existing["assigned_by"] = current_user.id
+    else:
+        assignments.append(new_assignment)
     track["assignments"] = assignments
     _ms.save_track(track)
     return track
@@ -4711,6 +4741,7 @@ async def _stream_celld(transcript_path, transcript_id, module, rid, log, fmt="l
     )
     plan_parts: list[str] = []
     plan_usage = None
+    plan_error = None
     try:
         async for message in query(prompt=plan_prompt, options=plan_opts):
             if isinstance(message, AssistantMessage):
@@ -4729,8 +4760,16 @@ async def _stream_celld(transcript_path, transcript_id, module, rid, log, fmt="l
                         yield prod._sse_event("tool_result", {"tool_use_id": block.tool_use_id, "text": text})
             elif isinstance(message, ResultMessage):
                 plan_usage = getattr(message, "usage", None)
+                if getattr(message, "is_error", False):
+                    plan_error = demo_d.friendly_agent_error(
+                        getattr(message, "result", None),
+                        getattr(message, "api_error_status", None),
+                    )
     except Exception as e:
-        yield prod._sse_event("error", {"message": f"planning failed: {e}"})
+        yield prod._sse_event("error", {"message": f"planning failed: {plan_error or demo_d.friendly_agent_error(exc=e)}"})
+        return
+    if plan_error:
+        yield prod._sse_event("error", {"message": f"planning failed: {plan_error}"})
         return
 
     plan = _parse_json("\n".join(plan_parts))
@@ -4854,6 +4893,7 @@ async def _stream_celld_transcript(transcript_path, transcript_id, module, rid, 
     )
     plan_parts: list[str] = []
     plan_usage = None
+    plan_error = None
     try:
         async for message in query(prompt=plan_prompt, options=plan_opts):
             if isinstance(message, AssistantMessage):
@@ -4862,8 +4902,16 @@ async def _stream_celld_transcript(transcript_path, transcript_id, module, rid, 
                         plan_parts.append(block.text)
             elif isinstance(message, ResultMessage):
                 plan_usage = getattr(message, "usage", None)
+                if getattr(message, "is_error", False):
+                    plan_error = demo_d.friendly_agent_error(
+                        getattr(message, "result", None),
+                        getattr(message, "api_error_status", None),
+                    )
     except Exception as e:
-        yield prod._sse_event("error", {"message": f"planning failed: {e}"})
+        yield prod._sse_event("error", {"message": f"planning failed: {plan_error or demo_d.friendly_agent_error(exc=e)}"})
+        return
+    if plan_error:
+        yield prod._sse_event("error", {"message": f"planning failed: {plan_error}"})
         return
 
     plan = _parse_json("\n".join(plan_parts))
@@ -4991,6 +5039,7 @@ async def _stream_generation_demo(transcript_id: str, module: str, template: str
 
     final_text_parts: list[str] = []
     result_meta: dict = {}
+    run_error = None
 
     try:
         async for message in query(prompt=prompt, options=options):
@@ -5033,9 +5082,19 @@ async def _stream_generation_demo(transcript_id: str, module: str, template: str
                 }
                 yield prod._sse_event("result", result_meta)
                 log("result", result_meta)
+                if getattr(message, "is_error", False):
+                    run_error = demo_d.friendly_agent_error(
+                        getattr(message, "result", None),
+                        getattr(message, "api_error_status", None),
+                    )
     except Exception as e:
-        yield prod._sse_event("error", {"message": f"agent run failed: {e}"})
-        log("error", {"message": str(e)})
+        msg = run_error or demo_d.friendly_agent_error(exc=e)
+        yield prod._sse_event("error", {"message": f"agent run failed: {msg}"})
+        log("error", {"message": msg})
+        return
+    if run_error:
+        yield prod._sse_event("error", {"message": f"agent run failed: {run_error}"})
+        log("error", {"message": run_error})
         return
 
     html_text = "\n".join(final_text_parts).strip()
@@ -7526,6 +7585,24 @@ _DEMO_PERSONA_IDS = [
 ]
 
 
+def _strip_bridge_assignments() -> int:
+    """Remove demo-bridged ('projects-bridge') role assignments from every track so a
+    reset returns seed tracks to their pre-demo assignment state. Returns the count
+    stripped. Only tracks that actually changed are re-written."""
+    stripped = 0
+    for t in _ms.list_tracks():
+        asn = t.get("assignments") or []
+        kept = [a for a in asn if a.get("assigned_by") != "projects-bridge"]
+        if len(kept) != len(asn):
+            t["assignments"] = kept
+            try:
+                _ms.save_track(t)
+                stripped += len(asn) - len(kept)
+            except OSError:
+                pass
+    return stripped
+
+
 @app.post("/api/demo/reset")
 async def demo_reset():
     """Restore demo state to pristine for the next booth visitor.
@@ -7600,17 +7677,30 @@ async def demo_reset():
             print(f"[demo_app] Beat 4 restore failed (non-fatal): {e}")
             drift_restored = {"resource_id": None, "restored": False, "error": str(e)}
 
+    # 5. Clear in-memory trainer projects + strip demo-bridged track assignments so the
+    #    create-project → import → assign flow starts pristine for the next run.
+    projects_cleared = 0
+    try:
+        from projects import reset_demo_state as _reset_projects
+        projects_cleared = _reset_projects()
+    except Exception as e:  # never let a reset-helper failure 500 the booth reset
+        print(f"[demo_app] project reset failed (non-fatal): {e}")
+    bridge_stripped = _strip_bridge_assignments()
+
     elapsed_ms = round((time.time() - t0) * 1000)
     reset_at = datetime.now().isoformat(timespec="seconds")
     print(f"[demo_app] Demo reset complete in {elapsed_ms}ms — "
           f"users cleared: {cleaned}, leads deleted: {leads_deleted}, "
-          f"drift restored: {drift_restored}")
+          f"drift restored: {drift_restored}, projects cleared: {projects_cleared}, "
+          f"bridge assignments stripped: {bridge_stripped}")
     return JSONResponse({
         "ok": True,
         "reset_at": reset_at,
         "users_reset": cleaned,
         "leads_deleted": leads_deleted,
         "drift_restored": drift_restored,
+        "projects_cleared": projects_cleared,
+        "bridge_assignments_stripped": bridge_stripped,
         "elapsed_ms": elapsed_ms,
     })
 
@@ -7676,6 +7766,135 @@ async def api_workspace_add_note(isd: str, request: Request,
     except ValueError as e:
         raise HTTPException(400, str(e))
     return {"note": note, "workspace": _ws.get_workspace(isd)}
+
+
+@app.patch("/api/districts/{isd}/workspace/items/{item_id}")
+async def api_workspace_patch_item(isd: str, item_id: str, request: Request,
+                                   current_user: CurrentUser = Depends(get_current_user)):
+    assert_district_access(current_user, isd)
+    body = await request.json()
+    actor = _ws_actor(current_user)
+    try:
+        if "status" in body:
+            ws = _ws.set_item_status(isd, item_id, body["status"], body.get("reason", ""), actor)
+        elif "owner" in body:
+            ws = _ws.set_item_owner(isd, item_id, body["owner"], actor)
+        elif "due" in body:
+            ws = _ws.set_item_due(isd, item_id, body["due"], actor)
+        elif "label" in body:
+            ws = _ws.rename_item(isd, item_id, body["label"], actor)
+        else:
+            raise HTTPException(400, {"error": "provide label, status, owner, or due"})
+        return {"workspace": ws}
+    except KeyError:
+        raise HTTPException(404, {"error": "item not found"})
+    except ValueError as e:
+        raise HTTPException(422, {"error": str(e)})
+
+
+@app.post("/api/districts/{isd}/workspace/items/{item_id}/move")
+async def api_workspace_move_item(isd: str, item_id: str, request: Request,
+                                  current_user: CurrentUser = Depends(get_current_user)):
+    assert_district_access(current_user, isd)
+    body = await request.json()
+    try:
+        ws = _ws.reorder_item(isd, item_id, body.get("section_key", ""),
+                              body.get("before_item_id", ""), _ws_actor(current_user))
+        return {"workspace": ws}
+    except KeyError:
+        raise HTTPException(404, {"error": "item not found"})
+    except ValueError as e:
+        raise HTTPException(422, {"error": str(e)})
+
+
+@app.post("/api/districts/{isd}/workspace/items/{item_id}/nudge")
+async def api_workspace_nudge_blocker(isd: str, item_id: str,
+                                      current_user: CurrentUser = Depends(get_current_user)):
+    assert_district_access(current_user, isd)
+    try:
+        ws = _ws.nudge_blocker(isd, item_id, _ws_actor(current_user))
+        return {"workspace": ws}
+    except KeyError:
+        raise HTTPException(404, {"error": "item not found"})
+    except ValueError as e:
+        raise HTTPException(422, {"error": str(e)})
+
+
+@app.post("/api/districts/{isd}/workspace/items/{item_id}/resolve")
+async def api_workspace_resolve_block(isd: str, item_id: str,
+                                      current_user: CurrentUser = Depends(get_current_user)):
+    assert_district_access(current_user, isd)
+    try:
+        ws = _ws.resolve_block(isd, item_id, _ws_actor(current_user))
+        return {"workspace": ws}
+    except KeyError:
+        raise HTTPException(404, {"error": "item not found"})
+    except ValueError as e:
+        raise HTTPException(422, {"error": str(e)})
+
+
+@app.post("/api/districts/{isd}/workspace/sections/{section_key}/items")
+async def api_workspace_add_item(isd: str, section_key: str, request: Request,
+                                 current_user: CurrentUser = Depends(get_current_user)):
+    assert_district_access(current_user, isd)
+    body = await request.json()
+    try:
+        item, ws = _ws.add_item(isd, section_key, body.get("label", ""),
+                                body.get("owner", "Shared"), body.get("due", ""),
+                                _ws_actor(current_user))
+        return {"item": item, "workspace": ws}
+    except KeyError:
+        raise HTTPException(404, {"error": "section not found"})
+    except ValueError as e:
+        raise HTTPException(422, {"error": str(e)})
+
+
+@app.delete("/api/districts/{isd}/workspace/items/{item_id}")
+async def api_workspace_delete_item(isd: str, item_id: str,
+                                    current_user: CurrentUser = Depends(get_current_user)):
+    assert_district_access(current_user, isd)
+    try:
+        ws = _ws.delete_item(isd, item_id, _ws_actor(current_user))
+        return {"workspace": ws}
+    except KeyError:
+        raise HTTPException(404, {"error": "item not found"})
+
+
+@app.post("/api/districts/{isd}/workspace/sections")
+async def api_workspace_add_section(isd: str, request: Request,
+                                    current_user: CurrentUser = Depends(get_current_user)):
+    assert_district_access(current_user, isd)
+    body = await request.json()
+    try:
+        sec, ws = _ws.add_section(isd, body.get("label", ""), _ws_actor(current_user))
+        return {"section": sec, "workspace": ws}
+    except ValueError as e:
+        raise HTTPException(422, {"error": str(e)})
+
+
+@app.delete("/api/districts/{isd}/workspace/sections/{section_key}")
+async def api_workspace_delete_section(isd: str, section_key: str,
+                                       current_user: CurrentUser = Depends(get_current_user)):
+    assert_district_access(current_user, isd)
+    try:
+        ws = _ws.delete_section(isd, section_key, _ws_actor(current_user))
+        return {"workspace": ws}
+    except KeyError:
+        raise HTTPException(404, {"error": "section not found"})
+
+
+@app.patch("/api/districts/{isd}/workspace/sections/{section_key}")
+async def api_workspace_patch_section(isd: str, section_key: str, request: Request,
+                                      current_user: CurrentUser = Depends(get_current_user)):
+    assert_district_access(current_user, isd)
+    body = await request.json()
+    try:
+        ws = _ws.rename_section(isd, section_key, body.get("label", ""), _ws_actor(current_user))
+        return {"workspace": ws}
+    except KeyError:
+        raise HTTPException(404, {"error": "section not found"})
+    except ValueError as e:
+        raise HTTPException(422, {"error": str(e)})
 
 
 # ── Conference-mode: boot pre-warm ───────────────────────────────────────────

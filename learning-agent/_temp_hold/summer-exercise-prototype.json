@@ -1,0 +1,133 @@
+{
+  "_scratch": true,
+  "_note": "R&D prototype only. DO NOT wire into any course, quiz, or atom. This file lives in _temp_hold/ and is not committed to production.",
+  "_generated_date": "2026-06-14",
+  "_author": "R&D investigation — claude-sonnet-4-6",
+
+  "exercise_type": "step_ordering",
+  "title": "Practice: Sign Off on End-of-Day Tasks in the Right Order",
+  "description": "Drag the steps below into the correct order to sign off on Daily Tasks and close out the day in SchoolCafé Accountability.",
+  "xp": 70,
+  "source_guide": "GUIDE-022",
+  "source_guide_title": "End of Day Quick Guide",
+  "source_guide_url": "https://s3.us-east-1.amazonaws.com/docs.schoolcafe.com/Accountability/End_of_Day_Quick_Guide.pdf",
+  "source_guide_status": "needs_initial_review",
+  "_provenance_note": "GUIDE-022 status is 'needs_initial_review', NOT 'reviewed'. The guide has NOT yet been signed off by an SME. All steps below are verbatim or near-verbatim from the curated .md file (GUIDE-022-end-of-day-quick-guide.md). No steps were invented. See [TO VERIFY] markers for gaps.",
+
+  "correct_order": [
+    {
+      "step_id": "s1",
+      "label": "Select the Site Code/Site Name from the dropdown",
+      "source_section": "View Daily Tasks",
+      "source_quote": "Select the Site Code/Site Name from the dropdown",
+      "grounded": true
+    },
+    {
+      "step_id": "s2",
+      "label": "Select the Date from the dropdown (defaults to today)",
+      "source_section": "View Daily Tasks",
+      "source_quote": "Select the Date from the dropdown\n   The date defaults to today's date.",
+      "grounded": true
+    },
+    {
+      "step_id": "s3",
+      "label": "Select the Status from the dropdown, then click APPLY",
+      "source_section": "View Daily Tasks",
+      "source_quote": "Select the Status from the dropdown\n4. Click the APPLY button\n   Daily tasks display in the table below.",
+      "grounded": true
+    },
+    {
+      "step_id": "s4",
+      "label": "For any incomplete task, click the Daily Task name to navigate to the function and complete it, then click BACK TO END OF DAY",
+      "source_section": "Sign Off on Daily Tasks",
+      "source_quote": "If a task is not complete, you can click on the Daily Task name, and the system will navigate you to the corresponding function to complete the task\n   Click the BACK TO END OF DAY button in the top right corner to return to the End of Day function.",
+      "grounded": true
+    },
+    {
+      "step_id": "s5",
+      "label": "For each complete task, click the Checkmark in its row to sign off (changes from Not Done to Done)",
+      "source_section": "Sign Off on Daily Tasks",
+      "source_quote": "If the status of a task is complete, the site manager can sign off directly on that task by clicking the Checkmark in the designated row\n   The task changes from Not Done to Done.",
+      "grounded": true
+    },
+    {
+      "step_id": "s6",
+      "label": "Click the DAY FINISHED button once all tasks are accounted for",
+      "source_section": "Sign Off on Daily Tasks",
+      "source_quote": "Click the DAY FINISHED button once all tasks are accounted for\n   A pop-up window displays.",
+      "grounded": true
+    },
+    {
+      "step_id": "s7",
+      "label": "Enter a comment into the Add Comment field",
+      "source_section": "Sign Off on Daily Tasks",
+      "source_quote": "Enter a comment into the Add Comment field\n   The site manager can enter comments for each task or day.",
+      "grounded": true
+    },
+    {
+      "step_id": "s8",
+      "label": "Click SAVE to retain information",
+      "source_section": "Sign Off on Daily Tasks",
+      "source_quote": "Click the SAVE button to retain information",
+      "grounded": true
+    }
+  ],
+
+  "distractor_steps": [
+    {
+      "step_id": "d1",
+      "label": "[TO VERIFY] Click the RECONCILE button to balance the session",
+      "_note": "This action comes from GUIDE-013 (Reconciliation), NOT from the End of Day sign-off workflow. Including it here would be cross-feature contamination. Marked as a distractor ONLY — do not include in correct_order. If the exercise wants a wrong option testing this distinction, the SME must confirm the exact label in the EOD UI context.",
+      "grounded": false,
+      "source_guide": "GUIDE-013",
+      "cross_feature_risk": true
+    },
+    {
+      "step_id": "d2",
+      "label": "[TO VERIFY] Click the SETTINGS button to turn on the required Daily Tasks before starting",
+      "_note": "The guide mentions SETTINGS at the filter description level ('The SETTINGS button can turn Daily Tasks on or off as needed'), but does NOT specify this as a step in the sign-off workflow sequence. Using it as a step would require SME confirmation of whether it belongs in the ordered workflow or is a one-time setup. Left as distractor only.",
+      "grounded": false,
+      "source_section": "View Daily Tasks — SETTINGS footnote",
+      "source_quote": "The SETTINGS button can turn Daily Tasks on or off as needed.",
+      "cross_feature_risk": false
+    }
+  ],
+
+  "to_verify_gaps": [
+    {
+      "gap_id": "TV-1",
+      "description": "GUIDE-022 status is 'needs_initial_review', not 'reviewed'. The guide has not been signed off by an SME. All steps should be re-confirmed against the live PDF before any exercise goes live.",
+      "blocking": true
+    },
+    {
+      "gap_id": "TV-2",
+      "description": "The INCOMPLETE toggle switch is mentioned ('you can use the INCOMPLETE toggle switch to roll back the statuses') but it is not named in any step in the guide — only as a footnote after step 5. A step 'Use INCOMPLETE toggle if you need to undo the day' is not in the ordered procedure; its placement in the sequence is unconfirmed.",
+      "blocking": false
+    },
+    {
+      "gap_id": "TV-3",
+      "description": "The guide does not specify whether commenting (step s7) is mandatory or optional. The source only says 'The site manager can enter comments for each task or day.' A distractor option 'Skip the comment field and click SAVE directly' is plausible but unsourced.",
+      "blocking": false
+    },
+    {
+      "gap_id": "TV-4",
+      "description": "The Sessions Reconciliation task (from GUIDE-013) is listed as a required End of Day task in GUIDE-013 ('Reconciliation is a required End of Day task'). The exact position of the Reconciliation step within the EOD sign-off sequence — versus it being handled separately in the Sessions screen before returning to EOD — is not specified in GUIDE-022. Cross-guide integration of these two workflows needs SME confirmation.",
+      "blocking": true
+    }
+  ],
+
+  "mechanism_notes": {
+    "current_exercise_wire_format": {
+      "shape": "{ question, choices: [{text, source_quote}], correct_index, source_span }",
+      "source": "demo_app.py:2582-2632",
+      "note": "The current exercise API (/api/resources/{rid}/exercise) only supports a single MCQ (one question, N choices, one correct_index). It does NOT support a step-ordering (drag-and-drop sequence) format. A step-ordering exercise would require a new wire format and new UI component."
+    },
+    "ref_binding": {
+      "note": "The exercise lesson's ref field is declared 'always valid' in course_store.py:40 — the store never validates it against any resource. The rid passed to /api/resources/{rid}/exercise in _renderLessonPlayer (index.html:10380) is NOT derived from l.ref. It comes from _lessonRid(cid, idx) (index.html:10355), which picks any approved resource by a positional index mod formula against _demoState.approvedRids. There is no binding between the exercise lesson and a specific guide.",
+      "source": "course_store.py:40, index.html:10355, index.html:10367-10380"
+    },
+    "grounding_gap": {
+      "note": "Because ref is 'always valid' and _lessonRid ignores l.ref entirely, an exercise lesson has NO provenance binding to a specific guide at the data layer. The grounded MCQ fetched at runtime could come from any approved guide — there is no guarantee it comes from the guide the exercise is meant to test. A step-ordering exercise grounded to GUIDE-022 specifically would require: (1) storing ref=GUIDE-022 on the lesson, (2) changing _lessonRid or the exercise render path to use l.ref instead of the positional formula, and (3) a new step-ordering wire format + UI component."
+    }
+  }
+}

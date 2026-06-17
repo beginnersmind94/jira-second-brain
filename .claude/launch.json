@@ -5,7 +5,29 @@
       "name": "learning-studio",
       "runtimeExecutable": "C:\\Users\\rahul.mehta\\Downloads\\Financials-Documentation-KT\\learning-agent\\.venv\\Scripts\\python.exe",
       "runtimeArgs": ["C:\\Users\\rahul.mehta\\Downloads\\Financials-Documentation-KT\\jira-brain\\learning-agent\\demo_app.py"],
-      "port": 8001
+      "port": 8001,
+      "autoPort": false
+    },
+    {
+      "name": "learning-studio-preview",
+      "runtimeExecutable": "C:\\Users\\rahul.mehta\\Downloads\\Financials-Documentation-KT\\learning-agent\\.venv\\Scripts\\python.exe",
+      "runtimeArgs": ["-c", "import os; from dotenv import load_dotenv; load_dotenv(r'C:\\Users\\rahul.mehta\\Downloads\\Financials-Documentation-KT\\learning-agent\\.env'); os.chdir(r'C:\\Users\\rahul.mehta\\Downloads\\Financials-Documentation-KT\\jira-brain\\learning-agent'); import uvicorn; uvicorn.run('demo_app:app', host='127.0.0.1', port=8011)"],
+      "port": 8011,
+      "autoPort": false
+    },
+    {
+      "name": "cashier-studio",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8077", "--directory", "C:\\Users\\rahul.mehta\\Downloads\\Financials-Documentation-KT\\jira-brain\\learning-agent\\share"],
+      "port": 8077,
+      "autoPort": false
+    },
+    {
+      "name": "district-proto",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8078", "--directory", "C:\\Users\\rahul.mehta\\Downloads\\Financials-Documentation-KT\\jira-brain\\learning-agent\\prototypes"],
+      "port": 8078,
+      "autoPort": false
     }
   ]
 }

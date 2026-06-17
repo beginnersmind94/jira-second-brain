@@ -1,0 +1,102 @@
+{
+  "version": 1,
+  "product_name": "CN Learning Studio",
+  "gate": {
+    "track_id": "track-20260614-summer-cashier",
+    "track_title": "Cashier Summer Refresher"
+  },
+  "header": {
+    "eyebrow_complete": "TRACK COMPLETE",
+    "eyebrow_preview": "BEYOND THIS TRAINING",
+    "heading": "What's next for you",
+    "subhead_complete": "You finished your training. Here are ways your district and these programs can invest in what comes next — for your career and your life.",
+    "subhead_preview": "When you finish your training, this is here for you — ways your district and these programs can invest in what comes next, for your career and your life.",
+    "partner_badge": "Offered by external partners · not provided by CN Learning Studio"
+  },
+  "tiers": [
+    {
+      "id": "financial-wellness",
+      "title": "Build confidence at home",
+      "framing": "The one benefit everyone deserves — practical help to feel steady about money, on your terms.",
+      "icon": "shelter",
+      "variant": "green",
+      "resources": [
+        {
+          "name": "SmartDollar by Ramsey Solutions",
+          "url": "https://www.ramseysolutions.com/corporate-wellness/smartdollar",
+          "description": "Short lessons and private coaching to help you build an emergency fund, reduce debt, and feel confident about money — available in Spanish.",
+          "free": false,
+          "ask_district": true,
+          "spanish": true,
+          "tags": ["financial", "coaching", "spanish"]
+        }
+      ]
+    },
+    {
+      "id": "professional-development",
+      "title": "Grow in school nutrition",
+      "framing": "Hours you need anyway — framed as growth, from the people who train school nutrition pros across the country.",
+      "icon": "grow",
+      "variant": "stamp",
+      "resources": [
+        {
+          "name": "USDA Professional Standards Training Tracker",
+          "url": "https://www.fns.usda.gov/tn/professional-standards/trainings-tracker-tool",
+          "description": "Find free trainings that count toward your required USDA professional development hours.",
+          "free": true,
+          "ask_district": false,
+          "tags": ["usda", "professional-standards", "free"]
+        },
+        {
+          "name": "Institute of Child Nutrition (ICN) Free Training",
+          "url": "https://theicn.org/school-nutrition-programs/training/",
+          "description": "Free courses from the national training center — food safety, nutrition basics, and management skills.",
+          "free": true,
+          "ask_district": false,
+          "tags": ["icn", "food-safety", "free"]
+        },
+        {
+          "name": "SNA Certificate Program",
+          "url": "https://schoolnutrition.org/certificate-program/",
+          "description": "Earn a nationally recognized school nutrition credential — starts at $20 for SNA members.",
+          "free": false,
+          "ask_district": true,
+          "tags": ["sna", "credential"]
+        }
+      ]
+    },
+    {
+      "id": "career-credentials",
+      "title": "Build what comes next",
+      "framing": "A real credential, at your own pace — from names that change how the world sees your work.",
+      "icon": "horizon",
+      "variant": "warn",
+      "resources": [
+        {
+          "name": "Google Career Certificates",
+          "url": "https://grow.google/certificates/",
+          "description": "No degree needed. Earn a Google credential in data, IT, or project management — at your own pace.",
+          "free": false,
+          "ask_district": false,
+          "tags": ["google", "career", "certificate"]
+        },
+        {
+          "name": "IBM & Meta Professional Certificates",
+          "url": "https://www.coursera.org/professional-certificates",
+          "description": "Professional certificates from IBM, Meta, and more — build skills for roles beyond the cafeteria.",
+          "free": false,
+          "ask_district": false,
+          "tags": ["ibm", "meta", "career", "certificate"]
+        },
+        {
+          "name": "Coursera Financial Aid",
+          "url": "https://www.coursera.org/financial-aid",
+          "description": "Can't afford the fee? Coursera offers financial aid — most applications are approved.",
+          "free": true,
+          "ask_district": false,
+          "tags": ["coursera", "financial-aid", "free"]
+        }
+      ]
+    }
+  ]
+}

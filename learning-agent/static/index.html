@@ -1690,10 +1690,6 @@
     .g2-econ-close { background: none; border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.6); border-radius: 4px; padding: 4px 10px; font-size: 12px; cursor: pointer; float: right; }
     .g2-econ-close:hover { background: rgba(255,255,255,0.1); }
     /* Pipeline counter strip (trainer home, hidden in customer view) */
-    .g2-pipeline-strip { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px 14px; font-size: 12.5px; color: var(--muted); margin-bottom: 16px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-    .g2-pipeline-strip[hidden] { display: none !important; }
-    .g2-pipeline-count { font-weight: 700; color: var(--text); }
-    body.customer-view .g2-pipeline-strip { display: none !important; }
     .am-overlay { position: fixed; inset: 0; z-index: 90; background: rgba(20,32,26,.52); display: flex; align-items: center; justify-content: center; }
     .am-overlay[hidden] { display: none; }
     .am-modal { width: 100%; max-width: 460px; max-height: 84vh; overflow: auto; background: var(--panel); border-radius: var(--radius); box-shadow: var(--shadow-lift); }
@@ -1708,6 +1704,10 @@
     .fd-drawer { position: fixed; top: 0; right: 0; height: 100vh; width: min(520px, 96vw); background: var(--panel); border-left: 1px solid var(--border); box-shadow: -8px 0 32px rgba(0,0,0,.16); z-index: 90; display: flex; flex-direction: column; transform: translateX(100%); transition: transform .24s ease; }
     .fd-drawer.open { transform: translateX(0); }
     .fd-drawer--lg { width: min(640px, 96vw); }
+    /* Assign-training drawer can be launched from the staff detail drawer (#app-drawer, z-index 91).
+       Keep it (and its backdrop) above that drawer so it never renders behind. */
+    #asn-modal { z-index: 95; }
+    #asn-bd { z-index: 94; }
     .fd-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 18px 22px 16px; border-bottom: 1px solid var(--border); font-family: var(--serif); font-size: 17px; font-weight: 650; flex-shrink: 0; }
     .fd-body { padding: 20px 22px; flex: 1 1 auto; overflow-y: auto; }
     .fd-foot { padding: 14px 22px; border-top: 1px solid var(--border); background: var(--panel2); display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-shrink: 0; }
@@ -1966,6 +1966,208 @@
     .dds-progress { border:1px solid var(--border); border-radius:var(--radius-sm); background:var(--panel); padding:8px 10px; margin-bottom:12px; }
     .dds-prog-row { display:flex; justify-content:space-between; font-size:12.5px; padding:2px 0; }
     .dds-prog-row span { color:var(--muted); }
+    /* ── Priority strip (DASH-02) ── */
+    .dd-pri-strip { margin-bottom:12px; }
+    .dd-alert-card { display:flex; align-items:flex-start; gap:12px; padding:11px 14px; border-radius:var(--radius); margin-bottom:6px; }
+    .dd-alert-card.al-handraise { background:var(--warn-soft); border:1px solid var(--warn-border); }
+    .dd-alert-card.al-blocker { background:var(--red-soft); border:1px solid var(--red); }
+    .dd-alert-card.al-followup { background:var(--panel); border:1px solid var(--border-strong); }
+    .dd-alert-icon { font-size:15px; flex-shrink:0; line-height:1.7; }
+    .dd-alert-body { flex:1; min-width:0; }
+    .dd-alert-title { font-size:13px; font-weight:650; }
+    .al-handraise .dd-alert-title { color:var(--warn-text); }
+    .al-blocker .dd-alert-title { color:var(--red-text); }
+    .al-followup .dd-alert-title { color:var(--text); }
+    .dd-alert-quote { font-size:12.5px; font-style:italic; color:var(--warn-text); margin-top:2px; }
+    .dd-alert-sub { font-size:11.5px; color:var(--muted); margin-top:3px; }
+    .dd-alert-acts { display:flex; gap:6px; flex-shrink:0; align-items:flex-start; margin-top:1px; }
+    .dd-alert-link { font-size:11.5px; color:var(--stamp); font-weight:600; background:none; border:none; cursor:pointer; padding:0; }
+    .dd-alert-link:hover { text-decoration:underline; }
+    .dd-alert-overflow { display:block; font-size:12px; color:var(--stamp); font-weight:600; background:none; border:none; cursor:pointer; padding:3px 0 0; }
+    .dd-alert-overflow:hover { text-decoration:underline; }
+    /* ── Tab bar (DASH-01) ── */
+    .dd-tab-bar { display:flex; border-bottom:1px solid var(--border); margin-bottom:0; gap:0; }
+    .dd-tab { padding:9px 18px; font-size:13px; font-weight:600; color:var(--muted-aa); background:none; border:none; border-bottom:2.5px solid transparent; cursor:pointer; white-space:nowrap; margin-bottom:-1px; }
+    .dd-tab.is-active { color:var(--accent); border-bottom-color:var(--accent); }
+    .dd-tab:hover:not(.is-active) { color:var(--text); }
+    .dd-tab:focus-visible { outline:2px solid var(--stamp); outline-offset:-2px; }
+    .dd-tab-panels { padding-top:16px; }
+    .dd-tab-panel { display:none; }
+    .dd-tab-panel.is-active { display:block; }
+    /* ── Incident overlay (DASH-03) ── */
+    .dd-incident-overlay { position:fixed; inset:0; z-index:900; background:rgba(20,32,26,.45); display:flex; align-items:center; justify-content:center; padding:20px; }
+    .dd-incident-box { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); box-shadow:0 12px 40px rgba(0,0,0,.22); width:100%; max-width:480px; max-height:88vh; overflow-y:auto; }
+    .dd-incident-head { display:flex; align-items:center; justify-content:space-between; padding:14px 18px; border-bottom:1px solid var(--border); }
+    .dd-incident-head h3 { margin:0; font-size:15px; }
+    .dd-incident-close { background:none; border:none; font-size:20px; line-height:1; cursor:pointer; color:var(--muted); padding:2px 6px; border-radius:var(--radius-sm); }
+    .dd-incident-close:hover { color:var(--text); }
+    .dd-incident-close:focus-visible { outline:2px solid var(--stamp); outline-offset:2px; }
+    .dd-incident-body { padding:16px 18px; }
+    .dd-incident-sec-hd { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--muted-aa); margin:14px 0 5px; }
+    .dd-incident-sec-hd:first-child { margin-top:0; }
+    .dd-incident-item { font-size:13px; padding:6px 10px; border-radius:var(--radius-sm); }
+    .dd-incident-item.is-blocked { background:var(--red-soft); color:var(--red-text); font-weight:600; }
+    .dd-incident-item.is-handraise { background:var(--warn-soft); color:var(--warn-text); font-weight:600; }
+    .dd-incident-reason { font-size:12.5px; color:var(--muted); margin-top:4px; padding:0 2px; }
+    .dd-incident-note { font-size:13px; padding:6px 0; border-bottom:1px solid var(--border); }
+    .dd-incident-note:last-child { border-bottom:none; }
+    .dd-incident-note-meta { font-size:10.5px; color:var(--muted); margin-top:2px; }
+    .dd-incident-empty { font-size:12.5px; color:var(--muted); }
+    /* ── Activity tab filter (DASH-06) ── */
+    .dd-act-filter-bar { display:flex; gap:6px; margin-bottom:12px; flex-wrap:wrap; }
+    .dd-act-f-btn { font-size:12px; font-weight:600; padding:4px 11px; border:1px solid var(--border-strong); border-radius:999px; background:var(--panel); color:var(--muted-aa); cursor:pointer; }
+    .dd-act-f-btn.is-active { background:var(--accent-soft); color:var(--accent); border-color:var(--accent); }
+    .dd-act-f-btn:focus-visible { outline:2px solid var(--stamp); outline-offset:2px; }
+    .dd-act-group { border-left:2px solid var(--border-strong); padding-left:10px; margin-bottom:2px; }
+    .dd-act-group-hd { font-size:12px; font-weight:600; color:var(--muted); cursor:pointer; user-select:none; padding:3px 0; display:flex; align-items:center; gap:6px; }
+    .dd-act-group-ico { font-size:10px; color:var(--muted-soft); transition:transform .1s; }
+    /* ── Non-color status signals on roster pills (WCAG 1.4.1) ── */
+    .dd-stag-complete::before { content:'✓ '; }
+    .dd-stag-overdue::before { content:'! '; font-weight:900; }
+    .dd-stag-inprog::before { content:'▶ '; font-size:9px; }
+    .dd-stag-notstarted::before { content:'○ '; }
+    /* ── Blocked item link in checklist ── */
+    .dd-ws-blocked-link { background:none; border:none; cursor:pointer; text-align:left; font:inherit; font-size:13px; color:var(--text); padding:0; display:inline-flex; align-items:center; gap:6px; flex:1; }
+    .dd-ws-blocked-link:hover { text-decoration:underline; color:var(--red-text); }
+    /* Inline editing */
+    .dd-ws-item-label.is-editable { cursor:text; }
+    .dd-ws-item-label.is-editable:hover { text-decoration:underline dotted; }
+    .dd-ws-edit-inp { font:inherit; font-size:13px; padding:1px 5px; border:1.5px solid var(--accent); border-radius:4px; background:var(--surface); color:var(--text); width:100%; outline:none; min-width:0; }
+    .dd-ws-sec-inp { font-size:12px; font-weight:700; letter-spacing:.03em; text-transform:uppercase; }
+    /* Per-item LEFT-gutter actions (drag handle + block + delete) — fixed width, fade in on hover, no layout shift */
+    .dd-ws-item-acts { display:flex; align-items:center; justify-content:flex-start; gap:1px; flex:0 0 auto; width:58px; margin-right:5px; opacity:0; transition:opacity .1s; }
+    .dd-ws-item:hover .dd-ws-item-acts,.dd-ws-item:focus-within .dd-ws-item-acts { opacity:1; }
+    .dd-ws-drag { cursor:grab; color:var(--muted); font-size:13px; line-height:1; padding:0 1px; user-select:none; }
+    .dd-ws-drag:active { cursor:grabbing; }
+    .dd-ws-act-ico { width:20px; height:20px; display:inline-flex; align-items:center; justify-content:center; font-size:12px; line-height:1; border-radius:4px; border:1px solid transparent; background:none; color:var(--muted); cursor:pointer; padding:0; }
+    .dd-ws-del-btn:hover { background:var(--red-soft); border-color:var(--red); color:var(--red-text); }
+    .dd-ws-block-btn:hover { background:var(--warn-soft); border-color:var(--warn-border); color:var(--text); }
+    .dd-ws-unblock-btn { color:var(--red-text); }
+    .dd-ws-unblock-btn:hover { background:var(--panel); border-color:var(--border); color:var(--muted); }
+    /* dragging state */
+    .dd-ws-item.is-dragging { opacity:.4; }
+    .dd-ws-item.drag-over { box-shadow:inset 0 2px 0 var(--accent); }
+    /* Section header rename + delete */
+    .dd-ws-ms-head { cursor:default; }
+    .dd-ws-ms-name { cursor:pointer; }
+    .dd-ws-ms-name:hover { text-decoration:underline dotted; }
+    .dd-ws-ms-right { display:flex; align-items:center; gap:6px; }
+    .dd-ws-sec-del { font-size:11px; padding:2px 7px; border-radius:4px; border:1px solid var(--border); background:none; color:var(--muted); cursor:pointer; opacity:0; transition:opacity .1s; }
+    .dd-ws-ms-head:hover .dd-ws-sec-del { opacity:1; }
+    .dd-ws-sec-del:hover { background:var(--red-soft); border-color:var(--red); color:var(--red-text); opacity:1; }
+    /* Add-item inline row */
+    .dd-ws-add-row { display:flex; align-items:center; padding:4px 8px; font-size:12px; color:var(--muted); cursor:pointer; border-radius:4px; }
+    .dd-ws-add-row:hover { color:var(--accent); background:var(--accent-soft); }
+    .dd-ws-add-row.is-editing { padding:3px 4px; cursor:default; background:none !important; color:var(--muted) !important; }
+    /* Add-section button */
+    .dd-ws-add-sec-btn { margin-top:10px; font-size:12px; color:var(--muted); background:none; border:1.5px dashed var(--border); border-radius:6px; padding:7px 14px; cursor:pointer; width:100%; text-align:left; }
+    .dd-ws-add-sec-btn:hover { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+
+    /* ════════ TRACKER refactor: primary zone, read-and-act rows, owner badges ════════ */
+    /* Interactive targets ≥24px (WCAG 2.5.5 / target size). */
+    .dd-ws-check { width:24px; height:24px; }
+    .dd-ws-check.is-blk { border:1.5px solid var(--red); background:var(--red-soft); color:var(--red-text); border-radius:5px; display:inline-flex; align-items:center; justify-content:center; font-size:13px; }
+    /* Row leading control (kebab in read mode; drag+delete in edit mode) — fixed gutter, no shift */
+    .dd-ws-lead { display:inline-flex; align-items:center; gap:2px; flex:0 0 auto; }
+    .dd-ws-wrap:not(.is-edit) .dd-ws-lead { width:24px; }
+    .dd-ws-wrap.is-edit .dd-ws-lead { width:46px; }
+    .dd-ws-kebab { width:24px; height:24px; border:none; background:none; color:var(--muted-aa); border-radius:5px; cursor:pointer; font-size:16px; line-height:1; padding:0; opacity:0; transition:opacity .1s; }
+    .dd-ws-item:hover .dd-ws-kebab, .dd-ws-item:focus-within .dd-ws-kebab { opacity:1; }
+    .dd-ws-kebab:hover { background:var(--panel2); color:var(--text); }
+    .dd-ws-kebab:focus-visible { opacity:1; outline:2px solid var(--accent); outline-offset:1px; }
+    /* Right-aligned row metadata: due · owner · last-updated */
+    .dd-ws-rowmeta { margin-left:auto; display:inline-flex; align-items:center; gap:8px; flex:0 0 auto; }
+    .dd-ws-due { font-size:11.5px; font-weight:600; color:#5A4A1E; background:#FBF1D6; border:1px solid #E8D49A; border-radius:10px; padding:1px 8px; white-space:nowrap; }
+    .dd-ws-due.is-overdue { color:var(--red-text); background:var(--red-soft); border-color:var(--red); }
+    .dd-ws-updated { font-size:11px; color:var(--muted-aa); white-space:nowrap; }
+    /* Owner badges — explicit AA-contrast pairs (≥4.5:1), distinct per owner. */
+    .dd-own-badge { font-size:11px; font-weight:700; letter-spacing:.02em; border-radius:10px; padding:1px 9px; white-space:nowrap; display:inline-flex; align-items:center; }
+    .dd-own-badge.own-cyber { background:#E0EFE6; color:#1C5236; border:1px solid #BCD9C6; }
+    .dd-own-badge.own-district { background:#E4EDF8; color:#1B3E66; border:1px solid #BFD2EC; }
+    .dd-own-badge.own-shared { background:#ECEAE4; color:#4A463C; border:1px solid #D6D2C7; }
+    /* "auto" / "ad-hoc" inline tag */
+    .dd-ws-auto { font-size:10px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--muted-aa); background:var(--panel2); border:1px solid var(--border); border-radius:4px; padding:1px 5px; }
+    /* Blocked indicator = icon + text + color (never color alone) */
+    .dd-stag-blocked-tag { font-size:11px; font-weight:700; color:var(--red-text); background:var(--red-soft); border:1px solid var(--red); border-radius:10px; padding:1px 8px; white-space:nowrap; }
+    /* Edit-checklist toggle */
+    .dd-ws-edit-toggle { margin-left:auto; font-size:12px; font-weight:600; color:var(--accent); background:none; border:1px solid var(--border-strong); border-radius:var(--radius-sm); padding:5px 12px; min-height:28px; cursor:pointer; }
+    .dd-ws-edit-toggle:hover { border-color:var(--accent); background:var(--accent-soft); }
+    .dd-ws-edit-toggle.is-on { background:var(--accent); color:var(--accent-ink); border-color:var(--accent); }
+    .dd-ws-head { display:flex; align-items:center; gap:10px; }
+    /* Owner-filter note */
+    .dd-ws-filter-note { display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--muted-aa); margin:2px 0 10px; }
+    .dd-ws-filter-clear { font-size:12px; color:var(--accent); background:none; border:none; cursor:pointer; text-decoration:underline; padding:2px 4px; min-height:24px; }
+    /* Auto (Staff Training) rows */
+    .dd-ws-auto-link { background:none; border:none; cursor:pointer; text-align:left; font:inherit; font-size:13px; color:var(--text); padding:0; flex:1; }
+    .dd-ws-auto-link:hover { text-decoration:underline; color:var(--accent); }
+    .dd-ws-auto-stat { font-size:11.5px; font-weight:600; color:var(--muted-aa); white-space:nowrap; }
+    .dd-ws-auto-stat.is-complete { color:#1C5236; }
+    .dd-ws-auto-tag { font-size:10px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--muted-aa); }
+    /* Follow-ups group + legend */
+    .dd-ws-followups { margin-top:6px; }
+    .dd-ws-legend { display:flex; flex-wrap:wrap; align-items:center; gap:6px 14px; margin-top:14px; padding-top:12px; border-top:1px solid var(--border); }
+    .dd-ws-leg-t { font-size:11.5px; color:var(--muted-aa); margin-right:4px; }
+    /* Customer-view guard */
+    .dd-ws-guard { display:flex; align-items:flex-start; gap:10px; padding:11px 14px; background:#FCE9D6; border:1.5px solid #E07B00; border-radius:var(--radius); margin-bottom:14px; font-size:12.5px; color:#6B3B00; line-height:1.45; }
+    .dd-ws-guard-ico { font-size:15px; flex-shrink:0; }
+    body.customer-view .dd-own-badge,
+    body.customer-view .dd-ws-followups,
+    body.customer-view .dd-pz-blocker-acts,
+    body.customer-view .dd-pz-rollup { filter:blur(5px); pointer-events:none; user-select:none; }
+
+    /* ── Primary zone ── */
+    .dd-pz { background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:14px 16px; margin-bottom:16px; }
+    .dd-pz-top { display:flex; align-items:center; gap:18px; flex-wrap:wrap; }
+    .dd-pz-golive-date { font-family:var(--serif); font-size:17px; font-weight:700; color:var(--text); line-height:1.1; }
+    .dd-pz-golive-days { font-size:12px; color:var(--muted-aa); margin-top:2px; }
+    .dd-pz-readiness { flex:1; min-width:140px; }
+    .dd-pz-bar { height:8px; border-radius:5px; background:var(--panel2); overflow:hidden; }
+    .dd-pz-bar>span { display:block; height:100%; background:var(--accent); border-radius:5px; }
+    .dd-pz-readiness-n { font-size:11.5px; color:var(--muted-aa); margin-top:4px; font-weight:600; }
+    .dd-pz-pill { display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:700; padding:5px 13px; border-radius:14px; min-height:28px; }
+    .dd-pz-pill-ico { font-size:10px; }
+    .dd-pz-pill.pz-ok { background:#E0EFE6; color:#1C5236; border:1px solid #BCD9C6; }
+    .dd-pz-pill.pz-warn { background:#FBF1D6; color:#6B5310; border:1px solid #E8D49A; }
+    .dd-pz-pill.pz-blocked { background:var(--red-soft); color:var(--red-text); border:1px solid var(--red); }
+    .dd-pz-blocker { display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; background:var(--red-soft); border:1px solid var(--red); border-radius:var(--radius-sm); padding:11px 14px; margin-top:12px; }
+    .dd-pz-blocker-main { display:flex; align-items:flex-start; gap:10px; flex:1; min-width:240px; }
+    .dd-pz-blocker-ico { font-size:16px; color:var(--red-text); flex-shrink:0; line-height:1.3; }
+    .dd-pz-blocker-title { font-size:13.5px; font-weight:700; color:var(--red-text); }
+    .dd-pz-blocker-sub { font-size:12.5px; color:var(--text); margin-top:2px; line-height:1.45; }
+    .dd-pz-blocker-meta { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:6px; }
+    .dd-pz-since { font-size:11.5px; color:var(--muted-aa); }
+    .dd-pz-nudged { color:#1C5236; font-weight:600; }
+    .dd-pz-blocker-acts { display:flex; gap:8px; flex-shrink:0; }
+    .dd-pz-btn { font-size:12.5px; font-weight:600; padding:7px 14px; min-height:32px; border-radius:var(--radius-sm); border:1px solid var(--border-strong); background:var(--surface); color:var(--text); cursor:pointer; }
+    .dd-pz-btn:hover { border-color:var(--text); }
+    .dd-pz-btn-primary { background:var(--accent); color:var(--accent-ink); border-color:var(--accent); }
+    .dd-pz-btn-primary:hover { background:var(--accent-hover,var(--accent)); }
+    .dd-pz-rollup { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:12px; padding-top:12px; border-top:1px solid var(--border); }
+    .dd-pz-rollup-label { font-size:11px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--muted-aa); }
+    .dd-pz-roll { display:inline-flex; align-items:center; gap:6px; font-size:12.5px; color:var(--text); background:var(--surface); border:1px solid var(--border-strong); border-radius:14px; padding:4px 11px; min-height:28px; cursor:pointer; }
+    .dd-pz-roll:hover { border-color:var(--accent); }
+    .dd-pz-roll.is-active { border-color:var(--accent); background:var(--accent-soft); }
+    .dd-pz-roll-n { font-weight:700; }
+
+    /* ── Row kebab menu ── */
+    .dd-ws-kebab-menu { position:fixed; z-index:1000; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-sm); box-shadow:0 12px 36px rgba(0,0,0,.20); padding:5px; min-width:190px; }
+    .dd-ws-kbi { display:block; width:100%; text-align:left; font-size:13px; color:var(--text); background:none; border:none; border-radius:5px; padding:7px 10px; min-height:32px; cursor:pointer; }
+    .dd-ws-kbi:hover { background:var(--panel2); }
+    .dd-ws-kbi.dd-ws-kbi-warn:hover { background:var(--warn-soft); color:var(--warn-text); }
+    .dd-ws-kbi.is-cur { font-weight:700; }
+    .dd-ws-kbi-owner { padding-left:18px; }
+    .dd-ws-kbi-sub { font-size:10px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--muted-aa); padding:6px 10px 2px; }
+    .dd-ws-kbi-sep { height:1px; background:var(--border); margin:5px 4px; }
+
+    @media (max-width:600px) {
+      .dd-tab { padding:8px 10px; font-size:12.5px; }
+      .dd-alert-acts { flex-wrap:wrap; }
+      .dd-pz-top { gap:10px; }
+      .dd-pz-blocker-acts { width:100%; }
+      .dd-pz-btn { flex:1; }
+      .dd-ws-rowmeta { gap:5px; }
+      .dd-ws-updated { display:none; }
+    }
     /* Generic modal (used by _openRuleCreateModal — classes were previously unstyled,
        so the rule form rendered as a raw block at the bottom of the page). */
     .modal-backdrop { position:fixed; inset:0; z-index:1000; background:rgba(20,32,26,0.45); display:flex; align-items:center; justify-content:center; padding:20px; }
@@ -2049,7 +2251,15 @@
     .dds-track-row { display:flex; align-items:center; gap:10px; padding:8px 10px; background:var(--panel3); border-radius:var(--radius-sm); margin-bottom:4px; }
     .dds-track-name { flex:1; font-weight:600; font-size:13px; color:var(--ink); }
     .dds-track-prog { display:flex; align-items:center; gap:6px; font-size:12.5px; color:var(--text-soft); }
+    .dds-unassign { font-size:11.5px; font-weight:600; color:var(--red-text); background:none; border:1px solid var(--border-strong); border-radius:var(--radius-sm); padding:3px 9px; min-height:24px; cursor:pointer; white-space:nowrap; }
+    .dds-unassign:hover { background:var(--red-soft); border-color:var(--red); }
     .dds-actions { display:flex; gap:8px; margin-top:18px; flex-wrap:wrap; }
+    /* Person-scoped assign modal */
+    .asn-person-lock { display:flex; align-items:baseline; gap:8px; padding:8px 10px; background:var(--panel2); border:1px solid var(--border); border-radius:var(--radius-sm); margin-bottom:10px; }
+    .asn-person-lock .meta { font-size:12px; color:var(--muted-aa); }
+    .asn-cur-head { font-size:11px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--muted-aa); margin:4px 0 6px; }
+    .asn-cur-list { display:flex; flex-direction:column; gap:4px; }
+    .asn-cur-row { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:6px 10px; background:var(--panel3); border-radius:var(--radius-sm); font-size:13px; color:var(--text); }
     /* Legacy (kept for other consumers) */
     .mg-bd { padding: 6px 4px; }
     .mg-bd b { font-size: 11.5px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 6px; }
@@ -2123,6 +2333,20 @@
       padding: 14px 16px; font-size: 13.5px; line-height: 1.6; color: var(--text-soft); }
     .cat-detail-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
     .cat-detail-actions .primary { width: auto; flex: none; }
+    /* Inline content render in the catalog detail drawer */
+    .cat-detail-content { margin-top: 14px; }
+    .cat-content-loading, .cat-content-empty { font-size: 13px; color: var(--muted); padding: 10px 0; }
+    .cat-content-srclink { display:inline-block; margin-top:8px; font-size:13.5px; font-weight:600; color:var(--accent); text-decoration:none; }
+    .cat-content-srclink:hover { text-decoration:underline; }
+    .cat-content-body { margin-top: 6px; padding: 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); max-height: 60vh; overflow-y: auto; font-size: 13.5px; line-height: 1.6; color: var(--text); }
+    .cat-content-body h1 { font-family: var(--serif); font-size: 19px; margin: 0 0 10px; }
+    .cat-content-body h2 { font-family: var(--serif); font-size: 16px; margin: 18px 0 8px; }
+    .cat-content-body h3 { font-size: 14px; margin: 14px 0 6px; }
+    .cat-content-body p, .cat-content-body li { font-size: 13.5px; line-height: 1.6; }
+    .cat-content-body ul, .cat-content-body ol { padding-left: 20px; margin: 8px 0; }
+    .cat-content-body table { border-collapse: collapse; width: 100%; margin: 10px 0; font-size: 12.5px; }
+    .cat-content-body th, .cat-content-body td { border: 1px solid var(--border); padding: 5px 8px; text-align: left; }
+    .cat-content-body img { max-width: 100%; height: auto; }
     .cat-type { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
     .cat-title { font-family: var(--serif); font-size: 15px; font-weight: 650; color: var(--text); }
     .cat-meta { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
@@ -2343,7 +2567,7 @@
     .afeed-bd { flex: 1; min-width: 0; }
     .afeed-title { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .afeed-meta { font-size: 11.5px; color: var(--muted-aa); margin-top: 2px; }
-    .afeed-btn { font-size: 11.5px; padding: 4px 10px; flex: none; }
+    .afeed-btn { font-size: 11.5px; padding: 4px 10px; flex: none; width: 132px; box-sizing: border-box; text-align: center; white-space: nowrap; }
     .afeed-overflow { text-align: center; padding: 8px 0 2px; border-top: 1px solid var(--border); margin-top: 2px; }
     .afeed-overflow button { background: none; border: 0; font: inherit; font-size: 12px; font-weight: 600; color: var(--accent); cursor: pointer; padding: 0; }
     /* Event type icon variants */
@@ -3186,7 +3410,7 @@
     .lh-prog-fill { height: 100%; background: var(--accent); border-radius: 999px; transition: width .4s; }
     .lh-prog-lbl { display: flex; justify-content: space-between; margin-top: 5px; font-size: 12px; color: var(--muted); font-weight: 600; }
     .lh-foot { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 4px; }
-    .lh-cta { padding: 12px 28px; font-size: 15px; font-weight: 700; border-radius: var(--radius); border: 0; background: var(--accent); color: var(--accent-ink); cursor: pointer; font-family: var(--font); transition: background .14s; white-space: nowrap; }
+    .lh-cta { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; padding: 12px 28px; font-size: 15px; font-weight: 700; border-radius: var(--radius); border: 0; background: var(--accent); color: var(--accent-ink); cursor: pointer; font-family: var(--font); transition: background .14s; white-space: nowrap; }
     .lh-cta:hover { background: var(--accent-hover); }
     .lh-cta:active { background: var(--accent-press); }
     .lh-cta.lh-cert { background: var(--green); }
@@ -4109,7 +4333,7 @@
   </div>
   <div class="fd-body">
     <label class="tb-l">Content</label><select id="asn-content" class="tb-in"></select>
-    <label class="tb-l">Assign to</label>
+    <label class="tb-l" id="asn-audtype-l">Assign to</label>
     <select id="asn-audtype" class="tb-in" onchange="asnAudChange()"><option value="role">By role</option><option value="site">By site</option><option value="org">Entire district</option><option value="people">Specific people</option></select>
     <div id="asn-audpick"></div>
     <label class="tb-l">Due date</label><input id="asn-due" type="date" class="tb-in">
@@ -4145,6 +4369,7 @@
     <div class="create-hub-head">
       <h1>Create</h1>
       <p>Two ways to build learning here: <strong>generate</strong> a new grounded guide from a transcript or Jira, or <strong>assemble</strong> already-approved guides into tracks. Every path keeps content traceable to its source.</p>
+      <p style="margin-top:6px;font-size:13px;color:var(--muted);">Assembling approved guides into a track? <button type="button" class="linklike" onclick="openTrackBuilder()" style="font-size:13px;">Open the track builder →</button></p>
     </div>
     <div class="seg" id="create-mode" role="tablist" style="margin-top:16px;margin-bottom:0;">
       <button type="button" data-cmode="transcript" class="active">Upload transcript</button>
@@ -4350,10 +4575,6 @@
           </div>
         </div>
       </div>
-    </div>
-    <!-- G2: Pipeline counter strip — trainer home only, hidden in customer view -->
-    <div id="g2-pipeline-strip" class="g2-pipeline-strip" data-trainer-only="true" hidden>
-      Loading content stats…
     </div>
     <div id="home-body"></div>
   </div>
@@ -6186,9 +6407,6 @@ function applyViewMode() {
   const g2Econ = document.getElementById('g2-econ-btn');
   if (g2Gate) g2Gate.hidden = _viewMode === 'customer' || !isConference;
   if (g2Econ) g2Econ.hidden = _viewMode === 'customer' || !isConference;
-  // G2: pipeline strip — trainer only, update visibility state.
-  const g2Strip = document.getElementById('g2-pipeline-strip');
-  if (g2Strip) g2Strip.hidden = _viewMode === 'customer';
   // Library is an umbrella (Studio pipeline + Catalog). Customers only get the ready-to-use
   // Catalog, so hide the Studio/Catalog sub-tab strip for them.
   document.querySelectorAll('.lib-subnav').forEach(el => { el.hidden = _viewMode === 'customer'; });
@@ -6236,6 +6454,13 @@ function applyViewMode() {
   // Loud, persistent customer-view signal so a screen-share is never mistaken for internal.
   document.body.classList.toggle('customer-view', _viewMode === 'customer');
   const cbn = document.getElementById('customer-banner'); if (cbn) cbn.hidden = _viewMode !== 'customer';
+  // The learner first-run overlay must never linger over the trainer workspace.
+  if (_viewMode === 'trainer') { const _ob = document.getElementById('onboarding-overlay'); if (_ob) _ob.hidden = true; }
+  // If a district tracker is rendered, re-render so its internal-chrome guard banner
+  // reflects the current mode (badge masking is CSS-driven and applies regardless).
+  // try/catch: applyViewMode runs during early init before _ddLastWs/_curISD are
+  // initialized (those `let`s are declared later in the script — TDZ).
+  try { if (typeof _wsRenderPanel === 'function' && _ddLastWs && document.getElementById('dd-workspace')) { _wsRenderPanel(_curISD, _ddLastWs); } } catch (e) {}
   if (typeof libRailIntro === 'function') libRailIntro(true);   // persona changed → reset the assistant's framing
   // Mobile customer tab bar: visible only in customer view (CSS @media further gates to ≤480px).
   const mobileNav = document.getElementById('mobile-customer-nav');
@@ -8154,7 +8379,7 @@ async function loadCatalogDemo(){
       fetch('/api/quizzes').then(r=>r.json()).catch(()=>({quizzes:[]})),
     ]);
     const srcOrigin = s => s==='ICN_DOC' ? 'Outside vendor' : s==='HUMAN_GUIDE' ? 'Human-authored' : 'AI-generated';
-    const mods = (mr.modules||[]).map(m=>({ title: m.source==='ICN_DOC' ? _cleanIcnTitle(m.title) : (m.title||m.id), module:m.module||'', type:'Guide', origin:srcOrigin(m.source) }));
+    const mods = (mr.modules||[]).map(m=>({ id:m.id, title: m.source==='ICN_DOC' ? _cleanIcnTitle(m.title) : (m.title||m.id), module:m.module||'', type:'Guide', origin:srcOrigin(m.source), source:m.source, source_url:m.source_url||m.url||'' }));
     const trks = (tr.tracks||[]).filter(t=>t.status==='published').map(t=>({ title:t.title, module:(t.role_tags||[])[0]||'All staff', type:'Track', origin:'Mixed sources', role_tags: t.role_tags||[] }));
     // Approved, grounded quizzes are ready-to-use too — show them in the catalog (and make them takeable).
     const qzs = ((qr&&qr.quizzes)||[]).filter(q=>q.status==='approved').map(q=>({ title:q.title||'Knowledge check', module:(q.source_label||'Quiz'), type:'Quiz', origin:'AI-generated', quizId:q.id }));
@@ -8183,15 +8408,42 @@ function openCatalogDetail(i){
     : isVendor
     ? `<strong>Outside-vendor content.</strong> This ${escapeHtml(kind)} is authored by ${escapeHtml(x.source_name || 'USDA / Institute of Child Nutrition')} and credited to its source. It is embedded or linked — never reproduced or modified.`
     : `<strong>Human-authored.</strong> This ${escapeHtml(kind)} was authored or reviewed by Cybersoft staff. It is not AI-generated and has not passed the automated cite gate, but is reviewed for accuracy before inclusion.`;
+  const rid = x.id || x.rid || '';
   const html = `<div class="cat-detail">
       <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
         <span class="cat-type" style="color:var(--accent);">${escapeHtml(x.type)}</span>${originBadgeHtml(x.origin, x.source_name)}
       </div>
-      <p style="color:var(--muted);margin:0 0 18px;font-size:13px;">${escapeHtml(x.module || 'General')}</p>
+      <p style="color:var(--muted);margin:0 0 14px;font-size:13px;">${escapeHtml(x.module || 'General')}</p>
       <div class="cat-detail-note">${provenanceNote}</div>
-      <div class="cat-detail-actions">${actionBtn}${isAiGrounded && x.rid ? `<button class="secondary" onclick="showSourcePopover('${escAttr(x.rid)}','${escAttr(x.title)}')">Show source</button>` : ''}<button class="secondary" onclick="closeDrawer()">Close</button></div>
+      <div id="cat-detail-content" class="cat-detail-content">${(x.type==='Guide'||x.type==='Track')&&!isVendor&&rid?'<div class="cat-content-loading">Loading content…</div>':''}</div>
+      <div class="cat-detail-actions">${actionBtn}${isAiGrounded && rid ? `<button class="secondary" onclick="showSourcePopover('${escAttr(rid)}','${escAttr(x.title)}')">Show source</button>` : ''}${rid?`<a class="secondary" href="/resources/${encodeURIComponent(rid)}/pdf" target="_blank" rel="noopener" style="text-decoration:none;">Download PDF ↗</a>`:''}<button class="secondary" onclick="closeDrawer()">Close</button></div>
     </div>`;
   openDrawer(x.title, html);
+  // Load the ACTUAL content. Guides/AI render inline (server strips citation comments).
+  // Vendor/ICN is link-out only (never reproduced) — handled by the provenance note + any source link.
+  if (isVendor){
+    const el=document.getElementById('cat-detail-content');
+    if(el) el.innerHTML = x.source_url
+      ? `<a class="cat-content-srclink" href="${escAttr(x.source_url)}" target="_blank" rel="noopener">Open at source ↗</a>`
+      : `<p class="cat-content-empty">Third-party content — open it from its source library; it is not reproduced here.</p>`;
+    return;
+  }
+  if(rid && (x.type==='Guide' || x.type==='Track')){
+    _catLoadContent(rid);
+  }
+}
+// Fetch the citation-stripped guide HTML and render it inline in the catalog drawer.
+async function _catLoadContent(rid){
+  const el=document.getElementById('cat-detail-content'); if(!el) return;
+  try{
+    const r=await fetch('/resources/'+encodeURIComponent(rid)+'/html',{headers:{'X-Demo-User':_demoUserHeader()}});
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const html=await r.text();
+    if(!html || !html.trim()){ el.innerHTML='<p class="cat-content-empty">No content available for this item yet.</p>'; return; }
+    el.innerHTML='<div class="cat-content-body">'+html+'</div>';
+  }catch(e){
+    el.innerHTML=`<p class="cat-content-empty">Couldn’t load the content. <a href="/resources/${encodeURIComponent(rid)}/pdf" target="_blank" rel="noopener">Open as PDF ↗</a></p>`;
+  }
 }
 // Take an approved quiz straight from a catalog card (loads the persisted, grounded quiz).
 async function takeCatalogQuiz(qid){
@@ -8894,7 +9146,6 @@ async function _g2FetchStats() {
     const r = await fetch('/api/stats/content');
     if (r.ok) {
       _g2Stats = await r.json();
-      _g2UpdatePipelineStrip(_g2Stats);
     }
   } catch (e) {
     // Non-fatal — overlays will show stale or empty state
@@ -8995,30 +9246,6 @@ async function showEconomicsCard() {
 function hideEconomicsCard() {
   const card = document.getElementById('g2-econ-overlay');
   if (card) card.hidden = true;
-}
-
-/**
- * _g2UpdatePipelineStrip(stats) — refresh the pipeline counter strip on Home.
- * Trainer-only; hidden in customer view by CSS.
- */
-function _g2UpdatePipelineStrip(s) {
-  const strip = document.getElementById('g2-pipeline-strip');
-  if (!strip) return;
-
-  const guides = s.guide_count != null ? s.guide_count : '—';
-  const quizzes = s.quiz_count != null ? s.quiz_count : '—';
-  const decks = s.flashcard_deck_count != null ? s.flashcard_deck_count : '—';
-  const approved = s.total_human_approved != null ? s.total_human_approved : '—';
-
-  strip.innerHTML =
-    '<span class="g2-pipeline-count">' + guides + '</span> guides &middot; ' +
-    '<span class="g2-pipeline-count">' + quizzes + '</span> quizzes &middot; ' +
-    '<span class="g2-pipeline-count">' + decks + '</span> flashcard deck' +
-    (decks !== 1 ? 's' : '') +
-    ' &middot; <span class="g2-pipeline-count">' + approved + '</span> total human-approved';
-
-  // Only show in trainer (non-customer) view
-  strip.hidden = document.body.classList.contains('customer-view');
 }
 
 // Keyboard shortcuts: Ctrl+Shift+G = gate reveal, Ctrl+Shift+E = economics card.
@@ -10424,11 +10651,25 @@ function renderLearnHome() {
   const demoTracks = realTracks.length
     ? []
     : _allDemoTracks().filter(t => (t.role === role || t.role === 'All staff') && _trackCourses(t).length > 0);
-  // Assigned tracks (an assignment whose audience matches this role) sort first, so the
+  // Assigned tracks (a ROLE assignment matching this learner's role) sort first, so the
   // learner's REQUIRED track is the hero rather than an incidental published one.
-  const _isAssigned = t => Array.isArray(t.assignments) && t.assignments.some(a => !a.audience || a.audience === role);
+  // Handles BOTH assignment shapes: A3 {audience_type:'role', audience_value} written by
+  // the assign endpoint + the projects→track bridge, AND the legacy seed shape {audience}.
+  // District/user-scoped assignments do NOT drive the role hero.
+  const _asnMatchesRole = a => {
+    const ty = a.audience_type || (a.audience ? 'role' : null);
+    if (ty && ty !== 'role') return false;
+    const val = a.audience_value || a.audience || null;
+    return !val || val === role;
+  };
+  const _isAssigned = t => Array.isArray(t.assignments) && t.assignments.some(_asnMatchesRole);
+  // Tiebreak among assigned tracks: most-recently-assigned wins the hero, so a track just
+  // assigned in the trainer flow surfaces ahead of older seeded role-tracks.
+  const _asnRecency = t => Array.isArray(t.assignments)
+    ? t.assignments.filter(_asnMatchesRole).reduce((mx, a) => Math.max(mx, Date.parse(a.assigned_at || '') || 0), 0)
+    : 0;
   const allTracks = [...realTracks, ...demoTracks]
-    .sort((a, b) => (_isAssigned(b) ? 1 : 0) - (_isAssigned(a) ? 1 : 0));
+    .sort((a, b) => ((_isAssigned(b) ? 1 : 0) - (_isAssigned(a) ? 1 : 0)) || (_asnRecency(b) - _asnRecency(a)));
   const hero = allTracks.length
     ? { t: allTracks[0], isReal: realTracks.includes(allTracks[0]) }
     : null;
@@ -13267,28 +13508,209 @@ async function _loadWorkspace(d){
     el.innerHTML='<div class="dd-ws-err">Couldn’t load the implementation checklist.</div>';
   }
 }
+// The Implementation tab is a TRACKER for the CS/Implementation team (Jaime's team):
+// see go-live readiness + act on what's behind. Primary zone (go-live + blocker + owner
+// roll-up) sits above a read-and-act checklist; edit affordances hide behind a toggle.
 function _wsRenderPanel(did,ws){
+  _ddLastWs=ws;
+  _wsCloseKebab();
   const el=document.getElementById('dd-workspace'); if(!el||!ws) return;
   el.removeAttribute('aria-busy');
-  const stLabel={on_track:'On track',at_risk:'At risk',blocked:'Blocked'}[ws.status]||ws.status;
-  const stCls={on_track:'ws-ok',at_risk:'ws-warn',blocked:'ws-blocked'}[ws.status]||'';
-  let h=`<div class="dd-ws-head"><h3>Implementation checklist</h3><span class="dd-ws-status ${stCls}">${escapeHtml(stLabel)}</span><span class="dd-ws-overall">${ws.overall_pct}% complete</span></div>`;
-  (ws.milestones||[]).forEach(m=>{
-    h+=`<div class="dd-ws-ms"><div class="dd-ws-ms-head"><span class="dd-ws-ms-name">${escapeHtml(m.label)}${m.auto?' <span class="dd-ws-auto">auto</span>':''}</span><span class="dd-ws-ms-prog"><span class="dd-ws-ms-bar"><span style="width:${m.pct}%"></span></span>${m.done}/${m.total}</span></div><ul class="dd-ws-items">`;
-    (m.items||[]).forEach(it=>{
-      const done=it.status==='done', blocked=it.status==='blocked', icon=done?'✓':blocked?'⚠':'';
-      if(m.auto){
-        h+=`<li class="dd-ws-item is-${it.status} is-auto"><span class="dd-ws-check dd-ws-check--auto" aria-hidden="true">${icon}</span><span class="dd-ws-item-label">${escapeHtml(it.label)}</span><span class="dd-ws-owner">auto · training</span></li>`;
-      }else{
-        h+=`<li class="dd-ws-item is-${it.status}"><button class="dd-ws-check" role="checkbox" aria-checked="${done}" aria-label="${escAttr((done?'Uncheck ':'Check ')+it.label)}" onclick="_wsToggle('${escAttr(did)}','${escAttr(it.id)}')">${icon}</button><span class="dd-ws-item-label">${escapeHtml(it.label)}</span><span class="dd-ws-owner">${escapeHtml(it.owner)}</span></li>`;
-      }
-    });
-    h+=`</ul></div>`;
-  });
-  h+=_wsSections(ws,did);
+  el.classList.toggle('is-edit',_wsEditMode);
+  const d=_curDistrict();
+  let h='';
+  h+=_wsCustomerGuard();
+  h+=_wsPrimaryZone(did,ws,d);
+  // Checklist header: title + readiness + Edit toggle
+  h+=`<div class="dd-ws-head">
+    <h3>Implementation checklist</h3>
+    <span class="dd-ws-overall">${ws.overall_pct}% ready</span>
+    <button class="dd-ws-edit-toggle${_wsEditMode?' is-on':''}" aria-pressed="${_wsEditMode}" onclick="_wsToggleEdit()">${_wsEditMode?'Done editing':'Edit checklist'}</button>
+  </div>`;
+  if(_wsOwnerFilter){
+    h+=`<div class="dd-ws-filter-note">Showing ${_wsOwnerBadge(_wsOwnerFilter)} items only <button class="dd-ws-filter-clear" onclick="_wsSetOwnerFilter('')">Clear filter</button></div>`;
+  }
+  (ws.milestones||[]).forEach(m=>{ h+=_wsSection(did,m,d); });
+  h+=_wsFollowUps(ws,did);
+  if(_wsEditMode) h+=`<button id="dd-ws-add-sec" class="dd-ws-add-sec-btn" onclick="_wsAddSection('${escAttr(did)}')">+ Add section</button>`;
+  h+=_wsLegend();
   el.innerHTML=h;
+  // Update stage stepper
   const stageEl=document.getElementById('district-stage-row');
   if(stageEl) stageEl.innerHTML=_stageStepper(_wsStage(ws));
+  // Priority strip above the tabs carries the inbound hand-raise only (blocker now lives
+  // inline in the primary zone, not behind a ↗ arrow).
+  _ddUpdatePriorityStrip(d,ws);
+  // Fill Activity & Notes tab
+  const actEl=document.getElementById('dd-activity-content');
+  if(actEl) actEl.innerHTML=_ddRenderActivityContent(ws,did);
+}
+// ── Primary zone: go-live readiness + inline blocker(s) + owner roll-up ──
+function _wsPrimaryZone(did,ws,d){
+  const sm={on_track:{label:'On track',cls:'pz-ok',ico:'●'},at_risk:{label:'At risk',cls:'pz-warn',ico:'▲'},blocked:{label:'Blocked',cls:'pz-blocked',ico:'■'}}[ws.status]||{label:ws.status,cls:'',ico:''};
+  const days=_daysToGoLive();
+  const goLive=(d&&d.due)?d.due:(_DEMO.due||'Jun 30');
+  let h=`<div class="dd-pz">`;
+  h+=`<div class="dd-pz-top">
+    <div class="dd-pz-golive"><div class="dd-pz-golive-date">Go-live ${escapeHtml(goLive)}</div><div class="dd-pz-golive-days">${days>0?days+' days remaining':'Go-live is today'}</div></div>
+    <div class="dd-pz-readiness"><div class="dd-pz-bar"><span style="width:${ws.overall_pct}%"></span></div><div class="dd-pz-readiness-n">${ws.overall_pct}% ready</div></div>
+    <span class="dd-pz-pill ${sm.cls}"><span class="dd-pz-pill-ico" aria-hidden="true">${sm.ico}</span>${escapeHtml(sm.label)}</span>
+  </div>`;
+  // Inline blocker band(s) — first-class Blocked state
+  const blocked=(ws.milestones||[]).flatMap(m=>m.items||[]).filter(it=>it.status==='blocked');
+  blocked.forEach(it=>{
+    const since=it.blocked_since?_wsFmtWhen(it.blocked_since):'';
+    const nudged=it.nudged_at?_wsFmtWhen(it.nudged_at):'';
+    h+=`<div class="dd-pz-blocker" role="alert">
+      <div class="dd-pz-blocker-main">
+        <span class="dd-pz-blocker-ico" aria-hidden="true">⚠</span>
+        <div class="dd-pz-blocker-text">
+          <div class="dd-pz-blocker-title">Blocked: ${escapeHtml(it.label)}</div>
+          <div class="dd-pz-blocker-sub">${escapeHtml(it.reason||'No reason recorded.')}</div>
+          <div class="dd-pz-blocker-meta">${_wsOwnerBadge(it.owner)}${since?`<span class="dd-pz-since">Blocked since ${escapeHtml(since)}</span>`:''}${nudged?`<span class="dd-pz-since dd-pz-nudged">Nudged ${escapeHtml(nudged)}</span>`:''}</div>
+        </div>
+      </div>
+      <div class="dd-pz-blocker-acts">
+        <button class="dd-pz-btn" onclick="_wsNudgeBlocker('${escAttr(did)}','${escAttr(it.id)}','${escAttr(it.owner)}')">Nudge ${escapeHtml(it.owner)}</button>
+        <button class="dd-pz-btn dd-pz-btn-primary" onclick="_wsResolveBlock('${escAttr(did)}','${escAttr(it.id)}')">Mark resolved</button>
+      </div>
+    </div>`;
+  });
+  // Owner roll-up — open (not done), non-auto items, clickable to filter
+  const open=(ws.milestones||[]).filter(m=>!m.auto).flatMap(m=>m.items||[]).filter(it=>it.status!=='done');
+  const counts={District:0,Cybersoft:0,Shared:0};
+  open.forEach(it=>{ if(counts[it.owner]!=null) counts[it.owner]++; });
+  const chip=o=>`<button class="dd-pz-roll${_wsOwnerFilter===o?' is-active':''}" aria-pressed="${_wsOwnerFilter===o}" onclick="_wsSetOwnerFilter('${o}')">${_wsOwnerBadge(o)}<span class="dd-pz-roll-n">${counts[o]}</span> open</button>`;
+  h+=`<div class="dd-pz-rollup"><span class="dd-pz-rollup-label">Waiting on</span>${chip('District')}${chip('Cybersoft')}${chip('Shared')}</div>`;
+  h+=`</div>`;
+  return h;
+}
+function _wsOwnerBadge(owner){
+  const cls={Cybersoft:'own-cyber',District:'own-district',Shared:'own-shared'}[owner]||'own-shared';
+  return `<span class="dd-own-badge ${cls}">${escapeHtml(owner)}</span>`;
+}
+// ── One milestone section ──
+function _wsSection(did,m,d){
+  const editable=_wsEditMode&&!m.auto;
+  const secDel=editable?` <button class="dd-ws-sec-del" title="Delete section" onclick="_wsDeleteSection('${escAttr(did)}','${escAttr(m.key)}','${escAttr(m.label)}')" aria-label="Delete section ${escAttr(m.label)}">✕</button>`:'';
+  const nameAttrs=editable?` onclick="_wsEditSection('${escAttr(did)}','${escAttr(m.key)}','${escAttr(m.label)}')" title="Click to rename" style="cursor:pointer"`:'';
+  const autoTag=m.auto?' <span class="dd-ws-auto" title="System-driven from assigned training">auto</span>':'';
+  let h=`<div class="dd-ws-ms" data-skey="${escAttr(m.key)}"><div class="dd-ws-ms-head"><span class="dd-ws-ms-name"${nameAttrs}>${escapeHtml(m.label)}${autoTag}</span><span class="dd-ws-ms-right"><span class="dd-ws-ms-prog"><span class="dd-ws-ms-bar"><span style="width:${m.pct}%"></span></span>${m.done}/${m.total}</span>${secDel}</span></div><ul class="dd-ws-items">`;
+  let shown=0;
+  (m.items||[]).forEach(it=>{
+    if(m.auto){ h+=_wsAutoRow(did,m,it,d); shown++; return; }
+    if(_wsOwnerFilter && it.owner!==_wsOwnerFilter) return;
+    h+=_wsRow(did,m,it); shown++;
+  });
+  if(_wsOwnerFilter && !m.auto && shown===0) h+=`<li class="dd-ws-empty">No ${escapeHtml(_wsOwnerFilter)} items here.</li>`;
+  if(editable) h+=`<li class="dd-ws-add-row" onclick="_wsAddItemStart('${escAttr(did)}','${escAttr(m.key)}')">+ Add item</li>`;
+  h+=`</ul></div>`;
+  return h;
+}
+// ── Unified read-and-act row (manual checklist item) ──
+function _wsRow(did,m,it){
+  const done=it.status==='done', blocked=it.status==='blocked';
+  const today='2026-06-16';
+  const overdue=it.due && !done && it.due<today;
+  let lead, dragAttrs='';
+  if(_wsEditMode){
+    dragAttrs=`draggable="true" ondragstart="_wsDragStart(event,'${escAttr(did)}','${escAttr(it.id)}','${escAttr(m.key)}')" ondragover="_wsDragOver(event,'${escAttr(it.id)}')" ondragleave="_wsDragLeave(event,'${escAttr(it.id)}')" ondrop="_wsDrop(event,'${escAttr(did)}','${escAttr(it.id)}','${escAttr(m.key)}')" ondragend="_wsDragEnd(event)"`;
+    lead=`<span class="dd-ws-drag" title="Drag to reorder">⠿</span><button class="dd-ws-act-ico dd-ws-del-btn" title="Delete item" aria-label="Delete ${escAttr(it.label)}" onclick="_wsDeleteItem('${escAttr(did)}','${escAttr(it.id)}','${escAttr(it.label)}')">✕</button>`;
+  }else{
+    lead=`<button class="dd-ws-kebab" aria-label="Actions for ${escAttr(it.label)}" aria-haspopup="menu" onclick="_wsOpenKebab(event,'${escAttr(did)}','${escAttr(it.id)}')">⋯</button>`;
+  }
+  const check=blocked
+    ? `<span class="dd-ws-check is-blk" aria-hidden="true">⚠</span>`
+    : `<button class="dd-ws-check" role="checkbox" aria-checked="${done}" aria-label="${escAttr((done?'Uncheck ':'Check ')+it.label)}" onclick="_wsToggle('${escAttr(did)}','${escAttr(it.id)}')">${done?'✓':''}</button>`;
+  const blkTag=blocked?`<span class="dd-stag-blocked-tag">⚠ Blocked</span>`:'';
+  const dueTag=it.due?`<span class="dd-ws-due${overdue?' is-overdue':''}" title="Due ${escAttr(_wsFmtDue(it.due))}">${overdue?'⚠ ':''}Due ${escAttr(_wsFmtDue(it.due))}</span>`:'';
+  const upd=it.updated_at?`<span class="dd-ws-updated" title="Last updated">Updated ${escapeHtml(_wsFmtWhen(it.updated_at))}</span>`:'';
+  return `<li class="dd-ws-item is-${it.status}" data-iid="${escAttr(it.id)}" ${dragAttrs}><span class="dd-ws-lead">${lead}</span>${check}<span class="dd-ws-item-label">${escapeHtml(it.label)}</span>${blkTag}<span class="dd-ws-rowmeta">${dueTag}${_wsOwnerBadge(it.owner)}${upd}</span></li>`;
+}
+// ── AUTO row (Staff Training): system-driven status from the roster, links to it ──
+function _wsAutoRow(did,m,it,d){
+  const role=it.role||it.label;
+  const learners=(d&&d.learners)||[];
+  const inRole=learners.filter(l=>l.role===role);
+  const total=inRole.length, done=inRole.filter(l=>l.status==='Complete').length;
+  const complete=total>0&&done===total, noRole=total===0;
+  const statTxt=noRole?`No ${escapeHtml(role)} on roster`:`${done}/${total} ${escapeHtml(role)} complete`;
+  const ico=complete?'✓':(noRole?'–':'▶');
+  return `<li class="dd-ws-item is-auto ${complete?'is-done':''}" data-iid="${escAttr(it.id)}"><span class="dd-ws-lead"></span><span class="dd-ws-check dd-ws-check--auto" aria-hidden="true">${ico}</span><button class="dd-ws-auto-link" onclick="_wsOpenRoleRoster('${escAttr(role)}')" title="View ${escAttr(role)} training in the roster">${escapeHtml(it.label)}</button><span class="dd-ws-rowmeta"><span class="dd-ws-auto-stat${complete?' is-complete':''}">${statTxt}</span><span class="dd-ws-auto-tag">auto</span></span></li>`;
+}
+function _wsOpenRoleRoster(role){
+  _ddFilters={site:'',role:role,status:'',q:''};
+  _ddShowTab('roster');
+  const fRole=document.getElementById('dd-f-role'); if(fRole) fRole.value=role;
+  const body=document.getElementById('dd-grid-body'); if(body) body.innerHTML=_ddGridRows(_curDistrict());
+}
+function _wsLegend(){
+  return `<div class="dd-ws-legend" aria-label="Ownership and status legend">
+    ${_wsOwnerBadge('Cybersoft')}<span class="dd-ws-leg-t">Cybersoft does this</span>
+    ${_wsOwnerBadge('District')}<span class="dd-ws-leg-t">District does this</span>
+    ${_wsOwnerBadge('Shared')}<span class="dd-ws-leg-t">Shared</span>
+    <span class="dd-ws-auto">auto</span><span class="dd-ws-leg-t">System-driven from training</span>
+    <span class="dd-stag-blocked-tag">⚠ Blocked</span><span class="dd-ws-leg-t">Needs attention</span>
+  </div>`;
+}
+function _wsCustomerGuard(){
+  if(typeof _viewMode!=='undefined' && _viewMode!=='customer') return '';
+  if(typeof _viewMode==='undefined' && !document.body.classList.contains('customer-view')) return '';
+  return `<div class="dd-ws-guard" role="alert"><span class="dd-ws-guard-ico" aria-hidden="true">&#x1F512;</span><div><strong>Internal tracker — not for customer screens.</strong> Owner assignments, follow-ups, and blockers are internal. Switch to Trainer view before screen-sharing.</div></div>`;
+}
+function _wsToggleEdit(){ _wsEditMode=!_wsEditMode; if(_ddLastWs) _wsRenderPanel(_curISD,_ddLastWs); }
+function _wsSetOwnerFilter(owner){ _wsOwnerFilter=(_wsOwnerFilter===owner)?'':owner; if(_ddLastWs) _wsRenderPanel(_curISD,_ddLastWs); }
+async function _wsNudgeBlocker(did,itemId,owner){
+  try{
+    const r=await fetch(`/api/districts/${encodeURIComponent(did)}/workspace/items/${encodeURIComponent(itemId)}/nudge`,{method:'POST',headers:{'X-Demo-User':_demoUserHeader()}});
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const b=await r.json(); _wsRenderPanel(did,b.workspace);
+    if(typeof _showToast==='function') _showToast(`Nudge to ${owner} logged in activity.`);
+  }catch(e){ if(typeof _showToast==='function') _showToast('Could not log the nudge.'); }
+}
+async function _wsResolveBlock(did,itemId){
+  if(!confirm('Mark this blocker resolved? The item will be checked off as done.')) return;
+  try{
+    const r=await fetch(`/api/districts/${encodeURIComponent(did)}/workspace/items/${encodeURIComponent(itemId)}/resolve`,{method:'POST',headers:{'X-Demo-User':_demoUserHeader()}});
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const b=await r.json(); _wsRenderPanel(did,b.workspace);
+    if(typeof _showToast==='function') _showToast('Blocker resolved.');
+  }catch(e){ if(typeof _showToast==='function') _showToast('Could not resolve the blocker.'); }
+}
+// ── Row kebab menu (rename / reassign / set-date / block) ──
+function _wsOpenKebab(ev,did,itemId){
+  ev.stopPropagation();
+  _wsCloseKebab();
+  const it=((_ddLastWs&&_ddLastWs.milestones)||[]).flatMap(m=>m.items||[]).find(x=>x.id===itemId); if(!it) return;
+  const blocked=it.status==='blocked';
+  const menu=document.createElement('div'); menu.className='dd-ws-kebab-menu'; menu.id='dd-ws-kebab-menu'; menu.setAttribute('role','menu');
+  const mk=(label,onclick,cls='')=>`<button class="dd-ws-kbi ${cls}" role="menuitem" onclick="${onclick}">${label}</button>`;
+  let h=mk('Rename',`_wsCloseKebab();_wsEditLabel('${escAttr(did)}','${escAttr(itemId)}')`);
+  h+=`<div class="dd-ws-kbi-sub">Assign to</div>`;
+  ['Cybersoft','District','Shared'].forEach(o=>{ h+=mk((it.owner===o?'✓ ':'')+o,`_wsCloseKebab();_wsReassign('${escAttr(did)}','${escAttr(itemId)}','${o}')`,'dd-ws-kbi-owner'+(it.owner===o?' is-cur':'')); });
+  h+=`<div class="dd-ws-kbi-sep"></div>`;
+  h+=mk(it.due?'Change due date':'Set due date',`_wsCloseKebab();_wsSetDue('${escAttr(did)}','${escAttr(itemId)}')`);
+  if(it.due) h+=mk('Clear due date',`_wsCloseKebab();_wsClearDue('${escAttr(did)}','${escAttr(itemId)}')`);
+  h+=blocked?mk('Clear blocked',`_wsCloseKebab();_wsMarkTodo('${escAttr(did)}','${escAttr(itemId)}')`)
+            :mk('Mark blocked',`_wsCloseKebab();_wsMarkBlocked('${escAttr(did)}','${escAttr(itemId)}')`,'dd-ws-kbi-warn');
+  menu.innerHTML=h;
+  document.body.appendChild(menu);
+  const r=ev.currentTarget.getBoundingClientRect();
+  menu.style.top=Math.min(r.bottom+4,window.innerHeight-menu.offsetHeight-8)+'px';
+  menu.style.left=Math.min(r.left,window.innerWidth-210)+'px';
+  setTimeout(()=>document.addEventListener('click',_wsCloseKebab,{once:true}),0);
+}
+function _wsCloseKebab(){ const m=document.getElementById('dd-ws-kebab-menu'); if(m) m.remove(); }
+function _wsReassign(did,itemId,owner){ _wsItemPatch(did,itemId,{owner}).catch(()=>{ if(typeof _showToast==='function') _showToast('Could not reassign.'); }); }
+function _wsClearDue(did,itemId){ _wsItemPatch(did,itemId,{due:''}).catch(()=>{ if(typeof _showToast==='function') _showToast('Could not clear the date.'); }); }
+function _wsSetDue(did,itemId){
+  const inp=document.createElement('input'); inp.type='date'; inp.className='dd-ws-datefloat'; inp.setAttribute('aria-label','Set due date');
+  document.body.appendChild(inp);
+  inp.focus(); if(inp.showPicker){ try{ inp.showPicker(); }catch(e){} }
+  let saved=false;
+  const save=async()=>{ if(saved) return; saved=true; const v=inp.value; inp.remove(); if(v){ try{ await _wsItemPatch(did,itemId,{due:v}); }catch(e){ if(typeof _showToast==='function') _showToast('Could not set the date.'); } } };
+  inp.addEventListener('change',save);
+  inp.addEventListener('blur',()=>setTimeout(save,150));
 }
 async function _wsToggle(did,itemId){
   try{
@@ -13297,6 +13719,132 @@ async function _wsToggle(did,itemId){
     const b=await r.json();
     _wsRenderPanel(did,b.workspace);
   }catch(e){ if(typeof _showToast==='function') _showToast('Could not update the checklist.'); }
+}
+async function _wsItemPatch(did,itemId,payload){
+  const r=await fetch(`/api/districts/${encodeURIComponent(did)}/workspace/items/${encodeURIComponent(itemId)}`,{method:'PATCH',headers:{'Content-Type':'application/json','X-Demo-User':_demoUserHeader()},body:JSON.stringify(payload)});
+  if(!r.ok) throw new Error('HTTP '+r.status);
+  const b=await r.json(); _wsRenderPanel(did,b.workspace);
+}
+// ── Drag-to-reorder checklist items (within & across sections) ──
+let _wsDragId=null;
+function _wsDragStart(ev,did,itemId,sectionKey){
+  _wsDragId=itemId;
+  ev.dataTransfer.effectAllowed='move';
+  try{ ev.dataTransfer.setData('text/plain',itemId); }catch(e){}
+  const li=ev.currentTarget; if(li) li.classList.add('is-dragging');
+}
+function _wsDragOver(ev,targetId){
+  if(!_wsDragId||targetId===_wsDragId) return;
+  ev.preventDefault(); ev.dataTransfer.dropEffect='move';
+  const li=ev.currentTarget; if(li) li.classList.add('drag-over');
+}
+function _wsDragLeave(ev,targetId){
+  const li=ev.currentTarget; if(li) li.classList.remove('drag-over');
+}
+function _wsDragEnd(ev){
+  _wsDragId=null;
+  document.querySelectorAll('.dd-ws-item.is-dragging,.dd-ws-item.drag-over').forEach(el=>el.classList.remove('is-dragging','drag-over'));
+}
+async function _wsDrop(ev,did,targetId,sectionKey){
+  ev.preventDefault();
+  const dragged=_wsDragId; _wsDragId=null;
+  document.querySelectorAll('.dd-ws-item.drag-over').forEach(el=>el.classList.remove('drag-over'));
+  if(!dragged||dragged===targetId) return;
+  try{
+    const r=await fetch(`/api/districts/${encodeURIComponent(did)}/workspace/items/${encodeURIComponent(dragged)}/move`,{method:'POST',headers:{'Content-Type':'application/json','X-Demo-User':_demoUserHeader()},body:JSON.stringify({section_key:sectionKey,before_item_id:targetId})});
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const b=await r.json(); _wsRenderPanel(did,b.workspace);
+  }catch(e){ if(typeof _showToast==='function') _showToast('Could not reorder.'); _wsRenderPanel(did,_ddLastWs); }
+}
+function _wsEditLabel(did,itemId){
+  const li=document.querySelector(`.dd-ws-item[data-iid="${CSS.escape(itemId)}"]`); if(!li) return;
+  const span=li.querySelector('.dd-ws-item-label'); if(!span||span.querySelector('input')) return;
+  const cur=span.textContent.trim();
+  const inp=document.createElement('input'); inp.className='dd-ws-edit-inp'; inp.value=cur; inp.setAttribute('aria-label','Edit item name');
+  let saved=false;
+  const save=async()=>{ if(saved) return; saved=true; const v=inp.value.trim(); if(v&&v!==cur){ try{ await _wsItemPatch(did,itemId,{label:v}); return; }catch(e){ _showToast('Could not save.'); } } span.textContent=cur; };
+  inp.addEventListener('blur',save);
+  inp.addEventListener('keydown',e=>{ if(e.key==='Enter'){e.preventDefault();inp.blur();} else if(e.key==='Escape'){saved=true;span.textContent=cur;} });
+  span.textContent=''; span.appendChild(inp); inp.select();
+}
+async function _wsDeleteItem(did,itemId,label){
+  if(!confirm(`Delete "${label}"?`)) return;
+  try{
+    const r=await fetch(`/api/districts/${encodeURIComponent(did)}/workspace/items/${encodeURIComponent(itemId)}`,{method:'DELETE',headers:{'X-Demo-User':_demoUserHeader()}});
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const b=await r.json(); _wsRenderPanel(did,b.workspace);
+  }catch(e){ _showToast('Could not delete item.'); }
+}
+async function _wsMarkBlocked(did,itemId){
+  const reason=prompt('Reason (optional):'); if(reason===null) return;
+  try{ await _wsItemPatch(did,itemId,{status:'blocked',reason}); }catch(e){ _showToast('Could not mark as blocked.'); }
+}
+async function _wsMarkTodo(did,itemId){
+  try{ await _wsItemPatch(did,itemId,{status:'todo'}); }catch(e){ _showToast('Could not unblock.'); }
+}
+function _wsAddItemStart(did,sectionKey){
+  const ul=document.querySelector(`.dd-ws-ms[data-skey="${CSS.escape(sectionKey)}"] .dd-ws-items`); if(!ul) return;
+  const addRow=ul.querySelector('.dd-ws-add-row'); if(!addRow) return;
+  if(addRow.classList.contains('is-editing')){ addRow.querySelector('input')?.focus(); return; }
+  addRow.classList.add('is-editing');
+  const inp=document.createElement('input'); inp.className='dd-ws-edit-inp'; inp.placeholder='Item name…'; inp.setAttribute('aria-label','New item name');
+  const cancel=()=>{ addRow.classList.remove('is-editing'); addRow.textContent='+ Add item'; };
+  const save=async()=>{
+    const v=inp.value.trim(); if(!v){ cancel(); return; }
+    try{
+      const r=await fetch(`/api/districts/${encodeURIComponent(did)}/workspace/sections/${encodeURIComponent(sectionKey)}/items`,{method:'POST',headers:{'Content-Type':'application/json','X-Demo-User':_demoUserHeader()},body:JSON.stringify({label:v,owner:'Shared'})});
+      if(!r.ok) throw new Error('HTTP '+r.status);
+      const b=await r.json(); _wsRenderPanel(did,b.workspace);
+    }catch(e){ _showToast('Could not add item.'); cancel(); }
+  };
+  inp.addEventListener('blur',save);
+  inp.addEventListener('keydown',e=>{ if(e.key==='Enter'){e.preventDefault();inp.blur();} else if(e.key==='Escape'){inp.removeEventListener('blur',save);cancel();} });
+  addRow.textContent=''; addRow.appendChild(inp); inp.focus();
+}
+function _wsAddSection(did){
+  const btn=document.getElementById('dd-ws-add-sec'); if(!btn||btn.dataset.editing) return;
+  btn.dataset.editing='1';
+  const inp=document.createElement('input'); inp.className='dd-ws-edit-inp'; inp.placeholder='Section name…'; inp.setAttribute('aria-label','New section name');
+  const cancel=()=>{ delete btn.dataset.editing; btn.textContent='+ Add section'; };
+  const save=async()=>{
+    const v=inp.value.trim(); if(!v){ cancel(); return; }
+    try{
+      const r=await fetch(`/api/districts/${encodeURIComponent(did)}/workspace/sections`,{method:'POST',headers:{'Content-Type':'application/json','X-Demo-User':_demoUserHeader()},body:JSON.stringify({label:v})});
+      if(!r.ok) throw new Error('HTTP '+r.status);
+      const b=await r.json(); _wsRenderPanel(did,b.workspace);
+    }catch(e){ _showToast('Could not add section.'); cancel(); }
+  };
+  inp.addEventListener('blur',save);
+  inp.addEventListener('keydown',e=>{ if(e.key==='Enter'){e.preventDefault();inp.blur();} else if(e.key==='Escape'){inp.removeEventListener('blur',save);cancel();} });
+  btn.textContent=''; btn.appendChild(inp); inp.focus();
+}
+async function _wsDeleteSection(did,sectionKey,label){
+  if(!confirm(`Delete section "${label}" and all its items?`)) return;
+  try{
+    const r=await fetch(`/api/districts/${encodeURIComponent(did)}/workspace/sections/${encodeURIComponent(sectionKey)}`,{method:'DELETE',headers:{'X-Demo-User':_demoUserHeader()}});
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const b=await r.json(); _wsRenderPanel(did,b.workspace);
+  }catch(e){ _showToast('Could not delete section.'); }
+}
+function _wsEditSection(did,sectionKey,currentLabel){
+  const nameEl=document.querySelector(`.dd-ws-ms[data-skey="${CSS.escape(sectionKey)}"] .dd-ws-ms-name`); if(!nameEl||nameEl.querySelector('input')) return;
+  const inp=document.createElement('input'); inp.className='dd-ws-edit-inp dd-ws-sec-inp'; inp.value=currentLabel; inp.setAttribute('aria-label','Edit section name');
+  let saved=false;
+  const restore=()=>{ nameEl.textContent=currentLabel; const autoTag=nameEl.querySelector?.('.dd-ws-auto'); };
+  const save=async()=>{
+    if(saved) return; saved=true; const v=inp.value.trim();
+    if(v&&v!==currentLabel){
+      try{
+        const r=await fetch(`/api/districts/${encodeURIComponent(did)}/workspace/sections/${encodeURIComponent(sectionKey)}`,{method:'PATCH',headers:{'Content-Type':'application/json','X-Demo-User':_demoUserHeader()},body:JSON.stringify({label:v})});
+        if(!r.ok) throw new Error('HTTP '+r.status);
+        const b=await r.json(); _wsRenderPanel(did,b.workspace); return;
+      }catch(e){ _showToast('Could not rename section.'); }
+    }
+    nameEl.textContent=currentLabel;
+  };
+  inp.addEventListener('blur',save);
+  inp.addEventListener('keydown',e=>{ if(e.key==='Enter'){e.preventDefault();inp.blur();} else if(e.key==='Escape'){saved=true;nameEl.textContent=currentLabel;} });
+  nameEl.textContent=''; nameEl.appendChild(inp); inp.select();
 }
 // ── STORY-004 (tasks/follow-ups) + STORY-005 (notes + activity feed) ──
 function _wsSections(ws,did){
@@ -13348,11 +13896,173 @@ async function _wsAddNote(did){
     const b=await r.json(); _wsRenderPanel(did,b.workspace);
   }catch(e){ if(typeof _showToast==='function') _showToast('Could not add the note.'); }
 }
+// ── Tab switching (DASH-08: URL-reflected, session-remembered) ──
+function _ddShowTab(name){
+  if(!['implementation','roster','activity'].includes(name)) return;
+  _ddActiveTab=name;
+  history.replaceState(null,'','#'+name);
+  ['implementation','roster','activity'].forEach(t=>{
+    const p=document.getElementById('dd-tab-'+t); if(p) p.classList.toggle('is-active',t===name);
+  });
+  document.querySelectorAll('.dd-tab').forEach(btn=>{
+    const active=btn.dataset.tab===name;
+    btn.classList.toggle('is-active',active);
+    btn.setAttribute('aria-selected',active);
+    btn.tabIndex=active?0:-1;
+  });
+}
+// ── Priority strip (DASH-02): inbound hand-raise > active blocker > overdue follow-up ──
+function _ddUpdatePriorityStrip(d,ws){
+  const el=document.getElementById('dd-priority-strip'); if(!el||!d) return;
+  const cards=[];
+  const flagged=d.help_request&&!_demoState.helpCleared[d.id];
+  if(flagged){
+    // Inbound customer hand-raise only. The active blocker + overdue follow-ups now live
+    // inline in the Implementation primary zone, not behind a ↗ arrow here.
+    cards.push(`<div class="dd-alert-card al-handraise" role="alert">
+      <span class="dd-alert-icon" aria-hidden="true">&#x270B;</span>
+      <div class="dd-alert-body">
+        <div class="dd-alert-title">${escapeHtml(d.name)} raised a hand</div>
+        <div class="dd-alert-quote">&ldquo;${escapeHtml(d.help_msg)}&rdquo;</div>
+      </div>
+      <div class="dd-alert-acts">
+        <button class="secondary" onclick="respondHelp('${escAttr(d.id)}')" aria-label="Respond to hand-raise">Respond</button>
+        <button class="secondary" onclick="_ddDismissHandRaise('${escAttr(d.id)}')" aria-label="Dismiss hand-raise">Dismiss</button>
+      </div>
+    </div>`);
+  }
+  if(!cards.length){ el.innerHTML=''; el.style.marginBottom='0'; return; }
+  el.style.marginBottom='';
+  const visible=cards.slice(0,3), overflow=cards.length-3;
+  el.innerHTML=visible.join('')+(overflow>0?`<button class="dd-alert-overflow" onclick="_ddExpandAlerts(this,${JSON.stringify(cards.slice(3))})">View all ${cards.length} alerts</button>`:'');
+}
+function _ddDismissHandRaise(did){
+  if(!confirm('Dismiss this hand-raise? It will be removed from the priority strip.')) return;
+  _demoState.helpCleared[did]=true;
+  _ddUpdatePriorityStrip(_curDistrict(),_ddLastWs);
+}
+function _ddExpandAlerts(btn,extra){
+  const strip=document.getElementById('dd-priority-strip'); if(!strip) return;
+  btn.remove();
+  extra.forEach(card=>{ strip.insertAdjacentHTML('beforeend',card); });
+}
+// ── Incident cross-link overlay (DASH-03) ──
+function _ddOpenIncident(did,itemId){
+  const ws=_ddLastWs; if(!ws) return;
+  const d=_curDistrict(); if(!d) return;
+  let item=null;
+  (ws.milestones||[]).forEach(m=>(m.items||[]).forEach(it=>{ if(it.id===itemId) item=it; }));
+  const notes=ws.notes||[];
+  const flagged=d.help_request&&!_demoState.helpCleared[d.id];
+  let h=`<div class="dd-incident-overlay" id="dd-incident-overlay" onclick="if(event.target.id==='dd-incident-overlay')_ddCloseIncident()" role="dialog" aria-modal="true" aria-label="Incident details">
+    <div class="dd-incident-box">
+      <div class="dd-incident-head"><h3>Incident${item?' &#x2014; '+escapeHtml(item.label):''}</h3><button class="dd-incident-close" id="dd-incident-close-btn" onclick="_ddCloseIncident()" aria-label="Close">&#x2715;</button></div>
+      <div class="dd-incident-body">
+        <div class="dd-incident-sec-hd">Blocked checklist item</div>`;
+  if(item){
+    h+=`<div class="dd-incident-item is-blocked">&#x26A0; ${escapeHtml(item.label)}<span class="dd-ws-owner" style="margin-left:8px;">${escapeHtml(item.owner||'')}</span></div>
+        <div class="dd-incident-reason">${escapeHtml(item.reason||'Staff roster import failing on Direct Cert rows.')}</div>`;
+  } else {
+    h+=`<div class="dd-incident-empty">Item details unavailable.</div>`;
+  }
+  h+=`<div class="dd-incident-sec-hd">Related request</div>`;
+  if(flagged){
+    h+=`<div class="dd-incident-item is-handraise">&#x270B; ${escapeHtml(d.name)} raised a hand</div>
+        <div class="dd-incident-reason" style="font-style:italic;">&ldquo;${escapeHtml(d.help_msg)}&rdquo;</div>`;
+  } else {
+    h+=`<div class="dd-incident-empty">No related request.</div>`;
+  }
+  h+=`<div class="dd-incident-sec-hd">Notes</div>`;
+  if(!notes.length){ h+=`<div class="dd-incident-empty">No notes attached.</div>`; }
+  else notes.forEach(n=>{ h+=`<div class="dd-incident-note"><div class="dd-ws-note-body">${escapeHtml(n.body)}</div><div class="dd-incident-note-meta">${escapeHtml(n.author)} &middot; ${escapeHtml(_wsFmtWhen(n.created_at))}</div></div>`; });
+  h+=`</div></div></div>`;
+  _ddCloseIncident();
+  document.body.insertAdjacentHTML('beforeend',h);
+  const btn=document.getElementById('dd-incident-close-btn'); if(btn) btn.focus();
+  document.addEventListener('keydown',_ddIncidentEsc);
+}
+function _ddCloseIncident(){ const el=document.getElementById('dd-incident-overlay'); if(el) el.remove(); document.removeEventListener('keydown',_ddIncidentEsc); }
+function _ddIncidentEsc(e){ if(e.key==='Escape') _ddCloseIncident(); }
+// ── Follow-ups section (bottom of Implementation tab, Decision 1) ──
+// Follow-ups: ad-hoc tasks linked to the district, rendered with the SAME unified row
+// (owner badge + due) as checklist items, in a clearly-labeled group at the bottom.
+function _wsFollowUps(ws,did){
+  const tasks=ws.tasks||[];
+  const filtered=_wsOwnerFilter?tasks.filter(t=>t.owner===_wsOwnerFilter):tasks;
+  if(!tasks.length && !_wsEditMode) return '';
+  const today='2026-06-16';
+  let h=`<div class="dd-ws-ms dd-ws-followups" data-skey="__followups"><div class="dd-ws-ms-head"><span class="dd-ws-ms-name">Follow-ups <span class="dd-ws-auto" title="Ad-hoc tasks linked to this district — not tied to a milestone">ad-hoc</span></span></div><ul class="dd-ws-items">`;
+  if(!filtered.length) h+=`<li class="dd-ws-empty">${_wsOwnerFilter?('No '+escapeHtml(_wsOwnerFilter)+' follow-ups.'):'No follow-ups yet.'}</li>`;
+  filtered.forEach(t=>{
+    const done=t.status==='done';
+    const overdue=t.due && !done && t.due<today;
+    const dueTag=t.due?`<span class="dd-ws-due${overdue?' is-overdue':''}">${overdue?'⚠ ':''}Due ${escAttr(_wsFmtDue(t.due))}</span>`:'';
+    h+=`<li class="dd-ws-item dd-ws-task ${done?'is-done':'is-todo'}" data-tid="${escAttr(t.id)}"><span class="dd-ws-lead"></span><button class="dd-ws-check" role="checkbox" aria-checked="${done}" aria-label="${escAttr((done?'Reopen ':'Complete ')+t.title)}" onclick="_wsToggleTask('${escAttr(did)}','${escAttr(t.id)}')">${done?'✓':''}</button><span class="dd-ws-item-label">${escapeHtml(t.title)}</span><span class="dd-ws-rowmeta">${dueTag}${_wsOwnerBadge(t.owner)}</span></li>`;
+  });
+  if(_wsEditMode){
+    h+=`<li class="dd-ws-add-row" onclick="_wsShowTaskForm('${escAttr(did)}')">+ Add follow-up</li><li class="dd-ws-tf-li"><div id="dd-ws-taskform"></div></li>`;
+  }
+  h+=`</ul></div>`;
+  return h;
+}
+// ── Activity & Notes tab content (DASH-06) ──
+function _ddRenderActivityContent(ws,did){
+  const notes=ws.notes||[], acts=ws.activity||[];
+  let h=`<div class="dd-act-filter-bar">
+    <button class="dd-act-f-btn${_ddActFilter==='all'?' is-active':''}" aria-pressed="${_ddActFilter==='all'}" onclick="_ddSetActFilter('all')">All</button>
+    <button class="dd-act-f-btn${_ddActFilter==='notes'?' is-active':''}" aria-pressed="${_ddActFilter==='notes'}" onclick="_ddSetActFilter('notes')">Notes only</button>
+    <button class="dd-act-f-btn${_ddActFilter==='system'?' is-active':''}" aria-pressed="${_ddActFilter==='system'}" onclick="_ddSetActFilter('system')">System events</button>
+  </div>`;
+  if(_ddActFilter!=='system'){
+    h+=`<div class="dd-ws-sec"><div class="dd-ws-sec-head"><h4>Notes</h4></div>
+      <div class="dd-ws-noteadd"><input id="dd-ws-noteinput" placeholder="Add a note&#x2026;" aria-label="Add a note" onkeydown="if(event.key==='Enter'){event.preventDefault();_wsAddNote('${escAttr(did)}');}"><button onclick="_wsAddNote('${escAttr(did)}')">Add</button></div>
+      <ul class="dd-ws-notes">`;
+    if(!notes.length) h+=`<li class="dd-ws-empty">No notes yet.</li>`;
+    notes.forEach(n=>{ h+=`<li class="dd-ws-note"><div class="dd-ws-note-body">${escapeHtml(n.body)}</div><div class="dd-ws-note-meta">${escapeHtml(n.author)} &middot; ${escapeHtml(_wsFmtWhen(n.created_at))}</div></li>`; });
+    h+=`</ul></div>`;
+  }
+  if(_ddActFilter!=='notes'){
+    const grouped=_ddGroupActivity(acts);
+    h+=`<div class="dd-ws-sec"><div class="dd-ws-sec-head"><h4>Activity</h4></div><ul class="dd-ws-activity">`;
+    if(!grouped.length) h+=`<li class="dd-ws-empty">No activity recorded yet.</li>`;
+    grouped.forEach((g,gi)=>{
+      if(g.count>1){
+        h+=`<li class="dd-act-group"><div class="dd-act-group-hd" role="button" tabindex="0" aria-expanded="false" id="dd-act-grp-${gi}" onclick="_ddToggleActGroup(${gi})" onkeydown="_kbActivate(event)"><span class="dd-act-group-ico" aria-hidden="true">&#x25B6;</span> <span>${escapeHtml(g.label)}</span><span class="dd-ws-act-meta">&nbsp;(${g.count}&times;)</span></div><ul class="dd-ws-activity" id="dd-act-grp-body-${gi}" hidden>`;
+        g.items.forEach(a=>{ h+=`<li class="dd-ws-act"><span class="dd-ws-act-label">${escapeHtml(a.label)}</span><span class="dd-ws-act-meta">${escapeHtml(a.actor)} &middot; ${escapeHtml(_wsFmtWhen(a.at))}</span></li>`; });
+        h+=`</ul></li>`;
+      } else {
+        h+=`<li class="dd-ws-act"><span class="dd-ws-act-label">${escapeHtml(g.items[0].label)}</span><span class="dd-ws-act-meta">${escapeHtml(g.items[0].actor)} &middot; ${escapeHtml(_wsFmtWhen(g.items[0].at))}</span></li>`;
+      }
+    });
+    h+=`</ul></div>`;
+  }
+  return h;
+}
+function _ddGroupActivity(acts){
+  // Group consecutive events on the same item regardless of Checked/Unchecked action.
+  // E.g. four meal-prices toggles collapse into one "Meal prices configured (4×)" entry.
+  function _norm(label){ return label.replace(/^(Checked|Unchecked)\s*/i,'').replace(/^["“]|["”]$/g,'').trim(); }
+  const groups=[];
+  acts.forEach(a=>{
+    const norm=_norm(a.label);
+    const last=groups[groups.length-1];
+    if(last&&last.norm===norm&&last.actor===a.actor){ last.count++; last.items.push(a); }
+    else groups.push({label:norm||a.label, norm, actor:a.actor, count:1, items:[a]});
+  });
+  return groups;
+}
+function _ddSetActFilter(f){ _ddActFilter=f; const el=document.getElementById('dd-activity-content'); if(el&&_ddLastWs) el.innerHTML=_ddRenderActivityContent(_ddLastWs,_curISD); }
+function _ddToggleActGroup(gi){
+  const hd=document.getElementById('dd-act-grp-'+gi), body=document.getElementById('dd-act-grp-body-'+gi);
+  if(!hd||!body) return;
+  const opening=body.hidden; body.hidden=!opening; hd.setAttribute('aria-expanded',opening);
+  const ico=hd.querySelector('.dd-act-group-ico'); if(ico) ico.textContent=opening?'&#x25BC;':'&#x25B6;';
+}
 function _wsDueSoon(due){ if(!due) return false; return due>='2026-06-15' && due<='2026-06-22'; }
 const _WS_MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 function _wsFmtDue(due){ if(!due) return ''; const p=String(due).split('-'); return (_WS_MON[(+p[1])-1]||'')+' '+(+p[2]); }
 function _wsFmtWhen(iso){ if(!iso) return ''; const d=String(iso).split('T')[0]; if(d==='2026-06-15') return 'today'; const p=d.split('-'); return (_WS_MON[(+p[1])-1]||'')+' '+(+p[2]); }
-function openDistrict(id){ _curISD = id; showView('district'); }
+function openDistrict(id){ _curISD = id; _ddActiveTab = 'implementation'; _ddLastWs = null; _ddActFilter = 'all'; _wsEditMode = false; _wsOwnerFilter = ''; showView('district'); }
 async function loadDistrict(){
   await _refreshCreatedDistricts();
   _demoISDInit();
@@ -13366,6 +14076,11 @@ let _ddFilters = { site:'', role:'', status:'', q:'' };
 let _ddSortCol = 'name', _ddSortAsc = true;
 let _ddUploadKind = 'staff';
 let _ddUploadTimer = null;
+let _ddActiveTab = 'implementation';
+let _ddLastWs = null;
+let _ddActFilter = 'all';
+let _wsEditMode = false;     // checklist edit affordances (add/delete/drag) hidden until toggled
+let _wsOwnerFilter = '';     // '' | 'Cybersoft' | 'District' | 'Shared' — owner roll-up filter
 
 function renderDistrictDetail(){
   const d = _curDistrict(); if(!d) return;
@@ -13461,7 +14176,7 @@ function _ddCommitUpload(did){
   renderDistrictDetail();
 }
 
-// ── State B: populated roster grid ──
+// ── State B: tabbed onboarding dashboard (DASH-01 through DASH-06) ──
 function _ddRenderStateB(d,body){
   _initAssignments();
   const ls=d.learners, total=ls.length||1;
@@ -13469,44 +14184,51 @@ function _ddRenderStateB(d,body){
   const overdue=ls.filter(l=>l.status==='Overdue').length;
   const pct=Math.round(100*done/total);
   const days=_daysToGoLive();
-  const flagged=d.help_request&&!_demoState.helpCleared[d.id];
   const _dasn=_demoState.assignments.filter(a=>_asnAppliesTo(a,d));
+  // Restore active tab from URL hash if valid (DASH-08)
+  const hash=location.hash.replace(/^#/,'');
+  if(['implementation','roster','activity'].includes(hash)) _ddActiveTab=hash;
   let h='';
-  // KPI strip
+  // ── KPI strip (pinned, always visible) ──
+  const goLiveLabel=days>0?`${days} days`:'Today';
   h+=`<div class="dd-kpi-strip">
     <div class="dd-kpi-item"><div class="dd-kpi-n">${pct}%</div><div class="dd-kpi-l">Staff trained</div></div>
     <div class="dd-kpi-item"><div class="dd-kpi-n">${overdue}</div><div class="dd-kpi-l">Overdue</div></div>
-    <div class="dd-kpi-item"><div class="dd-kpi-n">${days}</div><div class="dd-kpi-l">Days to go-live</div></div>
+    <div class="dd-kpi-item"><div class="dd-kpi-n">${goLiveLabel}</div><div class="dd-kpi-l">To go-live</div></div>
   </div>`;
-  // Implementation checklist (Epic: implementation-workspace · STORY-002) — filled async by _loadWorkspace
-  h+=`<div id="dd-workspace" class="dd-ws-wrap" aria-busy="true"></div>`;
-  // Help banner
-  if(flagged) h+=`<div class="dd-help-banner" id="dd-help-banner">
-    <div class="dd-help-body">
-      <div class="dd-help-title">🖐 ${escapeHtml(d.name)} raised a hand</div>
-      <div class="dd-help-quote">&ldquo;${escapeHtml(d.help_msg)}&rdquo;</div>
-    </div>
-    <div class="dd-help-acts">
-      <button class="secondary" onclick="respondHelp('${escAttr(d.id)}');renderDistrictDetail()">Respond</button>
-      <button class="secondary" onclick="_demoState.helpCleared['${escAttr(d.id)}']=true;document.getElementById('dd-help-banner').remove()">Dismiss</button>
-    </div>
-  </div>`;
-  // Assigned training chips
+  // ── Priority strip (DASH-02) — hand-raise rendered immediately; blockers added async via _wsRenderPanel ──
+  h+=`<div id="dd-priority-strip" class="dd-pri-strip"></div>`;
+  // ── Tab bar (DASH-01) ──
+  const tabDefs=[['implementation','Implementation'],['roster','Roster'],['activity','Activity & Notes']];
+  h+=`<div class="dd-tab-bar" role="tablist">`;
+  tabDefs.forEach(([k,label])=>{
+    const active=_ddActiveTab===k;
+    h+=`<button class="dd-tab${active?' is-active':''}" role="tab" aria-selected="${active}" aria-controls="dd-tab-${k}" data-tab="${k}" tabindex="${active?'0':'-1'}" onclick="_ddShowTab('${k}')">${escapeHtml(label)}</button>`;
+  });
+  h+=`</div>`;
+  // ── Tab panels ──
+  h+=`<div class="dd-tab-panels">`;
+  // Implementation tab (DASH-04)
+  const implActive=_ddActiveTab==='implementation';
+  h+=`<div id="dd-tab-implementation" class="dd-tab-panel${implActive?' is-active':''}" role="tabpanel">`;
   if(_dasn.length){
     const chips=_dasn.map(a=>{const c=_asnContent(a);return `<span class="dd-chip">${escapeHtml(c.title)}</span>`;}).join('');
     h+=`<div class="dd-assigned-chips"><span class="dd-chips-label">Training assigned</span>${chips}</div>`;
   }
-  // Filter bar
+  h+=`<div id="dd-workspace" class="dd-ws-wrap" aria-busy="true"></div>`;
+  h+=`</div>`;
+  // Roster tab (DASH-05)
+  const rosterActive=_ddActiveTab==='roster';
   const sites=[...new Set(ls.map(l=>l.site))].sort();
   const roles=[...new Set(ls.map(l=>l.role))].sort();
   const statuses=['Complete','In progress','Not started','Overdue'];
+  h+=`<div id="dd-tab-roster" class="dd-tab-panel${rosterActive?' is-active':''}" role="tabpanel">`;
   h+=`<div class="dd-filter-bar">
     <select id="dd-f-site" onchange="_ddFilter()" aria-label="Filter by site"><option value="">All sites</option>${sites.map(s=>`<option value="${escAttr(s)}">${escapeHtml(s)}</option>`).join('')}</select>
     <select id="dd-f-role" onchange="_ddFilter()" aria-label="Filter by role"><option value="">All roles</option>${roles.map(r=>`<option value="${escAttr(r)}">${escapeHtml(r)}</option>`).join('')}</select>
     <select id="dd-f-status" onchange="_ddFilter()" aria-label="Filter by status"><option value="">All statuses</option>${statuses.map(s=>`<option value="${escAttr(s)}">${escapeHtml(s)}</option>`).join('')}</select>
     <input type="text" id="dd-f-q" placeholder="Search name…" oninput="_ddFilter()" aria-label="Search by name">
   </div>`;
-  // Roster grid
   h+=`<div class="dd-grid-wrap"><table class="dd-grid" id="dd-grid">
     <thead><tr>
       <th tabindex="0" onkeydown="_kbActivate(event)" onclick="_ddToggleSort('name')">Name <span class="sort-ico">${_ddSortIco('name')}</span></th>
@@ -13517,6 +14239,13 @@ function _ddRenderStateB(d,body){
     </tr></thead>
     <tbody id="dd-grid-body">${_ddGridRows(d)}</tbody>
   </table></div>`;
+  h+=`</div>`;
+  // Activity & Notes tab (DASH-06) — filled when workspace loads
+  const actActive=_ddActiveTab==='activity';
+  h+=`<div id="dd-tab-activity" class="dd-tab-panel${actActive?' is-active':''}" role="tabpanel">`;
+  h+=`<div id="dd-activity-content"><p style="font-size:13px;color:var(--muted);padding:8px 0;">Loading…</p></div>`;
+  h+=`</div>`;
+  h+=`</div>`; // .dd-tab-panels
   body.innerHTML=h;
   // Restore filter selects
   const fSite=document.getElementById('dd-f-site'), fRole=document.getElementById('dd-f-role'), fStatus=document.getElementById('dd-f-status'), fQ=document.getElementById('dd-f-q');
@@ -13524,6 +14253,8 @@ function _ddRenderStateB(d,body){
   if(fRole&&_ddFilters.role) fRole.value=_ddFilters.role;
   if(fStatus&&_ddFilters.status) fStatus.value=_ddFilters.status;
   if(fQ&&_ddFilters.q) fQ.value=_ddFilters.q;
+  // Populate priority strip with hand-raise immediately (blockers added after workspace loads)
+  _ddUpdatePriorityStrip(d,null);
 }
 function _ddFilter(){
   _ddFilters.site=(document.getElementById('dd-f-site')||{}).value||'';
@@ -13532,6 +14263,12 @@ function _ddFilter(){
   _ddFilters.q=(document.getElementById('dd-f-q')||{}).value||'';
   const body=document.getElementById('dd-grid-body');
   if(body) body.innerHTML=_ddGridRows(_curDistrict());
+}
+function _ddClearFilters(){
+  _ddFilters={site:'',role:'',status:'',q:''};
+  ['dd-f-site','dd-f-role','dd-f-status'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
+  const fQ=document.getElementById('dd-f-q'); if(fQ) fQ.value='';
+  const body=document.getElementById('dd-grid-body'); if(body) body.innerHTML=_ddGridRows(_curDistrict());
 }
 function _ddToggleSort(col){
   if(_ddSortCol===col){ _ddSortAsc=!_ddSortAsc; } else { _ddSortCol=col; _ddSortAsc=col!=='completion'; }
@@ -13561,7 +14298,7 @@ function _ddGridRows(d){
     if(typeof av==='number') return _ddSortAsc?(av-bv):(bv-av);
     return _ddSortAsc?String(av).localeCompare(String(bv)):String(bv).localeCompare(String(av));
   });
-  if(!rows.length) return `<tr><td colspan="5" style="text-align:center;padding:24px;color:var(--muted);font-size:13px;">No staff match the current filters.</td></tr>`;
+  if(!rows.length) return `<tr><td colspan="5" style="text-align:center;padding:24px;color:var(--muted);font-size:13px;">No staff match the current filters. <button class="dd-ws-addbtn" style="font-size:13px;" onclick="_ddClearFilters()">Clear filters</button></td></tr>`;
   const allLearners=d.learners||[];
   return rows.map(l=>{
     const li=allLearners.indexOf(l);
@@ -13579,9 +14316,9 @@ function _ddOpenStaffDrawer(did,li){
   const d=_DEMO.districts.concat(_createdDistricts).find(x=>x.id===did); if(!d) return;
   const l=d.learners[li]; if(!l) return;
   const nk=d.id+':'+li, nudged=_demoState.nudged[nk];
-  const tnames=(l.tracks||[]).map(tid=>{const t=(_allDemoTracks()||[]).find(t=>t.id===tid);return t?{title:t.title}:null;}).filter(Boolean);
-  const tracks=tnames.length
-    ?tnames.map(t=>`<div class="dds-track-row"><span class="dds-track-name">${escapeHtml(t.title)}</span><div class="dds-track-prog"><span class="dd-prog-bar-wrap"><span class="dd-prog-bar-fill" style="width:${l.completion}%"></span></span><span class="dd-prog-pct">${l.completion}%</span></div></div>`).join('')
+  const tids=(l.tracks||[]).filter(Boolean);
+  const tracks=tids.length
+    ?tids.map(tid=>`<div class="dds-track-row"><span class="dds-track-name">${escapeHtml(_trackTitleById(tid))}</span><div class="dds-track-prog"><span class="dd-prog-bar-wrap"><span class="dd-prog-bar-fill" style="width:${l.completion}%"></span></span><span class="dd-prog-pct">${l.completion}%</span><button class="dds-unassign" title="Unassign this track" aria-label="Unassign ${escAttr(_trackTitleById(tid))} from ${escAttr(l.name)}" onclick="_asnUnassign('${escAttr(did)}',${li},'${escAttr(tid)}')">Unassign</button></div></div>`).join('')
     :'<p style="font-size:13px;color:var(--muted)">No tracks assigned.</p>';
   const sc=l.status==='Complete'?'dd-stag-complete':l.status==='Overdue'?'dd-stag-overdue':l.status==='In progress'?'dd-stag-inprog':'dd-stag-notstarted';
   const nudgeBtn=l.status!=='Complete'?`<button class="secondary${nudged?' disabled':''}" onclick="${nudged?`alert('Already nudged today.')`:`_ddNudgeFromDrawer('${escAttr(nk)}','${escAttr(l.name)}')`}">${nudged?'Nudged today':'Nudge'}</button>`:'';
@@ -13600,7 +14337,7 @@ function _ddOpenStaffDrawer(did,li){
     </div>
     <div class="dds-actions">
       ${nudgeBtn}
-      <button class="secondary" onclick="openAssignmentModal('${escAttr(did)}')">Assign/Reassign track</button>
+      <button class="secondary" onclick="openAssignmentModal('${escAttr(did)}',{did:'${escAttr(did)}',li:${li}})">Assign/Reassign track</button>
       <button class="secondary" onclick="_ddToggleProgress(this)">View progress</button>
     </div>`;
   openDrawer(l.name, html);
@@ -13801,8 +14538,21 @@ function renderAssignments(){
 // ONE assignment surface. Called with no arg from the portfolio header (cross-district) or with a
 // districtId from a district detail (pre-filtered to that district). Same modal, same model.
 let _asnRealTracks = [];
-async function openAssignmentModal(preDistrictId){
+let _asnScopeLearner = null;   // {did, li} when the modal is scoped to a single person; else null
+// Resolve any content id (demo track / real:ID published track / course) to a display title.
+function _trackTitleById(id){
+  if(!id) return 'Untitled';
+  if(String(id).startsWith('real:')){ const rt=(_asnRealTracks||[]).find(x=>x.id===id.slice(5)); return rt?rt.title:'Published track'; }
+  const t=_allDemoTracks().find(x=>x.id===id); if(t) return t.title;
+  const c=(typeof _courseById==='function')?_courseById(id):null; return c?c.title:id;
+}
+function _asnScopedLearner(){ if(!_asnScopeLearner) return null; const d=_DEMO.districts.concat(_createdDistricts).find(x=>x.id===_asnScopeLearner.did); return d?(d.learners||[])[_asnScopeLearner.li]:null; }
+async function openAssignmentModal(preDistrictId, scope){
+  // If launched from the staff detail drawer, close it first — two stacked right-side
+  // drawers (the assign drawer rendered behind the staff drawer) is the bug we're avoiding.
+  if(typeof closeDrawer==='function') closeDrawer();
   _initAssignments();
+  _asnScopeLearner = (scope && Number.isInteger(scope.li) && scope.did) ? {did:scope.did, li:scope.li} : null;
   // Pull REAL published tracks so you can assign the one you just built (Seam A).
   try { const d = await (await fetch('/api/tracks')).json(); _asnRealTracks = (d.tracks||[]).filter(t=>t.status==='published'); }
   catch(e){ _asnRealTracks = []; }
@@ -13811,18 +14561,38 @@ async function openAssignmentModal(preDistrictId){
       _asnRealTracks.map(t=>`<option value="real:${t.id}">Track · ${escapeHtml(t.title)} (published)</option>`).join('')
     + _allDemoTracks().map(t=>`<option value="${t.id}">Track · ${escapeHtml(t.title)}</option>`).join('')
     + _allDemoCourses().map(c=>`<option value="${c.id}">Course · ${escapeHtml(c.title)}</option>`).join('');
-  const at=document.getElementById('asn-audtype'); if(at) at.value = 'role';
+  const scoped=!!_asnScopedLearner();
+  // Hide the audience-type chooser when scoped to one person — the audience IS that person.
+  const at=document.getElementById('asn-audtype'), atl=document.getElementById('asn-audtype-l');
+  if(at){ at.value = scoped?'people':'role'; at.style.display=scoped?'none':''; }
+  if(atl) atl.style.display=scoped?'none':'';
   const du=document.getElementById('asn-due'); if(du) du.value='';
   const dy=document.getElementById('asn-dyn'); if(dy) dy.checked=false;
   const dp=document.getElementById('asn-drip'); if(dp) dp.checked=false;
   asnAudChange(preDistrictId);
   const ttl=document.getElementById('asn-modal-title');
-  if(ttl){ const d = (preDistrictId && _unifiedDistricts().find(x=>x.id===preDistrictId)) || _curDistrict(); ttl.textContent = (d && d.name) ? ('Assign training — ' + d.name) : 'Assign training'; }
+  if(ttl){
+    const lr=_asnScopedLearner();
+    if(lr){ ttl.textContent='Assign training — '+lr.name; }
+    else { const d = (preDistrictId && _unifiedDistricts().find(x=>x.id===preDistrictId)) || _curDistrict(); ttl.textContent = (d && d.name) ? ('Assign training — ' + d.name) : 'Assign training'; }
+  }
   openFD('asn-modal', 'asn-bd');
 }
-function asnClose(){ closeFD('asn-modal', 'asn-bd'); }
+function asnClose(){ _asnScopeLearner=null; closeFD('asn-modal', 'asn-bd'); }
 function asnAudChange(preDistrictId){
   const t=(document.getElementById('asn-audtype')||{}).value, w=document.getElementById('asn-audpick'); if(!w) return;
+  // Person-scoped: the audience is one locked learner; show their current tracks with Unassign.
+  const lr=_asnScopedLearner();
+  if(lr){
+    const tids=(lr.tracks||[]).filter(Boolean);
+    const cur=tids.length
+      ? `<div class="asn-cur-list">${tids.map(tid=>`<div class="asn-cur-row"><span>${escapeHtml(_trackTitleById(tid))}</span><button class="dds-unassign" onclick="_asnUnassign('${escAttr(_asnScopeLearner.did)}',${_asnScopeLearner.li},'${escAttr(tid)}')" aria-label="Unassign ${escAttr(_trackTitleById(tid))}">Unassign</button></div>`).join('')}</div>`
+      : `<p class="tb-note">No tracks assigned yet.</p>`;
+    w.innerHTML=`<div class="asn-person-lock"><span class="dd-name-cell">${escapeHtml(lr.name)}</span> <span class="meta">${escapeHtml(lr.role)} · ${escapeHtml(lr.site)}</span></div>
+      <div class="asn-cur-head">Currently assigned</div>${cur}
+      <p class="tb-note" style="margin-top:8px;">Pick a track above and Assign to add it. Unassign removes it.</p>`;
+    return;
+  }
   // Single-district scope (V1): the customer IS the district. Every audience is WITHIN one district —
   // the one passed in, or the currently-selected client. No cross-district / state hierarchy (that's V2).
   const dist=(preDistrictId && _unifiedDistricts().find(d=>d.id===preDistrictId)) || _curDistrict() || {sites:[],learners:[]};
@@ -13832,17 +14602,46 @@ function asnAudChange(preDistrictId){
   else if(t==='people'){ const ls=(dist.learners||[]).slice(0,8); w.innerHTML = ls.length ? `<div class="asn-people">${ls.map((l,i)=>`<label class="am-row"><input type="checkbox" class="asn-person" value="${escAttr(l.name)}" ${i<3?'checked':''}> ${escapeHtml(l.name)} <span class="meta">${escapeHtml(l.role)}</span></label>`).join('')}</div>` : `<p class="tb-note">No individual learners loaded for ${dn}.</p>`; }
   else w.innerHTML=`<p class="tb-note">Everyone in ${dn}.</p>`;
 }
+// Add the chosen track to a single learner (person-scoped Assign) and unassign one.
+function _asnRecompute(l){ l.status = l.completion>=100 ? 'Complete' : (_isOverdue(false,l.due)?'Overdue':(l.completion>0?'In progress':'Not started')); }
+function _asnRefreshSurfaces(did){
+  // roster grid, the open staff drawer, the scoped modal list, and AUTO workspace rows
+  const body=document.getElementById('dd-grid-body'); if(body && typeof _ddGridRows==='function') body.innerHTML=_ddGridRows(_curDistrict());
+  if(typeof _ddLastWs!=='undefined' && _ddLastWs && typeof _wsRenderPanel==='function') _wsRenderPanel(_curISD,_ddLastWs);
+  const appDrawer=document.getElementById('app-drawer');
+  if(_asnScopeLearner && document.getElementById('asn-bd') && document.getElementById('asn-bd').classList.contains('open')) asnAudChange(did);
+  else if(appDrawer && !appDrawer.hidden && _asnScopeLearner) _ddOpenStaffDrawer(_asnScopeLearner.did,_asnScopeLearner.li);
+}
+function _asnUnassign(did,li,trackId){
+  const d=_DEMO.districts.concat(_createdDistricts).find(x=>x.id===did); if(!d) return;
+  const l=(d.learners||[])[li]; if(!l) return;
+  if(!confirm('Unassign "'+_trackTitleById(trackId)+'" from '+l.name+'?')) return;
+  l.tracks=(l.tracks||[]).filter(t=>t!==trackId);
+  if(!l.tracks.length){ l.completion=0; }   // no training assigned → nothing to complete
+  _asnRecompute(l);
+  // If the staff drawer is open (unassigned from there), refresh it directly.
+  const appDrawer=document.getElementById('app-drawer');
+  if(appDrawer && !appDrawer.hidden) _ddOpenStaffDrawer(did,li);
+  _asnRefreshSurfaces(did);
+  if(typeof _showToast==='function') _showToast('Unassigned '+_trackTitleById(trackId)+' from '+l.name+'.');
+}
 async function asnSave(){
   _initAssignments();
   const content=(document.getElementById('asn-content')||{}).value;
-  const t=(document.getElementById('asn-audtype')||{}).value;
+  const scopedLearner=_asnScopedLearner();
+  const t = scopedLearner ? 'people' : (document.getElementById('asn-audtype')||{}).value;
   const dyn=!!(document.getElementById('asn-dyn')||{}).checked;
   let audVal='';
-  if(t==='people') audVal=[...document.querySelectorAll('.asn-person:checked')].map(x=>x.value);
+  if(scopedLearner) audVal=[scopedLearner.name];
+  else if(t==='people') audVal=[...document.querySelectorAll('.asn-person:checked')].map(x=>x.value);
   else if(t==='site') audVal=[...document.querySelectorAll('.asn-multi:checked')].map(x=>x.value);
   else if(t!=='org') audVal=(document.getElementById('asn-audval')||{}).value;
   if(t==='site' && (!audVal || !audVal.length)){ alert('Pick at least one site.'); return; }
   if(t==='people' && (!audVal || !audVal.length)){ alert('Pick at least one person.'); return; }
+  // Person-scoped Assign: write the track onto the learner so it shows in their drawer + roster.
+  if(scopedLearner){
+    if((scopedLearner.tracks||[]).includes(content)){ alert(scopedLearner.name+' is already assigned “'+_trackTitleById(content)+'”.'); return; }
+  }
   const drip=!!(document.getElementById('asn-drip')||{}).checked;
   const isReal = content && content.startsWith('real:');
   const ct = (isReal || _allDemoTracks().some(x=>x.id===content)) ? 'track' : 'course';
@@ -13862,6 +14661,18 @@ async function asnSave(){
   if(_isoDue && !dyn){
     const _d=_curDistrict();
     (_d&&_d.learners||[]).forEach(l=>{ if(_asnLearnerMatch(t,audVal,l)){ l.due=_isoDue; l.status=l.completion>=100?'Complete':(_isOverdue(false,l.due)?'Overdue':(l.completion>0?'In progress':'Not started')); } });
+  }
+  // Person-scoped: actually attach the track to the learner so it appears in their drawer + roster.
+  if(scopedLearner){
+    scopedLearner.tracks=(scopedLearner.tracks||[]).concat([content]);
+    if(_isoDue && !dyn) scopedLearner.due=_isoDue;
+    _asnRecompute(scopedLearner);
+    const lname=scopedLearner.name, ttl=_trackTitleById(content);
+    asnClose();
+    const _av=(document.querySelector('.view.active')||{}).id;
+    if(_av==='view-district') loadDistrict(); else if(_av==='view-myteam') renderMyTeam(); else renderManage();
+    if(typeof _showToast==='function') _showToast('Assigned “'+ttl+'” to '+lname+'.'); else alert('Assigned “'+ttl+'” to '+lname+'.');
+    return;
   }
   asnClose();
   const _av=(document.querySelector('.view.active')||{}).id;
@@ -14822,7 +15633,14 @@ async function qbGenerate(){
     const r=await fetch('/api/quizzes/generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({source_type,source_id,n})});
     if(!r.ok) throw new Error(await _errMsg(r));
     _qb.quiz=await r.json(); _qb.flagged={}; _qb.ack=false; _qb.checked=false; qbRenderEditor();
-  }catch(e){ ed.innerHTML=`<div class="async-error"><p class="ae-title">Generation failed</p><p>${escapeHtml(e.message)}</p></div>`; }
+  }catch(e){
+    const raw=(e&&e.message)||'';
+    // Don't leak internal infra jargon (CLI/subprocess/event-loop errors) to the user.
+    const friendly = /claude code|error result|subprocess|event loop|enoent|spawn|502|bad gateway/i.test(raw)
+      ? 'We couldn’t reach the quiz generator just now. Please try again in a moment.'
+      : (raw || 'Something went wrong while generating. Please try again.');
+    ed.innerHTML=`<div class="async-error"><p class="ae-title">Generation didn’t finish</p><p>${escapeHtml(friendly)}</p><button class="primary" style="margin-top:10px;" onclick="qbGenerate()">Try again</button></div>`;
+  }
   finally{ clearInterval(tk); }
 }
 async function qbLoad(qid){
@@ -17163,6 +17981,9 @@ loadLearn = async function() {
   updateTabVisibility(normRole);
 
   // Trigger onboarding overlay if first visit and not already skipped this session.
+  // Never in trainer view — it's a learner first-run overlay (persona hygiene); showing
+  // it over the trainer workspace looks like a hung page.
+  if (typeof _viewMode !== 'undefined' && _viewMode === 'trainer') return;
   if (sessionStorage.getItem('onboarding_skipped')) return;
   const uid = _demoUserHeader();  // e.g. "john-cashier"
   try {

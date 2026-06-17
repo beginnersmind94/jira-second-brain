@@ -138,19 +138,25 @@ def test_beat2_wrong_source_resource_exists_and_is_labeled():
 
 
 # ── Test 4: Beat 4 — trigger-drift reverts dependent quiz to 'draft' ──────────
-def test_beat4_trigger_drift_reverts_quiz_to_draft(tmp_path):
+def test_beat4_trigger_drift_reverts_quiz_to_draft(tmp_path, monkeypatch):
     """SHOULD-NOT-OCCUR: after trigger-drift, an approved quiz referencing the
     guide must NOT remain approved — it must be reverted to draft.
 
     Uses a temporary guide HTML and a minimal quiz pointing at it to isolate
     from live demo data.
     """
+    import quiz_store
+
+    # Redirect quiz_store.QUIZZES to an isolated temp directory so the test
+    # never touches learning-agent/quizzes/.
+    quizzes_dir = tmp_path / "quizzes"
+    quizzes_dir.mkdir()
+    monkeypatch.setattr(quiz_store, "QUIZZES", quizzes_dir)
+
     # Create a temp guide HTML file.
     guide_content = "<html><body><p>Test guide content for drift detection.</p></body></html>"
     guide_path = tmp_path / "test-guide.html"
     guide_path.write_text(guide_content, encoding="utf-8")
-
-    import quiz_store
 
     # Compute the hash of the original content (same algo as quiz_store.source_hash).
     import re as _re

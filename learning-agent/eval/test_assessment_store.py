@@ -26,11 +26,40 @@ import tempfile
 import uuid
 from pathlib import Path
 
+import pytest
+
 # Allow running directly from the learning-agent/ dir or via pytest.
 _HERE = Path(__file__).resolve().parent
 _LA = _HERE.parent
 if str(_LA) not in sys.path:
     sys.path.insert(0, str(_LA))
+
+
+# ── Restore module globals after each test ────────────────────────────────────
+# _setup() does RAW (non-monkeypatch) assignments to assessment_store._ASSESS_DIR /
+# _ATTEMPTS_DIR / _QUIZZES_DIR and quiz_store.QUIZZES, pointing them at a
+# TemporaryDirectory that is deleted when the test's `with` block exits. Without
+# restoration those globals stay pointed at a now-deleted dir for the rest of the
+# pytest session, so any later test that writes via quiz_store.save_quiz() (etc.)
+# hits FileNotFoundError. This autouse fixture snapshots the four globals and
+# restores them after each test. (Ignored in direct-run / __main__ mode — pytest
+# fixtures don't apply there, which is fine: a direct run is a single process that
+# exits immediately after.)
+@pytest.fixture(autouse=True)
+def _restore_store_globals():
+    import assessment_store as _as
+    import quiz_store as _qs
+
+    saved = (
+        _as._ASSESS_DIR,
+        _as._ATTEMPTS_DIR,
+        _as._QUIZZES_DIR,
+        _qs.QUIZZES,
+    )
+    try:
+        yield
+    finally:
+        _as._ASSESS_DIR, _as._ATTEMPTS_DIR, _as._QUIZZES_DIR, _qs.QUIZZES = saved
 
 
 # ── Patch quiz_store and assessment_store to use temp dirs ────────────────────

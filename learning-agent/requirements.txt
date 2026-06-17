@@ -12,6 +12,8 @@ httpx>=0.27.0
 
 # PDF parsing (read_pdf fallback) and transcript handling
 pymupdf>=1.24.0
+# Transcript PDF→Markdown upload converter (pdf_to_md.py). Distinct from pymupdf above.
+pypdf>=4.0.0
 
 # Env loading
 python-dotenv>=1.0.0

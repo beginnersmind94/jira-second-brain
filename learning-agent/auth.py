@@ -37,6 +37,20 @@ class CurrentUser:
     is_trainer: bool = False
 
 
+# ── Canonical role vocabulary ──────────────────────────────────────────────────
+# These are the EXACT strings used in current_user.role for learner personas.
+# Role filtering on modules/tracks/courses does exact-string matching against
+# this list, so tags entered elsewhere MUST use these strings verbatim.
+#
+# "Trainer" is excluded deliberately: Trainers are staff/authors, not learners.
+# Content role_tags control which learner audience a guide is for; a Trainer
+# can view all content regardless of tags.
+#
+# When adding new learner roles, extend this list AND update auth.py's
+# _DEMO_PERSONAS with a matching demo persona.
+ROLE_VOCAB: list[str] = ["Cashier", "Site Manager", "CN Director"]
+
+
 # ── Demo personas ─────────────────────────────────────────────────────────────
 # Keyed by the X-Demo-User header value (lower-cased).
 

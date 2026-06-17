@@ -1,0 +1,16 @@
+{
+  "id": "cert-20260615-094951-d2f718",
+  "cert_id": "cert-20260615-094951-d2f718",
+  "user_id": "demo-user-001",
+  "user_display_name": "John Doe",
+  "track_id": "track-20260614-summer-cashier",
+  "track_title": "Cashier Summer Refresher",
+  "learner_name": "John Doe",
+  "product": "SchoolCafé",
+  "role": "Cashier",
+  "modules": 0,
+  "issued_at": "2026-06-15T14:49:51+00:00",
+  "verification_code": "CYB-3F666777",
+  "passed_assessment": false,
+  "badges_earned": []
+}

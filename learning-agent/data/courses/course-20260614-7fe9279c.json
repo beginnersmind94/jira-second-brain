@@ -1,0 +1,68 @@
+{
+  "id": "course-20260614-7fe9279c",
+  "title": "Summer Line-Up: Your POS Refresher",
+  "description": "A quick summer tune-up for cashiers heading back to the line - a handful of short stops from ringing the first tray to closing out a clean day, capped with a quick knowledge check.",
+  "product": "SchoolCafé",
+  "role_tags": [
+    "Cashier"
+  ],
+  "image": "/course-img/dashboard.jpg",
+  "gallery": [
+    { "src": "/course-img/pos-screenshot.png", "label": "Sign In" },
+    { "src": "/course-img/device-name.jpg", "label": "Device Setup" },
+    { "src": "/course-img/open-session.jpg", "label": "Open Service" },
+    { "src": "/course-img/summary-sale.jpg", "label": "Summary Sale" },
+    { "src": "/course-img/meal-type.jpg", "label": "Meal Type" },
+    { "src": "/course-img/pick-homeroom.jpg", "label": "Bulk Sales" }
+  ],
+  "lessons": [
+    {
+      "title": "First Tray of the Day",
+      "duration_est": 6,
+      "ref": "GUIDE-009",
+      "type": "guide",
+      "intro": "Shake off the summer dust and remember how smooth the line can feel when you've got the basics locked in.",
+      "image": "/course-img/open-session.jpg"
+    },
+    {
+      "title": "Quick Sales at the Line",
+      "duration_est": 5,
+      "ref": "GUIDE-010",
+      "type": "guide",
+      "intro": "When the line is moving fast, this is the shortcut that keeps things flowing.",
+      "image": "/course-img/summary-sale.jpg"
+    },
+    {
+      "title": "Oops, No Worries: Fixing a Transaction",
+      "duration_est": 7,
+      "ref": "GUIDE-011",
+      "type": "guide",
+      "intro": "Everyone makes a small slip now and then - here is how to tidy it up without any drama."
+    },
+    {
+      "title": "See You Tomorrow: Closing Out the Day",
+      "duration_est": 8,
+      "ref": "GUIDE-022",
+      "type": "guide",
+      "intro": "The bell rings, the line clears, and now it is time to wrap up cleanly.",
+      "image": "/course-img/dashboard.jpg"
+    },
+    {
+      "title": "Clean Hands, Happy Trays (ICN/USDA Video)",
+      "duration_est": 6,
+      "ref": "icn-food-safety-youtube-hand-hygiene-demo",
+      "type": "video",
+      "intro": "A friendly reminder from the Institute of Child Nutrition and USDA - good hand hygiene is the first ingredient in every safe meal."
+    },
+    {
+      "title": "Food Safety Quick Check",
+      "duration_est": 3,
+      "ref": "quiz-seed-food-safety-3q",
+      "type": "quiz",
+      "intro": "A quick check on the food-safety refresher you just watched - handwashing, safe temperatures, and the danger zone."
+    }
+  ],
+  "status": "published",
+  "updated_at": "2026-06-15T16:30:00",
+  "created_at": "2026-06-14T15:54:44"
+}

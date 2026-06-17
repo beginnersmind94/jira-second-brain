@@ -1,0 +1,213 @@
+{
+  "district_id": "houston-isd",
+  "template": "schoolcafe-onboarding",
+  "sections": [
+    {
+      "key": "kickoff",
+      "label": "Kickoff & Discovery",
+      "auto": false,
+      "weight": 1,
+      "items": [
+        {
+          "id": "kickoff-call",
+          "label": "Kickoff call held",
+          "owner": "Cybersoft",
+          "status": "done",
+          "done_at": "2026-06-12T12:00:00+00:00",
+          "due": "",
+          "updated_at": "2026-06-12T12:00:00+00:00"
+        },
+        {
+          "id": "kickoff-stakeholders",
+          "label": "Stakeholders identified",
+          "owner": "Shared",
+          "status": "done",
+          "done_at": "2026-06-12T12:00:00+00:00",
+          "due": "",
+          "updated_at": "2026-06-12T12:00:00+00:00"
+        },
+        {
+          "id": "kickoff-plan",
+          "label": "Implementation plan shared",
+          "owner": "Cybersoft",
+          "status": "done",
+          "done_at": "2026-06-12T12:00:00+00:00",
+          "due": "",
+          "updated_at": "2026-06-12T12:00:00+00:00"
+        }
+      ]
+    },
+    {
+      "key": "data",
+      "label": "Data Migration",
+      "auto": false,
+      "weight": 3,
+      "items": [
+        {
+          "id": "data-sites",
+          "label": "Site list imported",
+          "owner": "District",
+          "status": "done",
+          "done_at": "2026-06-12T12:00:00+00:00",
+          "due": "",
+          "updated_at": "2026-06-12T12:00:00+00:00"
+        },
+        {
+          "id": "data-roster",
+          "label": "Staff roster imported",
+          "owner": "District",
+          "status": "done",
+          "done_at": "2026-06-12T12:00:00+00:00",
+          "due": "",
+          "updated_at": "2026-06-12T12:00:00+00:00"
+        },
+        {
+          "id": "data-validate",
+          "label": "Historical data validated",
+          "owner": "Shared",
+          "status": "done",
+          "done_at": "2026-06-12T12:00:00+00:00",
+          "due": "",
+          "updated_at": "2026-06-12T12:00:00+00:00"
+        }
+      ]
+    },
+    {
+      "key": "config",
+      "label": "Configuration",
+      "auto": false,
+      "weight": 2,
+      "items": [
+        {
+          "id": "config-prices",
+          "label": "Meal prices configured",
+          "owner": "District",
+          "status": "done",
+          "done_at": "2026-06-12T12:00:00+00:00",
+          "due": "",
+          "updated_at": "2026-06-12T12:00:00+00:00"
+        },
+        {
+          "id": "config-eligibility",
+          "label": "Eligibility rules set",
+          "owner": "Shared",
+          "status": "done",
+          "done_at": "2026-06-12T12:00:00+00:00",
+          "due": "",
+          "updated_at": "2026-06-12T12:00:00+00:00"
+        },
+        {
+          "id": "config-pos",
+          "label": "POS hardware check",
+          "owner": "District",
+          "status": "todo",
+          "done_at": null,
+          "due": "",
+          "updated_at": null
+        }
+      ]
+    },
+    {
+      "key": "training",
+      "label": "Staff Training",
+      "auto": true,
+      "weight": 3,
+      "items": [
+        {
+          "id": "train-cashiers",
+          "label": "Cashiers trained",
+          "owner": "District",
+          "status": "todo",
+          "done_at": null,
+          "due": "",
+          "updated_at": null,
+          "role": "Cashier"
+        },
+        {
+          "id": "train-managers",
+          "label": "Site managers trained",
+          "owner": "District",
+          "status": "todo",
+          "done_at": null,
+          "due": "",
+          "updated_at": null,
+          "role": "Site Manager"
+        },
+        {
+          "id": "train-director",
+          "label": "CN Director onboarded",
+          "owner": "District",
+          "status": "todo",
+          "done_at": null,
+          "due": "",
+          "updated_at": null,
+          "role": "CN Director"
+        }
+      ]
+    },
+    {
+      "key": "uat",
+      "label": "UAT & Go-Live",
+      "auto": false,
+      "weight": 3,
+      "items": [
+        {
+          "id": "uat-signoff",
+          "label": "UAT sign-off",
+          "owner": "Shared",
+          "status": "todo",
+          "done_at": null,
+          "due": "",
+          "updated_at": null
+        },
+        {
+          "id": "uat-date",
+          "label": "Go-live date confirmed",
+          "owner": "Cybersoft",
+          "status": "todo",
+          "done_at": null,
+          "due": "",
+          "updated_at": null
+        },
+        {
+          "id": "uat-golive",
+          "label": "Go-live",
+          "owner": "Shared",
+          "status": "todo",
+          "done_at": null,
+          "due": "",
+          "updated_at": null
+        }
+      ]
+    }
+  ],
+  "tasks": [
+    {
+      "id": "5535a0b1cca3",
+      "title": "Chase POS vendor on terminal delivery",
+      "owner": "District",
+      "due": "2026-06-18",
+      "status": "open",
+      "created_at": "2026-06-12T12:00:00+00:00"
+    }
+  ],
+  "notes": [
+    {
+      "id": "ec1812c691d9",
+      "subject_type": "district",
+      "subject_id": "houston-isd",
+      "body": "Config call went well — meal prices + eligibility done. POS check pending vendor.",
+      "author": "Sam Rivera",
+      "created_at": "2026-06-12T15:10:00+00:00"
+    }
+  ],
+  "activity": [
+    {
+      "id": "e7cef2196990",
+      "type": "seed",
+      "label": "Onboarding project created",
+      "actor": "System",
+      "at": "2026-06-10T08:00:00+00:00"
+    }
+  ]
+}

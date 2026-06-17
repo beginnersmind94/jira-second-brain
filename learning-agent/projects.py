@@ -92,11 +92,20 @@ def _new_id(prefix: str) -> str:
     return f"{prefix}-{uuid.uuid4().hex[:8]}"
 
 
-def _reset_for_tests():
-    """Hook for pytest — wipes the in-memory store between tests."""
+def reset_demo_state() -> int:
+    """Clear all in-memory projects, assignments, and rules. Called by the
+    conference-mode demo reset so a re-walk of the trainer flow (create project →
+    import roster → assign) starts pristine. Returns the number of projects cleared."""
+    n = len(_PROJECTS)
     _PROJECTS.clear()
     _ASSIGNMENTS.clear()
     _RULES.clear()
+    return n
+
+
+def _reset_for_tests():
+    """Hook for pytest — wipes the in-memory store between tests."""
+    reset_demo_state()
 
 
 # ── Mock auth ───────────────────────────────────────────────────────────────
@@ -473,6 +482,51 @@ def match_users(project_id: str,
     return out
 
 
+def _bridge_track_role_assignment(track_id: str, roles, due_date: str | None = None) -> None:
+    """Demo-real wiring (a labeled stub — see the demo report).
+
+    A project-level assignment / enrollment rule ALSO registers a role-level A3
+    assignment on the track itself. The learner view reads a track's own
+    `assignments` (not this module's in-memory `_ASSIGNMENTS`) to decide the
+    learner's hero track + due date. Without this bridge, assigning a track to a
+    project's cashiers has NO visible effect on what a cashier sees — the causal
+    link the demo narrates ("I assigned it → John now sees it") would be fake.
+
+    Idempotent per (audience_type='role', audience_value). Best-effort: it must
+    never raise (a failed mirror cannot break the project assignment). Tagged
+    `assigned_by='projects-bridge'` so the conference reset can strip it and keep
+    seed tracks pristine between demo runs.
+
+    NOTE: this is a ROLE bridge, not per-person rostering. The demo learner is a
+    seeded stand-in for an imported cashier; true per-user identity + writeback is
+    SSO/V1.5. The link is real at the role grain, honestly stubbed at the person grain.
+    """
+    try:
+        track = modules_store.load_track(track_id)
+    except Exception:
+        track = None
+    if not track:
+        return
+    asn = list(track.get("assignments") or [])
+    have = {(a.get("audience_type"), a.get("audience_value")) for a in asn}
+    changed = False
+    for role in roles:
+        if role and ("role", role) not in have:
+            asn.append({
+                "audience_type": "role", "audience_value": role,
+                "district": None, "due_date": due_date or None,
+                "assigned_at": _now_iso(), "assigned_by": "projects-bridge",
+            })
+            have.add(("role", role))
+            changed = True
+    if changed:
+        track["assignments"] = asn
+        try:
+            modules_store.save_track(track)
+        except Exception:
+            pass
+
+
 # ── New routes: users, assignable-tracks, assignments, enrollment-rules ──────
 
 @router.get("/api/projects/{pid}/users")
@@ -531,6 +585,11 @@ def create_assignments(pid: str, payload: dict = Body(...),
         })
         already.add((uid, track_id))
         created += 1
+    # Mirror to a role-level track assignment so the learner view surfaces this track
+    # (see _bridge_track_role_assignment). Roles are derived from the assigned people.
+    roles = {proj["users"][uid]["role"] for uid in user_ids if uid in proj["users"]}
+    if roles:
+        _bridge_track_role_assignment(track_id, roles, due_date)
     return {"ok": True, "created": created, "skipped": len(user_ids) - created}
 
 
@@ -627,4 +686,6 @@ def create_enrollment_rule(pid: str, payload: dict = Body(...),
             })
             already.add((uid, track_id))
             enrolled += 1
+    # Mirror to a role-level track assignment so the learner view surfaces this track.
+    _bridge_track_role_assignment(track_id, role_filter, due_date)
     return {"ok": True, "rule": rule, "enrolled": enrolled}

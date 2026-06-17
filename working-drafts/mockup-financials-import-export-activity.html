@@ -49,6 +49,14 @@
   .qlink{color:var(--accent);font-weight:600;text-decoration:none}
   .qlink:hover{text-decoration:underline}
 
+  /* dev-only demo state switcher (not part of the build) */
+  .demo-switch{margin:12px 22px 0;background:#fff7e0;border:1px dashed #e6c34d;border-radius:8px;padding:9px 14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:12.5px}
+  .demo-switch .demo-tag{font-weight:800;color:#8a6d1a;letter-spacing:.3px;text-transform:uppercase;font-size:10px;background:#f5d878;border-radius:4px;padding:2px 8px}
+  .demo-switch .demo-lbl{color:var(--ink-soft);font-weight:600}
+  .demo-switch button{border:1px solid #c9c9d6;background:#fff;border-radius:6px;padding:6px 12px;font:inherit;font-size:12.5px;font-weight:600;cursor:pointer;color:var(--ink)}
+  .demo-switch button:hover{background:var(--accent-weak);border-color:var(--accent);color:var(--accent)}
+  .sample-tag{background:#eef0f6;color:#6b6b7b;border:1px solid var(--line);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;white-space:nowrap}
+
   .card{margin:18px 22px;background:#fff;border:1px solid var(--line);border-radius:var(--radius)}
 
   .filterbar{display:flex;gap:18px;align-items:flex-end;flex-wrap:wrap;padding:14px 16px;border-bottom:1px solid var(--line)}
@@ -89,6 +97,7 @@
   .pill.run{color:var(--run);background:var(--run-bg)}
   .pill.err{color:var(--err);background:var(--err-bg)}
   .pill.rev{color:var(--rev);background:var(--rev-bg)}
+  .pill.part{color:#9a6a00;background:#fdf2d8}
 
   .actcell{white-space:nowrap;position:relative}
   .linkbtn{border:0;background:transparent;color:var(--accent);font-weight:600;font-size:12.5px;cursor:pointer;padding:5px 8px;border-radius:6px}
@@ -118,7 +127,8 @@
   .modal h3{margin:0 0 3px;font-size:17px}
   .modal .head p{margin:0;color:var(--ink-soft);font-size:12.5px}
   .modal .body{padding:18px 22px}
-  .impact{background:#fbe7e7;border:1px solid #f3c9c9;border-radius:8px;padding:12px 14px;color:#7c2b2b;font-size:13px;margin-bottom:14px;line-height:1.5}
+  .impact{background:#fbe7e7;border:1px solid #f3c9c9;border-radius:8px;padding:12px 14px;color:#7c2b2b;font-size:13px;margin-bottom:14px;line-height:1.5;display:flex;gap:9px;align-items:flex-start}
+  .impact .ico{font-size:15px;line-height:1.3}
   .impact .row{display:flex;justify-content:space-between;margin-top:4px;gap:14px}
   .details{border:1px solid var(--line);border-radius:8px;padding:12px 14px;font-size:12.5px;margin-bottom:14px;line-height:1.5}
   .details .row{display:flex;justify-content:space-between;margin-top:4px;gap:14px}
@@ -126,6 +136,38 @@
   .details .casc{margin:8px 0 0;padding-left:18px}
   .details .casc li{margin-top:2px}
   .details .scope{font-weight:700;margin-bottom:6px}
+  .dlg-sec{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)}
+  .dlg-sec .h{font-weight:700;margin-bottom:4px;font-size:12.5px}
+  .dlg-grp{margin-bottom:10px}
+  .dlg-grp .h{font-weight:700;font-size:12.5px;margin-bottom:4px}
+  .dlg-grp.del .h{color:var(--err)}
+  .dlg-grp.keep .h{color:var(--ok)}
+  .dlg-list{margin:0;padding-left:18px;font-size:12px;color:var(--ink-soft)}
+  .dlg-list li{margin-top:2px}
+  .guidance{background:#f4f6ff;border:1px solid #d9e0fb;border-radius:8px;padding:10px 12px;font-size:12px;color:#3a3f63;margin-top:12px;line-height:1.5}
+  /* drawer entity sub-header + carded sections (match the Data Point Rules drawer) */
+  .ent-head{padding-bottom:14px;border-bottom:1px solid var(--line);margin-bottom:14px}
+  .ent-head .ent-top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+  .ent-head .ent-name{font-size:17px;font-weight:800;color:var(--ink)}
+  .ent-head .ent-tags{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:8px}
+  .tag-type{background:var(--accent-weak);color:var(--accent);font-weight:700;font-size:11.5px;padding:2px 10px;border-radius:5px}
+  .ent-desc{color:var(--ink-soft);font-size:12.5px}
+  .dcard{border:1px solid var(--line);border-radius:8px;padding:14px;margin-bottom:14px}
+  .eyebrow{font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--ink-soft);margin-bottom:8px}
+  .amber-row{display:flex;gap:8px;align-items:center;background:#fff7e0;border:1px solid #f0dca6;border-radius:6px;padding:6px 10px;margin-top:6px;font-size:12px;color:#8a6d1a}
+  /* in-drawer categories+accounts table (paginated, like the reference) */
+  .rev-table{width:100%;border-collapse:collapse;font-size:12.5px}
+  .rev-table th{text-align:left;font-size:10px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:var(--ink-soft);padding:8px 10px;background:#f7f7fb;border-bottom:1px solid var(--line)}
+  .rev-table td{padding:8px 10px;border-bottom:1px solid var(--line)}
+  .rev-table tbody tr:last-child td{border-bottom:0}
+  .rev-table .st-del{color:var(--err);font-weight:700}
+  .rev-table .st-keep{color:var(--ok);font-weight:700}
+  .rev-pager{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:10px;font-size:12px;color:var(--ink-soft)}
+  .rev-pager select{border:1px solid #c9c9d6;border-radius:6px;padding:4px 7px;font:inherit;font-size:12px;margin:0 4px}
+  .rev-pager .nav{display:flex;align-items:center;gap:6px}
+  .rev-pager .nav button{border:1px solid var(--line);background:#fff;border-radius:6px;min-width:30px;height:30px;font:inherit;font-size:13px;cursor:pointer;color:var(--ink)}
+  .rev-pager .nav button:hover:not(:disabled){background:var(--accent-weak);border-color:var(--accent);color:var(--accent)}
+  .rev-pager .nav button:disabled{color:#c4c4d2;cursor:not-allowed}
   .modal label{display:block;font-size:12.5px;font-weight:600;margin:0 0 6px}
   .modal textarea{width:100%;min-height:74px;border:1px solid var(--line);border-radius:8px;padding:10px;font:inherit;resize:vertical}
   .modal .count{font-size:11px;color:var(--ink-soft);text-align:right;margin-top:4px}
@@ -143,7 +185,12 @@
   .logtabs{display:flex;gap:2px;padding:0 12px;border-bottom:1px solid var(--line);flex-wrap:wrap}
   .logtab{padding:10px 12px;font-size:12.5px;color:var(--ink-soft);font-weight:600;border-bottom:3px solid transparent;cursor:pointer}
   .logtab.active{color:var(--accent);border-bottom-color:var(--accent)}
-  .logbody{padding:18px 20px;overflow:auto}
+  .logbody{padding:18px 20px;overflow:auto;flex:1}
+  .drawer-foot{padding:14px 20px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:10px;align-items:center;flex-wrap:wrap}
+  .drawer-foot .note{margin-right:auto;color:var(--err);font-size:12px;font-weight:600}
+  .del-list{list-style:none;margin:8px 0 0;padding:0;font-size:13px}
+  .del-list>li{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid var(--line)}
+  .del-list>li:last-child{border-bottom:0}
   .sumgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
   .sumcell{border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:#faf9ff}
   .sumcell .sk{font-size:10.5px;color:var(--ink-soft);font-weight:700;text-transform:uppercase;letter-spacing:.3px}
@@ -181,7 +228,7 @@
     <span class="tag">⚠ ILLUSTRATIVE MOCKUP — NOT PRODUCTION UI</span>
     &nbsp;Every element (grid, pills, menus, modal, drawer, toast, icons, colors, spacing) is a <b>hand-rolled stand-in</b> for
     <b>layout &amp; behavior only</b>. <b>Any deviation from the existing NXT/SchoolCafé component library and UI/UX practice is unintentional and must be replaced with real components.</b>
-    Semantics (columns, statuses, reverse gates) trace to shipped tickets; visuals do not.
+    Scope: this prototype covers the <b>Import &amp; Export Log page</b> plus <b>GL Accounts Import reverse (NXT-73326)</b>, and assumes a user with full permissions — so Reverse, its reverse-only statuses (Reversal In Progress / Partially Reversed / Reversed / Reverse Failed), and permission-gated hiding are shown here even though the base log story defers them. Semantics (columns, statuses, reverse behavior) trace to the stories; visuals do not.
   </div>
   <button onclick="document.getElementById('devBanner').classList.add('hide')">Got it — hide</button>
 </div>
@@ -205,6 +252,14 @@
      <a href="#" class="qlink" onclick="openMonitor('Export');return false;">Export Monitor ↗</a>.</p>
 </div>
 
+<div class="demo-switch">
+  <span class="demo-tag">Demo state — not part of the build</span>
+  <span class="demo-lbl">Reverse drawer:</span>
+  <button onclick="openReverse('Import-22519')">Clean full</button>
+  <button onclick="openReverse('Import-22600')">Blocked full</button>
+  <button onclick="openReverse('Import-22001')">Partial</button>
+</div>
+
 <div class="card">
   <div class="filterbar">
     <div class="fgroup">
@@ -220,7 +275,7 @@
     <div class="fgroup">
       <label>Status</label>
       <select id="fStatus" onchange="applyFilters()">
-        <option value="">All</option><option>Done</option><option>Error</option><option>In Progress</option><option>Reversal In Progress</option><option>Reversed</option>
+        <option value="">All</option><option>Done</option><option>Error</option><option>In Progress</option><option>Reversal In Progress</option><option>Partially Reversed</option><option>Reversed</option><option>Reverse Failed</option>
       </select>
     </div>
     <div class="fgroup">
@@ -239,6 +294,7 @@
         <input type="date" id="fTo" onchange="applyFilters()">
       </div>
     </div>
+    <div class="fgroup" style="margin-left:auto;align-self:center"><span class="sample-tag">● Sample data</span></div>
   </div>
 
   <table>
@@ -268,11 +324,11 @@
   <div class="pager" id="pager">
     <div class="pager-left">
       <span id="pagerSummary" class="muted"></span>
-      <label class="pager-size">Rows per page
+      <label class="pager-size">Show
         <select id="pageSize" onchange="setPageSize(this.value)">
           <option>5</option><option selected>10</option><option>25</option><option>50</option>
         </select>
-      </label>
+        per page</label>
     </div>
     <div class="pager-right" id="pagerBtns"></div>
   </div>
@@ -281,27 +337,13 @@
 <!-- OVERLAYS -->
 <div class="menu" id="rowMenu"></div>
 
-<div class="scrim" id="revScrim">
-  <div class="modal" role="dialog" aria-modal="true">
-    <div class="head">
-      <div class="warnico">⚠️</div>
-      <div>
-        <h3 id="revHead">Reverse Import</h3>
-        <p>Permanently deletes this import and everything it created. This is a hard delete — there is no offsetting entry.</p>
-      </div>
-    </div>
-    <div class="body">
-      <div class="impact" id="revWarn"></div>
-      <div class="details" id="revDetails"></div>
-      <label for="revComment">Reason for reversing (required, min 10 characters)</label>
-      <textarea id="revComment" maxlength="500" oninput="onCommentInput()" placeholder="Why are you reversing this import? Recorded on the audit trail."></textarea>
-      <div class="count" id="revCountWrap"><span id="revCount">0</span>/500 · <span id="revMin">need 10+</span></div>
-    </div>
-    <div class="foot">
-      <button class="btn ghost" onclick="closeReverse()" autofocus>Cancel</button>
-      <button class="btn danger" id="revProceed" disabled onclick="proceedReverse()">Confirm Reverse</button>
-    </div>
+<div class="drawer" id="revDrawer">
+  <div class="dhead">
+    <h3 id="revHead">Reverse import</h3>
+    <button class="iconbtn" onclick="closeReverse()">✕</button>
   </div>
+  <div class="logbody" id="revBody"></div>
+  <div class="drawer-foot" id="revFoot"></div>
 </div>
 
 <div class="drawer" id="logDrawer">
@@ -327,31 +369,52 @@ const IMPORT_TYPES = ['GL Accounts Import'];                  // OB & Payroll de
 const REPORT_TYPES = ['GL Report','Journal Report','P&L Report','Trial Balance','Balance Sheet'];
 const EXPORT_TYPES = [];                                       // none built yet
 
-let rows = [
-  // ---- IMPORTS (GL Accounts Import only) ----
-  // GL Accounts — Done, reversible (no gates; cascade scope shown in confirmation)
+// SAMPLE — replace with API call. Logged activity rows; reverse-drawer states are demoed via the switcher above.
+const SAMPLE_DATA = [
+  // ---- IMPORTS (GL Accounts Import — reverse per NXT-73326) ----
+  // FULL reversal candidate — zero posted activity on every account.
+  // Also has data-point mappings + a category with non-imported accounts (both surfaced in the dialog).
+  // Clean FULL reversal — no posted activity; has data-point mappings; no cleanup blocker.
   {id:'Import-22519', category:'Import', type:'GL Accounts Import', date:'05/21/2026 02:19 PM', sort:202605211419, user:'Prasoona Nalajala', status:'Done',
-   hasLog:true, recordType:'config', accounts:120, categories:8, reverseEligible:true,
-   deps:['1,284 journal entry lines posted to these accounts','2 GL entry template rules','1 sub-account mapping (SA-14)'],
-   sum:{total:160, added:0, updated:33, processed:33, exceptions:127, start:'05/21/2026 02:16 PM', end:'05/21/2026 02:19 PM'}},
+   hasLog:true, accounts:120, categories:8, subAccounts:120, subAccountMappings:3, templateRules:2, dataPoints:true, deleteCount:120, keepCount:0,
+   sum:{total:160, added:120, updated:33, processed:120, exceptions:0, start:'05/21/2026 02:16 PM', end:'05/21/2026 02:19 PM'}},
+  // BLOCKED FULL reversal — a category contains accounts created outside the import (cleanup required first).
+  {id:'Import-22600', category:'Import', type:'GL Accounts Import', date:'05/20/2026 02:10 PM', sort:202605201410, user:'Siva Chandalada', status:'Done',
+   hasLog:true, accounts:18, categories:2, subAccounts:18, subAccountMappings:1, templateRules:0, dataPoints:false, deleteCount:18, keepCount:0,
+   nonImported:{count:2, cat:'Local Revenue', list:['4900-100 Grant Income (created 05/30)','4900-200 Donations (created 06/01)']},
+   sum:{total:18, added:18, updated:0, processed:18, exceptions:0, start:'05/20/2026 02:09 PM', end:'05/20/2026 02:10 PM'}},
+  // PARTIAL reversal — 14 of 64 accounts have posted activity (kept); 50 zero-activity accounts deleted.
   {id:'Import-22001', category:'Import', type:'GL Accounts Import', date:'05/10/2026 10:15 AM', sort:202605101015, user:'Prasoona Nalajala', status:'Done',
-   hasLog:true, recordType:'config', accounts:64, categories:5, reverseEligible:true,
-   deps:['312 journal entry lines posted to these accounts','1 GL entry template rule'],
+   hasLog:true, accounts:64, categories:5, deleteCount:50, keepCount:14,
+   deleteList:['6100-000 Supplies','6200-000 Smallwares','6300-000 Uniforms','…and 47 more'],
+   keptList:['1000-000 Cash — 412 entries','4100-000 Meal Revenue — 1,180 entries','…and 12 more'],
+   deps:['50 site-level sub-accounts (zero-activity accounts only)','1 GL entry template rule'],
    sum:{total:69, added:64, updated:0, processed:64, exceptions:5, start:'05/10/2026 10:15 AM', end:'05/10/2026 10:16 AM'}},
-  // GL Accounts — Reversal In Progress (BL executing the hard delete) → actions disabled
+  // Reverse Failed → Retry button in the Actions column
+  {id:'Import-22300', category:'Import', type:'GL Accounts Import', date:'05/16/2026 03:30 PM', sort:202605161530, user:'Rahul Mehta', status:'Reverse Failed',
+   hasLog:true, accounts:30, categories:2, deleteCount:30, keepCount:0,
+   deps:['30 site-level sub-accounts'], reverseComment:'Wrong COA template uploaded; reversing to re-import the correct file.',
+   sum:{total:30, added:30, updated:0, processed:30, exceptions:0, start:'05/16/2026 03:28 PM', end:'05/16/2026 03:29 PM'}},
+  // Reversal In Progress (BL executing) → actions disabled
   {id:'Import-22480', category:'Import', type:'GL Accounts Import', date:'05/19/2026 09:02 AM', sort:202605190902, user:'Rahul Mehta', status:'Reversal In Progress',
-   hasLog:true, recordType:'config', accounts:40, categories:3, reverseEligible:false},
-  // GL Accounts — Error (import failed)
+   hasLog:true, accounts:40, categories:3,
+   sum:{total:43, added:40, updated:0, processed:40, exceptions:0, start:'05/19/2026 09:01 AM', end:'05/19/2026 09:02 AM'}},
+  // Error (import failed)
   {id:'Import-21990', category:'Import', type:'GL Accounts Import', date:'05/03/2026 02:20 PM', sort:202605031420, user:'Siva Chandalada', status:'Error',
-   hasLog:true, recordType:'config', reverseEligible:false,
-   sum:{total:64, added:0, updated:0, processed:0, exceptions:8, start:'05/03/2026 02:20 PM', end:'05/03/2026 02:21 PM'}},
-  // GL Accounts — In Progress (running) → View details + Reverse disabled
-  {id:'Import-22440', category:'Import', type:'GL Accounts Import', date:'05/01/2026 08:10 AM', sort:202605010810, user:'Prasoona Nalajala', status:'In Progress',
-   hasLog:false, recordType:'config', reverseEligible:false},
-  // GL Accounts — already Reversed
+   hasLog:true, sum:{total:64, added:0, updated:0, processed:0, exceptions:8, start:'05/03/2026 02:20 PM', end:'05/03/2026 02:21 PM'}},
+  // In Progress (running) → View details + Reverse disabled
+  {id:'Import-22440', category:'Import', type:'GL Accounts Import', date:'05/01/2026 08:10 AM', sort:202605010810, user:'Prasoona Nalajala', status:'In Progress', hasLog:false},
+  // Already fully Reversed
   {id:'Import-21755', category:'Import', type:'GL Accounts Import', date:'04/12/2026 11:40 AM', sort:202604121140, user:'Prasoona Nalajala', status:'Reversed',
-   hasLog:true, recordType:'config', reverseEligible:false,
+   hasLog:true, reversedBy:'Prasoona Nalajala', reversedAt:'04/13/2026 09:15 AM', reverseComment:'Imported the wrong fiscal year chart; reversing to re-import the correct file.',
    sum:{total:50, added:50, updated:0, processed:50, exceptions:0, start:'04/12/2026 11:40 AM', end:'04/12/2026 11:41 AM'}},
+  // Already Partially Reversed — drawer shows deleted vs kept + guidance
+  {id:'Import-21500', category:'Import', type:'GL Accounts Import', date:'03/28/2026 10:05 AM', sort:202603281005, user:'Prasoona Nalajala', status:'Partially Reversed',
+   hasLog:true, partial:true, deleteCount:42, keepCount:9,
+   reversedBy:'Prasoona Nalajala', reversedAt:'03/29/2026 11:00 AM', reverseComment:'Removing the unused supply accounts added by mistake.',
+   deletedList:['6100-000 Supplies','6200-000 Smallwares','…and 40 more'],
+   keptList:['1000-000 Cash — 360 entries','4100-000 Meal Revenue — 980 entries','…and 7 more'],
+   sum:{total:55, added:51, updated:0, processed:51, exceptions:0, start:'03/28/2026 10:05 AM', end:'03/28/2026 10:06 AM'}},
 
   // ---- REPORTS (Document Center + Power BI export events) ----
   {id:'GL Report — May 2026', category:'Report', type:'GL Report', date:'05/21/2026 03:12 PM', sort:202605211512, user:'Prasoona Nalajala', status:'Done', source:'Power BI', format:'PDF'},
@@ -362,8 +425,9 @@ let rows = [
 
   // ---- EXPORTS (configured export jobs) — none exist yet ----
 ];
+let rows = SAMPLE_DATA;
 
-const pillClass = {Done:'ok','In Progress':'run','Reversal In Progress':'run', Error:'err', Reversed:'rev'};
+const pillClass = {Done:'ok','In Progress':'run','Reversal In Progress':'run', Error:'err', Reversed:'rev','Partially Reversed':'part','Reverse Failed':'err'};
 let curCat='all', sortKey='sort', sortDir=-1, pageSize=10, curPage=1;
 
 function rebuildTypeFilter(){
@@ -397,7 +461,11 @@ function actionsHtml(r){
   if(r.category==='Export'){
     return `<span class="muted">—</span>`;   // configured exports: actions TBD (future story)
   }
-  return `<button class="iconbtn" title="Actions" onclick="openMenu(event,'${r.id}')">⋮</button>`;
+  // Import row. Reverse Failed surfaces an inline Retry (per NXT-73326 AC6), alongside the kebab.
+  let h='';
+  if(r.status==='Reverse Failed') h+=`<button class="linkbtn" title="Retry the reversal" onclick="retryReverse('${r.id}')">↻ Retry</button>`;
+  h+=`<button class="iconbtn" title="Actions" onclick="openMenu(event,'${r.id}')">⋮</button>`;
+  return h;
 }
 
 function colVal(c){ const el=document.querySelector('.filtrow [data-col="'+c+'"]'); return el?el.value:''; }
@@ -449,7 +517,7 @@ function render(){
   const pageRows=out.slice(start,start+pageSize);
   const g=document.getElementById('grid');
   const emptyMsg = curCat==='Export'
-    ? 'No configured exports yet. Configured export jobs will appear here once they are built (future story).'
+    ? "No configured exports yet. Configured export jobs will appear here once they're set up."
     : 'No import or export activity yet.';
   g.innerHTML = total ? pageRows.map(rowHtml).join('')
     : `<tr class="emptyrow"><td colspan="7">${emptyMsg}</td></tr>`;
@@ -458,7 +526,7 @@ function render(){
   closeMenu();
 }
 function renderPager(total,pages,start,shown){
-  document.getElementById('pagerSummary').textContent = total ? `${start+1}–${start+shown} of ${total}` : '0 of 0';
+  document.getElementById('pagerSummary').textContent = total ? `${start+1}–${start+shown} of ${total} items` : '0 items';
   const btns=document.getElementById('pagerBtns');
   let h=`<button ${curPage<=1?'disabled':''} onclick="gotoPage(${curPage-1})" title="Previous">‹</button>`;
   const win=[]; const add=n=>{if(!win.includes(n)&&n>=1&&n<=pages)win.push(n);};
@@ -488,22 +556,21 @@ function openMenu(ev,id){
   const r=dataFor(id);
   const menu=document.getElementById('rowMenu');
   let html='';
-  const busy = (r.status==='In Progress' || r.status==='Reversal In Progress');
-  const logDisabled = !r.hasLog || busy;
+  const logDisabled = !r.hasLog || r.status==='In Progress';   // Story 1 §3.1: disabled while running or no log data
   html+=`<button ${logDisabled?'disabled':''} onclick="viewLog('${id}')">📄 View details</button>`;
   if(logDisabled){
-    const why = r.status==='Reversal In Progress' ? 'Disabled while the reversal is in progress'
-              : r.status==='In Progress' ? 'Disabled while running'
-              : 'No log data to show';
+    const why = r.status==='In Progress' ? 'Disabled while the import is running' : 'No log data to show';
     html+=`<div class="why">${why}</div>`;
   }
   html+='<hr>';
-  if(r.reverseEligible){
+  if(r.status==='Done'){   // GL Accounts Import is always reversible when Done (NXT-73326 AC1)
     html+=`<button class="danger" onclick="openReverse('${id}')">↺ Reverse import</button>`;
   } else {
     html+=`<button class="danger" disabled>↺ Reverse import</button>`;
     const why = r.status==='Reversed' ? 'This import has already been reversed.'
+              : r.status==='Partially Reversed' ? 'Already partially reversed. Re-import to recreate the deleted accounts.'
               : r.status==='Reversal In Progress' ? 'A reversal is already in progress for this import.'
+              : r.status==='Reverse Failed' ? 'The last reversal failed — use Retry in the Actions column.'
               : r.status==='In Progress' ? 'Reverse becomes available once the import finishes.'
               : r.status==='Error' ? 'Import failed — there is nothing to reverse.'
               : 'Not reversible.';
@@ -524,13 +591,22 @@ function download(id){
   else alert('Stand-in: re-downloads "'+id+'" from the Document Center.');
 }
 
+// Entity sub-header for the drawers (matches the "Cash in Bank / Asset · Automatic / description" block).
+function entHead(r, desc){
+  return `<div class="ent-head">
+    <div class="ent-top"><div class="ent-name">${r.id}</div><span class="pill ${pillClass[r.status]||''}">${r.status}</span></div>
+    <div class="ent-tags"><span class="cat ${r.category.toLowerCase()}">${r.category}</span><span class="tag-type">${r.type}</span></div>
+    <div class="ent-desc" style="margin-top:8px">${desc}</div>
+  </div>`;
+}
+
 /* View details — HYBRID: inline summary in Financials + deep-link to System's full log.
    Financials does NOT rebuild the Activity Monitor / Source Data / History Log / Exceptions tabs. */
 const SUM_FIELDS=[['total','Total Records'],['added','Added'],['updated','Updated'],['processed','Processed'],['exceptions','Exceptions'],['status','Status'],['start','Start'],['end','End']];
 function viewLog(id){
   closeMenu();
   const r=dataFor(id); const s=r.sum||{};
-  document.getElementById('logTitle').textContent=`Run details — ${id}`;
+  document.getElementById('logTitle').textContent='Run details';
   const val=k=>{
     if(k==='status') return r.status;
     if(k==='start') return s.start || r.date;
@@ -541,18 +617,28 @@ function viewLog(id){
     const exc = (k==='exceptions' && Number(s[k])>0);
     return `<div class="sumcell ${exc?'exc':''}"><div class="sk">${label}</div><div class="sv">${val(k)}</div></div>`;
   }).join('');
-  const reversedBanner = r.status==='Reversed'
-    ? `<div class="revbanner">Reversed — the records this import created were permanently deleted. The DE log is retained in System for audit.</div>` : '';
+  const audit = (r.reversedBy||r.reversedAt||r.reverseComment)
+    ? `<div class="muted" style="font-size:11.5px;margin:0 0 12px">Reversed by ${r.reversedBy||'—'} on ${r.reversedAt||'—'}${r.reverseComment?` · “${r.reverseComment}”`:''}</div>` : '';
+  let extra='';
+  if(r.status==='Reversed'){
+    extra=`<div class="revbanner">Fully reversed — all imported accounts, categories, and dependent records were permanently deleted. The full import log is retained in System for audit.</div>${audit}`;
+  } else if(r.status==='Partially Reversed'){
+    extra=`<div class="revbanner">Partially reversed — ${r.deleteCount} accounts with no posted activity were deleted; ${r.keepCount} accounts with posted transactions were kept.</div>${audit}
+      <div class="dlg-grp del"><div class="h">Deleted — no activity (${r.deleteCount})</div><ul class="dlg-list">${(r.deletedList||[]).map(a=>`<li>${a}</li>`).join('')}</ul></div>
+      <div class="dlg-grp keep"><div class="h">Kept — posted transactions (${r.keepCount})</div><ul class="dlg-list">${(r.keptList||[]).map(a=>`<li>${a}</li>`).join('')}</ul></div>
+      <div class="guidance">To fix account details, re-import the correct file, then check Configuration for any mappings or rules that need to be set up again. To correct posted entries, use a manual journal entry. For larger changes, contact Support.</div>`;
+  }
   const body=document.getElementById('logBody');
   body.innerHTML=`
-    ${reversedBanner}
+    ${entHead(r, `Run by ${r.user} · ${r.date}`)}
+    ${extra}
     <p class="muted" style="margin:0 0 12px">Lightweight summary read from Import Monitor — enough to decide whether to reverse. The full tabbed log lives in System.</p>
-    <div class="sumgrid">${cells}</div>
-    <div style="margin-top:16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+    <div class="dcard"><div class="eyebrow">Run summary</div><div class="sumgrid">${cells}</div></div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:8px">
       <button class="btn ghost deeplink" title="Opens the full import log in System > Import Monitor." onclick="openSystem('${id}')">Open full log in System ↗</button>
       <span class="muted" style="font-size:11.5px">Opens this run in System &gt; Import Monitor in a new tab${r.status==='Error'?', on the Exceptions tab':''}.</span>
     </div>
-    <p class="muted" style="font-size:11.5px;margin-top:14px;line-height:1.5">Stand-in: Financials does <b>not</b> rebuild Activity Monitor / Source Data / History Log / Exceptions — those are DE-owned and reached via the deep-link (NXT-69421). Users without System Import Monitor access would see this summary only, with the deep-link hidden.</p>`;
+    <p class="muted" style="font-size:11.5px;margin-top:8px;line-height:1.5">Stand-in: Financials does <b>not</b> rebuild Activity Monitor / Source Data / History Log / Exceptions — those are DE-owned and reached via the deep-link (NXT-69421). Users without System Import Monitor access would see this summary only, with the deep-link hidden.</p>`;
   document.getElementById('logDrawer').classList.add('open');
 }
 function openSystem(id){
@@ -564,45 +650,98 @@ function openMonitor(which){
 }
 function closeLog(){ document.getElementById('logDrawer').classList.remove('open'); }
 
-/* Reverse (hard delete) flow — NO post-confirm undo; executes immediately on confirm. */
+/* Reverse flow (GL Accounts Import — NXT-73326). Side-drawer. Lifecycle-based: full vs partial.
+   Counts only — no per-item lists. Reason field + Reverse button show only when the reverse can
+   actually proceed (no blockers). No post-confirm undo; executes immediately on confirm. */
 let reverseId=null;
+function reverseMode(r){ return (r.keepCount>0) ? 'partial' : 'full'; }
+
+/* In-drawer paginated table of account categories + their associated accounts (the only itemized list). */
+let revAccounts=[], revTablePage=1, revTablePageSize=5, revTableStatus=false;
+const REV_CATS=['Assets','Liabilities','Fund Balance','Revenue','Expenditures','Purchased Services','Supplies & Materials','Capital Outlay'];
+const REV_NAMES=['Cash in Bank','Investments','Accounts Payable','Meal Revenue','A la Carte Sales','Catering Income','Salaries','Benefits','Food Cost','Smallwares','Supplies','Equipment'];
+function buildAccounts(r){
+  const n=r.accounts||0, cats=Math.min(r.categories||1, REV_CATS.length), out=[];
+  for(let i=0;i<n;i++) out.push({code:(1000+i*10)+'-000', name:REV_NAMES[i%REV_NAMES.length], cat:REV_CATS[i%cats]});
+  if(r.keepCount>0) out.forEach((a,i)=> a.st = i<r.keepCount ? 'Keep' : 'Delete');   // partial: first keepCount have activity
+  return out;
+}
+function renderRevTable(){
+  const wrap=document.getElementById('revTableWrap'); if(!wrap) return;
+  const total=revAccounts.length, ps=revTablePageSize, pages=Math.max(1,Math.ceil(total/ps));
+  if(revTablePage>pages) revTablePage=pages;
+  const start=(revTablePage-1)*ps, slice=revAccounts.slice(start,start+ps);
+  const rows=slice.map(a=>`<tr><td>${a.cat}</td><td>${a.code} ${a.name}</td>${revTableStatus?`<td class="${a.st==='Keep'?'st-keep':'st-del'}">${a.st}</td>`:''}</tr>`).join('');
+  wrap.innerHTML=`<table class="rev-table"><thead><tr><th>Category</th><th>Account</th>${revTableStatus?'<th>Status</th>':''}</tr></thead><tbody>${rows}</tbody></table>
+    <div class="rev-pager">
+      <span>Show <select onchange="revTableSize(this.value)">${[5,10,25].map(n=>`<option ${n===ps?'selected':''}>${n}</option>`).join('')}</select> per page</span>
+      <span class="nav">${start+1}–${start+slice.length} of ${total} items
+        <button ${revTablePage<=1?'disabled':''} onclick="revTableGo(${revTablePage-1})" title="Previous">‹</button>
+        <button ${revTablePage>=pages?'disabled':''} onclick="revTableGo(${revTablePage+1})" title="Next">›</button>
+      </span>
+    </div>`;
+}
+function revTableGo(n){ revTablePage=n; renderRevTable(); }
+function revTableSize(n){ revTablePageSize=Number(n); revTablePage=1; renderRevTable(); }
 function openReverse(id){
-  closeMenu();
-  const r=dataFor(id); reverseId=id;
-  document.getElementById('revHead').textContent=`Reverse import — ${r.type} (${r.id})`;
-  const erp = `If you've exported this data to your ERP, you'll need to reverse it there — <b>Financials does not update your ERP.</b>`;
-  let warn, details;
-  if(r.recordType==='config'){
-    warn = `This will permanently delete <b>${r.accounts} accounts, ${r.categories} categories</b>, and all records listed below. <b>This cannot be undone.</b> ${erp}`;
-    details = `<div class="scope">Everything that will be deleted</div>
-      <div class="row"><span>Accounts</span><b>${r.accounts}</b></div>
-      <div class="row"><span>Categories</span><b>${r.categories}</b></div>
-      <div style="margin-top:8px">Plus all records built on top of these accounts (cascade):</div>
-      <ul class="casc">${(r.deps||[]).map(d=>`<li>${d}</li>`).join('')}</ul>
-      <div style="margin-top:8px" class="muted">Chart of Accounts returns to its pre-import state.</div>`;
+  closeMenu(); closeLog();
+  const r=dataFor(id); if(!r) return;
+  reverseId=id;
+  const mode=reverseMode(r);
+  const blocked = !!(r.nonImported && r.nonImported.count);   // cleanup required → cannot proceed
+  document.getElementById('revHead').textContent='Reverse import';
+  revAccounts=buildAccounts(r); revTablePage=1; revTableStatus=(r.keepCount>0);
+
+  let b=entHead(r, `Imported ${r.date} · ${r.user}`);
+  if(mode==='partial'){
+    b+=`<div class="impact"><span class="ico">⚠️</span><div><b>${r.deleteCount} accounts</b> with no posted activity will be permanently deleted. <b>${r.keepCount} accounts</b> with posted transactions will be kept. <b>This cannot be undone.</b></div></div>`;
   } else {
-    warn = `This will permanently delete this import and all <b>${r.entries} entries</b> it created. <b>This cannot be undone.</b> ${erp}`;
-    details = `<div class="row"><span>Entries</span><b>${r.entries}</b></div>
-      <div class="row"><span>Lines</span><b>${r.lines}</b></div>
-      <div class="row"><span>Affected fiscal year(s)</span><b>${r.scope}</b></div>`;
-    if(r.dr) details += `<div class="row"><span>Total debits</span><b>${r.dr}</b></div>`;
-    if(r.cr) details += `<div class="row"><span>Total credits</span><b>${r.cr}</b></div>`;
+    b+=`<div class="impact"><span class="ico">⚠️</span><div>This will permanently delete <b>${r.accounts} accounts</b> across <b>${r.categories} categories</b> and the records tied to them. <b>This cannot be undone.</b></div></div>`;
   }
-  document.getElementById('revWarn').innerHTML=warn;
-  document.getElementById('revDetails').innerHTML=details;
-  const ta=document.getElementById('revComment'); ta.value=''; onCommentInput();
-  document.getElementById('revScrim').classList.add('open');
-  setTimeout(()=>ta.focus(),50);
+  b+=`<div class="dcard"><div class="eyebrow">Account categories &amp; accounts</div><div id="revTableWrap"></div></div>`;
+  if(mode==='partial') b+=`<div class="muted" style="font-size:12px;margin:-4px 0 14px">A category is kept if any of its accounts are kept.</div>`;
+
+  if(r.dataPoints){
+    b+=`<div class="dcard"><div class="eyebrow">Data point mappings</div>
+        <div class="muted" style="font-size:12px;line-height:1.5">Some of these accounts are mapped to data points. After reversing, go to <b>Financials &gt; Configuration &gt; Account Mapping</b> to see which data points are missing a GL account, re-map them to accounts from your new import, and resume posting.</div></div>`;
+  }
+
+  if(blocked){
+    b+=`<div class="dcard" style="border-color:#f0dca6;background:#fffdf6"><div class="eyebrow" style="color:#8a6d1a">Resolve before reversing</div>
+        <div class="muted" style="font-size:12px;margin-bottom:4px">${r.nonImported.count} accounts in the category “${r.nonImported.cat}” were created outside this import. Move them to another category first, then reverse.</div>
+        ${r.nonImported.list.map(a=>`<div class="amber-row"><span>⚠️</span><span>${a}</span></div>`).join('')}</div>`;
+  }
+
+  if(mode==='full') b+=`<div class="muted" style="font-size:12px;margin-top:4px">Chart of Accounts returns to its pre-import state.</div>`;
+
+  if(!blocked){
+    b+=`<div style="margin-top:18px">
+      <label for="revComment" style="display:block;font-size:12.5px;font-weight:600;margin-bottom:6px">Reason for reversing (required, min 10 characters)</label>
+      <textarea id="revComment" maxlength="500" oninput="onCommentInput()" placeholder="Why are you reversing this import? Recorded on the audit trail." style="width:100%;min-height:74px;border:1px solid var(--line);border-radius:8px;padding:10px;font:inherit;resize:vertical"></textarea>
+      <div class="count" id="revCountWrap" style="font-size:11px;color:var(--ink-soft);text-align:right;margin-top:4px"><span id="revCount">0</span>/500 · <span id="revMin">minimum 10 characters</span></div>
+    </div>`;
+  }
+  document.getElementById('revBody').innerHTML=b;
+  renderRevTable();
+
+  if(blocked){
+    document.getElementById('revFoot').innerHTML=`<span class="note">Reverse is blocked until the above is resolved.</span><button class="btn ghost" onclick="closeReverse()">Close</button>`;
+  } else {
+    document.getElementById('revFoot').innerHTML=`<button class="btn ghost" onclick="closeReverse()">Cancel</button><button class="btn danger" id="revProceed" disabled onclick="proceedReverse()">Reverse import</button>`;
+    onCommentInput();
+  }
+  document.getElementById('revDrawer').classList.add('open');
+  if(!blocked) setTimeout(()=>{const t=document.getElementById('revComment'); if(t) t.focus();},250);
 }
 function onCommentInput(){
-  const v=document.getElementById('revComment').value;
-  document.getElementById('revCount').textContent=v.length;
-  const ok=v.trim().length>=10;
-  document.getElementById('revProceed').disabled=!ok;
-  document.getElementById('revMin').textContent = ok?'ok ✓':'need 10+';
-  document.getElementById('revCountWrap').classList.toggle('bad',!ok && v.length>0);
+  const ta=document.getElementById('revComment'); if(!ta) return;
+  document.getElementById('revCount').textContent=ta.value.length;
+  const ok=ta.value.trim().length>=10;
+  const btn=document.getElementById('revProceed'); if(btn) btn.disabled=!ok;
+  document.getElementById('revMin').textContent = ok?'ok ✓':'minimum 10 characters';
+  document.getElementById('revCountWrap').classList.toggle('bad',!ok && ta.value.length>0);
 }
-function closeReverse(){ document.getElementById('revScrim').classList.remove('open'); reverseId=null; }
+function closeReverse(){ document.getElementById('revDrawer').classList.remove('open'); reverseId=null; }
 
 let toastTimer=null;
 function showToast(msg,ms){
@@ -611,18 +750,33 @@ function showToast(msg,ms){
   t.classList.add('show');
   clearTimeout(toastTimer); if(ms) toastTimer=setTimeout(()=>t.classList.remove('show'),ms);
 }
+function stamp(){ const d=new Date(); return d.toLocaleDateString('en-US')+' '+d.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}); }
 function proceedReverse(){
-  const id=reverseId; closeReverse();
+  const id=reverseId;
+  const comment=document.getElementById('revComment').value;
+  closeReverse();
+  runReverse(id, comment);
+}
+// Retry re-executes without re-showing the confirmation (NXT-73326 AC6); reuses the prior reason.
+function retryReverse(id){ closeMenu(); const r=dataFor(id); runReverse(id, r && r.reverseComment); }
+function runReverse(id, comment){
   const r=dataFor(id); if(!r) return;
-  // On confirm: status -> Reversal In Progress while BL executes the hard delete (no undo window)
-  r.status='Reversal In Progress'; r.reverseEligible=false;
+  const mode=reverseMode(r);
+  if(comment) r.reverseComment=comment;
+  r.reversedBy='Rahul Mehta'; r.reversedAt=stamp();   // audit trail (NXT-73326 AC14)
+  // On confirm/retry: status -> Reversal In Progress while BL deletes the records (no undo window)
+  r.status='Reversal In Progress';
   render();
-  showToast(`Reversing ${id} — deleting all records it created…`, 0);
-  // Simulate BL cascade completion
+  showToast(`Reversing ${id} — deleting accounts with no posted activity…`, 0);
   setTimeout(()=>{
-    r.status='Reversed'; r.deps=undefined;
+    if(mode==='partial'){
+      r.status='Partially Reversed'; r.partial=true; r.deletedList=r.deleteList;
+      showToast(`${id} partially reversed. ${r.deleteCount} zero-activity accounts deleted; ${r.keepCount} kept.`, 5000);
+    } else {
+      r.status='Reversed'; r.deps=undefined; r.dataPoints=undefined; r.nonImported=undefined;
+      showToast(`${id} reversed. ${r.accounts} accounts, ${r.categories} categories, and everything built on them were deleted.`, 5000);
+    }
     render();
-    showToast(`${id} reversed. The accounts, categories, and all records they built were permanently deleted.`, 4500);
   }, 1800);
 }
 </script>

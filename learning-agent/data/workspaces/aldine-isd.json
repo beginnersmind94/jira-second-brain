@@ -1,0 +1,215 @@
+{
+  "district_id": "aldine-isd",
+  "template": "schoolcafe-onboarding",
+  "sections": [
+    {
+      "key": "kickoff",
+      "label": "Kickoff & Discovery",
+      "auto": false,
+      "weight": 1,
+      "items": [
+        {
+          "id": "kickoff-call",
+          "label": "Kickoff call held",
+          "owner": "Cybersoft",
+          "status": "done",
+          "done_at": "2026-06-12T12:00:00+00:00",
+          "due": "",
+          "updated_at": "2026-06-12T12:00:00+00:00"
+        },
+        {
+          "id": "kickoff-stakeholders",
+          "label": "Stakeholders identified",
+          "owner": "Shared",
+          "status": "done",
+          "done_at": "2026-06-12T12:00:00+00:00",
+          "due": "",
+          "updated_at": "2026-06-12T12:00:00+00:00"
+        },
+        {
+          "id": "kickoff-plan",
+          "label": "Implementation plan shared",
+          "owner": "Cybersoft",
+          "status": "done",
+          "done_at": "2026-06-12T12:00:00+00:00",
+          "due": "",
+          "updated_at": "2026-06-12T12:00:00+00:00"
+        }
+      ]
+    },
+    {
+      "key": "data",
+      "label": "Data Migration",
+      "auto": false,
+      "weight": 3,
+      "items": [
+        {
+          "id": "data-sites",
+          "label": "Site list imported",
+          "owner": "District",
+          "status": "done",
+          "done_at": "2026-06-12T12:00:00+00:00",
+          "due": "",
+          "updated_at": "2026-06-12T12:00:00+00:00"
+        },
+        {
+          "id": "data-roster",
+          "label": "Staff roster imported",
+          "owner": "District",
+          "status": "blocked",
+          "done_at": null,
+          "due": "",
+          "updated_at": "2026-06-13T09:40:00+00:00",
+          "reason": "Import failing on Direct Cert rows — see notes.",
+          "blocked_since": "2026-06-13T09:40:00+00:00"
+        },
+        {
+          "id": "data-validate",
+          "label": "Historical data validated",
+          "owner": "Shared",
+          "status": "todo",
+          "done_at": null,
+          "due": "",
+          "updated_at": null
+        }
+      ]
+    },
+    {
+      "key": "config",
+      "label": "Configuration",
+      "auto": false,
+      "weight": 2,
+      "items": [
+        {
+          "id": "config-prices",
+          "label": "Meal prices configured",
+          "owner": "District",
+          "status": "todo",
+          "done_at": null,
+          "due": "",
+          "updated_at": null
+        },
+        {
+          "id": "config-eligibility",
+          "label": "Eligibility rules set",
+          "owner": "Shared",
+          "status": "todo",
+          "done_at": null,
+          "due": "",
+          "updated_at": null
+        },
+        {
+          "id": "config-pos",
+          "label": "POS hardware check",
+          "owner": "District",
+          "status": "todo",
+          "done_at": null,
+          "due": "",
+          "updated_at": null
+        }
+      ]
+    },
+    {
+      "key": "training",
+      "label": "Staff Training",
+      "auto": true,
+      "weight": 3,
+      "items": [
+        {
+          "id": "train-cashiers",
+          "label": "Cashiers trained",
+          "owner": "District",
+          "status": "todo",
+          "done_at": null,
+          "due": "",
+          "updated_at": null,
+          "role": "Cashier"
+        },
+        {
+          "id": "train-managers",
+          "label": "Site managers trained",
+          "owner": "District",
+          "status": "todo",
+          "done_at": null,
+          "due": "",
+          "updated_at": null,
+          "role": "Site Manager"
+        },
+        {
+          "id": "train-director",
+          "label": "CN Director onboarded",
+          "owner": "District",
+          "status": "todo",
+          "done_at": null,
+          "due": "",
+          "updated_at": null,
+          "role": "CN Director"
+        }
+      ]
+    },
+    {
+      "key": "uat",
+      "label": "UAT & Go-Live",
+      "auto": false,
+      "weight": 3,
+      "items": [
+        {
+          "id": "uat-signoff",
+          "label": "UAT sign-off",
+          "owner": "Shared",
+          "status": "todo",
+          "done_at": null,
+          "due": "",
+          "updated_at": null
+        },
+        {
+          "id": "uat-date",
+          "label": "Go-live date confirmed",
+          "owner": "Cybersoft",
+          "status": "todo",
+          "done_at": null,
+          "due": "",
+          "updated_at": null
+        },
+        {
+          "id": "uat-golive",
+          "label": "Go-live",
+          "owner": "Shared",
+          "status": "todo",
+          "done_at": null,
+          "due": "",
+          "updated_at": null
+        }
+      ]
+    }
+  ],
+  "tasks": [
+    {
+      "id": "07eb20fe9d6b",
+      "title": "Walk Aldine through Direct Certification import",
+      "owner": "Cybersoft",
+      "due": "2026-06-16",
+      "status": "open",
+      "created_at": "2026-06-12T12:00:00+00:00"
+    }
+  ],
+  "notes": [
+    {
+      "id": "bbd9b601b7a3",
+      "subject_type": "district",
+      "subject_id": "aldine-isd",
+      "body": "Staff roster import failing on Direct Cert rows. SM aware; scheduling a walkthrough.",
+      "author": "Sam Rivera",
+      "created_at": "2026-06-13T09:40:00+00:00"
+    }
+  ],
+  "activity": [
+    {
+      "id": "1492585dbe14",
+      "type": "seed",
+      "label": "Onboarding project created",
+      "actor": "System",
+      "at": "2026-06-10T08:00:00+00:00"
+    }
+  ]
+}

@@ -79,6 +79,23 @@ def _create_track(client, status="published"):
     return track
 
 
+@pytest.fixture(autouse=True)
+def _no_track_pollution():
+    """These tests POST to the live /api/tracks, which writes real JSON into
+    data/tracks/. Without cleanup, every run leaves "S3 Test Track" files behind
+    that flood the demo's track-builder picker. Snapshot the dir before each test
+    and delete only the tracks this test created — real tracks are untouched."""
+    import modules_store as _ms
+    before = {p.name for p in _ms.TRACKS_DIR.glob("*.json")}
+    yield
+    for p in _ms.TRACKS_DIR.glob("*.json"):
+        if p.name not in before:
+            try:
+                p.unlink()
+            except OSError:
+                pass
+
+
 # ── T1: Bulk assign by role ───────────────────────────────────────────────────
 
 def test_t1_bulk_assign_role():

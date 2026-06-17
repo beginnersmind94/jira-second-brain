@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cashier Learning Kit — SchoolCafé Learning Studio</title>
+<style>
+  :root{
+    --green:#0A6B3B; --green-deep:#08542F; --green-soft:#E0EFE6; --green-border:#BCD9C6;
+    --accent:#0A6B3B; --accent-ink:#FFFFFF; --ink:#1C211E; --text:#222A25; --muted:#5C665E;
+    --muted-aa:#46504a; --bg:#F6F4EE; --surface:#FFFFFF; --panel:#FBFAF6; --panel2:#F0EEE7;
+    --border:#E3E0D7; --border-strong:#CFCABD; --red:#C0392B; --red-soft:#FBEAE7; --red-text:#8E2C20;
+    --warn-soft:#FBF1D6; --warn-border:#E8D49A; --warn-text:#6B5310;
+    --radius:12px; --radius-sm:8px; --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --shadow:0 1px 3px rgba(0,0,0,.06); --shadow-lift:0 10px 34px rgba(0,0,0,.16);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:var(--font);background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;}
+  a{color:var(--green);}
+  header.top{display:flex;align-items:center;gap:14px;padding:12px 22px;background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:20;}
+  .brand{font-family:var(--serif);font-weight:650;font-size:18px;color:var(--green);}
+  .brand small{font-family:var(--font);font-weight:600;color:var(--muted);font-size:12px;}
+  .kit-badge{margin-left:auto;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted-aa);background:var(--panel2);border:1px solid var(--border);border-radius:20px;padding:4px 11px;}
+  .tabs{display:flex;gap:0;padding:0 22px;background:var(--surface);border-bottom:1px solid var(--border);}
+  .tab{padding:12px 20px;font-size:13.5px;font-weight:600;color:var(--muted-aa);background:none;border:none;border-bottom:2.5px solid transparent;cursor:pointer;}
+  .tab.active{color:var(--green);border-bottom-color:var(--green);}
+  .wrap{max-width:980px;margin:0 auto;padding:26px 22px 80px;}
+  .panel{display:none;}
+  .panel.active{display:block;}
+  h1{font-family:var(--serif);font-size:26px;margin:0 0 4px;}
+  h2{font-family:var(--serif);font-size:19px;margin:24px 0 10px;}
+  h3{font-size:15px;margin:0 0 6px;}
+  .sub{color:var(--muted);margin:0 0 18px;}
+  .btn{font:inherit;font-size:13px;font-weight:600;padding:8px 16px;border-radius:var(--radius-sm);border:1px solid var(--border-strong);background:var(--surface);color:var(--text);cursor:pointer;}
+  .btn:hover{border-color:var(--text);}
+  .btn.primary{background:var(--green);color:#fff;border-color:var(--green);}
+  .btn.primary:hover{background:var(--green-deep);}
+  .btn.sm{padding:4px 10px;font-size:12px;min-height:28px;}
+  .btn.danger{color:var(--red-text);}
+  .btn.danger:hover{background:var(--red-soft);border-color:var(--red);}
+  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);margin-bottom:16px;}
+  input[type=text],input[type=number],textarea,select{font:inherit;font-size:13.5px;padding:8px 10px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);width:100%;}
+  textarea{resize:vertical;min-height:54px;}
+  label.fl{display:block;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted-aa);margin:10px 0 4px;}
+  .pill{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;border-radius:14px;padding:2px 9px;}
+  .pill.cashier{background:var(--green-soft);color:var(--green-deep);border:1px solid var(--green-border);}
+  .cite{font-size:11.5px;color:var(--muted-aa);background:var(--panel2);border-left:3px solid var(--green-border);padding:5px 10px;border-radius:4px;margin-top:8px;}
+  .cite b{color:var(--green-deep);}
+
+  /* Learner view */
+  .hero{display:flex;gap:20px;align-items:center;background:linear-gradient(135deg,var(--green) 0%,var(--green-deep) 100%);color:#fff;border-radius:var(--radius);padding:22px 24px;margin-bottom:20px;}
+  .hero h1{color:#fff;}
+  .hero .sub{color:#D8EBE0;margin:0;}
+  .ring{flex:0 0 auto;width:78px;height:78px;position:relative;}
+  .ring svg{transform:rotate(-90deg);}
+  .ring .pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px;}
+  .lessons{list-style:none;margin:0;padding:0;}
+  .lesson{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:8px;background:var(--surface);cursor:pointer;}
+  .lesson:hover{border-color:var(--green-border);}
+  .lesson.done{background:var(--green-soft);border-color:var(--green-border);}
+  .lesson .ldot{flex:0 0 auto;width:26px;height:26px;border-radius:50%;border:2px solid var(--border-strong);display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--green-deep);background:var(--surface);}
+  .lesson.done .ldot{background:var(--green);border-color:var(--green);color:#fff;}
+  .lesson .lmeta{flex:1;}
+  .lesson .ltype{font-size:10.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);}
+  .lesson .ltitle{font-weight:600;font-size:14px;}
+  .ltag{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--muted-aa);border:1px solid var(--border);border-radius:4px;padding:1px 6px;}
+  .lesson-body{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;margin-top:6px;}
+  .lesson-body .src{margin-top:14px;}
+  .comp-grid{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0;}
+  .comp{display:flex;align-items:center;gap:7px;padding:8px 12px;border:1px solid var(--border-strong);border-radius:20px;cursor:pointer;font-size:13px;}
+  .comp.sel{background:var(--green-soft);border-color:var(--green);color:var(--green-deep);font-weight:600;}
+  .verdict{margin-top:10px;font-weight:700;}
+  .verdict.ok{color:var(--green-deep);} .verdict.no{color:var(--red-text);}
+  .cert{border:2px solid var(--green);border-radius:var(--radius);padding:28px;text-align:center;background:var(--panel);}
+  .cert .seal{font-size:34px;}
+
+  /* Builder */
+  .builder-grid{display:grid;grid-template-columns:230px 1fr;gap:18px;}
+  @media(max-width:760px){.builder-grid{grid-template-columns:1fr;}.hero{flex-direction:column;text-align:center;}}
+  .alist{list-style:none;margin:0;padding:0;}
+  .alist li{padding:9px 11px;border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:6px;cursor:pointer;font-size:13px;}
+  .alist li.sel{border-color:var(--green);background:var(--green-soft);font-weight:600;}
+  .alist li .qn{font-size:11px;color:var(--muted);font-weight:400;}
+  .q{border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:12px;background:var(--panel);}
+  .q .qhead{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+  .q .qtype{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--green-deep);background:var(--green-soft);border:1px solid var(--green-border);border-radius:4px;padding:2px 7px;}
+  .q .qhead .sp{margin-left:auto;display:flex;gap:5px;}
+  .opt-row{display:flex;align-items:center;gap:8px;margin:5px 0;}
+  .opt-row input[type=text]{flex:1;}
+  .match-row{display:flex;gap:8px;margin:5px 0;}
+  .typebar{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 4px;}
+  .empty{color:var(--muted);font-size:13px;padding:14px 0;}
+  /* Taker */
+  .taker .tq{margin-bottom:18px;}
+  .taker .tq .prompt{font-weight:600;margin-bottom:8px;}
+  .taker label.opt{display:flex;align-items:center;gap:9px;padding:8px 11px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);margin:5px 0;cursor:pointer;}
+  .taker label.opt.correct{background:var(--green-soft);border-color:var(--green);}
+  .taker label.opt.wrong{background:var(--red-soft);border-color:var(--red);}
+  .scorebar{font-family:var(--serif);font-size:20px;font-weight:700;margin-bottom:6px;}
+  .note{font-size:12.5px;color:var(--muted-aa);}
+  .hide{display:none!important;}
+</style>
+</head>
+<body>
+<header class="top">
+  <span class="brand">school<span style="color:var(--ink)">café</span> · <small>Cashier Learning Kit</small></span>
+  <span class="kit-badge">Self-contained · works offline</span>
+</header>
+<div class="tabs">
+  <button class="tab active" data-tab="learner" onclick="showTab('learner')">Learner view</button>
+  <button class="tab" data-tab="builder" onclick="showTab('builder')">Assessment builder</button>
+</div>
+
+<!-- ───────────────── LEARNER VIEW ───────────────── -->
+<div class="wrap panel active" id="panel-learner">
+  <div class="hero">
+    <div class="ring" id="ring"></div>
+    <div>
+      <span class="pill cashier">Cashier</span>
+      <h1 id="track-title"></h1>
+      <p class="sub" id="track-desc"></p>
+    </div>
+  </div>
+  <h2 id="course-title" style="margin-top:0;"></h2>
+  <ul class="lessons" id="lessons"></ul>
+  <div id="lesson-detail"></div>
+  <div id="cert-zone"></div>
+</div>
+
+<!-- ───────────────── ASSESSMENT BUILDER ───────────────── -->
+<div class="wrap panel" id="panel-builder">
+  <h1>Assessment builder</h1>
+  <p class="sub">Build cashier assessments in any format. Everything saves in this browser; use Export to share a file.</p>
+  <div class="builder-grid">
+    <div>
+      <button class="btn primary" style="width:100%;margin-bottom:10px;" onclick="newAssessment()">+ New assessment</button>
+      <ul class="alist" id="alist"></ul>
+      <div class="row" style="margin-top:10px;">
+        <button class="btn sm" onclick="exportAll()">Export</button>
+        <button class="btn sm" onclick="document.getElementById('importfile').click()">Import</button>
+        <input type="file" id="importfile" accept="application/json" class="hide" onchange="importAll(event)">
+      </div>
+    </div>
+    <div id="editor"></div>
+  </div>
+</div>
+
+<script>
+"use strict";
+/* ============================================================
+   EMBEDDED CASHIER DATA — real structure + grounded, cited claims.
+   No network calls; everything below ships inside this file.
+   ============================================================ */
+var CASHIER_TRACK = {
+  title: "New Cashier Onboarding",
+  role: "Cashier",
+  desc: "Learn the POS system, meal service workflows, and end-of-day closing — everything you need to run the register on day one.",
+  course: "POS Fundamentals",
+  lessons: [
+    { type:"guide", title:"POS Basics",
+      body:"<p>At the point of service, the cashier identifies the student and confirms the meal before completing the sale.</p>"+
+           "<ul><li><b>Select the student's meal status before ringing the transaction.</b> Free, reduced, and paid statuses are applied at the register so the meal is counted and charged correctly.</li>"+
+           "<li><b>A reimbursable meal requires at least three of the five meal components.</b> Under offer-versus-serve, the student must select the minimum to count the meal for reimbursement.</li></ul>",
+      cites:[ {q:"Cashiers select the student's meal status before ringing the transaction.", src:"POS Basics guide · NXT-66012 AC"},
+              {q:"A reimbursable meal requires at least three of the five components.", src:"POS Basics guide · USDA meal pattern"} ] },
+    { type:"video", title:"Food Safety: Hand Hygiene in School Nutrition", dur:"4 min",
+      body:"<p>A short food-safety refresher on proper hand hygiene during meal service.</p>"+
+           "<p class='note'>This is outside-vendor content from the Institute of Child Nutrition (ICN). It is linked, never reproduced — open it from the ICN library.</p>",
+      external:true,
+      cites:[ {q:"Embedded ICN food-safety video — credited to its source.", src:"ICN · Hand Hygiene demo"} ] },
+    { type:"guide", title:"Counting Meals Correctly",
+      body:"<p>Accurate meal counts protect the program's reimbursement and audit standing.</p>"+
+           "<ul><li><b>Meal counts are taken at the point of service, not at production.</b> The count reflects meals actually served to eligible students at the register.</li></ul>",
+      cites:[ {q:"Meal counts are taken at the point of service, not at production.", src:"Counting Meals guide · NXT-66120 AC"} ] },
+    { type:"exercise", title:"Reimbursable Meal Check", interactive:"meal" },
+    { type:"quiz", title:"POS Knowledge Check", launchSeed:true }
+  ]
+};
+
+// The five NSLP meal components (USDA meal pattern) — used by the exercise + a seed question.
+var MEAL_COMPONENTS = ["Meat / Meat Alternate","Grains","Fruit","Vegetable","Milk"];
+
+/* A real, grounded example assessment across formats — the trainer can edit or delete it. */
+var SEED_ASSESSMENT = {
+  id: "seed-pos-knowledge-check",
+  title: "POS Knowledge Check (example)",
+  role: "Cashier",
+  questions: [
+    { type:"mcq", prompt:"Before ringing a transaction, what must a cashier select?",
+      options:["The student's meal status","The cafeteria's daily menu","The next student in line","The end-of-day report"],
+      answer:0, source:"POS Basics guide · NXT-66012 AC" },
+    { type:"truefalse", prompt:"Meal counts are taken at production, not at the point of service.",
+      answer:false, source:"Counting Meals guide · NXT-66120 AC" },
+    { type:"multi", prompt:"Select the five reimbursable meal components.",
+      options:["Meat / Meat Alternate","Grains","Fruit","Vegetable","Milk","Dessert","Condiments"],
+      answers:[0,1,2,3,4], source:"USDA meal pattern" },
+    { type:"short", prompt:"At minimum, how many of the five components make a reimbursable meal?",
+      accept:["3","three"], source:"POS Basics guide · USDA meal pattern" },
+    { type:"match", prompt:"Match each meal component to an example.",
+      pairs:[ {left:"Milk", right:"Carton of 1% milk"}, {left:"Grains", right:"Whole-grain roll"},
+              {left:"Fruit", right:"Apple slices"}, {left:"Vegetable", right:"Side salad"} ],
+      source:"USDA meal pattern" }
+  ]
+};
+
+var QTYPES = { mcq:"Multiple choice", multi:"Multiple select", truefalse:"True / False", short:"Short answer", match:"Matching" };
+
+/* ============================================================ TAB + STATE */
+function showTab(t){
+  document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===t));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+t).classList.add('active');
+}
+function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+/* ============================================================ LEARNER VIEW */
+var _done = {};  // lesson index -> true
+function _progress(){ var n=CASHIER_TRACK.lessons.length; var d=Object.keys(_done).filter(k=>_done[k]).length; return {d:d,n:n,pct:Math.round(100*d/n)}; }
+function renderRing(){
+  var p=_progress(), r=34, c=2*Math.PI*r, off=c*(1-p.pct/100);
+  document.getElementById('ring').innerHTML =
+    '<svg width="78" height="78" viewBox="0 0 78 78"><circle cx="39" cy="39" r="'+r+'" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="7"/>'+
+    '<circle cx="39" cy="39" r="'+r+'" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-dasharray="'+c+'" stroke-dashoffset="'+off+'"/></svg>'+
+    '<span class="pct" style="color:#fff">'+p.pct+'%</span>';
+}
+function renderLearner(){
+  document.getElementById('track-title').textContent = CASHIER_TRACK.title;
+  document.getElementById('track-desc').textContent = CASHIER_TRACK.desc;
+  document.getElementById('course-title').textContent = CASHIER_TRACK.course;
+  var ic={guide:'📄',video:'▶',exercise:'✎',quiz:'?'};
+  document.getElementById('lessons').innerHTML = CASHIER_TRACK.lessons.map((l,i)=>
+    '<li class="lesson'+(_done[i]?' done':'')+'" onclick="openLesson('+i+')">'+
+      '<span class="ldot">'+(_done[i]?'✓':(i+1))+'</span>'+
+      '<span class="lmeta"><span class="ltype">'+esc(l.type)+(l.dur?' · '+esc(l.dur):'')+'</span><div class="ltitle">'+esc(l.title)+'</div></span>'+
+      '<span class="ltag">'+ic[l.type]+'</span>'+
+    '</li>').join('');
+  renderRing();
+  renderCert();
+}
+function openLesson(i){
+  var l=CASHIER_TRACK.lessons[i], el=document.getElementById('lesson-detail');
+  var h='<div class="lesson-body"><div class="row" style="justify-content:space-between"><h2 style="margin:0">'+esc(l.title)+'</h2><span class="ltag">'+esc(l.type)+'</span></div>';
+  if(l.type==='quiz' && l.launchSeed){
+    h+='<p class="sub" style="margin-top:10px">A 5-question check on POS basics and reimbursable meals.</p>'+
+       '<button class="btn primary" onclick="takeAssessment(\'seed-pos-knowledge-check\',true)">Start the knowledge check →</button>';
+  } else if(l.type==='exercise' && l.interactive==='meal'){
+    h+=mealExerciseHtml();
+  } else {
+    h+='<div style="margin-top:12px">'+(l.body||'')+'</div>';
+    if(l.external) h+='<p><a href="#" onclick="alert(\'In the full product this opens the ICN video at its source — link-out, never reproduced.\');return false;">Watch on ICN ↗</a></p>';
+    (l.cites||[]).forEach(c=> h+='<div class="cite src">📎 <b>Source:</b> &ldquo;'+esc(c.q)+'&rdquo; — '+esc(c.src)+'</div>');
+  }
+  h+='<div class="row" style="margin-top:16px"><button class="btn primary" onclick="markLesson('+i+')">'+(_done[i]?'Completed ✓':'Mark complete')+'</button>';
+  if(i<CASHIER_TRACK.lessons.length-1) h+='<button class="btn" onclick="markLesson('+i+');openLesson('+(i+1)+')">Next lesson →</button>';
+  h+='</div></div>';
+  el.innerHTML=h; el.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function markLesson(i){ _done[i]=true; renderLearner(); }
+function mealExerciseHtml(){
+  return '<p class="sub" style="margin-top:10px">A reimbursable meal needs <b>at least three of the five</b> components. Tap the components on the tray, then check it.</p>'+
+    '<div class="comp-grid" id="meal-grid">'+MEAL_COMPONENTS.map((c,i)=>'<span class="comp" data-i="'+i+'" onclick="this.classList.toggle(\'sel\');document.getElementById(\'meal-verdict\').innerHTML=\'\'">'+esc(c)+'</span>').join('')+'</div>'+
+    '<button class="btn" onclick="checkMeal()">Check the tray</button><div class="verdict" id="meal-verdict"></div>'+
+    '<div class="cite src">📎 <b>Source:</b> &ldquo;A reimbursable meal requires at least three of the five components.&rdquo; — POS Basics guide · USDA meal pattern</div>';
+}
+function checkMeal(){
+  var n=document.querySelectorAll('#meal-grid .comp.sel').length, v=document.getElementById('meal-verdict');
+  if(n>=3) v.innerHTML='<span class="ok">✓ Reimbursable — '+n+' of 5 components selected.</span>';
+  else v.innerHTML='<span class="no">✗ Not reimbursable — only '+n+' of 5. Needs at least 3.</span>';
+}
+function renderCert(){
+  var p=_progress(), z=document.getElementById('cert-zone');
+  if(p.d<p.n){ z.innerHTML=''; return; }
+  z.innerHTML='<div class="card cert"><div class="seal">🏅</div><h2 style="margin:6px 0">Certificate of Completion</h2>'+
+    '<p class="sub">New Cashier Onboarding — POS Fundamentals</p>'+
+    '<div class="row" style="justify-content:center"><input type="text" id="cert-name" placeholder="Type your name" style="max-width:240px" oninput="document.getElementById(\'cert-name-out\').textContent=this.value||\'________\'"></div>'+
+    '<p style="margin-top:14px">Awarded to <b id="cert-name-out">________</b> on '+new Date().toLocaleDateString()+'.</p>'+
+    '<button class="btn primary" onclick="window.print()">Print / Save PDF</button></div>';
+}
+
+/* ============================================================ ASSESSMENT BUILDER */
+var KEY='cashierkit_assessments_v1';
+var _store=[], _selId=null, _takeMode=false;
+function load(){ try{ _store=JSON.parse(localStorage.getItem(KEY))||[]; }catch(e){ _store=[]; }
+  if(!_store.length){ _store=[JSON.parse(JSON.stringify(SEED_ASSESSMENT))]; save(); }
+  _selId=_store[0].id;
+}
+function save(){ try{ localStorage.setItem(KEY,JSON.stringify(_store)); }catch(e){} }
+function uid(){ return 'a'+Math.random().toString(36).slice(2,9); }
+function cur(){ return _store.find(a=>a.id===_selId); }
+function renderList(){
+  document.getElementById('alist').innerHTML=_store.map(a=>
+    '<li class="'+(a.id===_selId?'sel':'')+'" onclick="selectAssessment(\''+a.id+'\')">'+esc(a.title)+
+    '<div class="qn">'+(a.questions||[]).length+' question'+((a.questions||[]).length===1?'':'s')+'</div></li>').join('')
+    || '<li class="empty">No assessments yet.</li>';
+}
+function selectAssessment(id){ _selId=id; _takeMode=false; renderBuilder(); }
+function newAssessment(){ var a={id:uid(),title:'Untitled assessment',role:'Cashier',questions:[]}; _store.push(a); _selId=a.id; _takeMode=false; save(); renderBuilder(); }
+function delAssessment(){ if(!confirm('Delete this assessment?'))return; _store=_store.filter(a=>a.id!==_selId); _selId=_store[0]&&_store[0].id; save(); renderBuilder(); }
+function setTitle(v){ var a=cur(); if(a){ a.title=v; save(); renderList(); } }
+
+function blankQ(type){
+  if(type==='mcq') return {type:'mcq',prompt:'',options:['',''],answer:0,source:''};
+  if(type==='multi') return {type:'multi',prompt:'',options:['',''],answers:[],source:''};
+  if(type==='truefalse') return {type:'truefalse',prompt:'',answer:true,source:''};
+  if(type==='short') return {type:'short',prompt:'',accept:[''],source:''};
+  if(type==='match') return {type:'match',prompt:'',pairs:[{left:'',right:''},{left:'',right:''}],source:''};
+}
+function addQ(type){ var a=cur(); if(!a)return; a.questions.push(blankQ(type)); save(); renderBuilder(); }
+function delQ(i){ var a=cur(); a.questions.splice(i,1); save(); renderBuilder(); }
+function moveQ(i,d){ var a=cur(),j=i+d; if(j<0||j>=a.questions.length)return; var t=a.questions[i];a.questions[i]=a.questions[j];a.questions[j]=t; save(); renderBuilder(); }
+
+function renderBuilder(){
+  var a=cur(), e=document.getElementById('editor');
+  if(!a){ e.innerHTML='<div class="empty">Create an assessment to begin.</div>'; renderList(); return; }
+  if(_takeMode){ renderTaker(e,a); renderList(); return; }
+  var h='<div class="card"><div class="row" style="justify-content:space-between">'+
+    '<input type="text" value="'+esc(a.title)+'" oninput="setTitle(this.value)" style="font-family:var(--serif);font-size:18px;font-weight:650;border:none;background:none;padding:0;">'+
+    '<span class="pill cashier">Cashier</span></div>'+
+    '<div class="row" style="margin-top:8px"><button class="btn sm primary" onclick="_takeMode=true;renderBuilder()">Preview / Take</button>'+
+    '<button class="btn sm danger" onclick="delAssessment()">Delete</button></div></div>';
+  (a.questions||[]).forEach((q,i)=>{ h+=qEditor(q,i); });
+  h+='<div class="card"><label class="fl">Add a question</label><div class="typebar">'+
+     Object.keys(QTYPES).map(t=>'<button class="btn sm" onclick="addQ(\''+t+'\')">+ '+QTYPES[t]+'</button>').join('')+'</div></div>';
+  e.innerHTML=h; renderList();
+}
+function qEditor(q,i){
+  var h='<div class="q"><div class="qhead"><span class="qtype">'+QTYPES[q.type]+'</span>'+
+        '<span class="sp"><button class="btn sm" onclick="moveQ('+i+',-1)" title="Up">↑</button>'+
+        '<button class="btn sm" onclick="moveQ('+i+',1)" title="Down">↓</button>'+
+        '<button class="btn sm danger" onclick="delQ('+i+')">✕</button></span></div>';
+  h+='<label class="fl">Question</label><textarea oninput="setQ('+i+',\'prompt\',this.value)">'+esc(q.prompt)+'</textarea>';
+  if(q.type==='mcq'||q.type==='multi'){
+    h+='<label class="fl">Options ('+(q.type==='mcq'?'pick the correct one':'check all correct')+')</label>';
+    q.options.forEach((o,oi)=>{
+      var checked = q.type==='mcq' ? (q.answer===oi) : (q.answers||[]).includes(oi);
+      var input = q.type==='mcq'
+        ? '<input type="radio" name="ans'+i+'" '+(checked?'checked':'')+' onclick="setAnswer('+i+','+oi+')">'
+        : '<input type="checkbox" '+(checked?'checked':'')+' onclick="toggleMulti('+i+','+oi+',this.checked)">';
+      h+='<div class="opt-row">'+input+'<input type="text" value="'+esc(o)+'" oninput="setOpt('+i+','+oi+',this.value)"><button class="btn sm danger" onclick="delOpt('+i+','+oi+')">✕</button></div>';
+    });
+    h+='<button class="btn sm" onclick="addOpt('+i+')">+ Option</button>';
+  } else if(q.type==='truefalse'){
+    h+='<label class="fl">Correct answer</label><select onchange="setQ('+i+',\'answer\',this.value===\'true\')"><option value="true"'+(q.answer?' selected':'')+'>True</option><option value="false"'+(!q.answer?' selected':'')+'>False</option></select>';
+  } else if(q.type==='short'){
+    h+='<label class="fl">Accepted answers (comma-separated; case-insensitive)</label><input type="text" value="'+esc((q.accept||[]).join(', '))+'" oninput="setAccept('+i+',this.value)">';
+  } else if(q.type==='match'){
+    h+='<label class="fl">Pairs</label>';
+    q.pairs.forEach((p,pi)=> h+='<div class="match-row"><input type="text" placeholder="Left" value="'+esc(p.left)+'" oninput="setPair('+i+','+pi+',\'left\',this.value)"><span style="align-self:center">↔</span><input type="text" placeholder="Right" value="'+esc(p.right)+'" oninput="setPair('+i+','+pi+',\'right\',this.value)"><button class="btn sm danger" onclick="delPair('+i+','+pi+')">✕</button></div>');
+    h+='<button class="btn sm" onclick="addPair('+i+')">+ Pair</button>';
+  }
+  h+='<label class="fl">Source / citation (optional, keeps it grounded)</label><input type="text" value="'+esc(q.source||'')+'" placeholder="e.g. POS Basics guide · NXT-66012 AC" oninput="setQ('+i+',\'source\',this.value)">';
+  h+='</div>'; return h;
+}
+function setQ(i,k,v){ cur().questions[i][k]=v; save(); }
+function setOpt(i,oi,v){ cur().questions[i].options[oi]=v; save(); }
+function addOpt(i){ cur().questions[i].options.push(''); save(); renderBuilder(); }
+function delOpt(i,oi){ var q=cur().questions[i]; q.options.splice(oi,1); if(q.type==='mcq'&&q.answer>=q.options.length)q.answer=0; if(q.answers)q.answers=q.answers.filter(x=>x!==oi).map(x=>x>oi?x-1:x); save(); renderBuilder(); }
+function setAnswer(i,oi){ cur().questions[i].answer=oi; save(); }
+function toggleMulti(i,oi,on){ var q=cur().questions[i]; q.answers=q.answers||[]; if(on){if(!q.answers.includes(oi))q.answers.push(oi);}else{q.answers=q.answers.filter(x=>x!==oi);} save(); }
+function setAccept(i,v){ cur().questions[i].accept=v.split(',').map(s=>s.trim()).filter(Boolean); save(); }
+function setPair(i,pi,k,v){ cur().questions[i].pairs[pi][k]=v; save(); }
+function addPair(i){ cur().questions[i].pairs.push({left:'',right:''}); save(); renderBuilder(); }
+function delPair(i,pi){ cur().questions[i].pairs.splice(pi,1); save(); renderBuilder(); }
+
+/* ---- Taker / preview / scoring ---- */
+function renderTaker(e,a){
+  var h='<div class="card taker"><div class="row" style="justify-content:space-between"><h2 style="margin:0">'+esc(a.title)+'</h2>'+
+    '<button class="btn sm" onclick="_takeMode=false;renderBuilder()">← Back to editing</button></div>';
+  if(!(a.questions||[]).length){ h+='<div class="empty">No questions yet.</div></div>'; e.innerHTML=h; return; }
+  h+='<div id="take-form">';
+  a.questions.forEach((q,i)=> h+=takeQ(q,i));
+  h+='</div><button class="btn primary" onclick="gradeTaker()">Submit</button> <button class="btn" onclick="renderBuilder()">Reset</button><div id="take-result" style="margin-top:14px"></div></div>';
+  e.innerHTML=h;
+}
+function takeQ(q,i){
+  var h='<div class="tq" data-i="'+i+'"><div class="prompt">'+(i+1)+'. '+esc(q.prompt||'(no prompt)')+'</div>';
+  if(q.type==='mcq') q.options.forEach((o,oi)=> h+='<label class="opt"><input type="radio" name="t'+i+'" value="'+oi+'">'+esc(o)+'</label>');
+  else if(q.type==='multi') q.options.forEach((o,oi)=> h+='<label class="opt"><input type="checkbox" name="t'+i+'" value="'+oi+'">'+esc(o)+'</label>');
+  else if(q.type==='truefalse'){ h+='<label class="opt"><input type="radio" name="t'+i+'" value="true">True</label><label class="opt"><input type="radio" name="t'+i+'" value="false">False</label>'; }
+  else if(q.type==='short') h+='<input type="text" name="t'+i+'" placeholder="Type your answer">';
+  else if(q.type==='match'){
+    var rights=q.pairs.map(p=>p.right); shuffle(rights);
+    q.pairs.forEach((p,pi)=>{ h+='<div class="match-row"><span style="flex:1;align-self:center">'+esc(p.left)+'</span><select name="t'+i+'_'+pi+'"><option value="">— choose —</option>'+rights.map(r=>'<option value="'+esc(r)+'">'+esc(r)+'</option>').join('')+'</select></div>'; });
+  }
+  h+='</div>'; return h;
+}
+function shuffle(a){ for(var i=a.length-1;i>0;i--){var j=Math.floor((i+1)*((Math.sin(i*97.13)+1)/2));var t=a[i];a[i]=a[j];a[j]=t;} return a; }
+function gradeTaker(){
+  var a=cur(), got=0, tot=a.questions.length, out='';
+  a.questions.forEach((q,i)=>{
+    var ok=false, detail='';
+    if(q.type==='mcq'){ var sel=document.querySelector('[name=t'+i+']:checked'); ok=sel&&+sel.value===q.answer; }
+    else if(q.type==='truefalse'){ var s=document.querySelector('[name=t'+i+']:checked'); ok=s&&(s.value==='true')===!!q.answer; }
+    else if(q.type==='multi'){ var picks=[...document.querySelectorAll('[name=t'+i+']:checked')].map(x=>+x.value).sort(); var ans=(q.answers||[]).slice().sort(); ok=picks.length===ans.length&&picks.every((v,k)=>v===ans[k]); }
+    else if(q.type==='short'){ var v=(document.querySelector('[name=t'+i+']')||{}).value||''; ok=(q.accept||[]).some(x=>x.toLowerCase()===v.trim().toLowerCase()); }
+    else if(q.type==='match'){ ok=q.pairs.every((p,pi)=>{ var s=document.querySelector('[name=t'+i+'_'+pi+']'); return s&&s.value===p.right; }); }
+    if(ok)got++;
+    detail='<div class="tq"><span class="'+(ok?'verdict ok':'verdict no')+'">'+(ok?'✓':'✗')+' Q'+(i+1)+'</span> '+esc(q.prompt)+
+      (q.source?'<div class="cite">📎 '+esc(q.source)+'</div>':'')+'</div>';
+    out+=detail;
+  });
+  var pct=Math.round(100*got/tot);
+  document.getElementById('take-result').innerHTML='<div class="scorebar">'+got+' / '+tot+'  ('+pct+'%)</div>'+out;
+}
+function takeAssessment(id,fromLearner){ showTab('builder'); _selId=id; _takeMode=true; renderBuilder(); window.scrollTo(0,0); }
+
+/* ---- Export / import ---- */
+function exportAll(){
+  var blob=new Blob([JSON.stringify(_store,null,2)],{type:'application/json'});
+  var u=URL.createObjectURL(blob), aTag=document.createElement('a'); aTag.href=u; aTag.download='cashier-assessments.json'; aTag.click(); URL.revokeObjectURL(u);
+}
+function importAll(ev){
+  var f=ev.target.files[0]; if(!f)return; var r=new FileReader();
+  r.onload=function(){ try{ var d=JSON.parse(r.result); if(Array.isArray(d)){ _store=d; _selId=d[0]&&d[0].id; save(); renderBuilder(); } else alert('Not a valid assessments file.'); }catch(e){ alert('Could not read that file.'); } };
+  r.readAsText(f); ev.target.value='';
+}
+
+/* ============================================================ INIT */
+load();
+renderLearner();
+renderBuilder();
+</script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "track_id": "track-g1-cashier-onboarding",
+  "nudges": [
+    {
+      "user_id": "u1",
+      "nudged_at": "2026-06-16T06:32:46+00:00",
+      "nudged_by": "demo-user-003"
+    }
+  ]
+}
