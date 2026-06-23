@@ -1,0 +1,7 @@
+sync_run: 2026-06-23T14:07:56Z
+status: FAILED
+stage: Step 1 — Query Jira
+reason: Atlassian MCP server did not connect; no Jira tools available
+jql: issuetype = Story AND ("Module" = "Financials" OR component = "Financials") AND updated >= -4d ORDER BY updated DESC
+pre_existing_csvs_in_raw_imports: none
+action_taken: no CSV written, no ingest.py run, no tickets modified
