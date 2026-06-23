@@ -97,13 +97,16 @@ body{
 .uc-check{margin-left:auto; color:var(--accent); display:inline-flex; flex:none;}
 .uc-check svg{width:16px; height:16px;}
 
-.appbar{flex:none; padding:18px 28px 8px; background:var(--bg);}
+.appbar{flex:none; padding:16px 28px 2px; background:var(--bg); display:flex; align-items:flex-start; gap:22px;}
+.ab-left{flex:0 1 auto; min-width:0;}
+.ab-aside{margin-left:auto; flex:0 1 560px; max-width:560px; min-width:0;}
+.ab-aside:empty{display:none;}
 .ab-row{display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:9px;}
 .appbar .ab-role{display:inline-block; font-size:11px; font-weight:600; color:var(--muted-aa); background:var(--panel2); padding:5px 11px; border-radius:var(--r-pill);}
 .appbar h1{font-family:var(--display); font-weight:600; font-size:30px; line-height:1.05; margin:0; color:var(--ink); letter-spacing:-.01em;}
 .appbar .ab-sub{font-size:13.5px; color:var(--muted); margin-top:6px;}
 
-.tabbar{flex:none; display:flex; gap:6px; padding:8px 22px 0; background:var(--bg); box-shadow:inset 0 -1px 0 var(--hair); overflow-x:auto;}
+.tabbar{flex:none; display:flex; gap:6px; padding:2px 22px 0; background:var(--bg); box-shadow:inset 0 -1px 0 var(--hair); overflow-x:auto;}
 .tabbar::-webkit-scrollbar{height:0;}
 .tabbar button{flex:0 0 auto; appearance:none; border:0; background:transparent; cursor:pointer; display:inline-flex;
   align-items:center; gap:8px; padding:11px 14px; color:var(--muted); font:600 14px/1 var(--font); min-height:46px;
@@ -314,6 +317,112 @@ select.input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w
 .account-chip.active{background:var(--accent-soft); color:var(--green-text);}
 .account-chip.invited{background:var(--warn-soft); color:var(--warn-text);}
 .account-chip.inactive{background:var(--panel3); color:var(--muted-aa);}
+/* roster pagination */
+.pager{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-top:14px;}
+.pg-info{font-size:13px; color:var(--muted);}
+.pg-controls{display:flex; align-items:center; gap:4px; flex-wrap:wrap;}
+.pg-btn{appearance:none; border:0; cursor:pointer; background:var(--surface); box-shadow:inset 0 0 0 1px var(--hair-2); color:var(--text-soft); min-width:38px; height:38px; padding:0 11px; border-radius:var(--r-sm); font:600 13px/1 var(--font); transition:.12s;}
+.pg-btn:hover:not(:disabled){background:var(--panel2);}
+.pg-btn.cur{background:var(--accent); color:var(--accent-ink); box-shadow:none;}
+.pg-btn:disabled{opacity:.45; cursor:not-allowed;}
+.pg-btn:focus-visible{outline:none; box-shadow:var(--ring);}
+.pg-ell{color:var(--muted); padding:0 4px;}
+/* Job A: verdict hero + not-equipped group + demoted completion + pace tick */
+.verdict{border-radius:var(--r-lg); padding:17px 19px; margin-bottom:16px; box-shadow:var(--sh-card); background:var(--surface);}
+.verdict.ok{box-shadow:inset 0 0 0 1px var(--accent-soft), var(--sh-card);}
+.verdict.warn{background:var(--warn-soft); box-shadow:inset 0 0 0 1px var(--marigold), var(--sh-card);}
+.verdict.over{background:var(--red-soft); box-shadow:inset 0 0 0 1px var(--red-soft), var(--sh-card);}
+.vd-head{display:flex; align-items:flex-start; gap:12px;}
+.vd-ic{flex:none; width:30px; height:30px; display:flex; align-items:center; justify-content:center;}
+.vd-ic svg{width:24px;height:24px;}
+.verdict.ok .vd-ic{color:var(--accent);} .verdict.warn .vd-ic{color:var(--warn-text);} .verdict.over .vd-ic{color:var(--red-text);}
+.vd-word{font-family:var(--display); font-weight:600; font-size:22px; line-height:1.15; color:var(--ink); letter-spacing:-.01em;}
+.vd-sub{font-size:13.5px; color:var(--text-soft); margin-top:4px;}
+.vd-strip{display:flex; flex-wrap:wrap; gap:8px; margin:14px 0 0;}
+.vd-chip{display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:600; padding:6px 11px; border-radius:var(--r-pill); background:var(--surface); box-shadow:inset 0 0 0 1px var(--hair-2); color:var(--text-soft);}
+.vd-chip svg{width:14px; height:14px;}
+.vd-chip.ok{color:var(--green-text);} .vd-chip.over{color:var(--red-text);} .vd-chip.warn{color:var(--warn-text);} .vd-chip.na{color:var(--muted);}
+.vd-actions{display:flex; gap:8px; flex-wrap:wrap; margin-top:13px;}
+.vd-auto{font-size:11.5px; color:var(--muted); margin:12px 0 0; display:flex; align-items:center; gap:6px;}
+.vd-auto svg{width:13px;height:13px;flex:none;}
+.ne-card{box-shadow:inset 0 0 0 1px var(--warn-soft), var(--sh-card);}
+.ne-card .card-h{color:var(--warn-text); display:flex; align-items:center; gap:7px;}
+.ne-card .card-h svg{width:17px;height:17px;}
+.ne-list{display:flex; flex-direction:column; gap:6px;}
+.ne-row{display:flex; align-items:center; gap:11px; width:100%; text-align:left; appearance:none; border:0; cursor:pointer; background:var(--panel2); border-radius:var(--r-sm); padding:9px 12px; transition:background .12s;}
+.ne-row:hover{background:var(--panel3);}
+.ne-row:focus-visible{outline:none; box-shadow:var(--ring);}
+.ne-row .av{width:30px;height:30px;border-radius:50%;background:var(--warn-soft);color:var(--warn-text);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;flex:none;}
+.ne-tx{display:flex;flex-direction:column;min-width:0;}
+.ne-n{font-weight:600;font-size:13px;color:var(--text);}
+.ne-s{font-size:11.5px;color:var(--muted);}
+.ne-reason{margin-left:auto;font-size:11px;font-weight:700;color:var(--warn-text);background:var(--warn-soft);padding:4px 9px;border-radius:var(--r-pill);white-space:nowrap;}
+.ne-act{font-size:12px;font-weight:600;color:var(--accent);display:inline-flex;align-items:center;gap:3px;flex:none;}
+.ne-act svg{width:13px;height:13px;}
+.mini-glance{display:flex; gap:18px; align-items:center;}
+.ring-wrap.sm{width:96px;height:96px;flex:none;}
+.ring-wrap.sm .pct{font-size:25px;}
+.ring-wrap.sm .pl{font-size:9px;}
+.mini-side{display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--text-soft);}
+.mini-side .gs-line{display:flex;align-items:center;gap:7px;}
+.bt{position:relative;}
+.bf-exp{position:absolute; top:-3px; bottom:-3px; width:2px; background:var(--ink); opacity:.5; border-radius:2px;}
+.bar-word{font-size:11px; font-weight:700; margin-right:3px;}
+.bar-word.ok{color:var(--green-text);} .bar-word.warn{color:var(--warn-text);} .bar-word.over{color:var(--red-text);}
+/* verdict rendered in the header (top-right, Dashboard line) — compact */
+.verdict--aside{margin:0; padding:13px 16px;}
+.verdict--aside .vd-ic{width:24px;height:24px;} .verdict--aside .vd-ic svg{width:20px;height:20px;}
+.verdict--aside .vd-word{font-size:17px;}
+.verdict--aside .vd-sub{font-size:12px;}
+.verdict--aside .vd-strip{margin-top:9px; gap:6px;}
+.verdict--aside .vd-chip{font-size:11px; padding:4px 9px;}
+.verdict--aside .vd-actions{margin-top:9px;}
+.verdict--aside .vd-auto{margin-top:8px; font-size:10.5px;}
+@media(max-width:920px){ .appbar{flex-direction:column;} .ab-aside{margin-left:0; max-width:none; flex:1 1 auto; width:100%;} }
+/* dashboard body: completion-by-site (left) ‖ not-equipped + pace (right), columns aligned */
+.dash2{display:grid; grid-template-columns:minmax(0,1.7fr) minmax(300px,1fr); gap:16px; align-items:stretch; margin-top:4px;}
+.dash2 .d-left{min-width:0;} .dash2 .d-left>.card{margin-bottom:0; height:100%;}
+.dash2 .d-right{display:flex; flex-direction:column; gap:16px; min-width:0;}
+.dash2 .d-right>.card{margin-bottom:0;}
+.dash2 .d-right .ne-card{flex:1 1 auto; min-height:140px; display:flex; flex-direction:column;}
+.dash2 .d-right .ne-card>.card-b{flex:1; overflow:auto;}
+.big-pct{margin-left:auto; font-family:var(--display); font-weight:600; font-size:32px; color:var(--ink); line-height:1; display:inline-flex; align-items:baseline; gap:5px; letter-spacing:-.01em;}
+.big-pct small{font-size:11px; font-weight:600; color:var(--muted);}
+.comp-strip{display:flex; flex-wrap:wrap; align-items:center; gap:14px; font-size:12.5px; color:var(--text-soft); margin-bottom:13px;}
+.comp-strip b{color:var(--ink);}
+.ne-card.ne-ok{box-shadow:inset 0 0 0 1px var(--accent-soft), var(--sh-card);}
+.ne-card.ne-ok .card-h{color:var(--green-text);}
+@media(max-width:920px){ .dash2{grid-template-columns:1fr;} .dash2 .d-right .ne-card{min-height:0;} .dash2 .d-right .ne-card>.card-b{overflow:visible;} }
+/* fit-to-one-screen dashboard + in-panel pagination */
+#view.dash-noscroll{overflow:auto;}   /* fits & paginates, but scrollable so nothing is ever clipped */
+#view.dash-noscroll>.vpad{height:100%; display:flex; flex-direction:column; min-height:0; padding-bottom:16px;}
+.dash2{flex:1; min-height:0;}
+.dash2 .card{display:flex; flex-direction:column; min-height:0;}
+.dash2 .card>.card-b{flex:1; min-height:0; display:flex; flex-direction:column; overflow:hidden;}
+.dash2 .d-right .ne-card>.card-b{overflow:hidden;}
+.paged{flex:1; min-height:0; overflow:hidden;}
+.dash2 #site-bars.paged{display:flex; flex-direction:column; gap:7px;}
+.dash2 .ne-list.paged{display:flex; flex-direction:column; gap:6px;}
+.dash2 .bar-btn{min-height:0; padding:8px 12px;}
+.card-foot{flex:none; display:flex; align-items:center; gap:10px; margin-top:9px; padding-top:9px; box-shadow:inset 0 1px 0 var(--hair);}
+.foot-note{font-size:11px; color:var(--muted); min-width:0;}
+[data-pager]{display:inline-flex; align-items:center; gap:6px; margin-left:auto; flex:none;}
+.mp-btn{appearance:none; border:0; cursor:pointer; background:var(--panel2); color:var(--text-soft); width:30px; height:30px; border-radius:var(--r-sm); font-size:17px; line-height:1; display:inline-flex; align-items:center; justify-content:center;}
+.mp-btn:hover:not(:disabled){background:var(--panel3);} .mp-btn:disabled{opacity:.4; cursor:not-allowed;} .mp-btn:focus-visible{outline:none; box-shadow:var(--ring);}
+.mp-info{font-size:11.5px; font-weight:600; color:var(--muted); min-width:40px; text-align:center;} .mp-info.mp-static{min-width:0;}
+.ne-filters{display:flex; gap:8px; margin-bottom:10px;}
+.ne-filters .input.sm{min-height:34px; padding:6px 26px 6px 10px; font-size:12px; flex:1; min-width:0;}
+.ne-intro{margin:0 0 9px;}
+/* notification actions as small tab-bar buttons (visible on every tab) */
+.tabnotes{margin-left:auto; display:inline-flex; align-items:center; gap:6px; align-self:center; padding-left:10px;}
+.tabnote{appearance:none; border:0; cursor:pointer; display:inline-flex; align-items:center; gap:5px; font:700 12px/1 var(--font); color:var(--muted-aa); background:var(--panel2); padding:8px 11px; border-radius:var(--r-pill); min-height:32px; white-space:nowrap;}
+.tabnote svg{width:14px; height:14px;}
+.tabnote:hover{filter:brightness(.97);}
+.tabnote:focus-visible{outline:none; box-shadow:var(--ring);}
+.tabnote--over{color:var(--red-text); background:var(--red-soft);}
+.tabnote--warn{color:var(--warn-text); background:var(--warn-soft);}
+.tabnote--ok{color:var(--green-text); background:var(--accent-soft);}
+@media(max-width:920px){ #view.dash-noscroll{overflow:auto;} #view.dash-noscroll>.vpad{height:auto; display:block;} .dash2 .card>.card-b{overflow:visible;} .paged{overflow:visible;} }
 .grid-progress{display:flex; align-items:center; gap:7px;}
 .grid-progress .gp-bar{width:64px; height:7px; background:var(--panel3); border-radius:var(--r-pill); overflow:hidden;}
 .grid-progress .gp-bar i{display:block; height:100%; border-radius:var(--r-pill); background:var(--accent);}
@@ -541,11 +650,14 @@ body.tour-on .proto-tag{position:relative; z-index:9700;}
     </div>
   </header>
   <header class="appbar">
-    <div class="ab-row">
-      <span class="ab-role" id="ab-role">CN Director · super-admin</span>
+    <div class="ab-left">
+      <div class="ab-row">
+        <span class="ab-role" id="ab-role">CN Director · super-admin</span>
+      </div>
+      <h1 id="ab-title">Dashboard</h1>
+      <div class="ab-sub" id="ab-sub">Houston ISD</div>
     </div>
-    <h1 id="ab-title">Dashboard</h1>
-    <div class="ab-sub" id="ab-sub">Houston ISD</div>
+    <div class="ab-aside" id="ab-aside"></div>
   </header>
   <nav class="tabbar" id="tabbar" role="tablist" aria-label="Sections"></nav>
   <main class="scroll" id="view" tabindex="-1"></main>
@@ -587,7 +699,7 @@ const SVG = {
 
 const TODAY='2026-06-22', DISTRICT='Houston ISD';
 const GO_LIVE_DEFAULT='2026-08-15', SCHOOL_YEAR_END='2027-06-04', ASSIGN_START='2026-05-01';
-const SITES=['Bayou Oaks Elementary','Magnolia Park Middle','Heights High','Pine Hollow Elementary','Central Kitchen'];
+const SITES=['Bayou Oaks Elementary','Magnolia Park Middle','Heights High','Pine Hollow Elementary','Central Kitchen','Cedar Bayou Elementary','Westbrook Middle','Northline Elementary','Sunnyside High','Clear Fork Elementary','Galena Park Middle','Briar Glen Elementary','Eastwood High','Magnolia Grove Elementary','Spring Branch Middle','Willowbrook Elementary'];
 let GO_LIVE=GO_LIVE_DEFAULT;   // inherited go-live; can be cleared in the prototype to show the empty state
 
 /* ====================================================================
@@ -694,7 +806,56 @@ const ROSTER=[
   P({id:'stf-1024',name:'Priscilla Vance',site:'Central Kitchen',role:'Central Office',email:'pvance@houstonisd.org',hire:'2014-10-01',assignments:[]}),
   P({id:'stf-1025',name:'Devra Schwartz',site:'Central Kitchen',role:'Technology',email:'dschwartz@houstonisd.org',hire:'2021-08-30',assignments:[]}),
   P({id:'stf-1026',name:'Hollis Bram',site:'Central Kitchen',role:'Central Office',email:'hbram@houstonisd.org',hire:'2013-05-22',assignments:[]}),
+  // ---- mid-year hires: equipped-state demo (job c) — require training but cannot start yet ----
+  P({id:'stf-1027',name:'Camila Fuentes',site:'Bayou Oaks Elementary',role:'POS Cashier',email:'cfuentes@houstonisd.org',hire:'2026-06-15',assignments:[]}),
+  P({id:'stf-1028',name:'Theo Garrison',site:'Magnolia Park Middle',role:'POS Cashier',email:'tgarrison@houstonisd.org',hire:'2026-06-12',status:'invited',assignments:[]}),
 ];
+/* ---- Synthetic population (Houston ISD scale) — deterministic, every name FABRICATED ----
+   The 26 anchors above carry the narrative + provenance records; this fills the district out
+   to a realistic size so scale and pagination are demonstrable. Seeded RNG → identical roster
+   every load (stable demo numbers). */
+(function generateDistrict(){
+  let seed=0x1a2b3c4d;
+  const rnd=()=>{ seed=(seed+0x6D2B79F5)|0; let t=Math.imul(seed^(seed>>>15),1|seed); t=(t+Math.imul(t^(t>>>7),61|t))^t; return ((t^(t>>>14))>>>0)/4294967296; };
+  const pick=a=>a[Math.floor(rnd()*a.length)];
+  const chance=p=>rnd()<p;
+  const FIRST=['Amara','Diego','Priya','Marcus','Lena','Tariq','Sofia','Noah','Imani','Hassan','Carla','Theo','Ngozi','Bao','Rosa','Caleb','Yara','Mateo','Greta','Omar','Daniela','Kofi','Mei','Felix','Renata','Sven','Anaya','Hugo','Salma','Eli','Naomi','Dmitri','Lucia','Andre','Fatima','Jonas','Aisha','Pedro','Hana','Lars','Oksana','Malik','Camille','Reza','Tessa','Bjorn','Adaeze','Quincy','Marisol','Idris','Wren','Cyrus','Talia','Ravi','Esme','Dario','Noor','Bianca','Sage','Tomas'];
+  const LAST=['Marsh','Okonkwo','Velez','Crane','Abadi','Sterling','Nakata','Bauer','Calderon','Frost','Hollis','Quint','Mbeki','Tran','Salgado','Devlin','Arroyo','Keller','Underwood','Bianchi','Mensah','Park','Romano','Whitlock','Ferro','Dunn','Espinosa','Larkin','Yusuf','Brandt','Sokolov','Aldridge','Kaur','Novak','Osei','Lindqvist','Barros','Pham','Ibarra','Donnelly','Halloran','Sato','Bello','Vargas','Madsen','Conroy','Ellison','Najjar','Ferreira','Holt'];
+  const nameGen=()=>pick(FIRST)+' '+pick(LAST);
+  const emailOf=(n,i)=>{ const p=n.toLowerCase().split(' '); return p[0][0]+p[1].replace(/[^a-z]/g,'')+i+'@houstonisd.org'; };
+  const hireGen=()=>{ if(chance(0.05)) return '—'; const y=2013+Math.floor(rnd()*14), m=1+Math.floor(rnd()*12), d=1+Math.floor(rnd()*27); return y+'-'+String(m).padStart(2,'0')+'-'+String(d).padStart(2,'0'); };
+  const lastSeen=()=>pick(['May','Jun'])+' '+(1+Math.floor(rnd()*27));
+  // [site, tier, headcount, kind]
+  const PROFILES=[
+    ['Bayou Oaks Elementary','strong',14,'school'],['Magnolia Park Middle','mixed',16,'school'],
+    ['Heights High','weak',22,'school'],['Pine Hollow Elementary','strong',12,'school'],['Central Kitchen','mixed',10,'kitchen'],
+    ['Cedar Bayou Elementary','strong',14,'school'],['Westbrook Middle','mixed',16,'school'],['Northline Elementary','weak',13,'school'],
+    ['Sunnyside High','mixed',22,'school'],['Clear Fork Elementary','strong',12,'school'],['Galena Park Middle','weak',16,'school'],
+    ['Briar Glen Elementary','strong',13,'school'],['Eastwood High','mixed',20,'school'],['Magnolia Grove Elementary','mixed',12,'school'],
+    ['Spring Branch Middle','weak',15,'school'],['Willowbrook Elementary','strong',14,'school'],
+  ];
+  const TIER={strong:{c:0.85,p:0.10},mixed:{c:0.52,p:0.30},weak:{c:0.28,p:0.30}};
+  let i=0; _idSeq=2000;
+  PROFILES.forEach(([site,tier,n,kind])=>{
+    for(let k=0;k<n;k++){
+      i++;
+      const role = kind==='kitchen'
+        ? pick(['Inventory Manager','Inventory Manager','Cafeteria Manager','Central Office','Technology'])
+        : (rnd()<0.72?'POS Cashier':rnd()<0.5?'Cafeteria Manager':'Nutritionist');
+      const requires = !['Central Office','Technology'].includes(role);
+      let assignments=[];
+      if(requires){
+        const track = role==='POS Cashier' ? 'cashier-onboarding' : 'manager-essentials';
+        const t=TIER[tier], roll=rnd();
+        if(roll<t.c){ assignments=[A(track,'complete',track==='manager-essentials'?'2026-06-30':'2026-08-15',lastSeen(),70+Math.floor(rnd()*29))]; }
+        else if(roll<t.c+t.p){ assignments=[A(track,'in_progress',chance(tier==='weak'?0.6:tier==='mixed'?0.35:0.1)?'2026-06-10':'2026-08-15',lastSeen(),null)]; }
+        else { assignments=[A(track,'not_started',chance(tier==='weak'?0.7:tier==='mixed'?0.4:0.12)?'2026-06-10':'2026-08-15','—',null)]; }
+      }
+      const nm=nameGen();
+      ROSTER.push(P({ id:mkId(), name:nm, site, role, email:emailOf(nm,i), hire:hireGen(), status:(requires&&chance(0.05))?'invited':'active', assignments }));
+    }
+  });
+})();
 const TOTAL_STAFF = ROSTER.length;
 const staffById = id => ROSTER.find(s=>s.id===id);
 const KNOWN_ROLES = ['POS Cashier','Cafeteria Manager','Nutritionist','Inventory Manager','Central Office','Technology'];
@@ -755,7 +916,8 @@ const state={ tab:'dashboard', loading:true, viewingAs:'dana',
   drill:{site:null, role:null},
   dashboardFilter:{site:'all', role:'all'},
   reportFilter:{site:'all',role:'all',status:'all'},
-  filter:{q:'', site:'all', role:'all', account:'all', status:'all'}, sort:'status',
+  filter:{q:'', site:'all', role:'all', account:'all', status:'all'}, sort:'status', rosterPage:1,
+  dashPg:{bars:0, neq:0}, neqFilter:{site:'all', reason:'all'},
   manage:null, lastAssign:null, notifyDismissed:false, notified:{}, importSel:null, importParsed:null };
 
 const $=s=>document.querySelector(s);
@@ -771,7 +933,18 @@ function _showToast(msg){ let t=$('#toast'); if(!t){ t=document.createElement('d
 
 /* ============================ APP / CHROME ============================ */
 const DIR_TABS=[['dashboard','Dashboard',SVG.gauge],['roster','Roster',SVG.roster],['assign','Assign',SVG.assign],['requirements','Requirements',SVG.badge],['reports','Evidence',SVG.doc],['access','Access',SVG.shield]];
-function renderTabs(){ $('#tabbar').innerHTML=DIR_TABS.map(([id,label,icon])=>`<button role="tab" id="tab-${id}" aria-selected="${state.tab===id}" aria-controls="view" onclick="App.setTab('${id}')">${icon}<span>${esc(label)}</span></button>`).join(''); }
+function renderTabs(){
+  const tabs=DIR_TABS.map(([id,label,icon])=>`<button role="tab" id="tab-${id}" aria-selected="${state.tab===id}" aria-controls="view" onclick="App.setTab('${id}')">${icon}<span>${esc(label)}</span></button>`).join('');
+  let notes='';
+  const rs=readinessSummary(scopedRoster());
+  if(rs.total){
+    const cls=rs.behindN>0?'tabnote--over':rs.not_equipped>0?'tabnote--warn':'tabnote--ok';
+    const ic=rs.behindN>0?SVG.warn:rs.not_equipped>0?SVG.bell:SVG.check;
+    const txt=rs.behindN>0?(rs.behindN+' behind'):rs.not_equipped>0?(rs.not_equipped+' not equipped'):'On track';
+    notes=`<span class="tabnotes"><button class="tabnote ${cls}" onclick="App.drillWorst()" title="See who is behind">${ic}<span>${txt}</span></button><button class="tabnote" onclick="openNotifySettings()" title="Notification settings" aria-label="Notification settings">${SVG.bell}</button></span>`;
+  }
+  $('#tabbar').innerHTML=tabs+notes;
+}
 function viewAsScopeLabel(d){
   return d.reviewer ? 'State reviewer · read-only'
     : d.super ? 'Full district · super-admin'
@@ -834,18 +1007,20 @@ const App={
     if(!DIRECTORS.some(d=>d.id===v)) return;
     App.closeUserMenu();
     stopTourForManualPreview();
-    state.viewingAs=v; state.drill={site:null,role:null}; state.dashboardFilter={site:'all',role:'all'}; state.reportFilter={site:'all',role:'all',status:'all'}; state.filter={q:'',site:'all',role:'all',account:'all',status:'all'};
+    state.viewingAs=v; state.drill={site:null,role:null}; state.dashboardFilter={site:'all',role:'all'}; state.reportFilter={site:'all',role:'all',status:'all'}; state.filter={q:'',site:'all',role:'all',account:'all',status:'all'}; state.rosterPage=1;
     fillViewAs(); App.render();
     const d=currentDir();
     announce(d.super?'Returned to the full district view.':`Previewing ${d.name}: ${scopedRoster().length} of ${TOTAL_STAFF} staff visible.`);
   },
-  render(){ const v=$('#view'); if(!v) return; v.scrollTop=0; updateChrome();
+  render(){ const v=$('#view'); if(!v) return; v.scrollTop=0; updateChrome(); renderTabs();
     const wrap=html=>'<div class="vpad">'+html+'</div>';
     if(state.loading){ v.innerHTML=wrap(skeleton()); return; }
     const fn={dashboard:viewDashboard,roster:viewRoster,assign:viewAssign,requirements:viewRequirements,reports:viewReports,access:viewAccess}[state.tab]||viewDashboard;
     fillViewAs();
     v.innerHTML=wrap(scopeLens()+fn());
-    if(state.tab==='dashboard') drawRing();
+    v.classList.toggle('dash-noscroll', state.tab==='dashboard');
+    const aside=$('#ab-aside'); if(aside) aside.innerHTML='';   // verdict now lives as tab-bar buttons
+    if(state.tab==='dashboard') requestAnimationFrame(fitDashPages);
   }
 };
 function commit(msg){ App.render(); refreshTopModal(); if(msg) _showToast(msg); }
@@ -883,10 +1058,121 @@ function automationStatus(r){
   return {channel:'Automatic learner email',detail:st==='overdue'?'Sent today · repeats weekly until complete':'Next reminder scheduled 7 days before due date'};
 }
 
-/* ============================ DASHBOARD (Epic 3.1 / 3.2 / 3.6 / 3.7 / 3.8) ============================ */
+/* ---- Job A: readiness = equipped + assignment-relative pace (one verdict, deadline-relative) ---- */
+function requiresTraining(s){ return !NO_TRAINING_ROLES.includes(s.role); }
+function isEquipped(s){ if(!requiresTraining(s)) return true; if(s.status==='invited') return false; if(!s.assignments.length) return false; return true; }
+function notEquippedReason(s){ if(s.status==='invited') return 'No login issued yet'; if(requiresTraining(s)&&!s.assignments.length) return 'No course assigned'; return ''; }
+function bindingAsg(s){ const open=s.assignments.filter(a=>asgStatus(a)!=='complete'); const pool=open.length?open:s.assignments; if(!pool.length) return null; return pool.slice().sort((a,b)=>String(a.due).localeCompare(String(b.due)))[0]; }
+const PACE_MARGIN=10;
+function personExpected(s){ const a=bindingAsg(s); if(!a||!a.due||a.due==='—') return null; const start=a.on||ASSIGN_START; const total=daysBetween(start,a.due); if(total<=0) return 100; const el=daysBetween(start,TODAY); return Math.max(0,Math.min(100,Math.round(el/total*100))); }
+function personReadiness(s){
+  if(!requiresTraining(s)) return {key:'not_required',label:'Not required',cls:'na'};
+  if(!isEquipped(s)) return {key:'not_equipped',label:'Not equipped',cls:'over'};
+  const pct=staffPct(s);
+  if(pct===100) return {key:'complete',label:'Complete',cls:'ok'};
+  if(isLate(staffSoonestDue(s))) return {key:'overdue',label:'Overdue',cls:'over'};
+  const exp=personExpected(s);
+  if(exp!=null && pct<exp-PACE_MARGIN) return {key:'behind',label:'Behind pace',cls:'warn'};
+  return {key:'on_track',label:'On track',cls:'ok'};
+}
+function readinessSummary(rows){ const need=rows.filter(requiresTraining); const g={total:need.length,complete:0,on_track:0,behind:0,overdue:0,not_equipped:0};
+  need.forEach(s=>{ const k=personReadiness(s).key; if(g[k]!=null) g[k]++; });
+  g.onTrack=g.complete+g.on_track; g.behindN=g.behind+g.overdue; return g; }
+function scopeExpected(rows){ const xs=rows.filter(requiresTraining).map(personExpected).filter(v=>v!=null); if(!xs.length) return null; return Math.round(xs.reduce((a,b)=>a+b,0)/xs.length); }
+function notEquippedList(rows){ return rows.filter(s=>requiresTraining(s)&&!isEquipped(s)); }
+
+function heroVerdict(rows, aside){
+  const rs=readinessSummary(rows); const days=GO_LIVE?daysBetween(TODAY,GO_LIVE):null;
+  const v = rs.behindN>0 ? {w:`Behind — ${rs.behindN} ${rs.behindN===1?'person needs':'people need'} a push`,cls:'over',ic:SVG.warn}
+          : rs.not_equipped>0 ? {w:'On pace — but some staff can’t start yet',cls:'warn',ic:SVG.warn}
+          : {w:'On track for go-live',cls:'ok',ic:SVG.check};
+  const sub = `<b>${rs.onTrack} of ${rs.total}</b> staff on track`+(GO_LIVE?` &middot; go-live ${esc(fmtDate(GO_LIVE))} &middot; ${days<0?(-days)+' days past':days+' days left'}`:'');
+  const strip = `<div class="vd-strip">
+    <span class="vd-chip ok">${SVG.check} ${rs.complete} complete</span>
+    <span class="vd-chip ${rs.behindN?'over':'na'}">${SVG.warn} ${rs.behindN} behind / overdue</span>
+    <span class="vd-chip ${rs.not_equipped?'warn':'na'}">${SVG.bell} ${rs.not_equipped} not equipped</span></div>`;
+  const actions = `<div class="vd-actions">${rs.behindN?`<button class="btn btn--secondary btn--sm" onclick="App.drillWorst()">${SVG.gauge} See who’s behind</button>`:''}<button class="btn btn--ghost btn--sm" onclick="openNotifySettings()">${SVG.bell} Notification settings</button></div>`;
+  const auto = aside
+    ? `<p class="vd-auto">${SVG.bell} Automatic alerts — the implementation team takes no action.</p>`
+    : `<p class="vd-auto">${SVG.bell} You’re notified automatically when staff or sites fall behind their deadline — the implementation team takes no action.</p>`;
+  return `<div class="verdict ${v.cls}${aside?' verdict--aside':''}" role="status" aria-live="polite">
+    <div class="vd-head"><span class="vd-ic">${v.ic}</span><div><div class="vd-word">${v.w}</div><div class="vd-sub">${sub}</div></div></div>
+    ${strip}${actions}${auto}</div>`;
+}
+function notEquippedCard(rows){
+  const all=notEquippedList(rows);
+  if(!all.length){
+    return `<div class="card ne-card ne-ok"><div class="card-h">${SVG.check} Everyone can start</div>
+      <div class="card-b"><p class="small muted" style="margin:0">All in-scope staff have a login and at least one course assigned — no one is blocked from starting.</p></div></div>`;
+  }
+  const list=neqFiltered(rows);
+  _dashItems.neq = list.map(s=>`<button class="ne-row" onclick="App.openPerson('${s.id}')" aria-label="Fix ${esc(s.name)} — ${esc(notEquippedReason(s))}">
+    <span class="av" aria-hidden="true">${esc(initials(s.name))}</span>
+    <span class="ne-tx"><span class="ne-n">${esc(s.name)}</span><span class="ne-s">${esc(s.role)} &middot; ${esc(s.site)}</span></span>
+    <span class="ne-reason">${esc(notEquippedReason(s))}</span><span class="ne-act">Fix ${SVG.chev}</span></button>`);
+  // filters from this grid's own columns: site + reason
+  const sites=[...new Set(all.map(s=>s.site))].sort();
+  const opt=(v,l,cur)=>`<option value="${esc(v)}"${cur===v?' selected':''}>${esc(l)}</option>`;
+  const filters=`<div class="ne-filters">
+    <select class="input sm" aria-label="Filter not-equipped by site" onchange="App.setNeqFilter('site',this.value)">${opt('all','All sites',state.neqFilter.site)}${sites.map(s=>opt(s,s,state.neqFilter.site)).join('')}</select>
+    <select class="input sm" aria-label="Filter not-equipped by reason" onchange="App.setNeqFilter('reason',this.value)">${opt('all','Any reason',state.neqFilter.reason)}${opt('login','No login yet',state.neqFilter.reason)}${opt('course','No course assigned',state.neqFilter.reason)}</select></div>`;
+  return `<div class="card ne-card"><div class="card-h">${SVG.warn} Not yet equipped to start<span class="ch-right">${all.length} ${all.length===1?'person':'people'}</span></div>
+    <div class="card-b">
+      <p class="small muted ne-intro">Can't begin yet — no login, or no course assigned. A different problem from "behind."</p>
+      ${filters}
+      <div class="paged ne-list" data-key="neq" data-rowh="56"></div>
+      <div class="card-foot"><span class="foot-note">Tap a row to open the record and fix it.</span><span data-pager="neq"></span></div>
+    </div></div>`;
+}
+function completionMiniCard(rows){
+  const c=completionSummary(rows);
+  return `<div class="card"><div class="card-h">Completion<span class="ch-right">${c.assigned} of ${rows.length} assigned software training</span></div>
+    <div class="card-b"><div class="mini-glance">
+      <div class="ring-wrap sm"><svg id="ring" width="96" height="96" viewBox="0 0 128 128"></svg><div class="ring-center"><span class="pct">${c.pct}%</span><span class="pl">complete</span></div></div>
+      <div class="mini-side">
+        <div class="gs-line"><span class="gs-ic" style="color:var(--accent)">${SVG.check}</span><span><b>${c.complete}</b> complete</span></div>
+        <div class="gs-line"><span class="gs-ic" style="color:var(--stamp)">${SVG.half}</span><span><b>${c.prog}</b> in progress</span></div>
+        <div class="gs-line"><span class="gs-ic" style="color:var(--muted)">${SVG.circle}</span><span><b>${c.none}</b> not started</span></div>
+        <button class="btn btn--ghost btn--sm" style="margin-top:6px" onclick="exportScopedCSV()">${SVG.download} Export CSV</button>
+      </div></div>
+      <p class="small muted" style="margin:11px 0 0">Completion = % of assigned software courses complete. The 90% / 70% completion thresholds are used only when you drill into a site.</p>
+    </div></div>`;
+}
+
+/* ---- in-panel pagination so the dashboard fits one screen (no page scroll) ---- */
+let _dashItems={bars:[], neq:[]};
+function miniPager(key,page,pages){
+  if(pages<=1) return `<span class="mp-info mp-static">${(_dashItems[key]||[]).length} total</span>`;
+  return `<button class="mp-btn" ${page<=0?'disabled':''} onclick="App.dashPage('${key}',${page-1})" aria-label="Previous">&#8249;</button>`
+    +`<span class="mp-info">${page+1} / ${pages}</span>`
+    +`<button class="mp-btn" ${page>=pages-1?'disabled':''} onclick="App.dashPage('${key}',${page+1})" aria-label="Next">&#8250;</button>`;
+}
+function fitDashPages(){
+  if(state.tab!=='dashboard') return;
+  document.querySelectorAll('.paged').forEach(box=>{
+    const key=box.getAttribute('data-key'); const rowH=parseInt(box.getAttribute('data-rowh'),10)||58;
+    const items=_dashItems[key]||[]; const avail=box.clientHeight||rowH;
+    let per=Math.max(1,Math.floor(avail/rowH));
+    if(window.innerWidth<=920) per=Math.max(1,items.length);   // narrow: show all (page scrolls)
+    const pages=Math.max(1,Math.ceil(items.length/per));
+    let pg=Math.min(Math.max(0,state.dashPg[key]||0),pages-1); state.dashPg[key]=pg;
+    box.innerHTML = items.length ? items.slice(pg*per,pg*per+per).join('') : '<p class="small muted" style="margin:10px 4px">No matches for these filters.</p>';
+    const ps=document.querySelector('[data-pager="'+key+'"]'); if(ps) ps.innerHTML=miniPager(key,pg,pages);
+  });
+}
+let _dashRT=null;
+window.addEventListener('resize',()=>{ clearTimeout(_dashRT); _dashRT=setTimeout(fitDashPages,120); });
+function neqFiltered(rows){
+  let list=notEquippedList(rows);
+  if(state.neqFilter.site!=='all') list=list.filter(s=>s.site===state.neqFilter.site);
+  if(state.neqFilter.reason!=='all') list=list.filter(s=> (s.status==='invited'?'login':'course')===state.neqFilter.reason);
+  return list;
+}
+
+/* ============================ DASHBOARD (Job A: software-training readiness) ============================ */
 function emptyScopeBlock(){
   return `<div class="empty"><div class="ei">${SVG.shield}</div><p>No staff in your scope yet.</p>
-    <p class="es">Access is deny-by-default — you only see staff at the sites and roles a super-admin has assigned to you. Ask your super-admin to assign your scope, or switch the <b>Viewing as</b> selector back to a scope with staff.</p></div>`;
+    <p class="es">Access is deny-by-default — you only see staff at the sites and roles a super-admin has assigned to you. Ask your super-admin to assign your scope, or switch the <b>Preview as</b> selector back to a scope with staff.</p></div>`;
 }
 function rosterEmptyBlock(){
   return `<div class="empty"><div class="ei">${SVG.roster}</div><p>No staff on the roster yet.</p>
@@ -901,8 +1187,9 @@ function notifBanner(rows){
       <p><b>All sites on track.</b> No one in your scope is past a due date — so no alert was sent. Quiet when nothing's wrong.</p></div></div>`;
   }
   const sites=[...new Set(behind.map(r=>r.site))];
+  const siteList = sites.length<=4 ? sites.join(', ') : sites.slice(0,4).join(', ')+' and '+(sites.length-4)+' more';
   return `<div class="nudge warn" id="notif"><span class="nx">${SVG.bell}</span><div class="nbody">
-    <p><b>${behind.length} ${behind.length===1?'person is':'people are'} behind across ${sites.length} site${sites.length===1?'':'s'}</b> — you were notified ${fmtDate(TODAY)}. Behind: ${esc(sites.join(', '))}.</p>
+    <p><b>${behind.length} ${behind.length===1?'person is':'people are'} behind across ${sites.length} site${sites.length===1?'':'s'}</b> — you were notified ${fmtDate(TODAY)}. Behind: ${esc(siteList)}.</p>
     <p class="tiny">This is automatic — the system notifies you directly; the implementation team takes no action.</p>
     <div class="nrow">
       <button class="btn btn--secondary btn--sm" onclick="App.drillWorst()">${SVG.gauge} See who&rsquo;s behind</button>
@@ -915,13 +1202,16 @@ function goLiveCard(rows){
     return `<div class="card"><div class="card-h">Progress toward go-live<button class="demo-toggle" style="margin-left:auto" onclick="GO_LIVE='${GO_LIVE_DEFAULT}';App.render();" title="Prototype control — not a product action">&#9881; Demo: restore go-live date</button></div>
       <div class="card-b"><div class="empty" style="padding:18px 12px"><div class="ei">${SVG.calendar}</div><p>Go-live date not set.</p><p class="es">Go-live is inherited from onboarding — there's no manual milestone to configure here. With no date inherited, the comparison is simply hidden rather than shown against a broken or zero date.</p></div></div></div>`;
   }
-  const c=completionSummary(rows); const exp=expectedPct(); const days=daysBetween(TODAY,GO_LIVE);
-  const ahead=c.pct>=exp;
+  const c=completionSummary(rows); const exp=scopeExpected(rows); const days=daysBetween(TODAY,GO_LIVE);
+  const rs=readinessSummary(rows);
+  const onPace = exp==null ? true : rs.behindN===0;   // one verdict — same logic as the hero
   const dlabel = days<0 ? `${-days} days past go-live` : days===0 ? 'Go-live is today' : `${days} days to go-live`;
-  return `<div class="card"><div class="card-h">Timeline pace toward go-live <span class="ch-right">${esc(fmtDate(GO_LIVE))} · ${dlabel}</span></div>
+  const statusTxt = exp==null ? 'Awaiting first assignment' : onPace ? 'On track' : 'Behind pace';
+  const expPos = exp==null?0:Math.min(100,exp);
+  return `<div class="card"><div class="card-h">Pace toward go-live <span class="ch-right">${esc(fmtDate(GO_LIVE))} · ${dlabel}</span></div>
     <div class="card-b">
-      <div class="bar-row"><span class="bl">${currentDir().super?'District':'Your scope'}</span><span class="bt"><i class="bf ${band(c.pct)}" style="width:${c.pct}%"></i></span><span class="bv">${c.pct}% ${ahead?'<span class="pace ahead">pace on track</span>':'<span class="pace behind">pace behind</span>'}</span></div>
-      <p class="note" style="margin-top:10px"><b>Two different checks:</b> completion status uses the fixed 70% / 90% thresholds; timeline pace compares completion with today&rsquo;s expected <b>${exp}%</b>. That is why a scope can be <b>${bandWord(c.pct).toLowerCase()}</b> on completion and still be <b>${ahead?'on track':'behind'}</b> for the calendar. ${days<0?'A past go-live with training still open reads as <b>overdue</b>, not an error.':''} <span class="muted">Pace model is illustrative.</span></p>
+      <div class="bar-row"><span class="bl">${currentDir().super?'District':'Your scope'}</span><span class="bt"><i class="bf ${onPace?'ok':'over'}" style="width:${c.pct}%"></i>${exp==null?'':`<i class="bf-exp" style="left:${expPos}%" title="Expected ${exp}% by today"></i>`}</span><span class="bv">${c.pct}% <span class="pace ${onPace?'ahead':'behind'}">${statusTxt}</span></span></div>
+      <p class="note" style="margin-top:10px"><b>${c.pct}% complete</b> vs <b>${exp==null?'—':exp+'% expected'}</b> by today &middot; ${days<0?'<b>past</b> go-live':`<b>${days}</b> days left`}.${rs.behindN>0?` <b>${rs.behindN}</b> ${rs.behindN===1?'person is':'people are'} behind their own due date.`:''} Expected = time elapsed since each assignment&rsquo;s start toward its due date. ${days<0?'A past go-live with training still open reads as <b>overdue</b>.':''} <span class="muted">The tick marks expected pace.</span></p>
       <button class="demo-toggle" onclick="GO_LIVE='';App.render();" title="Prototype control — not a product action">&#9881; Demo: clear go-live date (show empty state)</button>
     </div></div>`;
 }
@@ -931,28 +1221,14 @@ function viewDashboard(){
   if(!rows.length) return emptyScopeBlock();
   const c=completionSummary(rows);
 
-  let h=notifBanner(rows);
-
-  // district glance
+  // Verdict renders in the header (top-right). Body: completion-by-site (left) ‖ not-equipped + pace (right), aligned.
+  let h='';
   if(!c.assigned){
-    h += `<div class="empty"><div class="ei">${SVG.gauge}</div><p>Nothing assigned yet.</p><p class="es">Assign a track from the <b>Assign</b> tab and the dashboard fills in. (Nothing assigned reads as "nothing assigned yet" — not 0% framed as failure.)</p></div>`;
+    h += notEquippedCard(rows);
+    h += `<div class="empty"><div class="ei">${SVG.gauge}</div><p>No software training assigned yet.</p><p class="es">Assign onboarding training from the <b>Assign</b> tab and the monitor fills in. (Nothing assigned reads as "nothing assigned yet" — not 0% framed as failure.)</p></div>`;
     return h;
   }
-  const bw=bandWord(c.pct), bd=band(c.pct);
-  const bpill=`<span class="pill ${bd==='ok'?'ok':bd==='warn'?'none':'over'}">${bd==='over'?STATUS.overdue.icon:bd==='warn'?SVG.warn:SVG.check}${bw}</span>`;
-  const glanceCard = `<div class="card"><div class="card-h">${currentDir().super?'District':'Scope'} completion<button class="btn btn--ghost btn--sm" style="margin-left:auto" onclick="exportScopedCSV()">${SVG.download} Export CSV</button></div><div class="card-b">
-      <p class="training-base"><b>${c.assigned} of ${rows.length}</b> staff in this view have required training; ${rows.length-c.assigned} ${rows.length-c.assigned===1?'does':'do'} not.</p>
-      <div class="glance">
-      <div class="ring-wrap"><svg id="ring" width="128" height="128" viewBox="0 0 128 128"></svg><div class="ring-center"><span class="pct">${c.pct}%</span><span class="pl">complete</span></div></div>
-      <div class="glance-side"><div>${bpill}</div>
-        <div class="gs-line"><span class="gs-ic" style="color:var(--accent)">${SVG.check}</span><span class="gl"><b>${c.complete}</b> complete of ${c.assigned} with required training</span></div>
-        <div class="gs-line"><span class="gs-ic" style="color:var(--stamp)">${SVG.half}</span><span class="gl"><b>${c.prog}</b> in progress</span></div>
-        <div class="gs-line"><span class="gs-ic" style="color:var(--red)">${SVG.warn}</span><span class="gl"><b>${c.overdue}</b> overdue · ${c.none} not started</span></div>
-      </div></div></div></div>`;
-
-  // spread-out layout: by-site payload wide on the left, completion + go-live summary on the right
-  h += `<div class="dash-grid"><div class="dg-main">${drillBlock(dashboardFilteredRows(rows),rows)}</div><div class="dg-side">${glanceCard}${goLiveCard(rows)}</div></div>`;
-
+  h += `<div class="dash2"><div class="d-left">${drillBlock(dashboardFilteredRows(rows),rows)}</div><div class="d-right">${notEquippedCard(rows)}${goLiveCard(rows)}</div></div>`;
   return h;
 }
 function drawRing(){ const c=completionSummary(scopedRoster()), svg=$('#ring'); if(!svg)return;
@@ -961,7 +1237,7 @@ function drawRing(){ const c=completionSummary(scopedRoster()), svg=$('#ring'); 
 
 function siteBar(g, onclick){ const bd=band(g.pct);
   const ic=bd==='over'?`<span style="color:var(--red)">${STATUS.overdue.icon}</span>`:bd==='warn'?`<span style="color:var(--warn-text)">${SVG.warn}</span>`:`<span style="color:var(--accent)">${SVG.check}</span>`;
-  return `<button class="bar-btn" onclick="${onclick}"><span class="bl" title="${esc(g.k)}">${esc(g.k)}</span><span class="bt"><i class="bf ${bd}" style="width:${g.pct}%"></i></span><span class="bv">${g.pct}% ${ic}${SVG.chev}</span></button>`; }
+  return `<button class="bar-btn" onclick="${onclick}"><span class="bl" title="${esc(g.k)}">${esc(g.k)}</span><span class="bt"><i class="bf ${bd}" style="width:${g.pct}%"></i></span><span class="bv">${g.pct}% <span class="bar-word ${bd}">${bandWord(g.pct)}</span> ${ic}${SVG.chev}</span></button>`; }
 
 function dashboardFilteredRows(rows=scopedRoster()){
   const f=state.dashboardFilter;
@@ -983,7 +1259,7 @@ function dashboardFilterControls(scopeRows, resultRows){
       <select class="input" id="d-role" onchange="App.setDashboardFilter('role',this.value)" aria-label="Filter completion by role">
         ${opt('all','All available roles',state.dashboardFilter.role)}${roles.map(r=>opt(r,r,state.dashboardFilter.role)).join('')}
       </select></div>
-    <div class="df-actions"><span class="df-count">${resultRows.length} staff matched</span>
+    <div class="df-actions">${active?`<span class="df-count">${resultRows.length} staff matched</span>`:''}
       <button class="btn btn--ghost btn--sm" onclick="App.clearDashboardFilters()" ${active?'':'disabled'}>Clear filters</button></div>
   </div>`;
 }
@@ -1000,27 +1276,36 @@ function drillBlock(rows, scopeRows=rows){
   }
   // INDIVIDUALS (role selected)
   if(d.role){
-    let pool = rows.filter(r=>r.role===d.role && (d.site? r.site===d.site : true));
+    const pool = rows.filter(r=>r.role===d.role && (d.site? r.site===d.site : true)).sort(sortStaff);
+    _dashItems.bars = pool.map(individualRow);
     return `<div class="card"><div class="card-b">
       ${filters}${crumb()}
-      ${pool.length? `<div id="drill-individuals" class="list" style="margin:0;box-shadow:none;background:transparent">`+pool.sort(sortStaff).map(individualRow).join('')+`</div>`
-        : `<div class="empty" id="drill-individuals" style="padding:22px"><div class="ei">${SVG.roster}</div><p>No staff at this level.</p><p class="es">No ${esc(d.role)}${d.site?' at '+esc(d.site):''} in your scope.</p></div>`}
+      <div id="drill-individuals" class="paged list" data-key="bars" data-rowh="62" style="margin:0;box-shadow:none;background:transparent"></div>
+      <div class="card-foot"><span class="foot-note">${esc(d.role)}${d.site?' at '+esc(d.site):''} — individuals &amp; status.</span><span data-pager="bars"></span></div>
       </div></div>`;
   }
   // SITE selected → by role within site
   if(d.site){
     const within = rows.filter(r=>r.site===d.site);
     const byR=groupPct(within,r=>r.role);
-    const bars = byR.length ? byR.map(g=>siteBar(g, `App.drillRole('${esc(g.k)}')`)).join('') : `<div class="empty" id="drill-individuals" style="padding:22px"><div class="ei">${SVG.roster}</div><p>No staff with training at ${esc(d.site)}.</p></div>`;
-    return `<div class="card"><div class="card-b">${filters}${crumb()}<div id="site-bars">${bars}</div><p class="note" style="margin-top:10px">Completion by role within ${esc(d.site)}, worst-first. Pick a role to see the individuals.</p></div></div>`;
+    _dashItems.bars = byR.map(g=>siteBar(g, `App.drillRole('${esc(g.k)}')`));
+    return `<div class="card"><div class="card-b">${filters}${crumb()}
+      <div id="site-bars" class="paged" data-key="bars" data-rowh="56"></div>
+      <div class="card-foot"><span class="foot-note">Completion by role within ${esc(d.site)}, worst-first — pick a role.</span><span data-pager="bars"></span></div>
+      </div></div>`;
   }
-  // TOP: by site
-  const byS=groupPct(rows,r=>r.site);
-  const bars = byS.length ? byS.map(g=>siteBar(g, `App.drillSite('${esc(g.k)}')`)).join('') : `<div class="empty" style="padding:22px"><p>No staff with training in scope.</p></div>`;
-  const single = byS.length===1;
-  return `<div class="card"><div class="card-h">Completion by site${single?'':' — worst-first'}</div>
-    <div class="card-b">${filters}<div id="site-bars">${bars}</div>
-    <p class="note" style="margin-top:10px">${single?'One site is currently available or selected — the comparison collapses cleanly.':'Sites furthest behind are surfaced first, so a high district average never hides who\'s behind.'} Filter by site, role, or both; then click a bar to continue to roles and individuals. <span class="muted">Only sites and roles in this viewer&rsquo;s scope are offered.</span></p></div></div>`;
+  // TOP: by site (worst-first) — big completion % top-right; bars paginate to fit one screen
+  const cc=completionSummary(rows);
+  const bySAll=groupPct(rows,r=>r.site);
+  const single=bySAll.length===1;
+  _dashItems.bars = bySAll.map(g=>siteBar(g, `App.drillSite('${esc(g.k)}')`));
+  return `<div class="card"><div class="card-h">Completion by site${single?'':' — worst-first'}<span class="big-pct">${cc.pct}%<small>complete</small></span></div>
+    <div class="card-b">
+      <div class="comp-strip"><span><b>${cc.complete}</b> of ${cc.assigned} complete</span><span><b>${cc.prog}</b> in progress</span><span><b>${cc.none}</b> not started</span><button class="btn btn--ghost btn--sm" style="margin-left:auto" onclick="exportScopedCSV()">${SVG.download} Export CSV</button></div>
+      ${filters}
+      <div id="site-bars" class="paged" data-key="bars" data-rowh="56"></div>
+      <div class="card-foot"><span class="foot-note">${single?'One site in scope.':'Worst-first — a high average never hides who&rsquo;s behind. Click a bar to drill in.'}</span><span data-pager="bars"></span></div>
+    </div></div>`;
 }
 function crumb(){ const d=state.drill;
   let parts=[`<button onclick="App.drillReset()">${esc(DISTRICT)}</button>`];
@@ -1035,7 +1320,7 @@ function individualRow(r){ const st=staffStatus(r), due=staffSoonestDue(r), p=st
     <span class="av" aria-hidden="true">${initials(r.name)}</span>
     <span class="rb"><span class="rn">${esc(r.name)}${r.status==='invited'?'<span class="invited-chip">invited</span>':''}</span>
       <span class="rm">${esc(r.role)} · ${esc(r.site)}</span>
-      ${p!=null?`<span class="mini-prog"><span class="mb"><i style="width:${p}%"></i></span><span class="mv">${p}%</span></span>`:'<span class="rm">No required training</span>'}</span>
+      ${p!=null?`<span class="mini-prog"><span class="mb"><i style="width:${p}%"></i></span><span class="mv">${p}%</span></span>`:'<span class="rm">No software training</span>'}</span>
     <span class="rr">${pill(st)}<span class="rdue ${dueLate?'late':''}">${dueTxt}</span></span></button>`;
 }
 function sortStaff(a,b){ const ord={overdue:0,not_started:1,in_progress:2,complete:3,na:4};
@@ -1052,15 +1337,17 @@ App.setDashboardFilter=(g,v)=>{
   if(g!=='site'&&g!=='role') return;
   const allowed=new Set(scopedRoster().map(r=>r[g]));
   state.dashboardFilter[g]=(v==='all'||allowed.has(v))?v:'all';
-  state.drill={site:null,role:null};
+  state.drill={site:null,role:null}; state.dashPg.bars=0;
   App.render();
 };
-App.clearDashboardFilters=()=>{ state.dashboardFilter={site:'all',role:'all'}; state.drill={site:null,role:null}; App.render(); };
-App.drillSite=s=>{ state.drill.site=s; state.drill.role=null; App.render(); };
-App.drillRole=r=>{ state.drill.role=r; App.render(); };
-App.drillReset=()=>{ state.drill={site:null,role:null}; App.render(); };
+App.clearDashboardFilters=()=>{ state.dashboardFilter={site:'all',role:'all'}; state.drill={site:null,role:null}; state.dashPg.bars=0; App.render(); };
+App.drillSite=s=>{ state.drill.site=s; state.drill.role=null; state.dashPg.bars=0; App.render(); };
+App.drillRole=r=>{ state.drill.role=r; state.dashPg.bars=0; App.render(); };
+App.drillReset=()=>{ state.drill={site:null,role:null}; state.dashPg.bars=0; App.render(); };
 App.drillWorst=()=>{ const rows=dashboardFilteredRows(); const byS=groupPct(rows,r=>r.site); state.tab='dashboard'; renderTabs();
-  if(byS.length){ state.drill={site:byS[0].k,role:null}; } App.render(); };
+  if(byS.length){ state.drill={site:byS[0].k,role:null}; } state.dashPg.bars=0; App.render(); };
+App.dashPage=(key,n)=>{ state.dashPg[key]=n; fitDashPages(); };
+App.setNeqFilter=(g,v)=>{ state.neqFilter[g]=v; state.dashPg.neq=0; App.render(); };
 
 /* notification settings (Open question #4) */
 function openNotifySettings(){
@@ -1184,7 +1471,7 @@ function viewReports(){
     <div class="metric over"><div class="mn">${m.gap}</div><div class="ml">assignment / overdue gaps</div></div>
     <div class="metric warn"><div class="mn">${m.inProgress}</div><div class="ml">in progress</div></div>
   </div>`;
-  h+=`<p class="note" style="margin-bottom:14px">${SVG.badge} This report answers the operational question: who was assigned the required training, who completed it, and what evidence can the district hand to a reviewer.</p>`;
+  h+=`<p class="note" style="margin-bottom:14px">${SVG.badge} This report answers the operational question: who was assigned the software training, who completed it, and what evidence can the district hand to a reviewer.</p>`;
   h+=`<div class="filters">
     <div class="filter-group"><label class="fg-label" for="rp-site">Site</label><select class="input" id="rp-site" onchange="App.setReportFilter('site',this.value)">${opt('all','All sites',state.reportFilter.site)}${sites.map(s=>opt(s,s,state.reportFilter.site)).join('')}</select></div>
     <div class="filter-group"><label class="fg-label" for="rp-role">Role</label><select class="input" id="rp-role" onchange="App.setReportFilter('role',this.value)">${opt('all','All roles',state.reportFilter.role)}${roles.map(r=>opt(r,r,state.reportFilter.role)).join('')}</select></div>
@@ -1236,14 +1523,7 @@ function viewRoster(){
   if(!ROSTER.length) return rosterEmptyBlock();
   let rows=scopedRoster();
   const totalInScope=rows.length;
-  // header actions
-  let h=`<div class="toolrow" id="roster-actions">
-    <button class="btn btn--primary btn--sm" ${isReadOnly()?'disabled':''} onclick="openImport()">${SVG.upload} Import roster</button>
-    <button class="btn btn--secondary btn--sm" ${isReadOnly()?'disabled':''} onclick="openAddStaff()">${SVG.userplus} Add staff</button>
-    <span class="tr-spacer"></span>
-    <span class="synced">${SVG.sync} ${isReadOnly()?'Reviewer read-only — no edits':'Shared live with your trainer — one list'}</span>
-  </div>`;
-  h += `<p class="note" style="margin-bottom:14px">${SVG.sync} This is the <b>one</b> roster. Anything you import or edit here is the same record the implementation team works from — there is no second copy and no import-to-trainer step.</p>`;
+  let h = `<p class="note" style="margin-bottom:14px">${SVG.sync} This is the <b>one</b> roster. Anything you import or edit here is the same record the implementation team works from — there is no second copy and no import-to-trainer step.</p>`;
 
   if(!totalInScope) return h + emptyScopeBlock();
 
@@ -1263,10 +1543,20 @@ function viewRoster(){
   if(state.filter.status!=='all') rows=rows.filter(r=>staffStatus(r)===state.filter.status);
   rows.sort(sortStaff);
 
-  const grid = rows.length ? `<div class="roster-grid-wrap"><table class="roster-grid">
+  // pagination — big districts need pages, not one endless scroll
+  const PAGE_SIZE=25;
+  const totalRows=rows.length;
+  const pageCount=Math.max(1,Math.ceil(totalRows/PAGE_SIZE));
+  if(state.rosterPage>pageCount) state.rosterPage=pageCount;
+  if(state.rosterPage<1) state.rosterPage=1;
+  const pageStart=(state.rosterPage-1)*PAGE_SIZE;
+  const pageRows=rows.slice(pageStart,pageStart+PAGE_SIZE);
+
+  const grid = totalRows ? `<div class="roster-grid-wrap"><table class="roster-grid">
       <thead><tr>${rosterSortHeader('name','Employee','c-person')}${rosterSortHeader('site','Site','c-site')}${rosterSortHeader('role','Role','c-role')}${rosterSortHeader('account','Account','c-account')}<th class="c-training" scope="col"><button class="sort-h" onclick="App.setSort('status')">Training${state.sort==='status'?'<span class="sort-mark">↓</span>':''}</button></th>${rosterSortHeader('progress','Progress','c-progress')}${rosterSortHeader('due','Next due','c-due')}<th class="c-action" scope="col"><span class="vh">Actions</span></th></tr></thead>
-      <tbody>${rows.map(rosterGridRow).join('')}</tbody></table></div>`
+      <tbody>${pageRows.map(rosterGridRow).join('')}</tbody></table></div>`
     : `<div class="empty"><div class="ei">${SVG.roster}</div><p>No staff match these filters.</p><p class="es">Clear a filter to widen the list.</p></div>`;
+  const pager = totalRows>PAGE_SIZE ? renderPager(state.rosterPage,pageCount,pageStart,PAGE_SIZE,totalRows) : '';
 
   h += `<div class="filters">
     <div class="filter-group" style="flex:1 1 260px"><label class="fg-label" for="f-search">Search</label>
@@ -1280,17 +1570,38 @@ function viewRoster(){
     <div class="filter-group"><label class="fg-label" for="f-status">Training</label>
       <select class="input" id="f-status" onchange="App.setFilter('status',this.value)" aria-label="Filter by training state">${statusOpts}</select></div></div>`;
   const filtered=state.filter.q||state.filter.site!=='all'||state.filter.role!=='all'||state.filter.account!=='all'||state.filter.status!=='all';
-  h += `<div class="toolrow"><div class="small muted">${rows.length} of ${totalInScope} staff${filtered?' (filtered)':''}</div>${filtered?'<button class="btn btn--ghost btn--sm" onclick="App.clearRosterFilters()">Clear filters</button>':''}<span class="tr-spacer"></span><button class="btn btn--secondary btn--sm" onclick="exportScopedCSV()" ${rows.length?'':'disabled aria-disabled="true" title="No filtered rows to export"'}>${SVG.download} Export CSV</button></div>`;
-  h += grid;
+  h += `<div class="toolrow" id="roster-actions">
+    <button class="btn btn--primary btn--sm" ${isReadOnly()?'disabled':''} onclick="openImport()">${SVG.upload} Import roster</button>
+    <button class="btn btn--secondary btn--sm" ${isReadOnly()?'disabled':''} onclick="openAddStaff()">${SVG.userplus} Add staff</button>
+    <span class="synced">${SVG.sync} ${isReadOnly()?'Reviewer read-only — no edits':'Shared live with your trainer — one list'}</span>
+    <span class="tr-spacer"></span>
+    <div class="small muted">${rows.length} of ${totalInScope} staff${filtered?' (filtered)':''}</div>
+    ${filtered?'<button class="btn btn--ghost btn--sm" onclick="App.clearRosterFilters()">Clear filters</button>':''}
+    <button class="btn btn--secondary btn--sm" onclick="exportScopedCSV()" ${rows.length?'':'disabled aria-disabled="true" title="No filtered rows to export"'}>${SVG.download} Export CSV</button>
+  </div>`;
+  h += grid + pager;
   return h;
 }
-App.setFilter=(g,v)=>{ state.filter[g]=v; App.render(); };
+function renderPager(page,pageCount,start,size,total){
+  const btn=(p,label,dis,cur)=>`<button class="pg-btn${cur?' cur':''}" ${dis?'disabled':''} onclick="App.setRosterPage(${p})"${cur?' aria-current="page"':''}>${label}</button>`;
+  const lo=Math.max(1,page-2), hi=Math.min(pageCount,page+2);
+  let nums=[];
+  if(lo>1){ nums.push(btn(1,'1',false,page===1)); if(lo>2) nums.push('<span class="pg-ell">…</span>'); }
+  for(let p=lo;p<=hi;p++) nums.push(btn(p,String(p),false,p===page));
+  if(hi<pageCount){ if(hi<pageCount-1) nums.push('<span class="pg-ell">…</span>'); nums.push(btn(pageCount,String(pageCount),false,page===pageCount)); }
+  return `<div class="pager">
+    <span class="pg-info">Showing <b>${start+1}–${Math.min(start+size,total)}</b> of <b>${total}</b> staff</span>
+    <span class="pg-controls">${btn(page-1,'‹ Prev',page<=1,false)}${nums.join('')}${btn(page+1,'Next ›',page>=pageCount,false)}</span>
+  </div>`;
+}
+App.setRosterPage=p=>{ state.rosterPage=p; App.render(); const g=$('.roster-grid-wrap'); if(g) g.scrollIntoView({block:'nearest'}); };
+App.setFilter=(g,v)=>{ state.filter[g]=v; state.rosterPage=1; App.render(); };
 let rosterSearchTimer=null;
-App.setRosterSearch=v=>{ state.filter.q=v; clearTimeout(rosterSearchTimer); rosterSearchTimer=setTimeout(()=>{
+App.setRosterSearch=v=>{ state.filter.q=v; state.rosterPage=1; clearTimeout(rosterSearchTimer); rosterSearchTimer=setTimeout(()=>{
   App.render(); const input=$('#f-search'); if(input){ input.focus(); input.setSelectionRange(input.value.length,input.value.length); }
 },180); };
-App.clearRosterFilters=()=>{ state.filter={q:'',site:'all',role:'all',account:'all',status:'all'}; App.render(); };
-App.setSort=v=>{ state.sort=v; App.render(); };
+App.clearRosterFilters=()=>{ state.filter={q:'',site:'all',role:'all',account:'all',status:'all'}; state.rosterPage=1; App.render(); };
+App.setSort=v=>{ state.sort=v; state.rosterPage=1; App.render(); };
 
 /* ---- Import roster (Epic 1.1) ---- */
 const IMPORT_SAMPLES={
@@ -1616,7 +1927,7 @@ function assignmentImpactMarkup(i){
   const skipped=i.alreadyAssigned+i.alreadyComplete+i.noTraining;
   return `<b>This will assign ${i.assign} ${i.assign===1?'person':'people'}.</b>
     <span>${i.group.length} matched · ${skipped} skipped.</span>
-    <span class="ai-skip">${i.alreadyAssigned} already assigned · ${i.alreadyComplete} already complete · ${i.noTraining} no required training</span>`;
+    <span class="ai-skip">${i.alreadyAssigned} already assigned · ${i.alreadyComplete} already complete · ${i.noTraining} no software training</span>`;
 }
 function viewAssign(){
   const rows=scopedRoster();
@@ -1642,7 +1953,7 @@ function viewAssign(){
     <div class="assign-impact" id="assign-preview">${assignmentImpactMarkup(initialImpact)}</div>
     <button class="btn btn--primary btn--block" id="assign-submit" onclick="App.doAssign()" ${initialImpact.assign?'':'disabled'}>${SVG.assign} Assign to ${initialImpact.assign} new ${initialImpact.assign===1?'person':'people'}</button>
     ${state.lastAssign?`<div class="note" style="margin-top:12px;display:flex;gap:9px;align-items:flex-start"><span style="color:var(--accent)">${SVG.check}</span><span>${esc(state.lastAssign)}</span></div>`:''}
-    <p class="note" style="margin-top:13px">To assign, reassign, change a due date, or unassign for <b>one person</b>, open them from the <b>Roster</b>. <span class="muted">${esc(NO_TRAINING_ROLES.join(' & '))} have no required training and are skipped by group-assign.</span> Group-assign respects your scope — only staff at your assigned sites/roles are touched.</p>
+    <p class="note" style="margin-top:13px">To assign, reassign, change a due date, or unassign for <b>one person</b>, open them from the <b>Roster</b>. <span class="muted">${esc(NO_TRAINING_ROLES.join(' & '))} have no software training and are skipped by group-assign.</span> Group-assign respects your scope — only staff at your assigned sites/roles are touched.</p>
     <div class="oq"><span class="oqi">Open Q</span><span>New joiners inheriting a group assignment (#2) and re-assigning an already-completed course (#3) are still being decided — completed staff are <b>skipped</b> here for now.</span></div>
     </div></div>`;
   return '<div class="form-narrow">'+h+'</div>';
@@ -1674,7 +1985,7 @@ App.doAssign=()=>{ if(isReadOnly()) return; const track=$('#as-track').value, au
     if(completedTracks(r).includes(track)){ skippedDone++; return; }
     if(r.assignments.some(a=>a.track===track)){ skippedDup++; return; }
     r.assignments.push(A(track,'not_started',due,'—',null,currentDir().name,TODAY)); n++; });
-  const summary=`${n} new · ${skippedDup} already assigned · ${skippedDone} already complete · ${skippedNoTrain} no required training`;
+  const summary=`${n} new · ${skippedDup} already assigned · ${skippedDone} already complete · ${skippedNoTrain} no software training`;
   state.lastAssign = n? `${trackTitle(track)} — ${summary}. Due ${fmtDate(due)} for ${target}.`
                       : `No new assignments for ${target} — ${summary}.`;
   commit(state.lastAssign); };
