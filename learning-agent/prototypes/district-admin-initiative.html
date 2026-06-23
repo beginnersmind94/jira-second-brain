@@ -1,0 +1,1526 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SchoolCafé 2.0 Learning — District Administration (prototype)</title>
+<!--
+  STANDALONE PROTOTYPE — District Administration initiative.
+  A pre-build pitch artifact for the CN Director (district admin) self-administration surface:
+  roster · roles & permissions · completion dashboard · audit trail. Shows PROPOSED features
+  (most do not exist in the real app yet) so a stakeholder can approve before development.
+
+  Single file: all CSS/JS/data inline. No build, no server, no network (except the brand-font
+  CDN and any link-outs). State lives in memory and resets on refresh ("Reset demo" in the
+  header). Nothing is sent anywhere.
+
+  Carries its own story: a cover card + a 5-beat guided walkthrough (viewer-advanced, no
+  autoplay) — the order of the reveal is the argument; captions only name what's on screen.
+
+  Brand tokens ("Cafeteria Modernism": Public Sans / Fraunces / Spline Sans Mono · ink-green /
+  stamp-blue) and the Citation Stamp are reproduced from the real app (static/index.html).
+
+  REAL repo content (citations verbatim from real Jira tickets, verified):
+    • New Cashier Onboarding — NXT-24910, NXT-35898, NXT-37110 (Acceptance Criteria)
+    • Manager Essentials     — NXT-70380 (RN+AC), NXT-66798 (AC)
+    • ICN/USDA video         — outside-vendor, link-out, NO citation guarantee
+  SYNTHETIC + LABELLED: district "Houston ISD", and EVERY staff/supervisor name is fabricated.
+    Real staff names are deliberately NOT used — a forwarded artifact must not carry real PII;
+    scope-as-access-control (Epic 2) is the very thing this prototype demonstrates guarding.
+-->
+<style>
+/* ============================ BRAND TOKENS ============================ */
+:root{
+  --bg:#FBFAF7; --bg-2:#F4F3EE; --surface:#FFFFFF; --panel2:#F4F6F3; --panel3:#E9EDEA;
+  --ink:#14201A; --text:#14201A; --text-soft:#2C3D35; --muted:#56695E; --muted-aa:#47604F; --label:#3D5147;
+  --accent:#22573E; --accent-hover:#1A4530; --accent-press:#163B2A; --accent-soft:#E4F0E9; --accent-ink:#FBFAF7;
+  --green-text:#1A4530;
+  --stamp:#1E5A8A; --stamp-soft:#E6F0F8; --stamp-text:#15527d; --stamp-ink:#FBFAF7;
+  --marigold:#E8A23C; --warn-text:#7A520A; --warn-soft:#FBF0D6;
+  --red:#C23B34; --red-soft:#FBEAE8; --red-text:#8B2B27;
+  --r-xl:24px; --r-lg:20px; --r-md:14px; --r-sm:10px; --r-pill:999px;
+  --hair:rgba(20,32,26,.07); --hair-2:rgba(20,32,26,.11);
+  --sh-card:0 1px 2px rgba(20,32,26,.04), 0 10px 26px -14px rgba(20,32,26,.20);
+  --sh-pop:0 24px 60px -16px rgba(20,32,26,.34);
+  --sh-btn:0 1px 2px rgba(20,32,26,.10), 0 10px 20px -10px rgba(34,87,62,.5);
+  --ring:0 0 0 3px rgba(34,87,62,.30);
+  --font:'Public Sans',ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --display:'Fraunces',Georgia,"Times New Roman",serif;
+  --mono:'Spline Sans Mono',ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;}
+html,body{height:100%;}
+body{
+  margin:0; font-family:var(--font); color:var(--text); overflow:hidden;
+  background:radial-gradient(900px 520px at 50% 0, #F1F4F0 0%, #E6EAE5 100%);
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+}
+
+/* ============================ APP SHELL ============================ */
+.app{
+  width:100%; height:100vh; height:100dvh;
+  display:flex; flex-direction:column; background:var(--bg); overflow:hidden;
+}
+.topbar{flex:none; display:flex; align-items:center; gap:12px; padding:13px 24px; background:var(--surface); box-shadow:inset 0 -1px 0 var(--hair);}
+.brand{font:600 14.5px/1 var(--font); letter-spacing:.01em; color:var(--accent); display:inline-flex; align-items:center; gap:9px;}
+.brand .mark{width:21px; height:21px; border-radius:6px; background:var(--accent); position:relative; flex:none;}
+.brand .mark::after{content:""; position:absolute; inset:5px; border-radius:2px; background:var(--accent-ink); clip-path:polygon(0 60%,42% 60%,42% 0,58% 0,58% 60%,100% 60%,100% 100%,0 100%);}
+.proto-tag{font:600 9.5px/1 var(--mono); letter-spacing:.1em; text-transform:uppercase; color:var(--stamp); background:var(--stamp-soft); padding:5px 9px; border-radius:5px; cursor:help; white-space:nowrap;}
+.reset-btn{appearance:none;border:0;background:var(--panel2);color:var(--muted-aa);cursor:pointer;font:600 11.5px/1 var(--font);min-height:34px;padding:9px 13px;border-radius:var(--r-pill);display:inline-flex;align-items:center;gap:6px;}
+.reset-btn:hover{background:var(--panel3);color:var(--text-soft);}
+.reset-btn:focus-visible{outline:none;box-shadow:var(--ring);}
+.reset-btn svg{width:13px;height:13px;}
+/* demo-only scaffolding control — dashed + muted so it never reads as a product action */
+.demo-toggle{appearance:none;border:1px dashed var(--hair-2);background:transparent;color:var(--muted);cursor:pointer;font:600 11px/1 var(--font);padding:7px 11px;min-height:32px;border-radius:var(--r-pill);display:inline-flex;align-items:center;gap:5px;}
+.demo-toggle:hover{color:var(--muted-aa);border-color:var(--muted);}
+.demo-toggle:focus-visible{outline:none;box-shadow:var(--ring);}
+.userchip{margin-left:auto; display:inline-flex; align-items:center; gap:9px;}
+.userchip .uc-av{width:30px; height:30px; border-radius:50%; background:var(--accent-soft); color:var(--green-text); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:11.5px;}
+.userchip .uc-n{font-size:13px; font-weight:600; color:var(--text-soft); line-height:1.15;}
+.userchip .uc-r{font-size:11px; color:var(--muted);}
+
+.appbar{flex:none; padding:18px 28px 8px; background:var(--bg);}
+.ab-row{display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:9px;}
+.appbar .ab-role{display:inline-block; font-size:11px; font-weight:600; color:var(--muted-aa); background:var(--panel2); padding:5px 11px; border-radius:var(--r-pill);}
+.viewas{margin-left:auto; display:inline-flex; align-items:center; gap:8px; font-size:11.5px; font-weight:600; color:var(--muted-aa);}
+.appbar .viewas-sel{min-height:40px; height:auto; padding:9px 30px 9px 12px; font-size:13px; min-width:248px; max-width:340px; box-shadow:inset 0 0 0 1px var(--hair-2);}
+.appbar h1{font-family:var(--display); font-weight:600; font-size:30px; line-height:1.05; margin:0; color:var(--ink); letter-spacing:-.01em;}
+.appbar .ab-sub{font-size:13.5px; color:var(--muted); margin-top:6px;}
+
+.tabbar{flex:none; display:flex; gap:6px; padding:8px 22px 0; background:var(--bg); box-shadow:inset 0 -1px 0 var(--hair); overflow-x:auto;}
+.tabbar::-webkit-scrollbar{height:0;}
+.tabbar button{flex:0 0 auto; appearance:none; border:0; background:transparent; cursor:pointer; display:inline-flex;
+  align-items:center; gap:8px; padding:11px 14px; color:var(--muted); font:600 14px/1 var(--font); min-height:46px;
+  border-radius:10px 10px 0 0; border-bottom:2.5px solid transparent; transition:color .15s, border-color .15s; white-space:nowrap;}
+.tabbar button svg{width:20px; height:20px;}
+.tabbar button[aria-selected="true"]{color:var(--accent); border-bottom-color:var(--accent);}
+.tabbar button:hover{color:var(--text);}
+.tabbar button:focus-visible{outline:none; box-shadow:var(--ring);}
+
+.scroll{flex:1 1 auto; min-height:0; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:0; position:relative;}
+.scroll::-webkit-scrollbar{width:9px;}
+.scroll::-webkit-scrollbar-thumb{background:var(--panel3); border-radius:999px; border:2px solid transparent; background-clip:content-box;}
+.vpad{padding:24px 36px 48px; margin:0 auto;}   /* fluid full-width — fills the screen */
+/* spread-out desktop dashboard: by-site payload wide on the left, summary cards stacked on the right */
+.dash-grid{display:grid; grid-template-columns:minmax(0,2.1fr) minmax(330px,1fr); gap:18px; align-items:start; margin-bottom:14px;}
+.dash-grid .dg-side{display:flex; flex-direction:column; gap:18px; min-width:0;}
+.dash-grid .dg-main{min-width:0;}
+.dash-grid .card{margin-bottom:0;}
+.form-narrow{max-width:660px;}
+@media(max-width:1040px){ .dash-grid{grid-template-columns:1fr;} }
+
+/* ============================ CARDS / LISTS ============================ */
+.card{background:var(--surface); border-radius:var(--r-lg); box-shadow:var(--sh-card); margin-bottom:14px; overflow:hidden;}
+.card-h{display:flex; align-items:center; gap:8px; padding:15px 18px 2px; font:600 14px/1.2 var(--font); color:var(--ink);}
+.card-h .ch-right{margin-left:auto; font-size:12px; color:var(--muted); font-weight:500;}
+.card-b{padding:14px 18px 18px;}
+.card-h + .card-b{padding-top:11px;}
+.sec-title{font:600 13px/1 var(--font); color:var(--muted-aa); margin:20px 4px 9px; display:flex; align-items:center; gap:8px;}
+.sec-title:first-child{margin-top:4px;}
+.sec-title .st-right{margin-left:auto; font-weight:600;}
+.list{background:var(--surface); border-radius:var(--r-lg); box-shadow:var(--sh-card); overflow:hidden; margin-bottom:14px;}
+.list > *{position:relative;}
+.list > * + *{box-shadow:inset 0 1px 0 var(--hair);}
+.lib-group-row td, .grp{background:var(--panel2); font:600 11.5px/1 var(--font); letter-spacing:.04em; text-transform:uppercase; color:var(--muted-aa); padding:9px 16px;}
+
+/* ============================ COMPLIANCE GLANCE ============================ */
+.glance{display:flex; gap:18px; align-items:center;}
+.ring-wrap{flex:none; width:128px; height:128px; position:relative;}
+.ring-wrap svg{transform:rotate(-90deg);}
+.ring-center{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;}
+.ring-center .pct{font-family:var(--display); font-weight:600; font-size:34px; color:var(--ink); line-height:1; letter-spacing:-.02em;}
+.ring-center .pl{font-size:10px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; color:var(--muted); margin-top:3px;}
+.glance-side{flex:1; min-width:0; display:flex; flex-direction:column; gap:9px;}
+.gs-line{display:flex; align-items:center; gap:8px; font-size:13px; color:var(--text-soft);}
+.gs-line b{color:var(--ink); font-weight:700;}
+.gl{min-width:0; flex:1;}
+.gs-ic{display:inline-flex; width:17px; justify-content:center; flex:none;}
+
+.bar-row{display:flex; align-items:center; gap:11px; margin:4px 0;}
+.bar-btn{display:flex; align-items:center; gap:11px; width:100%; text-align:left; appearance:none; border:0; background:transparent; cursor:pointer; padding:8px 6px; border-radius:var(--r-sm); transition:background .14s;}
+.bar-btn:hover{background:var(--panel2);}
+.bar-btn:focus-visible{outline:none; box-shadow:var(--ring);}
+.bar-row .bl, .bar-btn .bl{flex:none; width:150px; font-size:13px; color:var(--text-soft); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; display:flex; align-items:center; gap:6px;}
+.bar-row .bt, .bar-btn .bt{flex:1; height:10px; background:var(--panel3); border-radius:var(--r-pill); overflow:hidden;}
+.bar-row .bf, .bar-btn .bf{display:block; height:100%; border-radius:var(--r-pill); transition:width .5s ease;}
+.bar-row .bv, .bar-btn .bv{flex:none; width:118px; text-align:right; font-size:12px; font-weight:700; color:var(--ink); display:flex; align-items:center; justify-content:flex-end; gap:5px;}
+.bf.ok{background:var(--accent);} .bf.warn{background:var(--marigold);} .bf.over{background:var(--red);}
+.pace{font:600 10px/1 var(--mono); letter-spacing:.04em; text-transform:uppercase; padding:2px 6px; border-radius:4px;}
+.pace.ahead{background:var(--accent-soft); color:var(--green-text);}
+.pace.behind{background:var(--red-soft); color:var(--red-text);}
+.bcrumb{display:flex; align-items:center; gap:7px; flex-wrap:wrap; font-size:13px; color:var(--muted); margin-bottom:12px;}
+.bcrumb button{appearance:none;border:0;background:transparent;color:var(--accent);font:600 13px/1 var(--font);cursor:pointer;padding:4px 2px;}
+.bcrumb button:hover{text-decoration:underline;}
+.bcrumb .sep{color:var(--muted);}
+.bcrumb .cur{color:var(--ink);font-weight:700;}
+
+.nudge{display:flex; gap:13px; align-items:flex-start; padding:15px; border-radius:var(--r-lg); margin-bottom:14px;}
+.nudge.warn{background:var(--warn-soft);} .nudge.warn .nx{color:var(--warn-text);}
+.nudge.ok{background:var(--accent-soft);} .nudge.ok .nx{color:var(--green-text);}
+.nudge .nx{flex:none; margin-top:1px;}
+.nudge .nbody{flex:1; min-width:0;}
+.nudge .nbody p{margin:0 0 8px; font-size:13px; line-height:1.5;}
+.nudge.warn .nbody p{color:var(--warn-text);} .nudge.ok .nbody p{color:var(--green-text);}
+.nudge .nbody p:last-child{margin-bottom:0;}
+.nudge .nbody p b{font-weight:700;}
+.nudge .nrow{display:flex; gap:8px; flex-wrap:wrap; margin-top:11px;}
+
+/* roadmap card */
+.roadmap{background:var(--panel2); border-radius:var(--r-lg); padding:16px 18px; margin-top:6px;}
+.roadmap h3{font-family:var(--display); font-size:15px; font-weight:600; margin:0 0 4px; color:var(--ink);}
+.roadmap .rm-tag{font:700 9.5px/1 var(--mono); letter-spacing:.08em; text-transform:uppercase; color:var(--muted-aa); background:var(--panel3); padding:4px 8px; border-radius:5px;}
+.roadmap ul{margin:12px 0 0; padding:0; list-style:none; display:flex; flex-direction:column; gap:10px;}
+.roadmap li{font-size:13px; color:var(--text-soft); display:flex; gap:9px; align-items:flex-start;}
+.roadmap li .ri{flex:none; color:var(--muted); margin-top:1px;}
+.roadmap li b{color:var(--ink); font-weight:700;}
+.roadmap li .rwhy{color:var(--muted); font-size:12px;}
+
+/* open-question note */
+.oq{display:flex; gap:9px; align-items:flex-start; font-size:12px; color:var(--stamp-text); background:var(--stamp-soft); border-radius:var(--r-sm); padding:10px 12px; margin-top:10px; line-height:1.5;}
+.oq .oqi{flex:none; font:700 9px/1 var(--mono); letter-spacing:.06em; text-transform:uppercase; color:var(--stamp); border:1px solid var(--stamp); border-radius:4px; padding:3px 5px; margin-top:1px;}
+
+/* ============================ CITATION STAMP + PROVENANCE ============================ */
+.cite-stamp{display:inline-flex; align-items:center; gap:5px; padding:3px 9px; background:var(--stamp-soft); color:var(--stamp);
+  border:1.5px solid var(--stamp); border-radius:3px; font-family:var(--mono); font-size:10.5px; font-weight:700;
+  letter-spacing:.06em; text-transform:uppercase; white-space:nowrap; transform:rotate(-1deg); opacity:.93; user-select:none; line-height:1.4;}
+.cite-stamp--straight{transform:none; opacity:1;}
+.cite-stamp--compact{padding:2px 7px; font-size:10px; letter-spacing:.04em;}
+.origin-badge{display:inline-flex; align-items:center; gap:4px; padding:3px 9px; border-radius:var(--r-pill); font-size:10.5px; font-weight:700; white-space:nowrap;}
+.origin-badge svg{width:12px; height:12px;}
+.origin-badge.ai-grounded{background:var(--accent-soft); color:var(--green-text);}
+.origin-badge.outside-vendor{background:#EEF1F6; color:#3C4A63;}
+
+/* ============================ BUTTONS / CONTROLS ============================ */
+.btn{appearance:none; cursor:pointer; min-height:48px; padding:12px 17px; border-radius:var(--r-md); font:700 14.5px/1 var(--font);
+  border:0; display:inline-flex; align-items:center; justify-content:center; gap:8px; transition:background .16s, transform .12s, box-shadow .16s, border-color .16s;}
+.btn svg{width:18px; height:18px;}
+.btn:focus-visible{outline:none; box-shadow:var(--ring);}
+.btn--primary{background:var(--accent); color:var(--accent-ink); box-shadow:var(--sh-btn);}
+.btn--primary:hover:not(:disabled){background:var(--accent-hover); transform:translateY(-1px);}
+.btn--primary:active:not(:disabled){background:var(--accent-press); transform:none;}
+.btn--secondary{background:var(--surface); color:var(--text); box-shadow:inset 0 0 0 1px var(--hair-2);}
+.btn--secondary:hover:not(:disabled){box-shadow:inset 0 0 0 1px var(--muted); }
+.btn--ghost{background:transparent; color:var(--accent); min-height:40px; padding:9px 8px; font-weight:700;}
+.btn--ghost:hover{text-decoration:underline; text-underline-offset:3px;}
+.btn--danger{background:var(--surface); color:var(--red-text); box-shadow:inset 0 0 0 1px var(--red-soft);}
+.btn--danger:hover:not(:disabled){box-shadow:inset 0 0 0 1px var(--red);}
+.btn:disabled{background:var(--panel3); color:var(--muted-aa); cursor:not-allowed; box-shadow:none; transform:none;}
+.btn--block{width:100%;} .btn--sm{min-height:42px; padding:10px 14px; font-size:13.5px;}
+.toolrow{display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:14px;}
+.toolrow .tr-spacer{flex:1;}
+
+.filters{display:flex; flex-direction:column; gap:13px; margin-bottom:14px;}
+.filter-group{display:flex; flex-direction:column; gap:8px;}
+.fg-label{font:600 12px/1 var(--font); color:var(--muted-aa);}
+.chips{display:flex; gap:7px; flex-wrap:wrap;}
+.chip{appearance:none; cursor:pointer; background:var(--surface); box-shadow:inset 0 0 0 1px var(--hair-2);
+  color:var(--text-soft); border:0; border-radius:var(--r-pill); padding:9px 14px; min-height:40px; font:600 13px/1 var(--font); transition:.15s;}
+.chip[aria-pressed="true"]{background:var(--accent); color:var(--accent-ink); box-shadow:none;}
+.chip:focus-visible{outline:none; box-shadow:var(--ring);}
+select.input, input.input{width:100%; padding:13px 14px; border:0; box-shadow:inset 0 0 0 1px var(--hair-2); border-radius:var(--r-md);
+  font:inherit; font-size:15px; background:var(--surface); color:var(--text); min-height:50px; -webkit-appearance:none; appearance:none;}
+select.input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2356695E' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 13px center; padding-right:38px;}
+.input:focus{outline:none; box-shadow:inset 0 0 0 1.5px var(--accent), var(--ring);}
+.field{display:flex; flex-direction:column; gap:8px; margin-bottom:15px;}
+.field label{font:600 13px/1 var(--font); color:var(--label);}
+.field .hint{font-size:12px; color:var(--muted); line-height:1.5;}
+.field-err{font-size:12px; color:var(--red-text); font-weight:600; margin-top:-4px;}
+
+/* ============================ ROWS ============================ */
+.rrow{display:flex; gap:13px; align-items:center; width:100%; text-align:left; appearance:none; cursor:pointer;
+  background:transparent; border:0; padding:13px 16px; min-height:66px; transition:background .14s;}
+.rrow:hover{background:var(--panel2);}
+.rrow:focus-visible{outline:none; box-shadow:inset 0 0 0 2px var(--accent); border-radius:14px;}
+.rrow .av{flex:none; width:42px; height:42px; border-radius:50%; background:var(--accent-soft); color:var(--green-text);
+  display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px;}
+.rrow .rb{flex:1; min-width:0; display:flex; flex-direction:column;}
+.rrow .rn{font-weight:700; font-size:14.5px; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; display:flex; align-items:center; gap:8px;}
+.rrow .rm{font-size:12.5px; color:var(--muted); margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.rrow .rr{flex:none; display:flex; flex-direction:column; align-items:flex-end; gap:6px;}
+.rrow .rdue{font-size:11px; color:var(--muted);}
+.rrow .rdue.late{color:var(--red-text); font-weight:700;}
+.mini-prog{display:flex; align-items:center; gap:7px; margin-top:5px;}
+.mini-prog .mb{width:90px; height:7px; background:var(--panel3); border-radius:var(--r-pill); overflow:hidden;}
+.mini-prog .mb i{display:block; height:100%; background:var(--accent); border-radius:var(--r-pill);}
+.mini-prog .mv{font-size:11px; color:var(--muted); font-weight:700;}
+.invited-chip{font:700 9.5px/1 var(--mono); letter-spacing:.04em; text-transform:uppercase; color:var(--warn-text); background:var(--warn-soft); padding:3px 7px; border-radius:4px;}
+
+/* status pills */
+.pill{display:inline-flex; align-items:center; gap:5px; padding:4px 11px; border-radius:var(--r-pill); font-size:11.5px; font-weight:700; white-space:nowrap;}
+.pill svg{width:13px; height:13px; flex:none;}
+.pill.ok{background:var(--accent-soft); color:var(--green-text);}
+.pill.prog{background:var(--stamp-soft); color:var(--stamp-text);}
+.pill.over{background:var(--red-soft); color:var(--red-text);}
+.pill.none{background:var(--warn-soft); color:var(--warn-text);}
+.pill.na{background:var(--panel3); color:var(--muted-aa);}
+.pill--mini{padding:3px 9px; font-size:11px; gap:4px; font-weight:600;}
+.pill--mini svg{width:11px; height:11px;}
+
+/* scope chips / badges */
+.scope-chips{display:flex; gap:6px; flex-wrap:wrap; margin-top:8px;}
+.scope-chip{font:600 11.5px/1 var(--font); padding:6px 11px; border-radius:var(--r-pill); background:var(--panel2); color:var(--text-soft); display:inline-flex; gap:5px; align-items:center;}
+.scope-chip.all{background:var(--accent-soft); color:var(--green-text);}
+.seed-badge{font:700 9.5px/1 var(--mono); letter-spacing:.05em; text-transform:uppercase; padding:4px 8px; border-radius:5px;}
+.seed-badge.inherited{background:var(--stamp-soft); color:var(--stamp-text);}
+.seed-badge.manual{background:var(--warn-soft); color:var(--warn-text);}
+.dir-card{display:flex; gap:13px; align-items:flex-start; padding:15px 16px;}
+.dir-card .da{flex:none; width:40px; height:40px; border-radius:50%; background:var(--panel3); color:var(--muted-aa); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px;}
+.dir-card .db{flex:1; min-width:0;}
+.dir-card .dn{font-weight:700; font-size:14.5px; color:var(--ink); display:flex; gap:8px; align-items:center; flex-wrap:wrap;}
+.dir-card .dt{font-size:12.5px; color:var(--muted); margin-top:2px;}
+.dir-card .dright{flex:none; display:flex; flex-direction:column; gap:8px; align-items:flex-end;}
+
+.scope-readout{display:flex; align-items:baseline; gap:10px; padding:16px 18px; background:var(--surface); border-radius:var(--r-lg); box-shadow:var(--sh-card); margin-bottom:14px;}
+.scope-readout .sr-n{font-family:var(--display); font-weight:600; font-size:32px; color:var(--ink); line-height:1;}
+.scope-readout .sr-l{font-size:13px; color:var(--muted);}
+.scope-readout .sr-who{margin-left:auto; font-size:12.5px; color:var(--text-soft); text-align:right;}
+.scope-readout .sr-who b{color:var(--ink);}
+
+/* import preview */
+.imp-group{margin-bottom:12px;}
+.imp-group .ig-h{display:flex;align-items:center;gap:8px;font:600 13px/1 var(--font);margin-bottom:8px;}
+.imp-group .ig-h .cnt{font:700 11px/1 var(--mono);padding:3px 7px;border-radius:5px;}
+.imp-group.ok .cnt{background:var(--accent-soft);color:var(--green-text);}
+.imp-group.rev .cnt{background:var(--warn-soft);color:var(--warn-text);}
+.imp-group.rej .cnt{background:var(--red-soft);color:var(--red-text);}
+.imp-row{font-size:12.5px;color:var(--text-soft);padding:8px 11px;background:var(--panel2);border-radius:var(--r-sm);margin-bottom:6px;display:flex;gap:9px;align-items:flex-start;}
+.imp-row .ln{flex:none;font:700 11px/1 var(--mono);color:var(--muted);}
+.imp-row .why{color:var(--red-text);font-weight:600;}
+.imp-row .why.rev{color:var(--warn-text);}
+.samp-btn{appearance:none;text-align:left;cursor:pointer;border:0;background:var(--panel2);border-radius:var(--r-md);padding:12px 13px;font:600 13px/1.3 var(--font);color:var(--text-soft);box-shadow:inset 0 0 0 1px var(--hair-2);transition:.14s;display:flex;gap:9px;align-items:center;}
+.samp-btn:hover{box-shadow:inset 0 0 0 1px var(--accent);}
+.samp-btn[aria-pressed="true"]{background:var(--accent-soft);color:var(--green-text);box-shadow:inset 0 0 0 1.5px var(--accent);}
+.samp-btn svg{width:16px;height:16px;flex:none;color:var(--muted);}
+
+/* history timeline */
+.tl{position:relative;margin:4px 0 0;padding-left:6px;}
+.tl-item{position:relative;padding:0 0 16px 22px;}
+.tl-item::before{content:"";position:absolute;left:4px;top:3px;width:9px;height:9px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px var(--accent-soft);}
+.tl-item.muted-dot::before{background:var(--muted);box-shadow:0 0 0 3px var(--panel3);}
+.tl-item:not(:last-child)::after{content:"";position:absolute;left:8px;top:12px;bottom:0;width:1.5px;background:var(--panel3);}
+.tl-item .tt{font-size:13.5px;color:var(--ink);font-weight:600;}
+.tl-item .tm{font-size:12px;color:var(--muted);margin-top:2px;}
+
+/* helpers */
+.muted{color:var(--muted);} .small{font-size:12.5px;} .tiny{font-size:11.5px;}
+.empty{text-align:center; padding:38px 20px; color:var(--muted);}
+.empty .ei{width:46px; height:46px; margin:0 auto 12px; color:#C7CFC9;}
+.empty p{margin:0 0 5px; font-size:14px; color:var(--text-soft);} .empty .es{font-size:12.5px; color:var(--muted);}
+.note{font-size:12.5px; color:var(--muted); line-height:1.55; background:var(--panel2); border-radius:var(--r-md); padding:13px 15px;}
+.note b{color:var(--text-soft); font-weight:600;}
+.note svg{width:15px; height:15px; vertical-align:-2px;}
+.kv{display:flex; justify-content:space-between; gap:12px; padding:11px 0; box-shadow:inset 0 -1px 0 var(--hair); font-size:14px;}
+.kv:last-child{box-shadow:none;} .kv .k{color:var(--muted);} .kv .v{color:var(--ink); font-weight:700; text-align:right;}
+.synced{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--green-text);background:var(--accent-soft);padding:6px 12px;border-radius:var(--r-pill);font-weight:600;}
+.synced svg{width:14px;height:14px;}
+
+/* assignment manage rows */
+.asg{padding:13px 0; box-shadow:inset 0 -1px 0 var(--hair);}
+.asg:last-child{box-shadow:none;}
+.asg .asg-t{display:flex; align-items:center; gap:9px; flex-wrap:wrap;}
+.asg .asg-name{font-weight:700; font-size:14px; color:var(--ink); flex:1; min-width:120px;}
+.asg .asg-meta{font-size:12px; color:var(--muted); margin-top:4px;}
+.asg .asg-meta.late{color:var(--red-text); font-weight:700;}
+.asg .asg-stamp{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px;}
+.asg .asg-actions{display:flex; gap:7px; flex-wrap:wrap; margin-top:10px;}
+.asg-edit{margin-top:11px; padding:13px; background:var(--panel2); border-radius:var(--r-md);}
+
+/* skeleton */
+.skel{background:linear-gradient(90deg,var(--panel3) 25%,#EFF2EE 37%,var(--panel3) 63%); background-size:400% 100%; animation:sh 1.3s ease infinite; border-radius:var(--r-lg);}
+@keyframes sh{0%{background-position:100% 0;}100%{background-position:-100% 0;}}
+
+/* ============================ MODAL ============================ */
+.modal-bd{position:fixed; inset:0; z-index:200; background:rgba(13,22,17,.5); backdrop-filter:blur(3px); display:flex; align-items:center; justify-content:center; padding:24px; animation:fade .2s ease;}
+@keyframes fade{from{opacity:0;}to{opacity:1;}}
+.modal{width:100%; max-width:560px; max-height:90vh; background:var(--bg); border-radius:20px; display:flex; flex-direction:column; box-shadow:var(--sh-pop); overflow:hidden; animation:pop .22s cubic-bezier(.2,.8,.2,1);}
+@keyframes pop{from{transform:translateY(12px) scale(.985); opacity:.5;}to{transform:none; opacity:1;}}
+.modal-h{flex:none; position:relative; display:flex; align-items:center; gap:10px; padding:18px 18px 14px;}
+.modal-h h2{font-family:var(--display); font-weight:600; font-size:20px; margin:0; flex:1; min-width:0; color:var(--ink);}
+.modal-back, .modal-close{appearance:none; border:0; background:var(--panel2); cursor:pointer; width:36px; height:36px; border-radius:50%; color:var(--text-soft); display:flex; align-items:center; justify-content:center; flex:none; font-size:17px;}
+.modal-back svg{width:18px;height:18px;}
+.modal-back:focus-visible, .modal-close:focus-visible{outline:none; box-shadow:var(--ring);}
+.modal-b{flex:1 1 auto; overflow-y:auto; padding:4px 16px 16px;}
+.modal-f{flex:none; padding:12px 16px; box-shadow:inset 0 1px 0 var(--hair); background:var(--surface); display:flex; gap:10px;}
+
+.src-item{border-radius:var(--r-md); padding:13px 14px; margin-bottom:10px; background:var(--surface); box-shadow:var(--sh-card);}
+.src-item .si-h{display:flex; align-items:center; gap:8px; margin-bottom:8px; flex-wrap:wrap;}
+.si-tier{font:700 9.5px/1 var(--mono); letter-spacing:.06em; text-transform:uppercase; color:var(--stamp); background:var(--stamp-soft); border:1px solid var(--stamp); border-radius:4px; padding:3px 7px;}
+.si-key{font:700 12px/1 var(--mono); color:var(--text-soft);}
+.src-item blockquote{margin:0; padding:9px 12px; border-left:3px solid var(--stamp); background:var(--panel2); border-radius:0 var(--r-sm) var(--r-sm) 0; font-size:13px; color:var(--text-soft); line-height:1.5; font-style:italic;}
+
+.prov-row{padding:13px 0; box-shadow:inset 0 -1px 0 var(--hair);}
+.prov-row:last-child{box-shadow:none;}
+.prov-row .pr-t{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:8px;}
+.prov-row .pr-name{font-weight:700; font-size:14px; color:var(--ink); flex:1; min-width:120px;}
+.prov-row .pr-stamp{display:flex; align-items:center; gap:8px; flex-wrap:wrap;}
+
+/* toast */
+.toast{position:fixed; left:50%; bottom:26px; transform:translateX(-50%) translateY(20px); z-index:9800; background:var(--ink); color:#fff; font-size:13px; font-weight:600; padding:12px 18px; border-radius:var(--r-pill); box-shadow:var(--sh-pop); opacity:0; pointer-events:none; transition:.25s; max-width:560px; text-align:center;}
+.toast.on{opacity:1; transform:translateX(-50%) translateY(0);}
+
+.vh{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;}
+
+/* ============================ COVER CARD ============================ */
+.cover{position:fixed; inset:0; z-index:10000; display:flex; align-items:center; justify-content:center; padding:24px;
+  background:radial-gradient(1000px 600px at 50% 0,#F1F4F0 0%,#E2E8E2 100%);}
+.cover.hide{display:none;}
+.cover-card{max-width:480px; text-align:center; animation:pop .4s cubic-bezier(.2,.8,.2,1);}
+.cover-mark{width:52px; height:52px; border-radius:14px; background:var(--accent); position:relative; display:inline-block; margin-bottom:22px;}
+.cover-mark::after{content:""; position:absolute; inset:13px; border-radius:4px; background:var(--accent-ink); clip-path:polygon(0 60%,42% 60%,42% 0,58% 0,58% 60%,100% 60%,100% 100%,0 100%);}
+.cover-card h1{font-family:var(--display); font-weight:600; font-size:40px; line-height:1.05; margin:0 0 16px; color:var(--ink); letter-spacing:-.02em;}
+.cover-lede{font-size:17px; line-height:1.5; color:var(--text-soft); margin:0 auto 22px; max-width:400px;}
+.cover-meta{font:600 11.5px/1 var(--mono); letter-spacing:.1em; text-transform:uppercase; color:var(--muted-aa); margin:0 0 30px;}
+.cover-card .btn{min-width:260px;}
+
+/* ============================ GUIDED WALKTHROUGH ============================ */
+#tour-root{position:fixed; inset:0; z-index:9000; pointer-events:none;}
+#tour-root.on{pointer-events:auto;}
+.tour-dim{position:fixed; background:rgba(13,22,17,.58); z-index:9000;}
+.tour-ring{position:fixed; border-radius:12px; box-shadow:0 0 0 2px var(--accent-ink), 0 0 0 4px var(--accent); z-index:9100; pointer-events:none;}
+.tour-cap{position:fixed; z-index:9600; width:330px; max-width:calc(100vw - 24px); background:var(--surface); border-radius:16px; box-shadow:var(--sh-pop); padding:16px 16px 13px;}
+.tour-cap .tc-step{font:700 10.5px/1 var(--mono); letter-spacing:.1em; text-transform:uppercase; color:var(--muted);}
+.tour-cap .tc-cap{font-family:var(--display); font-size:19px; font-weight:600; color:var(--ink); margin:9px 0 15px; line-height:1.25;}
+.tour-cap .tc-ctrls{display:flex; gap:8px; align-items:center;}
+.tour-cap .tc-spacer{flex:1;}
+.tour-cap .tcb{appearance:none; cursor:pointer; border:0; border-radius:var(--r-pill); font:700 13px/1 var(--font); padding:10px 16px; min-height:40px;}
+.tour-cap .tcb.next{background:var(--accent); color:var(--accent-ink);}
+.tour-cap .tcb.next:hover{background:var(--accent-hover);}
+.tour-cap .tcb.ghost{background:transparent; color:var(--muted-aa); padding:10px 10px;}
+.tour-cap .tcb.ghost:hover{color:var(--text-soft); text-decoration:underline;}
+.tour-cap .tcb:disabled{opacity:.4; cursor:not-allowed;}
+.tour-cap .tcb:focus-visible{outline:none; box-shadow:var(--ring);}
+.tour-close-card{position:fixed; inset:0; z-index:9600; display:flex; align-items:center; justify-content:center; padding:24px;}
+.tour-close-inner{background:var(--surface); border-radius:18px; box-shadow:var(--sh-pop); padding:26px 28px; text-align:center; max-width:380px; animation:pop .3s cubic-bezier(.2,.8,.2,1);}
+.tour-close-inner h3{font-family:var(--display); font-weight:600; font-size:22px; margin:0 0 18px; color:var(--ink);}
+.tour-close-inner .tci-row{display:flex; gap:10px; justify-content:center; flex-wrap:wrap;}
+body.tour-on .proto-tag{position:relative; z-index:9700;}
+
+/* compliance record (print) */
+.cr-paper{background:#fff; color:#111; max-width:412px; margin:0 auto; border-radius:var(--r-lg); box-shadow:var(--sh-card); padding:28px 26px; font-size:13px; line-height:1.55;}
+.cr-paper .cr-letter{display:flex; align-items:center; gap:11px; border-bottom:2px solid var(--ink); padding-bottom:13px; margin-bottom:16px;}
+.cr-paper .cr-letter .mark{width:30px; height:30px; border-radius:8px; background:var(--accent); position:relative; flex:none;}
+.cr-paper .cr-letter .mark::after{content:""; position:absolute; inset:7px; border-radius:3px; background:#fff;}
+.cr-paper h1{font-family:var(--display); font-weight:600; font-size:21px; margin:0; color:var(--ink); line-height:1.1;}
+.cr-paper .cr-org{font-size:11.5px; color:#555; margin-top:2px;}
+.cr-paper h3{font:600 11px/1 var(--font); letter-spacing:.04em; text-transform:uppercase; color:#777; margin:20px 0 9px; border-bottom:1px solid #e5e5e5; padding-bottom:6px;}
+.cr-paper .crkv{display:flex; justify-content:space-between; gap:14px; padding:5px 0; font-size:13px;}
+.cr-paper .crkv .k{color:#555;} .cr-paper .crkv .v{font-weight:700; color:#111; text-align:right;}
+.cr-paper .cr-prov{font-size:12.5px; color:#333; background:#f5f8f5; border-radius:8px; padding:13px 14px; margin-top:6px; line-height:1.55;}
+.cr-paper .cr-sign{margin-top:28px; display:flex; gap:26px;}
+.cr-paper .cr-sign .sg{flex:1;} .cr-paper .cr-sign .sl{border-top:1px solid #111; margin-top:32px; padding-top:6px; font-size:11px; color:#555;}
+.cr-paper .cr-foot{margin-top:20px; font-size:10px; color:#888; border-top:1px solid #e5e5e5; padding-top:11px; line-height:1.55;}
+
+@media (max-width:700px){
+  .app{max-width:none; box-shadow:none;}
+  .topbar{padding:11px 15px; gap:9px;}
+  .userchip .uc-n,.userchip .uc-r{display:none;}
+  .appbar{padding:15px 17px 4px;} .appbar h1{font-size:25px;}
+  .viewas{margin-left:0; width:100%;}
+  .tabbar{padding:5px 12px 0; gap:3px;} .tabbar button{padding:10px 11px; font-size:13px;}
+  .vpad{padding:15px 16px 26px;}
+  .bar-row .bl, .bar-btn .bl{width:110px;}
+  .glance{flex-direction:column; align-items:flex-start;}
+}
+@media (prefers-reduced-motion:reduce){ *,*::before,*::after{animation-duration:.001ms !important; transition-duration:.001ms !important;} }
+@media print{
+  body{background:#fff; display:block; padding:0;}
+  body.modal-open .app{display:none !important;}
+  .modal-h, .modal-f, .cr-actions, #tour-root, .toast{display:none !important;}
+  .modal-bd{position:static; background:#fff; padding:0; display:block; backdrop-filter:none;}
+  .modal{max-width:none; max-height:none; box-shadow:none; border-radius:0; animation:none;}
+  .modal-b{overflow:visible; padding:0;}
+  .cr-paper{box-shadow:none; border-radius:0; max-width:none; padding:0; font-size:12px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ============================ COVER ============================ -->
+<div class="cover" id="cover">
+  <div class="cover-card">
+    <span class="cover-mark" aria-hidden="true"></span>
+    <h1>District&nbsp;Administration</h1>
+    <p class="cover-lede">The surface a district runs itself — its roster, its permissions, its completion, in one place.</p>
+    <p class="cover-meta">Prototype · proposed features · synthetic data</p>
+    <button class="btn btn--primary" onclick="enterApp()">Enter the director&rsquo;s view &rarr;</button>
+  </div>
+</div>
+
+<div class="app" id="app" style="display:none;">
+  <header class="topbar">
+    <span class="brand"><span class="mark"></span>SchoolCafé 2.0 · Learning</span>
+    <span class="proto-tag" id="synth-badge" title="Standalone prototype of proposed District Administration features. Not part of the real app. All data is synthetic; all names are fabricated. State is in-memory and resets on refresh.">Prototype · synthetic data</span>
+    <button class="reset-btn" onclick="startTour()" title="Replay the guided walkthrough">▷ Walkthrough</button>
+    <button class="reset-btn" onclick="location.reload()" title="Reset the demo (reloads the page; in-memory changes are cleared)">↺ Reset</button>
+    <span class="userchip">
+      <span class="uc-av" id="uc-av" aria-hidden="true">DW</span>
+      <span><span class="uc-n" id="uc-n">Dana Whitman</span><br><span class="uc-r" id="uc-r">CN Director · super-admin</span></span>
+    </span>
+  </header>
+  <header class="appbar">
+    <div class="ab-row">
+      <span class="ab-role" id="ab-role">CN Director · super-admin</span>
+      <label class="viewas">Preview as
+        <select class="input viewas-sel" id="viewas-sel" onchange="App.setViewingAs(this.value)" aria-label="Preview the product through a different supervisor's scope (read-only lens)"></select>
+      </label>
+    </div>
+    <h1 id="ab-title">Dashboard</h1>
+    <div class="ab-sub" id="ab-sub">Houston ISD</div>
+  </header>
+  <nav class="tabbar" id="tabbar" role="tablist" aria-label="Sections"></nav>
+  <main class="scroll" id="view" tabindex="-1"></main>
+</div>
+
+<div class="vh" id="live" aria-live="polite"></div>
+<div id="modal-root"></div>
+<div id="tour-root"></div>
+
+<script>
+"use strict";
+const SVG = {
+  gauge:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 14l4-4"/><path d="M3.5 18a9 9 0 1 1 17 0"/><circle cx="12" cy="14" r="1.4" fill="currentColor" stroke="none"/></svg>',
+  roster:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 19v-1a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v1"/><circle cx="9" cy="7" r="3.2"/><path d="M22 19v-1a4 4 0 0 0-3-3.8"/><path d="M16 3.6A4 4 0 0 1 16 11"/></svg>',
+  assign:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>',
+  shield:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V5z"/><path d="M9 11.5l2 2 4-4.5"/></svg>',
+  badge:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6"/><path d="M9 14.5L8 22l4-2.2L16 22l-1-7.5"/></svg>',
+  check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>',
+  half:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" stroke="none"/></svg>',
+  warn:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4.5"/><circle cx="12" cy="17" r=".6" fill="currentColor" stroke="none"/></svg>',
+  circle:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8.5"/></svg>',
+  dash:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 12h12"/></svg>',
+  guide:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5A1.5 1.5 0 0 1 5.5 3H18a2 2 0 0 1 2 2v15a1 1 0 0 0-1-1H5.5A1.5 1.5 0 0 1 4 17.5z"/><path d="M8 7.5h8M8 11h6"/></svg>',
+  bell:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>',
+  doc:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 16h4"/></svg>',
+  print:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6"/><path d="M6 18H4a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="7" rx="1"/></svg>',
+  link:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1"/></svg>',
+  trash:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m2 0v12a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V7"/><path d="M10 11v6M14 11v6"/></svg>',
+  swap:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4L3 8l4 4"/><path d="M3 8h13a4 4 0 0 1 0 8h-1"/><path d="M17 20l4-4-4-4"/></svg>',
+  calendar:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="16" rx="2"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/></svg>',
+  back:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>',
+  chev:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>',
+  upload:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M5 20h14"/></svg>',
+  download:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12M7 11l5 5 5-5"/><path d="M5 20h14"/></svg>',
+  userplus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 19v-1a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v1"/><circle cx="8.5" cy="7" r="3.2"/><path d="M19 8v6M16 11h6"/></svg>',
+  edit:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>',
+  sync:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 4v4h-4M3 20v-4h4"/></svg>',
+};
+
+const TODAY='2026-06-22', DISTRICT='Houston ISD';
+const GO_LIVE_DEFAULT='2026-08-15', SCHOOL_YEAR_END='2027-06-04', ASSIGN_START='2026-05-01';
+const SITES=['Bayou Oaks Elementary','Magnolia Park Middle','Heights High','Pine Hollow Elementary','Central Kitchen'];
+let GO_LIVE=GO_LIVE_DEFAULT;   // inherited go-live; can be cleared in the prototype to show the empty state
+
+/* ====================================================================
+   CATALOG — REAL tracks. Citations verbatim from real Jira tickets.
+   Hours + standards-area mapping are illustrative (labeled in-app).
+   ==================================================================== */
+const CATALOG = {
+  'cashier-onboarding':{
+    id:'track-g1-cashier-onboarding', title:'New Cashier Onboarding', hours:2.0,
+    standardsArea:'Key Area 2 — Operations (illustrative)',
+    courses:[
+      { id:'c1', title:'Cashier Fundamentals', lessons:[
+          { id:'l1', type:'guide', title:'Item Setup: Configuration Prerequisites', origin:'ai_grounded', cites:[
+              {tier:'AC',key:'NXT-24910',quote:'Values provided against Configuration related fields are absolutely matched'},
+              {tier:'AC',key:'NXT-24910',quote:'Item Category should be a valid item category (Validate against Item Category Configuration)'},
+              {tier:'AC',key:'NXT-24910',quote:'Brand Association with manufacturer need NOT be followed'}]},
+          { id:'l2', type:'video', title:'Food Safety: Hand Hygiene', origin:'outside_vendor', vendor:'ICN / USDA' },
+          { id:'l3', type:'quiz', title:'Knowledge Check — Cashier Fundamentals', origin:'ai_grounded' } ]},
+      { id:'c2', title:'Getting Certified', lessons:[
+          { id:'l4', type:'guide', title:'Pack Sizes & Units', origin:'ai_grounded', cites:[
+              {tier:'AC',key:'NXT-35898',quote:'Provide the new Units card in the item creation header which is the combination of the pack size and serving size sections'},
+              {tier:'AC',key:'NXT-35898',quote:'Provide Food item and Fluid item questions in the header bar of the card before enabling the grid'},
+              {tier:'AC',key:'NXT-37110',quote:'Provide the ability to add pack size units in the combined Units grid'},
+              {tier:'AC',key:'NXT-37110',quote:'Bring attention to the appropriate Sub-Qty fields as required to link Pack Sizes'}]},
+          { id:'l5', type:'quiz', title:'Final Assessment', origin:'ai_grounded' } ]}
+    ]
+  },
+  'manager-essentials':{
+    id:'track-g1-manager-essentials', title:'Manager Essentials', hours:2.5,
+    standardsArea:'Key Area 3 — Administration (illustrative)',
+    courses:[
+      { id:'mc1', title:'Eligibility Essentials', lessons:[
+          { id:'m1', type:'guide', title:'Auto-Processing Income Surveys', origin:'ai_grounded', cites:[
+              {tier:'RN',key:'NXT-70380',quote:'A new system setting has been added, *_Auto-Process all Income Surveys_*, which will allow greater flexibility over if and when to automatically process a survey that has been submitted online.'},
+              {tier:'AC',key:'NXT-70380',quote:'Verify manual entry behavior is unchanged'}]},
+          { id:'m2', type:'guide', title:'Matching Pending Students', origin:'ai_grounded', cites:[
+              {tier:'AC',key:'NXT-66798',quote:'User can see instruction text on the Pending Students tab, the View window, and a Success message when matching'},
+              {tier:'AC',key:'NXT-66798',quote:'User must select 1 of the potential matches to proceed'},
+              {tier:'AC',key:'NXT-66798',quote:'Links are created when a potential match is found'}]} ]},
+      { id:'mc2', title:'Management Resources & Certification', lessons:[
+          { id:'m3', type:'video', title:'Financial Management for Managers', origin:'outside_vendor', vendor:'ICN / USDA' },
+          { id:'m4', type:'quiz', title:'Knowledge Check — Manager Essentials', origin:'ai_grounded' } ]}
+    ]
+  },
+  'food-safety':{
+    id:'track-g1-food-safety-booth', title:'Food Safety: Hand Hygiene (ICN/USDA)', hours:0.5,
+    standardsArea:'Key Area 1 — Nutrition (illustrative)',
+    courses:[
+      { id:'fc1', title:'Food Safety Basics', lessons:[
+          { id:'f1', type:'video', title:'Hand Hygiene in School Nutrition', origin:'outside_vendor', vendor:'ICN / USDA' } ]}
+    ]
+  }
+};
+const TRACK_ORDER = ['cashier-onboarding','manager-essentials','food-safety'];
+const trackTitle = k => CATALOG[k] ? CATALOG[k].title : k;
+const allLessonsOf = t => t.courses.flatMap(c=>c.lessons);
+const lessonCiteCount = l => (l.cites||[]).length;
+const trackCiteCount = t => allLessonsOf(t).reduce((n,l)=>n+lessonCiteCount(l),0);
+function anyLessonById(id){ for(const k in CATALOG){ const l=allLessonsOf(CATALOG[k]).find(x=>x.id===id); if(l) return l; } return null; }
+
+/* ====================================================================
+   ROSTER — single source of truth. Every person & name is FABRICATED.
+   assignment: {track, raw, due, last, score, by, on}. raw ∈ not_started|in_progress|complete.
+   history: past events not on the active assignment list (e.g. unassigned) — the audit trail.
+   Overdue is COMPUTED (never stored). Completion = % of assigned courses complete.
+   ==================================================================== */
+function A(track, raw, due, last, score, by, on){
+  return { track, raw, due:due||'—', last:last||'—', score:(score==null?null:score), by:by||'Onboarding seed', on:on||'2026-05-01' };
+}
+let _idSeq = 1000;
+function mkId(){ return 'stf-' + (++_idSeq); }
+function P(o){ return Object.assign({ status:'active', employment:'Active', hire:'—', email:'', history:[], assignments:[] }, o); }
+
+const ROSTER=[
+  // ---- Bayou Oaks Elementary (strong) ----
+  P({id:'stf-1001',name:'Tomás Reyna',site:'Bayou Oaks Elementary',role:'POS Cashier',email:'treyna@houstonisd.org',hire:'2025-08-19',assignments:[A('cashier-onboarding','complete','2026-08-15','Jun 3',91)]}),
+  P({id:'stf-1002',name:'Anika Venkat',site:'Bayou Oaks Elementary',role:'POS Cashier',email:'avenkat@houstonisd.org',hire:'2025-08-20',assignments:[A('cashier-onboarding','complete','2026-08-15','Jun 5',88)]}),
+  P({id:'stf-1003',name:'Della Crews',site:'Bayou Oaks Elementary',role:'Cafeteria Manager',email:'dcrews@houstonisd.org',hire:'2019-03-11',assignments:[A('manager-essentials','complete','2026-06-30','May 29',94)]}),
+  P({id:'stf-1004',name:'Marcus Okafor',site:'Bayou Oaks Elementary',role:'POS Cashier',email:'mokafor@houstonisd.org',hire:'2026-01-12',status:'invited',assignments:[A('cashier-onboarding','in_progress','2026-08-15','Jun 18',null,'Dana Whitman','2026-05-04')]}),
+  P({id:'stf-1005',name:'Joan Pelletier',site:'Bayou Oaks Elementary',role:'Nutritionist',email:'jpelletier@houstonisd.org',hire:'2018-09-04',assignments:[A('manager-essentials','complete','2026-06-30','Jun 1',86)]}),
+  // ---- Magnolia Park Middle (mixed) ----
+  P({id:'stf-1006',name:'Hugo Delacroix',site:'Magnolia Park Middle',role:'POS Cashier',email:'hdelacroix@houstonisd.org',hire:'2024-08-15',assignments:[A('cashier-onboarding','complete','2026-08-15','Jun 9',79)]}),
+  P({id:'stf-1007',name:'Renata Silva',site:'Magnolia Park Middle',role:'Cafeteria Manager',email:'rsilva@houstonisd.org',hire:'2017-02-20',assignments:[A('manager-essentials','complete','2026-06-30','May 30',92)]}),
+  P({id:'stf-1008',name:'Kwame Boateng',site:'Magnolia Park Middle',role:'POS Cashier',email:'kboateng@houstonisd.org',hire:'2025-09-02',assignments:[A('cashier-onboarding','in_progress','2026-08-15','Jun 17',null)]}),
+  P({id:'stf-1009',name:'Lacey Burnham',site:'Magnolia Park Middle',role:'POS Cashier',email:'lburnham@houstonisd.org',hire:'2025-10-30',assignments:[A('cashier-onboarding','not_started','2026-06-12','—',null)]}),
+  P({id:'stf-1010',name:'Ivan Petrosyan',site:'Magnolia Park Middle',role:'Inventory Manager',email:'ipetrosyan@houstonisd.org',hire:'2020-05-18',assignments:[A('manager-essentials','complete','2026-06-30','Jun 2',83)]}),
+  // ---- Heights High (worst site — surfaced first by worst-first ordering) ----
+  P({id:'stf-1011',name:'Sandra Whitfield',site:'Heights High',role:'Cafeteria Manager',email:'swhitfield@houstonisd.org',hire:'2016-08-08',assignments:[A('manager-essentials','complete','2026-06-30','Jun 5',90)]}),
+  P({id:'stf-1012',name:'Tobias Lund',site:'Heights High',role:'POS Cashier',email:'tlund@houstonisd.org',hire:'2025-11-14',assignments:[A('cashier-onboarding','not_started','2026-06-10','—',null)]}),
+  P({id:'stf-1013',name:'Manuela Esparza',site:'Heights High',role:'POS Cashier',email:'mesparza@houstonisd.org',hire:'2025-09-22',assignments:[A('cashier-onboarding','in_progress','2026-06-10','Jun 8',null)]}),
+  P({id:'stf-1014',name:'Greta Holloway',site:'Heights High',role:'Nutritionist',email:'gholloway@houstonisd.org',hire:'2021-01-25',assignments:[A('manager-essentials','in_progress','2026-08-15','Jun 16',null)]}),
+  P({id:'stf-1015',name:'Desmond Achebe',site:'Heights High',role:'POS Cashier',email:'dachebe@houstonisd.org',hire:'2025-08-18',
+      assignments:[A('cashier-onboarding','complete','2026-08-15','Jun 12',82,'Onboarding seed','2026-05-01')],
+      history:[{action:'unassigned',track:'food-safety',on:'2026-05-20',by:'Dana Whitman'}]}),
+  P({id:'stf-1016',name:'Felix Nakamura',site:'Heights High',role:'Inventory Manager',email:'fnakamura@houstonisd.org',hire:'2024-03-03',assignments:[A('manager-essentials','not_started','2026-06-10','—',null)]}),
+  // ---- Pine Hollow Elementary (mostly on track) ----
+  P({id:'stf-1017',name:'Carmen Ruvalcaba',site:'Pine Hollow Elementary',role:'POS Cashier',email:'cruvalcaba@houstonisd.org',hire:'2023-08-21',assignments:[A('cashier-onboarding','complete','2026-08-15','Jun 4',90)]}),
+  P({id:'stf-1018',name:'Beau Castellano',site:'Pine Hollow Elementary',role:'Cafeteria Manager',email:'bcastellano@houstonisd.org',hire:'2015-07-13',assignments:[A('manager-essentials','complete','2026-06-30','May 31',88)]}),
+  P({id:'stf-1019',name:'Inez Marchetti',site:'Pine Hollow Elementary',role:'POS Cashier',email:'imarchetti@houstonisd.org',hire:'2024-08-26',assignments:[A('cashier-onboarding','complete','2026-08-15','Jun 7',77)]}),
+  P({id:'stf-1020',name:'Otis Tremblay',site:'Pine Hollow Elementary',role:'POS Cashier',email:'otremblay@houstonisd.org',hire:'2026-02-09',status:'invited',assignments:[A('cashier-onboarding','in_progress','2026-08-15','Jun 15',null,'Dana Whitman','2026-05-06')]}),
+  // ---- Central Kitchen (managers/inventory + non-training roles) ----
+  P({id:'stf-1021',name:'Yusuf Demir',site:'Central Kitchen',role:'Inventory Manager',email:'ydemir@houstonisd.org',hire:'2019-11-04',assignments:[A('manager-essentials','complete','2026-06-30','Jun 2',85)]}),
+  P({id:'stf-1022',name:'Margery Quinlan',site:'Central Kitchen',role:'Inventory Manager',email:'mquinlan@houstonisd.org',hire:'2018-06-15',assignments:[A('manager-essentials','complete','2026-06-30','Jun 6',87)]}),
+  P({id:'stf-1023',name:'Roland Beaumont',site:'Central Kitchen',role:'Cafeteria Manager',email:'rbeaumont@houstonisd.org',hire:'2022-04-19',assignments:[A('manager-essentials','in_progress','2026-08-15','Jun 19',null)]}),
+  P({id:'stf-1024',name:'Priscilla Vance',site:'Central Kitchen',role:'Central Office',email:'pvance@houstonisd.org',hire:'2014-10-01',assignments:[]}),
+  P({id:'stf-1025',name:'Devra Schwartz',site:'Central Kitchen',role:'Technology',email:'dschwartz@houstonisd.org',hire:'2021-08-30',assignments:[]}),
+  P({id:'stf-1026',name:'Hollis Bram',site:'Central Kitchen',role:'Central Office',email:'hbram@houstonisd.org',hire:'2013-05-22',assignments:[]}),
+];
+const TOTAL_STAFF = ROSTER.length;
+const staffById = id => ROSTER.find(s=>s.id===id);
+const KNOWN_ROLES = ['POS Cashier','Cafeteria Manager','Nutritionist','Inventory Manager','Central Office','Technology'];
+const ALL_ROLES = () => [...new Set(ROSTER.map(r=>r.role))];
+const NO_TRAINING_ROLES = ['Technology','Central Office'];
+
+/* ---- scope model (Epic 2): assignment IS the access control ---- */
+const DIRECTORS = [
+  {id:'dana',  name:'Dana Whitman',   title:'CN Director — super-admin', scope:{sites:'ALL', roles:'ALL'}, inherited:true, super:true},
+  {id:'reuben',name:'Reuben Castillo',title:'Area Supervisor — Elementary', scope:{sites:['Bayou Oaks Elementary','Pine Hollow Elementary'], roles:'ALL'}, inherited:true},
+  {id:'nadia', name:'Nadia Brooks',   title:'Area Supervisor — Secondary',  scope:{sites:['Magnolia Park Middle','Heights High'], roles:'ALL'}, inherited:false},
+  {id:'glen',  name:'Glen Maddox',    title:'Cashier Lead — district-wide',  scope:{sites:'ALL', roles:['POS Cashier']}, inherited:true},
+  {id:'avery', name:'Avery Sloan',    title:'New Supervisor — pending setup', scope:{sites:[], roles:[]}, inherited:false},
+];
+const DEFAULT_SCOPES = JSON.parse(JSON.stringify(DIRECTORS.map(d=>({id:d.id,scope:d.scope,inherited:d.inherited}))));
+function dirById(id){ return DIRECTORS.find(d=>d.id===id) || DIRECTORS[0]; }
+function inScope(s, sc){
+  const okSite = sc.sites==='ALL' || (sc.sites||[]).includes(s.site);
+  const okRole = sc.roles==='ALL' || (sc.roles||[]).includes(s.role);
+  return okSite && okRole;
+}
+function currentDir(){ return dirById(state.viewingAs); }
+function currentScope(){ return currentDir().scope; }
+function isSuper(){ return !!currentDir().super; }
+function scopedRoster(){ const sc=currentScope(); return ROSTER.filter(s=>inScope(s,sc)); }
+function scopeIsEmpty(sc){ return (sc.sites!=='ALL' && (sc.sites||[]).length===0) || (sc.roles!=='ALL' && (sc.roles||[]).length===0); }
+
+/* ---- status model (computed) ---- */
+const STATUS={ complete:{label:'Complete',icon:SVG.check,cls:'ok'}, in_progress:{label:'In progress',icon:SVG.half,cls:'prog'},
+  overdue:{label:'Overdue',icon:SVG.warn,cls:'over'}, not_started:{label:'Not started',icon:SVG.circle,cls:'none'}, na:{label:'Not required',icon:SVG.dash,cls:'na'} };
+const isLate=d=>d&&d!=='—'&&d<TODAY;
+function asgStatus(a){ if(a.raw==='complete') return 'complete'; if(isLate(a.due)) return 'overdue'; if(a.raw==='in_progress') return 'in_progress'; return 'not_started'; }
+function staffStatus(s){ const as=s.assignments; if(!as.length) return 'na';
+  const sts=as.map(asgStatus);
+  if(sts.some(x=>x==='overdue')) return 'overdue';
+  if(sts.every(x=>x==='complete')) return 'complete';
+  if(sts.some(x=>x==='in_progress'||x==='complete')) return 'in_progress';
+  return 'not_started'; }
+const hasTraining=s=>s.assignments.length>0;
+function staffSoonestDue(s){ const open=s.assignments.filter(a=>asgStatus(a)!=='complete'); if(!open.length) return '—';
+  const od=open.filter(a=>isLate(a.due)); const pool=(od.length?od:open).map(a=>a.due).filter(d=>d&&d!=='—'); return pool.length?pool.sort()[0]:'—'; }
+function asgPct(a){ const s=asgStatus(a); return s==='complete'?100:(a.raw==='in_progress'?50:0); }
+function staffPct(s){ if(!s.assignments.length) return null; return Math.round(s.assignments.reduce((n,a)=>n+asgPct(a),0)/s.assignments.length); }
+function personStatusLabel(s){ return s.status==='invited' ? 'Invited / not activated' : (s.employment!=='Active' ? s.employment : 'Active'); }
+
+const state={ tab:'dashboard', loading:true, viewingAs:'dana',
+  drill:{site:null, role:null, rolesOverall:false},
+  filter:{site:'all', role:'all', status:'all'}, sort:'status',
+  manage:null, lastAssign:null, notifyDismissed:false, notified:{}, importSel:null, importParsed:null };
+
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const initials=n=>n.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
+function announce(m){ const l=$('#live'); if(l){ l.textContent=''; setTimeout(()=>l.textContent=m,30); } }
+const pill=s=>`<span class="pill ${STATUS[s].cls}">${STATUS[s].icon}${esc(STATUS[s].label)}</span>`;
+const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function fmtDate(d){ if(!d||d==='—')return '—'; const p=String(d).split('-'); if(p.length<3) return d; return MONTHS[+p[1]-1]+' '+(+p[2])+', '+p[0]; }
+function daysBetween(a,b){ const pa=a.split('-'),pb=b.split('-'); return Math.round((new Date(+pb[0],+pb[1]-1,+pb[2]) - new Date(+pa[0],+pa[1]-1,+pa[2]))/86400000); }
+
+function _showToast(msg){ let t=$('#toast'); if(!t){ t=document.createElement('div'); t.id='toast'; t.className='toast'; t.setAttribute('role','status'); document.body.appendChild(t);} t.textContent=msg; t.classList.add('on'); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove('on'),3400); announce(msg); }
+
+/* ============================ APP / CHROME ============================ */
+const DIR_TABS=[['dashboard','Dashboard',SVG.gauge],['roster','Roster',SVG.roster],['assign','Assign',SVG.assign],['access','Access',SVG.shield]];
+function renderTabs(){ $('#tabbar').innerHTML=DIR_TABS.map(([id,label,icon])=>`<button role="tab" id="tab-${id}" aria-selected="${state.tab===id}" aria-controls="view" onclick="App.setTab('${id}')">${icon}<span>${esc(label)}</span></button>`).join(''); }
+function fillViewAs(){ const sel=$('#viewas-sel'); if(!sel) return;
+  sel.innerHTML=DIRECTORS.map(d=>{ const n = d.scope.sites==='ALL'&&d.scope.roles==='ALL' ? 'full district'
+      : scopeIsEmpty(d.scope) ? 'no scope yet'
+      : (d.scope.sites==='ALL'?'all sites':(d.scope.sites.length+' site'+(d.scope.sites.length===1?'':'s'))) + (d.scope.roles==='ALL'?'':' · '+d.scope.roles.join('/'));
+    return `<option value="${d.id}">${esc(d.name)}${d.super?' (you)':''} — ${esc(n)}</option>`; }).join('');
+  sel.value=state.viewingAs;
+}
+function updateChrome(){
+  const d=currentDir();
+  $('#uc-av').textContent=initials(d.name);
+  $('#uc-n').textContent=d.name;
+  $('#uc-r').textContent=d.super?'CN Director · super-admin':('Previewing as · '+d.title);
+  $('#ab-role').textContent=d.super?'CN Director · super-admin':('Scoped view · '+d.name);
+  const titles={dashboard:'Dashboard',roster:'Roster',assign:'Assign training',access:'People & access'};
+  $('#ab-title').textContent=titles[state.tab]||'Dashboard';
+  const inScopeN=scopedRoster().length;
+  $('#ab-sub').textContent=DISTRICT+' · '+(d.super?(TOTAL_STAFF+' staff'):(inScopeN+' of '+TOTAL_STAFF+' staff in your scope'));
+  const sel=$('#viewas-sel'); if(sel) sel.value=state.viewingAs;
+}
+
+const App={
+  setTab(id){ state.tab=id; if(id!=='dashboard'){ /* keep drill only on dashboard */ } renderTabs(); App.render(); },
+  setViewingAs(v){ state.viewingAs=v; state.drill={site:null,role:null,rolesOverall:false}; state.filter={site:'all',role:'all',status:'all'}; App.render(); },
+  render(){ const v=$('#view'); if(!v) return; v.scrollTop=0; updateChrome();
+    const wrap=html=>'<div class="vpad">'+html+'</div>';
+    if(state.loading){ v.innerHTML=wrap(skeleton()); return; }
+    const fn={dashboard:viewDashboard,roster:viewRoster,assign:viewAssign,access:viewAccess}[state.tab]||viewDashboard;
+    v.innerHTML=wrap(fn());
+    if(state.tab==='dashboard') drawRing();
+  }
+};
+function commit(msg){ App.render(); refreshTopModal(); if(msg) _showToast(msg); }
+function skeleton(){ return `<div aria-busy="true" aria-label="Loading"><div class="skel" style="height:150px;margin-bottom:14px"></div><div class="skel" style="height:120px;margin-bottom:14px"></div><div class="skel" style="height:120px"></div></div>`; }
+
+/* ============================ shared compliance math ============================ */
+function compliance(rows){ const a=rows.filter(hasTraining); const by=s=>a.filter(r=>staffStatus(r)===s).length;
+  return {assigned:a.length, complete:by('complete'), overdue:by('overdue'), prog:by('in_progress'), none:by('not_started'),
+    pct:a.length?Math.round(by('complete')/a.length*100):0}; }
+const band=p=>p>=90?'ok':p>=70?'warn':'over';
+const bandWord=p=>p>=90?'On track':p>=70?'At risk':'Behind';
+function groupPct(rows, fn){ const m={}; rows.filter(hasTraining).forEach(r=>{const k=fn(r);(m[k]=m[k]||{t:0,c:0});m[k].t++;if(staffStatus(r)==='complete')m[k].c++;});
+  return Object.entries(m).map(([k,v])=>({k,pct:Math.round(v.c/v.t*100),n:v.t})).sort((a,b)=>a.pct-b.pct || a.k.localeCompare(b.k)); }
+function expectedPct(){ if(!GO_LIVE) return null; const total=daysBetween(ASSIGN_START,GO_LIVE); const elapsed=daysBetween(ASSIGN_START,TODAY); if(total<=0) return 100; return Math.max(0,Math.min(100,Math.round(elapsed/total*100))); }
+function paceTag(pct){ const exp=expectedPct(); if(exp==null) return ''; const ahead=pct>=exp; return `<span class="pace ${ahead?'ahead':'behind'}">${ahead?'on pace':'behind'}</span>`; }
+
+/* ============================ DASHBOARD (Epic 3.1 / 3.2 / 3.6 / 3.7 / 3.8) ============================ */
+function emptyScopeBlock(){
+  return `<div class="empty"><div class="ei">${SVG.shield}</div><p>No staff in your scope yet.</p>
+    <p class="es">Access is deny-by-default — you only see staff at the sites and roles a super-admin has assigned to you. Ask your super-admin to assign your scope, or switch the <b>Viewing as</b> selector back to a scope with staff.</p></div>`;
+}
+function rosterEmptyBlock(){
+  return `<div class="empty"><div class="ei">${SVG.roster}</div><p>No staff on the roster yet.</p>
+    <p class="es">Import a roster or add staff by hand from the <b>Roster</b> tab — everything here fills in once people exist.</p>
+    <div style="margin-top:14px"><button class="btn btn--primary btn--sm" onclick="App.setTab('roster')">${SVG.roster} Go to Roster</button></div></div>`;
+}
+function notifBanner(rows){
+  if(state.notifyDismissed) return '';
+  const behind = rows.filter(r=>staffStatus(r)==='overdue');
+  if(!behind.length){
+    return `<div class="nudge ok" id="notif"><span class="nx">${SVG.check}</span><div class="nbody">
+      <p><b>All sites on track.</b> No one in your scope is past a due date — so no alert was sent. Quiet when nothing's wrong.</p></div></div>`;
+  }
+  const sites=[...new Set(behind.map(r=>r.site))];
+  return `<div class="nudge warn" id="notif"><span class="nx">${SVG.bell}</span><div class="nbody">
+    <p><b>${behind.length} ${behind.length===1?'person is':'people are'} behind across ${sites.length} site${sites.length===1?'':'s'}</b> — you were notified ${fmtDate(TODAY)}. Behind: ${esc(sites.join(', '))}.</p>
+    <p class="tiny">This is automatic — the system notifies you directly; the implementation team takes no action.</p>
+    <div class="nrow">
+      <button class="btn btn--secondary btn--sm" onclick="App.drillWorst()">${SVG.gauge} See who&rsquo;s behind</button>
+      <button class="btn btn--secondary btn--sm" onclick="openNotifySettings()">${SVG.bell} Notification settings</button>
+      <button class="btn btn--ghost btn--sm" onclick="state.notifyDismissed=true;App.render();">Dismiss</button>
+    </div></div></div>`;
+}
+function goLiveCard(rows){
+  if(!GO_LIVE){
+    return `<div class="card"><div class="card-h">Progress toward go-live<button class="demo-toggle" style="margin-left:auto" onclick="GO_LIVE='${GO_LIVE_DEFAULT}';App.render();" title="Prototype control — not a product action">&#9881; Demo: restore go-live date</button></div>
+      <div class="card-b"><div class="empty" style="padding:18px 12px"><div class="ei">${SVG.calendar}</div><p>Go-live date not set.</p><p class="es">Go-live is inherited from onboarding — there's no manual milestone to configure here. With no date inherited, the comparison is simply hidden rather than shown against a broken or zero date.</p></div></div></div>`;
+  }
+  const c=compliance(rows); const exp=expectedPct(); const days=daysBetween(TODAY,GO_LIVE);
+  const ahead=c.pct>=exp;
+  const dlabel = days<0 ? `${-days} days past go-live` : days===0 ? 'Go-live is today' : `${days} days to go-live`;
+  return `<div class="card"><div class="card-h">Progress toward go-live <span class="ch-right">${esc(fmtDate(GO_LIVE))} · ${dlabel}</span></div>
+    <div class="card-b">
+      <div class="bar-row"><span class="bl">District</span><span class="bt"><i class="bf ${band(c.pct)}" style="width:${c.pct}%"></i></span><span class="bv">${c.pct}% ${ahead?'<span class="pace ahead">on pace</span>':'<span class="pace behind">behind</span>'}</span></div>
+      <p class="note" style="margin-top:10px">Completion is compared against the single inherited go-live date — expected pace today is about <b>${exp}%</b>. ${days<0?'A past go-live with training still open reads as <b>overdue</b>, not an error.':''} <span class="muted">Pace model is illustrative.</span></p>
+      <button class="demo-toggle" onclick="GO_LIVE='';App.render();" title="Prototype control — not a product action">&#9881; Demo: clear go-live date (show empty state)</button>
+    </div></div>`;
+}
+function viewDashboard(){
+  if(!ROSTER.length) return rosterEmptyBlock();
+  const rows=scopedRoster();
+  if(!rows.length) return emptyScopeBlock();
+  const c=compliance(rows);
+
+  let h='';
+  h += `<div class="toolrow"><span class="tr-spacer"></span><button class="btn btn--secondary btn--sm" onclick="exportScopedCSV('dashboard')">${SVG.download} Export CSV</button></div>`;
+  h += notifBanner(rows);
+
+  // district glance
+  if(!c.assigned){
+    h += `<div class="empty"><div class="ei">${SVG.gauge}</div><p>Nothing assigned yet.</p><p class="es">Assign a track from the <b>Assign</b> tab and the dashboard fills in. (Nothing assigned reads as "nothing assigned yet" — not 0% framed as failure.)</p></div>`;
+    return h;
+  }
+  const bw=bandWord(c.pct), bd=band(c.pct);
+  const bpill=`<span class="pill ${bd==='ok'?'ok':bd==='warn'?'none':'over'}">${bd==='over'?STATUS.overdue.icon:bd==='warn'?SVG.warn:SVG.check}${bw}</span>`;
+  const glanceCard = `<div class="card"><div class="card-h">District completion</div><div class="card-b"><div class="glance">
+      <div class="ring-wrap"><svg id="ring" width="128" height="128" viewBox="0 0 128 128"></svg><div class="ring-center"><span class="pct">${c.pct}%</span><span class="pl">complete</span></div></div>
+      <div class="glance-side"><div>${bpill}</div>
+        <div class="gs-line"><span class="gs-ic" style="color:var(--accent)">${SVG.check}</span><span class="gl"><b>${c.complete}</b> complete of ${c.assigned} with required training</span></div>
+        <div class="gs-line"><span class="gs-ic" style="color:var(--stamp)">${SVG.half}</span><span class="gl"><b>${c.prog}</b> in progress</span></div>
+        <div class="gs-line"><span class="gs-ic" style="color:var(--red)">${SVG.warn}</span><span class="gl"><b>${c.overdue}</b> overdue · ${c.none} not started</span></div>
+      </div></div></div></div>`;
+
+  // spread-out layout: by-site payload wide on the left, completion + go-live summary on the right
+  h += `<div class="dash-grid"><div class="dg-main">${drillBlock(rows)}</div><div class="dg-side">${glanceCard}${goLiveCard(rows)}</div></div>`;
+
+  // roadmap (Epic 4) — full width
+  h += roadmapCard();
+  return h;
+}
+function drawRing(){ const c=compliance(scopedRoster()), svg=$('#ring'); if(!svg)return;
+  const r=56,cx=64,cy=64,circ=2*Math.PI*r,bd=band(c.pct), col=bd==='ok'?'#22573E':bd==='warn'?'#E8A23C':'#C23B34', off=circ*(1-c.pct/100);
+  svg.innerHTML=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#E9EDEA" stroke-width="12"/><circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${col}" stroke-width="12" stroke-linecap="round" stroke-dasharray="${circ.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}"/>`; }
+
+function siteBar(g, onclick){ const bd=band(g.pct);
+  const ic=bd==='over'?`<span style="color:var(--red)">${STATUS.overdue.icon}</span>`:bd==='warn'?`<span style="color:var(--warn-text)">${SVG.warn}</span>`:`<span style="color:var(--accent)">${SVG.check}</span>`;
+  return `<button class="bar-btn" onclick="${onclick}"><span class="bl" title="${esc(g.k)}">${esc(g.k)}</span><span class="bt"><i class="bf ${bd}" style="width:${g.pct}%"></i></span><span class="bv">${g.pct}% ${ic}${SVG.chev}</span></button>`; }
+
+function drillBlock(rows){
+  const d=state.drill;
+  // ROLES OVERALL across scope
+  if(d.rolesOverall && !d.role){
+    const byR=groupPct(rows,r=>r.role);
+    const bars = byR.length ? byR.map(g=>siteBar(g, `App.drillRole('${esc(g.k)}')`)).join('') : `<div class="empty" style="padding:20px"><p>No staff with training in scope.</p></div>`;
+    return `<div class="card"><div class="card-h">Completion by role — whole scope<button class="btn btn--ghost btn--sm" style="margin-left:auto" onclick="App.toggleRolesOverall()">By site instead</button></div>
+      <div class="card-b" id="site-bars">${bars}<p class="note" style="margin-top:10px">Ordered worst-first. Roles overall ignore site — useful when a role is behind everywhere.</p></div></div>` + individualsBlockMaybe(rows);
+  }
+  // INDIVIDUALS (role selected)
+  if(d.role){
+    let pool = rows.filter(r=>r.role===d.role && (d.site? r.site===d.site : true));
+    return `<div class="card"><div class="card-b">
+      ${crumb()}
+      ${pool.length? `<div id="drill-individuals" class="list" style="margin:0;box-shadow:none;background:transparent">`+pool.sort(sortStaff).map(individualRow).join('')+`</div>`
+        : `<div class="empty" id="drill-individuals" style="padding:22px"><div class="ei">${SVG.roster}</div><p>No staff at this level.</p><p class="es">No ${esc(d.role)}${d.site?' at '+esc(d.site):''} in your scope.</p></div>`}
+      </div></div>`;
+  }
+  // SITE selected → by role within site
+  if(d.site){
+    const within = rows.filter(r=>r.site===d.site);
+    const byR=groupPct(within,r=>r.role);
+    const bars = byR.length ? byR.map(g=>siteBar(g, `App.drillRole('${esc(g.k)}')`)).join('') : `<div class="empty" id="drill-individuals" style="padding:22px"><div class="ei">${SVG.roster}</div><p>No staff with training at ${esc(d.site)}.</p></div>`;
+    return `<div class="card"><div class="card-b">${crumb()}<div id="site-bars">${bars}</div><p class="note" style="margin-top:10px">Completion by role within ${esc(d.site)}, worst-first. Pick a role to see the individuals.</p></div></div>`;
+  }
+  // TOP: by site
+  const byS=groupPct(rows,r=>r.site);
+  const bars = byS.length ? byS.map(g=>siteBar(g, `App.drillSite('${esc(g.k)}')`)).join('') : `<div class="empty" style="padding:22px"><p>No staff with training in scope.</p></div>`;
+  const single = byS.length===1;
+  return `<div class="card"><div class="card-h">Completion by site${single?'':' — worst-first'}<button class="btn btn--ghost btn--sm" style="margin-left:auto" onclick="App.toggleRolesOverall()">Roles overall</button></div>
+    <div class="card-b" id="site-bars">${bars}
+    <p class="note" style="margin-top:10px">${single?'Single-site scope — the comparison collapses to one site cleanly.':'Sites furthest behind are surfaced first, so a high district average never hides who\'s behind.'} Click a site to drill into roles, then individuals. <span class="muted">Cut-offs (green ≥90%, at-risk ≥70%) are illustrative.</span></p></div></div>`;
+}
+function individualsBlockMaybe(rows){ return ''; }
+function crumb(){ const d=state.drill;
+  let parts=[`<button onclick="App.drillReset()">${esc(DISTRICT)}${d.rolesOverall?' · roles':''}</button>`];
+  if(d.rolesOverall){ if(d.role) parts.push(`<span class="sep">${SVG.chev}</span><span class="cur">${esc(d.role)}</span>`); }
+  else {
+    if(d.site){ parts.push(`<span class="sep">${SVG.chev}</span>`+(d.role?`<button onclick="App.drillSite('${esc(d.site)}')">${esc(d.site)}</button>`:`<span class="cur">${esc(d.site)}</span>`)); }
+    if(d.role){ parts.push(`<span class="sep">${SVG.chev}</span><span class="cur">${esc(d.role)}</span>`); }
+  }
+  return `<div class="bcrumb">${parts.join('')}</div>`;
+}
+function individualRow(r){ const st=staffStatus(r), due=staffSoonestDue(r), p=staffPct(r);
+  const dueTxt = st==='na'?'—':st==='complete'?'Up to date':(due==='—'?'No due date':'Due '+fmtDate(due));
+  const dueLate=isLate(due)&&st!=='complete'&&st!=='na';
+  return `<button class="rrow" onclick="App.openPerson('${r.id}')" aria-label="Open ${esc(r.name)}, ${esc(r.role)}, ${esc(r.site)}, ${STATUS[st].label}">
+    <span class="av" aria-hidden="true">${initials(r.name)}</span>
+    <span class="rb"><span class="rn">${esc(r.name)}${r.status==='invited'?'<span class="invited-chip">invited</span>':''}</span>
+      <span class="rm">${esc(r.role)} · ${esc(r.site)}</span>
+      ${p!=null?`<span class="mini-prog"><span class="mb"><i style="width:${p}%"></i></span><span class="mv">${p}%</span></span>`:'<span class="rm">No required training</span>'}</span>
+    <span class="rr">${pill(st)}<span class="rdue ${dueLate?'late':''}">${dueTxt}</span></span></button>`;
+}
+function sortStaff(a,b){ const ord={overdue:0,not_started:1,in_progress:2,complete:3,na:4};
+  return state.sort==='name'?a.name.localeCompare(b.name)
+    :state.sort==='due'?String(staffSoonestDue(a)).localeCompare(String(staffSoonestDue(b)))
+    :(ord[staffStatus(a)]-ord[staffStatus(b)])||a.name.localeCompare(b.name); }
+
+function roadmapCard(){
+  return `<div class="sec-title" style="margin-top:22px">Compliance &amp; audit</div>
+  <div class="roadmap"><div style="display:flex;align-items:center;gap:10px;margin-bottom:4px"><h3>On the roadmap</h3><span class="rm-tag" style="margin-left:auto">Not in this prototype</span></div>
+    <p class="small muted" style="margin:0">Held until their dependencies are settled — shown here so the scope is honest, not hidden.</p>
+    <ul>
+      <li><span class="ri">${SVG.badge}</span><span><b>Accumulated training hours</b> — <span class="rwhy">needs a source for hours earned outside the LMS before it can render.</span></span></li>
+      <li><span class="ri">${SVG.shield}</span><span><b>Requirement profiles per role</b> — <span class="rwhy">district-editable defaults; duties (and USDA hours) vary by district.</span></span></li>
+      <li><span class="ri">${SVG.doc}</span><span><b>Audit-ready compliance reports</b> — <span class="rwhy">needs a target format reviewers accept (varies by state).</span></span></li>
+      <li><span class="ri">${SVG.roster}</span><span><b>State-reviewer read-only view</b> — <span class="rwhy">access model undecided (single- vs cross-district).</span></span></li>
+      <li><span class="ri">${SVG.print}</span><span><b>PDF export of compliance reports</b> — <span class="rwhy">held with the reports above.</span></span></li>
+    </ul></div>`;
+}
+
+/* drill actions */
+App.drillSite=s=>{ state.drill.rolesOverall=false; state.drill.site=s; state.drill.role=null; App.render(); };
+App.drillRole=r=>{ state.drill.role=r; App.render(); };
+App.drillReset=()=>{ state.drill={site:null,role:null,rolesOverall:false}; App.render(); };
+App.toggleRolesOverall=()=>{ state.drill={site:null,role:null,rolesOverall:!state.drill.rolesOverall}; App.render(); };
+App.drillWorst=()=>{ const rows=scopedRoster(); const byS=groupPct(rows,r=>r.site); state.tab='dashboard'; renderTabs();
+  if(byS.length){ state.drill={site:byS[0].k,role:null,rolesOverall:false}; } App.render(); };
+
+/* notification settings (Open question #4) */
+function openNotifySettings(){
+  openModal('Notification settings', `
+    <p class="small muted" style="margin:0 0 14px">You're notified automatically when staff or sites in your scope fall behind. The implementation team takes no action — the system tells you directly.</p>
+    <div class="field"><label for="nf-ch">Channel</label><select class="input" id="nf-ch"><option>In-app + emailed digest</option><option>In-app only</option><option>Email only</option></select></div>
+    <div class="field"><label for="nf-fr">Frequency</label><select class="input" id="nf-fr"><option>Daily digest</option><option>Weekly digest</option><option>Immediately when something slips</option></select></div>
+    <div class="oq"><span class="oqi">Open Q</span><span>Exact channel, frequency and threshold are still being decided (#4). The threshold here is simply "past due date."</span></div>`,
+    `<button class="btn btn--secondary" onclick="closeModal()">Cancel</button><button class="btn btn--primary" style="flex:1" onclick="closeModal();_showToast('Notification preferences saved (prototype — in memory only).')">Save preferences</button>`);
+}
+
+/* ============================ CSV EXPORT (Epic 3.8) ============================ */
+function csvCell(v){ v=(v==null?'':String(v)); return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v; }
+function download(name, text){ const blob=new Blob([text],{type:'text/csv;charset=utf-8'}); const url=URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=url; a.download=name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(url),1500); }
+function exportRowsFor(){ // scope-respecting; honors roster filters when on the Roster tab
+  let rows=scopedRoster();
+  if(state.tab==='roster'){
+    if(state.filter.site!=='all') rows=rows.filter(r=>r.site===state.filter.site);
+    if(state.filter.role!=='all') rows=rows.filter(r=>r.role===state.filter.role);
+    if(state.filter.status!=='all') rows=rows.filter(r=>staffStatus(r)===state.filter.status);
+  } else if(state.tab==='dashboard'){
+    const d=state.drill;
+    if(d.site) rows=rows.filter(r=>r.site===d.site);
+    if(d.role) rows=rows.filter(r=>r.role===d.role);
+  }
+  return rows;
+}
+function exportScopedCSV(){
+  const rows=exportRowsFor();
+  const header=['Name','Role','Site','Email','Person status','Course','Course status','Progress %','Due date','Score','Assigned by','Assigned on','Completed','Citations'];
+  const prov=[`# ${DISTRICT} — completion export — generated ${TODAY} — viewer: ${currentDir().name}${currentDir().super?' (full district)':' (scoped view)'}`,
+              `# Synthetic data, fabricated names. Provenance: history fields travel with each row.`];
+  const lines=[...prov, header.map(csvCell).join(',')];
+  let n=0;
+  rows.forEach(s=>{
+    if(!s.assignments.length){ lines.push([s.name,s.role,s.site,s.email,personStatusLabel(s),'(none)','','','','','','','',''].map(csvCell).join(',')); n++; return; }
+    s.assignments.forEach(a=>{ const t=CATALOG[a.track]; const as=asgStatus(a);
+      lines.push([s.name,s.role,s.site,s.email,personStatusLabel(s),t.title,STATUS[as].label,asgPct(a),a.due!=='—'?a.due:'',a.score!=null?a.score:'',a.by,a.on,as==='complete'?a.last:'',trackCiteCount(t)].map(csvCell).join(','));
+      n++; });
+  });
+  if(!n){ lines.push('# No records in the current scope/filter — header-only file.'); download('houston-isd-completion.csv', lines.join('\n')+'\n');
+    _showToast('Nothing in scope to export — wrote a header-only file with a notice.'); return; }
+  download('houston-isd-completion.csv', lines.join('\n')+'\n');
+  _showToast(`Exported ${n} row${n===1?'':'s'} — exactly the ${rows.length} in-scope staff, with completion history. Out-of-scope records are never in the file.`);
+}
+
+/* ============================ ROSTER (Epic 1.1 / 1.2 / 1.3 / 3.3 / 3.5) ============================ */
+function viewRoster(){
+  if(!ROSTER.length) return rosterEmptyBlock();
+  let rows=scopedRoster();
+  const totalInScope=rows.length;
+  // header actions
+  let h=`<div class="toolrow" id="roster-actions">
+    <button class="btn btn--primary btn--sm" onclick="openImport()">${SVG.upload} Import roster</button>
+    <button class="btn btn--secondary btn--sm" onclick="openAddStaff()">${SVG.userplus} Add staff</button>
+    <span class="tr-spacer"></span>
+    <span class="synced">${SVG.sync} Shared live with your trainer — one list</span>
+  </div>`;
+  h += `<p class="note" style="margin-bottom:14px">${SVG.sync} This is the <b>one</b> roster. Anything you import or edit here is the same record the implementation team works from — there is no second copy and no import-to-trainer step.</p>`;
+
+  if(!totalInScope) return h + emptyScopeBlock();
+
+  // filters
+  const chip=(g,v,l,cur)=>`<button class="chip" aria-pressed="${cur===v}" onclick="App.setFilter('${g}','${esc(v)}')">${esc(l)}</button>`;
+  const sitesInScope=[...new Set(rows.map(r=>r.site))];
+  const rolesInScope=[...new Set(rows.map(r=>r.role))];
+  const siteChips=['all',...sitesInScope].map(s=>chip('site',s,s==='all'?'All sites':s,state.filter.site)).join('');
+  const roleChips=['all',...rolesInScope].map(r=>chip('role',r,r==='all'?'All roles':r,state.filter.role)).join('');
+  const statusChips=[['all','All'],['overdue','Overdue'],['in_progress','In progress'],['not_started','Not started'],['complete','Complete']].map(([v,l])=>chip('status',v,l,state.filter.status)).join('');
+
+  if(state.filter.site!=='all') rows=rows.filter(r=>r.site===state.filter.site);
+  if(state.filter.role!=='all') rows=rows.filter(r=>r.role===state.filter.role);
+  if(state.filter.status!=='all') rows=rows.filter(r=>staffStatus(r)===state.filter.status);
+  rows.sort(sortStaff);
+
+  // group by site
+  const sites={}; rows.forEach(r=>{ (sites[r.site]=sites[r.site]||[]).push(r); });
+  const list = rows.length ? '<div class="list">'+Object.keys(sites).map(site=>
+      `<div class="grp">${esc(site)}</div>`+sites[site].map(individualRow).join('')).join('')+'</div>'
+    : `<div class="empty"><div class="ei">${SVG.roster}</div><p>No staff match these filters.</p><p class="es">Clear a filter to widen the list.</p></div>`;
+
+  h += `<div class="filters">
+    <div class="filter-group"><span class="fg-label">Site</span><div class="chips">${siteChips}</div></div>
+    <div class="filter-group"><span class="fg-label">Role</span><div class="chips">${roleChips}</div></div>
+    <div class="filter-group"><span class="fg-label">Status</span><div class="chips">${statusChips}</div></div>
+    <div class="filter-group"><label class="fg-label" for="sort">Sort by</label>
+      <select class="input" id="sort" onchange="App.setSort(this.value)" style="max-width:240px">
+        <option value="status"${state.sort==='status'?' selected':''}>Status (overdue first)</option>
+        <option value="name"${state.sort==='name'?' selected':''}>Name (A–Z)</option>
+        <option value="due"${state.sort==='due'?' selected':''}>Due date (soonest)</option></select></div></div>`;
+  h += `<div class="toolrow"><div class="small muted">${rows.length} of ${totalInScope} staff${(state.filter.site==='all'&&state.filter.role==='all'&&state.filter.status==='all')?'':' (filtered)'}</div><span class="tr-spacer"></span><button class="btn btn--secondary btn--sm" onclick="exportScopedCSV()">${SVG.download} Export CSV</button></div>`;
+  h += list;
+  return h;
+}
+App.setFilter=(g,v)=>{ state.filter[g]=v; App.render(); };
+App.setSort=v=>{ state.sort=v; App.render(); };
+
+/* ---- Import roster (Epic 1.1) ---- */
+const IMPORT_SAMPLES={
+  clean:{label:'Clean file — 5 new staff', text:
+`name,role,site,email
+Renee Albright,POS Cashier,Bayou Oaks Elementary,ralbright@houstonisd.org
+Curtis Mbeki,Cafeteria Manager,Pine Hollow Elementary,cmbeki@houstonisd.org
+Yolanda Frey,POS Cashier,Magnolia Park Middle,yfrey@houstonisd.org
+Sebastian Ory,Inventory Manager,Central Kitchen,sory@houstonisd.org
+Petra Vasquez,Nutritionist,Heights High,pvasquez@houstonisd.org`},
+  partial:{label:'Some rows missing a required field', text:
+`name,role,site,email
+Renee Albright,POS Cashier,Bayou Oaks Elementary,ralbright@houstonisd.org
+,POS Cashier,Pine Hollow Elementary,noname@houstonisd.org
+Yolanda Frey,,Magnolia Park Middle,yfrey@houstonisd.org
+Sebastian Ory,Inventory Manager,,sory@houstonisd.org`},
+  unknown:{label:'Unknown role / site values', text:
+`name,role,site,email
+Renee Albright,POS Cashier,Bayou Oaks Elementary,ralbright@houstonisd.org
+Curtis Mbeki,Lunch Captain,Pine Hollow Elementary,cmbeki@houstonisd.org
+Yolanda Frey,POS Cashier,West Annex Cafeteria,yfrey@houstonisd.org`},
+  empty:{label:'Empty file (header only)', text:`name,role,site,email`},
+  malformed:{label:'Wrong columns / bad encoding', text:`full_name;job;building\nRenee Albright;Cashier;Bayou Oaks`, malformed:true},
+};
+function parseCSV(text){
+  const raw=String(text).replace(/\r/g,'').split('\n');
+  // drop fully-blank lines but keep header position
+  const lines=raw.filter(l=>l.trim().length>0);
+  if(!lines.length) return {error:'The file is empty.'};
+  const delim = lines[0].indexOf(',')>=0 ? ',' : (lines[0].indexOf(';')>=0 ? ';' : ',');
+  const header=lines[0].split(delim).map(s=>s.trim().toLowerCase());
+  const need=['name','role','site'];
+  const missingCol=need.find(c=>!header.includes(c));
+  if(missingCol) return {error:`Required column "${missingCol}" not found. Found columns: ${header.join(', ')||'(none)'}. No records were written.`};
+  const ci=c=>header.indexOf(c);
+  const rows=[];
+  for(let i=1;i<lines.length;i++){ const cells=lines[i].split(delim);
+    rows.push({_line:i+1, name:(cells[ci('name')]||'').trim(), role:(cells[ci('role')]||'').trim(), site:(cells[ci('site')]||'').trim(), email:(ci('email')>=0?(cells[ci('email')]||'').trim():'')}); }
+  return {rows};
+}
+function classifyImport(parsed){
+  const ready=[], review=[], rejected=[];
+  (parsed.rows||[]).forEach(r=>{
+    const miss=[]; if(!r.name)miss.push('name'); if(!r.role)miss.push('role'); if(!r.site)miss.push('site');
+    if(miss.length){ rejected.push({...r, why:'missing '+miss.join(', ')}); return; }
+    const badRole=!KNOWN_ROLES.includes(r.role), badSite=!SITES.includes(r.site);
+    if(badRole||badSite){ review.push({...r, why:(badRole?`unknown role "${r.role}"`:'')+(badRole&&badSite?'; ':'')+(badSite?`unknown site "${r.site}"`:'')}); return; }
+    ready.push(r);
+  });
+  return {ready, review, rejected};
+}
+function openImport(){ state.importSel=null; state.importParsed=null;
+  openModal('Import a staff roster', importBody(), null, ()=>{state.importSel=null;state.importParsed=null;}, ()=>({body:importBody(), footer:importFooter()})); }
+function importBody(){
+  let h=`<p class="small muted" style="margin:0 0 12px">Upload a CSV (or pick a sample), then review before anything is created. Required columns: <b>name, role, site</b>; email optional. Stable IDs are always system-generated — never read from the file.</p>`;
+  h+=`<div class="field"><label>Choose a file</label>
+    <input class="input" type="file" accept=".csv,text/csv" id="imp-file" onchange="App.importFile(this)"></div>`;
+  h+=`<div class="field"><label>…or try a sample file</label><div style="display:grid;gap:8px">`+
+    Object.entries(IMPORT_SAMPLES).map(([k,v])=>`<button class="samp-btn" aria-pressed="${state.importSel===k}" onclick="App.importSample('${k}')">${SVG.doc} ${esc(v.label)}</button>`).join('')+
+    `</div></div>`;
+  if(state.importParsed){
+    const p=state.importParsed;
+    if(p.error){ h+=`<div class="card" style="margin-top:6px"><div class="card-b"><div class="imp-group rej"><div class="ig-h">${SVG.warn} Couldn't read the file</div><div class="imp-row"><span class="why">${esc(p.error)}</span></div></div><p class="small muted" style="margin:0">A malformed file returns a named error and writes nothing — no partial corrupt state.</p></div></div>`; }
+    else {
+      const c=classifyImport(p);
+      if(!(p.rows&&p.rows.length)){ h+=`<div class="card" style="margin-top:6px"><div class="card-b"><div class="empty" style="padding:16px"><div class="ei">${SVG.doc}</div><p>Nothing to import.</p><p class="es">The file has a header but zero data rows — nothing is created, and we say so plainly.</p></div></div></div>`; }
+      else { h+=`<div class="card" style="margin-top:6px"><div class="card-b">`;
+        h+=`<div class="imp-group ok"><div class="ig-h">${SVG.check} Ready to import <span class="cnt">${c.ready.length}</span></div>`+
+           (c.ready.length?c.ready.map(r=>`<div class="imp-row"><span>${esc(r.name)} · ${esc(r.role)} · ${esc(r.site)}</span></div>`).join(''):'<div class="imp-row"><span class="muted">None.</span></div>')+`</div>`;
+        if(c.review.length) h+=`<div class="imp-group rev"><div class="ig-h">${SVG.warn} Needs review <span class="cnt">${c.review.length}</span></div>`+
+           c.review.map(r=>`<div class="imp-row"><span class="ln">L${r._line}</span><span>${esc(r.name)} — <span class="why rev">${esc(r.why)}</span></span></div>`).join('')+
+           `<p class="small muted" style="margin:6px 0 0">Flagged for review — never silently creating a new role or site. Fix the value to a known one and re-import.</p></div>`;
+        if(c.rejected.length) h+=`<div class="imp-group rej"><div class="ig-h">${SVG.warn} Rejected <span class="cnt">${c.rejected.length}</span></div>`+
+           c.rejected.map(r=>`<div class="imp-row"><span class="ln">L${r._line}</span><span>${esc(r.name||'(no name)')} — <span class="why">${esc(r.why)}</span></span></div>`).join('')+
+           `<p class="small muted" style="margin:6px 0 0">Rejected rows carry their line number. Valid rows still import — partial success, not all-or-nothing.</p></div>`;
+        h+=`</div></div>`;
+      }
+    }
+  }
+  h+=`<div class="oq"><span class="oqi">Open Q</span><span>Re-import dedupe (#1): with no required unique key, how a re-import matches existing records to avoid duplicates is still being decided.</span></div>`;
+  return h;
+}
+function importFooter(){
+  const p=state.importParsed; let ready=0, blocked=true;
+  if(p && !p.error && p.rows && p.rows.length){ ready=classifyImport(p).ready.length; blocked=ready===0; }
+  return `<button class="btn btn--secondary" onclick="closeModal()">Cancel</button>
+    <button class="btn btn--primary" style="flex:1" ${blocked?'disabled':''} onclick="App.doImport()">${SVG.upload} Import ${ready} valid row${ready===1?'':'s'}</button>`;
+}
+App.importSample=k=>{ state.importSel=k; const s=IMPORT_SAMPLES[k]; state.importParsed = s.malformed ? parseCSV(s.text) : parseCSV(s.text); refreshTopModal(); };
+App.importFile=inp=>{ const f=inp.files&&inp.files[0]; if(!f) return; state.importSel=null;
+  const rd=new FileReader(); rd.onload=()=>{ state.importParsed=parseCSV(rd.result); refreshTopModal(); }; rd.onerror=()=>{ state.importParsed={error:'The file could not be read (bad encoding?). Nothing was written.'}; refreshTopModal(); }; rd.readAsText(f); };
+App.doImport=()=>{ const p=state.importParsed; if(!p||p.error||!p.rows) return; const c=classifyImport(p); if(!c.ready.length) return;
+  c.ready.forEach(r=>{ ROSTER.push(P({id:mkId(), name:r.name, role:r.role, site:r.site, email:r.email, status:'invited', hire:'—', assignments:[]})); });
+  closeModal();
+  commit(`Imported ${c.ready.length} staff (system-generated IDs, status "invited / not activated").${c.review.length?` ${c.review.length} held for review.`:''}${c.rejected.length?` ${c.rejected.length} rejected.`:''}`);
+};
+
+/* ---- Add staff by hand (Epic 1.2) ---- */
+function openAddStaff(){
+  const roleOpts=KNOWN_ROLES.map(r=>`<option>${esc(r)}</option>`).join('');
+  const siteOpts=SITES.map(s=>`<option>${esc(s)}</option>`).join('');
+  openModal('Add a staff member', `
+    <p class="small muted" style="margin:0 0 12px">For a mid-year hire or a correction — no re-import needed. The record appears in the one roster immediately and is shared with your trainer.</p>
+    <div class="field"><label for="ad-name">Full name</label><input class="input" id="ad-name" type="text" placeholder="e.g. Jordan Avery"><div class="field-err" id="ad-name-e" style="display:none">Name is required.</div></div>
+    <div class="field"><label for="ad-role">Role</label><select class="input" id="ad-role">${roleOpts}</select></div>
+    <div class="field"><label for="ad-site">Site</label><select class="input" id="ad-site">${siteOpts}</select></div>
+    <div class="field"><label for="ad-email">Email (optional)</label><input class="input" id="ad-email" type="email" placeholder="name@houstonisd.org"><div class="field-err" id="ad-email-e" style="display:none">Enter a valid @houstonisd.org email, or leave it blank.</div></div>
+    <div class="field"><label>District</label><input class="input" type="text" value="Houston ISD" disabled></div>
+    <div class="field-err" id="ad-scope-e" style="display:none"></div>`,
+    `<button class="btn btn--secondary" onclick="closeModal()">Cancel</button><button class="btn btn--primary" style="flex:1" onclick="App.saveAddStaff()">${SVG.check} Add to roster</button>`);
+  focusSoon('#ad-name');
+}
+App.saveAddStaff=()=>{
+  const name=($('#ad-name').value||'').trim(), role=$('#ad-role').value, site=$('#ad-site').value, email=($('#ad-email').value||'').trim();
+  const nameE=$('#ad-name-e'), emailE=$('#ad-email-e'), scopeE=$('#ad-scope-e');
+  nameE.style.display=emailE.style.display=scopeE.style.display='none';
+  if(!name){ nameE.style.display='block'; $('#ad-name').focus(); return; }
+  if(email && !/^[^@\s]+@houstonisd\.org$/i.test(email)){ emailE.style.display='block'; $('#ad-email').focus(); return; }
+  if(!inScope({site,role}, currentScope())){ scopeE.textContent=`That site/role is outside your assigned scope — a director can only add within their assigned sites and roles. (Blocked.)`; scopeE.style.display='block'; return; }
+  ROSTER.push(P({id:mkId(), name, role, site, email, status:'invited', hire:'—', assignments:[]}));
+  closeModal();
+  commit(`${name} added to ${site} — status "invited / not activated" until credentials are issued. Visible in the trainer's view too.`);
+};
+
+/* ============================ PERSON RECORD (3.3 grid detail · 3.5 personal info · 3.4 unassign+history) ============================ */
+App.openPerson=id=>{ state.manage={id, mode:'view', idx:null, editInfo:false};
+  openModal(staffById(id).name, personBody(), null, ()=>{ state.manage=null; }, ()=>({body:personBody()})); };
+function unassignedTracks(r){ return TRACK_ORDER.filter(k=>!r.assignments.some(a=>a.track===k)); }
+function completedTracks(r){ return r.assignments.filter(a=>asgStatus(a)==='complete').map(a=>a.track); }
+
+function personBody(){
+  const m=state.manage; if(!m) return ''; const r=staffById(m.id); if(!r) return ''; const st=staffStatus(r); const p=staffPct(r);
+  const editable = inScope(r, currentScope());
+  // header
+  let h=`<div class="card"><div class="card-b">
+    <div class="kv"><span class="k">Role · Site</span><span class="v">${esc(r.role)} · ${esc(r.site)}</span></div>
+    <div class="kv"><span class="k">Account</span><span class="v">${r.status==='invited'?'<span class="invited-chip">Invited / not activated</span>':'Active'}</span></div>
+    <div class="kv"><span class="k">Overall</span><span class="v">${pill(st)}${p!=null?' · '+p+'%':''}</span></div></div></div>`;
+
+  // personal info (3.5)
+  h+=`<div class="sec-title">Personal info ${editable?`<button class="btn btn--ghost btn--sm st-right" onclick="App.toggleEditInfo()">${SVG.edit} ${m.editInfo?'Cancel':'Edit'}</button>`:''}</div>`;
+  if(m.editInfo && editable){
+    h+=`<div class="card"><div class="card-b">
+      <div class="field"><label for="pi-email">Email</label><input class="input" id="pi-email" type="email" value="${esc(r.email)}"><div class="field-err" id="pi-email-e" style="display:none"></div></div>
+      <div class="field"><label for="pi-emp">Employment status</label><select class="input" id="pi-emp">${['Active','On leave','Terminated'].map(o=>`<option${r.employment===o?' selected':''}>${o}</option>`).join('')}</select></div>
+      <div class="field"><label for="pi-hire">Hire date</label><input class="input" id="pi-hire" type="date" value="${r.hire==='—'?'':esc(r.hire)}"></div>
+      <p class="hint">Email follows the manager-credentials model — it can't move a person to another district/tenant. Saving writes to the one roster and shows in both views.</p>
+      <button class="btn btn--primary btn--block" onclick="App.savePersonInfo()">${SVG.check} Save personal info</button></div></div>`;
+  } else {
+    h+=`<div class="card"><div class="card-b">
+      <div class="kv"><span class="k">Email</span><span class="v">${esc(r.email||'—')}</span></div>
+      <div class="kv"><span class="k">Employment</span><span class="v">${esc(r.employment)}</span></div>
+      <div class="kv"><span class="k">Hire date</span><span class="v">${esc(fmtDate(r.hire))}</span></div></div></div>`;
+    if(!editable) h+=`<p class="note">${SVG.shield} This person is outside your assigned scope — editing is blocked. (You normally wouldn't see them at all; this is reachable here only via a direct link.)</p>`;
+  }
+
+  // assigned courses (3.4)
+  h+=`<div class="sec-title">Assigned courses</div>`;
+  if(!r.assignments.length){
+    h+=`<div class="empty" style="padding:22px 12px"><div class="ei">${SVG.guide}</div><p>No courses assigned.</p><p class="es">Use "Assign a course" below to give ${esc(r.name.split(' ')[0])} their first course.</p></div>`;
+  } else {
+    h+='<div class="card"><div class="card-b" style="padding-top:6px">'+r.assignments.map((a,i)=>{
+      const as=asgStatus(a), editing=(m.idx===i); const t=CATALOG[a.track]; const cites=trackCiteCount(t); let edit='';
+      if(editing && m.mode==='duedate'){
+        edit=`<div class="asg-edit"><div class="field" style="margin:0 0 10px"><label for="ed-due">New due date</label><input class="input" id="ed-due" type="date" value="${a.due&&a.due!=='—'?a.due:'2026-07-31'}"></div>
+          <div style="display:flex;gap:8px"><button class="btn btn--secondary btn--sm" onclick="App.cancelEdit()">Cancel</button><button class="btn btn--primary btn--sm" style="flex:1" onclick="App.saveDue(${i})">${SVG.calendar} Save due date</button></div></div>`;
+      } else if(editing && m.mode==='reassign'){
+        const opts=unassignedTracks(r).map(k=>`<option value="${k}">${esc(CATALOG[k].title)}</option>`).join('');
+        edit = opts
+          ? `<div class="asg-edit"><div class="field" style="margin:0 0 10px"><label for="ed-track">Replace with a different course</label><select class="input" id="ed-track">${opts}</select></div>
+             <div class="field" style="margin:0 0 10px"><label for="ed-rdue">Due date</label><input class="input" id="ed-rdue" type="date" value="${a.due&&a.due!=='—'?a.due:'2026-07-31'}"></div>
+             <p class="hint" style="margin:0 0 10px">Reassigning replaces this course (kept in history) and resets progress.</p>
+             <div style="display:flex;gap:8px"><button class="btn btn--secondary btn--sm" onclick="App.cancelEdit()">Cancel</button><button class="btn btn--primary btn--sm" style="flex:1" onclick="App.saveReassign(${i})">${SVG.swap} Save</button></div></div>`
+          : `<div class="asg-edit"><p class="small muted" style="margin:0 0 10px">No other course to reassign to.</p><button class="btn btn--secondary btn--sm" onclick="App.cancelEdit()">OK</button></div>`;
+      }
+      const meta = as==='complete' ? ('Completed '+esc(a.last)+(a.score!=null?' · '+a.score+'%':'')) : ((a.due&&a.due!=='—'?'Due '+fmtDate(a.due):'No due date')+' · last activity '+esc(a.last));
+      const stampId = (a.track==='cashier-onboarding' && as==='complete') ? ' id="rec-cited"' : '';
+      const stamp = as==='complete'
+        ? `<div class="asg-stamp"${stampId}>${cites>0?`<span class="cite-stamp cite-stamp--straight cite-stamp--compact">✓ ${cites}/${cites} cited</span>`:`<span class="origin-badge outside-vendor">${SVG.link} ICN / USDA</span>`}<button class="btn btn--ghost btn--sm" onclick="App.openRecord('${r.id}','${a.track}')">View record</button></div>`
+        : '';
+      return `<div class="asg"><div class="asg-t"><span class="asg-name">${esc(trackTitle(a.track))}</span>${pill(as)}</div>
+        <div class="asg-meta ${isLate(a.due)&&as!=='complete'?'late':''}">${meta} <span class="muted">· assigned by ${esc(a.by)}, ${esc(fmtDate(a.on))}</span></div>
+        ${stamp}
+        ${editable?`<div class="asg-actions">
+          <button class="btn btn--secondary btn--sm" onclick="App.editDue(${i})">${SVG.calendar} Change due date</button>
+          <button class="btn btn--secondary btn--sm" onclick="App.editReassign(${i})">${SVG.swap} Reassign</button>
+          <button class="btn btn--danger btn--sm" onclick="App.removeAsg(${i})">${SVG.trash} Unassign</button></div>`:''}${edit}</div>`;
+    }).join('')+'</div>';
+  }
+  const avail=unassignedTracks(r);
+  if(editable){
+    if(m.mode==='add'){
+      const already=completedTracks(r);
+      h+=`<div class="card"><div class="card-h">Assign a course</div><div class="card-b">
+        <div class="field"><label for="add-track">Course</label><select class="input" id="add-track" onchange="App.addTrackChange()">${avail.map(k=>`<option value="${k}">${esc(CATALOG[k].title)}</option>`).join('')}</select></div>
+        <div class="field"><label for="add-due">Due date</label><input class="input" id="add-due" type="date" value="${GO_LIVE||'2026-07-31'}"></div>
+        <div id="add-err" class="field-err" style="display:none">Pick a due date first.</div>
+        <div style="display:flex;gap:8px"><button class="btn btn--secondary" onclick="App.cancelEdit()">Cancel</button><button class="btn btn--primary" style="flex:1" onclick="App.confirmAdd()">${SVG.check} Confirm assignment</button></div></div></div>`;
+    } else {
+      h+=`<button class="btn btn--primary btn--block" ${avail.length?'':'disabled'} onclick="App.startAdd()">${SVG.assign} Assign a course${avail.length?'':' — none left'}</button>`;
+    }
+    if(st==='overdue'||st==='not_started'||st==='in_progress'){
+      h+=`<button class="btn btn--secondary btn--block btn--sm" style="margin-top:10px" onclick="App.nudgeOne('${r.id}')">${SVG.bell} Send ${esc(r.name.split(' ')[0])} a reminder</button>`;
+    }
+  }
+
+  // history / audit trail (3.3)
+  h+=`<div class="sec-title">Assignment &amp; completion history</div>`;
+  const events=[];
+  r.assignments.forEach(a=>{ events.push({on:a.on, t:`Assigned ${trackTitle(a.track)}`, m:`by ${a.by} · due ${fmtDate(a.due)}`});
+    if(asgStatus(a)==='complete') events.push({on:dateFromLast(a.last), t:`Completed ${trackTitle(a.track)}`, m:`${a.score!=null?'score '+a.score+'% · ':''}${trackCiteCount(CATALOG[a.track])>0?trackCiteCount(CATALOG[a.track])+' citations on record':'outside-vendor content'}`, done:true}); });
+  (r.history||[]).forEach(ev=>{ events.push({on:ev.on, t:`Unassigned ${trackTitle(ev.track)}`, m:`by ${ev.by} — removed from active work, retained here as the audit trail`, muted:true}); });
+  events.sort((a,b)=>String(a.on).localeCompare(String(b.on)));
+  h+=`<div class="card"><div class="card-b"><div class="tl">`+
+     (events.length?events.map(ev=>`<div class="tl-item ${ev.muted?'muted-dot':''}"><div class="tt">${esc(ev.t)}</div><div class="tm">${esc(fmtDate(ev.on))} · ${esc(ev.m)}</div></div>`).join(''):`<p class="small muted" style="margin:0">No history yet.</p>`)+
+     `</div></div></div>`;
+  h+=`<p class="note">Changes here update the <b>Roster</b> and <b>Dashboard</b> immediately. History is never deleted — it's the timestamped record the export and (future) compliance reports rest on. Demo only — in memory, resets on refresh.</p>`;
+  return h;
+}
+function dateFromLast(last){ // map a "Jun 12" style label to an ISO-ish date for sorting/display
+  if(!last||last==='—') return '2026-06-01'; const p=String(last).split(' '); const mi=MONTHS.indexOf(p[0]); if(mi<0) return '2026-06-01';
+  return '2026-'+String(mi+1).padStart(2,'0')+'-'+String(+p[1]||1).padStart(2,'0'); }
+
+App.toggleEditInfo=()=>{ state.manage.editInfo=!state.manage.editInfo; refreshTopModal(); if(state.manage.editInfo) focusSoon('#pi-email'); };
+App.savePersonInfo=()=>{ const r=staffById(state.manage.id); const email=($('#pi-email').value||'').trim(); const emp=$('#pi-emp').value; const hire=$('#pi-hire').value;
+  const e=$('#pi-email-e'); e.style.display='none';
+  if(email && !/^[^@\s]+@houstonisd\.org$/i.test(email)){ e.textContent='Email must be a valid @houstonisd.org address — it can\'t move this person to another district/tenant.'; e.style.display='block'; return; }
+  r.email=email; r.employment=emp; r.hire=hire||'—'; if(emp==='Active' && r.status!=='invited') r.status='active';
+  state.manage.editInfo=false; commit(`Saved ${r.name.split(' ')[0]}'s personal info to the shared roster.`); };
+
+App.startAdd=()=>{ state.manage.mode='add'; state.manage.idx=null; refreshTopModal(); focusSoon('#add-track'); };
+App.addTrackChange=()=>{};
+App.confirmAdd=()=>{ const r=staffById(state.manage.id); const k=$('#add-track').value, due=$('#add-due').value;
+  if(!due){ const e=$('#add-err'); if(e)e.style.display='block'; return; }
+  if(completedTracks(r).includes(k)){ state.manage.mode='view'; refreshTopModal(); _showToast(`${r.name.split(' ')[0]} already completed ${trackTitle(k)} — skipped. (Re-assigning a completed course is an open question (#3): re-assign, skip, or version.)`); return; }
+  r.assignments.push(A(k,'not_started',due,'—',null,currentDir().name,TODAY)); state.manage.mode='view';
+  commit(`${trackTitle(k)} assigned to ${r.name}, due ${fmtDate(due)}.`); };
+App.editDue=i=>{ state.manage.mode='duedate'; state.manage.idx=i; refreshTopModal(); focusSoon('#ed-due'); };
+App.saveDue=i=>{ const r=staffById(state.manage.id), due=$('#ed-due').value; if(!due) return; r.assignments[i].due=due; state.manage.mode='view'; state.manage.idx=null;
+  commit(`Due date for ${trackTitle(r.assignments[i].track)} changed to ${fmtDate(due)}.`); };
+App.editReassign=i=>{ state.manage.mode='reassign'; state.manage.idx=i; refreshTopModal(); focusSoon('#ed-track'); };
+App.saveReassign=i=>{ const r=staffById(state.manage.id), sel=$('#ed-track'); if(!sel) return; const k=sel.value, due=$('#ed-rdue').value||r.assignments[i].due; const old=r.assignments[i];
+  r.history.push({action:'unassigned', track:old.track, on:TODAY, by:currentDir().name});
+  r.assignments[i]=A(k,'not_started',due,'—',null,currentDir().name,TODAY); state.manage.mode='view'; state.manage.idx=null;
+  commit(`Reassigned to ${trackTitle(k)}, due ${fmtDate(due)}. Previous course kept in history.`); };
+App.removeAsg=i=>{ const r=staffById(state.manage.id), a=r.assignments[i], t=trackTitle(a.track);
+  r.history.push({action:'unassigned', track:a.track, on:TODAY, by:currentDir().name});
+  r.assignments.splice(i,1); state.manage.mode='view'; state.manage.idx=null;
+  commit(`Unassigned ${t} from ${r.name}. Removed from active work, retained in history (never deleted from the audit trail).`); };
+App.cancelEdit=()=>{ state.manage.mode='view'; state.manage.idx=null; refreshTopModal(); };
+App.nudgeOne=id=>{ const r=staffById(id); state.notified[id]=true;
+  openModal('Reminder queued',`<div class="empty"><div class="ei" style="color:var(--accent)">${SVG.check}</div><p>A single reminder was queued for <b>${esc(r.name)}</b>.</p><p class="es">Honest acknowledgement: delivery requires live roster sync — in this offline prototype it's queued, not sent. No repeat nagging.</p></div>`,
+    `<button class="btn btn--primary btn--block" onclick="closeModal()">Done</button>`); };
+
+/* records + sources (provenance — trust affordance) */
+App.openRecord=(id,trackKey)=>{ const r=staffById(id);
+  openModal('Completion record',recordHtml(r,trackKey),`<button class="btn btn--secondary" onclick="closeModal()">Close</button><button class="btn btn--primary" style="flex:1" onclick="App.complianceRecord('${id}','${trackKey}')">${SVG.doc} Compliance record</button>`); };
+function recordHtml(r,trackKey){ const t=CATALOG[trackKey], a=r.assignments.find(x=>x.track===trackKey)||{};
+  const courseProv=t.courses.map(c=>{const lessons=c.lessons.map(l=>{let right='';
+    if(l.origin==='ai_grounded'){ const n=lessonCiteCount(l);
+      right=`<span class="origin-badge ai-grounded">${SVG.check} AI-grounded</span>`+(l.type==='quiz'?'':`<span class="cite-stamp cite-stamp--compact cite-stamp--straight">✓ ${n}/${n} cited</span>`);
+      if(n) right+=`<button class="btn btn--ghost btn--sm" onclick="App.showSources('${l.id}')">Show sources</button>`;
+    } else right=`<span class="origin-badge outside-vendor">${SVG.link} ${esc(l.vendor)}</span>`;
+    return `<div class="prov-row"><div class="pr-t"><span class="pr-name">${esc(l.title)}</span></div><div class="pr-stamp">${right}</div></div>`; }).join('');
+    return `<div class="card"><div class="card-h">${esc(c.title)}</div><div class="card-b" style="padding-top:2px">${lessons}</div></div>`; }).join('');
+  const hasCites=trackCiteCount(t)>0;
+  const provNote = hasCites
+    ? `<div class="sec-title">Content provenance</div><p class="small muted" style="margin:0 4px 11px">Every product claim traces to an approved Jira source at the correct trust tier. ICN/USDA video is outside-vendor — credited and linked, not part of the citation guarantee.</p>`
+    : `<div class="sec-title">Content provenance</div><p class="small muted" style="margin:0 4px 11px">This track is outside-vendor content (ICN/USDA) — credited and linked, not reproduced and not part of the AI-grounding citation guarantee.</p>`;
+  return `<div class="card"><div class="card-b">
+      <div class="kv"><span class="k">Staff member</span><span class="v">${esc(r.name)}</span></div>
+      <div class="kv"><span class="k">Role · Site</span><span class="v">${esc(r.role)} · ${esc(r.site)}</span></div>
+      <div class="kv"><span class="k">Track</span><span class="v">${esc(t.title)}</span></div>
+      <div class="kv"><span class="k">Completed</span><span class="v">${esc(a.last||'—')}, 2026</span></div>
+      <div class="kv"><span class="k">Final score</span><span class="v">${a.score!=null?a.score+'% (pass ≥ 70%)':'n/a'}</span></div>
+      <div class="kv"><span class="k">Prof. standards hours</span><span class="v">${t.hours.toFixed(1)} hrs</span></div></div></div>
+    <div class="note" style="margin-bottom:14px">${SVG.badge} <b>${t.hours.toFixed(1)} training hours</b> logged toward USDA Professional Standards — ${esc(t.standardsArea)}. <span class="muted">The hours-to-key-area mapping is illustrative.</span></div>
+    ${provNote}${courseProv}`;
+}
+App.showSources=lid=>{ const l=anyLessonById(lid), cites=l.cites||[];
+  const list=cites.map(c=>`<div class="src-item"><div class="si-h"><span class="si-tier">${esc(c.tier==='AC'?'Acceptance Criteria':c.tier==='RN'?'Release Notes':c.tier)}</span><span class="si-key">${esc(c.key)}</span></div><blockquote>${esc(c.quote)}</blockquote></div>`).join('');
+  openModal('Source provenance',`<div class="cite-stamp cite-stamp--straight" style="margin-bottom:14px">✓ ${cites.length}/${cites.length} cited</div>
+    <p class="small muted" style="margin:0 0 14px">Each claim in <b>${esc(l.title)}</b> traces to a verbatim quote from an approved Jira ticket at its trust tier. Acceptance Criteria is the highest-trust source.</p>${list}`,
+    `<button class="btn btn--primary btn--block" onclick="closeModal()">Close</button>`); };
+App.complianceRecord=(id,trackKey)=>{ const r=staffById(id), t=CATALOG[trackKey], a=r.assignments.find(x=>x.track===trackKey)||{};
+  const cites=trackCiteCount(t), aiL=allLessonsOf(t).filter(l=>l.origin==='ai_grounded'&&l.type!=='quiz').length, hasV=allLessonsOf(t).some(l=>l.origin==='outside_vendor');
+  const prov = cites>0
+    ? `Every product claim in this training traces to an approved source at the correct trust tier. <b>${cites} citations verified</b> across ${aiL} AI-grounded guide${aiL===1?'':'s'} (Acceptance-Criteria / Release-Notes tiers).${hasV?' One lesson is outside-vendor content (ICN / USDA) — credited and linked, not part of the citation guarantee.':''}`
+    : `This track is outside-vendor content (ICN / USDA) — credited and linked, not reproduced and not part of the AI-grounding citation guarantee.`;
+  const html=`<div class="cr-paper" id="cr-paper"><div class="cr-letter"><span class="mark"></span><div><h1>Training Completion Attestation</h1><div class="cr-org">${esc(DISTRICT)} · Child Nutrition Department</div></div></div>
+    <h3>Staff member</h3>
+    <div class="crkv"><span class="k">Name</span><span class="v">${esc(r.name)}</span></div>
+    <div class="crkv"><span class="k">Role</span><span class="v">${esc(r.role)}</span></div>
+    <div class="crkv"><span class="k">Site</span><span class="v">${esc(r.site)}</span></div>
+    <h3>Training completed</h3>
+    <div class="crkv"><span class="k">Track</span><span class="v">${esc(t.title)}</span></div>
+    <div class="crkv"><span class="k">Completion date</span><span class="v">${esc(a.last||'—')}, 2026</span></div>
+    <div class="crkv"><span class="k">Final score</span><span class="v">${a.score!=null?a.score+'% (pass ≥ 70%)':'n/a'}</span></div>
+    <div class="crkv"><span class="k">USDA Professional Standards</span><span class="v">${t.hours.toFixed(1)} hours · ${esc(t.standardsArea)}</span></div>
+    <h3>Content provenance</h3>
+    <div class="cr-prov">${prov}</div>
+    <div class="cr-sign"><div class="sg"><div class="sl">Dana Whitman · CN Director</div></div><div class="sg"><div class="sl">Date</div></div></div>
+    <div class="cr-foot">PROTOTYPE / DEMO ARTIFACT — ${esc(DISTRICT)} and all names are fictional and the figures are illustrative. The Professional Standards hours-to-key-area mapping is illustrative, not an official determination. Citation counts and source quotes are drawn from real repository content. Generated by SchoolCafé 2.0 Learning.</div></div>`;
+  openModal('Compliance record',html,`<button class="btn btn--secondary cr-actions" onclick="closeModal()">Close</button><button class="btn btn--primary cr-actions" style="flex:1" onclick="window.print()">${SVG.print} Print / Save as PDF</button>`); };
+
+/* ============================ ASSIGN (Epic 3.4 — group) ============================ */
+function trackOptions(sel){ return TRACK_ORDER.map(k=>`<option value="${k}"${sel===k?' selected':''}>${esc(CATALOG[k].title)}</option>`).join(''); }
+function viewAssign(){
+  const rows=scopedRoster();
+  if(!ROSTER.length) return rosterEmptyBlock();
+  if(!rows.length) return emptyScopeBlock();
+  const rolesInScope=[...new Set(rows.map(r=>r.role))];
+  const sitesInScope=[...new Set(rows.map(r=>r.site))];
+  let h=`<div class="card"><div class="card-h">Assign a track to a group</div><div class="card-b">
+    <div class="field"><label for="as-track">Track</label><select class="input" id="as-track">${trackOptions('cashier-onboarding')}</select></div>
+    <div class="field"><label for="as-aud">Assign to</label><select class="input" id="as-aud" onchange="App.assignAudChange(this.value)">
+      <option value="role">A role (across your scope)</option><option value="site">A whole site</option></select></div>
+    <div class="field"><label for="as-target" id="as-target-label">Role</label><select class="input" id="as-target">${rolesInScope.map(r=>`<option>${esc(r)}</option>`).join('')}</select></div>
+    <div class="field"><label for="as-basis">Due date basis</label><select class="input" id="as-basis" onchange="App.assignBasisChange(this.value)">
+      <option value="golive">Go-live date${GO_LIVE?' ('+fmtDate(GO_LIVE)+')':' — not set'}</option>
+      <option value="sye">School-year-end (${fmtDate(SCHOOL_YEAR_END)})</option>
+      <option value="ndays">N days from today</option></select>
+      <p class="hint">Due dates default by type. You can override the date below once, in bulk, for the whole group — there's no per-course global deadline screen.</p></div>
+    <div class="field" id="as-ndays-wrap" style="display:none"><label for="as-ndays">Days from today</label><input class="input" id="as-ndays" type="number" value="30" min="1" onchange="App.recomputeDue()"></div>
+    <div class="field"><label for="as-due">Due date (override)</label><input class="input" id="as-due" type="date" value="${GO_LIVE||'2026-07-31'}"></div>
+    <button class="btn btn--primary btn--block" onclick="App.doAssign()">${SVG.assign} Assign training</button>
+    ${state.lastAssign?`<div class="note" style="margin-top:12px;display:flex;gap:9px;align-items:flex-start"><span style="color:var(--accent)">${SVG.check}</span><span>${esc(state.lastAssign)}</span></div>`:''}
+    <p class="note" style="margin-top:13px">To assign, reassign, change a due date, or unassign for <b>one person</b>, open them from the <b>Roster</b>. <span class="muted">${esc(NO_TRAINING_ROLES.join(' & '))} have no required training and are skipped by group-assign.</span> Group-assign respects your scope — only staff at your assigned sites/roles are touched.</p>
+    <div class="oq"><span class="oqi">Open Q</span><span>New joiners inheriting a group assignment (#2) and re-assigning an already-completed course (#3) are still being decided — completed staff are <b>skipped</b> here for now.</span></div>
+    </div></div>`;
+  return '<div class="form-narrow">'+h+'</div>';
+}
+App.assignAudChange=v=>{ const lbl=$('#as-target-label'), sel=$('#as-target'); const rows=scopedRoster();
+  if(v==='site'){ lbl.textContent='Site'; sel.innerHTML=[...new Set(rows.map(r=>r.site))].map(s=>`<option>${esc(s)}</option>`).join(''); }
+  else { lbl.textContent='Role'; sel.innerHTML=[...new Set(rows.map(r=>r.role))].map(r=>`<option>${esc(r)}</option>`).join(''); } };
+App.assignBasisChange=v=>{ $('#as-ndays-wrap').style.display = v==='ndays'?'block':'none'; App.recomputeDue(); };
+App.recomputeDue=()=>{ const basis=$('#as-basis').value, due=$('#as-due');
+  if(basis==='golive'){ if(GO_LIVE) due.value=GO_LIVE; }
+  else if(basis==='sye'){ due.value=SCHOOL_YEAR_END; }
+  else { const n=Math.max(1,+($('#as-ndays').value||30)); const d=new Date(2026,5,22); d.setDate(d.getDate()+n); due.value=d.toISOString().slice(0,10); } };
+App.doAssign=()=>{ const track=$('#as-track').value, aud=$('#as-aud').value, target=$('#as-target').value, due=$('#as-due').value;
+  if(!due){ state.lastAssign='Pick a due date before assigning.'; App.render(); return; }
+  const rows=scopedRoster();
+  const group=rows.filter(r=> aud==='role'? r.role===target : r.site===target);
+  if(!group.length){ state.lastAssign=`No one in this group — "${target}" has no staff in your scope. Nothing was assigned.`; commit(state.lastAssign); return; }
+  let n=0, skippedNoTrain=0, skippedDup=0, skippedDone=0;
+  group.forEach(r=>{ if(NO_TRAINING_ROLES.includes(r.role)){ skippedNoTrain++; return; }
+    if(completedTracks(r).includes(track)){ skippedDone++; return; }
+    if(r.assignments.some(a=>a.track===track)){ skippedDup++; return; }
+    r.assignments.push(A(track,'not_started',due,'—',null,currentDir().name,TODAY)); n++; });
+  const extra=[]; if(skippedDup)extra.push(`${skippedDup} already had it`); if(skippedDone)extra.push(`${skippedDone} already completed (open Q #3)`); if(skippedNoTrain)extra.push(`${skippedNoTrain} no required training`);
+  state.lastAssign = n? `${trackTitle(track)} assigned to ${n} staff (${target}) — due ${fmtDate(due)}.${extra.length?' Skipped: '+extra.join(', ')+'.':''}`
+                      : `No new assignments for ${target}.${extra.length?' '+extra.join(', ')+'.':''}`;
+  commit(state.lastAssign); };
+
+/* ============================ ACCESS (Epic 2.1 / 2.2 / 2.3) ============================ */
+function viewAccess(){
+  const sup=isSuper();
+  let h=`<p class="note" style="margin-bottom:14px">${SVG.shield} <b>Assignment is the access control.</b> A person outside a viewer's assigned scope never appears in any view, search, drill-down, or export — this is what keeps each district's staff PII walled off. Access is <b>deny-by-default</b>: a director sees only what's explicitly assigned or inherited.</p>`;
+
+  // scope demonstrator (2.3)
+  const inScopeN=scopedRoster().length; const d=currentDir();
+  h+=`<div class="scope-readout" id="scope-readout">
+    <span class="sr-n">${inScopeN}</span><span class="sr-l">of ${TOTAL_STAFF} staff<br>in scope</span>
+    <span class="sr-who">Previewing as<br><b>${esc(d.name)}</b><br>${esc(d.scope.sites==='ALL'&&d.scope.roles==='ALL'?'full district':scopeIsEmpty(d.scope)?'no scope yet':'scoped')}</span></div>`;
+  h+=`<p class="small muted" style="margin:-4px 4px 16px"><b>Preview as</b> (top right) is a read-only lens — it shows the product through another supervisor's scope without acting as them; every dashboard, grid, report and export narrows with it. ${scopeIsEmpty(d.scope)?'<b>This supervisor has no scope yet — they see nothing, not everything.</b>':''}</p>`;
+
+  // onboarding inheritance (2.2)
+  h+=`<div class="card"><div class="dir-card"><div class="da">${SVG.sync}</div><div class="db">
+    <div class="dn">Seeded from onboarding</div>
+    <div class="dt">Roles and site assignments configured at onboarding seed LMS scope in bulk — no re-entry. Manual edits override the inherited value per user.</div></div>
+    <div class="dright"><button class="btn btn--secondary btn--sm" ${sup?'':'disabled'} onclick="App.reseed()">${SVG.sync} Re-seed from onboarding</button></div></div>
+    <div class="card-b" style="padding-top:0"><div class="oq"><span class="oqi">Open Q</span><span>Where the onboarding role/site config lives, and whether the LMS can read it (#5). With no config available, this falls back to manual assignment — nothing is inherited or assumed; inherited values referencing an unknown site/role are flagged for review, not applied silently.</span></div></div></div>`;
+
+  // directors list (2.1)
+  h+=`<div class="sec-title">Supervisors &amp; their scope${sup?'':' <span class="st-right" style="color:var(--warn-text)">read-only — not a super-admin</span>'}</div>`;
+  h+=`<div class="list">`+DIRECTORS.map(dir=>{
+    const sc=dir.scope; const full=sc.sites==='ALL'&&sc.roles==='ALL'; const empty=scopeIsEmpty(sc);
+    const siteChips = sc.sites==='ALL' ? `<span class="scope-chip all">${SVG.check} All sites</span>` : (sc.sites.length?sc.sites.map(s=>`<span class="scope-chip">${esc(s)}</span>`).join(''):'');
+    const roleChips = sc.roles==='ALL' ? `<span class="scope-chip all">${SVG.check} All roles</span>` : (sc.roles.length?sc.roles.map(r=>`<span class="scope-chip">${esc(r)}</span>`).join(''):'');
+    const chips = empty ? `<span class="scope-chip" style="color:var(--warn-text)">No scope assigned — sees nothing</span>` : siteChips+roleChips;
+    const badge = dir.super ? '' : `<span class="seed-badge ${dir.inherited?'inherited':'manual'}">${dir.inherited?'inherited':'manual override'}</span>`;
+    return `<div class="dir-card"><div class="da">${initials(dir.name)}</div><div class="db">
+      <div class="dn">${esc(dir.name)} ${dir.super?'<span class="scope-chip all" style="padding:3px 9px">super-admin</span>':badge}</div>
+      <div class="dt">${esc(dir.title)}${dir.super?' · single-admin default: full district scope':''}</div>
+      <div class="scope-chips">${chips}</div></div>
+      <div class="dright">${dir.super?'<span class="small muted">full access</span>':`<button class="btn btn--secondary btn--sm" ${sup?'':'disabled'} onclick="App.editScope('${dir.id}')">${SVG.edit} Edit scope</button>`}</div></div>`;
+  }).join('')+`</div>`;
+  if(!sup) h+=`<p class="note">${SVG.shield} Only a super-admin can change scope assignments — these controls are disabled in this scoped preview, and any attempt is blocked. No one can widen their own access.</p>`;
+  else h+=`<p class="note">A super-admin assigns each supervisor their sites and roles. Assigning a site or role that doesn't exist is blocked; a single-admin district defaults to full scope without assigning anything to themselves.</p>`;
+  return h;
+}
+App.reseed=()=>{ if(!isSuper()) return;
+  DIRECTORS.forEach(d=>{ const def=DEFAULT_SCOPES.find(x=>x.id===d.id); if(def){ d.scope=JSON.parse(JSON.stringify(def.scope)); d.inherited=def.inherited; } });
+  commit('Re-seeded scope from the onboarding configuration. Manual overrides were reset to the inherited values.'); };
+App.editScope=id=>{ if(!isSuper()) return; const dir=dirById(id);
+  const sc=dir.scope; const selSites = sc.sites==='ALL'?[...SITES]:[...sc.sites]; const selRoles = sc.roles==='ALL'?[...KNOWN_ROLES]:[...sc.roles];
+  state._scopeEdit={id, sites:new Set(selSites), roles:new Set(selRoles), allSites:sc.sites==='ALL', allRoles:sc.roles==='ALL'};
+  openModal('Edit scope — '+dir.name, scopeEditBody(), null, ()=>{state._scopeEdit=null;}, ()=>({body:scopeEditBody(), footer:scopeEditFooter()})); };
+function scopeEditBody(){ const e=state._scopeEdit; if(!e) return '';
+  const siteChip=s=>`<button class="chip" aria-pressed="${!e.allSites&&e.sites.has(s)}" onclick="App.scopeToggle('site','${esc(s)}')">${esc(s)}</button>`;
+  const roleChip=r=>`<button class="chip" aria-pressed="${!e.allRoles&&e.roles.has(r)}" onclick="App.scopeToggle('role','${esc(r)}')">${esc(r)}</button>`;
+  return `<p class="small muted" style="margin:0 0 14px">Pick the sites and roles this supervisor monitors. Saving sets a <b>manual override</b>. Deny-by-default — they see only what's selected here.</p>
+    <div class="filter-group" style="margin-bottom:14px"><span class="fg-label">Sites <button class="btn btn--ghost btn--sm" onclick="App.scopeAll('site')">${e.allSites?'✓ ':''}All sites</button></span><div class="chips">${SITES.map(siteChip).join('')}</div></div>
+    <div class="filter-group"><span class="fg-label">Roles <button class="btn btn--ghost btn--sm" onclick="App.scopeAll('role')">${e.allRoles?'✓ ':''}All roles</button></span><div class="chips">${KNOWN_ROLES.map(roleChip).join('')}</div></div>
+    <div class="oq"><span class="oqi">Note</span><span>Only known sites/roles can be selected — assigning a value that doesn't exist is blocked by construction.</span></div>`;
+}
+function scopeEditFooter(){ const e=state._scopeEdit; const empty = !e.allSites&&e.sites.size===0 || !e.allRoles&&e.roles.size===0;
+  return `<button class="btn btn--secondary" onclick="closeModal()">Cancel</button><button class="btn btn--primary" style="flex:1" onclick="App.saveScope()">${SVG.check} Save scope</button>`; }
+App.scopeToggle=(g,v)=>{ const e=state._scopeEdit; if(g==='site'){ e.allSites=false; e.sites.has(v)?e.sites.delete(v):e.sites.add(v); } else { e.allRoles=false; e.roles.has(v)?e.roles.delete(v):e.roles.add(v); } refreshTopModal(); };
+App.scopeAll=g=>{ const e=state._scopeEdit; if(g==='site'){ e.allSites=!e.allSites; if(e.allSites) e.sites=new Set(SITES); } else { e.allRoles=!e.allRoles; if(e.allRoles) e.roles=new Set(KNOWN_ROLES); } refreshTopModal(); };
+App.saveScope=()=>{ const e=state._scopeEdit; const dir=dirById(e.id);
+  dir.scope = { sites: e.allSites?'ALL':[...e.sites], roles: e.allRoles?'ALL':[...e.roles] };
+  dir.inherited=false; state._scopeEdit=null; closeModal();
+  commit(`Scope updated for ${dir.name} (manual override). Their views now show only the assigned staff.`); };
+
+/* ============================ MODAL STACK ============================ */
+let modalStack=[];
+function focusSoon(sel){ setTimeout(()=>{ const e=$(sel); if(e)e.focus(); },20); }
+function openModal(title, body, footer, onClose, render){
+  modalStack.push({title, body, footer:footer||null, onClose:onClose||null, render:render||null, lastFocus:document.activeElement});
+  paintModal();
+}
+function paintModal(){
+  const f=modalStack[modalStack.length-1]; if(!f) return;
+  if(f.render){ const o=f.render(); f.body=o.body; if(o.footer!==undefined) f.footer=o.footer; }
+  document.body.classList.add('modal-open');
+  const back = modalStack.length>1 ? `<button class="modal-back" onclick="closeModal()" aria-label="Back">${SVG.back}</button>` : '';
+  $('#modal-root').innerHTML=`<div class="modal-bd" id="mbd"><div class="modal" role="dialog" aria-modal="true" aria-label="${esc(f.title)}">
+    <div class="modal-h">${back}<h2>${esc(f.title)}</h2><button class="modal-close" onclick="closeModal()" aria-label="Close">✕</button></div>
+    <div class="modal-b" id="modal-b">${f.body}</div>${f.footer?`<div class="modal-f">${f.footer}</div>`:''}</div></div>`;
+  const bd=$('#mbd'); bd.addEventListener('click',e=>{ if(e.target===bd) closeModal(); });
+  const c=bd.querySelector('.modal-close'); if(c) c.focus();
+}
+function refreshTopModal(){ const f=modalStack[modalStack.length-1]; if(!f) return;
+  if(f.render){ const o=f.render(); f.body=o.body; if(o.footer!==undefined) f.footer=o.footer; }
+  const mb=$('#modal-b'); if(mb) mb.innerHTML=f.body;
+  const mf=document.querySelector('#mbd .modal-f'); if(f.footer && mf) mf.innerHTML=f.footer; }
+function closeModal(){ const f=modalStack.pop(); if(f && f.onClose) f.onClose();
+  if(modalStack.length){ paintModal(); }
+  else { $('#modal-root').innerHTML=''; document.body.classList.remove('modal-open'); if(f && f.lastFocus && f.lastFocus.focus){ try{ f.lastFocus.focus(); }catch(e){} } } }
+function closeAllModals(){ while(modalStack.length){ const f=modalStack.pop(); if(f&&f.onClose) f.onClose(); } $('#modal-root').innerHTML=''; document.body.classList.remove('modal-open'); }
+window.closeModal=closeModal;
+
+document.addEventListener('keydown',function(e){
+  if(tourActive()){ if(e.key==='Escape'){ e.preventDefault(); endTour(); } return; }
+  if(!modalStack.length) return;
+  if(e.key==='Escape'){ e.preventDefault(); closeModal(); return; }
+  if(e.key==='Tab'){ const m=$('#mbd'); if(!m)return; const f=[...m.querySelectorAll('button,select,input,textarea,[tabindex]')].filter(x=>!x.disabled&&x.offsetParent!==null); if(!f.length)return;
+    const first=f[0],last=f[f.length-1]; if(e.shiftKey&&document.activeElement===first){ e.preventDefault(); last.focus(); } else if(!e.shiftKey&&document.activeElement===last){ e.preventDefault(); first.focus(); } } });
+
+document.getElementById('tabbar').addEventListener('keydown',e=>{ if(e.key!=='ArrowRight'&&e.key!=='ArrowLeft')return;
+  const btns=[...$('#tabbar').querySelectorAll('button')], i=btns.indexOf(document.activeElement); if(i<0)return; e.preventDefault();
+  const n=e.key==='ArrowRight'?(i+1)%btns.length:(i-1+btns.length)%btns.length; btns[n].focus(); btns[n].click(); });
+
+/* ============================ COVER + WALKTHROUGH ============================ */
+function tourSeen(){ try{ return !!sessionStorage.getItem('das_tour_seen'); }catch(e){ return false; } }
+function markTourSeen(){ try{ sessionStorage.setItem('das_tour_seen','1'); }catch(e){} }
+function enterApp(){ $('#cover').classList.add('hide'); $('#app').style.display='flex';
+  renderTabs(); fillViewAs(); App.render();
+  // auto-run the walkthrough only the first time this browser session; reloads won't re-fire it (Replay is in the header).
+  setTimeout(()=>{ state.loading=false; App.render(); if(!tourSeen()) setTimeout(()=>startTour(),350); },500); }
+
+const TOUR_PERSON='stf-1015'; // Desmond Achebe — completed New Cashier Onboarding (cited + dated)
+const TOUR=[
+  { tab:'dashboard', prep:()=>{ closeAllModals(); state.notifyDismissed=false; state.drill={site:null,role:null,rolesOverall:false}; }, target:()=>$('#site-bars'), cap:'Completion across every site, worst-first.' },
+  { tab:'dashboard', prep:()=>{ closeAllModals(); state.drill={site:'Heights High',role:'POS Cashier',rolesOverall:false}; }, target:()=>$('#drill-individuals'), cap:'Down to the site, the role, the person.' },
+  { prep:()=>{ closeAllModals(); App.openPerson(TOUR_PERSON); }, target:()=>$('#rec-cited')||$('#modal-b'), cap:'Each completion, cited and dated.' },
+  { tab:'roster', prep:()=>{ closeAllModals(); }, target:()=>$('#roster-actions'), cap:'Imported and managed by the district. One shared list.' },
+  { tab:'access', prep:()=>{ closeAllModals(); state.viewingAs='reuben'; }, target:()=>$('#scope-readout'), cap:'Scope decides who sees whom.' },
+  { closing:true },
+];
+let tourIdx=-1;
+function tourActive(){ return tourIdx>=0; }
+function startTour(){ markTourSeen(); tourReset(); tourIdx=0; tourShow(); }
+function tourReset(){ closeAllModals(); state.viewingAs='dana'; state.drill={site:null,role:null,rolesOverall:false}; state.notifyDismissed=false; document.body.classList.add('tour-on'); fillViewAs(); }
+function endTour(){ tourIdx=-1; document.body.classList.remove('tour-on'); $('#tour-root').classList.remove('on'); $('#tour-root').innerHTML='';
+  closeAllModals(); state.viewingAs='dana'; state.drill={site:null,role:null,rolesOverall:false}; state.tab='dashboard'; renderTabs(); fillViewAs(); App.render(); }
+function tourNext(){ if(tourIdx>=TOUR.length-1){ endTour(); return; } tourIdx++; tourShow(); }
+function tourBack(){ if(tourIdx<=0) return; tourIdx--; tourShow(); }
+function tourShow(){ const beat=TOUR[tourIdx]; if(!beat){ endTour(); return; }
+  if(beat.closing){ showClosing(); return; }
+  if(beat.tab){ state.tab=beat.tab; renderTabs(); }
+  if(beat.prep) beat.prep();
+  fillViewAs(); App.render();
+  requestAnimationFrame(()=>setTimeout(()=>positionSpot(beat),50)); }
+window.startTour=startTour; window.tourNext=tourNext; window.tourBack=tourBack; window.endTour=endTour; window.enterApp=enterApp;
+
+function positionSpot(beat){
+  const root=$('#tour-root'); root.classList.add('on');
+  const el = beat.target ? beat.target() : null;
+  if(el && el.scrollIntoView){ try{ el.scrollIntoView({block:'center', inline:'nearest'}); }catch(_){ } }
+  const vw=innerWidth, vh=innerHeight, pad=8;
+  let html='';
+  let holeY=null, holeH=null, holeX=0, holeW=vw;
+  if(el){ const r=el.getBoundingClientRect();
+    const x=Math.max(4,r.left-pad), y=Math.max(4,r.top-pad), w=Math.min(vw-4,r.right+pad)-x, h=Math.min(vh-4,r.bottom+pad)-y;
+    holeX=x; holeY=y; holeW=w; holeH=h;
+    html += `<div class="tour-dim" style="left:0;top:0;width:${vw}px;height:${y}px"></div>`;
+    html += `<div class="tour-dim" style="left:0;top:${y+h}px;width:${vw}px;height:${Math.max(0,vh-(y+h))}px"></div>`;
+    html += `<div class="tour-dim" style="left:0;top:${y}px;width:${x}px;height:${h}px"></div>`;
+    html += `<div class="tour-dim" style="left:${x+w}px;top:${y}px;width:${Math.max(0,vw-(x+w))}px;height:${h}px"></div>`;
+    html += `<div class="tour-ring" style="left:${x}px;top:${y}px;width:${w}px;height:${h}px"></div>`;
+  } else {
+    html += `<div class="tour-dim" style="left:0;top:0;width:${vw}px;height:${vh}px"></div>`;
+  }
+  root.innerHTML = html + captionCard(beat, holeX, holeY, holeW, holeH, vw, vh);
+}
+function captionCard(beat, x, y, w, h, vw, vh){
+  const step=tourIdx+1, total=TOUR.filter(b=>!b.closing).length;
+  const capW=Math.min(330, vw-24);
+  let left, top;
+  if(y==null){ left=(vw-capW)/2; top=vh*0.62; }
+  else {
+    left = Math.min(Math.max(12, x + (w-capW)/2), vw-capW-12);
+    const below = y+h+16, estH=176;
+    top = (below+estH < vh) ? below : Math.max(12, y-estH-16);
+  }
+  return `<div class="tour-cap" role="dialog" aria-live="polite" aria-label="Walkthrough step ${step} of ${total}" style="left:${left}px;top:${top}px;width:${capW}px">
+    <div class="tc-step">Step ${step} of ${total}</div>
+    <div class="tc-cap">${esc(beat.cap)}</div>
+    <div class="tc-ctrls">
+      <button class="tcb ghost" onclick="tourBack()" ${tourIdx===0?'disabled':''}>Back</button>
+      <button class="tcb ghost" onclick="endTour()">Skip</button>
+      <span class="tc-spacer"></span>
+      <button class="tcb next" onclick="tourNext()">${tourIdx>=total-1?'Finish':'Next'}</button>
+    </div></div>`;
+}
+function showClosing(){ const root=$('#tour-root'); root.classList.add('on');
+  root.innerHTML=`<div class="tour-dim" style="left:0;top:0;width:100vw;height:100vh"></div>
+    <div class="tour-close-card"><div class="tour-close-inner" role="dialog" aria-label="Walkthrough complete">
+      <h3>Walkthrough complete</h3>
+      <div class="tci-row"><button class="btn btn--primary" onclick="endTour()">Explore on your own &rarr;</button>
+      <button class="btn btn--secondary" onclick="startTour()">Replay</button></div></div></div>`; }
+window.addEventListener('resize', ()=>{ if(tourActive()){ const beat=TOUR[tourIdx]; if(beat && !beat.closing) positionSpot(beat); } });
+
+/* read-only hook for headless QA */
+window.__proto={ state, ROSTER, CATALOG, DIRECTORS, compliance:()=>compliance(scopedRoster()), scopedCount:()=>scopedRoster().length, staffStatus, asgStatus, staffById, groupPct:(fn)=>groupPct(scopedRoster(),fn), modalDepth:()=>modalStack.length, tourIdx:()=>tourIdx };
+</script>
+</body>
+</html>
