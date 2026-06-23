@@ -1,0 +1,16 @@
+Jira sync routine FAILED — 2026-06-22T00:00:00Z
+
+Failed at: Step 1 — Atlassian MCP server did not connect
+
+The Atlassian connector was listed as "still connecting" at session start
+and never became available after multiple ToolSearch retries.
+
+No Jira query was executed.
+No CSV was written.
+No ingest.py was run.
+No ticket files were modified.
+
+Pre-existing CSVs in raw/_imports/ at run start: none
+
+Action required: Check Atlassian MCP server configuration / credentials
+and re-run the routine once the connector is healthy.
