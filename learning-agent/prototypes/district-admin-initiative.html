@@ -422,6 +422,25 @@ select.input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w
 .tabnote--over{color:var(--red-text); background:var(--red-soft);}
 .tabnote--warn{color:var(--warn-text); background:var(--warn-soft);}
 .tabnote--ok{color:var(--green-text); background:var(--accent-soft);}
+.tab-bell{position:relative; display:inline-flex;}
+.bell-btn{position:relative;}
+.bell-badge{position:absolute; top:1px; right:2px; min-width:16px; height:16px; padding:0 4px; border-radius:999px; background:var(--red); color:#fff; font:700 10px/16px var(--font); text-align:center; box-shadow:0 0 0 2px var(--bg);}
+.tabnote--add{color:var(--accent-ink); background:var(--accent);}
+.tabnote--add:hover{filter:brightness(1.06);}
+.tabnote--add:disabled{background:var(--panel3); color:var(--muted-aa); cursor:not-allowed;}
+.notif-menu{position:fixed; min-width:300px; max-width:340px; background:var(--surface); border-radius:var(--r-md); box-shadow:var(--sh-pop); padding:6px; z-index:120;}
+.notif-menu[hidden]{display:none;}
+.notif-head{font:700 10.5px/1 var(--font); letter-spacing:.08em; text-transform:uppercase; color:var(--muted); padding:9px 10px 7px;}
+.notif-item{display:flex; align-items:flex-start; gap:9px; width:100%; text-align:left; appearance:none; border:0; background:transparent; cursor:pointer; padding:9px 10px; border-radius:var(--r-sm); font:500 13px/1.35 var(--font); color:var(--text-soft);}
+.notif-item:hover{background:var(--panel2);}
+.notif-item:focus-visible{outline:none; box-shadow:var(--ring);}
+.ni-ic{flex:none; display:inline-flex; width:18px; justify-content:center; margin-top:1px;}
+.ni-ic svg{width:15px; height:15px;}
+.ni-ic.over{color:var(--red);} .ni-ic.warn{color:var(--warn-text);} .ni-ic.ok{color:var(--accent);}
+.ni-tx{min-width:0;} .ni-tx b{color:var(--ink);}
+.notif-empty{display:flex; align-items:center; gap:8px; padding:12px 10px; font-size:12.5px; color:var(--muted);}
+.notif-foot{display:flex; align-items:center; gap:7px; width:100%; text-align:left; appearance:none; border:0; background:transparent; cursor:pointer; padding:9px 10px; margin-top:4px; border-radius:var(--r-sm); font:600 12px/1 var(--font); color:var(--accent); box-shadow:inset 0 1px 0 var(--hair);}
+.notif-foot:hover{background:var(--panel2);} .notif-foot svg{width:14px; height:14px;}
 @media(max-width:920px){ #view.dash-noscroll{overflow:auto;} #view.dash-noscroll>.vpad{height:auto; display:block;} .dash2 .card>.card-b{overflow:visible;} .paged{overflow:visible;} }
 .grid-progress{display:flex; align-items:center; gap:7px;}
 .grid-progress .gp-bar{width:64px; height:7px; background:var(--panel3); border-radius:var(--r-pill); overflow:hidden;}
@@ -933,17 +952,30 @@ function _showToast(msg){ let t=$('#toast'); if(!t){ t=document.createElement('d
 
 /* ============================ APP / CHROME ============================ */
 const DIR_TABS=[['dashboard','Dashboard',SVG.gauge],['roster','Roster',SVG.roster],['assign','Assign',SVG.assign],['requirements','Requirements',SVG.badge],['reports','Evidence',SVG.doc],['access','Access',SVG.shield]];
+function buildNotifs(rs){
+  const out=[];
+  if(rs.behindN>0) out.push({alert:true, cls:'over', icon:SVG.warn, text:`<b>${rs.behindN}</b> people behind their deadline`, onclick:`App.drillWorst()`});
+  if(rs.not_equipped>0) out.push({alert:true, cls:'warn', icon:SVG.bell, text:`<b>${rs.not_equipped}</b> not yet equipped to start`, onclick:`App.setTab('dashboard')`});
+  if(GO_LIVE){ const days=daysBetween(TODAY,GO_LIVE); out.push({alert:false, cls:'ok', icon:SVG.calendar, text:`Go-live ${esc(fmtDate(GO_LIVE))} &middot; <b>${days}</b> days left`, onclick:`App.setTab('dashboard')`}); }
+  return out;
+}
+function notifMenuHtml(notifs){
+  const items = notifs.length
+    ? notifs.map(n=>`<button class="notif-item" role="menuitem" onclick="App.closeNotifs();${n.onclick}"><span class="ni-ic ${n.cls}">${n.icon}</span><span class="ni-tx">${n.text}</span></button>`).join('')
+    : `<div class="notif-empty"><span class="ni-ic ok">${SVG.check}</span> All clear — nothing needs attention.</div>`;
+  return `<div class="notif-head">Notifications</div>${items}<button class="notif-foot" onclick="App.closeNotifs();openNotifySettings()">${SVG.bell} Notification settings</button>`;
+}
 function renderTabs(){
   const tabs=DIR_TABS.map(([id,label,icon])=>`<button role="tab" id="tab-${id}" aria-selected="${state.tab===id}" aria-controls="view" onclick="App.setTab('${id}')">${icon}<span>${esc(label)}</span></button>`).join('');
-  let notes='';
   const rs=readinessSummary(scopedRoster());
-  if(rs.total){
-    const cls=rs.behindN>0?'tabnote--over':rs.not_equipped>0?'tabnote--warn':'tabnote--ok';
-    const ic=rs.behindN>0?SVG.warn:rs.not_equipped>0?SVG.bell:SVG.check;
-    const txt=rs.behindN>0?(rs.behindN+' behind'):rs.not_equipped>0?(rs.not_equipped+' not equipped'):'On track';
-    notes=`<span class="tabnotes"><button class="tabnote ${cls}" onclick="App.drillWorst()" title="See who is behind">${ic}<span>${txt}</span></button><button class="tabnote" onclick="openNotifySettings()" title="Notification settings" aria-label="Notification settings">${SVG.bell}</button></span>`;
-  }
-  $('#tabbar').innerHTML=tabs+notes;
+  const notifs=buildNotifs(rs);
+  const alertN=notifs.filter(n=>n.alert).length;
+  const bell=`<span class="tab-bell" id="tab-bell">`
+    +`<button class="tabnote bell-btn" onclick="App.toggleNotifs()" aria-haspopup="true" aria-expanded="false" aria-label="Notifications, ${alertN} alert${alertN===1?'':'s'}" title="Notifications">${SVG.bell}${alertN?`<span class="bell-badge">${alertN}</span>`:''}</button>`
+    +`<div class="notif-menu" id="notif-menu" role="menu" aria-label="Notifications" hidden>${notifMenuHtml(notifs)}</div>`
+    +`</span>`;
+  const add=`<button class="tabnote tabnote--add" onclick="openAddStaff()" title="Quick add a staff member"${isReadOnly()?' disabled':''}>${SVG.userplus}<span>Add staff</span></button>`;
+  $('#tabbar').innerHTML=tabs+`<span class="tabnotes">${bell}${add}</span>`;
 }
 function viewAsScopeLabel(d){
   return d.reviewer ? 'State reviewer · read-only'
@@ -1003,6 +1035,8 @@ const App={
   setTab(id){ state.tab=id; if(id!=='dashboard'){ /* keep drill only on dashboard */ } renderTabs(); App.render(); },
   toggleUserMenu(){ const m=$('#uc-menu'),b=$('#uc-btn'); if(!m||!b) return; const willOpen=m.hasAttribute('hidden'); if(willOpen){ fillViewAs(); m.removeAttribute('hidden'); } else { m.setAttribute('hidden',''); } b.setAttribute('aria-expanded', willOpen?'true':'false'); },
   closeUserMenu(){ const m=$('#uc-menu'),b=$('#uc-btn'); if(m&&!m.hasAttribute('hidden')){ m.setAttribute('hidden',''); if(b) b.setAttribute('aria-expanded','false'); } },
+  toggleNotifs(){ const m=$('#notif-menu'),b=$('#tab-bell .bell-btn'); if(!m||!b) return; const willOpen=m.hasAttribute('hidden'); if(willOpen){ const r=b.getBoundingClientRect(); m.style.top=(r.bottom+6)+'px'; m.style.right=Math.max(8,window.innerWidth-r.right)+'px'; m.removeAttribute('hidden'); b.setAttribute('aria-expanded','true'); } else { m.setAttribute('hidden',''); b.setAttribute('aria-expanded','false'); } },
+  closeNotifs(){ const m=$('#notif-menu'),b=$('#tab-bell .bell-btn'); if(m&&!m.hasAttribute('hidden')){ m.setAttribute('hidden',''); if(b) b.setAttribute('aria-expanded','false'); } },
   setViewingAs(v){
     if(!DIRECTORS.some(d=>d.id===v)) return;
     App.closeUserMenu();
@@ -1025,8 +1059,8 @@ const App={
 };
 function commit(msg){ App.render(); refreshTopModal(); if(msg) _showToast(msg); }
 // close the Preview-as switcher on click-outside / Escape
-document.addEventListener('click', e=>{ const sw=$('#user-switch'); if(sw && !sw.contains(e.target)) App.closeUserMenu(); });
-document.addEventListener('keydown', e=>{ if(e.key==='Escape') App.closeUserMenu(); });
+document.addEventListener('click', e=>{ const sw=$('#user-switch'); if(sw && !sw.contains(e.target)) App.closeUserMenu(); const tb=$('#tab-bell'); if(tb && !tb.contains(e.target)) App.closeNotifs(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ App.closeUserMenu(); App.closeNotifs(); } });
 function skeleton(){ return `<div aria-busy="true" aria-label="Loading"><div class="skel" style="height:150px;margin-bottom:14px"></div><div class="skel" style="height:120px;margin-bottom:14px"></div><div class="skel" style="height:120px"></div></div>`; }
 
 /* ============================ shared evidence / completion math ============================ */
