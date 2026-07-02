@@ -383,13 +383,11 @@ class TestGateRevealStructural:
             "Ctrl+Shift+G must fire showGateReveal() for the one-keypress demo moment."
         )
 
-    def test_pipeline_strip_element_present(self):
-        """index.html must contain the g2-pipeline-strip element."""
-        index_path = Path(__file__).resolve().parent.parent / "static" / "index.html"
-        content = index_path.read_text(encoding="utf-8")
-
-        assert 'id="g2-pipeline-strip"' in content, (
-            "STRUCTURAL PIN: #g2-pipeline-strip element not found in index.html. "
-            "The pipeline counter strip (N guides · N quizzes …) is missing from "
-            "the trainer home view."
-        )
+    # RETIRED (2026-07-02): the #g2-pipeline-strip element was intentionally removed in
+    # commit fa6b70f (2026-06-17). The whole feature — CSS (.g2-pipeline-strip), the DOM
+    # element, and _g2UpdatePipelineStrip() + its call site — was excised together, while
+    # the rest of G2 (economics card, gate overlay/reveal, tier bars, Ctrl+Shift+G) was
+    # deliberately kept. The guide/quiz/deck counts the strip showed now live in the
+    # economics card (#g2-econ-guides), which is pinned by test_economics_fields_present
+    # and test_show_economics_card_function_present. This stale structural pin was retired;
+    # the other four pins in this class still guard live elements.
