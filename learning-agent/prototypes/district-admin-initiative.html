@@ -404,6 +404,12 @@ select.input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w
 .dash2 #site-bars.paged{display:flex; flex-direction:column; gap:7px;}
 .dash2 .ne-list.paged{display:flex; flex-direction:column; gap:6px;}
 .dash2 .bar-btn{min-height:0; padding:8px 12px;}
+/* dashboard as a single full-width instrument (not-equipped & pace grids removed) */
+.dash-solo{flex:1; min-height:0; display:flex; flex-direction:column;}
+.dash-solo>.card{flex:1; min-height:0; display:flex; flex-direction:column;}
+.dash-solo .card>.card-b{flex:1; min-height:0; display:flex; flex-direction:column; overflow:hidden;}
+.dash-solo .bar-btn{min-height:0; padding:8px 12px;}
+.dash-solo #site-bars.paged{display:flex; flex-direction:column; gap:7px;}
 .card-foot{flex:none; display:flex; align-items:center; gap:10px; margin-top:9px; padding-top:9px; box-shadow:inset 0 1px 0 var(--hair);}
 .foot-note{font-size:11px; color:var(--muted); min-width:0;}
 [data-pager]{display:inline-flex; align-items:center; gap:6px; margin-left:auto; flex:none;}
@@ -955,7 +961,6 @@ const DIR_TABS=[['dashboard','Dashboard',SVG.gauge],['roster','Roster',SVG.roste
 function buildNotifs(rs){
   const out=[];
   if(rs.behindN>0) out.push({alert:true, cls:'over', icon:SVG.warn, text:`<b>${rs.behindN}</b> people behind their deadline`, onclick:`App.drillWorst()`});
-  if(rs.not_equipped>0) out.push({alert:true, cls:'warn', icon:SVG.bell, text:`<b>${rs.not_equipped}</b> not yet equipped to start`, onclick:`App.setTab('dashboard')`});
   if(GO_LIVE){ const days=daysBetween(TODAY,GO_LIVE); out.push({alert:false, cls:'ok', icon:SVG.calendar, text:`Go-live ${esc(fmtDate(GO_LIVE))} &middot; <b>${days}</b> days left`, onclick:`App.setTab('dashboard')`}); }
   return out;
 }
@@ -1258,11 +1263,10 @@ function viewDashboard(){
   // Verdict renders in the header (top-right). Body: completion-by-site (left) ‖ not-equipped + pace (right), aligned.
   let h='';
   if(!c.assigned){
-    h += notEquippedCard(rows);
     h += `<div class="empty"><div class="ei">${SVG.gauge}</div><p>No software training assigned yet.</p><p class="es">Assign onboarding training from the <b>Assign</b> tab and the monitor fills in. (Nothing assigned reads as "nothing assigned yet" — not 0% framed as failure.)</p></div>`;
     return h;
   }
-  h += `<div class="dash2"><div class="d-left">${drillBlock(dashboardFilteredRows(rows),rows)}</div><div class="d-right">${notEquippedCard(rows)}${goLiveCard(rows)}</div></div>`;
+  h += `<div class="dash-solo">${drillBlock(dashboardFilteredRows(rows),rows)}</div>`;
   return h;
 }
 function drawRing(){ const c=completionSummary(scopedRoster()), svg=$('#ring'); if(!svg)return;
