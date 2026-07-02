@@ -79,6 +79,7 @@ Rules:
 - If the request clearly names a product area that is NOT in the available list, refuse: say which area it is and that there's no grounded data for it yet. Do not substitute a different module.
 - Resolve `format` to one of: long-form, micro-guide, tldr, release-notes. If the user didn't say, infer a sensible default from the request (a quick overview -> tldr or micro-guide; a full reference -> long-form) but mark `assumed_format: true`.
 - `depth` is a short free-text note (e.g., "top workflows only", "comprehensive").
+- `clarifying_question` and `refused_reason` are shown directly in a chat bubble: keep each to ONE sentence, plain and conversational. A refusal names the area and points to the available list — it does not lecture.
 
 Output STRICT JSON only — one object, no prose:
 {
@@ -129,7 +130,13 @@ __SPEC__
 GROUNDING RULES:
 - Only name ticket keys you actually read and that genuinely match the user's topic in THIS module. Never invent keys.
 - If a ticket's parent epic is shown as "parent reference only" / "carries no AC/RN", that's fine — cite the ticket, not the epic; do not block on it.
-- If the user's topic has NO real supporting tickets in this module, do NOT fabricate an outline. Set `"supported": false` and explain in `note` (the topic may belong to another module, or simply isn't built).
+- If the user's topic has NO real supporting tickets in this module, do NOT fabricate an outline. Set `"supported": false` and explain in `note`.
+
+WRITING THE `note` (unsupported case) — this text is shown directly in a chat bubble, so keep it TIGHT:
+- At most 2 short sentences, then ONE next step. Total under ~50 words.
+- Say WHAT is missing in plain language (e.g. "None of the June Item Management tickets carry customer-facing release notes"), not a play-by-play of your searches.
+- Do NOT list ticket keys, do NOT report how many searches you ran or which tickets you read, do NOT restate the internal selection rule verbatim. The reviewer wants the conclusion and the next move, not the audit trail.
+- End with a single recommendation, e.g. "Try a different module, or ask the PO to add release notes to these tickets."
 
 OUTPUT — your FINAL message must be ONLY this JSON object, no prose, no fence:
 {

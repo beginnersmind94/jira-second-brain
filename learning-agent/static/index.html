@@ -1101,12 +1101,23 @@
     .seg button.active { background:var(--surface); color:var(--text); font-weight:650; box-shadow:0 1px 2px rgba(0,0,0,.05); }
     #mode-describe textarea, #mode-transcript textarea { width:100%; box-sizing:border-box; padding:9px 11px; font-family:var(--font); font-size:13px; color:var(--text); background:var(--surface); border:1px solid var(--border-strong); border-radius:var(--radius-sm); resize:vertical; }
     #mode-describe textarea:focus-visible, #mode-transcript textarea:focus-visible { outline:2px solid var(--accent); outline-offset:1px; }
-    .intent-convo { margin-top:14px; display:flex; flex-direction:column; gap:8px; }
-    .intent-convo .bubble { padding:9px 12px; border-radius:10px; font-size:13px; line-height:1.5; }
-    .intent-convo .bubble.user { background:var(--accent-soft); color:var(--text); align-self:flex-end; max-width:90%; }
-    .intent-convo .bubble.bot { background:var(--panel2); color:var(--text-soft); border:1px solid var(--border); font-family:var(--serif); }
-    .intent-convo .bubble.bot.warn { background:var(--amber-soft); color:var(--amber-text); border-color:var(--border); }
+    /* "Describe what you need" — a real chat surface (persistent thread + sticky composer, ChatGPT/Claude-style). */
+    .intent-chat { margin-top:14px; border:1px solid var(--border-strong); border-radius:12px; background:var(--surface); display:flex; flex-direction:column; overflow:hidden; }
+    .intent-convo { display:flex; flex-direction:column; gap:12px; min-height:210px; max-height:46vh; overflow-y:auto; padding:16px 16px 8px; }
+    .intent-empty { margin:auto; text-align:center; color:var(--muted); font-size:12.5px; line-height:1.6; max-width:360px; }
+    .intent-empty strong { display:block; margin-bottom:5px; color:var(--text); font-size:13.5px; }
+    .intent-convo .bubble { max-width:86%; padding:10px 13px; border-radius:14px; font-size:13px; line-height:1.55; white-space:pre-wrap; word-break:break-word; }
+    .intent-convo .bubble.user { background:var(--accent); color:#fff; align-self:flex-end; border-bottom-right-radius:5px; }
+    .intent-convo .bubble.bot { background:var(--panel2); color:var(--text); border:1px solid var(--border); align-self:flex-start; border-bottom-left-radius:5px; }
+    .intent-convo .bubble.bot.warn { background:var(--amber-soft); color:var(--amber-text); border-color:var(--amber-text); }
+    .intent-convo .bubble.intent-thinking { color:var(--muted); font-style:italic; }
+    .intent-convo .bubble.scope-bubble { max-width:100%; align-self:stretch; padding:0; background:transparent; border:0; white-space:normal; }
+    .intent-composer { display:flex; gap:8px; align-items:flex-end; padding:10px; border-top:1px solid var(--border); background:var(--panel2); }
+    #mode-describe .intent-composer textarea { flex:1 1 auto; width:auto; min-width:0; box-sizing:border-box; padding:9px 12px; font-family:var(--font); font-size:13px; color:var(--text); background:var(--surface); border:1px solid var(--border-strong); border-radius:10px; resize:none; max-height:150px; line-height:1.45; }
+    #mode-describe .intent-composer textarea:focus-visible { outline:2px solid var(--accent); outline-offset:1px; }
+    .intent-composer button { flex:0 0 auto; width:auto; align-self:stretch; min-width:84px; }
     .scope-card { margin-top:14px; border:1px solid var(--border-strong); border-radius:var(--radius-sm); background:var(--surface); overflow:hidden; }
+    .scope-bubble .scope-card { margin-top:0; }
     .scope-card .sc-head { padding:11px 14px; background:var(--panel2); border-bottom:1px solid var(--border); }
     .scope-card .sc-title { font-weight:700; color:var(--text); font-size:13px; }
     .scope-card .sc-meta { font-size:11.5px; color:var(--muted); margin-top:3px; }
@@ -1117,7 +1128,7 @@
     .scope-card .sc-sec .sd { font-size:11.5px; color:var(--muted); margin-top:2px; }
     .scope-card .sc-sec .k { font-family:var(--mono); font-size:11px; color:var(--clay); margin-top:3px; }
     .scope-card .sc-actions { display:flex; gap:8px; padding:12px 14px; border-top:1px solid var(--border); background:var(--panel2); }
-    .scope-card .sc-actions button { flex:0 0 auto; }
+    .scope-card .sc-actions button { flex:0 0 auto; width:auto; }
 
     /* ───────────────────────── Review: AI-assisted edit bar ───────────────────────── */
     .edit-bar {
@@ -4429,15 +4440,22 @@
         </div>
 
         <div id="mode-describe" style="display:none;">
-          <div class="field">
-            <label for="intent-input">Describe the guide you need</label>
-            <textarea id="intent-input" rows="3" placeholder="e.g. a quick one-pager on income survey auto-processing in Eligibility"></textarea>
-            <p class="hint" style="margin-top:6px;">No transcript needed — name the module &amp; topic. I'll search the tickets, propose a scope, and you confirm before anything is written. (⌘/Ctrl+Enter to send)</p>
+          <!-- Chat surface: a persistent thread with a sticky composer, like ChatGPT/Claude.
+               A clarifying question, a refusal, or a proposed scope always lands inside the
+               thread; the composer stays put so there's always a visible place to reply. -->
+          <div class="intent-chat">
+            <div id="intent-convo" class="intent-convo" aria-live="polite">
+              <div id="intent-welcome" class="intent-empty">
+                <strong>Describe the guide you need</strong>
+                No transcript required — name the module &amp; topic (e.g. “a quick one-pager on income survey auto-processing in Eligibility”). I’ll search the tickets, propose a scope, and you confirm before anything is written.
+              </div>
+            </div>
+            <div class="intent-composer">
+              <textarea id="intent-input" rows="1" aria-label="Describe the guide you need" placeholder="Message…  (⌘/Ctrl+Enter to send)"></textarea>
+              <button id="intent-go" class="primary" disabled>Send</button>
+            </div>
           </div>
-          <button id="intent-go" class="primary" disabled>Find the scope</button>
-          <p id="intent-needs" class="hint run-needs"></p>
-          <div id="intent-convo" class="intent-convo" aria-live="polite"></div>
-          <div id="scope-card" class="scope-card" style="display:none;"></div>
+          <p id="intent-needs" class="hint run-needs" style="margin-top:8px;"></p>
         </div>
 
         <div id="mode-studyset" style="display:none;">
@@ -9499,17 +9517,26 @@ function _cmodeActivate(mode) {
 })();
 
 let intentHistory = [];   // [{role, text}] for multi-turn clarification
+// On the first real message, retire the welcome/empty state so the thread reads as a chat.
+function clearIntentWelcome() {
+  const w = document.getElementById('intent-welcome');
+  if (w) w.remove();
+}
 function intentBubble(role, text, cls) {
   const c = document.getElementById('intent-convo');
+  if (!c) return;
+  clearIntentWelcome();
   const d = document.createElement('div');
   d.className = 'bubble ' + (role === 'user' ? 'user' : 'bot') + (cls ? ' ' + cls : '');
   d.textContent = text;
   c.appendChild(d); c.scrollTop = c.scrollHeight;
+  try { d.scrollIntoView({ block: 'nearest' }); } catch {}
 }
 // Transient "working" bubble shown while the scope agent thinks — removed when the reply lands.
 function intentThinking() {
   const c = document.getElementById('intent-convo');
   if (!c) return null;
+  clearIntentWelcome();
   const d = document.createElement('div');
   d.className = 'bubble bot intent-thinking';
   d.innerHTML = '<span class="spinner" style="width:13px;height:13px;vertical-align:-1px;"></span> Searching the tickets…';
@@ -9525,11 +9552,11 @@ async function resolveIntent() {
   const goBtn = document.getElementById('intent-go');
   const text = (input.value || '').trim();
   if (!text) { input.focus(); checkIntentReady(); return; }
-  document.getElementById('scope-card').style.display = 'none';
+  removeScopeCard();
   intentBubble('user', text);
   const prior = intentHistoryText();
   intentHistory.push({ role: 'user', text });
-  input.value = '';
+  input.value = ''; input.style.height = 'auto';
   goBtn.disabled = true; goBtn.textContent = 'Thinking…';
   const thinkingEl = intentThinking();
   let r;
@@ -9544,10 +9571,10 @@ async function resolveIntent() {
     if (thinkingEl) thinkingEl.remove();
     intentBubble('assistant', 'Something went wrong finding the scope. ' + (e.message ? '(' + e.message + ') ' : '') + 'Your request is still here, so you can edit it and try again.', 'warn');
     if (input) input.value = text;   // restore the request so a retry needs no retyping
-    goBtn.textContent = 'Find the scope'; checkIntentReady(); return;
+    goBtn.textContent = 'Send'; checkIntentReady(); return;
   }
   if (thinkingEl) thinkingEl.remove();
-  goBtn.textContent = 'Find the scope'; checkIntentReady();
+  goBtn.textContent = 'Send'; checkIntentReady();
 
   if (r.stage === 'clarify') {
     intentHistory.push({ role: 'assistant', text: r.question });
@@ -9557,13 +9584,29 @@ async function resolveIntent() {
   } else if (r.stage === 'unsupported') {
     intentBubble('assistant', '[' + r.module + '] ' + r.note, 'warn');
   } else if (r.stage === 'scope') {
-    intentBubble('assistant', `Proposed a ${r.scope.format} ${r.scope.module} guide — ${r.scope.sections.length} sections sourced from ${[...new Set(r.scope.sections.flatMap(s => s.ticket_keys || []))].length} tickets. Review & confirm below.`);
+    const nk = [...new Set(r.scope.sections.flatMap(s => s.ticket_keys || []))].length;
+    intentBubble('assistant', `Here's a proposed ${r.scope.format} ${r.scope.module} guide — ${r.scope.sections.length} sections from ${nk} ticket${nk === 1 ? '' : 's'}. Review it below, then confirm to generate.`);
     renderScopeCard(r.scope, r.cost_usd);
+  }
+  // Conversation continues (a question, refusal, or unsupported note) — re-cue the
+  // composer placeholder for a reply and focus it so answering is obvious.
+  if (r.stage === 'clarify' || r.stage === 'refused' || r.stage === 'unsupported') {
+    input.placeholder = 'Type your reply…  e.g. name one module, or refine the request';
+    input.focus();
+    checkIntentReady();
   }
 }
 
+// The proposed scope renders as an assistant message INSIDE the thread (chat layout),
+// not as a detached card below the composer. Only one proposal is live at a time.
+function removeScopeCard() {
+  const b = document.getElementById('scope-bubble');
+  if (b) b.remove();
+}
 function renderScopeCard(scope, cost) {
-  const card = document.getElementById('scope-card');
+  const convo = document.getElementById('intent-convo');
+  if (!convo) return;
+  removeScopeCard();
   const keys = [...new Set(scope.sections.flatMap(s => s.ticket_keys || []))];
   const secs = scope.sections.map(s => `
     <div class="sc-sec">
@@ -9571,20 +9614,29 @@ function renderScopeCard(scope, cost) {
       ${s.scope ? `<div class="sd">${escapeHtml(s.scope)}</div>` : ''}
       <div class="k">${(s.ticket_keys || []).map(escapeHtml).join(' · ') || '—'}</div>
     </div>`).join('');
-  card.innerHTML = `
-    <div class="sc-head">
-      <div class="sc-title">${escapeHtml(scope.module)} · ${escapeHtml(scope.format)}${scope.assumed_format ? ' (assumed)' : ''}</div>
-      <div class="sc-meta">${escapeHtml(scope.topic || '')} · ${scope.sections.length} sections · ${keys.length} tickets${cost != null ? ' · $' + Number(cost).toFixed(4) : ''}</div>
-    </div>
-    <div class="sc-body">${secs}</div>
-    <div class="sc-actions">
-      <button class="primary" id="scope-confirm">Confirm &amp; generate</button>
-      <button class="secondary" id="scope-refine">Keep refining</button>
+  const bubble = document.createElement('div');
+  bubble.id = 'scope-bubble';
+  bubble.className = 'bubble bot scope-bubble';
+  bubble.innerHTML = `
+    <div class="scope-card">
+      <div class="sc-head">
+        <div class="sc-title">${escapeHtml(scope.module)} · ${escapeHtml(scope.format)}${scope.assumed_format ? ' (assumed)' : ''}</div>
+        <div class="sc-meta">${escapeHtml(scope.topic || '')} · ${scope.sections.length} sections · ${keys.length} tickets${cost != null ? ' · $' + Number(cost).toFixed(4) : ''}</div>
+      </div>
+      <div class="sc-body">${secs}</div>
+      <div class="sc-actions">
+        <button class="primary" id="scope-confirm">Confirm &amp; generate</button>
+        <button class="secondary" id="scope-refine">Keep refining</button>
+      </div>
     </div>`;
-  card.style.display = '';
-  document.getElementById('scope-confirm').onclick = () => confirmScope(scope);
-  document.getElementById('scope-refine').onclick = () => {
-    card.style.display = 'none'; document.getElementById('intent-input').focus();
+  convo.appendChild(bubble);
+  convo.scrollTop = convo.scrollHeight;
+  try { bubble.scrollIntoView({ block: 'nearest' }); } catch {}
+  bubble.querySelector('#scope-confirm').onclick = () => confirmScope(scope);
+  bubble.querySelector('#scope-refine').onclick = () => {
+    removeScopeCard();
+    intentBubble('assistant', 'Sure — tell me what to change and I\'ll re-scope it.');
+    document.getElementById('intent-input').focus();
   };
 }
 
@@ -9618,7 +9670,7 @@ function activityLine(text) {
 }
 
 async function confirmScope(scope) {
-  document.getElementById('scope-card').style.display = 'none';
+  removeScopeCard();
   document.getElementById('activity').innerHTML = '';
   document.getElementById('preview').innerHTML = '<div class="empty">Generating from your confirmed scope…</div>';
   document.getElementById('resid').textContent = 'awaiting...';
@@ -9660,12 +9712,26 @@ function checkIntentReady() {
   const ready = !!input.value.trim();
   goBtn.disabled = !ready;
   if (needs) {
-    needs.textContent = ready ? 'Ready — I will search the tickets and propose a scope.' : 'Describe the guide you need to continue.';
+    const inConvo = (typeof intentHistory !== 'undefined') && intentHistory.length > 0;
+    if (ready) {
+      needs.textContent = inConvo ? 'Ready — press ⌘/Ctrl+Enter to send your reply.'
+                                  : 'Ready — I will search the tickets and propose a scope.';
+    } else {
+      needs.textContent = inConvo ? 'Answer above to continue — type your reply here, then ⌘/Ctrl+Enter.'
+                                  : 'Describe the guide you need to continue.';
+    }
     needs.classList.toggle('ready', ready);
   }
 }
+// Grow the composer with its content (single line → up to the CSS max-height), like a chat box.
+function autoGrowIntent() {
+  const input = document.getElementById('intent-input');
+  if (!input) return;
+  input.style.height = 'auto';
+  input.style.height = Math.min(input.scrollHeight, 150) + 'px';
+}
 document.getElementById('intent-go') && document.getElementById('intent-go').addEventListener('click', resolveIntent);
-document.getElementById('intent-input') && document.getElementById('intent-input').addEventListener('input', checkIntentReady);
+document.getElementById('intent-input') && document.getElementById('intent-input').addEventListener('input', () => { checkIntentReady(); autoGrowIntent(); });
 document.getElementById('intent-input') && document.getElementById('intent-input').addEventListener('keydown', e => {
   if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); resolveIntent(); }
 });
