@@ -60,6 +60,8 @@ from demo import (
     validate_citations,
 )
 from demo import ALLOWED_TOOLS as DEMO_ALLOWED_TOOLS
+from citation_gate import run_gate
+from config import citations_enabled
 
 DEFAULT_MODULE = "Item Management"
 DEFAULT_TRANSCRIPT = demo.DEFAULT_TRANSCRIPT
@@ -425,10 +427,40 @@ def _section_ok(frag: str) -> bool:
     return bool(re.search(r"<h[1-6]", frag, re.I)) or len(frag) > 60
 
 
+async def _write_section_via_citations(sec: dict, registry: dict, module: str,
+                                       sem: asyncio.Semaphore, directive: str = "") -> dict:
+    """Version B writer: the Citations API produces the grounded spans. Returns the SAME
+    section shape as write_section ({title, html-with-[CITE:id], ...}) and merges synthetic,
+    section-namespaced registry entries so the existing assemble() renders them verbatim."""
+    import time as _time
+    import citations_client  # lazy: Version A never imports anthropic
+
+    t0 = _time.monotonic()
+    title = sec.get("title", "Section")
+    sid = sec.get("id") or _slug(title)  # section id namespaces cite-ids (no cross-section collision)
+    docs = citations_client.build_ticket_documents(sec.get("ticket_keys") or [])
+    async with sem:
+        res = await asyncio.to_thread(
+            citations_client.write_section_citations, sec, docs, module, directive)
+    # segments_to_html is pure + unit-tested; entries are globally unique via `sid`.
+    html, entries = citations_client.segments_to_html(res["segments"], sid)
+    registry.update(entries)  # safe under asyncio: runs on the event-loop thread after the await
+    if not html.lower().startswith("<h2"):
+        html = f"<h2>{title}</h2>\n{html}"
+    return {"title": title, "html": html, "stop_reason": "citations",
+            "secs": round(_time.monotonic() - t0, 1), "errored": False,
+            "attempts": 1, "usage": res.get("usage")}
+
+
 async def write_section(sec: dict, registry: dict, by_ticket: dict, module: str,
                         sem: asyncio.Semaphore, budget: str = "120–350 words",
                         max_attempts: int = 3, directive: str = "",
                         section_tmpl: str = SECTION_SYSTEM_PROMPT) -> dict:
+    # Version B: only Jira-grounded sections (with ticket_keys) go through the Citations API.
+    # Transcript-only sections (span_ids) and structural sections (no keys) fall through to the
+    # existing SDK writer — identical to Version A for those sections.
+    if citations_enabled() and sec.get("ticket_keys"):
+        return await _write_section_via_citations(sec, registry, module, sem, directive=directive)
     title = sec.get("title", "Section")
     # In transcript-only mode the plan carries span_ids instead of ticket_keys;
     # both resolve through the same by_ticket/registry menu lookup.
@@ -598,7 +630,7 @@ async def run_cell_d(module: str, transcript: str, label: str, do_eval: bool,
             errored += 1
         print(f"{i:>2} {s['secs']:6.1f} {s.get('attempts', 1):>3} {sr:<14} {s['title'][:50]}")
 
-    integ = validate_citations(html)
+    integ = run_gate(html)["substring"]
     print(f"\nassembly: rendered={asm['rendered']} invalid_cite_id={asm['invalid_cite_id']} transcript={asm['transcript']}")
     if asm["invalid_examples"]:
         print(f"  invalid ids: {asm['invalid_examples']}")

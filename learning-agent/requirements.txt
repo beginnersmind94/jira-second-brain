@@ -1,6 +1,9 @@
 # ─── Core runtime (Generator + Evaluator + tools) ───────────────────
 claude-agent-sdk>=0.2.0
 
+# Version B ONLY — raw Messages API for the Citations grounding writer.
+anthropic>=0.49.0
+
 # Web server (FastAPI + SSE streaming)
 fastapi>=0.110.0
 uvicorn[standard]>=0.30.0

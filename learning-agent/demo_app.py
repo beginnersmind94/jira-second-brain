@@ -74,6 +74,8 @@ import app as prod
 # Offline tools + offline generator options.
 import demo
 from demo import build_demo_options, build_derive_options, build_derive_prompt, validate_citations
+from citation_gate import run_gate
+from config import gate_mode
 from agent_sdk import VALID_TEMPLATES, build_user_prompt
 from evaluator_sdk import EVALUATOR_PROMPT, build_evaluator_prompt
 # Cell D — sectioned + quote-registry long-form (the validated architecture).
@@ -152,6 +154,16 @@ load_dotenv()
 CONFERENCE_MODE: bool = os.getenv("DEMO_MODE", "").strip().lower() == "conference"
 if CONFERENCE_MODE:
     print("[demo_app] CONFERENCE MODE active — watermarks suppressed, reset endpoint enabled")
+
+# ── Live-with-fallback demo controls (ANC booth) ──────────────────────────────
+# DEMO_RECORD=1        run live and TEE the on-screen SSE stream to a replay file
+# DEMO_FORCE_REPLAY=1  play the recorded run outright (offline rehearsal / safe run)
+# Otherwise, in conference mode /generate runs LIVE and quietly falls back to the
+# recorded run if the API stalls/errors before the first section renders.
+DEMO_RECORD: bool = os.getenv("DEMO_RECORD", "").strip() == "1"
+DEMO_FORCE_REPLAY: bool = os.getenv("DEMO_FORCE_REPLAY", "").strip() == "1"
+if DEMO_RECORD:
+    print("[demo_app] DEMO_RECORD active — live generations will be captured to data/demo/")
 
 # ── Discover ALL available module fixtures; load one to start ─────────────────
 # The offline tools read demo._FIX (a single module's fixture). For multi-module
@@ -282,7 +294,7 @@ def _deterministic_eval(rid: str, draft_html: str, transcript_text: str = "") ->
     _ensure_fixture() on the right module first, and for passing transcript_text
     when the draft was generated in transcript-only mode (else those tokens fail
     closed). Persists drafts/<rid>.eval.json and returns the verdict dict."""
-    integ = validate_citations(draft_html, transcript_text=transcript_text)
+    integ = run_gate(draft_html, transcript_text=transcript_text)["substring"]
     tier_lie, not_found, ok = integ["tier_lie"], integ["quote_not_found"], integ["ok"]
     invalid = draft_html.count("INVALID_CITE_ID")
     hard = tier_lie + not_found + invalid
@@ -4800,7 +4812,7 @@ async def _stream_celld(transcript_path, transcript_id, module, rid, log, fmt="l
 
     # Deterministic assemble + render (tier_lie / not_found impossible here).
     html, asm = assemble(module, ordered, registry)
-    integ = validate_citations(html)
+    integ = run_gate(html)["substring"]
 
     # Cost of this run = plan call + every section call, priced from pricing.py.
     usages = [plan_usage] + [s.get("usage") for s in ordered]
@@ -4940,7 +4952,7 @@ async def _stream_celld_transcript(transcript_path, transcript_id, module, rid, 
         log("section_done", {"title": sec["title"], "stop_reason": sec.get("stop_reason")})
 
     html, asm = assemble(module, ordered, registry)
-    integ = validate_citations(html, transcript_text=transcript_text)
+    integ = run_gate(html, transcript_text=transcript_text)["substring"]
     usages = [plan_usage] + [s.get("usage") for s in ordered]
     cost = pricing.cost_of(usages)
 
@@ -5154,15 +5166,26 @@ async def generate(
             if r in _VOCAB:
                 role_tags.append(r)
 
-    # Conference-mode generation theater: if a pre-recorded replay exists for the
-    # resource id that WOULD be generated (same deterministic key), stream it instead.
-    # Falls through to a live LLM call if no replay file is found.
-    if CONFERENCE_MODE:
-        rid_preview = prod._resource_id(module, template)
-        replay_path = _REPLAY_DIR / f"generation-replay-{rid_preview}.jsonl"
-        if replay_path.exists():
-            return EventSourceResponse(_stream_replay(rid_preview, replay_path))
+    # Replay/fallback applies only to jira-mode fixture generation; transcript-only
+    # mode grounds in the uploaded file, so a canned replay would not match it.
+    replay_path = _replay_path_for(module, template) if source != "transcript" else None
 
+    # RECORD: run live and tee the on-screen stream to the stable replay path.
+    if DEMO_RECORD and replay_path is not None:
+        inner = _stream_generation_demo(transcript_id, module, template, directive, source, role_tags=role_tags)
+        return EventSourceResponse(_tee_record(inner, replay_path))
+
+    # FORCE REPLAY: play the recorded run outright (offline rehearsal / guaranteed-safe run).
+    if DEMO_FORCE_REPLAY and replay_path is not None and replay_path.exists():
+        return EventSourceResponse(_stream_replay(replay_path.stem, replay_path))
+
+    # CONFERENCE: run LIVE with an automatic fallback to the recorded run if the
+    # network stalls/errors before the first section renders.
+    if CONFERENCE_MODE and replay_path is not None and replay_path.exists():
+        return EventSourceResponse(_live_with_fallback(
+            transcript_id, module, template, directive, source, role_tags, replay_path))
+
+    # DEFAULT: pure live (dev, or conference with no recording available yet).
     return EventSourceResponse(_stream_generation_demo(transcript_id, module, template, directive, source, role_tags=role_tags))
 
 
@@ -5216,15 +5239,20 @@ async def publish_pending(rid: str, current_user: CurrentUser = Depends(get_curr
 
     # Machine floor: only release provably-grounded docs.
     ci = meta.get("citation_integrity")
-    if not ci:  # older/non-Cell-D draft — compute grounding now
+    _gate = None
+    # Version B (or a missing stored result) re-validates live so the coverage layer
+    # applies. Version A with a stored clean result keeps its existing fast path.
+    if gate_mode() in {"citations", "both"} or not ci:
         if meta.get("module"):
             _ensure_fixture(meta["module"])
-        integ = validate_citations(html_path.read_text(encoding="utf-8"),
-                                   transcript_text=_transcript_text_for(meta))
-        ci = {"tier_lie": integ["tier_lie"], "not_found": integ["quote_not_found"],
-              "invalid_cite_id": 0}
+        _gate = run_gate(html_path.read_text(encoding="utf-8"),
+                         transcript_text=_transcript_text_for(meta))
+        _sub = _gate["substring"]
+        ci = {"tier_lie": _sub["tier_lie"], "not_found": _sub["quote_not_found"],
+              "invalid_cite_id": 0, "citations": _gate["citations"]}
     violations = (ci.get("tier_lie", 0) or 0) + (ci.get("not_found", 0) or 0) + (ci.get("invalid_cite_id", 0) or 0)
-    if violations > 0:
+    blocked = (not _gate["passed"]) if _gate is not None else (violations > 0)
+    if blocked:
         raise HTTPException(409, detail={
             "error": "grounding_not_clean",
             "message": "Cannot release: the grounding gate has violations. "
@@ -5294,7 +5322,7 @@ async def _stream_from_scope(module: str, fmt: str, sections_plan: list[dict], t
         yield prod._sse_event("text", {"text": f"  ✓ {sec['title']}  ({sec['secs']:.0f}s)\n"})
 
     html, asm = assemble(module, ordered, registry)
-    integ = validate_citations(html)
+    integ = run_gate(html)["substring"]
     cost = pricing.cost_of([s.get("usage") for s in ordered])
 
     (prod.DRAFTS / f"{rid}.html").write_text(html, encoding="utf-8")
@@ -5466,7 +5494,7 @@ async def revise_resource(rid: str, payload: dict = Body(...), current_user: Cur
     changed = bool(applied) and new_html != raw_html
 
     # 2) Deterministic grounding re-check — ALWAYS, free, non-negotiable backstop.
-    integ = validate_citations(new_html, transcript_text=t_text)
+    integ = run_gate(new_html, transcript_text=t_text)["substring"]
     invalid = new_html.count("INVALID_CITE_ID")
     violations = integ["tier_lie"] + integ["quote_not_found"] + invalid
     verdict = "pass" if violations == 0 else "fail"
@@ -5576,12 +5604,13 @@ async def approve_resource(rid: str, current_user: CurrentUser = Depends(get_cur
     if meta.get("module"):
         _ensure_fixture(meta["module"])
     raw_html = html_path.read_text(encoding="utf-8")
-    integ = validate_citations(raw_html, transcript_text=_transcript_text_for(meta))
+    _gate = run_gate(raw_html, transcript_text=_transcript_text_for(meta))
+    integ = _gate["substring"]
     invalid = raw_html.count("INVALID_CITE_ID")
     ci = {"verified": integ["ok"], "tier_lie": integ["tier_lie"],
-          "not_found": integ["quote_not_found"], "invalid_cite_id": invalid}
-    violations = ci["tier_lie"] + ci["not_found"] + ci["invalid_cite_id"]
-    if violations > 0:
+          "not_found": integ["quote_not_found"], "invalid_cite_id": invalid,
+          "citations": _gate["citations"]}
+    if not _gate["passed"]:
         _log_review_decision({
             "rid": rid, "module": meta.get("module"), "template": meta.get("template"),
             "action": "approve", "outcome": "approve_blocked", "integrity": ci,
@@ -7415,7 +7444,7 @@ async def demo_run_refusal():
     # NXT-9999 is not in any fixture — that's the point).
     _ensure_fixture("Item Management")
 
-    integ = validate_citations(draft_html)
+    integ = run_gate(draft_html)["substring"]
     violations_raw = integ.get("violations", [])
 
     # Shape violations for the UI: [{ref, tier, reason, quote}]
@@ -7928,13 +7957,26 @@ async def _conference_prewarm():
 # instead of calling the LLM. This enables the "watch it build" moment on stage
 # without the 2–4 min live-generation wait.
 #
-# If no replay file exists, generation falls through to the live LLM call.
-# To record a replay: run a live generation, find the trace at logs/<rid>.jsonl,
-# then copy it to data/demo/generation-replay-<rid>.jsonl.
-# The replay format is the existing JSONL log format: {"k": event_kind, "p": payload}
+# If no replay file exists, generation runs live (with fallback in conference mode).
+# To record a replay: run with DEMO_RECORD=1 and generate once through the UI — the
+# _tee_record wrapper captures the real on-screen SSE stream to
+# data/demo/generation-replay-<module>-<template>.jsonl. Do NOT hand-copy logs/<rid>.jsonl:
+# the log() sidecar is lossy (drops start/tool_result/text deltas), so a replay built
+# from it plays back incomplete.
+# The replay format is JSONL: {"k": event_kind, "p": payload}
 
 _REPLAY_DIR = Path(__file__).resolve().parent / "data" / "demo"
 _REPLAY_DELAY_MS = float(os.getenv("DEMO_REPLAY_DELAY_MS", "80"))  # ms between events
+
+
+def _replay_path_for(module: str, template: str) -> Path:
+    """Stable replay filename keyed on (module, template).
+
+    NOT the resource id: _resource_id() embeds a timestamp-to-the-second plus a
+    random suffix, so a replay can never be located by rid. The recorder writes
+    here and both the conference replay + live-fallback look up here.
+    """
+    return _REPLAY_DIR / f"generation-replay-{prod._slug(module)}-{template}.jsonl"
 
 
 async def _stream_replay(rid: str, replay_path: Path):
@@ -7956,8 +7998,122 @@ async def _stream_replay(rid: str, replay_path: Path):
             await asyncio.sleep(_REPLAY_DELAY_MS / 1000.0)
 
 
+async def _tee_record(inner, record_path: Path):
+    """Wrap an SSE generator and capture the REAL on-screen stream to disk.
+
+    Each yielded event {"event":kind,"data":json} is appended as {"k":kind,"p":payload}
+    — exactly what _stream_replay reads back. This captures what the audience actually
+    sees, unlike logs/<rid>.jsonl, whose log() sidecar drops start/tool_result/text
+    deltas and re-labels others. Writes to a .partial file and only promotes it to the
+    real replay path once a complete run (ending in a 'done' event) is captured, so a
+    failed recording is never left behind as a usable fallback.
+    """
+    tmp = record_path.with_name(record_path.name + ".partial")
+    complete = False
+    try:
+        with tmp.open("w", encoding="utf-8") as f:
+            async for ev in inner:
+                try:
+                    kind = ev.get("event", "text")
+                    payload = json.loads(ev.get("data", "{}"))
+                    f.write(json.dumps({"k": kind, "p": payload}, ensure_ascii=False) + "\n")
+                    f.flush()
+                    if kind == "done":
+                        complete = True
+                except Exception:
+                    pass  # never let recording break the live stream
+                yield ev
+    finally:
+        try:
+            if complete:
+                tmp.replace(record_path)
+                print(f"[demo_app] Recorded replay -> {record_path.name}")
+            elif tmp.exists():
+                tmp.unlink()
+                print(f"[demo_app] Recording discarded (run did not complete): {record_path.name}")
+        except OSError:
+            pass
+
+
+async def _live_with_fallback(transcript_id, module, template, directive, source,
+                              role_tags, replay_path: Path):
+    """LIVE generation with an automatic safety net for a flaky booth network.
+
+    Runs the real pipeline. If it errors or silently stalls BEFORE the first section
+    is on screen, retry live once (rides out a transient 529), then quietly switch to
+    the pre-recorded run from the top. Once real content is showing, a late failure is
+    NOT spliced — we emit a graceful error (no jarring mid-document jump to a replay).
+
+    Tunables (env): DEMO_STALL_TIMEOUT_S (backstop for a true hang; generous so a
+    healthy-but-slow section write is not mistaken for a stall), DEMO_LIVE_RETRIES,
+    DEMO_RETRY_BACKOFF_S.
+    """
+    stall_s = float(os.getenv("DEMO_STALL_TIMEOUT_S", "60"))
+    max_retries = int(os.getenv("DEMO_LIVE_RETRIES", "1"))
+    backoff_s = float(os.getenv("DEMO_RETRY_BACKOFF_S", "4"))
+
+    attempt = 0
+    while True:
+        attempt += 1
+        shown_content = False   # crossed the point of no return (a section rendered)?
+        fail = None             # set to 'stall'/'error' if this live attempt failed early
+        gen = _stream_generation_demo(transcript_id, module, template, directive, source,
+                                      role_tags=role_tags)
+        agen = gen.__aiter__()
+        try:
+            while True:
+                try:
+                    ev = await asyncio.wait_for(agen.__anext__(), timeout=stall_s)
+                except StopAsyncIteration:
+                    return  # live finished cleanly
+                except asyncio.TimeoutError:
+                    fail = "stall"
+                    break
+                kind = ev.get("event", "")
+                # An early error from the live pipeline is our cue to fall back —
+                # swallow it so the audience never sees the raw failure.
+                if kind == "error" and not shown_content:
+                    fail = "error"
+                    break
+                if kind == "text":
+                    try:
+                        if "✓" in json.loads(ev.get("data", "{}")).get("text", ""):
+                            shown_content = True  # a section completed on screen
+                    except Exception:
+                        pass
+                yield ev  # includes late 'error' events (shown_content=True) as-is
+        finally:
+            await agen.aclose()  # cancel the live run / claude CLI subprocess
+
+        if fail is None:
+            return  # clean finish reached via StopAsyncIteration above
+        if shown_content:
+            # Late failure: content already on screen — no splice.
+            yield prod._sse_event("error", {"message":
+                "Live generation was interrupted after it started. Please run it again."})
+            return
+        if attempt <= max_retries:
+            print(f"[demo_app] live attempt {attempt} failed ({fail}); retrying in {backoff_s}s")
+            await asyncio.sleep(backoff_s)
+            continue
+        # Retries exhausted — switch to the recorded run from the top.
+        print(f"[demo_app] falling back to recorded run: {replay_path.name}")
+        yield prod._sse_event("system", {"subtype": "switching to recorded run"})
+        async for rev in _stream_replay(replay_path.stem, replay_path):
+            yield rev
+        return
+
+
 if __name__ == "__main__":
     import uvicorn
+    # Booth convenience: auto-open the browser to the app. Gated by DEMO_OPEN_BROWSER
+    # (1/true/yes to force on, 0/false/no to force off); default ON in conference mode.
+    # The Windows launcher sets DEMO_OPEN_BROWSER=0 and opens the tab itself once, so
+    # its crash-restart loop doesn't spawn a new tab on every restart.
+    _ob = os.getenv("DEMO_OPEN_BROWSER", "").strip().lower()
+    if _ob in ("1", "true", "yes") or (CONFERENCE_MODE and _ob not in ("0", "false", "no")):
+        import threading, webbrowser
+        threading.Timer(1.5, lambda: webbrowser.open("http://127.0.0.1:8001")).start()
     # Windows: the Claude Agent SDK spawns the `claude` CLI as a child process,
     # which REQUIRES the ProactorEventLoop. If uvicorn ends up on a
     # SelectorEventLoop (its win32 choice in some configs), every generation dies
