@@ -74,7 +74,11 @@ def test_json_response_shape(client):
     assert set(s.keys()) == {"total", "complete", "in_progress", "not_started", "overdue"}
     assert s["total"] > 0
     assert s["complete"] + s["in_progress"] + s["not_started"] <= s["total"]
-    assert s["overdue"] <= s["in_progress"]   # overdue is a subset of in-progress
+    # overdue = past-deadline AND not complete (overdue.is_overdue), so it spans both
+    # in-progress-late AND not-started-late learners. It is a subset of NON-COMPLETE
+    # (in_progress + not_started), NOT of in_progress alone — a learner who never started
+    # but is past their due date is overdue. (Old proxy "in_progress with <20%" is retired.)
+    assert s["overdue"] <= s["in_progress"] + s["not_started"]
 
     assert isinstance(body["staff"], list) and len(body["staff"]) == s["total"]
     first = body["staff"][0]
@@ -125,8 +129,10 @@ def test_summary_counts_consistent(client):
             f"in_progress({s['in_progress']}) + not_started({s['not_started']}) "
             f"= {accounted} != total({s['total']})"
         )
-        # overdue is a strict subset of in_progress
-        assert s["overdue"] <= s["in_progress"]
+        # overdue = past-deadline AND not complete: a subset of NON-COMPLETE
+        # (in_progress + not_started), not of in_progress alone (deadline-driven overdue
+        # includes not-started-late learners). See overdue.is_overdue / real-overdue epic.
+        assert s["overdue"] <= s["in_progress"] + s["not_started"]
 
 
 # ── 5. PDF response is a valid PDF binary ────────────────────────────────────
